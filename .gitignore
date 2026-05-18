@@ -1,0 +1,24 @@
+# =============================================================================
+# Dev-knowledge — .gitignore
+# Author: RomLe
+# =============================================================================
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+secrets/
+**/credentials.json
+
+# Drafts / temp
+_archive/
+_tmp/

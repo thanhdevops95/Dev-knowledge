@@ -1,0 +1,7 @@
+# Lab series placeholder
+
+Thư mục chứa lab series files (1 chuỗi bài tập xuyên chủ đề = 1 file).
+
+Khi tạo series: copy `../../_Blueprint/templates/roadmap_template.md`, đổi tên `<name>_lab-series.md`.
+
+Xem `../../_Blueprint/06_roadmap-design.md` §4 cho cấu trúc chuẩn.
