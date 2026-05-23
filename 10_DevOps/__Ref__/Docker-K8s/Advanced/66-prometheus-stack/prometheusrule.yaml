@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: myapp-alerts
+  namespace: myapp-dev
+  labels:
+    release: kps
+spec:
+  groups:
+    - name: myapp
+      rules:
+        - alert: HighErrorRate
+          expr: rate(myapp_request_total{status="500"}[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "myapp error rate > 5% for 5min"
+            description: "Service myapp đang trả 5xx vượt ngưỡng 5% trong 5 phút liên tục."
+        - alert: HighLatencyP95
+          expr: histogram_quantile(0.95, rate(myapp_request_duration_seconds_bucket[5m])) > 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "myapp P95 latency > 1s"
+            description: "P95 latency của myapp vượt 1 giây trong 10 phút."

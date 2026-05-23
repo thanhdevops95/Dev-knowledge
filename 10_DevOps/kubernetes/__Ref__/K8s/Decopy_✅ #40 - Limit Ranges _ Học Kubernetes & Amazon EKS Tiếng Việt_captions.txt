@@ -1,0 +1,84 @@
+ở trong bài trước chúng ta đã cùng tìm hiểu về cái resource Quata chong ng Space thì điều đó sẽ giúp cho bạn giới hạn số lượng tài nguyên cho cả một cái Liên Space nhưng đôi khi cái việc làm đấy sẽ khiến các bạn hơi bị bất cập một 
+
+chuyện là các bạn phải khai báo cái Limit và cái request cho từng cái container trong cái port của chúng ta thì Điều này khiến cho cái việc vận hành hay việc xây dựng những cái hệ thống nó nó nó sẽ khiến các bạn hơi bất tiệm một 
+
+xíu thì cái để vượt qua chuyện này chúng ta có một cái kỹ thuật tên là Limit rank thì Limit rank sẽ giúp các bạn đặt những giá trị mặc định cho các con container Nếu mà giả sử ta bị quên cấu hơ một thăm số nào đấy thì nó còn giới hạn cho các 
+
+bạn là Limit là Min và max của một cái rank của một cái container hay là hay là những cái đối tượng khác ha thì đối tượng hiện tại đối với li có thể hỗ trợ là port và persistent volume clam hay là ổ cứng của con P của chúng ta ha con 
+
+container của chúng ta thì phần này hiện tại mình chưa học à sau này mình sẽ được qua phần này thì nó sẽ sử dụng tương tự Thôi thì cái đường link này các bạn nên đến kèm và đặc biệt Đọc cái phần này giúp mình ha những cái thông tin liên 
+
+quan đến lưu ý khi sử dụng này thì nó cũng sẽ là những cái ý chính của mình mình nói trong video này thô nó sẽ có cái phần Limit r Giả sử Trong cái phần config của container mình sẽ có thể cấu hình cho cuu và memory trong phần demo 
+
+mình sẽ dùng CPU ha Nhưng mà bài tập về nhà các bạn bạn thử cấu hình thêm phần memory như thế nào rồi khi chúng ta cấu hình là cái Limit rank này Ở đây có một cái ví dụ ha mình sẽ copy cái ví dụ này thì đây là cái loại là Limit rank tên 
+
+của nó đây và hiện tại như cái loại này mình à Tại vì mình C cho name Space ha Nếu mà không t tả n Space cho dat thì nó sẽ là n Space default Còn nếu mà muốn sử dụng One Space mình phải đặt tả n Space ở đây mình sẽ cứ hạn các cái loại 
+
+container này Limit của nó này default đây là default mà default Limit ha còn default request có nĩa là khi mình request có nghĩa là request Giả sử là tôi tạo ra content hết 500 Mi micore còn default Cái này là Limit á thì sẽ là giả 
+
+sử 500 ha Nhưng mà hai con số này hơi giống nhau n mình sẽ sửa con số th 800 nha để các bạn dễ hình dung mình sẽ tạo đi copy cái manifest này và mình tạo một cái file đ này số 4 l Limit r. zamo mình sẽ để một cái n 
+
+Space ở đây khác ha n Space demo và mình đi tạo một cái name Space tên là demo ba gạt ha name tặt tên là demo cái tha của nó đây sẽ là n Space cái này hi vọng các bạn đã làm rất nhiều lần bạn đã quen ha mình sửa chỗ này thành 800 
+
+nha Rồi bây giờ mình sẽ đi apply cái số 4 này à trước khi đó mình apply thì mình sẽ kiểm tra C get namespace ha CO có namespace demo chưa có này C get Limit rank chưa có nhưng mà cái này trong name default chữ chữ a tất cả các name Space 
+
+thì hiện tại cũng không có luôn Bây giờ mình đi mình mới đi apply K apply apply trừ F4 rồi chúng ta đã tạo cái n Space demo và tạo cái Contra này của chúng ta rồi 
+
+chúng ta verify này get ns chúng ta có n Space demo ở đây này đó chúng ta sẽ kiểm tra cái Limit rank của chúng ta get Limit rank trừ a đi chúng ta có có cái li là CPU resource content và cái loại s là demo bây giờ mình sẽ thử gọi như là 
+
+dec ra coi nha Limit rank đây Sorry trừ n demo Ừ Các bạn thấy không ạ loại container này CPU này 100 min min là 100 max là một Core này default request là 500 và default Limit sẽ là 800 ha bây 
+
+giờ mình sẽ tạo một con pst và con pst này đầu tiên mình sẽ không để một giới hạn gì hết thì nó sẽ tạo như nào Thế các bạn nó sẽ tạo ra như thế nào nhá trong phần demo mình sẽ chỉ dụng CPU thôi còn memory mình sẽ không có đề cập thì phần 
+
+về nhà các bạn cố gắng sử dụng cái đấy nhé chúng ta sẽ qua con poort thì con port này hiện tại mình sẽ xóa hết cái phần liên quan đến resort đi ha con port này mình làm bình thường mình sẽ có con port này tên là symbol up to này trong n 
+
+Space demo nhá Mình sử n Space demo này để nó mặc định nó vào n Space để nó ăn theo cái Limit rank này rồi chúng ta sẽ quay về chúng ta sẽ thử apply K apply trừ F3 p rồi port created này 
+
+get port trừ demo chúng ta có con port này đang running rồi ch K dec port symbol up to nó nó tự động hiểu mình luôn các bạn xem chúng ta có thấy phần request đấy không ạ request là 500 này và cái Limit mình là 800 ha Thì 
+
+nó ăn theo nó ăn theo cái này nó ăn theo cái Limit Range này của chúng ta ở đây đây default này là default Limit ha còn cái default request này là default request Thực ra chỗ này nếu mà Nếu mà trong cái manifest của katam nó ghi rõ 
+
+là default Limit luôn thì nó sẽ từng minh hơn N tự nhiên nó để một cái default một cái default request hơ khi các bạn mới bắt đầu nó hơi bị confuse Nhưng mà nếu mà chỗ này tường minh là default Limit thì nó sẽ mình nghĩ là sẽ 
+
+nó sẽ tường minh hơn rất nhiều thì đó là các bạn cần lưu ý Bây giờ thì nếu mà chúng ta không không đặc tả còn nếu mà khi giả sử chúng ta đặc tả hay nào ha bây giờ giả sử mình sẽ đặc tả lại cái post chúng ta nhá mà trước khi đặc tả 
+
+thì mình sẽ xóa Con pst này đi nha kck delete trừ f số 3 rồi delete đi bây giờ mình sẽ cấu hần cái này mình sẽ cấu hần mình sẽ làm việc chủ yếu trên trường CPU thôi CPU mình sẽ để con này sẽ là 300 mic Limit mình để là 900 mic Thế các bạn 
+
+cái này có tạo được không ạ Các bạn thử suy nghĩ nha các bạn có thể p video này lại giờ mình sẽ mình sẽ apply ha K B đập tạo được không vì sao Bởi vì là cái Limit rank của chúng ta ở đây này các bạn Limit rank của bạn là các 
+
+bạn tạo Đây là giá trị tại vì default này mình mình đã đặc tạo cho nên hai giá trị default này vô nghĩa rồi mình không quan tâm hai cái này nữa rồi Bây giờ nó chỉ quan tâm đế hai giá trị này thôi Min và max thôi min max miễn sao cấu hần nằm 
+
+trong cái khoảng min là 100 và dưới 1 một đây là tương ứng với 1000 mic á thì nó sẽ không có phản nàn gì hết ha Thì tất nhiên lúc này thì mình tạo con B của mình là 300 900 thì nằm trong khoảng từ 100 cho đến 1000 cho nên là nó sẽ tạo 
+
+được thì điều đó là điều đúng ha bây giờ mình sẽ xa đi mình sẽ thử sửa một cái giá trị khác bây giờ giả sử bây giờ mình sẽ cấu hình con này sẽ là mình bỏ C phần Limit này đi luôn và mình để con này là 
+
+1000 1000 1000 m 1000 request 1000 micore và các bạn thử xem coi nó có thể tạo được không Hay không nhé chúng ta sẽ thử Delete cái cũ đi k c Delete trừ 
+
+f và mình sẽ apply lại luôn đây simle app 2 chúng ta không thể Delete được à Không thể tạo được ha bởi vì đây này request invalid 1 must less than o CPU Limit 800 CPU Limit 800 bởi vì sao Bởi vì là con pst này mình đang để nó 
+
+request là 1000 đúng không ạ nhưng mà cái default Limit của nó là 800 tại vì mình không có đặc tả mà mình không có đặc tả cho nên là nó sẽ bị chạm vào cái giới hạn này ha luôn luôn bị cái giới hạn này vậy Thì bây giờ 
+
+mình sẽ cần phải làm cái Limit ở đây làm Limit về CPU Nếu lúc mình lúc này mình sẽ để chỗ này là 1000 mình copy trên này xuống dưới này luôn nha đó thì lúc này chúng ta sẽ triển 
+
+khai được nha Bây giờ mình sẽ th trảy lại này đó thì nó lại triển khai được Tại vì lúc này cái Limit của nó đó là nó sẽ lấy luôn cái À cái giới hạn cao nhất là một một co của mình và cái request của mình nó chúng cũng nằm trong cái 
+
+khoảng này luôn thì cái default này là nếu mà khi mình không đặt tả cho con container á nó sẽ lấy giá trị này gán cho con con container ấy luôn và sẽ là cũng là vừa là phần default Limit và request của nó luôn ha coi như cái này 
+
+là sẽ là cái mà nếu mà không Chúng ta không đặt tả Nhưng mà nếu mà chúng ta đặt Tả một cái request của nó đó thì nó sẽ lấy cái phần còn lại tại phần phần này mình đang thiếu mà phần Limit nó không có và Limit nó không có thì thì nó 
+
+sẽ lại lấy từ cái default Limit của mình là 800 cho nên nó bị Conflict ha cái này hơi khó hiểu à các bạn có thể tự làm và tự chê nghiệm các bạn sẽ sẽ sẽ dễ hình dung hơn rồi trước khi kết thúc phần bài này thì mình sẽ tạo một cái này theo các 
+
+bạn có mình có triển khai được không nhé mình sẽ triển khai chỗ này là 1 1 như thườ số 0 rồi đó 101m thì theo các bạn lúc này mình có triển khai được hay không ạ Chúng ta sẽ xóa này đi nhá kq cal 
+
+Delete trừ f rồi chúng ta muốn biết được Limit là 100 đúng không ạ nhưng mà các bạn coi này cái max của mình ấy là nó sẽ là 1000 đúng không ạ Chúng ta sẽ thử deploy này K qu t app l đây nó sẽ báo lỗi ở đây 
+
+forbidden maximum C per Container là 1 nhưng hiện tại mình đang cấu phần Limit là 1001 n cho nên nó có thể vượt quá cái giới hạn max của chúng ta vậy thì đây là một cái tiện ích rất là hay để các bạn thể reject nhưng mà cũng cũng rất là 
+
+nguy hiểm nế các bạn mà đặt tả các bạn bị bị thiếu hay không hiểu cái cái default và default request này cũng rất là gây nguy hiểm cho Vi về cấu phần của các bạn ha còn cái Min cái max này mình nghĩ là khá khá dễ hiểu rồi Ok Cảm ơn 
+
+các bạn đã theo dõi ha và bài tập về nhà của các bạn là cái này các bạn chỉ khó cuộn xuống cái dog Human này xíu nhá Đây là những cái ví dụ họ cung cấp cho mình các bạn ch có thể làm thêm đây ở đây có rất nhiều đường link n trong bài demo 
+
+mình đã làm cho các bạn là cái phần CPU rồi Các bạn thử làm thêm cái phần cấu phần memory request như thế nào Nha và cái này cũng là một cái mình nghĩ cũng là practice mà các bạn thường xuyên cần phải làm thôi Ok Cảm ơn các bạn theo dõi 
+
+và hẹn gặp lại các bạn trong bài tiếp theo ạ 
+

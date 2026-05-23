@@ -1,0 +1,30 @@
+trong bài trước chúng ta đã cùng tìm hiểu v cái cách làm sao export một cái rep casset thành Note p ha Thế cái CT này là cái CT gọi là imperative thì CT này các bạn sẽ đôi khi các bạn sẽ phải nhớ comment ha Lâu lâu làm có khả 
+
+năng bị quên vì để chắn cái việc quên đấy và để mình có thể lập lại việc triển khai mà nó nó gọi là tấn ổn định ấy thì mình sẽ dùng phương thức declarative ha Thì để declarative thì các bạn sẽ cần phải xem trong phần gọi là phần Tài liệu 
+
+của ctis các bạn xem trong phần này ví dụ redet chúng ta coi phần service laning này chúng ta Click vào service này trong service này các bạn rất là dài Các bạn nên đọc không coi này service time Note p này đó not p các bạn xem đây 
+
+này Đây là một cái manifest của Note port ha chúng ta sẽ có api version V1 có service tên của cái service ty Note port này rồi selector selector chính là cái label mình sẽ lựa chọn để mình gộp thằng cái service này ở đây Các bạn thấy là 
+
+port thì các bạn có thể gom nhiều port n Giả sử Nếu mà container các bạn chạy port 80 này target port 80 này và mình sẽ có một cái note port ha các bạn lưu ý ở đây này khi các bạn dùng cái phương thức imperative á Cái port của Note p nó 
+
+sẽ sin ra cách ngẫu nhiên vi S nằm trong cái giải là 30.000 cho đến 32.767 nh Còn đối với khi các bạn dùng cái thể loại là declarative các bạn thể chọn một cái port bất kỳ cho cái nốt port service của các bạn ha rồi chúng ta 
+
+sẽ cùng copy cái này chúng ta sẽ cùng sử dụng cái này chúng ta sẽ sửa nha Bây giờ mình sẽ dùng cái này ha Note p. zamo đây service Mình tên là service 
+
+3 rồi mình đặt tên Đây là declarative ha nà Đặt tên hơi dài nh tên của cái service là như thế này rồi Note p rồi bây giờ selector selector các bạn nghĩ chúng ta sẽ dùng nào các bạn có thể pause video lại để các bạn thử chêm 
+
+nghiệm nha các bạn co cái port của con của mình ở đây ạ Mình sẽ selector dựa trên cái app mình là App 3 ở đâyy đó mình sẽ expose cái này ra P của mình là 
+
+8080 8080 và B của mình n 1988 đó rồi 3 31 988 ha Đây lưu ý cái default port của mình ở đây đây thếu m số 0 rồi chúng ta sẽ khá giống theo cái r casset đúng không ạ Nhưng mà con này làm exp 
+
+dạng service chúng sẽ thử deploy cái này lên mình sẽ can này nha Z svc giờ chúng ta sẽ có cái q C apply trừ f notb đây port noteb 
+
+invalid invalid rank 30.000 à D số 0 rồi rồi đây service đang created ha svc Đây port port nó m 1988 À thì cũng easy Thôi bây giờ mình sẽ expose cái này ra bên ngoài mini rồi à cho chúng ta gọ cái port 
+
+khác Lúc này chúng ta sẽ thử đó rs3 4 mqv HA các bạn có thể xem double ch kiểm tra lại trong cái phần kuber của mình K cutive get port đây b m v chính là cái port của chúng ta thì hi vọng Qua bài này các bạn 
+
+đã có một thêm một số cái cách để các bạn tạo ra cái manif của mình hay tạo ra những cái hạ tầng của mình nha thì đây là cái mà mình nghĩ r các bạn sau này các bạn sẽ làm nhiều hơn so với gõ những cái dòng lận ha Cảm ơn các bạn đã theo 
+
+dõi và hẹn gặp lại các bạn trong những bài tiếp theo ạ 
+

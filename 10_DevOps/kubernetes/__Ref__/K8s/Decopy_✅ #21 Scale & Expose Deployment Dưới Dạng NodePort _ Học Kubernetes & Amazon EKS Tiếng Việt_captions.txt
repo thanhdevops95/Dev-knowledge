@@ -1,0 +1,50 @@
+rồi hiy vọng các bạn đã expose được cái app chúng ta thông qua cái noteb n thì trong bài này mình sẽ thử cái thao tác đơn giản nhất Làm sao để scale được một cái deployment như các bạn biết là các bạn đã chúng ta đã có một cái deployment 
+
+app m deploy mà chỉ có một cet và trạng thái là 1 readd à 1 ok target là 1 và Đ tạo là một thành công gọi là 1/1 là thành công này Bây giờ mình sẽ thử cái scale nhá Bây giờ mình sẽ còn K cle scale đây có c loạn scale không Nếu các 
+
+bạn lần đầu tiên các bạn chưa làm thì các bạn kh h để các bạn coi là scale này nó có giúp bạn scale Chuyện gì đây set new size cho một deployment replic set reple controller Nói chung bây giờ hiện tại các bạn dùng toàn ret à 
+
+r controller này nó khá cũ rồi và giờ hiện tại cũng ít dùng rồi st cũng là một cái topic hay mình sẽ nói sau nó cũng khá là phổ biến trong những cái triển khai truyền thống liên quan đến cams rồi liên quan đến replic set đây 
+
+một số ví dụ chúng ta xem ở đây scale số lượng ha và cái replic set rồi replica set chúng ta ở đây là 3 ha thì trong này nó ví dụ đây là replica set chúng ta tìm cái nào có deployment nhá thì trong đoạn này chúng ta không 
+
+thấy có vị cái cet số à đây số lượng deployment đây chúng ta sẽ có deployment là mycle ở đây vậy thì mình sẽ có cái tên deployment và cái số lượng target ha là chúng ta quay về cái q ctl get P 
+
+B giờ mình sẽ thử scale này ra thành 2 nha Bây giờ mình sẽ có qal scale Rồi chúng ta sẽ trừ replica chúng ta bằng 2 đi rồi deployment đó khả dễ đúng không ạ app 1 Rồi enter thôi scale thành công rồi này 
+
+chúng ta kill C get p đây nó mới tạo cái B số 2 và đang có là mới tạo 4 giây này chúng ta có thể describe cái port này ra này qct describe port rồi đây các bạn xem chúng ta coi có này tất cả đều giống nh 
+
+chữ ip của nó này đây version 1 của chúng ta đây không khác gì hết ha rồi thành công các bạn cũng vẫn có thể là chất cái k cal get deployment 2/2 ha và các bạn thử kiểm tra RC set 
+
+Get replic Set đây đối với scale á thì các bạn vẫn nằm trong một cái nhóm Ha bây giờ giả sử mình scale down đi scale down lại thì sẽ như thế nào skill Kill cle getb ha rồi chúng ta sẽ thử scal down này Kill cle scale deployment tên 
+
+là app 1 deployment trừ replica Giả sử 1 đi rồi chúng ta sẽ coi này k c get p vẫn là một con đúng không ạ k c Get Set n đó thì đây là cái chúng ta hiện tại chúng đ làm thủ công ha trong 
+
+tương lai chúng ta sẽ làm cái việc mà giãn nở này một cách tự động bây giờ chúng ta sẽ cùng tìm hiểu cái cách làm sao để export một cái deployment dạng noteb thì các bạn đã biết cách expose một cái replica set rồi thì đối với 
+
+deployment chúng ta vẫn có thể Expo được ha hay là exp cái pst chúng ta vẫn được Nhưng mà thông thường mình sẽ expose vàng dạng deployment thì nó cũng rất là phổ biến thì chúng ta cũng sẽ có câu luận này Kill C expose trừ trừ h ha lần 
+
+đầu tiên các bạn làm các bạn nên làm những cái việc rất là chậm này rất dàn thời gian đọc và chiêm nghiệm cái này ha Chắc là sẽ mất nếu chưa từng làm sẽ mất khoảng tầm mình nghĩ là khoảng tầm 15 20 phút gì đấy đ các bạn đọc cái này đây 
+
+các bạn xem này những cái resource chúng ta có thể expose này port này ho là tắt là po này po hay gọi po ha service SBC Z controller deployment và z z ha thì chúng ta co cái deployment thì đối với export deployment chúng ta pst 
+
+n chúng ta post deployment đây export deployment đây chúng ta sẽ cần phải export deployment tên deployment này port bao nhiêu này nếu mà như các bạn biết trước á chúng ta nếu chúng ta đặt tả cái port 
+
+này rồi thì chúng ta cũng khỏi cần đặt tả cái target port này luôn còn khi chúng ta expose cái dạng bằng Comment này gọi là imperative này các bạn Nhớ chúng ta không thể chọn được cái port được ha Thì cái port đấy thì catet họ sẽ 
+
+chọn port ngẫu nhiên và cái port ngẫu nhiên nó sẽ trải dài từ 30.000 cho đến 32.767 chúng ta sẽ dùng cái câu luận này nhá Đây export deployment đây rồi chúng ta sẽ K expose deployment deployment chúng ta sẽ 
+
+là app 1 và chúng ta sẽ có cái thêm nữa là expose là port ha chúng ta sẽ dùng port port chúng ta là 8080 rồi cái service chúng ta Trừ name service chúng ta sẽ đặt tên là giả sử như là 
+
+svc 1 Rồi enter rồi chúng ta sẽ Kill C get spvc đây các bạn xem này spc như các bạn nói như như mình nói là nếu mà khi chúng ta không đặt Tặc cái câu loại export ra là loại nào á tha á thì nó sẽ sẽ luôn luôn là cluster IP có nghĩa là 
+
+mình sẽ chỉ có thể truy xuất cái cái service này thế dạng là internal thôi Thì cái này mình sẽ để mình một đoạn sau mình sẽ nói riêng ha Tại vì cái đoạn này mình nói bây giờ thì nó sẽ để ra rất nhiều cái khái niệm khác nữa mình đang 
+
+làm đơn giản nhất có thể thì bây giờ cái câu lận trên này chúng ta gõ lại như này mình gõ Mình Lười hơi lười nha mình sẽ thay thay nhá thai của nó mình sẽ chọn là noteb đây nếu các bạn không chọn này nó không public ra bên ngoài được à 
+
+service on thì đặt đã có cái tên này rồi đặt tên là service 11 nha Rồi chúng ta kiểm tra này đây service 111 port nó là 30 3094 và nó vẫn nằm trong giải từ 30.000 đến 32.767 như bây giờ mình muốn ch xất ra bên 
+
+ngoài thì mình cần phải dùng t minq để expose ra bên ngoài fc11 trừ URL đ đ chúng ta sẽ tự truy xất đây đây V1 n thì đây là cái cách chúng 
+
+ta exp ra bên ngoài ha trong bài tờ Chúng ta sẽ cùng tìm hiểu một số cái thao tác khác trên deployment Giả sử chúng ta muốn update một deployment Thay đổi cái image gì đấy Hay roll gì đấy ha Ok Cảm ơn các bạn đã theo dõi ạ 
+

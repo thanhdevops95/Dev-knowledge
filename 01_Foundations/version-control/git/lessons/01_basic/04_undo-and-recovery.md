@@ -270,7 +270,7 @@ git status
 nothing to commit, working tree clean
 ```
 
-→ Commit hủy. Changes **bị xóa hoàn toàn** (working, staging, repo đều mất). Không quay lại được trừ khi dùng `reflog` (xem §3.7).
+→ Commit hủy. Changes **bị xóa hoàn toàn** (working, staging, repo đều mất). Không quay lại được trừ khi dùng `reflog` (xem §2.7).
 
 > ⚠️ **`--hard` là lệnh "xóa vĩnh viễn"**. Trước khi chạy, luôn `git status` + `git stash` để backup.
 
@@ -623,7 +623,7 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 |---|---|
 | ⬅️ Bài trước | [03_remote-and-github.md](./03_remote-and-github.md) |
 | ➡️ Bài tiếp | (sắp có — intermediate) Rebase + Cherry-pick |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 

@@ -1,0 +1,32 @@
+ở trong bài trước chúng ta đã tìm hiểu cái cách của replic set nó tự động giữ được cái số lượng port theo cấu hần replic set của chúng ta trong bài này chúng ta sẽ cùng demo thêm một chút về replica set để các bạn hiểu rõ cái bản 
+
+chất của việc sử dụng select và cái phần label trên ctis ha chúng ta sẽ cùng đi Xóa cái tài nguyên chúng ta đang làm trong phần trước để các bạn sẽ xem được get service N và xem replica set mình sẽ xóa cái replica set 
+
+này đi à Delete replica set rs3 rồi mình sẽ kiểm tra lại coi nó hết chưa Này kq get port rồi Mình giờ mình không còn n bây 
+
+giờ á thứ nhất mình sẽ tạo ra một cái con post chạy với cái label là à Như cái phần thiết kế của chúng ta ở đây chúng ta sẽ chạy một con pst có cái label là app3 và chất là demo mục tiêu mình đã tạo một con thủ công trước sau đó mình 
+
+mới chạy cái replica set này để xem nó sẽ tạo ra bao nhiêu con post nhá rồi chúng ta sẽ cùng xem này trong phần này mình sẽ cùng các bạn cùng xem lại ô lại một chút để chạy cái chạy cái gọi là manual ha 
+
+app3 manual này rồi mình sẽ trừ image ha rồi image của mình là V ws arm V3 trừ h mà mình sẽ coi này có cái thuộc thuộc tính label 
+
+NX drve run restart đây trừ label đây chúng ta sẽ có cái này thì label của mình sẽ sẽ đặt tên ở đây là 
+
+app3 vn để cái này cố tình để một sự khác biệt n environment là production Sau đó chúng ta kiểm tra lại này cái này Project của mình là demo cái kia environment đúng không ạ Hơi khác nhau một xíu đúng không ạ rồi Chúng ta sẽ 
+
+chạy cái run à Một cái tạo ra một cái port như thế này tên là app3 manual ha rồi chúng ta này kle get p đây Các bạn thấy này nó có một cái menual này các bạn có thể kiểm tra này ví dụ chúng ta copy cái này Kill 
+
+C describe port đây Chúng Ta Cùng Xem cái label của nó label đây app bằng App 3 ha Và bây giờ chúng ta sẽ đi tạo cái gs3 cái replic set của chúng ta ha Q cle apply 
+
+trừ fr rs3 rồi chúng ta đã tạo rồi này bây giờ chúng ta sẽ xem này k c Get replica Set đây chúng ta đã có design 3 c 3 và R3 bây giờ chúng ta sẽ cùng xem cái port chúng ta k c get port đây Các bạn thấy 
+
+này lúc này á nó chỉ có hai con post được tạo ra bởi r cet thôi Tại vì nó biết rằng á Con này nó đã có một cái là label là app bằng App 3 rồi cho nên cái này các bạn cực kỳ lưu ý sau này các bạn khi hoạt định hệ thống mình ngày càng 
+
+phức tạp đá các bạn sẽ cần phải xem rằng cái ứng dụng của chúng ta đặt những cái label như th nào tại vì nếu mà các bạn làm replica set mà tạo label nó nó đơn giản quá đấy ví dụ mình tạo một cái label để match label này nó đơn giản quá 
+
+đó sẽ nó có thể ghép nhiều các cái phiên bản hay là nhiều cái port mà không không mong muốn ha Giả sử các bạn nghĩ thì chỗ này các bạn đang có một cái port là V3 nhưng mà ấy nếu mà các bạn tạo cái Menu của các bạn ở đây này nó 
+
+chạy cái V2 thì sao đúng không ạ tạo một cái V2 thì lúc này user các bạn truy xất vào cái replica set này sau này các bạn expose ra bên ngoài á thì có khả năng user các bạn có thể try xuất bằng rất nhiều con poort ha Ok Cảm ơn các bạn đã 
+
+theo dõi và hi vọng Qua bài này các bạn đã hiểu một cách thấu đáo hơn về sử dụng RC set và những lưu ý khi các bạn Thiết kế những cái label và selector cho hệ thống của mình ạ Cảm ơn các bạn đã theo dõi 
+

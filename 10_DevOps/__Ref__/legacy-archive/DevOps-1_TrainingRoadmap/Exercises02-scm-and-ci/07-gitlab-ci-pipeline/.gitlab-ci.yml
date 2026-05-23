@@ -1,0 +1,54 @@
+# File .gitlab-ci.yml hoàn chỉnh sau khi làm tất cả các bài tập
+
+# Sử dụng Docker image của Node.js phiên bản 16 cho tất cả các job
+image: node:16
+
+# Định nghĩa các stage theo thứ tự thực thi
+# Đã thêm 'build_app' (Bài 2) và 'deploy' (Bài 4)
+stages:
+  - build
+  - build_app
+  - test
+  - deploy
+
+# Job thuộc stage 'build' (Bài 1)
+# Tên cũ là 'install_dependencies', đổi tên để rõ nghĩa hơn
+install_job:
+  stage: build
+  script:
+    - echo "Bắt đầu cài đặt dependencies..."
+    - npm install
+    - echo "Cài đặt hoàn tất."
+  artifacts:
+    paths:
+      - node_modules/ # Lưu lại thư mục node_modules cho các stage sau
+    expire_in: 1 hour
+
+# Job thuộc stage 'build_app' (Bài 2 và 3)
+build_job:
+  stage: build_app
+  script:
+    # (Bài 2) Chạy lệnh build
+    - npm run build
+    # (Bài 3) Tạo ra một file báo cáo build
+    - echo "Build successful at $(date)" > build-report.txt
+  artifacts:
+    # (Bài 3) Lưu lại file báo cáo để có thể tải về
+    paths:
+      - build-report.txt
+
+# Job thuộc stage 'test' (Bài 1)
+test_job:
+  stage: test
+  script:
+    - echo "Bắt đầu chạy unit tests..."
+    - npm test
+    - echo "Tests hoàn tất."
+
+# Job thuộc stage 'deploy' (Bài 4)
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Deploying the application as user: $DEPLOY_USER..."
+    - echo "Deploy job finished."
+

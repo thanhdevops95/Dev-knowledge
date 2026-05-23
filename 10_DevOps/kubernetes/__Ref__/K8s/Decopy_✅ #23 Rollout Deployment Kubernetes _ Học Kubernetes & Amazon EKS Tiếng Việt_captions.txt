@@ -1,0 +1,50 @@
+ở trong bài này chúng ta sẽ cùng tìm hiểu về roud một cái deployment có ngĩa là khi chúng ta có một cái phiên bản mới của ứng dụng và chúng ta muốn deploy trên cái deployment cũ ha thì chúng ta sẽ làm như thế nào thì như mình 
+
+đã giới thiệu trước thì cái L khi sử dụng deployment là chúng ta có thể roll B hay là các bạn có thể roll la cái triển khai ha chúng ta sẽ tìm hiểu về phần roll roll la trước thì các bạn xem chúng ta đã có cái deployment đế tên là 
+
+app 1 deploy ha chúng ta đã có hai cái redc tại v là chúng ta đã đã edit cái image từ version 1 sang version 2 thì nó tạo một RC set thì sau này như mình nói là chúng ta có thể roll B về được cái version cũ ha Vậy thì xem nó như th nào 
+
+chúng ta có thể dùng C loạn k c này roll l này history này và deployment ha Hoặc là các bạn chưa rõ lần đầu tiên các bạn nên dùng h để các bạn coi nó có những cái thuộc tính nào ha Đây roll l history deployment tên của deployment nhớ các 
+
+bạn phải có chữ deployment này nhé Vậy thì chúng ta sẽ quay về chúng ta sẽ gọ là l Kill C roll history deployment rồi tên deployment chúng ta là app1 deploy th Các bạn thấy có version 1 version 2 đúng không version 1 là cái chạy cái cái 
+
+cái i hay là cái arm V1 của chúng ta cái phần ha là chạy vên phiên bản số 2 chúng ta cũng sẽ có một câu loạn rất là hu nữa chúng ta coi roll Lào status rồi deployment F1 deploy đây chúng ta đã roll out st thẳn công Bây giờ chúng ta 
+
+muốn sửa cái này ha Thì trước khi sửa thì mình sẽ cho các bạn xem thêm cái này qg P và mình sẽ trừ w Các bạn thấy ở đây này chúng ta đang có hai con port chạy tất nhiên cái này chạy V2 nha Chúng ta sẽ có ttz 5k này rồi chúng ta cũng sẽ 
+
+expose luôn chúng ta có k get svc service chúng ta expose ra là svc 11 này có port là 3 0940 nhá chúng ta sẽ dùng mini để chúng ta export ra bên ngoài 11 trừ URL đây chúng ta có có cái này bây giờ 
+
+chúng trước khi chúng ta chạy thì chúng ta sẽ thử coi cái version của nó này đang là chạy version 2 đúng không Tại vì chúng ta edit Limit rồi bây giờ chúng ta quay lại quay lại cái terminal bây giờ chúng ta sẽ đi sửa cái deployment này 
+
+nha mình dùng kle edit deployment app 1 đây chúng ta rep chúng ta vẫn để số 2 thôi chúng ta không thay đổi phn đánh nhiều chúng ta sẽ thay đổi cái đây chuyển sang cái arm V3 chúng ta ở đây nếu mà các bạn xài Intel hoặc là AMD 
+
+thì các bạn sửa sửa cái chữ arm này này thành chữ xs ha Mình mình tại vì mình sài chip M1 của Apple nên là nên là mình sẽ cần phải dùng cái phiên bản chạy với AR rồi Mình đã edit nó thành công này khi các bạn edit thành công các bạn thấy 
+
+n này Đây nó tạo ra một đống này đầu tiên Các bạn thấy chúng ta có app deploy hai cái app deploy V1 của chúng ta À cái này xin lỗi V2 nh cái này lúc m đang chạy ở V2 này là 40 gi này 11 running này sau đó nó sẽ tạo ra hai con mới hai 
+
+con này sẽ chạy về ở V3 ha và nó sẽ ở trạng thái n bending Sau đó chúng ta Download container này rồi cái LG này nó running Ok cái này up lên này up lên hai giây này này rồi đến con tz tz ở đây đây tz của mình là con version cũ của mình 
+
+Đây tz của mình bắt đầu nó terming có nghĩa cái cơ chế hoạt động của thằng deployment này này nó sẽ tạo ra các con post mới và con con post mới N nó phải vào trạng thái running trước khi nó terminate conion cũ rồi chúng ta coi 
+
+tiếp này terminating tz này bending TC TC là gì TC là cái phiên bản mới ha đang bending này chúng ta có TC TC bending rồi TC bắt đầu download về container cái cái version số 3 rồi Khi mà tz này tz terminating Tại 
+
+vì tz là cái cũ này nó vẫn update ha update cái này nó dạng tại vì mình muốn coi dạng l dạng coi như thời gian thực ấy rồi TC TC chúng ta running rồi TC là con mới này running rồi bắt đầu nó mới tz và tiếp tục t nó update rồi 5k 5k 
+
+là cái phiên bản đầu tiên chúng ta này chạy 40 giờ này 5k terminating Ok tz tering tz tering 5k 5k terminating Ok ter mating thành công xong ha Thì bây giờ chúng ta chỉ còn có hai con thôi Cái con running LG là con viên bản số mới 
+
+này và con TC là phiên bản số mới nhá chúng ta sẽ kiểm tra lại này Kill K GP đây TC và LG nh các bạn có thể xem cái thông tin chi tiết của nó có đúng chạy version 3 nhá Kill c descri b đây chúng ta xem này contain name Rm đúng 
+
+rồi đúng không ạ Chúng ta có cái đu IP đây docker image đây V version số 3 và các bạn xem tiếp trong cái phần này chúng ta coi phần replica set get RS casset đây nó đ tạo thêm chúng ta một 
+
+cái r casset mới hoàn toàn mới nh chúng ta có cái 87 cái trước chúng ta là 8B đúng không ạ Đầu tiên là D5 8B và 87 và bây giờ khi các bạn roll gọi như là roll bu về sau này các bạn roll Bu bây giờ chúng ta học roll out có chúng ta đưa ra 
+
+một ph bản mới version 1 vản sứ ba á thì sẽ tự động tạo gra cet ch chúng ta và nó vẫn nó vẫn không xóa cái r c cũ ha để s là các bạn có ý tưởng các bạn muốn roll B trở về Thì bây giờ các bạn chất lại cái phần Q cle 
+
+kctl roll la history deployment và app1 deploy đây Các bạn thấy có ba cái version đúng không ạ thì sau này các bạn có thể roll lại bất cứ version nào rồi chúng ta kiểm tra cái service chúng ta 
+
+này vẫn up running ở cái port 54911 ha thì các bạn quay về đây các bạn giờ các bạn refres này đó thì nó sẽ là raion 3 và các bạn tất nhiên refres nó sẽ có cơ chế ling giữa các cái con po của chúng ta thì đây là cái cơ chế hoạt động khi 
+
+chúng ta deploy một cái phiên bản mới nha Thì sa này các bạn ví dụ các bạn làm ccd nhiều các bạn làm lop nhiều thì các bạn mối l các bạn roll out ra các bạn vẫn có thể roll pass về version cũ thì đó là cái 
+
+nội dung của bài này ha trong bài tới mình sẽ tìm hiểu về cách sao để rb về version cũ chúng ta đã triển khai OK Cảm ơn các bạn 
+

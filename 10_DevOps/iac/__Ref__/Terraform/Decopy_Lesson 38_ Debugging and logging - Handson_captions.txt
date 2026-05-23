@@ -1,0 +1,62 @@
+à chúng ta sẽ tạo ra folder 4.4 debugging và loging trong folder này mình tạo ra file main.ts ở đây đơn giản là mình chỉ tạo ra một dạng tài nguyên là eas to thôi Ok chúng ta bắt đầu thực hành với debugging 
+
+và loging cách đặt biến môi trường thì mình đã giới thiệu với mọi người rồi đối với macos hoặc là Linux thì chúng ta sẽ sử dụng ph Pháp là export và đằng sau là biến môi trường đối với pell trên Windows thì chúng ta sẽ sử dụng phố pháp 
+
+này Ok ở đây mình sẽ sử dụng phương pháp là export à cấp độ loog đầu tiên mình sẽ để là error ở đây mình sẽ cố tình làm sai cái thuộc tính này đi và chạy câu lệnh tform Plan Ok sau khi mình chạy câu lệnh tform 
+
+Plan thì màn hình hiển thị ra chúng ta các cái đoạn loog ở cấp độ là error lỗi ở đây là chúng ta đang sai về cú pháp trong cấu hình code terf Chúng ta đối với error Thì mục đích sử dụng của nó là nó sẽ ghi lại các cái lỗ xảy ra trong 
+
+quá trình thực thi à thông tin của các đoạn log trong cấp độ ero thì là nó sẽ mô tả các Cái lỗi này Nguyên nhân ra dây các lỗi nếu có này và vị trí của lỗi trong file gấu hình của chúng ta thì cái trường hợp sử dụng đối với cấp độ log là 
+
+error là ch giúp chúng ta xác định và sửa lỗi ở đây kiểu lỗi là Dạ tài nguyên không được xác định này và vị trí lỗi nằm ở dòng thứ hai trong file main.tf chúng ta đến với cấp độ log thứ hai là One rồi mình sẽ chạy C lệnh transform 
+
+Plan ở cấp độ One thì ngoài việc hiển thị ra các thông tin cảnh báo từ code cấu hình thì nó cũng sẽ hiển thị ra các cái thông tin từ các độ loog thấp hơn là error mục đích của one là cảnh báo về các vấn đề tiềm ẩn Hoặc là các tình 
+
+huống không mong muốn thông tin lock mà One trả về là sử dụng các thuộc tính không được chấp thuận này hoặc là cái cấu hình của chúng ta không được tối ưu Hoặc là các vấn đề khác có thể ảnh hưởng đến tính ổn định hoặc là hiệu suất của 
+
+hạ tầng và trường hợp sử dụng với one là giúp chúng ta xác định các vấn đề cần được giải quyết và để cải thiện cấu hình tform chúng ta đến với cấp độ loog thứ ba là info đây tạm thời mình sẽ sửa lại cái 
+
+này các bạn có thể thấy là đây là các thông tin log mà ở cấp độ info trả về nó sẽ bao gồm các thông tin chung về các cái cách thực thi với tform cái mục đích chung khi mà sử dụng với các cấp độ là info là cung cấp cái thông tin chung về 
+
+tiến trình thực thi của tform các cái thông tin mà log info trả về bao gồm các cái thông tin về sự bắt đầu và kết thúc của các cái giai đoạn thực thi này số lượng tài nguyên được tạo cập nhật hoặc là xóa này các thông báo quan trọng khác 
+
+này trường hợp sử dụng với cấp độ log là info là giúp chúng ta theo dõi tiến trình thực thi một cách tổng quan này Xác nhận các cái thay đổi đã được thực hiện thành công à ở đây thì mình có thể là ngó qua một chút về các cái đạn blog 
+
+mà inf trả về như là loading các cấu hình từ cái thư mục này này và thực hiện kết nối đến provider này sử dụng crano là as key và s key rồi chúng ta đến với cấp độ loog thứ tư là 
+
+deb ở cấp độ đị Bắc Thì mục đích là cung cấp các thông tin chi tiết về hoạt động quan trọng của tform thông tin mà log dep cung cấp cho chúng ta là các thay đổi được thực hiện trên tài nguyên này các giá trị biến 
+
+được sử dụng và cái quyết định logic của tform thì chúng ta sử dụng debug trong một số trường hợp như là gỡ lỗi các vấn đề chung này tìm hiểu là tại sao thực hiện một hành động cụ thể và theo dõi cái tiến trình thực thi và xác định cái 
+
+vấn đề tiềm bẩn ở đây thì chúng ta có thể quan sát các cái log mà cấp độb trả về như là CHT code mà sử dụng trong dự án này hiển thị cấp độ loog hiện tại đang sử dụng là cấp độ là Hiển thị chi tiết cách kết nối đến provider này quá 
+
+trình starting này và started ngoài các thông tin về depar thì nó cũng sẽ hiển thị các thông tin ở cấp độ thấp hơn như là inf này one và chúng ta đến với cấp độ lock cuối cùng là Trade đây là cấp độ loog có mức 
+
+độ chi tiết là cao nhất ở cấp độ change thì nó sẽ cung cấp cái thông tin chi tiết nhất về mọi hoạt động bên trong của terraform à các thông tin mà chain trả lại là các thông tin bao gồm về giao tiếp api với provider như là aws này AR 
+
+hoặc là gcp cloud này hoạt động nội bộ của tform quyết định này tịch toán hoặc là các cái bước thực hiện này các giá trị biến môi trường và cấu hình à chúng ta sử dụng CH trong các trường hợp gỡ lỗi các vấn đề phức tạp đặc biệt là liên 
+
+quan đến provider Hoặc là các cái tương tắc api và sử dụng CH để giúp chúng ta hiểu sâu hơn về cách tform hoạt động bởi vì là cấp độ ch nó trả về các thông tin rất là chi tiết và nhiều cho nên là chúng ta rất khó để quan có thể quan sát 
+
+được hết ở trên một cái màn hình terminal như th này để để dễ dàng quan sát hơn thì à chúng ta sẽ sử dụng à Cái biến môi trường Thứ hai là TF gạch giưới loog gạch giưới P và chỉ định đến một cái file để thực hiện là ghi lại các cái 
+
+loog rồi sau khi mà chúng ta đặt biến môi trường và chạy câu lệnh terraform Plan thì các cái thông tin về log nó sẽ được lưu lại à các bạn có thể thấy là thông tin loog trả về ở cấp độ J thì nó khá là nhiều và chi tiết 
+
+Nếu các bạn muốn hủy đi các cái biến môi trường mà chúng ta vừa đặt thì chúng ta có thể chỉ định cho biến môi trường đó là off hoặc là chỉ định giá trị rỗng trong cái ký tự hay nháy và cuối cùng mình sẽ hướng dẫn các bạn thực hiện 
+
+debugging và loging trên tform cloud mình sẽ tạo ra một workspace trên tform cloud copy đoạn code này và paste vào đây Tạm thời thì mình sẽ xóa cái đoạn này đi và paste vào đây và chạy có lệnh tform login tiếp theo là chúng ta sẽ 
+
+thực hiện là set biến môi trường mình sẽ chọn là environment variable biến môi trường đây là TF gạch dưới log và cái cấp độ log đây mình sẽ có thể mình sẽ chỉ định là error đây mình sẽ apply cái 
+
+c tiếp theo là chúng ta sẽ chạy tform init ở đây mình sẽ cố tình làm sai cái code cấu hình của chúng ta l file và chạy câu lệnh form apply thông tin các đoạn loog sẽ được hiển thị trên tform cloud các bạn th 
+
+thấy ở đây ngoài việc chúng ta xét biến môi trường TF Block trong mục variable để thực hiện là Hiển thị các cái cấp độ loog mong muốn thì chúng ta có thể thực hiện enable cái tính năng log trên tform 
+
+cloud thì khi mà chúng ta enable cái tính năng debugging trên tform cloud thì cái cấp độ log mặc định sẽ là tr trong quá trình thực hành với các cấp độ loog khác nhau của tform thì chúng ta nhận ra một điều là tform tạo ra rất 
+
+nhiều dữ liệu khó theo dõi chúng ta có thể sử dụng các công cụ glog bên ngoài để giúp í cho chúng ta trong quá trình là phân tích khu pháp này và trực khan hóa thông tin ở định dạng dễ hiểu hơn chúng ta sẽ chuyển tiếp các loock 
+
+material form sinh ra đến các hệ thống log như là ilk stack plun hoặc là grafana những công cụ này cung cấp các tùy chọn truy vấn và lọc Mạnh Mẽ cho phép chúng ta nhanh chóng tách biệt các cái vấn đề và hiểu sự phụ thuộc vào các 
+
+thành nguyên từ đó chúng ta đánh giá được cái tác động của những cái thay đổi trong cơ sở hạ tầng của chúng ta cảm ơn các bạn đã lắng nghe và hẹn gặp lại các bạn trong các bài học tiếp theo 
+

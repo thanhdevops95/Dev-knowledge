@@ -1,9 +1,9 @@
-# Python Functions — `def`, args, return
+# 🎓 Python Functions — `def`, args, return
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút\
@@ -23,7 +23,19 @@
 
 ---
 
-## 1️⃣ Vì sao cần Function (WHY)
+## Tình huống — script tính lương 30 nhân viên đang lặp xấu
+
+Tiếp script tính lương: bạn `for` qua 30 nhân viên, mỗi vòng có 5 dòng tính toán (gross + tax + bonus + deduction + net). Sếp lại bảo: *"Thêm 1 báo cáo tháng — tính lương 6 tháng quá khứ cho từng người."*
+
+Bạn copy-paste 5 dòng tính → 6 lần × 30 = 180 chỗ. Sau đó công thức thuế đổi → phải sửa 180 chỗ. 1 lỗi typo = 1 nhân viên tính sai.
+
+Giải pháp: **gom 5 dòng tính lương thành 1 `function`** — `calculate_salary(hours, rate)`. Mọi nơi cần gọi function này. Đổi công thức = đổi **1 chỗ duy nhất**.
+
+Bài này dạy `def`, parameters, `return`, `*args`/`**kwargs`, scope, docstring, lambda — đủ để viết function chuẩn từ ngày đầu.
+
+---
+
+## 1️⃣ Vì sao Function là khái niệm cốt lõi nhất trong code?
 
 Code không có function:
 
@@ -59,7 +71,7 @@ greet("Hoa")
 
 ---
 
-## 2️⃣ Function là gì (WHAT)
+## 2️⃣ Vậy Function thực sự là gì?
 
 **Định nghĩa**: Function = block code có **tên**, nhận **input** (parameters), thực hiện task, trả về **output** (return value).
 
@@ -93,7 +105,7 @@ print(result)    # 300
 
 ---
 
-## 3️⃣ Hands-on chi tiết (HOW)
+## 3️⃣ Bắt tay viết function — Hands-on chi tiết
 
 ### 🛠️ 3.1 Function đơn giản — không argument, không return
 
@@ -773,4 +785,8 @@ list(map(lambda x: x * 2, nums))
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống script tính lương lặp 180 chỗ** vì chưa biết function — đổi công thức = sửa 180 chỗ
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Function là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi/mô tả tự nhiên ("Vì sao Function là cốt lõi nhất?", "Vậy Function thực sự là gì?", "Bắt tay viết function")
+  - Content kỹ thuật KHÔNG đổi
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — `def` + params + return + default + `*args`/`**kwargs` + scope + docstring + type hints + lambda + 6 pitfall/best-practice.

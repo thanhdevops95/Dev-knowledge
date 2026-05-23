@@ -1,0 +1,106 @@
+các cái chiến lược trong deployment của k8s ha khi mặc định chúng ta triển khai một cái deployment trên k8s thì cái strategy deployment của nó sẽ là Rolling update thì chúng ta cùng xem cái phần tài liệu của 
+
+catet strategy của deployment các bạn Thể search trên g.io các bạn search deployment cái tường link chúng ta vẫn đang tìm hiểu về deployment thôi thì strategy hiện tại đang hỗ trợ bởi có hai loại chaty ha là dạng recreate và 
+
+Rolling update thì roll update sẽ là giá trị default của trader g đối với recreated recreate á thì chúng ta sẽ là tất cả các port hiện tại sẽ được Xóa đi bởi một thứ mới ha tên là strategy time là re create thì bây giờ chúng ta sẽ thử 
+
+về sửa cái deployment chúng ta ở đây tên là sửa Thành là recreate và chúng ta cũng tất nhiên chúng ta sẽ thay đổi cái phiên bản chúng ta ha chúng ta sẽ xem cái cách thức hoạt động của nó như thế nào Hiện 
+
+tại chúng ta xem chúng ta get po chúng ta đang chỉ có hai cái đúng không ạ Chúng ta sẽ thử sửa cái deployment của chúng ta cái này Xẽ mình sẽ sửa thành cái anation khác ha mình sẽ sửa emit update 
+
+thành cái gọi là development strategy nhá chúng ta sẽ xóa này đi deployment trater Z 
+
+demo rev Giả sử mình để số 7 đi Sau đó mình sẽ sửa r can thành số 10 chỗ này mình sẽ sửa nó thành là chat mình sẽ để là recreate recreate ha chúng ta xem trong cái phần manifest của nó này khi chúng ta chọn recreate thì cái 
+
+phần đây là Rolling update Rolling update thì chúng ta sẽ có cái phần max available hay là SH ha thì chúng ta trong phần này chúng ta sẽ không có phần ma unable chúng ta chỉ có Rolling chúng ta chỉ có recreate thôi thì chúng ta sẽ 
+
+xóa đi hai cái dòng bên dưới chúng ta sẽ chỉ để cái chỉ để cái này đây thôi n copy cái recreate này đây thôi chúng ta sẽ xóa cái này đi strategy recreate chúng ta sẽ để đây 
+
+luôn và chúng ta sẽ xóa cái đây recreate rồi xóa này đ đây tha recreate chúng ta xem cái phần image chúng ta sẽ sửa thẳng version 5 nhá cho nó khác đi luôn chúng ta vẫn để version 4 t để 4 
+
+chúng ta sẽ chút nữ sẽ edit rồi chúng ta sẽ Kill get đâ chúng ta có 10 con post nà Tất nhiên nó đang chạy là chạy version số 4 chúng ta kiểm tra này get à 
+
+de p chạy cái image person 4 và chọ coi strategy chúng ta kiểm tra strategy của cái con [âm nhạc] 
+
+deployment One rồi chaty recreate bây giờ các bạn xem này chúng ta sẽ có replic số lượng 10 đã chạy 10 cái Total available 10 và không không available số 0 đang hi trạng hiện trạng rất là tốt nhá chúng ta sẽ 
+
+thử What coi nhá K cle Kill ctl GP qu chúng ta có svj này các bạn để ý cái mã này nhá rồ Chúng ta sẽ cùng xem này Bây giờ mình sẽ thử update K cal edit deployment app One deployment những cái thức khác mình sẽ 
+
+để nguyên chúng ta sẽ sửa cái image nó thành cái version số 5 enter nhá và bây giờ đã edited các bạn xem này chúng ta sẽ xem lịch sử của nó đối 
+
+với mình sẽ có 10 con post và cách làm nó là gì Cách làm nó sẽ là det terminating trước nó khác với Rolling đầu tiên chúng ta xem đúng không ạ Rolling update thì chúng ta có cái cơ chế là nó sẽ tạo C mới 
+
+và comment nó running rồi nó mới đ đi xóa con cũ ha chúng ta sẽ có terminate hết con cũ này sau đó nó mới đi tạo CN mới nha Thì đối với cát này á các bạn để ý này giả sử các bạn hệ thống các bạn có sa này các bạn có server sa này các bạn 
+
+có server thì số lượng server các bạn có khả năng là hữu hạn nó không nó không có dự phòng gì hết Nó là giả sử chạy 10 con port thì nó 10 con port thôi giờ tạo thêm một con nữa cũng không được Giả sử hệ thống môi trường development chẳng 
+
+hạn các bạn chỉ số lượng tài nguyên các bạn Khứu hạn bây giờ nếu các bạn dùng cái cơ chế Rolling update thì các bạn phải có thêm một cái phần gọi là phần dư ra nó tạo được con post đấy con po running thì nó mới xó cũ thì thông 
+
+thường cái đấy dành cho những hệ thống production ha Còn đối với hệ thống mà kiểu không quá critical không quá nghiêm trọng thì các bạn muốn làm nó thật nhanh càng nhanh càng tốt và các bạn muốn là sao tiết kiệm hạn tầng nhá có thể thì 
+
+đối với cơ chế recreate này lại rất phù hợp nó sẽ không khiến hệ thống các bạn thêm tài nguyên dự phòng hay là phần phần dư dư ra ha ví dụ như là nó sẽ xóa hết cái cũ rồi nó mới tạo cái mới cho nên là các bạn không cần Ví dụ như hồi 
+
+xưa các bạn có 10 con post thì các bạn không cần phải là dự phòng hệ thống phải có 15 con luô sẵn sàng ha thì cái cơ chế này mình nghĩ là cơ chế cũng rất là phổ biến trong môi trường không có quá nghiêm trọng và tất nhiên đối với cơ chế 
+
+recreate này thì các bạn sẽ có bị mất vấn đề về down th nha các bạn nên là các bạn lưu ý khi dùng cái Cơ chế recreate này còn Rolling update thì sẽ không có bị down th cho phần port của các bạn rồi chúng ta sẽ cùng Xem này nó đã running 
+
+này chúng ta sẽ thử validate nhá một con running ở đây này chúng ta sẽ kill cle de port nó sẽ có cái đây version 5 chúng ta ở đây và chúng ta thử xem này k c roll 
+
+la history del app One deploy đây nó sẽ tạo ra CH demo Tại mình không có sửa cái phần ch cost nên nó sẽ là cùng cái tên này thì các bạn lưu ý sau này các bạn xài declarative hay dùng bất cứ phương thức nào các bạn nên sửa cái dường thông 
+
+tin này cho nó nó trực quan hơn nà thì đó là cái Rolling update Chúng Ta Cùng Xem này trong cái phần tài liệu của aws à Xin lỗi của k8s thì các bạn thấy là ngoài cái Rolling update nó sẽ còn một cái cũng rất là phổ biến nữa đó 
+
+là về cái cơ chế Để mình coi đây cơ chế recreate đây Bây giờ mình vẫn còn một cái cơ chế nữa tên là roll update mà chúng ta Đây là cơ chế mặc định và trong cái Cơ chế này nó sẽ có hai cái chỉ số gọi là Max 
+
+available và max shop thì cái này cũng là cái rất là hay mà các bạn nên tận dụng tro quá trình thực tế các bạn dùng này max unavailable là 1 thì cái cái chỉ số này á là nó có thể các bạn để là số giá trị con số 1 2 3 4 5 gì đấy hoặc là 
+
+phần trăm thì ý ý ý tưởng của nó là như thế nào ý tưởng của nó là trong quá trình roll la ấy nó có thể chấp nhận được bao nhiêu cái port unavailable Giả sử của mình ở đây là chúng ta sẽ có là 
+
+là mình đây là deployment chúng ta coi cái thoát này đi nhá k c dec deployment và đây Các bạn thấy này hiện tại unavailable là không nhưng mà trong một số trường hợp cả sử mình Download bị lỗi 
+
+hoặc là po mình s h nó bị lỗi đi ngẫu nhiên bị lỗi đi thì cái giá trị này nó sẽ cho phép là bao nhiêu nó là 1 hay là 25 10 ph gì đấy còn cá ma này là gì Ma này là có nghĩa là các bạn sẽ cho phép là bao nhiêu const sẽ được tạo 
+
+ra mới ví dụ như Max ở đây là 1 chẳng hạn thì có nghĩa là một con b sẽ được tạo ra mới Con đó nó ok Nó available thì các bạn mới mới chuyển nó mới TM đ con cũ ha thì giá trị mặc định của Ma N không đặc tả 
+
+sẽ 25 chúng ta sẽ thm cái Rolling update này thử nhá tha Rolling update này mình sẽ cancel đ nha để các bạn dễ nhìn Kill ctl edit deployment chúng ta có cái Spec trong cái phần chaty 
+
+đây chúng ta sẽ sửa gi Rolling update này rồi chúng ta sẽ có cái max SH chúng ta ở đây chúng ta sẽ cái này nhớ là các bạn sẽ phải có thụt đầu dòng nhá m MC điển 25 ph giờ mình để nó là 2 nhá Có nghĩa 
+
+là mình sẽ mình sẽ tạo ra hai con post mới hai con này Ok mà mình đi xóa con cũ rồi mình sẽ để max unavailable chúng ta coi này max unavailable mình để là giả sử như là 1 ha Có nghĩa là tối đa giá trị là tối đa 
+
+là 1 Chúng ta sẽ lưu lại mình bị thiếu cái dòng rly update này Nhu cái manifest ở đây TH có dòng rly update này Cho nên là mình lưu nó bị lỗi rồi đã edited rồi thì bây giờ chúng ta sẽ xem 
+
+[âm nhạc] cái cái P của chúng ta chúng ta đang là chạy Rolling update rồi chúng ta sẽ thử dec lại nha qcl dec deployment app One deploy chúng ta C Đúng là cái Rolling update Đây đúng Rolling update đây max 
+
+available sẽ là 0 và chúng ta sẽ deploy hai con hai con mới giờ chúng ta sẽ quay về chúng ta coi cái này lại từ đầu đi cho nó clia Q ctl get p trữ What chúng ta đang 
+
+có 10 con bây giờ nếu chúng ta thay đổi á thì nó sẽ tự động nó sẽ nói chung là nó nó sẽ tự động là nó sẽ tạo ra hai con mới nha trước khi thay thay đổi Chúng ta sẽ thê cái web chúng ta đang chạy version 5 này đó Bây giờ 
+
+chúng ta sẽ thử thay đổi version 1 nha Mình muốn thay đổi thì mình mình gõ ctl edit deployment gõ dới thiệu rồi edit deployment app One mình sẽ thử này sẽ sửa cái này thành 
+
+cái tên khác ha strategy Rolling update demo rồi chúng ta sẽ sử m Rolling về version 1 đi ok enter thì khi enter xong nó sẽ tự động nó sẽ thay đổi ha Tại vì mình không 
+
+dùng py resume trong trường hợp này nó sẽ tạo ra hai con ok edited đây chạy quá nhanh đúng không ạ Bạn xem này running 10 con Ban đầu chúng ta này nó sẽ tạo ra con 8n và L8 này đây 
+
+bending 8n và L8 8 L8 và 8n hai con này running khi running xong rồi nó mới đi terminate con cũ đây terminate con ND và con r9 ha thì cái cơ chế này các bạn có thể có rất nhiều cái tên các bạn có thể dùng Hoa Mỹ ha Nó gọi có có thể gọi là 
+
+Rolling update n b ha trong trường hợp này B một cái b thê chúng ta cứ tạo thêm hai con hai hai con mới thì đối với cơ chế này nó sẽ có nó sẽ đòi hỏi các bạn Chuyện này này mình sẽ có một số các cái mình thấy 
+
+thông thường mọi người hay làm nó nó nó bí quyết nó nằm ở chỗ này cấu hình cái SH này hay là cái available này nếu các bạn quyết định available này bằng 0 và cái SH này các bạn để giá trị thấp ấy thì có nghĩa rằng à có khả năng 
+
+các bạn roll la ứng dụng rất là chậm ha trong hệ thống chúng ta đang có 10 con port ha Nhưng mà nếu hệ thống các bạn có vài nghìn con pst thì thế nào vài nghìn con port là bình thường nha các bạn hệ thống lớn vài nghìn con port là rất bình 
+
+thường thì nó khả năng rất là chậm có thể roll La có thể mất 10 phút thậm chí 30 phút tùy ứng dụng nữa cho nên là đôi khi các bạn sẽ đánh đổi ris một chút Tất nhiên Cơ chế này là cơ chế tốt nha Nhưng mà C số lượng SH này càng cao thì có 
+
+nghĩa là cái lượng available tài nguyên của các bạn trên hệ thống các bạn càng lớn số lượng càng nhỏ có nghĩa là các bạn sẽ không chấp nhận là tại một thời điểm Ít nhất là phải có 10 con sống ít nhất nhé 
+
+thì nó sẽ Đây là cái cơ chế mà nó giúp bạn giản thiểu đổi ro nhất còn ngược lại như mình đ nói thì nếu mà chúng ta có thể đắn đổi tốc độ và có thể tăng chút Rủi ro các bạn có thể để cái m available này có thể để lên là giả sử Mình bảo là 
+
+có thể 20 ph chẳng hạn để nó tăng tốc có trình chúng ta roll out feature thì cấu hìnhn giữa các cái max SH hay avilable này cũng đòi hỏi một số chaty là các bạn có thể tìm hiểu thêm một số str tên dụ B best a first hay là roll La ramp có 
+
+nghĩa là mình sẽ tăng tốc roll hoặc là best a first ha thì đối với deployment các bạn cũng có rất nhiều các trick khác về triển khai Blue Green hay triển khai Canary hay triển khai AB testing cũng rất nhiều thứ để chúng ta làm nhưng mà ở 
+
+thời điểm này mình nghĩ mình không nên nói quá sâu ở chuyện đấy vì khi các bạn có thể bị nó phức tạp ấy thì chúng ta học dần dần ha học những cái khái niệm cơ bản nhất về k8s rồi chúng ta sẽ đi những cái khái niệm phức tạp hơn Ok Cảm 
+
+ơn theo dõi và hẹn gặp lại trong các bạn bài tiếp theo ạ 
+

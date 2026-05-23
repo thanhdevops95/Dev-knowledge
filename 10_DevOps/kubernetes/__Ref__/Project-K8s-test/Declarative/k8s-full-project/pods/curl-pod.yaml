@@ -1,0 +1,29 @@
+# POD Example - Single instance of an application
+# Pod là smallest deployable unit trong Kubernetes
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-pod
+  labels:
+    app: curl-app
+    tier: frontend
+    environment: learning
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+      name: http
+    - containerPort: 443
+      name: https
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    env:
+    - name: APP_ENV
+      value: "learning"

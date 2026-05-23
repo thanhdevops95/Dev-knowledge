@@ -1,0 +1,9 @@
+# Dockerfile.tini — dùng tini làm PID 1, forward signal + reap zombie
+FROM python:3.11-slim
+ENV PYTHONUNBUFFERED=1
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends tini \
+ && rm -rf /var/lib/apt/lists/*
+COPY signal_app.py .
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["python", "signal_app.py"]

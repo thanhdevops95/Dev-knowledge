@@ -1,0 +1,50 @@
+Xin chào anh chị các bạn đầu tiên thì Việt xin cảm ơn anh chị các bạn trong thời gian qua có rất nhiều vậ động viên hỏi hman ha khi nào làm cái series liên quan đến communities và Amazon xs thì mình có làm một cái agenda như thế này 
+
+thì cái agenda mình sẽ gồm có ba phần chính ha Phần đầu tiên mình sẽ tập trung vào những thứ liên quan đến fundamental của katam hay ctic trước các bạn cần phải nắm phần này thật là chắc thì các bạn mới qua phần tiếp theo nó vững h 
+
+được tại vì khi qua mỗi phần các bạn sẽ học những cái thứ rất là mới ha à Cái k8s này nó có một cái cộng đồng rất là lớn cho nên cái hệ sinh thái vệ tinh xung quan nó cũng rất là lớn các bạn có rất nhiều sự lựa chọn và đôi khi cái 
+
+việc có quá nhiều sự lựa chọn nhân thế là khiến các bạn rất bị mù lung ha thì Hy vọng qua cái series này á mình sẽ chia sẻ để các bạn xem các bạn có thể góp ý thì trong quá trình mình làm á thì đây là cái cái đề xuất mình nghĩ Ban đầu 
+
+cái logic mình sẽ làm theo cái logic như thế này ha Nhưng mà trong quá trình mình làm thì dựa trên những cái feedback nhì những comment của các bạn đấy Mình có thể điều chuển ha đều chuyển sắp lên sắp xuống hay thêm nhiều cái bài ở giữa hơn 
+
+để để nội dung của nó xuyên suốt hơn đây không hề gọi là một cái content chết ha content này là dựa trên các bạn nên là các bạn à bình luận một cách tích cực ha để chúng ta cùng học cùng làm cùng chia sẻ thì mình cũng r rất nhiều thời gian 
+
+trong cái chuyện này thì mình không muốn nói quá nhiều chi tiết về những chuyện này tại thời điểm bây giờ ha Tại vì trong series các bạn sẽ được học tất cả những thứ này rất là kỹ ở mức độ gọi là handon à Cái tiếp theo là khi các bạn 
+
+học á thì có một số topi các bạn đã biết rồi thì các bạn không học không vấn đề Nhưng mà nếu các bạn biết sơ sơ các bạn muốn review á thì các bạn thấy nếu mà mình thấy thấy mình nói chậm quá hay nói kỹ quá thì các bạn có thể tua tốc độ ở 
+
+trên cái YouTube trên cái trên Player của YouTube ha nên các bạn điều chỉnh tốc độ theo ý của mình các bạn chỗ nào các bạn cần xem code các bạn p l còn cái chỗ nào mà các bạn cần nhanh hơn thì các bạn chuyển tốc độ 
+
+nhanh hơn thì cái này các bạn xem cái phần đấy nhá cái phần thứ hai thì mình vẫn vẫn sẽ tập trung V diện là à Sau khi chúng ta nắm được cái camet rồi thì chú chúng ta sẽ biết một số các cái khó khăn khi khi sử dụng k8s thì lúc này chúng ta 
+
+sẽ có cái diệt vụ amazon exs sẽ hỗ trợ các bạn giải quyết những cái khó khăn đấy và có đem một số cái benefit thêm cho các bạn ha chúng ta sẽ tập trung và à Sau khi chúng ta đã biết cái này rồi thì chúng ta sẽ triển khai trên I cái 
+
+phần cit như thế nào ha Thì trong phần này mình sẽ mình sẽ đi lại một số các nội dung chính và xem nó sẽ rep kết cái nội dung Đấy giả sử bây giờ chúng ta có cái config map hay là triển khai một cái Node affinity ở Ờ ở trên K 38s thì mình 
+
+trên I mình sẽ làm như nà nó có giống hoàn toàn hay không ha thì chúng ta sẽ xem trên m trên cái khái niệm production như thế nào À cái phần tiếp theo trong cái phần này mình rất là ky vọng để mình làm này Tại vì khi mà các bạn vận hành ở 
+
+quy mô lớn á thì các bạn sẽ không chỉ gọi như là làm theo kiểu em Khoa học có nghĩa là các bạn click click thì các bạn muốn làm g inf code gọ là vận Hàn xuất sắc Á trên á thì trong series mình sẽ giới thiệu các bạn sử dụng hai công cụ 
+
+một là aws cloud development kit hay cọi là cdk đ để Build một cái ik cluster hoàn toàn ha hoặc là chúng ta sẽ dùng terraform để một số bạn nào mà không quá rằn về Ngô ng lập trền thì các bạn có thể sử dụng cái teror form này để b m x 
+
+để các bạn cũng có một cái một cái góc nhìn gọi là tương đối để các bạn sử dụng ha hai cái công cụ này đều là hai công cụ rất là phổ biến đ các Build ra những cái hạ tầng trên và trong cái phần mà phát triển mở 
+
+rộng ra thì mình sẽ cái cái i nó sẽ không thể hoạt động một mình ở trên aws được mà C phải hoạt động một số dịch vụ khác về trong việc phát triển ứng dụng Ví dụ như Aon s trong việc lưu trữ static file hay là dùng cơ sở dữ liệu 
+
+dạng cle và no cle hay là quản lý phần ser Manager cho phần gọi là decle những cái phần sensitive information ra khỏi cái IC cluster ha và chúng ta cũng sẽ thảo luận một số trường hợp mà chúng ta nên hay không nên sử dụng EC cho hay I 
+
+hoặc là cụ thể là k8s cho một số cl ứng dụng của chúng ta tại vì một cái chuyện chúng ta không thể dùng m Tool cho tất cả mọi thứ được thì đó là cái phần thứ hai phần này mình nghĩ là sẽ là phần rất là hứa hẹn và rất là trọng tâm ha Mình 
+
+sẽ cố gắng mình sẽ đẩy tốc độ nhanh v cái phần một này để các bạn qua được cái phần hai thật là sớm thì cái phần hai này khi các bạn làm xong phần ha Này các bạn hoàn toàn có thể tự tin buil cho ứng dụng của các bạn ở những cái quy mô phổ 
+
+biến của doanh nghiệp rồi hoàn toàn dễ dàng rồi nhưng mà mình sẽ muốn qua các bạn đẩy lên nâng ca một số cái level nữa là trong mình sẽ hỏi một số liên quan đến production deployment ha cái phần trên này coi như mình làm nó chạy được 
+
+rồi nhưng mà nó chưa Nó chưa còn gọi là tự động hóa nó chưa cost optimize nó chưa gọi là hoàn toàn gọi là nhìn nó nhìn nó kiểu Đúng là kiểu professional ấy thì phần thứ ba mình sẽ tập trung vào những vấn đề đấy ví dụ ccd tự động hóa đ 
+
+off h Thực ra h mình sẽ nói phần trên rồi nhưng mà mình sẽ nói sâu hơn một chút là cái phần số ba này Ag CD git off carpenter ha Thì mình sẽ tập trung vào cái phần production deployment hay mình sẽ chia sẻ một số các cái thứ liên quan 
+
+đến us SK chỉnh khai production một số khá khách hàng lớn tất nhiên cây này Câ Câ đề public của ws hết n thì đây là cái content sơ bộ mình trong quá trình mình làm mình sẽ lắng nghe những cái feedback của các bạn để các bạn góp ý nha ok chúc 
+
+các bạn học tập vui ạ 
+

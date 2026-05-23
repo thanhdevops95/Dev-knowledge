@@ -1,0 +1,9 @@
+apiVersion: example.com/v1
+kind: MyApp
+metadata:
+  name: my-instance
+  namespace: myapp-dev
+spec:
+  replicas: 3
+  image: <your-username>/myapp:6.0
+  version: "6.0"

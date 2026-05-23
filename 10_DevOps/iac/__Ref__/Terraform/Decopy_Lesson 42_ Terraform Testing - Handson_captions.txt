@@ -1,0 +1,26 @@
+chúng ta đến với phần thực hành testing trong Terraform thì đối với phần thực hành testing trong Terraform thì mình sẽ thực hiện 2 loại test là unit test và integration test ở đây thì cái file main của mình thì mình ở đây mình định nghĩa một vài cái block, một vài dịch vụ bao gồm là Easy2 và EPS thì sau khi mà mình tạo xong Easy2 và tạo EPS 
+
+thì mình sẽ thực hiện là ad-tech cả EPS đó vào cho con Easy2 thì ở đây thì chúng ta sẽ tạo ra một cái folder là test và trong này chúng ta sẽ định nghĩa ra cái file test của chúng ta với cái đuôi mở rộng là tftest.scl cho từng loại test ở đây là một cái file test đối với unit test thì đối với một cái file test trong Terraform thì mình có thể chia thành 
+
+một vài cái block mà chúng ta cần phải quan tâm đầu tiên quan trọng nhất là block run ở đây thì mình sẽ định nghĩa ra các cái điều kiện, các cái test key mà mình mong muốn test comment tức là cái hành động mà chúng ta thực hiện đối với cái test này chúng ta có thể thực hiện ở cái file là Terraform plan hoặc là Terraform offline thì ở đây chủ yếu khi mà chúng ta làm việc với unit test thì chúng ta 
+
+chúng ta chỉ cần sử dụng với plan thôi, Terraform plan thôi cái thứ 2 quan trọng thứ 2 là cái accession tức là cái các điều kiện kiểm tra cho cái test key này ở đây thì mình có thể là gắn thêm các cái điều kiện vào đây nếu mà thỏa mãn thì nó pass và nếu mà không thỏa mãn thì nó sẽ in ra cái thông báo lỗi này cái thông báo lỗi này là mình sẽ tự định nghĩa, nó là cái đoạn string thôi và cái cuối cùng, cuối cùng là các cái biến variable 
+
+tức là chúng ta sẽ định nghĩa các cái biến yêu cầu cho các cái testing của chúng ta không giống như cái file code của Terraform là chúng ta định nghĩa và Terraform sẽ tự nhận biết ra là thứ tự chạy của các blog code đối với file tftest.sl thì cái thứ tự testing này mình sẽ khai báo và khi mà chạy testing này thì các cái test key này nó sẽ chạy cho đúng cái thứ tự này ở đây thì chúng ta sẽ khám phá qua các cái câu lệnh mà chúng ta thực hiện với testing trong Terraform 
+
+chúng ta sẽ thực hiện chạy câu lệnh là Terraform test và trừ h và xem các cái flash mà chúng ta sử dụng với Terraform testing thì mặc định khi mà chúng ta chạy câu lệnh Terraform test thì nó sẽ đọc tất cả các cái file trong cái thư mục test và default là thư mục test nếu mà các cái file testing của chúng ta đặt trong thư mục khác thì chúng ta sẽ chỉ định đến cái đường dẫn của thư mục đó 
+
+trong trường hợp mà chúng ta muốn chạy các cái file test test file riêng biệt thì chúng ta sẽ chỉ định bằng cái flash là filter và chỉ định đến cái đường dẫn của file đó để đơn giản thì mình sẽ thực hiện chạy với Terraform test và không thêm tham số nào cả theo mặc định khi mà mình chạy câu lệnh Terraform test thì nó sẽ quét trong các cái file test trong cái thư mục test và nó sẽ chạy theo cái thứ tự xuất hiện của các file ở đây thì nó sẽ chạy cái file integration test trước nhưng ở đây mình đã comment rồi 
+
+thì nó sẽ phát phần này và tiếp theo là nó sẽ chạy xuống cái file in test ở dưới đây thì ở đây các bạn có thể theo dõi là các cái quá trình khi mà cái test test kê nó chạy nó sẽ phát nó sẽ chạy qua các test kê test kê nào phát thì nó sẽ qua và cuối cùng khi mà quá trình test xong thì nó sẽ nó sẽ xóa đi các tài nguyên mà chúng ta khởi tạo khi mà test và chúng ta đến với loại test thứ hai là integration test đây là cái test mà chúng ta thực hiện trên hệ thống thật tức là chúng ta phải thực hiện là tạo ra các tài nguyên thật và chỉ định cái comment ở đây là 
+
+tức là chúng ta sẽ chạy câu lệnh Terraform apply và để tạo ra các tài nguyên để chạy cái test kê này và trên các test kê này thì chúng ta sẽ thực hiện là kiểm tra các mối quan hệ giữa các cái tài nguyên cấu hình cái tài nguyên cấu hình trên các file bên trường test ở đây điều kiện của testing là chúng ta phải tạo được thành công cái con EC2 và tạo thành công cái IPS sau đó thì chúng ta sẽ as tech cái IPS vào con VM và cái test kê thứ hai là chúng ta sẽ kiểm tra cái trạng thái của cái con VM đã running hay chưa sau khi mà chúng ta thực hiện test kê rồi mình sẽ thực hiện chạy câu lệnh Terraform test khi mà chúng ta 
+
+thực hiện chạy Terraform test với command là apply thì thực tế là chúng ta đang tạo ra các cái tài nguyên thật và chúng ta đang test trên các tài nguyên đó nên là quá trình test nó nó sẽ lâu hơn cái unit test của chúng ta trước đó đối với unit test thường chúng ta sẽ thực hiện chạy các cái test kê để kiểm tra xem là đúng cái các câu hình mà chúng ta đã đặt ra trước đó hay chưa ví dụ như là cái instrument size đã đúng là t3 hay chưa hoặc cái size của IPS đã đúng là 10 hay chưa còn đối với integration testing thì nó sẽ cần cái sự liên kết giữa các tài nguyên với nhau tức là các tài nguyên có sự phụ thuộc lẫn nhau ví dụ như là phải 
+
+cần đây mình có test kê là phải cần con EC2 này running và sau đó là mới a tách được cái IPS vào Các bạn có thể nhận thêm những video mới nhé nhé nhé nhé nhé 
+
+nhé nhé nhé nhé nhé nhé 
+
+nhé 
+

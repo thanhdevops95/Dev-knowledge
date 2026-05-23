@@ -1,0 +1,38 @@
+Chúng ta sẽ tìm hiểu cách sử dụng provisioner trên tform tform provisioner cho phép chúng ta thực hiện các câu lệnh hoặc những cái đoạn Script trên máy local chúng ta hoặc là trên các máy remote như là máy ec2 hoặc là cũng có 
+
+thể truyền file giữa hai môi trường là máy local hoặc là máy remote mục đích chính của tform provisioner là giúp chúng ta thực hiện cài đặt này cấu hình hoặc là khởi động các dịch vụ hoặc là thực hiện bất kỳ một cái tác vụ nào cần 
+
+thiết để tài nguên hoạt động đúng như mong muốn trong provision có ba loại là local access này remote access và file ví dụ tform sẽ thực hiện một trong ba loại này để thực hiện tác động đến một con máy ảo là ec2 và thực hiện cài đặt 
+
+các dịch vụ như là abg này php hoặc là docker ngoài việc cài đặt các dịch vụ thì tform provisioner cũng cho phép người dùng truyền dữ liệu từ máy local đến máy remote dữ liệu đây có thể là file hoặc là một folder chúng ta có thể 
+
+kể một số trường hợp sử dụng provisioner à thứ nhất là thực hiện cài đặt các phần mềm chúng ta có thể thực hiện cài đặt enc này abachi này hoặc docker này Hoặc là các công cụ phần mềm khác trên máy chủ vừa mới được tạo ra này Thứ hai là 
+
+tạng người dùng hoặc là group trên những con máy ec2 hoặc con máy remote ba là thay đổi các cấu hình hệ thống là điều chỉnh các thiết lập hệ thống như là file cấu hình này Hoặc là các cái biến môi trường Thứ tư là khởi động các dịch vụ 
+
+chúng ta có thể sử dụng provisioner để thực hiện là bắt đầu start các dịch vụ hoặc là stop các dịch vụ như là m qql này post SQL này redit sau khi con Mai Chủ đã được tạo chúng ta đến với loại provision đầu tiên đó là local access 
+
+Thì chức năng của local access là thực thi những đoạn Script hoặc chạy những cấu lệnh trên máy cục bộ tức là máy local chúng ta đó và local access sẽ được miêu tả bằng Block là provisioner local access và bên trong là các câu 
+
+lệnh hoặc đoạn Script ở đây mình có một ví dụ về việc sử dụng local access đó là thực hiện chạy có lệnh com ă để lấy ra giá trị Private ip của aws instant là MYM và thực hiện lưu giá trị này trong một cái file cục bộ là Private p.tch và 
+
+file này sẽ lưu trên máy của chúng ta chúng ta đến với loại provisioner thứ hai đó là remote access thì đối với loại remote access thì các C lệnh hoặc những đoạn scrip sẽ được thực hiện trên máy remote như là E2 này remote access sẽ 
+
+được miêu tả bằng Block là provision remote access và bên trong là các cái đoạn Script hoặc đoạn miêu tả câu lệnh thì trong Block remote access có các cái đối số như sau này đó là inline này tức là những danh sách những câu lệnh chúng 
+
+ta mong muốn thực hiện thứ hai là Script là cái đường dẫn đến cái đoạn scrip local lưu trữ trên máy của chúng ta thứ ba là Script tức là danh sách đường dẫn đến những cái đoạn Script là lưu trữ trên máy của chúng ta thì ở đây mình có 
+
+một ví dụ về sử việc sử dụng remote access này chúng ta có ba ở đây có ba đối số mà mình đã miêu tả trong slide đó là inline này Script này và script thì trong inline thì mình miêu tả các những câu lệnh chạy thực hiện cài đặt là http 
+
+và start cái http này lên này trong Script thì mình chỉ định đến một Script cụ thể còn trong scrip thì mình chỉ định đến nhiều cái scrip cụ thể được lưu chữ trên máy của chúng ta loại provisioner cuối cùng là file Thì chức năng của loại 
+
+provisioner này là sử dụng để copy file hoặc thư mục từ máy local chúng ta đến máy remote và nó sẽ được miêu tả bằng Block là provisioner file và bên trong là các cái định nghĩa về file và nội dung của file mà chúng ta muốn truyền từ 
+
+local đến remote trong Block code này có các cái đố số chúng ta cần chỉ định đầu tiên là short thì đây là cái đường dẫn tới file hoặc cái thư mục nguồn thứ hai là Destination tức là đường dẫn tới file hoặc thư mục đích thứ ba là content thì 
+
+cái đối số này là optional chúng ta có thể chọn hoặc không thì đây chính là nội dung chúng ta muốn truyền đến thư mục đích trong trường hợp chúng ta không sử dụng cái thư mục nguồn hoặc là cái file nguồn ở đây mình có một ví dụ về việc sử 
+
+dụng provision dạng file thì có hai trường hợp trường hợp thứ nhất mình có chỉ định là nguồn và đích trường hợp Thứ hai là mình chỉ định nội dung mà mình muốn gửi đến thư mục đích và Để hiểu hơn về bài học chúng ta sẽ đến với phần thực 
+
+hành 
+

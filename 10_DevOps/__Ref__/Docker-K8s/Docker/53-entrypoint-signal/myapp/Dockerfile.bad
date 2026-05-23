@@ -1,0 +1,6 @@
+# Dockerfile.bad — shell form, signal KHÔNG được forward tới Python
+# PID 1 sẽ là /bin/sh -c, app Python là PID 2 và không nhận SIGTERM
+FROM python:3.11-slim
+ENV PYTHONUNBUFFERED=1
+COPY signal_app.py .
+CMD python signal_app.py

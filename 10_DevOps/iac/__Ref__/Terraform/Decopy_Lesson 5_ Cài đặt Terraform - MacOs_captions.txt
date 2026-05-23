@@ -1,0 +1,6 @@
+tương tự như cách cài đặt tform trên Windows hoặc Linux thì chúng ta cũng sẽ lên trang chủ của tform để tìm kiếm cách cài đặt trên macos thì chúng ta sẽ thực hiện cài đặt bằng homebrew và copy cái đoạn câu lệnh này và chạy 
+
+trên terminal tiếp theo chúng ta sẽ chạy Real install haric tform chúng ta sẽ update và cuối cùng là chúng ta sẽ chạy upgrade 
+
+tform t form đã được cài thành công và chúng ta thể kiểm tra bằng câu lệnh là theform ch trừ F 
+

@@ -1,0 +1,5 @@
+print("Docker - Bài 04 — Tạo app Python + Dockerfile cơ bản")
+print("------------------------------------------------------------")
+print("")
+print("Hello from MyApp - Version 1.0")
+print("Running inside Docker container")

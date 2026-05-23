@@ -1,0 +1,71 @@
+# .gitlab-ci.yml
+# Pipeline CI/CD hoàn chỉnh cho dự án tốt nghiệp
+
+# Định nghĩa các stage. Pipeline sẽ chạy tuần tự qua các stage này.
+stages:
+  - build
+  - deploy
+
+# ---- Stage: build ----
+# Mục tiêu: Build Docker image cho frontend và backend, sau đó đẩy lên container registry.
+
+build_backend:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind # "Docker in Docker" để có thể chạy lệnh docker build
+  variables:
+    # Thay 'your-dockerhub-username' bằng tên tài khoản của bạn
+    IMAGE_TAG: your-dockerhub-username/todo-backend:$CI_COMMIT_SHORT_SHA
+  before_script:
+    # Đăng nhập vào Docker Hub. $DOCKER_USER và $DOCKER_PASS là các biến CI/CD được cấu hình trong GitLab Settings.
+    - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  script:
+    - cd app/backend
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+
+build_frontend:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    IMAGE_TAG: your-dockerhub-username/todo-frontend:$CI_COMMIT_SHORT_SHA
+  before_script:
+    - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  script:
+    - cd app/frontend
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+
+# ---- Stage: deploy ----
+# Mục tiêu: Triển khai ứng dụng lên cụm Kubernetes (EKS)
+
+deploy_to_eks:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
+  script:
+    # 1. Cấu hình kubectl để kết nối đến EKS
+    # $KUBE_CONFIG là một biến CI/CD (loại File) chứa nội dung file config của K8s.
+    - mkdir -p $HOME/.kube
+    - cp $KUBE_CONFIG $HOME/.kube/config
+    - echo "Successfully configured kubectl"
+
+    # 2. Thay thế tag của image trong file K8s manifest
+    # Chúng ta cần export các biến để envsubst có thể thấy chúng
+    - export BACKEND_IMAGE_TAG="your-dockerhub-username/todo-backend:$CI_COMMIT_SHORT_SHA"
+    - export FRONTEND_IMAGE_TAG="your-dockerhub-username/todo-frontend:$CI_COMMIT_SHORT_SHA"
+    
+    # Sử dụng envsubst để thay thế các biến trong file template và tạo file manifest cuối cùng
+    # (Giả sử chúng ta có các file .template chứa các biến $BACKEND_IMAGE_TAG)
+    # Để đơn giản, ở đây chúng ta sẽ dùng 'sed' để thay thế trực tiếp
+    - sed -i "s|image: .*todo-backend.*|image: ${BACKEND_IMAGE_TAG}|g" kubernetes/backend-deployment.yml
+    - sed -i "s|image: .*todo-frontend.*|image: ${FRONTEND_IMAGE_TAG}|g" kubernetes/frontend-deployment.yml
+    - echo "Kubernetes manifests updated with new image tags."
+
+    # 3. Áp dụng các thay đổi lên cụm EKS
+    - kubectl apply -f kubernetes/
+    - echo "Deployment to EKS successful!"

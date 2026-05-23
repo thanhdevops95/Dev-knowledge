@@ -1,0 +1,32 @@
+chúng ta đến với loại quy trình làm việc thứ hai là vcs thì ở đây chúng ta sẽ tạo thêm một workspace ở đây thì terf cloud cho phép chúng ta kết nối đến các cái loại vcs khác nhau như là git Hub này git Lab 
+
+hoặc là git pockit ở đây thì mình sẽ sử dụng kết nối đến g thì sau khi chúng ta kết nối đến github thì nó sẽ inventory cho chúng ta các cái repository và chúng ta có thể sử dụng 
+
+các repository của github như là nơi mà chúng ta chạy code tform thì ở đây mình sẽ lấy lại cái repository là remote backend mà chúng ta làm việc trong cái bài backend standard create và tạo ở đây thì chúng ta có thể chạy những 
+
+câu lệnh tform upline hoặc là tform Plan trên cái giao diện của tform cloud à chúng ta ấn vào mục new run và chọn cái Action mà chúng ta thực muốn thực hiện à Ok ở đây chúng ta gặp lại một cái lỗi là chúng ta chưa khai báo thông tin 
+
+xác thực của aws trên telefone cloud Nếu mà chúng ta xét biến access key và C key trong workspace thì nó chỉ có tác dụng trong cái workspace đấy thôi thì chúng ta có thể xt cái biến Global cho toàn dự án chúng ta sẽ quay ra trang chủ và 
+
+trong phần setting à phần variable set đây thì ở đây mình sẽ set K biến cho Global và những cái workspace sau thì chúng ta không cần phải set Ok chúng ta quay lại workspace của chúng ta trong phần variable của workspace thì 
+
+chúng ta sẽ apply cái variable set mà chúng ta vừa tạo vừa rồi rồi Tiếp theo là chúng ta sẽ chạy câu lệnh terf upline chúng ta sẽ thực hiện Chúng ta sẽ confirm để thực hiện tạo ra tài nguyên 
+
+các thành ngyên đã được tạo thành công mình sẽ quay lại vs code và thay đổi nội dung của file code trên github một chút thì ở đây thì mình sẽ thêm một vài cái dịch vụ Lư file và Push cái file này lên 
+
+github ở đây mình quên chưa commit thực hiện Push à tiếp theo chúng ta sẽ lên giao diện của tform cloud ở đây ch chúng ta thấy là sau khi mà chúng ta Push code mới lên github thì tform cloud nó sẽ nhận biết được và nó sẽ checker 
+
+tạo ra các tài nguyên mà chúng ta chỉ định trong code mới ở đây các bạn không muốn confirm sau mỗi lần chạy upline thì chúng ta có thể là xét cái tính năng là auto run trong phần Run Trigger ở đây 
+
+chúng ta có thể Click vào đây và để xóa đi các tài ngyên mà chúng ta tạo trên telefone cloud thì chúng ta vào phần setting ở phần đến phần del ở đây thì chúng ta Click vào phần disy Plan để xóa đi các tài nguyện mà chúng 
+
+ta vừa tạo như vậy trong phần này chúng ta đã tìm hiểu về quy trình làm việc thứ hai với tform Cloud Ngoài ra trong quá trình làm việc nhóm thì chúng ta có thể thêm các cái thành 
+
+viên vào trong một cái workspace hoặc là một Project thì để mời một thành viên vào nhóm thì mình vào phần setting phần user và có thể mời một thành viên Thông qua email của họ ở đây có một hạn chế khi mà chúng ta 
+
+sử dụng tform cloud free thì chúng ta không thể tạo mới được các cái team và chỉ có cái team mặc định là oner tức là các user kh khi mà được mời thì nó sẽ nằm trong cái team là h và gần như là các user được mời có quyền toàn bộ với 
+
+các cái workspace các cái project trong tform cloud ở đây mình sẽ mở thêm một cái tab mới và chúng ta sẽ login vào cái user mà chúng ta vừa mở ở đây ấn chọn access thì chúng ta thấy là user được 
+
+mời Nó gần như có quyền toàn bộ với các project và các cái workspace mà chúng ta vừa tạo ra ở đây thì mình sẽ xóa thử một cái workspace là de từ cái user được mời các bạn thấy không là chúng ta đã xóa thành công rồi 
+

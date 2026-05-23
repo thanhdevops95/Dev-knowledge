@@ -1,0 +1,10 @@
+phần 2 là mình hướng dẫn mọi người thực hiện cài đặt Visual Studio Code đây là một cái trình soạn thảo code mà mình sẽ sử dụng để soạn thảo Teleform và trên Visual Studio Code thì mình cũng cài thêm một số cách tên sần để hỗ trợ việc code Teleform nó đơn giản và nó thuận tiện hơn đầu tiên chúng ta sẽ lên trang chủ của VS Code để thực hiện cài đặt khói cài mình sẽ chọn ngay cả trang thứ hai đây là mục download này ở đây có hiển thị một số các lựa chọn cài đặt cho các hệ đồng hành khác nhau thì phụ thuộc vào máy tính của chúng ta đang sử dụng 
+
+ở đây mình sử dụng Windows thì mình sẽ cài đặt cho Windows và mình sẽ download sau khi download xong thì mình thực hiện là tiến hành cài đặt chọn Accept và chọn Next ở đây thì các bạn có thể tùy chỉnh cái đường dẫn để lưu trữ cái viết code này còn không mình để theo mặc định và chọn Next đây chọn Create Desktop icon để cài cài viết code này hiển thị trên đất màn hình desktop của chúng ta chọn Next 
+
+Chúng ta sẽ chờ đợi trong dây lát sau khi cài đặt xong chúng ta sẽ vào viết code để thực hiện cài đặt thêm một số extension hỗ trợ cho việc code Teleform chúng ta sẽ chọn vào phần extension ở đây chúng ta sẽ cài hát hát hí cốp Teleform để cài thêm một extension nữa là hát hí cốp Excel ừ ừ 
+
+ừ ừ ừ sau khi cài đặt xong các extension và cài đặt xong viết code thì chúng ta có thể sử dụng viết code để thực hiện là code Teleform ừ ừ ừ 
+
+ừ ừ ừ ừ ừ ừ 
+

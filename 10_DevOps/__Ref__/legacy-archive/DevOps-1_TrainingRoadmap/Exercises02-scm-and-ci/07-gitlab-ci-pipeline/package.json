@@ -1,0 +1,12 @@
+{
+  "name": "gitlab-ci-hello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Tests passed!\"",
+    "build": "node build-script.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

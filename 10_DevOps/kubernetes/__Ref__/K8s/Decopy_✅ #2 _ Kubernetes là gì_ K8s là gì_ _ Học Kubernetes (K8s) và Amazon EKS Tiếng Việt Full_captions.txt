@@ -1,0 +1,80 @@
+Hello anh chị các bạn thì trước khi đi vào series này chi tiết thì mình có một cái đề xất nhỏ Là anh chị các bạn giúp mình đăng ký hay là Subscribe vào cái Channel này thì đ đó sẽ giúp cho mọi người nhận được những cái video hay 
+
+những cái chia sẻ Chung mới nhất của mình về cloud Nói chung hay là về adds nói riêng thứ Hai điều này cũng sẽ giúp cho mình là cái động lực để mình biết được rằng những cái thứ mình đang làm ở đây là đang Hữu ít với mọi người cũng là 
+
+giúp cho mình động lực ra video một cách thường xuyên và tốc độ sẽ nhanh hơn thì quay lại cái chủ đề trong cái video này mình sẽ nói đó là kubernetes hay k8s có nghĩa như thế nào ha Thì trước khi mà nói về cái kubernetes thì chúng ta xem 
+
+một chút lịch sử ha Thì lịch sử là chúng ta sẽ phát triển app là dựa trên những mô hình là triển khai trên mô hình là server ha ví dụ trên server thì chúng ta sẽ làm rất nhiều thành phần nó CH chúng ta có tầng OS này tầng platform này rồi 
+
+tầng Library hay tầng app ha Thì mỗi tầng này giả sử mình G ở đây ha OS Giả sử Mình chọn là OS Linux hay là Windows ở đấy rồi tầng platform giả sử Mình chọn là ví dụ engine x hay là Note Run time gì đấy ha rồi chúng ta sẽ có cái tầng 
+
+này là tầng app chúng ta hay là tầng clip những cái thư viện chúng ta ha Thì cái mô hình này gọi là mô hình chung là triển khai dạng server base ha hai ví dụ mình trển khai phổ biến nhất là ví dụ Virtual machine là ả hóa vm gì đấy thì 
+
+mô hần này nó trải qua một cái giai đoạn rất là dài ha thời điểm đấy Mọi người vẫn hay gọi là cái này gọi là gọi là cũng là gọi là Software definition có nĩa là chúng ta tạo ra hạ tầng server thông qua những hạ tầng Ảo Hóa 
+
+virtualization thì đây là một bước tiến cho Công nghệ rồi nhưng Nhưng mà khi dùng cái gì một thời gian nó sẽ phát nó sẽ bắt đầu nó bộc lộ những cái khó khăn hay những cái thử thách ví dụ thứ nhất đó là bây giờ chúng ta khi dử dựng cái 
+
+mô hình này này chúng ta sẽ một cái hệ đầ Hàn đ thông thường sẽ kèm theo một cái runtime nào đấy r một cái app nào đấy ha Nhưng đôi khi Cái app cái con Server này nó quá to so với Cái app này vậy Bây giờ thì Nếu mà bây giờ chúng ta 
+
+chể khai một con server to và th nó lắng phí với lại á là khi các con ser một con Server này Thông thường các bạn sẽ triể khai một loại dịch vụ thôi Thông thường trể khai là những cái mô hình gọi là monolit ha 
+
+hay là một cái phần mềm nào đấy thì theo thời gian á thì cái phần mềm nó sẽ scale rất là khó thì scale này scale ra dạng server base n thêm h server thêm ba con server gì đấy Bây giờ làm sao chúng ta có thể scale một cách độc lập ch các 
+
+dịch vụ trong một cái phần mềm lúc n khái niệm microservice bắt đầu là nó thậ hẳn dần lên vì các các nhu cầu sử dụng các dịch vụ khác nhau là khác nhau giả sử chúng ta có dịch vụ về quản lý user cái nhu cầu scale nó sẽ khác quản quản 
+
+lý về thanh toán nhỉ hạn lúc ấy là nhu cầu Thứ nhất cần phải được giải quyết cái vấn đề thứ nhất cần phải đặt ra và cần phải giải quyết vấn đề thứ hai á là cái quy trình phát triển phần mềm và release phần mềm thì phổ biến là như nào 
+
+phổ biến là các bạn gi s các bạn sẽ làm trong môi trường cá nhân mà đúng các bạn Có laptop cá nhân hay là Company laptop chẳng hạn Company computer chẳng hạn ví dụ các bạn được cấp phát một cái rotation nào đấy để các bạn làm thì vấn 
+
+đế là khi các bạn development trên này ok hết Nhưng mà khi các bạn deploy deploy lên trên cái con môi trường chạy staging chạy prion này n thì nó lại gặp nó lại gặp vấn đề Mặc dù cũng là cái code đấy nhưng mà sao deploy lên nó 
+
+không chạy tại vì đôi khi những cái vấn đề về run time vấn đề về Library nó không có đồng nó không có động nhất giữa môi trường này và Môi trường này ha môi trường phát triển và Môi trường chạy thật vậy thì nó cần phải một gì đó 
+
+stable hơn ổn định hơn consistency hơn và linh hoạt hơn Portable hơn ha Thì lúc ấy khái niệm mà chúng ta hay nghe tới gần thời gian gần đây đó là container ha thì một cái container nó sẽ đóng gói những cái phần s code run time những cái 
+
+phụ trợ những cái config của mình thậm chí những cái config của mình ở trong cái container luôn nó Everything ha và cầm container khi deploy vào ở đâu nó vẫn là container đấy nó không có Nó không có sự khác biệt là à Hồi xưa em đ 
+
+Em Đ ở trên máy tính em chạy mà đp ở trên m khi deploy lên nó không có chạy được thì container nó sinh ra một cái ý niệm để làm chuyện này và cái đơn vị một cái tổ chức mà họ hiện thực cái phần này tốt nhất tới thờ để hiện tại á là mọi 
+
+người có thể nghe ha docer ha Thì docker là một cái gọi là một cái Software hay là một cái tổ chức Họ họ làm rất nhiều thứ nhất nhiều cái tool những cái tiện ít mà soi quan container dụ đóng gói container vận hành container rồi quản lý 
+
+container quản lý những cái image của container rất là hay nói chung là các bạn trong quá trình mình chia sẻ của cái series này thì mình hướng dẫn các bạn sẽ lập tài khoản rồi bắt đầu sử dụng những thứ liên quan đến chuyện này ha Thì 
+
+container Nó là một cái thứ rất là nổi tiếng ở đây vậy thì container này giả sử bây giờ mình sẽ có container những cái dịch vụ về một cái dịch vụ xử lý V vấn đề đúng không D vụ xử lý về vấn đề quản lý user quản lý thanh toán mình nó giả 
+
+sử bây giờ mình sẽ có hai cái dịch vụ đi hai dịch vụ dịch vụ thứ nhất là dịch vụ về user dịch vụ thứ hai là mình có một cái dịch vụ về payment thì khi đóng container thì chúng ta sẽ đóng gó phần s code application 
+
+Library phụ trợ thậm chí những thông tin cấu hơn của cái app đấy Thì bây giờ mình sẽ có ví dụ user mình sẽ có bốn cái container còn payment mình có hai cái tại vì mình thấy là thanh toán là cái dịch vụ này nó 
+
+không nó không có cái consume sử dụng nhiều như cái dị vụ user quản lý thông tin user chẳng hạn ha Đăng ký user chẳng hạn thì khi mình quá trình mình sử dụng mình sẽ có nhu cầu à Tôi tạo ra hai cái container ha sau này mình gọi cái này 
+
+không gọi container mình gọi là một cái port ha pod á thì khi mình làm th này thì ch trong quá trình sử dụng của ứng dụng của mình ấy nó lại nó lại không Có ổn định là lúc nào cũng là bốn cái ha Đôi lúc nó sẽ nó nó sẽ thành là à giả sử 
+
+nó sẽ thẳn là lên sáu cái cơ còn hoặc là cái này nó lên là bốn cái cơ thì nó sao là ban đêm thì nó lại dán nở Nó lại số lượng số lượng các cái port này ha Mình gọi chung là những cái này gọi là một cái port đi mình giới thiệu cái khái 
+
+niệm này trước cho các bạn luôn Cái này gọi là một cái port trong một cái port này có thể có một hoặc nhiều container một container giải quyết một vấn đề nào đấy thì chi tiết về cái b này mình sẽ có một cái bài trong t trong tương lai thì 
+
+mình sẽ có việc nhu cầu giãn nở việc này và quản lý ví dụ nở ra thêm nhiều container thì mình phải đ một cái một cái port mới ở đây vậy thì ai sẽ làm chuyện đấy Chẳng h bây giờ mình đi Gõ thủ công bằng tay thì chuyện này nó rất 
+
+nó làm được nhưng mà nó không có hiệu quả ấy thì cần một cần một cái công cụ nào để có giúp cho mình à triển khai này giãn nở quản lý monitoring tất cả những cái thứ này một cách hiệu quả nhất thì cái công cụ đấy nó sẽ gọi một cái từ rất 
+
+là Hoa Mỹ gọi là object Jason o Jason thì o Jon này nó gọi nó dịt tiếng Việt gọi là giống như nhạc trưởng ấy là cái người gọi như điều phối nó không làm vấn đề về xử lý cho ứng dụng chúng ta hết nó sẽ làm nhiệm vụ là điều phối lúc thì 
+
+triển khai container lúc ở trên cái nốt này ở trên cái con Server này hay là tắt nó hay là co hẹp nó lại ha Thì con này sẽ là những cái nhiệm vụ liên quan đến quản lý như thế Nói chung là như thế thì O json thì hồi xưa docker họ cũng có một 
+
+cái công cụ riêng của o Jason th nhưng mà công cụ này cũng không cũng không cũng không thực sự là phổ biến phổ biến lắm thì trong các công cụ oration hiện tại có rất là nhiều nhưng mà cái công cụ oration hiện tại phổ biến nhất nó là 
+
+kubernetes đy kubernetes thì C natis hiện tại nó được maintain v một cái tổ chức gọi là cncf ha cloud native gì đấy thì nó được rất nhiều các công ty lớn invest nghiên cứu ra những feature ra những cái bản 
+
+cập nhật mới cho nó ví dụ Amazon web service aws Google Microsoft ipm gì đấy rất nhiều tổ chức các bạn đừng link mình có thể để trong cái phần description các bạn có thể xem tham khảo thêm ý tưởng là cái cộng đồng sử dụng ID và Cộng đồng 
+
+phát triển cities à x cộng đồng sử dụng và Cộng đồng phát triển kutis này nó hiện tại đang rất nhiều các công ty lớn Họ đang họ đang đầu tư vào đây và mình có thể dựa trên đây ví dụ như là công cơ cơ hội việc làm mình cũng sẽ rất là 
+
+nhiều nhiều lên ha Thì C là một cái Plan hay là một cái OB cực kỳ phổ biến nà thì cái việc tiếp theo là chữ ctis này thì muốn là mình đọc nó đọc quá dài nh và cái từ lập lập lại nó cũng không hay lắm cho nên là một 
+
+số một số cái tài liệu hay là một số các cái người sử dụng người ta dùng dùng từ gọi là catet ha Gọi cái số tá này chính là tám ký tự nằm ở giữa chữ K và chữ s này nó gọi là k8s thì cái Story này mình sẽ tập trung chỉ cho các bạn một cái 
+
+kiến trúc này các vận hành một số lưu ý khi sử dụng cái k8s này ha mình sẽ sử dụng cái từ cats này nhiều hơn Tại vì mình nói nó nói nó gọn nó dễ D dễ dễ dàng hơn ha Ok đó là cái bài này mình chia sẻ về ctis nà Cảm ơn các bạn đã 
+
+theo dõi và hẹn gặp lại các bạn ở những cái bài tiếp theo ạ 
+

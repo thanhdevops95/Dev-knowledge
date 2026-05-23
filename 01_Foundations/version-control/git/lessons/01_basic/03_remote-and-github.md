@@ -391,7 +391,7 @@ git push --force    # ⚠️ OVERWRITE remote history
 
 - **Triệu chứng**: `.env` chứa API key → `git add .` → push lên public repo → leak
 - **Cách tránh**:
-  - `.gitignore` ngay từ `git init` (xem bài 01 §4)
+  - `.gitignore` ngay từ `git init` (xem bài 01 §3)
   - Pre-commit hook check file nhạy cảm
   - Nếu lỡ leak: **rotate key NGAY** + force-remove khỏi history (`git filter-repo`)
 
@@ -554,9 +554,9 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [02_branching-and-merging.md](./02_branching-and-merging.md) |
-| ➡️ Bài tiếp | (sắp có) Undo + Recovery — `restore`, `reset`, `revert` |
+| ➡️ Bài tiếp | [04_undo-and-recovery.md](./04_undo-and-recovery.md) — Long lỡ tay 2h sáng, `restore`/`reset`/`revert`/`stash`/`reflog` |
 | 🛠️ Setup | [SSH key cho GitHub](../../setup/ssh-key-github.md) (chưa có) |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 

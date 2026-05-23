@@ -1,0 +1,686 @@
+Xin chào mọi người hôm nay mình xin được chia sẻ về chủ đề docer The complete guy with hands on Tutorial mình xin tỉ giới thiệu một chút Mình tên là Bạch Minh Nam thì mình tốt nghiệp ngành K thuậ phần mềm của Đại học 
+
+FPT vào tháng 5 năm 2019 và bắt đầu đi làm tại FPT Software vào tháng 7 cùng năm Hiện tại mình đang làm backend developer và cloud operator thì mình làm chu về spring boot Java s Đây là nội dung của buổi chia sẻ 
+
+ngày hôm nay trong video này thì mình sẽ chia sẻ V docker trước docker là gì Tại sao phải cần docker những khái niệm cơ bản do engine container image registry và các lệnh cơ bản tiếp đến những khái niệm cốt lỗi và container và cuối cùng 
+
+là cách build docker image chúng ta đến phần đầu tiên phần một s lược về docker doer là gì thì khi phát triển một ứng dụng bằng bất kỳ ngôn ngữ nào chúng ta đ phải cài đặt những phần mềm đi kèm theo nó bao gồm các thư 
+
+viện nền tảng thực thi Ví dụ như khi lập trình Java thì chúng ta phải cài gdk maven khi lập trình angular thì phải cài Note js khi lập trình csap thì phải cài dnet Core dnet Framework vấn đề sẽ xảy ra khi bạn đem ứng dụng đi deploy lên 
+
+một máy khác ở một môi trường khác Không phải bất kỳ ngôn ngữ nào cũng có thể buil ra file thực thi chạy trực tiếp bằng ngôn ngữ máy do đó khả năng cao là chúng ta phải cài lại từ đầu những phần mềm hỗ trợ này mà phải cài đúng phiên 
+
+bản đúng version của Project mà bạn đang làm và nó sẽ càng vấn đề hơn nếu bạn phải cài trên nhiều máy khác nhau chứ phải là một máy việc triển khai ứng dụng trở nên khó khăn hơn và kém hiệu quả docker mang đến giải pháp cho vấn đề 
+
+này docker là công nghệ giúp đóng gói ứng dụng cùng toàn bộ thư viện và nền tảng thực thi lại thành một gói duy nhất có thể đem chạy bất kỳ ở đâu và bất kỳ môi trường nào cho dù là Linux ma OS hay là Windows miễn là cài đặt docker thì nó 
+
+luôn Chạy được vậy Ở đây xuất hiện hai khái niệm là container và image doc cer đóng gói toàn dịp bộ ứng dụng cùng thư viện và nền tảng thực thi của chúng thành một gói một Bắc kịt duy nhất thì những cái 
+
+Bắc kị mà đc cer tạo ra ở đây chính là image khi chạy một image chúng ta có container về cơ bản container hoạt động chính xác như một máy ảo với đầy đủ tính năng để cài đặt và chạy bất cước phần mềm nào bên trong nó như là file system 
+
+Network interface cây tiến trình đều có đầy đủ trong container Tuy nhiên tuy là chức năng giống nhau nhưng mà container lại không thực sự là máy ảo sự khác biệt lớn nhất là bởi vì container nó không có bộ cal 
+
+nó không có bộ nhân hẹo điều hành của riêng nó mà tất cả các container đều sử dụng chung bộ nhân của máy chủ vật lý Nên suy cho cùng container chỉ đơn thuần là các tiến trình chạy trên hệu điều hành và được đốc cờ quản lý 
+
+Nếu bạn nào chưa rõ về OS cal nhân Hệ điều hành là gì thì mình sẽ giải thích ở slide này cal không phải là phần cứng Nó là phần mềm cơ nồ là một phần của hệ điều hành nó là cốt lõi là hạt nhân là trái tim của hệ điều hành cơ điều khiển 
+
+mọi thứ bên trong máy tính của bạn cơ n nằm ở giữa và điều khiển sự giao tiếp giữa phần cứng và phần mềm như hình vẽ ở đây mỗi hệ đều hnh khác nh sẽ có phần cơ nồ khác nhau Tuy nhiên nếu chúng có cơ n giống nhau thì nghĩa là chúng có cùng 
+
+một phả hệ Đơn Cử Ví dụ ở đây phả hệ Linux chúng ta có các hệ điều hành như ubuntu minos SOS debian Elementary đều sử dụng chung loại cal là cal Linux vậy hã so sánh xem là container và máy ảo chúng khác nhau như thế 
+
+nào máy ảo sử dụng công nghệ Ảo hóa ở tầng hardware tầng phần cứng của thiết bị máy chủ vật lý sẽ cài lên trên một cái phần mềm ảo hóa chuyên dụng như là vmware vertal box hoặc là HIV chúng có nhiệm vụ phân chia tài nguyên vật lý cho 
+
+các máy ảo được cài bên trên mỗi máy ảo này có hẳn một cái hệ điều hành độc lập ở bên trong nó dung lượng đế gán hàng chục GB và chúng sử dụng phần nhân phần C của riêng nó do vậy bạn có thể cài bất kỳ bạn có thể cài máy ảo ubuntu chạy 
+
+trên hệu điều hành Windows hoặc là macos chạy trên hệu điều hành Windows mà không gặp bất cứ vấn đề gì còn về container chúng sử dụng công nghệ Ảo hóa ở tầng Software application bản thân docer chính là công nghệ Ảo hóa 
+
+đó sự khác biệt ở đây là các container tận dụng lại phần nhân phần lỗi cơ nồ của điều hành máy chủ vật lý do đó nó không tốn dung lượng để cài thêm hệu điều hành nào cả điều này dẫn đến việc dung lượng của container chỉ tầm vài 
+
+chục m MB đổi lại nên cực kỳ nhẹ nhưng đổi lại nó không có sự tự do như là máy ảo bạn không thể chạy container ubuntu ở bên trên hẹ điều hành Windows được điều này lý giải tại sao khi mà cài Dock cer lên Windows bạn cần phải kích hoạt h BV 
+
+hoặc Virtual box và set up một cái máy ảo Linux trên đó để cài docker chạy ở trên bên trong từ đó thì bạn mới có thể chạy được container dòng Linux ở trên hệ điều hành Windows vậ docker đã làm như thế nào để 
+
+có được sự khác biệt đó thì về bản chất công nghệ bên dưới docker được viết bằng goan và docker đã tận dụng những tính năng được cung cấp bởi nhân Linux như là namespace để phân chia tách biệt các container với nhau control group để tối 
+
+ưu hóa tại nguyên phần cứng vân vân và tại sao chúng ta lại phải cần docer thì như mình đã Phân tích việc deploy và ứng dụng sẽ dễ dàng hơn rất nhiều với doc cer chúng ta không cần phải nhớ là hệ 
+
+thống nào chạy bằng ngôn ngữ gì phải cài đặt những thư viện gì nền tảng gì version bao nhiêu chúng ta chỉ cần cài docker và mọi thứ đều xong ngoài ra khi nhắc đến docker thì không thể không nhắc đến microservice 
+
+docker có ba tính chất sau tính immutable tính bất biến nghĩa là ứng dụng của mình khi mà chạy máy local như thế nào thì khi đóng gói nó lại và mang đi đâu chạy thì nó cũng y chang như vậy Không khác được thứ hai là tính lightway 
+
+vì chỉ chừng vài chục MB nhẹ hơn máy ảo rất nhiều nên việc tạo mới Container là rất nhanh chóng và thứ ba là stess container không tạo ra thay đổi dữ liệu bên trong nó Điều này có được là do tính bất biến ở bên trên bạn có thể hiểu đơn 
+
+giản là bởi vì không chứa dữ liệu ở bên trong Nên là các container dờ đây cực kỳ tự do và linh hoạt bạn có thể nhân bản cái container lên 100 container giống hệt nhau để đáp ứng đủ trafix người dùng V Giờ Cao Điểm hoặc là bạn có thể set 
+
+down nó ở máy này và dựn nó lên ở cái máy khác mà vẫn chẳng ảnh hưởng gì đến hệ thống ban đầu đây chính là lý do khiến đc cer hoàn hảo trong việc triển khai microservice hy vọng là sau màn quảng cáo của mình 
+
+thì các bạn đã có hứng thú hơn với docer để chuẩn bị và nghiên cứu kỹ hơn về nó thực sự thì mình không nói lố công nghệ Ảo hóa container không hề mới cách đây 10 năm Google đã áp dụng và chạy tất cả ứng dụng của họ bằng container docer 
+
+không phải là công ty duy nhất cung cấp giải pháp này nhưng docer là công ty phổ biến nhất và tốt nhất cho đến hiện nay được rồi bây giờ chúng ta bắt đầu phần hai nhỏ những khái niệm cơ bản thì chính xác mà nói docker là tên của 
+
+công ty còn phần mềm mà công ty đó cung cấp để cài vào máy thì chúng ta gọi là docker engine Nhưng mà thông thường thì người ta gọi tắt là docker cho nó ngắn gọn như vậy sau này mỗi khi nói đến docker thì các bạn nhớ tên gọi chính xác 
+
+của nó là docker Engine docker Engine bao gồm hai module chính là docker damond là module code mà là module đầu tiên v là module code lỗi đóng vai trò là server chạy ngầm ở bên dưới hệ thống bộ câu lệnh cli là module 
+
+thứ hai đóng vai trò là client chúng ta dùng bộ câu lệnh này để giao tiếp với lại cục docker Diamond thông qua giao tức httbs thì như mình đã trình bày hồi nãy các container sử dụng chung cơ nồ với 
+
+hiệ điều hành gốc được cài trên máy trủ vật lý nên chúng bị phụ thuộc vào hệ điều hành đó hệ điều hành Windows chỉ có thể chạy được container dành cho Windows như là dnet core.net Framework do bị giới hạn như vậy nên là hầu như mỗi lần 
+
+cài docker lên Windows docker sẽ yêu cầu các bạn kích hoạt h BV hoặc Virtual và cài lên đó một máy ảo Linux và lúc này cục docker Diamond sẽ được cài vào trong cái máy ảo Linux đó còn cái bộ câu lệnh docker coi này vẫn được cài trên 
+
+máy Windows của các bạn như vậy là mình đã giải thích Xong Còn bốn Ô Chủ nhật này là bốn đối tượng mà chúng ta sẽ thao tác và do đc cer quản lý thì hồi nãy mình đã giải thích về image và container còn về network và 
+
+volume thì một lát nữa thơi mình sẽ đề cập đến bây giờ chúng ta sẽ đến với khái niệm registry docer đóng gói ứng dụng thành các image Vậy thì phải có cách nào đó để chúng ta tải những cái image này lên 
+
+mạng và chia sẻ đến các máy khác thì cái nơi dùng để lưu trữ các image này chúng ta gọi là container registry Hiện nay trên thị trường có những nhà cung cấp dịch vụ lưu trữ image khác nhau như là của docker Hub thì là 
+
+do chính docker làm ra còn đối với những cái nền tảng điện tái nm m khác thì họ cũng cung cấp dịch vụ riêng của họ của Amazone thì chúng ta gọi là ecr của Google thì chúng ta gọi là gcr còn của Acer thì chúng ta gọi là 
+
+acr ở đây là sơ đồ tổng quan như các bạn thấy client là bộ câu lệnh coi chúng ta dùng để tương tác đến cái cục docker Diamond các image sẽ được lưu trữ trên docer registry và được pull được tải và lưu về 
+
+máy local thì khi chúng ta chạy những cái image này trên máy local chúng ta sẽ có các container trước khi bước qua phần 3 thì chúng ta sẽ tìm hiểu một số lệnh cơ bản 
+
+và x tắc của chúng thì đây là x tắc chung của một câu lệnh docker bắt đầu bằng chữ đốc cờ và tiếp theo là tên của đối tượng cần tương tác và cái mã lệnh đi theo sau Đối tượng tương tác chúng ta có bốn 
+
+đối tượng phổ biến là container image Network và volume Ngoài ra còn một số đối tượng khác nữa Nhưng mà chúng ta sẽ không đề cập trong video này và đây là các mã lệnh phổ biến phổ biến nhất là lệnh aos các bạn có thể 
+
+thấy là viết tắc của từ list nếu như bạn nào đã sử dụng Linux thì các bạn cũng đã quá quen thuộc với lệnh EOS này với đối tượng image chúng ta có các lệnh sau lệnh Bull là dùng để tải image từ registry về thì mỗi image nó có sẽ có 
+
+nhiều tác khác nhau dùng để đánh version của cái của cái image đó nếu không để tác thì mặc định sẽ là latest ngược lại với lệnh Bull là lệnh Bush là dùng để tải image đã Build ở mấy local lên 
+
+registry lệnh LS đúng như cái tên của nó là dùng để liệt kê toàn bộ image đang có trong máy local thì chúng ta có thể viết ngắn gọn hơn là bằng chữ image có s thì thường mình dùng lệnh này bởi vì nó ngắn gọn 
+
+hơn lệnh Bull run dùng để xóa toàn bộ image không còn được dùng nữa thì thỉnh thoảng các bạn nên chạy lệnh này để dọn dẹp bớt cái image có trong máy của mình thì một số lệnh chúng ta có thể viết ngắn gọn lại như là lệnh Bull hoặc 
+
+là lệnh Bush Thay vì phải gõ docker image bll thì bây giờ các bạn chỉ cần gõ docker pll bởi vì sao Bởi vì các lệnh này đặc trưng dành riêng cho đối tượng image nên chúng ta không sợ bị nhầm lẫn với các đối tượng 
+
+khác tiếp theo chúng ta có đối tượng container để chạy một container chúng ta dùng lệnh run kèm theo tên của image để list ra các container đang chạy chúng ta sẽ ch sử dụng 
+
+aos Tuy nhiên Muốn list ra kể cả những container đã Shut down thì chúng ta phải gắn thêm cờ a viết tắc của từ all thì đây là cách viết ngắn gọn hơn là BS và BS có từ Có cờ a thì mình cũng hay dùng lệnh này hơn là hai lệnh trên 
+
+dùng lệnh stop dùng để dừng container đang chạy với tham số là ID hoặc là tên của cái container đó tương tự image lệnh brun có tác dụng xóa toàn bộ container đã được SH down không còn được dùng nữa lệnh execute 
+
+lệnh execute là một lệnh đặc biệt dùng để chạy một câu lệnh bên trong container bất kỳ với tham số là tên hoặc ID của container và tên của lệnh cần thực thi thì tương tự như hồi nãy lệnh run lệnh stop và lệnh execute là những lệnh 
+
+có thể viết tắt bởi vì nó đặc trưng cho đối tượng container duy nhất Bây giờ mình sẽ demo cho các bạn xem một chút thì đầu tiên chúng ta sẽ dùng đệ image để list ra toàn bộ những cái C 
+
+những cái image đang có trong máy local đâ thì như các bạn có thể thấy cái cột này là tên của image cột này là tag cái tên tag của nó thì dùng để thường là dùng để đánh version Còn nếu như không có để tag thì mặc định sẽ là tag latest 
+
+đây là ID của image thời gian tạo và dung lượng của nó như các bạn thấy thì đây là một cái image có dung lượng 300 m Tuy nhiên có những Dung có những image Rất là nhẹ chỉ dung lượng chỉ vài mê đổ lại như các bạn thấy nó nhẹ hơn máy ảo 
+
+rất nhiều tiếp theo chúng ta sẽ sử dụng lệnh vs để list ra những container đang chạy thì hiện tại trên máy mình không có container đang chạy cả thì mình sẽ gắn thêm cờ a hay là 
+
+viết tắt của từ all thì chúng ta có hai container đã được SH down đây là ID của container Đây là cái image mà nó được tạo ra nó được khởi tạo từ đây là cái thời gian khởi tạo và như 
+
+các bạn có thể thấy cái trạng thái của nó đang là exit nĩ là nó đã được set đ kết thúc và cái cột này là cột tên của nó thì cột tên của nó mỗi container có một cái tên duy nhất phân biệt và mình có thể dùng cái tên đó thay cho cái ID 
+
+bởi vì nó là duy nhất Bây giờ mình sẽ lên docker Hub để để demo cho các bạn ví dụ mình sẽ tìm image là Note và vô đây các bạn sẽ thấy các bạn có thể thấy Đây là tên của 
+
+image Và đây là cái nhà phát hành của image đó thì như các bạn thấy là docker official image có nghĩa là đây là những cái phiên bản image được phát hành chính chủ do docker cung cấp thì các bạn có thể nhận thấy nhận nhận biết bằng cái 
+
+đường cái đường URL này các bạn có thể thấy trước cái tên của cái image sẽ là một cái dấu gạch gạch dưới duy nhất thì đây là những cái image của chính chủ do đốc cer phát hành kéo xuống các bạn sẽ thấy những cái 
+
+mô tả chi tiết cách sử dụng image này như thế nào và những cái phiên bản những cái version của nó và ở đây các bạn có thể vào cái mục tác này để các bạn tìm cái phiên bản à Cái tag mà nó đúng với lại cái phiên bản mong muốn của các 
+
+bạn và tất nhiên là bạn hoàn toàn có thể tạo ra một cái tài khoản trên docker Hub cho riêng các bạn thì ví dụ như mình đã tạo một cái tài khoản của riêng mình đây thì các bạn để ý những cái image mà do chính các bạn tạo Nó sẽ có 
+
+cứu Pháp là tên tài khoản của các bạn đứng ở đằng trước xoẹt rồi mới đến tên của cái image của các bạn các bạn lưu ý điều này để sau này đánh tác cho nó đúng bây giờ mình sẽ thử pull về một cái 
+
+image ở trên này thì ví dụ mình muốn p image này khi bạn nhấn V image này nó sẽ có một cái khung để các bạn copy hoặ là các bạn có thể gõ tay lại cũng được đây các bạn copy cái câu lệnh này quay trở lại đây các bạn dán và 
+
+chạy thì khi mà các bạn không để tác thì mặc định nó sẽ sử dụng T là latest là mới nhất và xong chúng ta đã tải xong được cái image này về máy local chck lại một lần 
+
+nữa đây Vậy là xong chúng ta đã xong phần cơ bản về những câu lệnh và chúng ta sẽ tiếp tục đến phần ba là tìm hiểu những khái niệm quan trọng cốt lỗi của container thì đầu tiên là container Life 
+
+cycle Chu kỳ sống của container thì khi chạy một image chúng ta có container container lúc này ở chạ trạng thái sóng là up khi stop hoặc Kill nó đi thì container ở trạng thái kết thúc 
+
+exit khi dùng lệnh stack để chạy lại container để exit thì nó sống lại ở trạng thái up khi một container để exit và ta remove hoặc là ta dùng lệnh brun thì nó sẽ rơi vào trạng thái Dead Thực ra thì chúng ta sẽ không còn thấy 
+
+container nào nữa bởi vì docker lúc đó sẽ xá sạch để giải phóng bộ nhớ để tìm hiểu sâu hơn về container Life cycle thì chúng ta sẽ tìm hiểu thứ gọi là PD 1 thì chu kì sống của container được quyết định bởi tiến trình 
+
+có pid bằng 1 chạy ở bên trong nó hay còn gọi là tiến trình chủ đạo Chừng nào tiến trình bd1 còn sống thÌ container vẫn còn sống khi sử dụng lệnh docker stop thì thực chất là doc cer đang gửi một tín hiệu syem terminating signal đến 
+
+để kết thúc tiến trình BD bằ 1 ở bên trong container container sau đó sẽ kết thúc với bằng 0 trong vòng 10 dây sau khi chạy Lnh docker stop mà nếu vì một lỗi nào đó mà container chưa chịu dừng lại thì 
+
+container sẽ gửi đi tín hiệu thứ hai là sill để ép buộc tuyến trình bd1 phải dừng Ngay lập tức khi đó exit code của container sẽ là 137 thì sau này nếu các bạn thấy container nào của mình mà có chữ exit 
+
+bằng 137 thì các bạn biết ngay là container đó đã không kết thúc đúng cách Vậy là bây giờ các bạn đã hiểu B1 là gì chúng ta đến với phần này thú vị hơn bây giờ chúng ta thử chạy một container 
+
+từ image là nb nb là gì thì nb là hệ điều hành Linux là một hệ điều hành Linux đã được rút gọn đến mức tối giảng cực kỳ nhẹ chỉ vài chừng vài MB nếu như là container Còn nếu như hệ điều hành bình thường sẽ là tầm một 
+
+trăm mấy m đổ lại thì phù hợp cái chuyện đó nó phù hợp với Triết lý của Dock cer là càng nhẹ càng tốt và không những thế nó còn có tính bảo mật cao có thể các bạn sẽ hỏi là máy tính của mình cài quá trời phần mềm bảo mật như là web virus 
+
+Antivirus các thứ mà còn chưa đến đâu thì hệ điều hành mà cài ít như vậy thì bảo mật kiểu gì thì N bu đi với Triết lý ngược lại là càng ít phần mềm thì càng ít lỗ hổn để kẻ khác có thể xâm nhập vào càng đơn giản càng ít phức tạp thì càng 
+
+dễ bảo vệ và quản lý Nếu các bạn muốn tìm hiểu thêm thì có thể Google là tại sao enpire lại bảo mật bây giờ mình sẽ mở comment l lên chạy thử à Trước tiên thì mình sẽ kiểm tra xem là đang có container nà đang chạy 
+
+không thì hiện tại trên máy mình không có container nào đang chạy giờ chúng ta sẽ chạy container Empire và chúng ta sẽ check lại xem là có container nào đang chạy không và bất ngờ không có container đ đang 
+
+chạy cả thì đây khi mà chúng ta chạy lệ BS all thì chúng ta sẽ liệt kê ra tất cả mọi container kể cả những container đã kết thúc thì chúng ta thấy cái container Empire chúng ta vừa chạy vừa mới chạy 
+
+tất thì 12 giây trước đã kết thúc với exit code bằng 0 nghĩa là nó kết thúc bình thường vậy Tại sao lại có cái chuyện này Tại sao container lại K thúc ngay lập tức mà nó không ở trạng thái up đúng như 
+
+những gì mà chúng ta đã xem hồi nãy thì các bạn hãy để ý quay lại đây chúng ta thấy ở cái cột Comment này cột Comment này chính là lệnh mà docker sẽ chạy lần đầu tiên khi mà khởi tạo container pin pin Shell đây Shell đây 
+
+chính là một Shell terminal thì nếu các bạn không biết sale là gì thì nó cũng giống như comment l ở bên Window là phần mềm dùng để tương tác với hệ điều hành bằng các dòng lệnh thì bản chất sell terminal là tiến trình cần có 
+
+sự tương tác ở phía người dùng nhưng bởi vì bên trong container của chúng ta đang khởi tạo ở đây không có user nào cả nên là cái Shell terminal này sẽ kết thúc ngay lập tức mà Shell terminal này là tiến trình bid chủ đạo tiến trình bid 
+
+bằng 1 là chủ đạo nên là dẫn đến việc nó kết thúc thì sẽ dẫn đến việc container kết thúc ngay lập tức để chí là lý do tại sao mà chúng ta vừa chạy là C th đã rơi vào trạng thái exit Vậy thì phải làm 
+
+sao vậy thì chúng ta cần phải gắn thêm một cờ hai cờ là cờ y và cờ t khi mà chạy lệnh container ire giờ chúng ta sẽ chạy lại it ire Vâng và ba nhiêu Các bạn thấy là bây giờ nó có sự khác biệt cái màn hình comment 
+
+l của mình nó đã thay đổi cái dấu nháy đầu dòng và bây giờ chính chúng ta đang là cái người sử dụng cái Shell terminal ở ngay bên trong container Chúng ta thử chạy lên EOS 
+
+â thì các bạn thấy nhìn một phát là biết ngay đây là cấu trúc thư mục kiểu Linux Windows không thể nào mà có cái kiểu cấu trúc thư mục kiểu này được pin và dep không lẫn đi đâu được để chắc ăn hơn thì chúng ta sẽ in ra màn hình thông tin cái 
+
+phiên bản release OS thì đây enpire Linux phải là chúng ta chính xác chính xác là chúng ta đang ở ngay bên trong cái container này chúng ta là cái người đang sử dụng cái Shell terminal này 
+
+luôn Vậy thì các bạn nhớ mỗi khi khi mà chúng ta cần chạy một cái container nào mà có sự tương tác với người dùng thì chúng ta phải thêm hai cái cờ it này vào Và đây là ý nghĩa của hai cái cờ it này chữ i 
+
+viết tắc ch chữ interactive và chữ T viết tắt cho chữ tti vậy thì bây giờ chúng ta sẽ thoát khỏi container này thì thông thường khi mà muốn kết thúc thì các bạn sẽ nhấn Ctrl C nhưng mà ở đây chúng ta ở với 
+
+docer chúng ta đặc biệt hơn một tí là chúng ta sẽ nhấn Ctrl D theo vì Ctrl C giờ các bạn chúng ta sẽ thử Nhấn Ctrl C Xem các bạn thấy cái nhấn Ctrl C nó nó không có thoát ra ngoài được mà nó chỉ 
+
+in ra cái màn hình cái tổ hợp phím của chúng ta Vậy giờ chúng ta sẽ nhấn Ctrl D chúng ta đã thoát được khỏi cái container này tuy nhiên có một điều chúng ta phải check lại 
+
+xem như các bạn thấy không có container nào đang chạy cả điều này có nghĩa là sao điều này có nghĩa là container của chúng ta đây Các bạn thấy cái Empire Thứ hai này Đây là cái Empire đầu tiên nó đã bị lỗi không phải là bị lỗi mà là nó đã 
+
+kết thúc ngay lập tức bởi vì chúng ta không cung cấp hai cái cờ i và T thì đây là cái container Empire Thứ hai chúng ta vừa chạy hồi nãy nó có sự tương tác vết hự dụng nhưng mà sau khi chúng ta nhấn tổ hợp phím Ctrl D chúng ta thoát thì 
+
+cái container này nó cũng exit ngay lập tức và mã exit của nó bây giờ là không phải là bằng 0 nữa mà là 130 có nghĩa là nó là do chúng ta kết thúc chứ không phải là 
+
+Ờ do đốc cờ kết thúc vậy điều này có nghĩa là sao Có nghĩa là khi chúng ta nhấn Ctrl D chúng ta đã thoát khỏi cái Shell terminal này mà các bạn hãy nhớ sell terminal này chính là cái Bad 1 cái tiến trình chủ đạo ở trong container khi 
+
+mà cái tiến trình chủ đạo kết thúc thì đồng nghĩa với việc container Nó cũng kết thúc nó cũng chấm dứt luôn đó chính là lý do tại sao khi mà nhấn Ctrl D thì ờ cái container này nó cũng thoát vậy bây giờ cái câu hỏi đặt ra là 
+
+ờ ờ vậ làm sao đó mà mình thoát ra tạm thời thôi Mình thoát ra tạm thời khỏi container đó và lát sau khi mà mình muốn là mình vẫn có thể quay lại được để mà mình tiếp tục làm cái công việc dở gian của mình ở bên trong container đó 
+
+thì ở đây chúng ta có khái niệm mới đó là chế độ của Container là cái Mode của nó chúng ta có hai chế độ là Attach và detach thì khi mà các bạn có thể tương tác trực tiếp với container ngay bên trong cái Shell terminal của nó như hồi 
+
+nãy thì chúng ta gọi là chúng ta đang Attach cái container đó vào cái command line của chúng ta Nó đang ở cái chế độ Attach và khi mu các bạn muốn thoát nó tạm thời khỏi cái container đó để các bạn là làm một cái công việc gì đó thì 
+
+các bạn nhấn tổ hợp phím Ctrl B và Q thì lúc này cái container nó vẫn sẽ chạy ngầm ở bên dưới nhưng mà nó sẽ không còn hiện lên trên màn hình nữa thì cái cái chế độ đó thì chúng ta gọi là detach là chúng ta đã detach cái container đó ra 
+
+khỏi cái màn hình com line của chúng ta và khi mà các bạn muốn hiện lại cái container đó lên lại màn hình comment line thì chúng ta sẽ chạy C lệnh doer Touch với tham số là ID hoặc là tên của container 
+
+đó Bây giờ mình sẽ demo cho các bạn à Trước tiên mình sẽ xóa bớt những container đã được s downo thì khi mà các bạn chạy lệ brun thì nó sẽ đưa ra một cái cảnh báo là các bạn có muốn Chắc là muốn xóa hay không 
+
+để lỡ các bạn xá nhầm thì vẫn còn Ờ được biết bây giờ chúng ta sẽ chạy lại một cái container Empire với it r bây giờ chúng ta sẽ tạm thời thoát khỏi nó bằng tổ hợp phím Ctrl 
+
+bq giờ check lại xem thì đây cái container của chúng ta vẫn còn đang ở trạng thái up và bây giờ mình sẽ Attach lại cái container đó bằng cái ID của nó các bạn vẫn có thể dùng tên của nó tại 
+
+vì hai cái đều là như nhau và chúng ta đã quay lại với lại cái container của chúng ta chúng ta vẫn quay lại làm việc tiếp tục bình thường với nó và từ đây thì chúng ta sẽ có thêm một 
+
+cái option mới khi mà khởi tạo container đó chính là chúng ta muốn Nó bắt đầu chạy lại nó ở ngay cái trạng thái detach luôn là nó sẽ chạy ngầm bên dưới luôn không còn hiện lên màn hình nữa thì chúng ta gắn cái cờ D vào câu lệnh 
+
+run thì tiếp theo như mình đã nói ở slide trước thì lệnh docker exq là một lệnh đặc biệt dùng để thực thi một câu lệnh bên trong container đang chạy bất ký container nào đang chạy thì với cứu pháp là contain cứu pháp là ID hoặc là 
+
+tên của container đó kèm theo cái tên của câu lệnh thì chúng ta cùng làm cái ví dụ sau đây đầu tiên là in màn hình chữ Hello world Thì bây giờ mình sẽ tạm thời thoát khỏi container này 
+
+bây giờ chúng ta sẽ chạy cầu lệnh exq docker exq với tham số là ID của cái container đó và tên của câu lệnh và bởi vì nó chỉ có nhiệm vụ là in ra màn hình và là xong thì nó kết thúc nó nó không còn à À làm cái công việc gì 
+
+nữa Nó không phải giống như là cái sự tương tác qua lại giữa cái Shell terminal như hồi nãy của chúng ta tiếp theo là chúng ta muốn in ra màn hình cái biến môi trường là dô bass thì ở đây có hai câu lệnh Chúng ta thử chạy 
+
+câu lệnh đầu tiên xem là nó sẽ in ra cái gì thì các bạn biết đây là cái cứu pháp biến môi trường ở bên trong Linux đô la và cái tên của cái biến môi trường n Ờ Các bạn thấy là nó in ra đúng cái cái tên của cái biến môi trường đó luôn chứ 
+
+nó không có in ra giá trị của biến môi trường đó V chúng ta thã đến câu lệnh thứ hai câu lệnh thứ hai là chúng ta đang bọc toàn bộ cái câu lệnh ecopass này và một cái sale và chúng ta chạy cái sale đó thì khi mà chạy cái sale này thì 
+
+nó sẽ làm cái việc là nó thay cái biến môi trường này bằng cái giá trị đúng của nó và nó thực thi cái câu lệnh đó đây chúng ta bọc nó vào cái Lnh sale và chúng ta chạy như bạn thấy bây giờ nó đã in đúng 
+
+cái giá trị của biến môi trường pass rồi thì các bạn nhớ là mỗi lần mà chúng ta thao tác với biến môi trường chúng ta sẽ phải bọc cái câu lệnh của chúng ta vào một cái lệnh S ở bên ngoài tiếp theo là ví dụ hồi nãy là 
+
+chúng ta in ra cái màn hình cái thông tin của bản OS release thì bây giờ đến phần này chúng ta có một cái điều khá là thú vị và cũng khá là quan trọng mà chúng ta nên nhớ thì nếu như các bạn nào chưa biết thì ssh SH này 
+
+là tên của một loại giao thức bảo mật Tuy nhiên trong cái thuật ngữ của lập trình viên thì SH nó cũng có nghĩa là cái thao tác kết nối từ xa đến một cái máy tính cho dù là máy ảo hay là máy vật lý có nghĩa là các bạn đứng ở một cái 
+
+Máy ờ máy của các bạn đây các bạn kết nối đến một cái máy khác nó nằm ở trên môi trường cloud hoặc là đến kết nối đến một cái máy của đồng nghiệp của các bạn đang ở cách các bạn Ờ ở thành phố Hồ Chí Minh mà các bạn kết 
+
+nối đến máy đồng nghiệp của bạn ở Hà Nội chẳng hạn thì chúng ta gọi cái thao tác đó là thao tác ssh thì đây là cái câu lệnh dùng mà chúng ta dùng để shsh vào bất kỳ một cái container nào đang chạy thì như các bạn biết là cái container nó 
+
+hoạt động cũng giống như là một cái máy ảo vậy đó và nó độc lọc với lại cái máy local của chúng ta nó độc lập với cái máy mà chúng ta đang chạy ở đây thì chúng ta nếu như mà chúng ta thì cái thao tác ssh vào là một cái thao tác 
+
+quan trọng nếu như mà chẳng may container các bạn đang gặp sự cố thì bản chất cái việc SH này nó y hệt như cái việc mà chúng ta tương tác với cái Shell terminal mà mình đã làm ở những cái ví dụ trước ở những cái slide 
+
+trước như các bạn thấy thì cái câu lệnh này chúng ta hãy phân tích Đây là docker execute gạch it các bạn chú ý cái cờ gạch it này tên của container và cái lệnh Shell thì bản chất cái lệnh sell này là chúng ta đang 
+
+mở một cái sale terminal ở bên trong cái container này và bởi vì cái sale đó nó cần sự tương tác nên là chúng ta phải cung cấp thêm cái cờ it này ở thằng Trước đây mình sẽ demo cho các bạn bây giờ là chúng ta đang có cái 
+
+container Empire đang chạy giờ chúng ta sẽ ssh vào bên trong nó các bạn lưu ý nh cái cái việc mà chúng ta thao tác ssh khác với lại cái việc mà chúng ta Attach cái container này lại màn hình khi mà chúng ta Attach 
+
+cái container này vào màn hình thì chúng ta đang sử dụng chính cái tiến trình nó có bid bằng 1 là cái câu lệnh mặc định cái tiến trình chủ đạo của cái container đó Còn khi mà chúng ta sshh vào bằng câu lệnh execute là chúng ta đang mở một cái 
+
+tiến trình thứ cấp một cái tiến trình phụ chạy song song với lại cái tiến trình chủ đạo ở bên trong container đó nó có sự khác biệt nha các bạn khác biệt như thế nào thì một lát các bạn sẽ 
+
+rõ thì chúng ta đã đây là cái việc mà chúng ta đang ssh vào đang kết nối từ xa thẳng vào bên trong cái container của chúng ta và nó cũng y Hệ như cái việc mà chúng ta tương tác với cái sale terminal hồi nãy 
+
+thôi các bạn y chang không khác gì hết Và bây giờ chúng ta sẽ nhấn Ctrl d để kết thúc cái SH terminal này hoặc là chúng ta hoàn toàn có thể nhấn nút exit bây giờ mình sẽ nhấn Ctrl D nha các bạn như các bạn 
+
+nhớ là hồi nãy khi mà chúng ta nhấn Ctrl D là chúng ta kết thúc cái Shell terminal là cái container cũng kết thúc luôn thì bây giờ hãy quan sát xem nó có kết thúc không nhé r chúng ta nhấn Ctrl D và Vâng cái container Empire của chúng 
+
+ta nó vẫn còn đang chạy nó vẫn còn đang up ở trạng thái up và nó chưa bị kết thúc thì tại sao tại sao chúng ta thoát khỏi cái sale này rồi nhưng mà chúng ta nhấn Ctrl D luôn chứ chúng ta không nhấn Ctrl bq nữa mà chúng ta vẫn có thể giữ 
+
+cho container của mình sống thì tại vì như mình đã nói hồi nãy khi mà chúng ta chạy lệnh execute này là chúng ta đang mở một tiến trình thứ cấp chạy song song với lại tiến trình chủ đạo ở bên trong container mà khi mà cái tiến trình thứ 
+
+cấp đó nó có bị kết thúc đi chăng nữa thì nó cũng không ảnh hưởng đến cái tiến trình chủ đạo và cái tiến trình chủ đạo Chừng nào tiến trình đạo vẫn còn đang chạy thì cái container nó vẫn cứ tiếp tục 
+
+sống thì chúng ta có thể thay cái lệnh Shell bằng lệnh b thì các bạn biết là cái nó cũng là một cái sale terminal luôn Tuy nhiên không phải container nào cũng cài sẵn cái pass ở bên trong nó ví dụ như là cái container Empire của chúng 
+
+ta ở bên trong nó nó không có pass thì do đó cái shale nó vẫn là ưu tiên hơn hơn ờ đây là hai câu lệnh mà các bạn à ờ nên nhớ Tại vì nó khá là quan trọng sau này khi mà các bạn làm việc V lại 
+
+container thì lúc này chúng ta có một cái vấn đề là các bạn có thể hỏi là nhưng mà sau này không lẽ mà mỗi lần mà muốn tương tác với Container là chúng ta phải cứ chạy một cái câu lệnh dài như vậy chúng ta kết nối ở bên trong rồi 
+
+chúng ta tương tác các thứ thì nó phức tạp nó khó nhớ quá Lỡ may mà tôi không nhớ hay sao thì có cách nào khác hay không thì đây chính là giải pháp B mapping chúng ta hãy xem xét ví dụ sau đây Đây là máy tính của bạn đang xài 
+
+đang cài đặt và đang chạy đc cờ ví dụ như là cái máy tính của mình hiện tại nè thì chúng ta sẽ tạo một container Engine X thì đây là k phát âm của nó Engine X thì engine X là cái cái gì 
+
+đây mình sẽ Google Engine x nó là reverse proxy Nó là một cái loại reverse proxy vậy reverse proxy là cái gì thì ở đây Các bạn nhìn cái hình này cái loại proxy thông thường của chúng ta thì như các bạn Nếu như các bạn 
+
+biết thì là proxy Thông thường chúng ta thì chúng ta hay th gọi nó là forward proxy forward proxy là cái proxy dùng để ờ đứng Ờ trước internet các bạn quan sát nó đứng trước ở internet và nó sẽ filter nó có tác dụng là nó sẽ filter nó sẽ lọc 
+
+và nó sẽ forward những cái request đến từ cái mạng nội bộ ở bên trong của user ra bên ngoài Internet Thì cái loại revert proxy này Ờ Cái loại forward proxy này nó có tác dụng là ví dụ Các bạn muốn chặn user không cho user truy 
+
+cập vào những trang web đen thì chúng ta sẽ cài đặt ở cái forward proxy này thì cái reverse proxy là cái loại ngược lại nếu như cái forward proxy nó đứng ở trước Internet Thì cái reverse proxy nó sẽ đứng ở sau 
+
+internet user sẽ gửi request thông qua Internet đến cái reverse proxy này và cái reverse proxy này nó sẽ có nhiệm vụ là filter và forward những cái request những cái yêu cầu đó đến các cái máy chủ server backend ở bên trong hệ thống và 
+
+các cái backend này nó sẽ xử lý yêu cầu mà nó trả lại kết quả cho người dùng thì hiểu đơn giản cái reverse proxy này nó Nó là một cái bộ cân bằng Tải lot balancer thì engine X là một trong những cái loại reverse proxy được ưa chuộn 
+
+nhất hiện nay và ngoài việc dùng để cân bằng tải thì Engine x nó còn có thể được dùng để host các cái website HTML tỉnh thì mặc định nội dung của website tỉnh mà Engine x nó sẽ host thì nó sẽ nằm ở cái bọ 80 bên trong container 
+
+engine x bây giờ mình sẽ demo cho các bạn mình sẽ chạy một cái container Engine X và mình sẽ shsh vào ở bên trong container đó và chạy câu lệnh curl local host bọ 80 mà bâ V bọt 80 là bọt mặc định của 
+
+httb nên là mình sẽ có thể bỏ qua bọ 80 luôn X và mình sẽ để cho nó ở chế độ detach luôn là chạy ngầm bên dưới bây giờ mình sẽ lấy cái ID của nó và s vào bên 
+
+trong mình đang ở bên trong cái container Engine x bây giờ mình sẽ chạy lệnh cu mình gửi một cái request đến local host ở B 80 thì mình có thể bỏ qua cái bộ 80 này Tại vì nó là mặc định của 
+
+http và như các bạn thấy thì nó đã trả về cho mình một cái file HTML thì nếu như mà ở trong trình duyệt thì cái tmail này nó sẽ được format một cách xịn sò hơn mà Bởi vì ở đây là chúng ta đang thao tác bằng terminal nên là nó 
+
+chỉ có thể in ra được cái file text cái file này dưới dạng text Thôi thì các bạn thấy đây là cái nội dung mặc định của Engine X là Welcome to Engine x à Tuy nhiên cái việc mà shsh vào container như vậy 
+
+thì nó sao ta nó rất là thiếu thực tế trong khi thực trong thực tế khi mà các bạn deploy ứng dụng lên web chúng ta không thể nào để user của chúng ta ssh vào bên trong container SH trực tiếp ở bên trong container của chúng ta được ờ 
+
+Tại vì user thứ nhất là họ sẽ không biết cái khái niệm ssh là cái quá gì cả họ chỉ biết là bây giờ tôi muốn tôi chỉ biết là tôi muốn vào cái đường địa chỉ trang web này thì tôi vào được cái ứng dụng của tôi và cái việc thứ hai là việc 
+
+SH vào container như vậy nó sẽ rất là kém bảo mật nên là cái việc bọt nào bọt bao nhiêu và container nào là chuyện của chúng ta làm sao để mà user chạy nó một cách dễ dàng nhất thì cái đó là một cái câu 
+
+hỏi thì đây đây chính là lúc mà chúng ta sẽ cần dùng đến bọ mapping chúng ta sẽ mở bọ 80 ở trên máy Loco của chúng ta và chúng ta sẽ kết nối bọt 80 ở bên trong container Engine x ra bên ngoài bọt 80 ở máy local của chúng ta và lúc 
+
+này khi mà hai bộ đã kết nối với nhau thì ở ngay máy local này chúng ta chỉ cần mở trình duyệt Mở Chrome lên và chạy trực tiếp truy cập trực tiếp vào cái local host này và chúng ta sẽ nhận được cái kết quả tương tự như cái việc hồi 
+
+nãy thì cái cứu pháp của bột mapping là khi mà chúng ta chạy lệ run container chúng ta sẽ gắn thêm một cái cờ cờ B vết t ch chữ bột và cái tên bọt local ở đằng trước và cái tên bọt ở bên trong container ở đằng sau 
+
+Thông thường thì hai cái bọt này nó sẽ giống nhau Ví dụ ở đây lệnh docker run B cái 80 đằng trước này là cái bột 80 ở máy local và 80 đằng sau là 80 của cái trong Engine 
+
+x giờ mình sẽ demo cho các bạn trước tiên thì mình sẽ stop cái Engine X cũ đi mình sẽ stop luôn cái Empire này thì mình có thể stop nhề container một lúc bằng cách liệt kê ra như vậy liệt kê 
+
+theo cái ID của nó bây giờ mình sẽ chạy container mình sẽ chạy cái câu lệnh hồi nãy mình sẽ chạy gắn thêm cờ d để mà nó chạy ngầm ở bên dưới Và bây giờ mình sẽ mở trình duyệt 
+
+của mình lên Mở Chrome lên và mình vô thẳng cái b 80 local host như các bạn thấy đây là cái Nội dung mà file HTML mặc định hồi nãy mà nó trình bậy dới dạng web dướ dạng text thì bây giờ nó đã lên cái trang web xịn sò 
+
+như vậy thì đây là b mapping thì để xem lock ở bên trong container chúng ta sẽ dùng lệnh docker lock kèm theo cái ID hoặc là tên của container đó Cái CF ở đây có ý nghĩa là 
+
+following giữ cho cái màn hình inlog liên tục theo thời gian thì cái engine X này nó sẽ mặc định nó sẽ inlog ra mỗi lần mà chúng ta truy cập vào cái đường dẫn bọt ở bọt 80 đó giờ mình sẽ loog ra màn 
+
+hình trước tiên mình phải in ra cái ID của cái container ng X này Đây đây là log của nó bây giờ mình sẽ này qua một bên các bạn để ý cái màn hình nha màn hình nó à khi mà mỗi lần mình truy cập vô đây 
+
+thì lock nó sẽ tự động LCK ra liên tục theo thời gian thức đó là lock thì bây giờ chúng ta quay lại vấn đề mà mình đã đề cập lúc ban đầu đó là tính immutable và stainless thì các image nó có tính 
+
+immutable là tính bất biến không thể chỉnh sửa được do vậy một khi mà chúng ta chạy một container bất kỳ cho dù các bạn chỉnh sửa cái dữ liệu bên trung cái dữ liệu nội dung bên trong của container đó đến đâu đi chăng nữa thì nó cũng sẽ 
+
+chẳng ảnh hưởng đến cái image gốc ban đầu của các bạn và cũng như nó cũng chẳng ảnh hưởng đến các container khác thì điều này nó sẽ dẫn đến việc dữ liệu bên trong container không được bảo toàn là tắt cái container đi thì là mọi dữ 
+
+liệu Mất hết giờ đó container nó có cái tính stateless có nghĩa là cái tính status này là hiệu quả của cái tính immutable ở trước đó vậy bây giờ ví dụ mình muốn chạy một cái container box gre để mình làm 
+
+database thì mình phải làm sao để mà kip lại được cái dữ liệu bên trong nó làm sao để khiến nó stay full theo về status thì chúng ta sẽ sử dụng một cái thứ gọi là volume là chúng ta đang đến với đối tượng thứ ba trong bốn đối tượng 
+
+mà mình đã giới thiệu trong bốn đối tượng mà mình đã giới thiệu ban đầu thì đây là đối tượng thứ ba volume volume là gì thì volume là cái phần bộ nhớ mà đốc cờ dùng để lưu trữ dữ liệu cho container thì nó ngắn gọn 
+
+volume là một cái thư mục ảo một thư mục ảo do contain do docker tạo ra và quản lý việc mà chúng ta cần làm là lấy cái volume đó gắn vào container và xong thì cái thao tác mà đem cái volume này đem đi gắn vào container thì chúng ta gọi là 
+
+by Mount by Mount Các bạn nhớ cái Keyword này nha Cái Keyword này là cái Keyword mỗi lần mà chúng ta nhắc đến container mỗi lần chúng ta nhắc đến volume là chúng ta phải nhắc nhớ đến cái ba Mau 
+
+này thì đây là trình tự đầu tiên chúng ta sẽ tạo volume bằng cái sinx là docker volume create tên của volume đó tiếp theo chúng ta sẽ chạy lệnh run và chúng ta gắn một cái cờ là Cờ v ết tắc cho chữ volume 
+
+à với cái tên của cái thư mục ảo đứng ở phía trước và cái tên của cái thư mục cái đường dẫn ở bên trong container đứng hía sau thì ờ một cái quy tắc chung cho các bạn dễ nhớ là cái gì của máy local thì 
+
+đứng ở trước còn cái gì của container thì cứ đứng ở sau cho cái vụ mà bọ mapping với lại cái volume này luôn là của container của container thì đứng sau của luô local máy local thì cứ đứng ở 
+
+trước Ừ rồi bây giờ mình sẽ ví dụ đầu tiên chúng ta sẽ tạo ra cái volume tên là PG Data là viết tắt cho chữ boxc data Đây là thư mục ảo cho doc cer quản lý Nên là các bạn không thể dùng Windows Explorer Để xem nó 
+
+được tiếp theo chúng ta sẽ tạo ra container box gre à Có cờ gạch V PG Data là tên của volume dấu hai chấm và tên của một cái đường dẫn nằm bên trong container thì lúc này đây toàn bộ dữ 
+
+liệu ở nằm bên trong cái đường dẫn của container này sẽ được sao lưu vào bên trong cái volume này và do đó Cái dữ liệu của chúng ta cái dữ liệu ở bên trong cái container box fre này sẽ được bảo toàn thì các bạn có thể tưởng tượng 
+
+là cái volume nó giống như cái USB của chúng ta khi mà mình cắm dữ liệu và mình cắm vào bên trong máy tính thì dữ liệu nó sẽ được ghi vào cái USB đó r khi mà chúng ta rút ra xong rồi lần sau chúng ta đem đi cắm và máy tính khác thì nó 
+
+cũng là như đó dữ liệu và nó không mất đi đâu cả thì có một cái điều là làm sao để mà chúng ta biết được là cái đường dẫn này cái đường dẫn này chúng ta tự nghĩ ra hay là chúng ta làm sao để mà chúng ta 
+
+biết chúng ta gõ vào thì chúng ta sẽ lên docker Hub và gõ boss fre sẽ s Link doer Hub và chúng ta sẽ tìm image có tên là BF chúng ta vào Chúng ta đọc cái document của 
+
+nó để cho nhanh hơn á thì các bạn có thể nhấn ctr và các bạn sech luôn cái cố pháp mà mau volume của chúng ta hồi nãy đây Các bạn thấy vg data thì các bạn thấy ở đây cái mặc định giá trị mặc định của cái nơi mà như cái đường dẫn mà boss 
+
+nó sẽ dùng nó để lưu data đây là là cái đường dẫn này Đây đây khi mà nó chạy cái lệnh doer nó cũng mau Cái volume như vậy luôn chúng ta quan sát trong này và chúng ta À gõ vào thôi thì các bạn sẽ đặt ra cái câu hỏi 
+
+là volume là thư mục ảo Bây giờ tôi không thích chơi thư mục ảo Tôi không thích chơi đồ ảo mà tôi Tôi muốn chơi đồ r cơ Tôi muốn gắn một cái thư mục thật của tôi ở trong máy local vào thì có được hay không thì côu trả lời là hoàn 
+
+toàn được bạn hoàn toàn có thể để cái đường dẫn của một thư mục ở trên máy local của các bạn và các bạn bay mau nó vào Ờ bên trong cái thư mục của của container ở bên trong Tuy nhiên dữ liệu mà boss 
+
+fre Ở đây các bạn quan sát cái C container cái image BF này dữ liệu mà boss fre đang lưu sẽ thuộc định dạng file của Linux còn hệ điều hành mà mình đang chạy ở đây là hệ điều hành Windows Do vậy nếu như by maous thư mục của hệ 
+
+điều hành Windows và bên trong container Linux sẽ xảy ra lỗi không tương thích thì hiện tại docker vẫn chưa giải quyết được vấn đề này nên là chúng ta phải dùng volume là một cái giải pháp thay thế thì đây là trường hợp đặc biệt có sự 
+
+không tương thích tại vì cái dữ liệu ở đây là dữ liệu thuộc dạng binary quay trở lại container Engine X thì Giả sử bạn muốn host một cái website HTML tỉnh từ máy logal của các bạn thì việc B ma thư mục ở bên trong hệ thống 
+
+Windows vào bên trong cái container engine lúc này đây thì lại hoàn toàn Ok hoàn toàn không có lỗi gì xảy ra cả Tại vì ở trong này chỉ là file text đơn thuần mà thôi thì có thể là sẽ có những cái access như là những hình ảnh này kia 
+
+nhưng mà Cơ bản nó cũng cùng một cái đị dạng là ờ web HTML và đọc ở máy Windows cũng được và đọc ở máy Linux cũng được thì các bạn có thể thấy là nó khá là phức tạp đúng không Nhưng mà không sao Mình cứ làm dần dần rồi mình rút kinh 
+
+nghiệm ra thôi chứ thực ra mấy cái này mình cũng không ai chỉ cho mình hết thì mình cứ làm r mình rút kinh nghiệm thì sau phần này chúng ta đã biết Ờ hai cái khái niệm là bọt mapping và buy Mount volume thì từ đây các bạn có 
+
+thể sử dụng các công cụ lập trình ở trên máy tính của các bạn mà không cần phải cài đặt trúng không cần phải cài đặt chúng như ví dụ hồi nãy mình đã ví dụ cho các bạn Các bạn muốn chạy boss cree ở bộ 5432 thì các bạn chỉ cần chạy 
+
+container BC ở B 5432 và B ma vào một cái volume Ảo nà đó để mà Ờ giữ cho cái dữ liệu của bạn dữ liệu của bạn được bảo toàn bạn muốn chạy redis ở bọ 6379 hay là các bạn muốn chạy My cle My sqare ở B 3306 hay là các bạn muốn chạy rabit MQ ở 
+
+B 5672 thì vân vân và vân vân thì các bạn cũng chỉ làm một cái điều tương tự thôi là các bạn run cái container đó ở cái bọ đó bạn không bị ràng buộc phải cài đặt bất cứ thứ gì ở trên máy tính của bạn ngoại trừ doc cer thì đây là một 
+
+trong những l chính của doc cer quay trở lại chúng ta vẫn còn một chuyện để nói về tính immutable và tính stateless giả sử bây giờ mình thay đổi dữ liệu ở bên trong container của mình nhưng mà không chỉ ở một thư mục mà là ở 
+
+nhiều thư mục cùng lúc Ví dụ như ở đây mình cài đặt pass và bên trong and buy và mình muốn lưu lại cái thay đổi này thì vấn đề là mình không thể buy mau được bởi vì mình chẳng biết hệ điều hành nó lưu phần mềm B ở đâu và chẳng biết là 
+
+có bao nhiêu thư mục đã bị thay đổi thì cái việc B Mao một lúc nhiều thư mục là cái chuyện Có thể chuyện vẫn bình thường Khả Thi nhưng mà khi mà các bạn phải B Mau quá nhiều quá nhiều thư mục thì đó lại là chuyện khác đó là chuyện thiếu 
+
+thực tế vậy phải làm sao để lưu lại những thay đổi lên cái image gốc ban đầu của mình vì các bạn biết image là bất biến thì làm sao mà sửa được cái image các bạn có đoán được là mình phải làm gì không Mình nghĩ là các bạn biết 
+
+á chúng ta sẽ tạo ra image riêng của chúng ta vậy là chúng ta kết thúc toàn bộ kiến thức cốt lỗi về container ở đây để chuẩn bị qua phần tiếp theo là cách để tạo docker 
+
+image đầu tiên là docker file docker file là một file template giúp chúng ta xây dựng image riêng của riêng mình quay lại với ví dụ trước thì mình cố muốn cài b vào bên trong Empire và mình lưu cái image đó lại thì đây chính 
+
+là cái mẫu docker file giúp mình làm cái điều đó Đây là cái mẫu docker file thì docker sẽ Follow cái file này làm theo từng bước từng bước để mà Build được cái file image cuối cùng của 
+
+mình dòng đầu tiên là dòng from from andp chỉ định image mà chúng ta muốn dùng để làm mẫu dòng tiếp theo là lệnh cài đặt pass ở trên hiệu điều hành vempire và dòng cuối cùng được gọi là câu lệnh mồi Hook command lệnh này sẽ là 
+
+lệnh đầu tiên được chạy khi ta khởi tạo container từ image này thì để tạo image chúng ta sẽ dùng câu lệnh như sau là docker Build gch t tên của image và hai chấm cái tag của cái image đó và các bạn để 
+
+ý các bạn để ý nha ở đằng sau cái câu lệnh nó còn một dấu chấm nữa thì cái dấu chấm này là một cái dấu là một cái tham số quan trọng không thể bỏ được dấu chấm này được gọi là Build context vậy Build context là gì thì bạn 
+
+hãy để ý đến cái thư mục mà bạn đang chứa docer file toàn bộ nội dung bên trong cái thư mục chứa docker file đó được gọi là Build context bao gồm cả cái docker file đó luôn thì khi chạy lệnh docker Build trên 
+
+Windows clion sẽ gửi toàn bộ Build context đến docker Diamond đang nằm trong máy ảo Linux và các bạn hãy cẩn thận nếu các bạn vô tình để những file không liên quan bên trong thư mục Build context thì 
+
+dữ liệu gửi đến docker Diamond sẽ quá nặng khiến cho việc Build inage trở nên lâu hơn để ngăn ngừa cái chuyện đó chúng ta có thể dùng dùng file docker ignore đúng với cái tên của nó là docker ignore sẽ 
+
+bỏ qua những file và folder được chỉ định ở bên trong Build context trước khi gửi nó đến docker Diamond Nếu các bạn đã biết git ignore là cái gì khi mà xài git thì docker ignore cũng y chang như vậy bây giờ mình sẽ demo cho các bạn 
+
+mình sẽ cài đặt b vào Empire và đặt tên nó là My Empire và mặc định nó sẽ chạy B thay vì chạy sell thì đây là cái file docker file của mình và đây là câu lệnh mình sẽ chạy đây mình đã chuẩn bị sẵn cái đer file 
+
+đó như các bạn thấy from Empire runk cmd B bây giờ mình sẽ chạy lên bu doer Build và dấu chấm Các bạn nhớ cái dấu chấm này nha đừng có quên đây và nó đã Build xong thì chúng 
+
+ta cùng quan sát nó đi theo từng step dòng đầu tiên Các bạn thấy sending Build context to do Diamond đây đây chính là cái lúc mà nó gửi toàn bộ nội dung trong cái folder này đến cục docker diamond và tổng cộng 
+
+dung lượng của cái nội dung folder đó là 2 KB thì nó khá là nhẹ tương đối nhẹ step 1 from Empire Step 2 Run ABK add B và nó sẽ chạy cái lệnh 
+
+install B và tiếp theo là nó đến cái bước thứ ba nó cà cái câu lệnh hú này vào câu lệnh mồi vào cuối cùng dòng cuối cùng các bạn để ý dòng này là chúng ta đã Build thành công và khi các bạn không để cái tên tag thì nó sẽ mặc 
+
+định là tag latest và bây giờ mình sẽ thử chạy cái container của mình và các bạn nhớ Đây là cái container cần sự tương tác ở phía người dùng nên là chúng ta sẽ thêm cái lệnh it 
+
+vào â và như các bạn đã thấy thì cái terminal cái Shell terminal của mình nó đã xất Nó đã xuất hiện ở đây nhưng mà cái ký hiệu đầu dòng của nó đã khác với lại so với trước đây Nếu như trước đây của mình chỉ là một dấu xuyệt thì bây 
+
+giờ Nó là một cái chữ là pass 5.0 thì có nghĩa là mình đã cài đặt pass thành công và mình đã Build được một cái image của riêng của của mình vẫn là cái hệ điều hành Empire của chúng ta chỉ khác biệt là nó cài thêm 
+
+cái b này vào và nó trở thành một cái lệnh mặc định khi mà chúng ta bắt đầu chạy container này Bây giờ chúng ta sẽ tìm hiểu các lệnh Cũng như từ khóa của docker file thì mỗi câu lệnh của docker file được 
+
+viết trên một dòng duy nhất lệnh form chỉ định image gó ban đầu mà bạn muốn tạo ra sự thay đổi các bạn lưu ý là chúng ta không thay đổi image góc ban đầu mà là chúng ta tạo ra một image mới dựa trên cái image góc đó 
+
+lệnh run giúp chúng ta chạy cái câu lệnh Như mà Như cái cách mà bạn đã thấy là chúng ta sẽ chạy câu lệnh đó ở bên trong container lệnh Word Word này sẽ tạo một thư mục và đặt cái thư mục đó làm thư mục mặc định của container khi mà được 
+
+khởi tạo lệnh Copy sẽ copy file từ máy local các bạn đi vào Bên trong cái image đó lệnh add tương tự với lệnh Copy nhưng mà xịn hơn một xíu là nó có thể tải file từ internet về Và nếu như đó là file nén thì nó sẽ tự động giải 
+
+nén lệnh expose lệnh này thông báo cái bọt mà ứng dụng bên trong container đang chạy thì bản chất lệnh này chỉ có tác dụng như là một dòng Comment cho những cái người đọc tài liệu sau này đọc cái file docker file của bạn Họ đọc và họ 
+
+hiểu chứ nó không có tác dụng thực thi nó không có tác dụng cấu hình gì cả lệnh cmd thì lệnh cmd hồi nãy như mình đã giải thích là câu lệnh mồi nó có tác dụng nó chỉ thực thi khi nào mà chúng ta Khởi trạ Container mà 
+
+thôi thì đây là Cách viết thứ hai của lệnh cmd là chúng ta sẽ viết nó với dạng mãng Jason bọc trong bọc câu lệnh và tất cả các tham số của nó vào các cặp dấu mặt kép riêng biệt nhau thì cái dạng đầu tiên của nó là 
+
+dạng Cell form Dạng này là dạng Cell form còn dạng thứ hai của nó được gọi là dạng execute form thì dạng Shell form ở dạng Shell form này thì toàn bộ Câ lệnh cmd sẽ được Bọc vào một cái Shell và chạy ở bên trong đó còn dạng thứ hai là 
+
+dạng execute form thì container sẽ chạy trực tiếp câu lệnh này mà không thông qua sale thì dạng thứ hai được ưu tiên dùng hơn bởi vì nó hạn chế khả năng bị tấn công bằng Shell injection bây giờ chúng ta sẽ phân tích 
+
+các mẫu doc cer file dùng cho backend và fend thì trước tiên là backend thì mình sẽ lấy ví dụ là spring boot Java spring boot thì đây là mẫu docker file Và đây là cấu trúc Project thì các bạn đừng có vội hoảng 
+
+nhìn nó phức tạp vậy thôi chứ thực ra chúng ta chỉ quan tâm hai file này thôi Một là file docker file hai là file Java sau khi đã Build ra có đuôi là tr có đuôi chm ja thì cái file ra này là file chứa toàn bộ ứng dụng backend của chúng 
+
+ta thì bình thường để chạy được file ra này chúng ta phải cài đặt môi trường thực thi Java gọi là jre Java runtime [âm nhạc] environment thì lệnh from đầu tiên chúng ta sẽ tạo ra image dựa trên chúng ta sẽ 
+
+tạo image của chúng ta dựa trên image Open gdk có đánh tác là version 8 jre thì bản chất cái image này là một hệ điều hành Linux đã được cài đặt Open gdk phiên bản 8 ở bên trong đơn giản là vậy thôi thì tiếp theo chúng ta sẽ dùng ký 
+
+hiệu bọt mà chúng ta mà ứng dụng sẽ chạy là bọt 8080 à Thì vì chúng ta để lại cái câu lệnh này là để cho những người triển khai hệ thống sau này họ biết để mà họ cấu hình cho đúng thì thực ra là dòng này không bắt buộc có thể bỏ cũng được 
+
+không sao nhưng mà các bạn nên ghi để mà bản thân các bạn sau khi đọc lại cái file này các bạn vẫn còn nhớ là app của mình chạy ở bọt bao nhiêu lệnh worder sẽ thiết lập thư mục xẹt á làm thư mục mặc định ở bên trong container 
+
+đây là câu lệnh cốt lỗi quan trọng nhất lệnh Copy chúng ta sẽ Chép file ra đã Build từ máy local của chúng ta vào bên trong cái image Open gdk của chúng ta và sau đó chúng ta thiết lập câu lệnh mồi mỗi lần khởi tạo container thì 
+
+docker sẽ chạy câu lệnh này để chạy cái ứng dụng back end ở bên trong container của chúng ta chúng ta đã phân tích xong mẫu doer file nhành cho back end thì các bạn lưu ý là mẫu này chỉ mang tính chất tham 
+
+khảo không phải là cách tối ưu nhất mình trình bày ở đây là để demo cho các bạn hiểu và làm quen thôi tiếp theo chúng ta sẽ phân tích mẫu docer file dành cho front ở đây mình sẽ lấy ví dụ là sau khi frand Build phile HTML tỉnh không quan 
+
+tâm bạn à phát triển cái ứng dụng fran đó bằng ngôn ngữ gì bằng ứng bằng cái Framework gì angula hay là angula js hay là react js view js thì chúng ta chỉ quan tâm là sau khi các bạn đã Build Ra file HTML 
+
+tỉnh á thì chúng ta sẽ dùng Note js cụ thể là Express js để host các cái file HTML tỉnh này thì đây là cấu hình thì đây là cái cấu trúc Project Express js của chúng ta lệnh form ở đây lệnh form Ở đây chỉ 
+
+định image mà chúng ta sẽ dùng là Note version Empire thì bản chất Đây là một cái container chạy hệ điều hành Empire và đã được cài đặt nde js ở bên trong đó lệnh worder chỉ định thư mục mặc định của image sẽ là server sut server 
+
+à Ở đây có nhiều hơn một lệnh Copy so với cái image hồi nãy so với cái docker file hồi nãy mà mình đã demo ở backend thì mình sẽ giải thích sau lệnh Copy đầu tiên mình copy toàn phộ toàn bộ file đi Jason vào bên trong container và quan 
+
+trọng nhất là cái file p ket. json này là cái file manifest của nguyên cái project Note này tiếp theo mình copy thư mục Note module chứa thư viện của Project mình tiếp tục copy các file 
+
+JavaScript à là s code của cái project này và cuối cùng là mình copy cái folder chứa file HTML tỉnh vào bên trong lệnh cmd chỉ định cái lệnh mồi để chạy server Express js vậy Tại sao chúng ta phải tách ra 
+
+nhiều cái lệnh Copy như vậy sao chúng ta không gọp chung nó lại thành một lần copy cho nó nhanh thì lý do là chúng ta đang tận dụng tính năng k tính năng lưu k image dựa trên tần suất thay đổi của Build C text â là sao ta trước hết chúng 
+
+ta phải hiểu được quy trình doc cer tạo ra image từ doc cer file image là một tập hợp nhiều layer mỗi layer tương ứng với một câu lệnh ở trong docker file thì khi Build image docker sẽ duyệt qua từng câu lệnh có trong docker file qua mỗi 
+
+câu lệnh docker sẽ khởi tạo một container tạm thời từ cái image của layer trước đó tạo ra những thay đổi bên trong container đúng theo mô tả của câu lệnh và sau đó nó sẽ sao lưu cái container này lại thành một cái layer 
+
+mới và xong xui docker Sẽ loại bỏ container tạm thời này và tiếp tục lặp lại quy trình cho đến khi nó Việt qua được cái dòng cuối cùng của docker file để cho các bạn dễ hình dung hơn những gì mình vừa nói thì mình sẽ quay lại cái 
+
+màn hình mà mình đã Build cái image My Empire thì đây là mình đã in ra cái docker file của cái mpire đó các bạn cũng nhớ from Empire r AV pass và cmd pass Đây là cái câu lệnh mà mình đã Build cái image Empire và đây thì lúc 
+
+này các bạn thấy đầu tiên nó sẽ gửi cái Build context đến docker Diamond step 1 from Empire là nó sẽ lấy cái image Empire này Step 2 nó sẽ run ABK pass running in cái gì đó một cái ID rất 
+
+là dài thì đây chính là lúc mà đ sẽ tạo ra một cái container tạm thời từ cái layer trước từ cái layer trước là cái image Empire nó sẽ tạo là một cái layer một cái container tạm thời với ID là như vậy và nó sẽ chạy cái câu lệnh ABK add 
+
+này ở bên trong cái container đó và như các bạn thấy nó đang cài đặt pass và cài đến đây là xong và tiếp theo nó sẽ removing intermediate container với cái ID này với cái ID này có nghĩa là nó đã nó đang xóa đi cái container tạm thời 
+
+này đi bởi vì không cần xài nữa và cuối cùng là nó sẽ sao lưu cái kết quả đó nó sao lưu cái cái cái toàn bộ cái container này lại thành một cái layer mới với cái ID là như vậy và đến Step 3 nó sẽ chạy câu lệnh cmd thì nó cũng tạo 
+
+một cái container tạm thời luôn và các bạn sẽ tự hỏi là tại sao nó tạo running in xong rồi nó lập tức nó remove luôn thì tạo làm cái gì có xài cái này không thì thực ra là cái cầu lệnh cmd này nó nó không thay đổi nó không tạo ra sự 
+
+thay đổi và dữ liệu bên trong container nhưng mà nó nó sẽ gắn metadata vào bên trong cái container đó nó sẽ gắn cái dữ liệu là metadata bên trong một container đó và nó sẽ sao lưu lại nó sau khi nó loại bỏ thì nó sẽ sao lưu lại thành một 
+
+cái layer mới luôn và cái layer cuối cùng này sẽ chính là cái layer sẽ là cái ID của cái image này luôn giờ chúng ta sẽ check đây My Empire như các bạn thấy cái image ID này nó giống eang như lại cái image 
+
+nó giống y chang như cái ID của cái layer cuối cùng cũng là cái ID của cái image luôn khoan nha Chúng ta kéo lên một xíu nữa cái câu lệnh đầu tiên from Empire cái ID này chúng ta xem xem nó có giống với cái ID của cái image Empire 
+
+hay không đây d6e d6e Y chang luôn các bạn Vậy có nghĩa là sao Có nghĩa là một cái layer cũng chính là một cái image một layer cũng chính là một image 
+
+mà h nãy như ta biết là một C một cái image nó bao gồm nhiều layer vậy điều đó cũng tương đồng với việc là một cái image nó bao gồm nhiều cái image Các bạn thấy nó hơi đối đúng không bắt đầu đi vào một cái vòng lập một cái 
+
+một cái đệ quy luôn rồi một cái định nghĩa và đệ qu nó hơi phức tạp một xíu Ờ như là doc C mình cũng không hiểu nữa nhưng mà nó Tóm lại là các bạn chỉ cần nhớ là cái quy trình mà nó Build thành cái container nó Build cái image này là 
+
+nó bản chất nó đang sử dụng những container trung gian nó đang sử dụng những container trung gian này để mà nó chạy lạnh ở trong đó và cái layer cuối cùng sẽ là cái image layer cuối cùng sẽ là cái image 
+
+vậy có thể để giảm cái kích thước của cái image cũng như giảm số lượng layer thì chúng ta có thể kết hợp các câu lệnh trên một dòng bằng toán bằng cái toán tử và và đồng thời Xóa kết Sau khi thực thi câu lệnh nhưng Ví dụ ở đây khi mà chúng 
+
+ta cài ứng dụng chúng ta add get update xu rồi chúng ta cài một cái ứng dụng bất kỳ thì sau khi cài xong thì chúng ta sẽ remove cái k cái dữ liệu KD để mà chúng ta giảm bớt cái Dung lượng image sau cùng cái dấu xyt ngược này cho phép 
+
+chúng ta viết một câu lệnh docker file trên nhiều dòng sau khi Build xong thì chúng ta sẽ tải image lên registry các bạn có thể tạo tài khoản ở trên docker Hub Sau đó các bạn nhấn 
+
+docker login nhập username password để đăng nhập và sau khi đã Build và tát cái câu lệnh bằng docker Build thì các bạn sẽ Push nó lên registry thì ở đây docer cung cấp tính năng lưu ké theo từng layer của image 
+
+nghĩa là trong lúc Build mỗi layer sẽ có một cái mã hash được tạo ra lần đầu tiên khi mà tả lên registry toàn bộ layer sẽ được tải lên nhưng mà những lần sau thì docker sẽ tính toán xem là nếu cái mã H của cái layer này á nó không thay đổi 
+
+nghĩa là layer nó không có một cái sự thay đổi nào về mặt data hay là về mặt metadata ở bên trong thì docker chỉ tải lên những layer có sự thay đổi mà thôi Do đó nó sẽ tiết kiệm được cái thời gian tải lên nói riêng cũng như tiết kiệm 
+
+được thời gian triển khai ứng dụng nói chung vì một lý do nào đó mà bạn không muốn lưu c thì chúng ta sẽ thêm cái cờ noc vào C lệnh Build và các mã h Lúc này sẽ được sinin mới hoàn 
+
+toàn thì đây chính là cái lý do mà lúc nãy trong ví dụ của docker file dành cho fand Express js thì mình đã chia cái câu lệnh Copy thành nhiều cái câu lệnh thay vì gom chung lại thành một lần copy mục đích là để tận dụng cái tính năng lưu 
+
+kết của docer để mà Push image nhanh hơn nhưng mà các cái câu lệnh Copy đó không phải là ngẫu nhiên mà là chúng có cái thứ tự thì chúng ta hãy cùng phân tích Đây là file bucket json là file manifest của Project Note js cùng cái Thư mục 
+
+chứa toàn bộ thư viện của nó là Node module tiếp đến là s code của server Express js chính là cái file JavaScript cuối cùng là cái thư mục chứa web HTML tỉnh thứ tự của các câu lệnh Copy sẽ dựa trên tần suất thay đổi của 
+
+bốn đ đối tượng này vì dự án của chúng ta bản chất là ứng dụng frontend Build ra pha HTML tỉnh cuối cùng và cái server Express js này chỉ đơn giản là dùng để host các cái file HTM tỉnh mà thôi Nên là chúng ta thấy ngay cái thư mục chứa 
+
+web tỉnh này sẽ có tần suất thay đổi nhiều nhất nên nó phải là đối tượng copy sau cùng tiếp đến bản thân cái server Express js này một quy luật chung cho mọi ứng dụng web không cần biết bạn lập trình bằng ngôn ngữ gì Nhưng mà chắc 
+
+chắn là file manifest cùng cái Thư viện đi kèm sẽ có tần suất thay đổi đổi ít hơn các file s code vì thư viện Thường là cái sẽ được xác định ngay từ đầu và nếu có thay đổi thì tần số mà thay đổi Thư viện cũng sẽ thấp hơn là việc bạn 
+
+thay đổi code của mình nếu mà có chuyện ngược lại thì mình cũng biết nói sao luôn với hẳn các bạn cũng biết thư viện Thường là cái nặng nhất ở trong Project ai mà đã từng code Note js thì cũng đã biết cái danh tiếng của code Note module 
+
+này nó nặng cơ nào cũng phải tầm cỡ búa của Thor Bởi vậy nếu mà chúng ta không tách nó ra là một layer trong image và tận dụng tính năng l lại thì thời gian mà mỗi lần Tải image lên mạng nó sẽ còn lâu hơn thời gian mà cross reply tin 
+
+nhắn của bạn do vậy chúng ta sẽ copy file manifest cùng với thư viện vào trước các bạn có thể copy Hai thứ này cùng một lúc hoặc là tách biệt ra làm hai câu lệnh như của mình thì cách nào cũng được rồi 
+
+đến scode cuối cùng là thư mục web tỉnh và bây giờ bạn có thể phân biệt được trong hai file này file nào tận dụng tính năng lưu kết image hiệu quả hơn hãy tạm dừng video lại về suy nghĩ nhé Vậy là mình đã chia sẻ Xong cho các 
+
+bạn chủ đề về đốc cer các bạn đã biết thế nào là container Thế nào là image cách khởi tạo container và chơi mọi trò chơi tung hứng với nó cũng như cách tạo ra image của chính bạn bằng docker file phần sau chúng ta sẽ nói về docker 
+
+compose cùng với những vấn đề nâng cao hơn phần hai do compose Đây là nội dung của phần này Đầu tiên là mình sẽ nói về vấn đề V đề cấu hình và giao tiếp giữa nhiều container với nhau Sau đó chúng ta sẽ tìm hiểu cú pháp của dou compose cùng 
+
+cách mà dou compose sẽ hỗ trợ việc Build image và chạy container dễ dàng hơn như thế nào Nãy giờ chúng ta tìm hiểu ở phần 1 là về lý thuyết bây giờ đi vào thực tế thì chúng ta sẽ có nhiều chuyện để nói 
+
+hơn đặt vấn đề như thế này giả sử mình có một ứng dụng web bao gồm ba module là module frand chạy not js cụ thể là Express js module backend chạy Java spring boot và module databas chạy box SQL thì giả sử database ở đây mình sẽ 
+
+không dùng service của bên thứ ba mà mình sẽ tự host thì khi áp dụng docker và hệ thống này mình sẽ phải cần dựng ba container ứng với ba module vấn đề là mỗi container sẽ có một cái cấu hình riêng của nó cục frontend 
+
+sẽ chạy ở bọt 80 cục backend sẽ chạy ở bọt 8080 database sẽ chạy ở bọt 5432 và phải B ma và volume để mà bảo toàn được dữ liệu Không những vậy mỗi container sẽ có một tập hợp các biến môi trường khác nhau và hệ thống mà mình đang giả định ở 
+
+đây vẫn đang là đơn giản các hệ thống trên thực tế Nhất là các hệ thống microservice thì nó sẽ có cả hàng chục module hàng chục cái cấu hình là chuyện bình thường nếu mà áp dụng doc cer mà phải chạy từng lệnh rân một thì thôi 
+
+chắc mình nghĩ chơi luôn thì doc cer compose chính là giải pháp cho vấn đề này doc cer compose là một bộ câu lệnh bổ sung bên cạnh doc cer B bên cạnh bộ câu lệnh do cer Giúp cho việc triển khai nhiều container cùng một 
+
+lúc thì các container sẽ được khai báo trong file do compose với Định dạng là y m chúng ta sẽ sử dụng file này để chạy các container đó thì nếu bạn nào chưa biết y m là gì thì mình sẽ giải thích nhanh ở đây đây là cách viết comment ở 
+
+bên trong y m các bạn thêm nhấu Thăng ở đầu dòng Đây là cách viết object thì nếu như ở bên json các bạn sử dụng dấu ngặc nhọn thì bên y các bạn sẽ Thục đầu vòng Thục đầu dòng vào khoảng cỡ hai khoảng cách 
+
+hai khoảng trống như là kiểu py thon Đây là cách viết mãng mỗi phần tử ở trong mãng sẽ Thục đồ dòng vào bằng nhau và sẽ có dấu gạch ở trước đánh dấu mỗi phần tử Nếu bạn nào chưa rõ thì có thể dừng video lại Xem lại hoặc là lên 
+
+Google để tìm thử dễ lắm các bạn các bạn chỉ cần chừng 30 giây các bạn biết ngay là cái định dạng này nó viết như thế nào các bạn phải hiểu y m như thế nào thì chúng ta mới qua phần tiếp theo được và bây giờ là cú pháp của file do 
+
+compose y m Đầu tiên trước hết là version của file version này nó sẽ đi theo version của docker engine Nên là các bạn chúý lên trang chủ của docer để xem cho chính xác thông thường nó sẽ là ba tiếp đến là 
+
+mình sẽ khai báo các container ở đây mình không gọi Container mà mình sẽ gọi là service nha các bạn theo định dạng g m thì mỗi service sẽ là một K của object service này đầu tiên mình có service postc thì 
+
+cái này là tên của service Nên là các bạn muốn đặt sao cũng được các bạn lưu ý là chữ nào màu xanh thì nó là Keyword mình phải viết cho đúng Còn chữ nào màu đen là do dữ liệu do các bạn cung cấp kể cả cái chữ 
+
+này trong mỗi service thì mình sẽ lần lượt khai báo các thông tin để doc cer biết cách tạo container cho nó đầu tiên là tên của image tiếp đến là b mapping thì đây là một danh sách nên mình sẽ viết nó kiểu mãng Tại vì theo lý thuyết 
+
+là mình sẽ có thể map nhiều bọt cùng một lúc vào một container tiếp đến là by ma volume thì cái này cũng là mãn luôn Ờ y chang như lúc mà các bạn chạy lệnh run thì tên của volume sẽ đứng ở đằng trước và cái thưa mục của container sẽ đứng ở 
+
+đằng sau và các bạn phải lưu ý là ờ Khi mà mình khai báo volume thì mình sẽ phải khai báo Cái volume này ở một cái phần riêng dưới cuối file compose chữ volume này nó sẽ cùng cấp với lại chữ 
+
+service tiếp đến là mình sẽ cấu hình biến môi trường viết theo kiểu object yamal thì khi chạy cái file này thì biến môi trường sẽ được truyền vào bên trong container và đó là xong một service box free thì mình sẽ tiếp tục khai báo 
+
+service front của mình thì service po là mình tải image t do Hub về còn service front là do chính mình Build ra Các bạn thấy tên của imit có cái tên tài khoản của mình đứng đằng trước do đó Nên là các bạn để ý chúng ta 
+
+phải bắt buộc thêm hai cái dòng này thêm hai dòng Build context này và có dấu chấm ở đây nữa y chang như là lúc các bạn Build image Vậy thì hai dòng Build context này sẽ giúp chúng ta Build in dễ dàng hơn đầu 
+
+tiên là các bạn sẽ để cái file docker compose y mùa vào chung thư mục với lại cái docker file và tiếp theo chúng ta sẽ chạy lệnh docker compose Build với tham số là tên của cái service mà chúng ta muốn 
+
+Build Ví dụ như ở đây chúng ta Build ứng dụng frand thành image thì các bạn thấy là chúng ta không cần phải gõ cái câu lệnh Build dài dòng kia nữa mà chúng ta cũng không sợ là gõ thiếu dấu chấm bu context ở dưới cuối mà chúng ta cũng 
+
+không cần phải nhớ cái tên image là cái gì bởi vì chúng ta đã cấu hình sẵn trong file da mùa rồi chúng ta chỉ cần gõi cái tên service ở đây là frand chúng ta chỉ cần gõi cái tên service là xong nó sẽ Build nhanh hơn rất là 
+
+nhiều và sau khi các bạn đã có cái file cấu hình g m của dự án thì đây là các lệnh cơ bản của doer compose lệnh up sẽ đọc cái file da m và khởi tạo toàn bộ service được kha báo ở bên trong mỗi service sẽ là một container đúng với cái 
+
+bộ cấu hình của nó nếu các bạn không muốn dựng nếu các bạn không muốn khởi tạo toàn bộ service mà các bạn chỉ muốn tạo là một service mà thôi thì các bạn để thêm cái tên của cái service đó ở đằng sau cái chữ 
+
+up và các bạn có thể thêm cái cờ d để mà nó chạy ở chế độ detach chạy ngầm ở bên dưới để inlog ra màn hình thì chúng ta xài do cer compose lock với cờ F cùng với tên của service để dừng một service thì các bạn 
+
+gõ stop tên service lệnh down lệnh docle compose down này nó sẽ ngược với lệnh up lệnh down này sẽ SH down toàn bộ container dọn dẹp hiện trường và giải phóm bộ nhớ thì trước khi mình demo mình sẽ nói về một vấn đề nữa cho các 
+
+bạn đó chính là việc giao tiếp giữa các container với nhau thì Network Đây là cái đối tượng Cuối Cùng Ở trong bốn đối tượng mà tốc cer mà mình đã đề cập ngày hôm nay thì các bạn còn nhớ ba đối tượng trước đó không đó là container image và 
+
+volume thì Network là đối tượng thứ tư quay lại ví dụ lúc đầu mình đã khai báo trong file g mộ của mình hai service là My frontend và My backend thì bây giờ cái cục frontend của mình mình muốn gọi đến cái cục backend thì theo lý thuyết 
+
+mình phải có địa chỉ ip của cục backend để gọi đến cho đúng nhưng mà trong trường hợp này á vì lý do nào đó mà cục backend bị restart IP nó bị thay đổi thì lúc này mình phải Cấu hình lại cái cục front n thì nó rất là phiền phức thì 
+
+docker compose docker cung cấp một cái giải pháp là Network chúng ta sẽ tạo ra một đối tượng Network và gắn tất cả các container vào trong cái Network đó thì nó cũng giống như là việc các bạn troll các cái máy 
+
+tính ở trong văn phòng vào cùng một cái mạng LAN Vậy thì lúc này Các container sẽ giao tiếp với nhau thông qua cái mạng LAN đó và đặc biệt hơn là thông qua tên của service thay vì địa chỉ IP app frontend sẽ gọi đến app backend Bằng 
+
+chính cái tên service là My backend thì docker docker sẽ sử dụng bộ phân giải tên miền của riêng nó để mà phân giải cái tên service này Thành địa chỉ ip của cái container này và do Vậy là bạn không cần phải lo việc là cái container nó đổi 
+
+đ IP đổi IP kiểu nào đi chăn nữa thì chỉ cần gọi bằng cái tên service là xong docker sẽ lo hết mọi chuyện cho bạn bây giờ mình sẽ đến với phần demo Và đây là cái thư mục mà mình chứa cái file do compose của 
+
+mình thì đúng như cái ví dụ ban đầu mình đã đưa ra là mình sẽ có ba Module ở đây là module database chạy box fre module backend chạy Java string boot và module fend chạy Express ch thì những cái cấu hình này thì bạn đã 
+
+biết rồi Tại vì hồi nãy mình đã giải thích trong những cái slide của mình thì bây giờ mình sẽ giải thích các cái ý nghĩa của biến môi trường ở đây thì ở trong cái module BF thì mình có tên database username và password thì mình 
+
+set mặc định mặc định ở đây là b fre hết và ở phần back end này thì mình đang set cái B của cái ứng dụng backend ở trong này là B 80 và mình đang set cái tên database username và password đúng với lại cái 
+
+giá trị là BF mà mình đã set Ở trên đây và các bạn chú ý cái phần này cái giá trị DB host DB host là cái đường dẫn để mà backend nó nó gọi đến được cái phần database này thì mình đã tận dụng cái tính năng là Network của docer nên là 
+
+mình sẽ để luôn cái tên của cái service là BG ở đây thay vì mình để cái địa chỉ IP của cái backend đây là schema public và tiếp theo là cái cục front này thì mình để nó ở B 80 và cái app URL là 
+
+cái URL của cái C front khi mà nó chạy mấy local và bạn Các bạn chú ý cái giá trị này là giá trị backend URL backend URL ở đây như các bạn thấy là nó cũng đang để cái tên của cái service backend Và nó có 
+
+thêm cái protocol đằng trước là httb tại sao lại như vậy thì tại vì trong cái ứng dụng Note js này mình đang sử dụng một cái thư viện middleware thì cái thư viện đó nó yêu cầu bắt buộc các cái đường dẫn là đều phải có cái protocol đằng 
+
+trước thì để tận dụng cái việc này tận dụng cái protocol mặc định httb nên là mình mới set cái bọt ở bên trong con bend này là B 80 và đây là bọt mặc định của httb và bây giờ mình sẽ chạy thử 
+
+cái và bây giờ mình sẽ chạy lệnh do compose start toàn bộ các cái service được khai báo ở bên trong Fi do compose này như các bạn thấy là nó tự động chạy cho chúng ta và nó inlog ra màn hình cho 
+
+chúng ta luôn và bởi vì chúng ta đang có nhiều cái service chúng ta đang xài tất cả cùng một lúc nên là nó sẽ in ra màn hình tất cả các service nhưng mà nó sẽ không theo thứ tự nào cả tại vì service nào 
+
+đến trước thì nó sẽ in ra trước chúng ta kéo lên để chúng ta cùng phân tích thì trước tiên thì mình như hồi nãy mình đã nói là chúng ta đang tận dụng cái tính năng Network của cờ dựa vào cái bộ phân giả tên miền của 
+
+doc cer nên chúng ta có thể khiến cho các container giao tiếp với nhau thông qua cái tên của cái service thì thông thường nếu như chúng ta không xài docle compose thì chúng ta phải bắt buộc phải làm những cái công 
+
+việc như là tạo ra đầu tiên là chúng ta phải tạo ra cái Network đó và thứ hai là chúng ta phải chạy tất cả từng cái container lên và thứ ba là chúng ta phải gắn những cái container đó vô cái Network đó thì những công việc đó phải 
+
+làm bằng tay phải làm chạy từng lệnh còn ở đây doc compose sẽ tự động làm tất cả các việc đó cho chúng ta chỉ với một cái lệnh đơn giản là lệnh up và các bạn quan sát nó tự tạo cho chúng ta cái Network nó tự tạo cho chúng ta volume luôn và nó 
+
+tự tạo cho chúng ta tất cả các service và gắn cái service đó vào cái Network đây chính là cái lợi ích mà docker compose mang lại mỗi lần mà chúng ta develop dự án thì nó sẽ đơn giản hơn rất là nhiều bạn chỉ cần một cái file 
+
+khai báo docer compose y là các bạn có thể thoải mái chạy cái Dảng của mình mà không cần phải quan tâm không cần phải nhớ là cấu hình của mỗi cái con app nó như thế nào và ở đây các bạn quan sát là cái folder mà chúng ta đang lưu cái do 
+
+compose nó có tên là sample thì docker sẽ lấy cái tên đó cái chữ sample này nó sẽ lấy để mà làm tiền tố gắn ở đằng trước cho tất cả các cái đối tượng mà được doer compose tạo ra thì đây là một cái cách mà docer quản lý 
+
+đánh namespace cho những cái đối tượng để mà nó quản lý và bây giờ chúng ta sẽ vào cái web của chúng ta ở bọ 80 là LC host thì đây là cái ứng dụng của mình à ứng dụng frand của mình nó chỉ đơn giản 
+
+nó làm một chuyện thôi là ứng dụng frand nó sẽ gửi yêu cầu đến ứng dụng backend và cái con backend đó nó sẽ lấy thông tin về cái tên và cái ip của cái máy mà cái con backend nó đang chạy nó gửi ngược lại cho con frand và con frand nó 
+
+chỉ đơn giản là nó in ra những cái thông số đó và toàn bộ những cái data này nó sẽ được lưu ở bên trong con boss và như các bạn thấy ở đây là nó sẽ inlog ra liên 
+
+tục nó sẽ inlog ra liên tục thì để kết thúc cái docker compose up này mình sẽ nhấn Ctrl c thì như các bạn thấy có một vấn đề ở đây là khi mà chúng ta nhấn Ctrl C để chúng ta thoát thì vô tình docker sẽ 
+
+dừng luôn tất cả các cái service đang chạy bên trong và do đó ứng dụng của chúng ta sẽ không còn truy cập được nữa thì bởi vậy nên chúng ta sẽ phải nên chúng ta sẽ phải sử dụng cái cách gọi là cái kỹ 
+
+thuật up từng cái con service lên chúng ta sẽ gắn cờ D vào đằng sau cái chữ up và chúng ta sẽ cung cấp cái từng cái tên của cái service theo thứ tự mà nó phụ thuộc đầu tiên là con boss đây là con chạy độc lập không có bị phụ 
+
+thuộc vào App nào cả nên mình sẽ start nó lên trước và tiếp theo là con backend con backend là con phụ thuộc vào con boss và cuối cùng là con frand con forand này nó phụ thuộc vào con backend 
+
+Các bạn thấy là nó theo thứ tự phụ thuộc lẫn nhau mình sẽ start theo cái thứ tự đó mình sẽ xóa màn hình và để Liệt kê các bạn muốn xem xem là cái project của mình đang cái project compose của mình nó 
+
+đang có những cái container nào có những cái service nào đang chạy thì mình sẽ dùng lệnh BS lệ này nó cũng quen thuộc ở đây Các bạn thấy ba ứng dụng này nó đang up chúng ta quay lại thì nó vẫn là cái dữ liệu đó 
+
+và để inlog ra từng con thì chúng ta sẽ xài câu lệnh docker compose log Đó là các bạn thấy và để chúng ta stop một cái container stop một cái service thì chúng 
+
+ta sẽ sử dụng lệnh đ compose stop và tên của cái service đó thì nó CH sẽ chỉ stop một service cho bạn thôi chứ nó không stop toàn bộ cái project của các bạn do đó nó sẽ tiện lợi hơn rất là nhiều so với cái việc mà 
+
+chúng ta chạy lệnh up và chúng ta nhấn Ctrl C và sau khi mà các bạn đã sử dụng các bạn đã test các bạn đã kiểm tra tất cả các cái test cas và các bạn muốn dừng cái project này lại thì các bạn sẽ chạy lệnh down C do compose down 
+
+thì nó ngược lại với lệnh up lệnh up tạo ra những resour gì những cái tài nguyên gì thì lệnh down nó sẽ thu hồi nó sẽ bỏ đi những cái resour những cái tài nguyên đó mà nó thu hồi lại tất cả thì đây các bạn quan sát nó sẽ stop 
+
+hai cái service là f và BG lại thì cái service backend là mình đã stop từ trước rồi nên là nó sẽ không xuất hiện ở trong đây và sau khi stop thì nó sẽ remove luôn cả cái container đó để nó giải phóng bộ nhớ và cuối cùng là nó remove 
+
+luôn cái Network này thì các bạn để ý chúng ta không thấy cái volume ở trong này nó không có remove volume chúng ta sẽ dùng câu lệnh docker volume LS để chúng ta kiểm tra xem thì cái volume BG data này nó vẫn 
+
+còn tồn tại là tại vì nguyên tắc của docer đặt ra là những thứ liên quan đến dữ liệu thì docer sẽ không đụng vào docer sẽ để yên đó cho bạn để nhở sau này các bạn muốn backup sao lưu lại dữ liệu của các bạn thì các bạn vẫn còn cơ 
+
+hội để làm cái chuyện đó Vậy là mình đã chia sẻ xong thì hiy vọng là qua video này các bạn đã hiểu đầy đủ về docer và có thể tận dụng những tính năng mà docer mang lại để giúp cho công việc l trình của bạn dễ dàng hơn 
+
+hẹn gặp lại các bạn trong những video tiếp theo 
+

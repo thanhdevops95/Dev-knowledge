@@ -58,7 +58,7 @@ graph LR
 
 ### 🛠️ Setup
 
-- [ ] [VS Code](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code](../../02_Tools/ide/vs-code.md) ✅
 - [ ] [Python + venv](../../03_Languages/python/setup/install-python.md) ✅
 - [ ] `pip install pytest requests playwright`
 

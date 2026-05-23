@@ -1,0 +1,68 @@
+Hello các bạn trong h này chúng ta sẽ cùng tìm hiểu một cái khái niệm đầu tiên gọi là khái niệm cũng là gọi là nền tảng ha cái này là coi như đơn vị triển khai nhỏ nhất ở trên kub cluster ta gọi là port ha thì một port là gì Một port là 
+
+một cái đơn vị triển khai mà trong một port chúng ta có thể triển khai các container trong đấy Ha Riêng đối với kutis thì sẽ không xem Container là đơn vị nhỏ nhất để mà gọi là tài nguyên ở trên k8s mà nó gọi là một cái port thì 
+
+trong một port các bạn có thể có nhiều cái container Thì trước khi nói port thì các bạn xem cái Note này cái note này sau này các bạn làm nó bản chất sẽ là một con máy chủ Ha nó con vmware hay là một con Amazon ec2 trên chẳng hạn thì 
+
+con m một con này là sẽ chiếm một địa chỉ IP ha và một con pst á nó cũng sẽ chiếm một địa chỉ ip của các bạn ha pst Mình vi viết đâ để các bạn thấy cái tên nó như nào thì cái pst này trong cái pst này sẽ có container mình có giả sử mình 
+
+để container ở đây ví dụ container các bạn viết về ứng dụng viết về quản lý user quản lý ha m gì đấy thì cái container sẽ có một nó sẽ chiền ra một cái cái port cái cổng nó chạy ha Ví dụ mình hay dùng port 8080 các bạn dùng 
+
+port 80 bort 9000 B 5000 B 3000 gì đấy thì một cái C sẽ là một cái port nó nằm ở trong một cái port thì cái po này có thể xem như một đơn vị triển khai một cái dịch vụ ha Vậy thì khi mà chúng ta có user chúng ta ở ngoài này ha Giả sử 
+
+bây giờ mình có user sau này chúng ta có user tru xất vào trong này rất nhiều user user hàng trăm tậm đi tới hạ vài nghìn vài chục nghìn gì đấy thì một port này á thông thường là sau này các bạn làm các bạn sẽ có một cái cấu hình cho 
+
+nó giả sử các bạn cấu hình cho nó là 1 GB RAM rồi 5 0,5 CPU gì đấy chẳng hạn thì một port này nó sẽ không thể ker hay không thể phục vụ được hết được lúc ấy các bạn sẽ có thể nghĩ là chúng ta có hai hướng giải quyết đúng không ạ chúng 
+
+ta cấp phát con post này nó to ra giả sử bây giờ từ 1 GB chúng ta cấp lên thành 4 gam chẳng hạn hoặc là chúng ta sẽ tạo ra nhiều con po ha thì đối với kubernetes á thì cái cách làm của họ sẽ là scale theo chiều ngang ha họ gọi là horal scaling 
+
+và cách đó là cách mà cũng là best spus luôn để chắn là thở những ứng dụ chúng đang chạy trên những con post này thì lúc này chúng ta sẽ có nở ra nhiều con post nữa ha nở ra càng nhiều thậm chí chúng ta nở ra ở trên một con Note khác 
+
+nữa Hoặc là nếu mà một con Note này hết rồi thì chúng ta sẽ có những cái cơ chế để tạo ra con Note Note số 3 ha để gọi là sau này C cl chúng ta gọi là electricity giãn nở ha hoặc là co lại thì chúng ta ta sẽ có những cái cơ chế 
+
+làm việc kể vậy thì các con post này trong một con post sẽ có một container là thông thường là phổ biến nhất nhưng đôi khi trong một số trường hợp đặc thù một con post các bạn có vẫn có thể có nhiều container ha mình nói Ví dụ ở đây 
+
+giả sử mình có một cái con port số hai của mình ở đây đi con app app 2 gì đó trong con port này giả sử mình sẽ có hai cái container một cái container về mặt functional về mặt ứng dụng và một cái container thứ hai là chạy về mặt gọi là 
+
+heer H là trợ giúp á Unity á kiểu như container sẽ làm nhiệm vụ loging này hay là kết nối những cái thông tin bên thứ ba external service chẳng hạn thì con container đấy thì nó sẽ làm những cái nhiệm vụ đặc thù Ở đấy nó có như bổ trợ 
+
+Nhưng lưu ý khi các bạn nếu mà nhét hai container vào trong một cá nó sẽ có lợi thế này hai con này sẽ comate với nhau bằng cái b b của cái pst này luôn cho nên nó sẽ rất là nhanh nhưng mà khi các bạn có nhu cầu nở rộng Cái app 2 đó thì 
+
+các bạn sẽ cần phải nở rộng cả một và cả hai luôn nha các bạn thì cho nên Đây là lý do mà các cái trường hợp mà có như multiple container trong một cái port là trường hợp không không không không có phổ biến lắm ha đa phần các bạn sẽ thấy 
+
+là một một port thì sẽ có một conner một container ha Thì để chúng ta xem các port ở trong trong cái kiến trúc chúng ta các bạn có thể xem này qcl get port ha thì các bạn sẽ thấy này hiện tại mình đang không có một cái port nào hết thì 
+
+để chạy một cái port thì các bạn sẽ dùng Câ lận này ctl run ha run là chạy một cái port n port tên là app 1 app 1 của mình bây giờ mình sẽ đặt App 1 bây giờ mình muốn chạy một cái image nà đúng không ạ Các bạn có thể xem này image này 
+
+đó các bạn thấy không ạ image thì các bạn đặt tên một cái image Giả sử bây giờ mình các bạn sẽ dùng cái doc Hub của mình mình đã cung cấp ở đây thì các bạn mình có chuẩn bị hai cái repo ở trên doc một cái là Việt aws armm và một cái vi 
+
+awss thì vi aiks là D dành cho những cái bạn nào nếu mà xài chip Intel của Apple hoặc là những con máy Windows máy chạy Linux You G đấy còn nếu các bạn nào mà xài chip Apple thì các bạn nên dùng cái dùng cái này ha Tại vì nếu các bạn dùng 
+
+sai cái kiến trúc arit thì các bạn sẽ không được ví dụ như mình thì mình sẽ dùng là cái Viet adrm ở đây sau này ví dụ chuyển chuyển lên làm iks thì mình sẽ dùng cái iks kia ha iks repo mình sẽ dùng arm này và mình sẽ trển hai cái 
+
+phiên bản số 1 Các bạn xem này V1 ha Mình có image ở đây rồi thì các bạn sẽ cần à mình sẽ có năm phiên bản đ chuẩn bị cho cái chương trình này nên là các bạn có thể dùng được rồi mình sẽ thử enter câu lận này nha Để nó chạy ha Các 
+
+bạn thấy là port app 1 Cre chúng ta sẽ cu get port để chúng bạn xem những cái port đang running ha nếu mà trường hợp các bạn thấy nó đang ở trạng thái tạo thì các bạn có thể dùng cái câu đạn này Q ctl get port trừ trừ what ha hoặc là 
+
+mình hay dùng trừ Watch cho nó lẹ ha có nghĩa là mình sẽ Monitor cái trạng thái từ lúc mà nó tạo Nó Download hay là nó container creating đó thì các bạn có thể xem thêm cái trừ watch này rồi mình sẽ V mình đã có một cái pst rồi Bây giờ mình 
+
+muốn xem thông tin của cái pst này đó thì mình sẽ dùng cái câu lận là QC describe cái port rồi mình sẽ lên app1 của mình n đó các bạn sẽ xem thêm một số thông tin chi tiết của con port này nào port của mình là tên là app1 này cái này 
+
+mình sẽ nói sau không không muốn để các bạn bị phân tâm chỗ này Status là running này địa chỉ ip của nó là 0.7 ha IP này 0.7 này container này container ID này dùng container này ha image của mình ở đây Locker pool running hotpot gì 
+
+đây này rồi mình xem các bạn xem loog này sucessful assign này container image on này đã download rồi này xong ha Thì nó sẽ Download cái container về máy về cái à cái con Note của mình để làn sau Ví dụ như là sau mình chạy mình chạy cái 
+
+port này nữa mình sẽ không phải Download từ cái Dock Hub nữa ha thì các bạn đôi khi các bạn Nếu các bạn update cái version ở do Hub này á thì khi mà các bạn chạy cái câu lận cu run image ví dụ Viet idress mà giả sử mình có cái arm V1 
+
+á V1 á lúc này giả sử các bạn tạo một sự thay đổi đó ở trên cái docker Hub này đi Chẳng hạn mình update cái version 1 mà có thay đi đổ m gì đó trong cái version này thì lúc đấy á Khi các bạn chạy câu lận này nó sẽ không lên trên đup nó 
+
+Download cái file mới B đâu mà nó lấy cái file V1 cái emit V1 ở local con này ha cho nên đôi khi nếu các bạn Thời gian đầu b làm communities á Các bạn thấy là tại sao mình update code rồi mà mình gọi cái tag đấy về nó không thay đổi cái 
+
+code mới của mình thì bởi vì nó đã nó đã có một bản container imit ở ở gốc ở cái con Note hết rồi ha Mình đã bị cái chuyện này và mình mất loay hai nửa ngày mình cứ nghĩ là mình làm sai Ha vì lúc đó mình Build thì lúc ấ các bạn muốn làm 
+
+cái chuyện này mà không bị á thì nó có một cái gọi là image policy lúc này là policy nó sẽ có một mặc định thì nó sẽ không download là gọi là If not exited á thì nó Nó dùng cái cái ở local không thì nó mới đi Download thôi Nhưng mà nếu nó 
+
+có rồi thì nó sẽ nếu mà nó có rồi á thì nó sẽ không đi lên hỏi nữa mình muốn lần nào nó cũng phải lên hỏi á thì mình dùng thêm cái cờn này ha thì các bạn lưu ý nếu các bạn tự làm các bạn có khả năng các bạn sẽ tự lỗ bị lỗ hoặc là các bạn 
+
+muốn muốn dùng cái image của các bạn thì cái đó là cái câu luận là lưu ý khi các bạn nếu có update dùng image của riêng các bạn ha 
+

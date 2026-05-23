@@ -1,0 +1,34 @@
+bài này chúng ta sẽ tìm hiểu về Meta argument trước khi tìm hiểu về Meta argument Chúng ta sẽ tìm hiểu về argument arment hay được biết đến là đối số được xác định bằng cặp key value Ví dụ như image ID bằng một chuỗi string và 
+
+trong terraform thì mỗi dạng tài nguyên sẽ có một tập các đối số khác nhau ở đây mình có một ví dụ về hai dạng tài nguyên là aws kp và aws instant thì đối với aws kp thì có hai cặp đối số là keyb name và public key name Còn đối với AW instant 
+
+thì có khá là nhiều các cặp đối số mà chúng ta có thể sử dụng trong tform thì Meta argument là các loại đối số đặc biệt sử dụng với các blog và module để kiểm soát hành vi của chúng hoặc ảnh hưởng đến quá trình cung cấp cơ sở hạ 
+
+tầng nó cung cấp các cái tùy chọn bổ sung ngoài các đối số dành riêng cho các tài nguyên thông thường các loại met argument thường được sử dụng trong terf bao gồm C force provider depend on và L cycle đầu tiên là cao nó sẽ được gắn với 
+
+một giá trị số nguyên sử dụng cao thì chúng ta sẽ tạo ra các dạng tài nguyên giống nhau điều này sẽ giúp chúng ta Loại bỏ các trùng lập về cấu hình code trong cao chúng ta sẽ sử dụng đối tượng là cao ch Index để bắt đầu đánh chỉ số 
+
+cho các dạng Thành Nguyên và bắt đầu từ 0 ở đây mình có một ví dụ sử dụng cao trong việc tạo tài nguyên ec2 inston à trong Block code này mình chỉ định cao là 4 tức là chúng ta sẽ tạo ra bốn con ecu giống nhau và task name Nó sẽ đánh 
+
+theo chỉ mục của cao và bắt đầu từ 0 thứ hai là forx kiểu Meta argument này cho phép chúng ta tạo ra nhiều thành nguên giống nhau dựa trên map hoặc là set của string có hai thuộc tính trong forx đó là x. key và x. value x. key chính là 
+
+cái giá trị key của một cặp value ở đây chúng ta có một ví dụ sử dụng for với dạng dài Nguyên là aws instant trong Block aws instant for sẽ thực hiện gọi đến cái biến local là Ami ID và chỉ định cái Ami sẽ bằng x. value tức tức là Ami 
+
+sẽ được chỉ định một trong hai giá trị trong cái biến số này đó là Ami 07 hoặc là Ami 06 và cái t name của hai con inston này sẽ là Linux hoặc là um khi mà chúng ta sử dụng cái thuộc tính là x. key thứ ba là provider thì kiểu Meta Ag 
+
+này cho phép chúng ta chỉ định hoặc ghi đè region trên một cloud Hoặc sử dụng một cloud khác so với cloud đang sử dụng ở đây mình sẽ lấy hai ví dụ với ví dụ bên trái chúng ta sẽ chỉ định cái đầu tiên là us s1 và sau đó chúng ta sẽ chỉ 
+
+định ghi đè lên region này Nó là us x1 và con institute được tạo ra lúc này nó sẽ nằm trên cái region là us is1 bởi vì chúng ta đã thực hiện ghi đè cái region này rồi ở ví dụ thứ hai thì chúng ta sẽ sử dụng multi cloud trên một file cấu 
+
+hình ở đây thì mình sẽ chỉ định cloud là aws và chỉ định thêm cloud nữa là google và ở dưới là mình sẽ tạo hai dạng tài nguyên trên hai cloud khác nhau thứ tư là depend on dạng Meta Aron này giúp chúng ta chỉ định sự phụ thuộc giữc các 
+
+tài nguyên nó đảm bảo rằng một tài nguyên được tạo hoặc cập nhật trước tài nguyên khác ở đây mình có một ví dụ là sử dụng hai dạng tài nguyên là aws instant và aws Security trong Block aws Security group mình sẽ chỉ định cái Meta 
+
+argument là depon aws instant.now cuối cùng là l cycle đây là dạng Meta agement giúp chúng ta xác định các quy tắc vòng đời để quản lý cập nhập thay thế và xóa tài nguyên light cycle là một dạng Block được sử dụng trong Block tài 
+
+nguyên để cung cấp hướng dẫn sử dụng cho các tài nguyên đó Thực tế thì Life cycle là một dạng Block và các cái đối số bên trong mới chính là các Meta agreement các đối số có sẵn trong Life cycle bao gồm create before destroy tức là tài 
+
+nguyên sẽ được tạo thay thế trước khi nó bị xóa thứ hai là prevent destroy nó sẽ ngăn tform phá hủy các cái tài nguyên mà chúng ta chỉ định thứ ba là ignore train nó sẽ chỉ định các cái thuộc tính mà tform nên bỏ qua khi xác định cá cập 
+
+nhập tài nguyên cuối cùng là relap Trigger by nó sẽ chỉ định danh sách các cái thuộc tính mà khi thay đổi nó sẽ kích hoạt các thay thế V tài nguyên thì để hiểu hơn về bài học chúng ta sẽ đi đến ph thực hành 
+

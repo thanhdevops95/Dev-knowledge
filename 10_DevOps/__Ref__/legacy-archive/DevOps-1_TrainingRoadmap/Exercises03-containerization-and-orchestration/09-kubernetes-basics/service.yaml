@@ -1,0 +1,16 @@
+# service.yaml
+# Định nghĩa một điểm truy cập mạng cố định cho các Pod của ứng dụng.
+
+apiVersion: v1
+kind: Service # 1. Loại đối tượng: Service
+metadata:
+  name: my-app-service # 2. Tên của Service này
+spec:
+  type: NodePort # 3. Loại Service. NodePort sẽ mở một cổng trên mỗi Worker Node.
+  selector:
+    app: my-app # 4. Tìm các Pod có nhãn `app: my-app` để gửi traffic đến.
+  ports:
+    - protocol: TCP
+      port: 80 # 5. Cổng của chính Service này (bên trong cluster).
+      targetPort: 8080 # 6. Cổng mà container đang lắng nghe (phải khớp với `containerPort` trong Deployment).
+      # nodePort: 30007 # 7. (Tùy chọn) Cổng được mở trên Worker Node. Nếu không chỉ định, K8s sẽ tự chọn một cổng trong khoảng 30000-32767.

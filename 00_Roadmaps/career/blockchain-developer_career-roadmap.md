@@ -61,7 +61,7 @@ graph LR
 
 ### 🛠️ Setup
 
-- [ ] [VS Code + Solidity extension](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code + Solidity extension](../../02_Tools/ide/vs-code.md) ✅
 - [ ] MetaMask wallet (chrome extension)
 - [ ] Sepolia testnet (free test ETH)
 

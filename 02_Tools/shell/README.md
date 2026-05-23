@@ -1,9 +1,9 @@
 # 🐚 Shell — Tool / Customize / Scripting
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.3.0\
+> **Phiên bản:** v0.4.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 21/05/2026
 
 > 🎯 *Folder này tập trung vào **shell as a tool** — cài terminal apps, chọn shell (bash/zsh/fish), customize (aliases, prompt, themes), shell scripting. **KHÔNG** dạy lệnh Linux (pwd/ls/cd/...) — đó thuộc [`04_OS/linux/`](../../04_OS/linux/).*
 
@@ -50,7 +50,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 | # | Bài | Trạng thái | Note |
 |---|---|---|---|
-| 00 | [What is Terminal](./lessons/01_basic/00_what-is-terminal.md) | ✅ 🌟 | Intro: terminal/shell/command — cross-OS |
+| ~~00~~ | ~~What is Terminal~~ | 🔄 **MOVED** | Đã chuyển → [`01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md`](../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) (terminal là concept Foundations) |
 | 01 | Choosing a shell (bash/zsh/fish) | ❌ | Tool comparison |
 | 02 | Aliases | ❌ | Shell feature |
 | 03 | Prompt customization (PS1) | ❌ | Shell feature |
@@ -92,6 +92,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ## 📌 Changelog
 
+- **v0.4.0 (21/05/2026)** — **Move `00_what-is-terminal.md`** sang `01_Foundations/computing-environment/lessons/01_basic/`. Lý do: terminal/shell là concept tính toán nền tảng → thuộc Foundations. Folder này giờ chỉ còn shell-as-tool features (zsh customize, scripting, aliases) — chưa có content. Tool guide từng terminal emulator (iTerm/Kitty/Alacritty/Warp) sẽ ở `02_Tools/terminal-emulators/`.
 - **v0.3.0 (16/05/2026)** — Refactor scope theo Blueprint v0.5 §3.2ter: move 3 lessons (navigation, file-operations, view-content) sang `04_OS/linux/` (vì là lệnh POSIX, không phải shell-tool features). Reframe folder này focus shell-as-tool: terminal apps, customize, scripting.
 - **v0.2.0 (16/05/2026)** — Refactor `00_terminal-fundamentals.md` thành 4 bài.
 - **v0.1.0 (16/05/2026)** — Skeleton + bài terminal đầu tiên.

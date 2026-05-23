@@ -1,0 +1,42 @@
+trong quá trình Bạn triển khai những cái version mới của app của các bạn thì có khả năng các bạn bị lỗi và Cái lỗi này có thể đến từ cái việc chúng ta không có đủ tài nguyên trong cái k8s cluster ví dụ cu clote chúng ta phải hết tài nguyên 
+
+rồi chúng ta không có thêm cue hoặc là thậm chí chúng ta không có cái permission hợp lý ha Ví dụ như các bạn sẽ Download container thông thư đế các coi là container registry ha ví dụ thông tượng đến từ docker Hub hoặc là đến từ 
+
+các cái dịch vụ chuyên về lưu trị container trên CH nh Amazon AIA t analytic container registry Hoặc là các bạn ứng dụng các bạn bị lỗi đơn thuẩn có rất nhiều lý do ở đây nh thì trong cái tài liệu của katam được kê một số lý do 
+
+ở đây trong quá trình làm này các bạn sẽ d các bạn sẽ trải nghiệm ha Nói chung là lỗi đôi khi nó không phải chỉ quá gâ gớm đâu nó cũng không phải quá gì tiêu cực ha Nó sẽ giúp cho mình học được những cái kiến thức mới thì để Tracking những 
+
+cái deployment bị lỗi này á thì trên cái k8s nó có một cái annotation là liên quan đến progress detail deadline second ví dụ như là tôi sẽ chờ các bạn deploy tối đa cho tôi là bao nhiêu giây đấy 
+
+để tôi m cái deployment này bị lỗi và deploy lỗi tất nhiên tôi sẽ không bên ngoài thôi thì các bạn thấy ở đây này hiện tại là trong cái deployment của bạn của chúng ta đang có đâ co chúng ta đang có một cái deployment 
+
+có 10 con r và chúng ta thử xem này QC de deployment app One đâ ch các bạn xem này progressing hiệ đ là true replica set available đang 10 tr 10 đang created Thành Công ở đây cái Red casset tên là BF ha tên tên là số 2 bây 
+
+giờ mình sẽ thử pass Hay là thử cấu hình cái deadline progress này như thế nào nhé Bây giờ mình sẽ copy cái dòng lận này các bạn xem này chúng ta sẽ sửa cái deployment name ở đây chúng ta sẽ có cái app One deploy ha và số lượng dây á 
+
+chúng ta sẽ để 600 giây từ 10 phút chúng ta sẽ chở hơi lâu ha chúng ta xem cái cái deployment edit cái deployment chúng ta ở đây này hiện tại Spec của nó đang mặc định là 600 giây đúng không ạ à mặc định là có rồi 600 giây rồi mình sẽ để 
+
+thử này Thành giúp 300 giây 300 giây thì đâu đấy nó Dản đ một nửa 5 phút đúng không ạ vẫn hơi nhiều Mình muốn để cho nó 200 giây thôi 200 giây thôi nhá Ok pass rồi này đã thành công rồi này thì bây giờ mình sẽ thử edit này đi Thoát 
+
+này đi đây con số nó là 200 giây bây giờ mình các bạn có thể sửa trực tiếp đây ha mình chẳng qua mình muốn để các bạn Follow tài liệ các bạn có hai cách làm rồi chúng ta sẽ thử Download một cái đi 
+
+số 10 đi hiện tại mà không không có imit tên là version 10 Hết Mình sẽ lưu lại thì khi lưu lại nó sẽ chờ 200 giây ha và mình sẽ coi này Kill C get port trừ v k nó sẽ cố gắng nó download hai cái và khi hai cái 
+
+này Download không được mà nó chờ trong 200 giây là bảo cái deployment chúng ta sẽ bị fail ho chúng ta sẽ kiểm tra này k c roll l status Sorry deployment app One deploy 
+
+như các bạn thấy này not r la 2/2 đang updated ha và bây giờ mình sẽ thử thêm nữa Đang cái ming rồi chúng ta sẽ qua cái Tab này mình sẽ coi cái dey cái deployment app One đây nó sẽ scale đây nó đang progress đang update xong một 
+
+cái d7 ha lúc nãy là mình một cái khác Bây giờ mình đang ta cố gần tạo 2/2 rk và các bạn xem này nó vẫn đang tạo hai cái nhá rồi chúng ta xem thêm cái q ctl get deployment đây 10/10 Và tất nhiên bây giờ chúng ta truy xuất Hệ thống 
+
+chúng ta vẫn là version 1 nhá Tại vì chúng ta chưa tạo thành công tại vì khi chưa tạo thành công thì nó sẽ luôn luôn để version 1 và chúng ta quay về chúng ta chờ đến khi nó bị lỗi đây chúng ta chờ 200 giây 200 giây 63 18 mình chờ 
+
+khoảng 2 phút mình Pa video rồi đã rồi mình chờ lúc thì nó đã chạng deadline chúng ta set up ra đây chúng ta có thể xem thêm này ví dụ deployment chúng ta vẫn đang thấy là 10/10 chúng ta available hai cái tạo kia chưa thành 
+
+công n ha và cái pst chúng ta vẫn cứ bị lỗ liên tục đang rơ vào trạng thái bắt cọp rồi bây giờ chúng ta xem này xem cái deployment cái deploy cái deployment chúng ta Đây nó vẫn báo là new R cet là cái d7 
+
+này hai cái đang tạo nà và progressing trạng thái đang là for progress deadline ex ha Có nghĩa là bị lỗi đấy thì chúng ta có thể xem thêm cái phần cái service chúng ta đang deploy fail này C lại status này 
+
+đây progress deadline và đã bị fail stop hết rồi chúng ta coi cái web chúng ta tất nhiên vẫn là version 1 thôi chưa hề ứng dụng ra vẫn chạy bình thường không có bị không có bị giản đoạn trong trường hợp này nếu chúng taị deploy lỗi cho nên 
+
+đây cũng sẽ là một cái một cái cấu hình mà mình nghĩ là các bạn sẽ cần quan tâm mà khi mà triển khai những cái ứng dụng mới hay release những cái C CD ở trên camet ha 
+

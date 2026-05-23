@@ -1,0 +1,62 @@
+V các bạn trong bài trước chúng ta đã tìm hiểu cái phần lý thuyết của Note p hoạt động như thế nào ha Nhìn thì nó cũng khá phức tạp ấy nhưng mà các bạn cứ làm thử một vài lần làm đi làm lại năm sáu lần thì mình sẽ quen ha mà mình còn 
+
+nói trước Nếu mà các bạn mà lâu ngài không làm Các bạn sẽ bị quên mà Thậm chí bị nhầm ha nên chỉ đóng rất là bình thường Nên là các bạn cố gắng handon nhiều làm đi làm lại bạn sẽ C thần thói quen thôi Bây giờ chúng ta sẽ cùng xem 
+
+lại hệ thống chúng ta ha Q C get port ha Chúng ta có một cái port là app 1 để chạy đ ha Thì như mình nói để các bạn muốn gọi từ bên ứng dụng bên ngoài bên ngoài hoặc trong nội bộ của cluster ấ thì các bạn phải tạo một cái service ha 
+
+Thì bây giờ các bạn sẽ xem này get service ha thì các bạn xem này hiện tại mình có một cái service về ctis thôi còn nếu mà các bạn mà không muốn viết nhiều các bạn svc là được rồi là cũng viết tắc của chữ service luôn mình sẽ 
+
+mình chỉ các bạn một số cái cách để shortcut ha để truy xuất nhanh trên cái kutis À bây giờ mình muốn để export ra bên ngoài á thì mình sẽ dùng câu lận là kubernetes này K này expose này đó thì bây giờ Nếu giả sử các bạn chưa biết nào 
+
+các bạn hể một là ch tro tà liệu hai là các bạn chọn h ha để các bạn coi cái câu lận này sẽ có những cái lựa chọn nào các bạn xem này expose này một số resource có thể expose này port này ser chúng ta có rất nhiều các cái resource các loại 
+
+resource nà thì trong chương trình Chúng ta sẽ cùng thảo luận và đi qua những lo resour này sau ha chúng ta hiện tại chúng ta mới chỉ biết cái port này thôi Thôi thì ở đây trong cái phần h nó sẽ có rất nhiều các example ha Mình thấy ở đây 
+
+tài liệu rất là rất là sáng sủi các bạn Thậm chí các bạn đi thi những chỉ l quan communities các bạn có thể dùng những chuyện này rất làm làm rất là dễ các bạn thấy đây ví dụ như expose một cái đây là AC ha replication controller mà cách của 
+
+mình là cần expose một cái port ha các bạn xem Ví dụ ở đây cái port mình sẽ expose này port này tên của cái port là gì này ví dụ port của mình là app 1 đúng không ạ Cái port của nó nếu trong trường hợp mình không có định nghĩa cái target 
+
+port á thì cái port nó cũng sẽ chính bằng cái target port luôn Ví dụ 444 Nhưng mà thông thường mình sẽ để cả hai ha để các bạn có thấy sự phân biệt giữa port và target port Còn nếu mà chu này mình quen rồi á Mình cũng không cần phải 
+
+dùng nữa thì mình để thẳng port luôn thì ví dụ port của mình là 8080 trong cái ví dụ trước name là cái tên của cái service chúng ta sẽ export ra bên ngoài ha Thì khi mặc định expose sẽ là dạng gọi là dạng internal thôi Mình muốn chỉ định nó 
+
+là dạng chạy mà public đó thì mình phải định nghĩa là cái loại service đó là note note p ha m định nghĩa là như thế rồi Các bạn xem những cái thứ khác ha mình sẽ dùng cái đâ service port của mình name Engine X của mình ở đây đây 
+
+mình sẽ dùng cái câu cái ví dụ Này nhá các bạn Nếu các bạn làm các bạn đên gõ để các bạn nhớ hơn mình sẽ clear đi đây các bạn sẽ xem cùng xem này expose một cái service tên là nà engin x ha Nhưng mà mình sẽ expose một cái là port ha 
+
+port của mình là app1 này port port Đây là cái port của cái của cái container mình s dạy port 8081 này còn cái target port chính là cái container bên trong ph xây dựng ha port 8080 tên của cái loại này là gì tên của cái loại này mình đặt 
+
+tên giả sử như là service 1 đi ha và mình để là t t mình để là Note p ha đó rồi mình sẽ enter Các bạn thấy là service m mà nó tạo thành công ha các bạn có thể ví dụ Q ctl get spc để B service chúng ta có 
+
+service này nó sẽ port của nó sẽ là 31.000 port này sẽ là port random ha các bạn muốn cái port này là mình theo mình chỉ định thì các bạn sẽ phải dùng thông qua declarative mình sẽ thảo luận trong tương lai các bạn có thể xem thông tin 
+
+chi tiết của một cái port này describe này svc service 1 ha đây Các bạn thấy là service 1 này À rồi trúng thai là Note port này ip của nó n mỗi một dịch vụ nó sẽ có một địa chỉ IP riêng của nó nè port target port 
+
+là ở trên cái con cer mình Expo ra port 8080 còn mình muốn truy suất ở trên máy chủ của mình sẽ là port 31 31214 ha Thì thì các bạn xem ở đây này xem là cái mô hình của mình Lúc nãy đúng không ạ port của mình export ra bên ngoài 8081 này 
+
+tort 80.0 và cái b bên ngoài chúng ta exp b 3 30 3000x 30 3x x000 gì đấy thì bây giờ chúng ta ch ch s phải thông qua cái port này cái port này rồi mình sẽ coi này K get à FC đây port đây đây 31214 nhưng mà khổ 
+
+như khổ n là các bạn biết á là cái con Q get Note của các bạn á là bây giờ mình muốn xem thông tin chi tiết của Mode các bạn sẽ dùng thông qua là trừ O là output ha Why N các bạn xem này cái con control plement địa chỉ ip của nó là IP này là 
+
+IP internal nó không có địa chỉ IP external thì để làm IP external thì các bạn sẽ cần phải làm expose ra bên ngoài nếu mà các con bản thân như các bạn mình nói là một con control Plan hay là một con Go Note thì nó bản chất nó cũng chỉ 
+
+là một con máy chủ thôi cho nên nó có thể có địa chỉ public ha nếu địa chỉ public thì các bạn cần địa chỉ địa chỉ public là các bạn gõ thêm cái port TH là xong thôi nhưng mà trường hợp này chúng ta không có địa chỉ IP public chúng ta 
+
+chỉ còn để IP Private Thôi thì cái cái này là trong miniq á miniq nó có hỗ trợ chúng ta có thể export ra bên ngi mình sẽ có này mini trong mở cái tài liệu ra để các bạn cùng xem luôn nhá Đây accessing app này Mini này 
+
+Service Service name và trừ trừ youl cái phần này chỉ riêng cho chúng ta học cái phần fundamental th Sau này các bạn dựng trên iks á antic cty service ở trên aws các bạn sẽ không không không cần làm có chuyện này nữa chuyện này trong trường 
+
+học chúng ta làm chuyện này thôi thì chúng ta sẽ Mini này service này service name service của mình tên là service m service 1 ở đây này và trừ trừ URL Hoàn đ nó export cho một cái đường link để chúng ta truy xất cái dịch vụ chúng ta 
+
+đây chúng ta expose ra một cái Ngẫu nhiên ở đây Ha cái này Thực ra là cái này là là expose thông qua cái miniq ha Còn nếu mà sau này các bạn chy suất sẽ là chy suất 1921 68.5 8.2 là hai chấ cái port 31214 n thì hẹn các bạn qua cái 
+
+series exs thì nó sẽ nhìn nhìn nó có vẻ thật hơn cái này mình đang mượn môi trường sbox là mình học thôi rồi mình sẽ mở một cái new Tab ra và mình sẽ chỉ xuất cái port này đây Các bạn thấy không ạ Chúng ta có cái WC m này app app 1 tên 
+
+của container chúng ta này IP là 0.7 đúng không ạ chúng ta chất lại IP chúng ta coi này Bây giờ nó lại bị một cái là chúng ta đã mở cái mini Mình sẽ thoát luôn nha thì thoát chúng ta sẽ không có exp ra 
+
+bên ngoài nữa mình sẽ coi de này port này app1 này các bạn xem này cái ip của nó đây 22 24.0.3 và cái này là cái version 1 và chúng ta đã expose thông qua cái service của chúng ta n service ta đâ 
+
+là service 1 cái port là 31 21 4 thì trong phần tớ chúng ta sẽ xem thêm một số các thao tác phổ biến chúng ta thao tác trên po gi sử chúng ta xem log này xem exec Truy xất và cái con po của chúng ta như thế nào ha Ok Cảm ơn các 
+
+bạn đã theo dõi và hẹn gặp lại các bạn trong bài tiếp theo ạ 
+

@@ -1,0 +1,20 @@
+à chúng ta sẽ sử dụng thực hành kết hợp giữa tform và ansible chúng ta sẽ sử dụng ansible để thay thế cho tính năng provisional trên tform thì đầu tiên trong cái fil main.tf là file cấu hình của tform thì mình sẽ thực hiện tạo ra 
+
+một dạng tài nguyên là là một con instant vm05 và sau đó mình sẽ thực hiện chích suất ra thông tin public ip của con vm này rồi mình sẽ chạy C lệnh t apply phạm vi của bài học này mang tính chất giới 
+
+thiệu các bạn có thể là không cần phải thực hành sau khi chúng ta chạy có lệnh Tel upline thì chúng ta lấy được thông tin public ip của con instant và chúng ta sẽ sử dụng cái thông tin này để An kết nối 
+
+đến và thực hiện cài đặt cái đoạn cấu hình của anib thì trong cấu hình của anb thì mình sẽ thực hiện cài đặt cấu hình cái web server APC cái mà chúng ta đã thực hiện với provisional remote access 
+
+ở đây thì mình sẽ thực hiện cài đặt là stpd này và thực hiện khởi động lên này và sau đó Download các cái file template và giải nén sau đó là mình sẽ thực hiện chạy cái file này trên máy remote và cuối cùng là khởi động lại 
+
+dịch vụ httpd để chơi được anib thì chúng ta sẽ gõ anib PlayBook trừ I đến địa chỉ ip của con vm đến Private IP là ssh key và cuối cùng là được dẫn đến đoạn code cấu hình của 
+
+aib các bạn thấy là đây là quá trình anable thực hiện cài đặt các gói cải trên máy remote thì nó sẽ thực hiện cài đặt từng step một cái mà chúng ta đã định nghĩa trong code iml Ok đến đây thì code ansible đã thực 
+
+hiện là cài đặt thành công cái cái dịch vụ mà chúng ta khai báo à chúng ta có thể kiểm tra cái dịch vụ này à Trên Browser Các bạn thấy là ansible đã thực hiện cài đặt thành công dịch vụ à trên thực tế khi sử dụng kết hợp giữa tform 
+
+và arib thì chúng ta không cần phải đợi cho đến khi Tài Nguyên đã được khởi tạo và lấy được cái thông tin IP mà chúng ta có thể thực hiện à chạy luôn cái code An à trong phần local access này thì chúng ta chỉ định cú pháp chạy acle luôn ở đây 
+
+và mình sẽ copy cái câu lệnh này ở đây thì giá trị IP thì mình có thể sử dụng cái object là self để tham chiếu đến rồi đến đây các bạn có thể thử chạy lại code terraform 
+

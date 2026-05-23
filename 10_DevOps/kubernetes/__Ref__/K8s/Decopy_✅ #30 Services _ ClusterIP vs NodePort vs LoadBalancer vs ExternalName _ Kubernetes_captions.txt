@@ -1,0 +1,130 @@
+trong B này chúng ta sẽ cùng tìm hiểu về các loại service ở trên camet Và đây là một cái chủ điểm rất là quan trọng khi các bạn xây dựng những cái hệ thống ở quy mô thực tế thì trước hết chúng ta sẽ giải định chúng ta xong cluster chúng sẽ 
+
+có hai hai Note ha mình sẽ vẽ đây mình sẽ có hai Note Note 1 và đây là Note 2 Note 1 Note 2 thì trong Note 1 mình sẽ giả định mình sẽ có hai port port 1 và đây là port 2 trong Note 
+
+2 mình sẽ cũng có một port ha Mình đ đ một port 3 đi mình sẽ có đặt tên Đây là port 1 ip của nó là 10.10.1 ch Giả sử ch5 đi mình có pst 2 
+
+10.10.1 ch 6 đi Và đây là P 3 10.10.1 ch 7 đi Ba con này khác nhau ha trong port 1 Giả sử mình có thể có hai container ha mình sẽ có container số 1 và container số 2 đây ví dụ 
+
+C1 C1 của mình C1 của mình sẽ sử dụng port là sử 8080 mình sẽ có container một Tại vì một port mình có thể có nhiều container đúng không ạ Các bạn cũng đã biết cái điều này rồi C2 Giả sử mình sẽ sort là 8081 
+
+nếu mà trong một port chúng ta có nhiều container thì các bạn lưu ý là các các cái container này phải sử dụng các port các port các cổng khác nhau thì nó mới hoạt động được port 2i mình sẽ có một container thôi container của mình là 
+
+C3 chỗ này C1 thôi nh bỏ 8085 và bên này mình sẽ có một cái C1 b giả sử 8088 6 thì bây giờ á nếu mà trong trường hợp các bạn cũng có bạn hỏi trên cái channel của mình h nếu mà một cái port chúng ta có nhiều container với 
+
+nhau á thì chúng ta sẽ gọi giả sử mình gọi ứng dụng là như th nào ha bởi vì là nếu mà một port có nhiều container thì trong thực tế các bạn hay làm ng cản là gọi là s c ví dụ như là một cái container này có thể gọi một cái gọi một 
+
+cái api bên ngoài hoặc là container này sử dụng để thu thập Block hay là Monitor hay là những cái Security n là các bạn muốn chạy trên container này còn đây là về application ứng dụng của các bạn thuần tí không vậy th thông 
+
+thường ví dụ như cái này nó muốn gọi C1 nó muốn gọi C2 container 1 muốn contain 2 hoặc là ngược lại thì nó sẽ gọi là gọi đơn giản thôi gọi thông qua local host thôi mình sẽ Giả sử cái này mình muốn là à đường gọi ở đây ha Thì cái gọi này nó 
+
+sẽ gọi như này đơn giản thôi http local hot à 8081 Thì gọi nên gọi từ C1 sang c2 thì phải gọi là là gọi như vậy còn gọi ngược lại thì sẽ là local hot à 808 80 ha Vậy thì bây giờ nếu mà giả sử mình có container số 1 này muốn 
+
+gọi container C1 này ở bên 8085 hoặc là C2 gọ 8085 chẳng hạn thì nó sẽ gọi nào tương tự thôi cũng rất là dễ thôi thì trong cái code của cái container số 2 này các bạn sẽ cần phải đặt tả là cái ip của con post 2 và cái port ở trên cái 
+
+container số 2 này của chúng ta ở đây mình sẽ để ở đây ha mình sẽ nốt ở đây nà httpp 10.10.16 và port là port 8085 gọi ngược lại thì các bạn phải đặt tả IP tại vì hai con C1 và C2 ở cái con 
+
+port 1.5 này này nó nằm cùng nó nằm cùng port nên các bạn dùng local h còn nếu mà gọi các post khác thì các bạn phải dùng IP ha thì làm sao nó biết được chuyện này thì nó dựa trên các tất cả các con Note này sẽ có một cái tiện đất gọi là Q 
+
+proxy ha à để giúp cho các bạn giữ những cái định tuyến như thế này thì các các bạn Nếu mà chưa rõ phần này các bạn xem cái phần cluster architecture ở cái bài Nhớ không nh phần đầu series này không Ờ tương tự như thế Bây giờ việc gọi giữa 
+
+các Note tại vì giữa Note 1 và Note 2 đều nằm trong một cluster ha cho nên Q proxy nó sẽ có mặt ở tất cả các nốt ở nó có cả cả cái con này ha mình sẽ có Q proxy Q proxy giống như một cái bản định tuyến nó sẽ lưu trữ tất cả những IP rồi 
+
+phân giải của hệ thống chúng ta ha Q proxy nó là chạy Ky prox nó giống như nó cũng sẽ là một con port nó một con port đặc biệt ha nó chạy trên tất cả các nốt thì nếu mà trường hợp vụ con port 2 m gọi con port 3 thì cũng tương tự như thế 
+
+thôi container trong cái container code chúng ta sẽ cần phải gọi nha thì nó sẽ gọi như này thì nó sẽ là htttp 10.10.1 ch7 port 8086 ha à Chỗ này mình bị dừ chữ B ha 8086 Thì đ là cái cách mà 
+
+các port nó có thể nói chuyện được với nhau hoặc là các container trong một port có thể nói chuyện được với nhau nhưng mà như các bạn đã biết là khi chúng ta phát triển những hệ thống ố quý m phức tạp thì chúng ta không thể nào có 
+
+các port mà IP nó Tĩnh như thế này được mà thông thường một cái một cái nghiệp vụ hay một cái dịch vụ một cái gọi là một cái service á thì chúng ta không nó sẽ có khả năng giãn nở ha Ví dụ như Tải thấp thì chúng ta sẽ giãn cái port 2 là 
+
+nhiều ra nhiều cái port nữa để đảm bảo cái lưu lượng và quy mô thấp thì chúng ta sẽ giảm thiểu đi thì cái này thông qua deployment các bạn đã biết trước rồi thì khi mà làm như thế thì nó sẽ tăng số lượng post Vậy thì bây giờ chẳng bây giờ 
+
+mỗi post chúng ta lại sinh ra những IP khác nhau 10.6 10.7 10.8 gì đấy và chúng ta lại truy xuất bằng Cá trực tiết như này bằng để IP trực tiết như vậy thì nghe nó cũng không hợp lý đúng không ạ thì lúc này kubernetes nó sẽ sinh ra một 
+
+khái niệm nữa nó gọi là service thì service nó giúp cho mình tổng hợp các port Trong một nhóm nào đấy mình lựa chọn với nhau ha Giả sử với bây giờ mình sẽ có một cái gọi là một cái service 1 ở đây ha Thì mỗi một cái 
+
+service ở trên k8s nó sẽ có định nghĩa một cái địa chỉ IP và IP này sẽ là IP đi kèm cái dịch vụ này coi như suốt trọn đời ha trừ khi các bạn xóa cái service này thôi gi sử service 1 của mình ĐT có IP là 10. 10. 
+
+10.8 đi còn cái port 2 mình sẽ gộp một cái Service Service 2 10.10.10 ch9 và cái pst 3 này gộp vào một cái service là service 3 là 10.10 ch 10.10 đi Vậy thì sau này khi mà chúng ta 
+
+gọi các cái service này á thì chúng ta sẽ cần à Tôi muốn gọi cái service 1 thì cái nó sẽ tự động phân giải ra à thành cái 10. 10.0.8 ha Thì cái này nó phân giải dựa trên cái Core DNS một cái thành phần khác nữa ha ở một cái giống như một 
+
+cái port khác nữa chạy ở trên các cái con nốt của chúng ta nó sẽ biết r à Cái service 1 này cái tên Đây là cái tên thân thiện đúng không ạ Nó sẽ đ có địa chỉ IP này và như mình nói IP này sẽ IP sẽ đi liền đi liền suốt đời với cái dịch 
+
+vụ này ha Chỉ khi các bạn Xóa đi vậ thì trong quá trình các bạn giãn nở bằng deployment bằng replica set sau này á thì nó sẽ có C1 nó có à con po 1 có nhiều con nữa đúng không ạ thì nó sẽ luôn luôn truy xuất thông qua cái 
+
+service 1 này và cái địa chỉ hoặc là địa chỉ IP này ha Thì đó là cái cái service thì bản chất service của aws à Xin lỗi của k8s này Nó sẽ giúp các bạn tính năng gọi là load balancing luôn Ví dụ các bạn trong cái 
+
+service 1 Các bạn có hai con port đi thì nó sẽ cân bằng tải cho các bạn ha Điều này giúp cho ứng dụng các bạn sẽ luôn luôn là có cái sự công bằng giữa các con port với nhau vậy Chỗ này các bạn có thể hơi 
+
+bị phân vân một chuyện thôi service khác với deployment thế nào ha Thì deployment nó sẽ tạo ra nhiều con post cho các bạn nhưng mà bản thân deployment nó sẽ không giú giúp các bạn cân bằng Tải chữ các con post này các bạn muốn cân bằng Tải 
+
+gọi vào một cái service thì gọi vào một cái cân bằng tải thì các bạn phải dùng service thì service này khi gọi vào service này à chúng ta có con po 1 đúng không có con po 1 có thêm con nữa ở dưới này chẳng hạn sau này scale chẳng hạn 
+
+thì nó sẽ cũng cần bằng tải thì service chúng ta sẽ có ba loại service thứ nhất Chúng ta sẽ mình nố ở đây luôn nhé để các bạn có thể tiện theo dõi cluster IP cái loại này là loại mặc định 
+
+Loại thứ hai là loại Note p cái loại loại này là cái loại mà có chia ra bên ngoài ha public và loại Thứ ba là loại g là loại load balancer loại này cũng là public luôn còn một cái loại nữa mà mình nghĩ là sau này khi mình làm phấn đến 
+
+cái phần iks đá electric city service ở trên đâ web mình sẽ nói nữa nhiều hơn là external name Ha thì có một cái loại này nữa loại này sẽ dành cho những gọi những cái service nằm bên ngoài ikc cluster ba cái loại bên này này ba cái loại là 
+
+cluster IP này noteb l ler sẽ là định nghĩa dùng trong một gọi trong cái cluster chúng ta thì bây giờ chúng ta đi từng cái nhé cluster IP là loại mặc định và loại này sẽ là loại Private cái loại này thông thường V dụ khi các bạn triển 
+
+khai cơ sở dữ liệu các bạn có hai con hai con database chẳng hạn thì chúng ta sẽ tạo một cái expos loại cluster IP mình sẽ tạm thời mình xạt cái phần trên này đi nha Rồi để mình sẽ vẽ lại cho các bạn chúng ta sẽ 
+
+có có Note Note 1 và có con Note 2 ở đây chúng ta sẽ có con port Giả sử con pst chúng ta triển khai cơ sở chữ liệu là picle chẳng hạn chúng ta có port 1 port 2 con N mình sẽ chạy là psql đi 
+
+psql Và bây giờ chúng ta muốn export ra bên ngoài thì chúng ta sẽ bây giờ chúng ta có tầng app chúng ta trên này giả sử chúng ta sẽ có app chúng ta trên này đi app 1 app 1 Và tất nhiên con này nó cũng sẽ 
+
+là cái nằm trong một con post chúng ta rồi bây giờ cái app1 này database chúng ta dụng ví dụ cấu hần ha Đi bây giờ app1 này truy xất vào database thì chẳng bây giờ chúng ta lại truy xất rất thông qua IP thì điều đấy Nó bất tiện đúng không ạ 
+
+Vậy thì chúng ta sẽ lúc này chúng ta sẽ dùng là loại à x Xin lỗi mình sẽ dùng loại là loại external IP ha à cluster IP thì cluster IP này map mình sẽ map 
+
+được vào trong cái con hai con psql này thì ứng dụng mình nó thay vì kết nối đến cái ip của nó mình sẽ kết nối thông qua cái cluster IP và cluster ip tất nhiên là loại giống tên mà loại tên Ví dụ như mình đặt tên là ví dụ như là DB chẳng 
+
+hạn thì cái ứng dụng mình kết nối vào cái cluster b và cluster b này như mình nói là Private n có nghĩa là những cái user nằm bên ngoài cluster chúng ta sẽ không thể truy xất vào trong à cluster tru xuất vào trong cái con pql cái con 
+
+database chúng ta ở đây được thì đây là một loại service ha loại này khi mà chúng ta đặt tả ra tạo cái manifest thì chúng ta sẽ là loại mặc định nế chúng ta không có chỉ định Ờ trong phần video sau thì mình sẽ mô tả 
+
+cái phần manifest nó cụ thể như nào phần này các bạn hiểu lý thuyết trước chấp nhận hiểu lý thuyết trước cho giúp mình mình sẽ có tậ lên tầng database thông thường ví dụ chúng ta tạo rất nhiều dịch vụ làm Private thì chúng ta dùng cluster 
+
+IP nhưng mà tầng app này thì chúng ta cần try xất từ bên ngoài không Bạn dạ sử ch chúng ta bên ngoài muốn tru xất vào con Server này chúng ta và các bạn lưu ý là con Server này chúng ta vẫn có IP nhá mình sẽ nốt đây giả sử con ip của mình 
+
+là 10 ch 1.1.5 và con này l vị mình là 10. 1.1.6 đi tất nhiên các port này cũng sẽ có IP nữa Bây giờ mình s muốn tr xuất 
+
+hai con app này thì mình tương tự Thế mình sẽ tạo một cái con một cái service thì service Bây giờ muốn public ra bên ngoài chúng ta sẽ có hai loại là noteb và l ener thì mình sẽ đi cái loại notb trước loại này thì các bạn đã làm quen 
+
+khá nhiều trong phần trước ha mình sẽ làm ở đây mình sẽ tạo một con noteb service ở đây noteb và con not p này nó cũng sẽ đặc tả cho hai con app này của chúng ta đây nhưng các bạn lưu ý nà Note p nó sẽ 
+
+expose ra một cái giải port giải port nó sẽ giải trải dài từ 30.000 cho đến 32.767 vậy thì giả sử con app của mình mình đang triển kh V nà Đó mình chể kh trên một con Note 1 
+
+thôi Vậy thì bây giờ nếu mà user chúng ta nằm bên ngoài này nè Sorry user mình nằm bên ngoi ở đây mình tr suất vào con port của mình bằng địa chỉ IP đi là 10.1.5 đi và giả sử con này ứng dụng chúng ta export của 
+
+mình giả sử mình export port của mình sẽ là port giả sử như là 30.000 500 đi Vậy thì user của mình sẽ truy suất như nào user của mình sẽ truy xất bằng hai phương thức một Nó là thông qua 
+
+địa chỉ ip của con Note 1 ví dụ http 10.1.5 1.5 và port của mình là ví dụ như 30.000 30.000 500 Vậy thì theo các bạn á nếu mà mình tr xất bằng cái địa chị IP này http 10.1 ch 1.6 và port là port 30 5 30 ha 
+
+30500 thì ví dụ như là 306 này nó có chi suất được ứng dụng chúng ta không à Thì Câu trả lời là vẫn có ha bởi vì là bản chất là k8s nó đủ thông minh để biết nó có một cái bảng Kill proxy mà nó biết được cái bảng định tuyến là à 10.1.6 và 
+
+b 30 30 n 30.000 n này nó vẫn thuộc vào cái service này của chúng ta Expo ra bên ngoài thì cái loại này là loại Note p n cho nên là nó có sẽ ví dụ hệ thống các bạn bây giờ có hai nốt nhưng mà có thể có hàng trăm nốt hàng nghìn nốt sau này 
+
+và ứng dụng các bạn có thể triển khai đây là app 1 thôi các bạn có app app 2 App 3 app 4 app 5 gì nữa các microservice của bạn Nó có thể triển khai trên một số nhóm server thì khi truy xuất và các bạn sẽ cần phải đặc tả 
+
+cái địa chỉ IP bất kỳ nó đều suy xuất được nhưng mà cái này thì nó cũng không hay lắm đúng không ạ Bởi vì nếu mà các bạn à các bạn chy xuất kiểu này thì các bạn cần phải nhớ các bạn cần phải nhớ cái đểa chỉ IP nhưng mà cái IP này ip 
+
+của con Note này nó lại có một cái trường hợp là rất là khó sau sau này này hệ thống các bạn không thể nào có ổ đận hai con Note này mãi được nó sẽ là giãn nở ha ví dụ sau này các bạn Note 1 Note 2 Note 3 Note 4 xong các bạn tài cao các 
+
+bạn tăng ra tài thấ các bạn Xóa bớt nốt đi để các bạn tiết kiệm chi phí chạy trên các tầng cloud Vậy thì các bạn không thể truy xất thông qua phương thức này được vậy thì bây giờ các bạn phải cần một cái gì đó truy suất vẫn là bên 
+
+ngoài nhưng mà các bạn sẽ cần phải truy xuất từ user Và nó có một cái DNS một cái một cái tên chung thôi thì cái loại này nó sẽ dùng cái tên là l answer thì l answerer này nó có đặc biệt 
+
+là gì khi các bạn tạo cái service loại nó là l answerer nó là vẫn là V ha Thì nó sẽ kết hợp với các cloud provider để nó tạo ra l ler Giả sử mình dùng aws thì chúng ta sẽ tạo là elb entic laner nó sẽ tạo ra application laner hay là Network 
+
+laner thì tùy thuộc vào cái loại chúng ta đặt tả trong cái phần annotation khi chúng ta tạo cái l ler này Vậy thì cái loại này nó sẽ cần phải ăn theo một cái provider ởo đấy thì khi tạo l lenser này lúc này nó sẽ có một cái domain name rất 
+
+là là đẹp à Để try xất n thì domain n nó sẽ dạng như này kiểu như là ví dụ htttp ví dụ ALB ví dụ 111 Rồi ví dụ như là ap sx1 ví dụ là region của Singapore hoặ Amazon đấy ch.com các bạn có thể truy xất thông 
+
+qua cái Amazon aws.com thì các bạn có thể ch xuất thông qua cái tên miền này thì cái tên miền này sẽ tự động routing dựa trên các Note cho mình luôn và mình sẽ không cần phải nhớ đ chỉ IP nữa nữa thì phần l 
+
+maner này mình sẽ làm nhiều hơn ở cái phần mà xs sau này ha Thì trong phần này mình sẽ chút nữa mình sẽ demo cho các bạn coi cái noteb và phần cluster IP nó sẽ khác biệt như thế nào Cảm ơn các bạn đã theo dõi ạ 
+

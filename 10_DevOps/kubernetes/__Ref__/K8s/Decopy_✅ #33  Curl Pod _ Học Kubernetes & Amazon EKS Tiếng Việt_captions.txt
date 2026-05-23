@@ -1,0 +1,54 @@
+bên này chúng ta sẽ cùng tạo một con port dịch vụ để có thể truy xuất các service nằm ở hai cái namespace 1 và namespace 2 ha để chứng minh cái chuyện là mặc định các n Space nó không có giới hạn việc truy xất thì trong phần này 
+
+mình đã chuẩn bị sẵn một con p với dạng là gọi là C chuyên để gọi là kiểm tra với http á thì con c này của mình lấy từ cái image tên là C im cer chạy nó sẽ là 36.000 giây ha bây giờ mình sẽ apply cái này 
+
+mình sẽ Kill C apply trừ fns và chạy cái cur này thì cái C này tạo ra n sẽ tạo ra con post thì các bạn thử coi thử xem lại con post này sẽ tạo ở n Space nào ạ thì khi mình không chỉ định cái name Space nào 
+
+sẽ mặc định nó sẽ tạo name Space default không Mình sẽ kiểm tra này Q get p thì không chỉ đện gì sẽ nằm ở n Space tên là default và nó sẽ hãi running rồi bây giờ mình sẽ Chu vào con này của chúng ta Kim sq trừ it post và SH mình có con post 
+
+chúng ta ở đây rồi con post này của mình mình giả sử giờ mình sẽ kiểm tra một cái website viet.vn nà thì website website đơn giản của mình ha tre bằng cloud f Đây Rồi bây giờ mình sẽ thử truy xuất cái dịch vụ của chúng ta giờ kcal get 
+
+svc trừ À tất cả namespace á Các bạn có cái note service ở name Space 1 và có cái nde port service ở n Space 2 cái port Chúng ta chạy ở đây là cái port 8080 ở cái dịch vụ nằm bên trong và 
+
+cái và cái port để chìa ra bên ngoài là port 32 487 nh thì hai cái port này nó khác nhau như nào chúng ta sẽ cùng xem cái ví dụ Ở đây bây giờ là chúng ta sẽ có Ha cái Space bình thường ấ cái port cái port của chúng ta ở đây nó sẽ có một 
+
+cái Giả sử B đây là TNG 0.0 này Đây là TNG 0.0 này còn cái cái cái port cái cổng á mà chệt ra bên ngoài Giả sử 32000 xx và cái này giả sử 32000 I thì đây là cái port chỉ ra bên 
+
+ngoài bây giờ cái bài Chúng ta sẽ tạo một con cơ ở đây con cơ này nằm bên trong và con này nó chạy ở bọ đó và ý Tưng con cơn này mình sẽ truy xất vào đây truy xất vào cái service của chúng ta và truy xất vào bên này Vậy thì khi 
+
+con cơ n bên trong thực ra nó truy xất vào cái port service chúng ta sẽ truy xất vào cái port bên trong này chứ không phải truy xất thông qua cái port ở bên ngoài này ha bây giờ chúng ta sẽ cùng truy xất vào 
+
+con cur này rồi chúng ta s truy xuất vào cái con dịch vụ chúng ta ha chúng ta có hai dịch vụ thì để chi xất một cái service hay dịch vụ ấy thì chúng ta sẽ có cái cấu trúc như này chúng ta sẽ mình sẽ clear ha để các bạn dễ nhìn hơn C này 
+
+mình đang đứng ở con c port ha C tên của dịch vụ svc đây noteb service chấm tên Nam Space name Space 1 ha rồi à Chữ là svc svc là service cluster chlc lúc này á Bây giờ mình để mình như 
+
+mình nói trong phần trước á là bây giờ các bạn muốn truy xất vào cái dịch vụ chúng ta có cái port thì vì mình nằm Đang nằm trong cluster mình sẽ dùng port là 8080 còn ví dụ Các bạn muốn chi xất cái port này á thì trong thực tế nếu mà 
+
+các bạn có đường networking ví dụ public ra ngoài con Note á thì các bạn có thể chỉ xất được Nhưng trong cái mini Kill của mình hiện tại mình không có cấu hơn cái phần tru suất port này ha cho nên các bạn sẽ không có tr xất qua port này 
+
+được mình sẽ tr xất port tạp M0 đây các bạn sẽ thấy đây nó sẽ trả về cho mình cái website của chúng ta website mình sẽ là S4 ở đây chúng ta sẽ thửc kiểm tra này Kill qu get p trừ ns1 đ chúng ta có con S4 có hai con pst chúng ta ở đây Bây 
+
+giờ mình sẽ thử gọi l lần nữa nhá vẫn là cái note po service ở cái số 1 nó ra cái 79 n Tại vì nó có log EX mà nó sẽ tự động cân bằng tải ha hai con chúng ta gọi cái nữa thì nó có thể đổi ha Đây 79 đây đây là S4 đây mình thử đều tương tự 
+
+đối với cái cái note po service ở name base số 2 đây nó chạy cái j6 j6 chúng ta sẽ kiểm tra này đây j6 ha mà còn một cái nữa nf n chúng ta sẽ thử chạy n có r được nf không đây nf đây thì log bing Đây là cái 
+
+cách mình có thể truy xuất cái từ một dịch vụ tài nguyên ở một cái namespace khác và các và các namespace khác nhau ví dụ như là ns1 và ns2 thì các bạn lưu ý là các bạn đi thi các bạn đi làm thấy cái cấu trúc của một cái 
+
+service nó sẽ theo dạng này ha Note B cái tên của dịch vụ này tới namespace này svc là tên cố định nha Cái này là hàng số nhá và cluster ch local là cái tên cluster chúng ta mặc định local sẽ là cluster local cái port service nà thì 
+
+trong trong cái phần này thì mình đã mình đã làm ví dụ mình sẽ kêu cle ha get get p chúng ta đã có này chúng ta kêu cle này get on get svc trừ À đây là tất cả các service 
+
+bây giờ mình muốn mà kiểu xóa đ l xóa lẹ á Delete trừ f ns ha Thì nó sẽ xóa Nếu mà ns này nó sẽ Xóa hết tất cả các cái tài nguyên trồng trong cái nên Space này chúng ta sẽ thử nha đây nó sẽ xóa này xóa deployment xóa service xóa xóa cái 
+
+CP xóa Nam Space của chúng ta luôn mình can Tại vì cái này nó đang có terminating cái gì đó nó nó chờ lâu mình sẽ review này kital get ns bây giờ mình không C không còn cái ns1 n cái dep này là còn là bởi vì lúc ấy mình tạo cái này 
+
+bằng cách imperative ha cho nên là về khuyến nghị về mặt lâu dài các bạn nên tạo tất cả các tài nguyên dạng là declarative dạng manif kiểu kiểu này nè sau này ví dụ các bạn tạo xóa nó sẽ rất là tiện ví dụ bây giờ tại vì nên spiking 
+
+mình không có không có tạo decorative như mình phải xóa thủ công rồi Delete Nam Space nha Thì khi Delete một cái name Space thì tất cả các tài nguyên trong name Space nó tự động bị xóa Giả sử Trong name Space này mình đã có một 
+
+con port thì tự động nó sẽ xóa luôn Nhưng mà mình vẫn còn có cái con port ở cái n Space default của mình ở đây là con port 1 n mình có thể xóa get à Delete port port One Thì bây giờ mình đã xóa xong cái này mình sẽ kiểm tra 
+
+kcal get svc - a đây mình nó không còn không còn cái dịch vụ noteb service ở cái n Space 1 và N Space 2 n thì đó là qua cái nội dung B này hiy vọng các bạn đã hiểu thêm về một chút thêm về cái n Space và cái cách gọi là networking giữ 
+
+các n Space Cảm ơn các bạn đã theo dõi ạ 
+

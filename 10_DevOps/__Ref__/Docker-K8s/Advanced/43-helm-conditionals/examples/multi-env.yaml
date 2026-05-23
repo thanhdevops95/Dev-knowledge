@@ -1,0 +1,11 @@
+{{- range .Values.environments }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}-config
+data:
+  ENV_NAME: {{ .name | quote }}
+  REPLICAS: {{ .replicas | quote }}
+  CPU_LIMIT: {{ .cpu | quote }}
+{{- end }}

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-config
+  namespace: myapp-dev
+data:
+  APP_NAME: "MyApp Full Stack"
+  APP_ENV: "production"
+  APP_VERSION: "7.0"
+  LOG_LEVEL: "INFO"
+  APP_REDIS_HOST: "redis"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: myapp-dev
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html><head><title>MyApp</title></head>
+    <body>
+      <h1>Welcome to MyApp Full Stack</h1>
+      <p>Frontend: nginx · Backend: <a href="/api/">/api</a></p>
+    </body></html>

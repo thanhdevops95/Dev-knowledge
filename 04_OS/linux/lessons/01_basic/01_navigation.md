@@ -1,13 +1,13 @@
-# Linux Navigation — Di chuyển trong filesystem với `pwd`, `ls`, `cd`
+# 🎓 Linux Navigation — `pwd`, `ls`, `cd`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút (chưa tính thực hành)\
-> **Prerequisites:** [Terminal là gì](../../../../02_Tools/shell/lessons/01_basic/00_what-is-terminal.md)\
+> **Prerequisites:** [Terminal là gì](../../../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md)\
 > **Áp dụng cho:** Linux • macOS (BSD Unix, lệnh giống Linux) • WSL trên Windows • Git Bash trên Windows
 
 > 🎯 *Học 3 lệnh nền tảng của Linux/Unix — `pwd`, `ls`, `cd`. Đây là **lệnh POSIX**, dùng được trên Linux, Mac, WSL, Git Bash. Windows native (CMD/PowerShell) có lệnh khác — xem [windows-shell-commands](../../../windows/) (chưa có).*
@@ -22,7 +22,24 @@
 
 ---
 
-## 1️⃣ Vì sao 3 lệnh này quan trọng (WHY)
+## Tình huống — terminal mới mở, bạn không biết đang ở đâu
+
+Bạn mở terminal lần đầu. Prompt hiện:
+
+```
+rom@MacBook ~ %
+```
+
+Câu hỏi đầu tiên:
+1. **Đang ở folder nào?** — `~` là cái gì? File project của bạn ở đâu?
+2. **Folder này có gì?** — File `requirements.txt` có ở đây không? `.env` thì sao?
+3. **Làm sao di chuyển sang folder khác?** — vd vào `Desktop/myapp/`
+
+3 câu hỏi này được trả lời bằng đúng **3 lệnh**: `pwd`, `ls`, `cd`. Đây là **bộ 3 cốt lõi** của Linux/Unix — chưa thành thạo thì chưa nói được biết terminal.
+
+---
+
+## 1️⃣ Vì sao 3 lệnh này CỰC KỲ quan trọng?
 
 `pwd` + `ls` + `cd` là **bộ 3 cốt lõi** của terminal. Mọi lệnh khác (tạo file, chạy script, install package...) đều dùng filesystem → bạn phải biết:
 
@@ -34,7 +51,7 @@
 
 ---
 
-## 2️⃣ Filesystem trông như thế nào (WHAT)
+## 2️⃣ Trước hết — Filesystem Linux trông như thế nào?
 
 Trước khi học lệnh, hiểu cấu trúc filesystem.
 
@@ -74,7 +91,7 @@ Trước khi học lệnh, hiểu cấu trúc filesystem.
 
 ---
 
-## 3️⃣ Hands-on (HOW)
+## 3️⃣ Bắt tay làm — 3 lệnh cốt lõi
 
 ### 🛠️ 3.1 `pwd` — Tôi đang ở đâu?
 
@@ -395,10 +412,10 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/rom/Documents`.
 
 | Hướng | Bài |
 |---|---|
-| ⬅️ Bài trước | [What is Terminal](../../../../02_Tools/shell/lessons/01_basic/00_what-is-terminal.md) (intro về terminal-as-tool ở 02_Tools) |
+| ⬅️ Bài trước | [What is Terminal](../../../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) (intro về terminal-as-tool ở 02_Tools) |
 | ➡️ Bài tiếp | [02_file-operations.md](./02_file-operations.md) — mkdir, touch, cp, mv, rm |
 | 🔗 Liên quan | (sẽ có) `04_text-search-and-pipes.md` — `find`, `grep` |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 
@@ -409,5 +426,9 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/rom/Documents`.
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống beginner mở terminal lần đầu** với 3 câu hỏi cụ thể (đang ở đâu, có gì, đi đâu)
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Filesystem (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi/mô tả tự nhiên ("Vì sao 3 lệnh này CỰC KỲ quan trọng?", "Trước hết — Filesystem Linux trông như thế nào?", "Bắt tay làm — 3 lệnh cốt lõi")
+  - Content kỹ thuật KHÔNG đổi
 - **v1.1.0 (16/05/2026)** — Move từ `02_Tools/shell/lessons/01_basic/` sang `04_OS/linux/lessons/01_basic/` theo quy ước Blueprint v0.5 §3.2ter (02_Tools KHÔNG chứa lệnh OS). Title đổi "Navigation" → "Linux Navigation". Thêm note cross-OS (Mac/WSL/Git Bash dùng được, Windows native khác).
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson dạy navigation `pwd`/`ls`/`cd`. Tách từ `00_terminal-fundamentals.md` cũ theo quy ước Blueprint v0.4 §3.0 (Intro vs Lesson).

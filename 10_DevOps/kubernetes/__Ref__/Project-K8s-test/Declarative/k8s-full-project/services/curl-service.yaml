@@ -1,0 +1,26 @@
+# SERVICE với NodePort
+# Service exposes your application to external traffic
+# NodePort: Opens a specific port on ALL Nodes (30000-32767)
+apiVersion: v1
+kind: Service
+metadata:
+  name: curl-service
+  labels:
+    app: curl-app
+    tier: backend
+    environment: learning
+spec:
+  selector:
+    app: curl-app
+    tier: backend  # Selects Pods với label này
+  ports:
+  - name: http
+    port: 80           # Service port (trong cluster)
+    targetPort: 80     # Pod port (containerPort) - nginx chạy port 80
+    nodePort: 30080    # Port trên mỗi Node (30000-32767)
+  type: NodePort
+  # Các loại Service:
+  # - ClusterIP (default): Chỉ accessible trong cluster
+  # - NodePort: Accessible qua <NodeIP>:<nodePort>
+  # - LoadBalancer: Tạo load balancer (cloud providers)
+  # - ExternalName: DNS CNAME

@@ -1,0 +1,15 @@
+# kubernetes/frontend-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  # Loại LoadBalancer sẽ yêu cầu nhà cung cấp cloud (AWS)
+  # tự động tạo ra một Load Balancer thực tế để "phơi" ứng dụng ra Internet.
+  type: LoadBalancer
+  selector:
+    app: frontend # Tìm các Pod có nhãn app: frontend
+  ports:
+    - protocol: TCP
+      port: 80 # Cổng của Load Balancer sẽ lắng nghe
+      targetPort: 80 # Cổng của container frontend (Nginx)

@@ -1,0 +1,8 @@
+# Sử dụng image Python chính thức làm base image
+FROM python:3
+# Khai báo thư mục làm việc trong container
+WORKDIR /app
+# Sao chép file Python vào thư mục /app trong container
+COPY docker_example_03.py .
+# Chạy file Python khi container được khởi động
+CMD ["python", "docker_example_03.py"]

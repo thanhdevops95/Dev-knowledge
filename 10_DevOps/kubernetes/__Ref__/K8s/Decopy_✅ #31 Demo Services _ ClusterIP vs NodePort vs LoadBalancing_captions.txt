@@ -1,0 +1,114 @@
+trong này mình sẽ cùng các bạn đi demo cái sự khác biệt giữa cluster IP này Note P và lad financer như phận lý thuyết trong bài trước thì đây là cái tài liệu của city.io đây tài liệu mình nghĩ là rất là hay và các bạn nên đọc 
+
+đâu đó một hai tiếng Đọc hai ba lần gì đấy nó có nhiều thông tin hữu ứt bởi vì mình không thể đưa tất cả các thông tin đấy vào trong một video được các bạn xem tài liệu là chúng ta sẽ có cái phần gọi là define service này định nghĩa một cái 
+
+service thì định nghĩa một cái service thì các bạn sẽ cần phải có có một cái template ha Cái này gọi là cái manifest thì manifest các bạn sẽ tuần thủ một cái cấu trúc của camet nó sẽ gồm api version loại metadata và những thông tin đặc tả 
+
+cho cái loại tài nguyên thì đây là một cái loại tài nguyên tài nguyên chúng ta service tài nguyên chúng ta có thể là port có thể là deployment tất cả lo tài nguyên thì đối với mỗi loại tài nguyên các bạn sẽ có những cái version khác 
+
+nhau thì làm sao để biết trên này thứ nhất các bạn nên đọc tài liệu cubert IO ha Thứ hai các bạn sẽ có một cái công cụ cũng khá là Hữu ứt ha các bạn có thể dùng chất bằng comine api resource thì api resource nó sẽ giúp cho bạn được tất 
+
+cả các resource hỗ trợ bởi k8s ha như các bạn xem này chúng ta có cộ tên này t sort name các viết ngắn của nó này version này và name Space và loại của nó khai đây chính là cái là cái là cái này này các bạn xem Ví dụ như là chúng ta sẽ 
+
+có version 1 rồi có nhiều loại không chỉ có version 1 đâu n Space Mình chưa học á mình sẽ để một vài khác mà sẽ nói luôn chúng ta sẽ có loại cuối cùng là loại loại Vậy thì bây giờ chúng ta sẽ thử grab service này đây chúng ta có service 
+
+đây tên vi ng nó là svc verion nó là V1 V1 nó chính là cái này này đó còn cái service này chính là cái Cai là cái lại loại của nó đây chính loại service thì cái này sẽ giúp các bạn viết cũng dễ hơn nà các bạn có thể chất một số loại tài 
+
+nguyên khác các bạn đã biết này D Port đây port à loại của nó là port viết TC ngắn là po Ờ Còn V1 ha true thì viết ngắn là hay như nào Ví dụ các bạn này K get này thay vì các bạn viết này các bạn có thể get p thô cũng được thì nó cũng 
+
+sẽ nó sẽ trả ra các bạn cho các bạn hay là Kill cle get svc thay vì cái service như này thì nó dài đúng không ạ thì các bạn có thể get svc cũng được thì nó sẽ nó sẽ trả về cho các bạn là cái giá trị là cái cluster mặc đ chúng ta sẽ có một 
+
+loại service rồi chúng ta sẽ cùng đi tạo một cái service chúng ta mình sẽ có cái definition một cái service chúng ta ở đây chúng ta sẽ copy cái này ha mình sẽ gõ cái code chúng ta Nhữ code mình có mình đã có mở sẵn 
+
+rồi có cái cluster IP đây mình sẽ copy cái này cluster IP svc nh mình sẽ selector của mình giả sử mình selector mình tên là app và mình sẽ app 1 protocol TCP target port của mình sẽ là port 8080 lưu 
+
+ý đây là container port của các bạn nhá Còn cái này là cái Expo port của các bạn Cái này là service port ha là cái nde của cái cái service này thì khi chúng ta không đặt Tả loại nào á nó sẽ là cluster IP ngĩa là khi các bạn không có để cái 
+
+dòng p này sẽ mặc định sẽ là cluster i vậ cái loại này sẽ là loại Private nà mình sẽ đặc tắm mình sẽ à mình sẽ rảo lại đây bây giờ mình muốn deploy cái này thì mình quay về thôi mình sẽ dùng K apply 
+
+kctl apply trừ f cluster ib thì lúc này đã tạo ra một cái service rồi get svc đây service của chúng ta service mình sẽ có một đ gỉ IP nó sẽ I này C đi kèm cái kèm đi kèm cái service chúng ta là 
+
+135.1 ex là no ha IP port của nó sẽ là port 8081 tạo C đây 6 giây protocol là TCP nhưng mà bây giờ cái các bạn coi này cái service này nó sẽ lựa chọn tất cả các cái container nào có cái selector là app có cái label là app và app 1 vậy Bây 
+
+giờ chúng ta xem trong hệ thống chúng ta đang có cái port nào hay chưa đây Hiện tại chúng ta không có cái port nào hết chúng ta muốn tạo một cái port chúng ta Run và trừ h chúng ta xem chúng ta sẽ tạo một cái 
+
+port Nó tên như thế này nhưng mà nó phải có một cái label label là đây trừ trừ trừ label thì chúng ta xem trừ trừ trừ label nó còn có cái option nào cho chúng ta ha Mình nhớ nó sẽ cóở đây thay vì trừ trừ label các bạn có thể trừ l vẫn được 
+
+nhé Vậy thì mình sẽ copy cái này mình sẽ p đây và mình đi sửa đây tên của cái port này chúng ta sẽ đặt tên là port 1 lưu ý nhá Mình có thể map nhiều mình ch không không nh một port có thể tạo 
+
+deployment nhưng mà để đơn giản thì các bạn đỡ vị c f sẽ tạo một port thôi arm V1 và port của container mình sẽ là port0 nhưng mà vẫn chưa đủ các bạn phải tạo label trừ L bằng và bây giờ mình sẽ có cái bằng của 
+
+mình là app bằng app 1 mình tạo thêm cái đi environment demo enter rồi chúng ta chúng ta đã tạo xong này carg port trừ V What là chúng ta xem Running luôn rồi rất nhanh ha bây giờ mình sẽ coi này kle decribe port po 
+
+m thời gian đầu các bạn chưa làm nhiều cái này các bạn nên gõ nhiều ha tạo làm đi làm lại hai ba lần gì đấy đây chúng ta thêm lel chúng ta sẽ chúng ta có thể tạo nhiều label cho một cái con post nà Và đây là cái cơ chế chúng ta sẽ gộp 
+
+chúng ta đã đ có cái app app 1 và environment là dem demo chúng ta mình sẽ kiểm tra lại cái service của chúng ta get svc fvc chúng ta sẽ là bỏ gọi là 8081 ha Và tất nhiên mình nói như cái này nó sẽ nằm trong privit mình sẽ 
+
+không thể truy xuất vào cái con server của chúng ta xin lỗi vào con post chúng ta thông qua cái IP này ở đây được Bây giờ mình muốn mình muốn kiểm tra cái service mình đã thực sự hoạt động được hay chưa mà các bạn xem này 
+
+cluster B của các bạn bạn này nó là 10 1 106 106 ch 135.1 đúng không ạ Các bạn thử coi Này qal de svc cluster IP svc đây các bạn xem này ip của nó này 
+
+này 10 13 35.14 ip của nó đang là 135.1 và endp của nó này là 11 10.224 1222 và 8080 0 là gì Các bạn xem là con port này get p port 1 Chúng ta sẽ muốn coi này o Xem IP I này IP 0.122 đúng không ạ Các bạn 
+
+xem Đây này 0.122 bây giờ mình thử chạy thêm một con post thi nhá C nhớ mình dùng Câ lận cũ đi đây Bây giờ mình chạy một con p 2 po 2 mình vẫn chạy cái cái image đấy 
+
+luôn cũng và cái app Mình tên là app 1 luôn Bây giờ mình có hai con po cùng một cái label Vậy thì bây giờ theo các bạn thấy là theo các bạn nghĩ là cái service của mình nó có tự động cộng thê một cái Endo tại vì bây giờ mình đang có mình 
+
+đang muốn selector mình đ là app app 1 và mình tạo ra con post 2 rồi bây giờ mình kiểm tra này K get po hay get cũng được ha đây chúng ta có hai con post chúng ta có describe cái con port này ra này 
+
+describe port đây label đây Vậy thì chúng ta sẽ thử kiểm tra cái service chúng ta nhá ke qual à decribe svc à cluster IP svc đây Các bạn thấy không 
+
+ạ Nó rất thông minh nha nó sẽ biết được là à Cái service chúng ta đang quy định là cái selector sẽ l app 1 và app bằng App 1 thì nó sẽ tự động nó sẽ Cộng dồn vào ra tất nhiên Hai con này là hai con heo thì nh để nó có thể lo baning tất cả 
+
+các dịch vụ của trên camet đều là hỗ trợ l bing mặc định luôn rồi nên là tiện lợi xóa đi thì nó tự động sẽ remove Ví dụ mình S sử mình xóa con port đ Delete port port 2 bây giờ mình sẽ kiểm tra lại đây tự 
+
+động nó sẽ còn có một con nh và bây giờ mình còn một cái nữa mình muốn show với các bạn là bây giờ mình sẽ th chui vào con post Q cal exq trừ it port One trừ SH đây chúng ta sẽ có i đây m 0.122 lúc chúng ta đã xem 
+
+rồi bây giờ ch sẽ thử dụng ns lo Cup tên của service chúng ta cluster IP fvc cluster IP default svc Đây là cái giải IP này là giải ip của cluster cluster giải ip của các cái note của chúng ta Ờ chúng ta có 
+
+IP là cái cái tên cái tên này cũng sẽ quan trọng ha cái tên này ví dụ như sao các bạn có nhiều cái namespace bây giờ các bạn chư biế namespace thì mặc định khi chúng ta chể khai tất cả các cái resource nó sẽ nằm trong namespace tên 
+
+là default ip của nó sẽ là 10.16.1 35.14 ha và ip tất nhiên nó sẽ không thay đổi theo các cái cluster chúng ta ở đây thì đây là cái cái cluster IP ha bây giờ các bạn muốn muốn làm cái noep thì các bạn đã làm nhiều 
+
+rồi nha trong vàc phần trước thì bây giờ các bạn phải sửa này cái này cái T của các bạn này cluster IP t ip của nó đây port của nó đây chúng ta xem trong cái phần Ví dụ chúng ta làm phần trước đây thì đối với cái cluster IP thì các bạn 
+
+Mình sửa này à mình sẽ cần phải đặc tả cái port của nó ha và đặc tả cái thêm cái phần là liên quan noteb Nếu không đặc tả nó sẽ chạy random mà giả sử mình để mình không đặc tả tả đi cái này các bạn đã thử đ tả 
+
+rồi đúng không ạ Mình sẽ selector vẫn là app và app1 chúng ta ở đây luôn chúng ta sẽ có này K apply trừ f và chọn cái note p get svc đây các bạn Note P của các bạn đây 
+
+là t giờ nó sẽ expor report là 1 318 318 38 ha và b này là B ngẫu nhiên random và các bạn có thể nếu mà con server con Go các bạn bây giờ là một dạng có địa chỉ IP public thì các bạn có thể chi xuất được ha Nhưng mà rất tiếc con MQ Chúng 
+
+ta không có Ha cho nên các bạn có thể dùng dùng cái mini chúng ta giả lập ở đây thôi mini service rồi tên của cái service ha Note p svc trừ trừ UR 
+
+ha đây thì các bạn có thể chi xuất thông qua cái địa chỉ này đây port của mình là 122 đây ha Còn nếu các bạn thử thử cái này này Bây giờ bạn thử cái cluster IP 
+
+này thì nó nói là head no Note pod à service này con mèo nó khóc này thì cái này không thể chy xất từ bên ngoài và được nhưng mà Tất nhiên trong môi trường mà đem mình đang học đây thì sbox vào đây á thì miniq nó vẫn hỗ trợ mình Spore 
+
+ra bên ngoài ha Giả sử các bạn chỉ suất này An nhà nó vẫn chi xất được ha Thì đó là cái loại clust cluster IP và noteb bây giờ chúng ta sẽ thử thử tạo cái loại là loại lot ler nhé Bây giờ mình sẽ thử về cái này mình sẽ duplicate này ra 
+
+đi load baner bây giờ mình sẽ LB đi mình cũng sẽ làm easy như lúc nãy nh export bây giờ mình sẽ sử m 085 085 đi Đó giờ mình apply ke apply trừ f load balancer rồi created rồi chúng ta 
+
+kiểm tra get FC đây Các bạn thấy không LB service của mình là loại ler và nó đang ở có địa chỉ IP này nhưng mà rất tiếc nó lại ở trạng thái là pending bởi vì sao Bởi vì như 
+
+mình nói là l baner này là một cái loại tài nguyên giúp mình tạo ra những cái à những cái thành phần nào nằm ở trong cloud provider ha Ví dụ như dụ nằm trên thì mình thã dùng là tạo là ra EB ha lo application hay loại netw gì đấy thì tại 
+
+vì trong cái mini K nó đang hiện tại nó không h nó không có cái loại này Cho nên nó sẽ là trạng thái là sẽ là pending thì đó là lý do tại sao các bạn thấy nó là như vậy còn cái port 3035 3552 này chính là một con Note port không các bạn xem 
+
+lại cái ví dụ của chúng ta ở đây này Đây bản chất l lenser này nó sẽ nằm nằm ở dưới nó sẽ là một con Note B nhưng mà bây giờ chúng ta sẽ truy xất thông qua một địa chỉ một địa chỉ đẹp như thế này chứ không phải là từng địa chỉ IP IP nữa 
+
+thì bởi vì nhưng mà trong miniq thì hiện tại không có L answerer cho nên là các bạn thấy nó nó bending nó không tạo được nhưng mà các bạn vẫn có thể chuy xuất các port chúng ta thông qua các cái thông qua các cái IP này 
+
+ha thông qua các cái l benser bằng bằng địa chỉ IP này vẫn có thể suy xuất được nhá thì đó là cái sự khác biệt giữa cluster ler và noteb thì rất tiếc là trong MQ thì mình có rất nhiều giới hạn cho nên là mình chỉ th demo Các bạn thấy 
+
+hai cái phổ biến nhất là cluster i và notp thôi còn L answerer và external name thì mình sẽ hẹn các bạn ở trong cái phần về iks ha external name thì là một cái loại đặc biệt ha Tiện đây mình cũng nói thêm cho các bạn để các bạn cũng Nếu 
+
+các bạn phân vân thì đối với ba cái loại này á ba cái loại này phổ biến là những external name này đôi khi sau này ví dụ các bạn làm giả sử như các bạn có một con database nằm bên ng ngoài đi nó không nằm trong cluster mà các bạn 
+
+muốn ứng dụng các bạn Kết Nối con database này và các bạn không muốn kiểu H H H code cái phần datab name á thì các bạn thì kh bc có service time exal name và có thể trỏ đến cái database chúng ta nằm bên ngoài ở 
+
+đây trong cái phần tài liệu của manifest các bạn cũng có thể xem ex name ở đây đây ví dụ như các bạn kết nối con database nằm bên ngoài ha thì sau này ứng cái port của các bạn này nó sẽ kết nối với cái tên là tên là My service ha 
+
+thay vì các bạn phải kết nối đến một cái tên giải dòng như thế này Tại vì nó cũng không cho phép ha Thì đó là một số các cái demo mình hiy vọng Qua bài này các bạn có thể hiểu rõ hơn về các loại service ở trên k8s này hẹn gặp lại các 
+
+bạn trong bài tiếp theo ạ 
+

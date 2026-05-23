@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: myapp-limits
+  namespace: myapp-dev
+spec:
+  limits:
+    - type: Container
+      default:                  # nếu pod KHÔNG khai limits
+        cpu: 500m
+        memory: 256Mi
+      defaultRequest:           # nếu pod KHÔNG khai requests
+        cpu: 100m
+        memory: 128Mi
+      max:                      # giá trị tối đa được phép
+        cpu: "2"
+        memory: 2Gi
+      min:
+        cpu: 10m
+        memory: 32Mi

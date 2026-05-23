@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myapp-dynamic-pvc
+  namespace: myapp-dev
+spec:
+  storageClassName: standard      # hoặc bỏ để dùng default
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 500Mi

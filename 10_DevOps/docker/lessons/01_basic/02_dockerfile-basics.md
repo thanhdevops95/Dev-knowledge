@@ -1,15 +1,15 @@
-# Dockerfile Basics — Build image của chính bạn
+# 🎓 Long build image `myapp` đầu tiên — Dockerfile Basics
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 20/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [01_images-and-containers.md](./01_images-and-containers.md)
 
-> 🎯 *Dùng image có sẵn (nginx, postgres) chưa đủ — bạn cần đóng gói **app của chính bạn** thành image. Bài này dạy viết Dockerfile + build image custom.*
+> 🎯 *Tiếp Long story: Long đã `docker run nginx` chạy ngon, nhưng `docker run myapp` báo lỗi — image 'myapp' không tồn tại. Bài này dạy Long viết Dockerfile để build image cho app của chính mình.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -22,17 +22,27 @@
 
 ---
 
-## 1️⃣ Vì sao cần Dockerfile (WHY)
+## Tình huống — Long muốn share `myapp` cho Mai bằng Docker
 
-Bạn đã biết chạy image có sẵn:
+Long đã quen với `docker run nginx`, `docker run postgres`. Nhưng vấn đề ban đầu (Mai không chạy được `myapp`) **chưa giải quyết**. Long thử:
 
 ```bash
-docker run nginx        # OK
-docker run postgres     # OK
-docker run my-app       # ❌ image 'my-app' chưa tồn tại
+docker run myapp
 ```
 
-→ Để chạy **app của bạn** trong container, phải có image cho app đó. **Dockerfile** = công thức build image.
+```
+Unable to find image 'myapp:latest' locally
+docker: Error response from daemon: pull access denied for myapp...
+```
+
+❌ **Không có image `myapp`** — nginx/postgres/redis đều là image public trên Docker Hub, có sẵn. App của Long thì **chưa ai build image cho nó**.
+
+Long phải tự build. Câu hỏi:
+1. **"Build" image nghĩa là gì cụ thể?**
+2. **Cấu hình** (Python 3.11, requirements.txt, source code) đi vào image như nào?
+3. Sau khi build, làm sao **share** cho Mai dùng?
+
+Đáp án: **Dockerfile** — file text "công thức" cho image. Bài này dạy Long viết Dockerfile đầu tiên cho `myapp`.
 
 ### Quy trình build → run
 
@@ -50,9 +60,9 @@ graph LR
 
 ---
 
-## 2️⃣ Dockerfile là gì (WHAT)
+## 1️⃣ Vậy Dockerfile thực sự là gì?
 
-**Định nghĩa**: Dockerfile là **file text** chứa các **instruction** Docker thực hiện theo thứ tự để build image.
+**Trả lời**: Dockerfile là **file text** chứa các **instruction** Docker thực hiện theo thứ tự để build image — đúng "công thức nấu ăn" cho image của Long.
 
 **🪞 Ẩn dụ**: *Dockerfile như **công thức nấu ăn** — liệt kê nguyên liệu (base image) + các bước (chế biến, gia vị, nêm) → kết quả là 1 món ăn (image). Cùng công thức → cùng món ăn ở mọi nơi.*
 
@@ -83,7 +93,7 @@ INSTRUCTION arguments
 
 ---
 
-## 3️⃣ Hands-on — Build Dockerfile đầu tiên (HOW)
+## 2️⃣ Long viết Dockerfile đầu tiên cho `myapp`
 
 ### 🛠️ 3.1 App mẫu — Python Flask hello world
 
@@ -186,7 +196,7 @@ docker stop flask && docker rm flask
 
 ---
 
-## 4️⃣ Giải thích từng instruction
+## 3️⃣ Giải thích từng instruction
 
 ### `FROM` — Base image
 
@@ -230,7 +240,7 @@ COPY src/ /app/src/
 | `COPY <src> <dst>` | `<src>` ở host (relative từ build context), `<dst>` trong container |
 | `COPY . /app` | Copy MỌI thứ trong build context vào `/app` |
 
-> ⚠️ Cẩn thận `COPY . .` — có thể copy cả `node_modules`, `.git`, `.env` vào image (xem §6 `.dockerignore`).
+> ⚠️ Cẩn thận `COPY . .` — có thể copy cả `node_modules`, `.git`, `.env` vào image (xem §5 `.dockerignore`).
 
 ### `RUN` — Chạy lệnh khi build
 
@@ -336,7 +346,7 @@ docker build --build-arg NODE_VERSION=20 -t my-app .
 
 ---
 
-## 5️⃣ Layer caching — Tối ưu build time
+## 4️⃣ Layer caching — Tối ưu build time
 
 Mỗi instruction trong Dockerfile → 1 **layer**. Docker cache từng layer. Nếu layer không đổi → reuse, build nhanh hơn nhiều.
 
@@ -383,7 +393,7 @@ CMD ["python", "app.py"]
 
 ---
 
-## 6️⃣ `.dockerignore` — Loại file khỏi build context
+## 5️⃣ `.dockerignore` — Loại file khỏi build context
 
 Khi `docker build .`, Docker copy MỌI thứ trong folder hiện tại vào build context (kể cả `node_modules`, `.git`). Lãng phí + chậm + có thể leak secret.
 
@@ -432,7 +442,7 @@ Thumbs.db
 
 ---
 
-## 7️⃣ `CMD` vs `ENTRYPOINT` — Khác biệt quan trọng
+## 6️⃣ `CMD` vs `ENTRYPOINT` — Khác biệt quan trọng
 
 ```dockerfile
 # Option A: CMD only
@@ -473,7 +483,7 @@ COPY . .    # ❌ copy hết — kể cả file nhạy cảm
 
 → Image leak credential, nặng.
 
-- **Fix**: dùng `.dockerignore` (xem §6).
+- **Fix**: dùng `.dockerignore` (xem §5).
 
 ### ❌ Pitfall: Quên `--no-cache-dir` cho pip
 
@@ -488,7 +498,7 @@ RUN pip install -r requirements.txt    # ❌ pip cache thừa ~100 MB
 
 ### ❌ Pitfall: Layer caching vỡ vì thứ tự sai
 
-(Xem §5)
+(Xem §4)
 
 ### ❌ Pitfall: Image >2 GB
 
@@ -740,4 +750,9 @@ docker rmi my-app:v1                     # xóa
 
 ## 📌 Changelog
 
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc:
+  - Title đổi: "Dockerfile Basics" → "**Long build image `myapp` đầu tiên**"
+  - Mở bằng **tình huống Long thử `docker run myapp`** thất bại (image không tồn tại) — phải tự build
+  - Headers đổi: `1️⃣ Vì sao cần Dockerfile (WHY)` / `2️⃣ Dockerfile là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Tình huống — Long muốn share myapp cho Mai", "Vậy Dockerfile thực sự là gì?", "Long viết Dockerfile đầu tiên cho myapp")
+  - Content kỹ thuật KHÔNG đổi (8 instruction + build + layer caching + .dockerignore + CMD vs ENTRYPOINT vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — 8 instruction Dockerfile + build process + layer caching + .dockerignore + CMD vs ENTRYPOINT + 6 pitfall/best-practice.

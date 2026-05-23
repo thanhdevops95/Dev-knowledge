@@ -1,15 +1,15 @@
-# Docker Images & Containers — `pull`, `run`, `ps`, `stop`, `rm`
+# 🎓 Long làm chủ 8 lệnh Docker — Images & Containers
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 20/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút (kèm hands-on)\
 > **Prerequisites:** [00_what-is-docker.md](./00_what-is-docker.md), đã [cài Docker](../../setup/install-docker.md) chạy được
 
-> 🎯 *Học **8 lệnh Docker daily**: pull, run, ps, stop, rm, logs, exec, images. Sau bài này bạn quản lý được containers như pro.*
+> 🎯 *Tiếp Long story: Long đọc xong intro Docker, mở Docker Desktop, gõ lệnh đầu tiên — gõ lệnh gì? Bài này dạy **8 lệnh CRUD container** Long sẽ dùng hàng ngày: pull, run, ps, stop, rm, logs, exec, images.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,7 +21,28 @@
 
 ---
 
-## 1️⃣ Vì sao học 8 lệnh này (WHY)
+## Tình huống — Long mở Docker Desktop lần đầu
+
+Long vừa hiểu Docker là gì. Mở Docker Desktop — giao diện trống trơn. Terminal:
+
+```bash
+docker --version
+# Docker version 25.0.3, build...
+```
+
+OK Docker đang chạy. Nhưng **gõ lệnh đầu tiên là gì?** Long search Google "docker tutorial" — 47 tab mở ra, mỗi tutorial dạy thứ tự khác nhau. Hỗn loạn.
+
+Long quay sang sếp:
+
+> *"Anh, có 100+ lệnh docker, em phải học từ đâu?"*
+
+Sếp cười: *"Mỗi ngày anh dùng đúng 8 lệnh. Em học 8 lệnh đó là đủ làm việc."*
+
+Bài này là 8 lệnh đó — **"bộ CRUD" cho container**, 80% công việc Docker daily.
+
+---
+
+## 1️⃣ Vậy 8 lệnh "CRUD container" là gì?
 
 8 lệnh `pull`/`run`/`ps`/`stop`/`rm`/`logs`/`exec`/`images` chiếm **80% lệnh Docker daily**. Đây là "bộ CRUD" cho containers:
 
@@ -36,7 +57,7 @@
 
 ---
 
-## 2️⃣ Lifecycle của container (WHAT)
+## 2️⃣ Container đi qua những trạng thái nào?
 
 Trước hands-on, hiểu **container đi qua các trạng thái**:
 
@@ -65,7 +86,7 @@ stateDiagram-v2
 
 ---
 
-## 3️⃣ Hands-on — 8 lệnh cốt lõi (HOW)
+## 3️⃣ Long bắt tay làm — 8 lệnh cốt lõi
 
 ### 🛠️ 3.1 `docker pull` — Tải image về
 
@@ -671,4 +692,9 @@ docker rmi $(docker images -q)      # xóa ALL image
 
 ## 📌 Changelog
 
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc:
+  - Title đổi: "Docker Images & Containers" → "**Long làm chủ 8 lệnh Docker**"
+  - Mở bằng **tình huống Long mở Docker Desktop lần đầu**, hỏi sếp "100 lệnh, học từ đâu?", sếp dạy "mỗi ngày 8 lệnh"
+  - Headers đổi: `1️⃣ Vì sao học 8 lệnh (WHY)` / `2️⃣ Lifecycle (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy 8 lệnh CRUD là gì?", "Container đi qua trạng thái nào?", "Long bắt tay làm — 8 lệnh cốt lõi")
+  - Content kỹ thuật KHÔNG đổi (8 lệnh + state diagram + pitfalls vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — 8 lệnh Docker daily + lifecycle + 6 pitfall + best-practice + cleanup.

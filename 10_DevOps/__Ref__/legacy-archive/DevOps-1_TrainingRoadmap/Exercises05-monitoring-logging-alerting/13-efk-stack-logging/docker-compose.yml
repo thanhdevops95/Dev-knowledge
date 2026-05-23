@@ -1,0 +1,64 @@
+# docker-compose.yml
+# File này định nghĩa 4 services: 3 cho EFK stack và 1 ứng dụng mẫu để tạo log.
+
+version: '3.8'
+
+services:
+  # 1. Service Elasticsearch: Nơi lưu trữ và lập chỉ mục log.
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200" # Cổng API để tương tác với Elasticsearch.
+    environment:
+      # Cấu hình để chạy Elasticsearch ở chế độ một node duy nhất.
+      - discovery.type=single-node
+    volumes:
+      # Sử dụng volume để dữ liệu của Elasticsearch không bị mất khi container được tạo lại.
+      - esdata:/usr/share/elasticsearch/data
+
+  # 2. Service Kibana: Giao diện web để xem log.
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    container_name: kibana
+    ports:
+      - "5601:5601" # Cổng giao diện web của Kibana.
+    depends_on:
+      # Kibana chỉ khởi động sau khi Elasticsearch đã sẵn sàng.
+      - elasticsearch
+
+  # 3. Service Fluentd: Thu thập, xử lý và chuyển tiếp log.
+  fluentd:
+    image: fluent/fluentd:v1.14-1
+    container_name: fluentd
+    volumes:
+      # Ánh xạ thư mục cấu hình từ máy host vào container.
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      # Cổng để nhận log từ các nguồn khác (ví dụ: từ Docker log driver).
+      - "24224:24224"
+      - "24224:24224/udp"
+    depends_on:
+      - elasticsearch
+
+  # 4. Service ứng dụng mẫu: Một container đơn giản chỉ để tạo ra log.
+  my-app:
+    image: alpine # Sử dụng một image linux siêu nhẹ.
+    container_name: my-app
+    # Liên tục ghi ra một dòng log chứa ngày giờ hiện tại mỗi 5 giây.
+    command: >
+      sh -c "while true; do echo 
+$(date)
+ 'INFO: Hello from my-app, this is a test log.'; sleep 5; done"
+    logging:
+      # Cấu hình Docker Engine gửi log của container này đến Fluentd.
+      driver: "fluentd"
+      options:
+        # Địa chỉ của Fluentd server.
+        fluentd-address: localhost:24224
+        # Tag này sẽ được đính kèm vào mỗi dòng log, giúp Fluentd định tuyến.
+        tag: docker.my-app
+
+volumes:
+  esdata: # Định nghĩa volume được sử dụng bởi Elasticsearch.
+

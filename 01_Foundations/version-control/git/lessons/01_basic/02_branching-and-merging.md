@@ -621,7 +621,7 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 |---|---|
 | ⬅️ Bài trước | [01_init-and-first-commit.md](./01_init-and-first-commit.md) |
 | ➡️ Bài tiếp | [03_remote-and-github.md](./03_remote-and-github.md) — push lên GitHub, collab |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 

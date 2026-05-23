@@ -1,0 +1,53 @@
+# docker-compose.yml
+# Orchestration tool - Điều phối nhiều container cùng lúc
+# Ở đây ta có 2 services: web (Flask) và redis (Database)
+
+version: '3.8'
+
+services:
+  # Service 1: Redis Database
+  redis:
+    image: redis:7-alpine # Image chính thức từ Docker Hub
+    container_name: counter-redis
+    ports:
+      - "6379:6379" # Expose Redis port ra ngoài (để debug)
+    networks:
+      - counter-network
+    volumes:
+      - redis-data:/data # Persist data - Dữ liệu không mất khi restart
+    restart: unless-stopped # Tự động restart nếu crash
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Service 2: Flask Web Application
+  web:
+    build:
+      context: . # Build từ Dockerfile trong thư mục hiện tại
+      dockerfile: Dockerfile
+    container_name: counter-web
+    ports:
+      - "5000:5000" # Map port 5000 của container ra host
+    environment:
+      - REDIS_HOST=redis # Tên service redis ở trên
+      - REDIS_PORT=6379
+    depends_on:
+      redis:
+        condition: service_healthy # Chỉ start web khi redis đã healthy
+    networks:
+      - counter-network
+    restart: unless-stopped
+    volumes:
+      - ./app.py:/app/app.py # Mount source code để dev nhanh (hot-reload)
+
+# Network riêng biệt cho app (isolation & security)
+networks:
+  counter-network:
+    driver: bridge
+
+# Volume để lưu trữ dữ liệu Redis
+volumes:
+  redis-data:
+    driver: local

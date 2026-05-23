@@ -1,0 +1,76 @@
+chúng ta đã biết cái cắt mà là roll l một cái phiên bản mới của deployment thì bản chất cái việc roll l là các bạn chỉ cần sửa cái image thôi là các bạn đã bị thay đổi rồi và deploy một cái phiên bản mới rồi đó là tình huống đơn giản nhưng 
+
+đôi khi Nếu các bạn muốn sửa nhiều chỉ số cùng lúc hay sao thì chúng ta sẽ có một cái để giúp chúng ta có thể sửa nhiều cái cùng lúc trước khi chúng ta đã deploy đó là tính năng P và resume của một cái deployment thì trước khi làm thì 
+
+chúng ta sẽ kiểm tra chúng ta hiện tại đang có hai con port đang running hai con port này của mình ấy chúng ta sẽ kiểm tra nhá Kill cle describe port đây pst này chúng ta là đang chạy cái phiên bản 
+
+số để mình cùng xem này 8080 ph bản số 3 ha và con này của mình mình không hề có cấu hần một cái giới hạn về mặt chạy tài nguyên như nào Ví dụ CPU hay ram như nào thì bây giờ ý tưởng của mình này khi mình sẽ thc thực 
+
+hiện roll phiên bản mới của cái deployment này và cái phiên bản này của mình sẽ chạy version 4 và cùng đó mình sẽ giới hạn cái số lượng CPU và RAM cho con post này chạy thì để giới hạn một cái thì chúng ta có thể trên trên cái 
+
+ctic chúng ta có thể dùng cái loạn set này resource nà rồi chúng ta có thể trừ h ha đây các bạn xem à z h đây đặc tả compil resour là về CPU và bộ bộ nhớ cho bất kỳ resource nào định 
+
+nghĩa theo dạng port template n à đảm bảo số lượng resource request B up to specify Limit ha chúng ta xem một số ví dụ này set resource deployment tên deployment Và tất nhiên là tên là tên container trừ c là container này trừ 
+
+c là container nào này Engine X là cái tên của container ví dụ chúng ta trong bài trước chúng ta biết là tên của container chúng ta đã là tên là Rm ha nếu các bạn không rõ các bạn xem lại cái phần set image ở trong cái chỗi bài này 
+
+nhá rồi Limit của chúng ta là CPU là 200 m có nghĩa là một CPU nó tương đứng khoảng 1000 á rồi Đây là 2 512 MB ha là nửa Nói chung là 0,5 khoảng tầm tầm tương tương đối là khoảng 0,5 GB RAM á thì chúng ta sẽ dùng cái câu luận này 
+
+chúng ta sửa ha và chúng ta sẽ sửa cái edit deployment Thì trước khi làm thì chúng ta sẽ cùng xem này chúng ta sẽ coi nà Kill get pst trừ V ké ha hiện tại các bạn đang có hai này thì để làm thế này thì các bạn sẽ cần phải Trước hết các 
+
+bạn phải dùng power deployment này lại chúng ta sẽ roll La Pa đây có cái P ở đây đúng không ạ Các bạn có thể chừ h ở đây tiếp để các bạn xem con này Mục tiêu này Mark một cái provided resour power power resour ha để dùng CR la này 
+
+resum này nếu mà resum chúng ta có là unp có nĩa là bắt đầu deploy á chúng ta xem một số ví dụ này roll la power deployment n riêng cho deployment thôi nhá hiện tại không có hiện tại chưa hỗ trợ các resource khác rồi một số option 
+
+khác Mình nghĩ cũng đơn giản thôi rồi chúng ta sẽ dùng này koll power deployment và app One deploy rồi Ứng dụ chúng ta sẽ này các bạn kiểm tra này roll l status deployment app One deploy 
+
+đó thàng công nhưng mà cái trạng thái của mình đang là trạng thái là P ở đây các bạn thm ra này chúng ta chưa làm gì hết nha Bây giờ chúng ta sẽ thử thử cái đầu tiên chúng ta sẽ thử k c set image cho deployment tên là app One deployment 
+
+và mình sẽ dùng cái image của mình là thậ sử mình trừ h đi Nếu mình không nhớ mình sẽ đây chúng ta set image đây deployment Engine X và cái tên nó mới là gì ha rồi chúng ta sẽ dùng cái 
+
+này tên của mình là arm mình sẽ dùng vixs mình sẽ dùng hình như mình mình đang ở V máy nha Mình đang ở V3 bây giờ mình sẽ chuyển sang v4 nhá À xin lỗi arm ha v4 rồi upd Các bạn xem ở bên cái đ l 
+
+Hiện tại mình mình không hề có deploy cái nào ra mới nha các bạn có thể xem là Kill C get RS đây RS chúng ta vẫn là chỉ có ba cái nha đang chạy con 87 này Bây giờ mình ra lo một cái mới thì nó sẽ tạo ra một cái replica set mới đúng không ạ 
+
+nhưng mà hiện tại chưa có bây giờ mình tiếp tục mình tiếp tục mình sẽ xem này Bây giờ mình sẽ cấu hình cái tài nguyên của mình pst Chúng ta chúng ta coi hiện tại Limit Limit của chúng ta đã có không nha describe 
+
+đây pst của chúng ta đây cái port này chúng ta Dạ 8080 này hiện tại đang Mau với cái bộ cứng thế này hotp không có này rồi chúng ta có docker pool hiện tại con B chúng ta không hề có giới hạn về tài nguyên ha Có 
+
+nghĩa là trong thực tế nó có thể giãn nở tùy thuộc vào cái tải của con của con B này có thể là C vertical scaling cái đấy phần đấy mình sẽ tìm hiểu sau ha ý tưởng Hiện tại mình không có bây giờ chúng ta muốn Limit thì 
+
+chúng ta sẽ có cái câu luận như lúc nãy chúng ta đã có lúc đầu video cal set resour rồi chúng ta h đây Reset resort đây chúng ta sẽ dùng câu lợn này 
+
+Đây đây chúng ta sẽ dùng câu lợn này là set resource cho deployment tên tên deployment chúng ta là app app1 deploy ha CPU ram này à hoặc là mình sẽ dùng số lượng request ở đây nhưng mà mình sẽ dùng đơn giản th 
+
+mình sẽ dùng cái này ha đây hoặc là mình sẽ dùng cho set cho từng cái resour đây luôn Mình dùng cc chân này chính xác hơn này đó cho cái container name chúng ta là AR ở đây rồi chúng ta sẽ lần đầu tiên các bạn là các 
+
+bạn nên gõ ha Tại vì mình không muốn clip này giải quá nên là mình sẽ làm tắt ADM deployment Cái này là sẽ là deployment của chúng ta tên là app one deploy đúng không ạ rồi Các bạn thử review này nhá chúng ta xem này hiện tại 
+
+là chúng ta vẫn đang có hai con chưa hề chạy gì hết và chúng ta sẽ enter đây resour đã update ha và chúng ta coi qu bên này nó vẫn không hề chạy gì hết Tại vì cái tại vì cái deploy chúng ta đang bị gọi là bị Pa lại rồi Bây giờ muốn 
+
+chạy cái này thì chúng ta cần phải unp gọi là resum resum nó gi chúng ta sẽ kiểm tra cái q chúng ta decribe deployment app One deploy đây Các bạn thấy này Limit CPU 200 mi và 512 Mi ở đây em version 4 
+
+nhưng mà hiện tại cái P của chúng ta đấy đang vẫn chạy version 3 nhá các bạn nhá Tại vì cái này nó đang trạng thái là đang chưa được chưa được update ha chưa được gọi nh resum để chạy cái này cái mới nhất đang chạy nhưng mà nó trạng 
+
+thái đang bị hôn rồi chẳng bị giữ lại rồi nó không hề có bây giờ mình muốn chạy th này thì chúng ta sẽ thử chúng ta sẽ mình mình sẽ C kiểm tra lại các bạn lần trước khi chúng ta deploy nhá de dve port và chúng ta sẽ coi cái 
+
+port Hiện tại chúng ta cái port hiện tại của chúng ta không hề có CPU Limit hoặc là cái version 4 nhá p Hiện tại chúng ta đang chạy này đây version 3 nhá và không hề có cái phần CPU Limit và cái web chúng ta vẫn đ làm version 3 đây Bây giờ 
+
+chúng ta sẽ roll là bước quan trọng nhất và Kill roll l đây chúng ta sẽ dùng cái resume deployment và app One deploy rồi resum rồi chúng ta xem ở Chư này bắt đầu nó mới đi tạo cái container của chúng ta ở đây và tất nhiên chúng ta sẽ chạy cái 
+
+version 4 chúng ta kiểm tra đây k c get nó running ch nha Ok running version 4 này chúng ta sẽ kiểm tra cái version chúng ta K de p đây chúng ta xem đây chúng bạn thấy 
+
+cái phần Limit request này chúng ta rồi đúng không ạ request là 200 mi và memory là 200 mi và tối đa cũng chỉ là được như thế thôi và version chúng ta chúng ta sẽ chạy version 4 chúng ta cũng có thể kiểm tra thêm cái phần cal 
+
+decribe deployment và app One đây nó cũng sẽ tất cả các status nó đều có chyển cho chúng ta ở đây ha và chúng ta sẽ xem cái k get RS ha đâ nó tạo thêm một cái một cái replica set nữa rồi replica set này tượng trưng cho version 
+
+4 và các bạn xem ở đây này chúng ta sẽ coi này rone laoud history deployment app One deploy đây nó có cái số 6 đây Hiện tại đang dạy verion 4 và khi chúng ta quay về cái web ch chúng ta thì nó vẫn đang chạy nó sẽ 
+
+chuyển quả cái version 4 của chúng ta thì đó là cái cái cách mà chúng ta thực hiện P và resum thì cái này Đây cũng là một kỹ thuật rất hay để các bạn có thể là tạo ra nhiều cái thay đổi trong cái 
+
+deployment chúng ta thì các bạn thấy trong phần này này các bạn thấy đây tất cả cái chữ này đều là nông hết bây giờ các bạn muốn xem này thì các bạn rất là bất tiện các bạn phải trừ revision bằng 6 chẳng hạn các bạn xem cái detail của 
+
+các bạn trong này là gì ha Và tất nhiên cái này thấy cái này thì nó cũng không có vẻ đẹp đẻ lắm ha Thì trong bài tớ Chúng ta sẽ tìm hiểu các Làm sao để để nó có thể xuất hiện cái trên cost một cái nói chung một cái description một 
+
+cái mô tả ở đây cho nó trực quan h nà Ok Cảm ơn các bạn và hẹn gặp lại trong bài tiếp theo ạ 
+

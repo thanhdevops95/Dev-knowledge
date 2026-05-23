@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-app-deployment
+  labels:
+    app: curl-app
+spec:
+  replicas: 2  # Số lượng Pods muốn có
+  selector:
+    matchLabels:
+      app: curl-app      # Selector để tìm Pods
+      tier: frontend
+  template:  # Pod template
+    metadata:
+      labels:
+        app: curl-app    # ⚠️ LABEL phải khớp với selector ở trên
+        tier: frontend
+      annotations:
+        description: "Demo pod for learning K8s"
+    spec:
+      containers:
+      - name: curl-app
+        image: curlimages/curl:latest
+        command: ["sleep"]
+        args: ["3600"]
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: APP_ENV
+          value: "demo"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        readinessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:80/health
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:80/health
+          initialDelaySeconds: 15
+          periodSeconds: 20

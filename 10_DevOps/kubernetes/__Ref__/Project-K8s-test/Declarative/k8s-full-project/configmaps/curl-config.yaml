@@ -1,0 +1,25 @@
+# ConfigMap - Lưu trữ configuration dưới dạng key-value
+# Không chứa sensitive data (sensitive data dùng Secret)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: curl-config
+  labels:
+    app: curl-app
+    environment: learning
+data:
+  APP_ENV: "learning"
+  LOG_LEVEL: "info"
+  MAX_RETRIES: "3"
+  TIMEOUT: "30"
+  config.json: |
+    {
+      "server": {
+        "port": 8080,
+        "host": "0.0.0.0"
+      },
+      "logging": {
+        "level": "info",
+        "format": "json"
+      }
+    }

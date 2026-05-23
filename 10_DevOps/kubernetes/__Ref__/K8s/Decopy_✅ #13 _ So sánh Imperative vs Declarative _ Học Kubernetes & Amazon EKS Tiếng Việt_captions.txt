@@ -1,0 +1,72 @@
+tiếp theo chúng ta sẽ tìm hiểu về một khái niệm mới mà khi các bạn làm về off Nói chung hoặc là depop nói riêng các bạn nghe rất nhiều cái từ liên quan đế gọi là imperative và so sánh với sự khác biệt giữa declarative ha thì imperative 
+
+có nghĩa là khi các bạn tạo ra một cái tài nguyên dụ cụ thể ở trên k8s á thì các bạn sẽ phải định nghĩa từng bước từng bước các bạn làm ví dụ Các Bạn tạo cái câu gõ lận Ví dụ như này ví dụ các bạn gõ là k cle run Giả sử mình run app2 
+
+đi image mình bằng là Việt aws r Giả sử V2 chẳng hạn thì cái này hình thức này gọi là imperative ha Có nghĩa là các bạn sẽ cần phải đặt tả tường minh từng cái thuộc tính bằng việc gõ lận thì cái việc này nó sẽ trong ngắn hạn có thể rất là 
+
+nhanh các bạn tạo một việc thì nó thủ công manually rất là tốt nhưng mà nếu mà các bạn tạo hàng trăm cái port hoặc là thậm chí vài chục cái service xong rồi chúng ta làm ha mà chúng ta cứ gõ lận như này thì cái khả năng mà chúng ta bị 
+
+bị quên hoặc là chúng ta bị lỗi khi chúng ta gõ lận á hoặc là bị nhầm lận chới các câu Lận với nhau chuyện đó rất dễ xảy ra ha Thì cái cách imperative này nó sẽ hữu nó sẽ Hữu ít cho các bạn làm những công việc gọi là tạm thời ngắn hạn 
+
+hoặc là mình là muốn làm nhăn chẳng hạn nhưng mà để khi chúng ta làm ở triển khai ở quy mô lớn thì các bạn cần phải có một cái phương thức gì đấy để nó có tính lập lại ha Giả sử Tôi có một cái dịch vụ chạy trên camet rồi Tôi có một 
+
+cái post nó có đặc tản như vậy rồi Tôi không muốn phải gõ đi Gõ lại cái chuyện này nhiều lần nữa ha Thì declarative nó sẽ giúp các bạn làm chuyện này thì decrit là một cái phương thức nó thông minh hơn ha các bạn chỉ định nghĩa Cái 
+
+đường cái đứt đến thôi thì nó tự khắc nó sẽ tạo ra các tài nguyên tương ứng cho để đến cái đứt đấy thì cái này khá giống trong một ví dụ thực tế là khi các bạn đi tìm đường đi á thì giả sử các bạn đi tìm đường đi từ điểm A đến điểm B đi từ 
+
+nhà cho đến công ty hoặc là từ nhà cho đến trường học thì nếu các bạn không biết các bạn giả sử bật những cái phương tiện giả sử như google map lên thì các bạn thấy đường đi nó CH rẽ thẳng đi thẳng rẽ trái rẽ phải rồi cứ đi thẳng 
+
+như thế thì các bạn chỉ làm một cách rất là đum mi thôi đúng không ạ Các bạn làm một cách rất là đơn giản cứ map nó chỉ rẽ phải thì rẽ phải map chỉ rẽ trái thì rẽ trái đi thẳng 500 m thì đi thẳng 500 m thì đó là imperative còn declarative 
+
+là gì mình chỉ định nghĩa từ điểm A đến điểm B và giả sử mình có một à một người lái xe giúp mình thì người ta sẽ lái cho mình từ điểm A đến điểm B thôi còn trên đường đi từ A đến B họ có thể là đôi khi ví dụ nh như là rẽ trái rễ phải hay là 
+
+đi thẳng Nhưng mà họ có thể tạo ra những cái sự quyết định làm sao để thông minh à Ví dụ như vào lúc đường kẹt xe thì có thể là đi đường này nó sẽ tiện lợi hơn chẳng hạn thì detic thì nó sẽ chứa đựng nhiều cái sự thông minh hơn trong việc 
+
+cách làm đến cả vận Hàn của chúng ta thì trong cái một cái tài liệu của đội Heroku á là có 12 Factor về Software development Life cycle ấy thì declarative là một trong những cái Khuyến nghị về vận hành của độ đấy đưa 
+
+ra và về phía aws họ cũng trong cái trụ cột về vận hành xuất sắc ấy là operational excell thì họ cũng Khuyến nghị là chúng ta vận Hàn những hệ thống dựa trên code ha Nói chung gọi là inure code thì declarative là một trong những 
+
+cái thực hỗ trợ chyển đấy Vậy thì tiện cơ hội này mình sẽ giới thiệu các bạn một cái size mà các bạn sau này nếu mà các bạn đi học à compit Nói chung hay là xs nói riêng thì hay đi thi chứng chỉ n cũng thế thì kubet.io đây là cái trang 
+
+official của cái đội cncf về kutis ha các bạn khi các bạn đi thi Ví dụ như cka hay là những chỉ các của của của cncf á Các bạn có thể mở trang này ra tra cứu thì trên này hầu hết là những cái thông tin tài liệu mình thấy nó cũng rất là 
+
+rất là trưởng thành nha Có nghĩa là đọc rất là dễ hiểu Giả sử bây giờ mình muốn đi tìm tạo một cái gọi là declarative của post chẳng hạn thì search ở đây ha post thì cái này nếu mà các bạn chưa quen các bạn dần thời gian mình khuyên 
+
+là các bạn nên đọc cái này qua một lượt ha có thể đọc nó không phải là hiểu hết ngay từ đầu đâu nhưng mà nó cũng sẽ giúp cho mình có những cái ý niệm mà đọng từ trong đầu ngay từ rất là sớm rồi Rồi sau này mình học càng ngày theo thời gian 
+
+cái kinh kinh nghiệm và kiến thức mình ngày càng tích lũy nhiều đó mình bắt đầu mình quay lại những cái thứ cơ bản này mình học nó sẽ thực sự thấm hơn thì mình tạm thời skip qua định nghệ nghĩa những cái port này Ha cái này mình đã nói 
+
+trong phần trước rồi thì đây các bạn xem này sử dụng port này thì khi sử dụng port thì các bạn thấy này mỗi một cái tài nguyên ở trên k8s nó Sẽ định nghĩ một cái template dạng như này nó sẽ có cấu nó sẽ có cấu trúc này api version 
+
+này cái này là theo dạng cam ha Có nghĩa là chữ đầu tiên thì viết viết thường còn sang chữ thứ hai thì viết hoa version K là loại này metadata là những thông tin bổ trợ cho cái đối tượng này đối tượng pst ha Thì khi các bạn học bằng lâu các 
+
+bạn sẽ thấy là những con số những cái này là không phải ngẫu nhiên đâu nha Cái này là các bạn phải phải chỉ định đấy và mỗi dụ pst thì nó phải là port ha deployment Nó phải deployment replica set nó phải là replica set thì từ từ 
+
+Chúng ta sẽ tìm hiểu từng cái từng cái một trong phần này mình sẽ tìm hiểu cái cấu trúc cơ bản của một cái à declarative Hay một cái main defect n gọi chúng Cái này là một cái main defect của trên camet nói chung và của pst nói 
+
+riêng thì chúng ta sẽ có bốn cái phần cơ bản nhất là này K metadata và Spec ha Thì trong Spec Các bạn thấy có chữc container chú trong Spec này mà các bạn đừ nghĩ những cái con container chạy với ở trên cái port này các bạn thấy chữc 
+
+container này có chữ S không ạ Có nghĩa là ở đây chúng ta có thể đặc tả nhiều cái container chạy trong cùng cái port này không các bạn Thấy có chữ name đây này tên này cái tên này có nghĩa các bạn có thể đặt bất kỳ còn cái image này 
+
+chính là cái cái container im của mình ha Giả sử các bạn đặt ở trên trên docker Hub thì các bạn đặt tên của bạn ví dụ như là một mình là Viet adress ví dụ arm V1 ch version 1 chì đấy rồi 
+
+container port ha port mình chạy port bao nhiêu thì mình sẽ copy cái này rồi copy cái này thì các bạn có thể quay về cái terminal của mình ha Mình sẽ không làm theo cái Ct là chạy cái app 2 thông qua cái kiểu hình thức như này nữa 
+
+mà mình sẽ dùng cái cách khác mình sẽ tạo một cái th mục mới đi nhá Bây giờ mình chưa có gì ha mình sẽ tạo một cái là port chm zam đây chúng ta sẽ p cái này vào và 
+
+mình sẽ đi sửa port của mình là 8080 cái image của mình tên là Vi aws rồi chúng ta sẽ có arm V2 ha mình đặt tên ở đây là symbol app tên là sle app rồi mình sẽ lưu lại nếu mà các 
+
+bạn không quen dùng m terminal thì các bạn có thể dùng Visual Studio code ha mình gõ Visual st code để kiểm tra này thì nó sẽ các bạn có thể sửa trên những cái giao diện này các bạn có thể dễ hơn không nhất thiết là các bạn phải dùng 
+
+terminal ngay từ B đầu Ồ mình thấy chỗ này mình có một chữ một cái size này Việt th chữ t này Đó mình lưu lại ha Thì lúc đấy thì mình sẽ quay lại cái À mình kiểm tra hai poort của mình ở đây đây vi ID rv2 thì để chạy với 
+
+cái gọi là manifest cái này gọi chung là manifest nà mình gõ cái từ này cho các bạn xem à trên đấy nó gọi những cái này gọi là manifest thì để chạy cái này thì các bạn rất dễ thôi mình gõ chữ apply trừ f p. zamo rồi mình thấy là port 
+
+created này cuc này get port trừ V cap ha đây Các bạn thấy là simple app e running ha Mình có thể kiểm tra cái port này Q dec port simple app đó các bạn thấy Này successful assign này chảy cái container 
+
+m V2 already nà và simle app ha Vậy thì các bạn xem cái này nó nó tiện đúng không ạ Các bạn làm một lần các bạn có thể sử dụng dùng đi dùng lại rất là nhiều lần Thậm chí các bạn sau này tạo ra hẳn một cái tenon mà chạy full luôn 
+
+ha chỉ chạy một câu Kill C apply gì đấy là xong rồi triển khai tất cả những thứ liên quan pst service deployment thậm chí ser config ma các bạn làm tất cả mọi thứ thông qua declarative này thì đây là cái bài mà giới th mình giới thiệu cái 
+
+cách sử dụng cái manifest ha trong bài tớ chúng ta sẽ đi tìm hiểu những cái declarative khác giả sử như mình tìm hiểu về replica set Hay là mình làm những cái deployment chẳng hạn Ok Cảm ơn các bạn theo dõi ạ 
+

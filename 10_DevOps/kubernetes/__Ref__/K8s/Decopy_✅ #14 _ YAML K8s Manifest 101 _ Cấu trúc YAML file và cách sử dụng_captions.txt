@@ -1,0 +1,60 @@
+trong bài này chúng ta sẽ cùng tìm hiểu cách sao để viết một cái zam m phao haa để sau này các bạn thuận lợi viết một cái manifest hay sửa một cái manifest cho nó đúng cái cấu trúc thì thứ nhất là để viết một cái manifest thì trên cit hỗ 
+
+trợ cả da M đến cả json ha Nhưng mà thông thường mình toàn thấy cái ta viết bằng da m không à và mình thấy là da m nó cắt viết dễ chịu hơn bởi vì là nó không có mở ngoặc đóng ngoặc Nhưng mà khi mà các bạn viết ra m thì các bạn sẽ 
+
+cần phải lưu ý một cái chuyện duy nhất thôi đó là cái chuyện các bạn phải thụt đầu dòng cho các cái gọi là thộc đấn ở đây cho nó đúng giả sử name nằm trong Meta thì nó phải thụt đúng vào một gọi là một đ đen thì cái này là khoảng thông 
+
+thường là khoảng hai khoảng trắng thì nếu mà các bạn quy định như thế thì tất cả những cái thứ sau nó sẽ cần phải theo tuân thủ như vậy nếu các bạn chỉ cần bỏ lật cái này ra ngoài thôi thì khi các bạn chạy cái câu kcal apply thì các bạn 
+
+sẽ không có chạy được vậy thì các bạn sẽ chúng ta trong vài này chúng ta sẽ cùng xem một cái manifest chúng ta sẽ cùng the phần nào ha Thứ nhất là khi các bạn tạo một cái manifest thì các bạn đặt tên ha ví dụ như mình đặt tên là demo 
+
+chm cho hoặc là ch yil ha Thì cái này tùy các bạn thôi Tùy t công ty hay tổ chức các bạn định nghĩa cái định dạng file là ba ký tự hoặc là bốn ký tự mình thì thấy thông thường người ta vẫn dùng là Z nhiều hơn thì một cái file Z các 
+
+bạn sẽ có viết như bình thường thôi nhưng mà nó sẽ dạng khai báo thì khai báo đơn giản nhất á là khai báo theo dạng gọi là key value pay ha Mình nốt đây là key value Pay key value là gì Ví dụ name của 
+
+mình Việt aws chẳng hạn tuổi của mình là 18 tuổi chẳng hạn thì đây là key value pair thì đây là loại gọi là đơn giản nhất ví dụ Các bạn xem nh cái port này này bản chất api version V1 K loại là port là chính là key value pair chúng ta 
+
+sẽ có thêm nhiều cái cái khác nó phức tạp hơn nà chúng ta sẽ có một cái loại gọi là dictionary hay là map data type dictionary có nghĩa là kiểu dữ liệu dạng từ điển ha Hay là gọi là map thì gọi là nối ấy thì mình sẽ để cho các bạn ví dụ 
+
+này mình sẽ cái này mình có cá cả cái code whisperer nó có Remind ch mình luôn Giả sử mình có một cái person person tên là name là Vi aws có cái độ tuổi là 18 tuổi là 18 18 thì tất cả những cái thuộc tính này đều thuộc về một object một cái 
+
+đối tượng gọi là person thì cái này gọi là kiểu dữ liệu dictionary ha và cái kiểu này thì kiểu cũng rất là phổ biến ở trong kubes luôn Giả sử bây giờ mình sẽ có một cái tên ở đây ví dụ như các bạn làm C các bạn sẽ có label đúng không 
+
+label nó đánh dấu xong nên mình học về bài label riêng ha app tên là simle app Giả sử mình có environment tên là dep đấy chẳng hạn thì cái này chính là cái label mình mình giới thiệu trước về cá cách viết thôi còn sau này các bạn có 
+
+thể học Mình học kỹ về label và selector sau nhá Thì cái này chính là kiểu dictionary và kiểu map kiểu này thì các bạn lưu ý đối với tất cả những Thục tính nằm trong thì nó phải Thục đúng thẳng hàng với nhau ha tiếp theo một cái nữa 
+
+là cái kiểu mà cũng cực kỳ phổ biến là kiểu dữ liệu array mình hay dùng từ array nhưng mà một số anh chị bạn các bạn hay dùng từ là list data type là là kiểu liệt kê cái liệt kê Này nghĩa ra chúng ta sẽ có thể tạo ra một cái object 
+
+mà trong đấy có chứa nhiều object con Ví dụ bây giờ mình sẽ có một cái là person name Việ ws tuổi 18 tuổi mình sẽ có một cái gian sắt những cái album đi đây mình có rất nhiều album thì lúc này các bạn sẽ cần phải thụt vào đầu 
+
+dòng ha và chúng ta sẽ theo cấu trúc ở đây ví dụ như name album 1 album 2 album 3 trong từng Album này lại có thể có những cái thuộc tính của nó ha sẽ mình để là i public to số lượng picture 
+
+60 chẳng hạn rồi u font picture 30 chẳng hạn ra cái này e public to picture 20 đấy hạn thì đây là tất cả những thứ này nó gọi là kiểu dữ liệu dạng arve dạng list ha giả sử như 
+
+cái port này các bạn xem này giả sử bây giờ trong cái cer chúng ta có hai cái port đi port thứ nhất đó là cái sim app p thứ hai là cái Engine x Engine X và mình sẽ chạy 
+
+Engine x gì đấy latest và port là port 80 lưu ý nếu mà chúng ta có nhiều port chạy trong à Xin lỗi chúng ta có nhiều container chạy trong một port thì chúng ta cần phải có các port nó khác nhau Tại vì nó sẽ sau 
+
+này chúng ta sẽ triển khai chung IP cho con port này đó chúng ta sẽ có cái album hay là có cái container nằm trong một P là Đây là kiểu dạng list hay là dạng r ha có một cái loại nữa cũng cũng cực kỳ phổ biến luôn đó là giả sử các bạn muốn 
+
+làm dạng gọi là cài đặt hay là sử dụng một cái gì đó thì nó sẽ có một cái loại gọi là lal lal multiple ha mình sẽ có một cái này mình sẽ đưa ví dụ để các bạn sẽ hiểu à Cái này lal ty là mà các bạn sẽ thấy 
+
+đôi khi trong cái template các bạn sẽ có cái dấu gọi là dấu này cọn là mình không biết làc sao mà H dấu p À thì mình đưa mình copy một cái ví dụ để các bạn xem này n đây giả sử mình sẽ có Việt aws tuổi 18 description là giả sử mình sẽ có 
+
+một chuỗi ha cái này rất Hiếu hiệu khi các bạn làm những cái giả sử như là các bạn có những cái strip mà rất dài các bạn muốn cài đặt cho máy chủ chúng ta chẳng hạn thì các bạn không thể viết một cái shp dài cho một dòng mãi mã mãi được 
+
+thì các bạn có thể viết hàng nhiều dòng và cái này là một trong những cái có thể giúp các bạn làm chuyện đấy ha thì khi mà các bạn các bạn mà chạy cái này á thì nó sẽ là dạng như thế này khi in ra nó sẽ là dạng như thế 
+
+này đây nó sẽ là dis is very long description ha và có cái dấu súng dòng ở đây ha và ở ba Giả sử các bạn có nhiều dòng code các bạn chạy chẳng hạn có một loại nữa là loại gọi là mình sẽ dùng từ gọi 
+
+là fold Style Nó dùng cái dấu này ha dùng cái dấu này mình có cái ví dụ mình viết trước cho các bạn để đỡ các bạn đỡ mất thời gian đây các bạn thử đoán xem nó sẽ như thế nào ạ Cái dấu dấu nếu mà dấu thẳng đứng á thì nó sẽ thêm 
+
+cái xc n có nĩa là các bạn sẽ xuống dòng còn đối với cái loại này nó sẽ như thế này rất dễ rất dễ luôn nà nhưng mà nó vẫn tuân thủ cái chuyện và thụt đầu dòng ha các bạn nha Đây This is very long deion about me 
+
+nó không nó không còn cái xuống dòng nữa thì cái này dành cho nhụ nh văn bản văn bản dài mình gõ chẳng hạn à D mình các bạn muốn echo vào một cái file tt file thì cái này sẽ giúp giúp đỡ các bạn thì hi vọng qua cái bài ngắn này các bạn có 
+
+thể hiểu sơ sơ về cái cấu trúc của một cái zal Gal file ha và các bạn sau này các bạn viết những cái manifest cho k8s Nói chung ha thì trong quá trình làm Nếu mà có những cái mà mình thấy là lạ nữa thì 
+
+mình sẽ giới thiệu các bạn sau Nhưng mà đây là những cái kiến thức gọi là cơ bản nhất để các bạn tiếp tục viết Nhữ những cái m fet cho k8s Cảm ơn các bạn và chúc các bạn thành công 
+

@@ -1,0 +1,156 @@
+Hello anh chị các bạn trong hô này chúng ta sẽ cùng tìm hiểu về hệ thống chứng chỉ của cncf ha hay gọi là cloud native computing Foundation thì hệ thống chính trỉ này như anh chị các bạn thấy là sẽ tập trung vào communities và những cái 
+
+cloud native skill làm việc về những cái hiểu biết và những dự án liên quan đến lưu trữ này Network Kid off service m ha Thì hệ thống chứng trỉ mọi người thấy hiện tại mình đang thấy là có 10 chứng chỉ nha Mình muốn không muốn lt kê thì 
+
+trong này mình có thể phân ra là ba nhóm N nhóm đầu tiên là nhóm liên quan đến l cerfi created something ví dụ ador này app developer Security specialist thì đây là ba chứng chỉ mình đánh giá gọi là ba Trị mà phổ biến và và nòng cốt nhất 
+
+ha thì chứng trị này sẽ level sẽ khó hơn thì ở dưới ở dưới ba chứng chỉ này sẽ có hai chứng chỉ liên quan đến level associate có nĩ là nó ở mức độ thấp hơn thì sẽ dễ hơn thì associate thì sẽ có hai hai chứng chỉ là cloud native 
+
+associate và cloud Security associate thì chứng chỉ này nếu mà các bạn mà à kiểu mà còn mới chưa có nhiều kinh nghiệm thì mọi có thể nghĩ thi chứng chỉ ccna này thì trước khi thi cka thì hay là Security associate thì dưới cái 
+
+Security specialist h thì nó sẽ giúp các bạn làm một bức đệ thì thi chứng chỉ này các bạn sẽ có hai hành thức chị hai hành thức thi tùy thuộc loại chứng chỉ thì thi là dạng trắc nghiệm ha hoặc là thi dưới dạng là các bạn trên môi trường LP 
+
+thật có là họ sẽ yêu cầu các bạn làm một số thứ trên một cái môi trường thật Ví dụ như các bạn cần phải nâng cấp một cái ik cái catx cluster hay là yêu cầu các bạn cần phải tạo một cái replica set hay tạo một cái deployment hay là cấu hình 
+
+một cái tation gì đấy Nói chung là các bạn sẽ thao tác dạng làm l chứ không phải là dạng thi trắc nghiệm multiple choice thì đó là những cái hình thức thi mà ở cái level mình mình gọi là khó hơn này đi haor application developer và 
+
+Security specialist còn những cái hình thức dưới thi này là thi dạng trắc nghiệm ha C một cái nhóm thi nữa là nhóm những cái chứng chỉ gọi là mình mình gọi mình gọi tắt gọi một chứng chỉ nhóm chỉ chứng chỉ bổ trợ ha ví dụ như là mọi đi 
+
+theo một số cái domain thêm nữa một số cái vệ tin mà thông thường khi mà người ta xải với cái ctis người ta sẽ dùng thêm ví dụ như về monitoring người ta dùng promus này isco này liên quan đến ccd này rồi cilium này liên quan đến 
+
+networking này Ag CD cũng liên quan đến implement CD trong một cái dự án này hay là git off ha chúng ta sẽ cùng Xem sơ sơ qua một số các cái highlight ha Ví dụ mình mở một cái chứng trỉ này đi SK chứng trỉ này cũng thuộc là hàng phổ 
+
+biến nhất ha kiểu như là mọi người nếu mà hướng tới nếu mà làm về kiến trúc làm về quản trị thì đây là chứng trị các bạn sẽ ký đế đầu tiên chứng trị này các bạn xem này performance bas exam này thông qua 
+
+comment l ha các bạn thi có nghĩa là các bạn đưa vào một môi trường làm thi thì hiện tại như mình thấy thi á là hiện tại tất cả các chứng chỉ của cncf đang thi dưới hình thức sẽ là thi online hết Ha các bạn sẽ không ra trung tâm thi thì 
+
+cái điều này cũng sẽ mình nghĩ sẽ là vừa cái thuận lợi nhưng mà mình nghĩ sẽ là cái khó khăn nhiều hơn n thuận lợi nha Có nghĩa là các bạn sẽ thi ở bất kỳ khung giờ nào bất kỳ ngày nào các bạn cũng sẽ có thi được dụ hồi xưa mình thi 
+
+là thi ban đêm ha thi một cái khung giờ cũng rất là thoải mái luôn cho cho lựa chọn nhưng mà thi online thì các bạn sẽ cần phải có một cái phòng cũng khá là yên Tẫn cũng cũng không có ai đó có kiểu như tiếng ồn hay là có người đi ngại 
+
+trong khu hần của bạn ha các bạn cần phải có webcam này một màn hình được máy tính và người ta sẽ scan các bạn rất là nhiều thứ thì cụ thể mình có làm một cái bài ng đây rồi ha chia sẻ kinh nghiệm đ thi cái chứng chỉ cq này thì các bạn có 
+
+thể xem cái này mình đứn k cái phần video này nằm dưới phần description ha các bạn có thể xem cách rất là chi tiết và dưới phần description thì mình cũng để rất nhiều các cái thông tin liên quan đến những những cái playlist mà mình đã 
+
+làm rất là kỹ về aws Nói chung hay là về những cái cit nói riêng ha đ các bạn có thể theo dõi thì đây là cq các bạn có thể xem thêm ha thì đây có một cái frequency này as question hoặc các bạn Click vào đây cũng được Để xem more 
+
+information cncf Linux Foundation develop ctis ecosystem thì chứng trị này giá của nó cũng không hề nhẹ ha giá của nó đâu đó cũng khoảng tầm Loan quan 400 đô rồi Mà thi thi online nhá Nhưng mà điểm được của nó là gì nó thi là sẽ các 
+
+bạn sẽ được thi lại một lần miễn phí có nghĩa là các bạn thi rớt thì các bạn sẽ thi lại một miễn phí là luôn luôn được kèm trong cái à khi các bạn mua mua khoảng 400 đô này thì thông thường một năm thì cái cái tổ chức này nó sẽ có đâu 
+
+đấy Mình nghĩ là mình thông tường mình quan sát mình thấy là tố thiểu hai lần ha hai lần nó sẽ có những cái lần voucher giảm giá để các bạn thi một lần khoảng tầm khoảng tháng hai á Ờ và một lần là khoảng tầm gần cuối năm à Như 
+
+Hiện tại mình đang có một cái voucher thi giảm 40 ph ha Thì cái voucher đấy mình sẽ để trong cái phần description ha và phần comment thì trong quá trình các bạn trong quá trình sau này Ví dụ nếu có những cái thông tin update thì nếu các 
+
+bạn biết các bạn thấy có những cái Brower nào hai thì các bạn có thể post ở trên phần comment để chia sẻ cho các bạn khác hoặc là mình biết thì mình sẽ để trong phần comment hoặc là mình sẽ tạo những cái bài post trên trên channel thì 
+
+các bạn Subscribe và các bạn sẽ thấy những cái thông tin mới nhất của mình để các bạn mua cái mua cái voucher đấy thi thì thông thường cái voucher đấy thi nó sẽ giảm khoảng 40 50 ph nh tùy đợt ha và nó còn có thể kè tặng kè cho các bạn một 
+
+cái khóa học online nhưng khóa học đấy thì mình đánh giá nó là học tiếng Anh và mình cũng không Mình cũng không thấy nó không thấy nó là kiểu kiểu dễ dễ hiểu lắm nhưng mà nó cũng sẽ là một cái giúp cho các bạn học Ngay từ ban đầu nó dễ Ừ 
+
+thì các domain đấy Mình không muốn nói kỹ ch các bạn có thể mất thời gian các bạn đọc thêm Ờ thi thì sẽ là thi trong vòng 2 tiếng ha à thi online ha và lưu ý nha các bạn thi các bạn cái đoạn mà thi nó online thì 
+
+các bạn sẽ à Ví dụ cái cái đoạn mà người ta kiểm tra máy tính các bạn ấy mình thấy là tính kệ nó tính trong cái phần 2 giờ luôn cho nên các bạn nhớ chuẩn bị máy tính cho nó tốt một xíu đừng nên thi máy tính bằng máy tính của công ty á nó 
+
+sẽ có rất nhiều các cái process chạy trong máy tính của mình mà nó ngăn cản cái việc mình thi á thì các bạn nên chuẩn bị máy tính cho nó chu đáo một netw một cái đường internet Nó chu đáo ha để thì nó smoothly thì đây là cái 
+
+thông tin nà các bạn có thể xem thêm thì mình đở đây mình sẽ có một cái À c faq faq thì cái này mình là do ba cái chứng chỉ gọi là ba chứng chỉ phổ biến nhất là cka này ckad và cks thì chứng chỉ này mình sẽ thấy là các bạn thấy là cka và 
+
+ckad là chứng chỉ valid được 3 năm HA có nghĩa là sau 3 năm trước 3 năm các bạn phải thì lại để giữ chứng trị này còn cqs và Security là sẽ chỉ có valid trong 2 năm mà thôi Có nghĩa là chứng trỉ này Cái thời gian nó thời gian các bạn cần 
+
+phải thi lại sẽ nhanh hơn N và nhưng mình cũng nghe một số anh em phản hồi là CS thì thi nó m đánh giá nó khó hơn cka và ckad ha có thể là tùy vào cái background Nhưng mà mình thấy đa phần mọi người đánh giá là CS này sẽ là cái 
+
+khó và sks này đi thi thì các bạn sẽ cần phải có điều kiện là các bạn phải có c trước nhé có nghĩa là các bạn chỉ được schedule cái CS cho tới khi các bạn có cái c thì tại thời điểm của mình mình đang đọc cái phần fpq nó như thế ha còn 
+
+có thể theo thời gian nó sẽ có thể thay đổi cho nên là mình vẫn vẫn recommend các bạn đọc những cái đường link mình đn kè tro phần description để các bạn có những thông tin mới nhất Ờ rồi mình sẽ xem thêm một số thứ này thì à trong cái 
+
+quá trình thi thì các bạn sẽ có hai lần gọi là thêm một cái phần simulation n Thì cái phần simulation này các bạn có nghĩa là nó cung cấp cho các bạn một cái môi trường giải lập để các bạn thi và thi mà các bạn sẽ được hai cái môi 
+
+trường này trong vòng hai cái hai cái lần mà mốn mỗn l Active cái môi trường lên các bạn sẽ được có 36 Giờ để co như Thi thử ấy thi thử này các bạn sẽ không bị đánh giá gì thế nà và trong quá trình 36 Giờ này các bạn có thể thi lại 
+
+thi đi thi lại rất nhiều lần trong miễn xong trong 36 giâ hoàn thành thì the th như kinh niệm của mình thì mình thấy là cứ một lần thi thì các bạn sẽ thi đó khoảng hai ba tiếng gì đấy Xong rồi Các bạn cứ thi đi thi lại làm quen ha Và 
+
+mình thấy là thi cái simulation này mọi người hay nói mình đọc trên rất nhiều forum của nước ngoài người ta nói là cái thi simulation này thông thường nó sẽ khó hơn các bạn thi thật N thi đề này thì các bạn được mở tài liệu ha mở tài 
+
+liệu là cái trang kuber it.io á Nhưng mà theo kinh nghiệm mình mình thấy là các bạn sẽ không có đủ thời gian để tra cứu cho tất cả mọi thứ đâu các bạn sẽ chỉ đủ thời gian để tra cứu những thứ các bạn à Gọi nh ít ít tiếp xúc thôi hoặc là ít 
+
+làm thôi Có nghĩa là các bạn gõ Comment rất là nhiều thì trong quá trình mình học đi theo cái series này mình sẽ chỉ các bạn một số tip lên trước để các bạn thi nhanh hơn là tốc độ thìi nhanh hơn thì trong 36 Giờ này các bạn có thể thi 
+
+thử thi thi lại rất nhiều lần và được hai lần ha nếu các bạn thi một Active cái simulation lên một lần có các bạn còn một lần nhưng mà lúc lúc các bạn đi thi luôn á thì cái và các bạn thi đậu ấ thì nó cũng sẽ kh nó cũng sẽ xóa cái 
+
+simulation đi Cho nên mình nghĩ là các bạn nên tận dụng cái việc simulation này cho dụ Thanh tran thủ một cuối tuần ở đấy các bạn up lên phát làng thứ bả chủ nhật liên tiếp thì 36 gi này nó cũng hơi dờ dở ương ha các bạn có nghĩa là khoảng 
+
+1 ngày rưỡi đó thì thì đó là cái một số cái Chú ý liên quan đến khi mà mình trước khi mình book thi cái cga cid ha CS ha mình sẽ xem thêm một số thông tin này How long xtech này đây 2 gi tất cả đều là 2 gi hết à số điểm pass cho những 
+
+cái kỳ thi này sẽ hơi C không có nói chung cũng không có khác biệt nhau nhiều lắm C cid là 66 ph 66 ph và CS là 67 ph à thực ra cái 66 67 ph này là con số Mình nghĩ cũng không có cao lắm đâu Tại vì thông thường các bạn mình hỏi các bạn 
+
+thi các bạn Các bạn có kinh nghiệp làm khoảng tầm 1 2 năm rồi đó thì các bạn thi toàn 80 90 9 m mấy phần trăm không ạ Nên là con số này mình không nghĩ là con số quá khó khăn N và nếu mà trong trường hợp xấu một số bạn mà chưa có kinh 
+
+nghiệm thực tế nhiều á Lần đầu tiên thi á Các bạn sẽ thi có thể bạn thi Rớ đi nhưng mà cái chứng trình này các bạn sẽ được một lần một lần free retou ha Có nghĩa là các bạn sẽ được thi lại một lần miễn phí lần đầu 
+
+tiên thi Rớ thì các bạn schedule là các bạn thi thôi kết quả thi thì các bạn sẽ được thông báo cho vòng 2 4 giờ sau khi sau khi các bạn thi Ha thì để thi thì các bạn sẽ cần phải tạo một cái tài 
+
+khoản ở trên Linux foundation.org các bạn tạo tài khoản ha troll vào cái này thì trong khi troll cái này thì các bạn sẽ xem này cá những cái coi mình có cái thông tin nào đây nà à Training home này Đó mình mở này ra nha thì trong cái 
+
+Training home mình sẽ các bạn sẽ login và cái m Training Portal của mình ở đây thì tất nhiên mình có tài khoản này ha Nhưng mà mình mở cho các bạn xem các bạn xem thêm ở đây nà ở dưới này thì nó sẽ có một số các cái chứng chỉ 
+
+ha đâu mình g gọi public category đây certification catalog thì đây là một cái rồi Các bạn có thể mua voucher và thi ờ ví dụ thời điểm này mình đang thấy là nó có một cái voucher Không có gì mình sẽ page trong 
+
+cái phần description này các bạn xem thêm à Này cka này 350 395 đô này ờ và các bạn có thể thi rất nhiều chứng trỉ khác ở cái Linux Foundation này Đây là một cái hệ thống giống như là các bạn có thể order mua các bạn lưu ý nhá các bạn 
+
+tính các bạn sẽ bị ví dụ Các bạn mua V cher thi á ví dụ hôm nay các bạn hôm nay tháng 5 ạ năm 2024 các bạn mua đúng không ạ thì mình các bạn bạn sẽ có cái thời gian thi các bạn trong vòng 1 năm từ nói chung từ tháng 5 năm này cho đến 
+
+tháng 5 năm sau thông thường như thế ha Lúc mình mua là như thế thì các bạn để nhớ để ý là khi các bạn mua voucher các bạn thi thì nó sẽ có một cái thời hạn như thế chứ không phải là mình mua đây rồi mình muốn hai ba năm sau mình thi 
+
+cũng được ha nên các bạn đã mua r các bạn sẽ sắp xếp và mình thấy là các bạn à các bạn mua mua và các bạn có một cái một cái áp lực là các bạn học và thi á thì nó sẽ yên tâm hơn thay vì cứ Các bạn cứ đến phút cuối cùng của bạn thì nó sẽ 
+
+rất là rất là khổ cho các bạn rồi chúng ta sẽ xem thêm một số thông tin khác nữa chúng ta coi một số thông tin à thì ba cái chứng trỉ này các bạn lưu ý nh mình muốn mở các bạn cái phần Security specialist một chút để các bạn xem thêm 
+
+thôi Đây cũng 395 đô luôn này cka cks Này skill về computer base app container base application này performance base ha Cũng là thi dạng LAB trắc nghiệm luôn ha nên là cka 
+
+certification is required to Sit for exam có nghĩa là các bạn phải có chứng trỉ kia trước các bạn thì chứng trỉ này và chứng trỉ này C chỉ được 2 năm thôi cho nên là các bạn nhớ lưu ý ha 2 giờ thi 
+
+này cluster setup các kiểu đây này harding handing các kiểu này đó 395 đô ha rồi Các bạn xem mình mở cho các bạn xem một cái gọi là chứng trị level s ha cái này có mức độ dễ hơn entry level thôi 
+
+entry level thì con này nó sẽ basic knowledge thôi Cái này có nghĩa là nó khá là đơn giản các bạn cái này nhiều khi các bạn sinh viên thi cũng không có không có vấn đề đâu 25050 đô Nhưng mà mình thấy giá này cũng không không có rẻ 
+
+lắm đúng không ạ nên các bạn nhớ tìm những cái đợt người ta có những cái đợt s off thì các bạn sẽ mua sẽ rẻ hơn con này sẽ là online luôn ha proter thi dạng chắc multiple joint dạng chắc trắc nghệm này này Đó thấy chưa các bạn có thể xem 
+
+th cái phần faq này frequently as question này để các bạn thấy những thông tin nó chi tiết hơn dụ các bạn xem theo bên này n ex cost này rồi cắt thức cất một cái g này đó máy tính mình cần phải yêu cầu hệ 
+
+điều Hàn nào ha đó score cho Z này score Z sẽ là trong 24 giờ này khá giống phần trước ha Xem 90 phút à Con này 90 phút thôi chứ không được 2i tiếng có là tiếng rưỡi thì mình thấy là mình thấy là nếu các bạn mà không 
+
+không có handson nhiều không không có gó lận nhiều á thì các bạn thi cái này có khả năng các bạn sẽ bị chậm à không có dư nhiều thời gian đâu Con này 75 ph sẽ cần phải thi đậu à Thì từ thuộc chứng trỉ nó sẽ có những cái ngôn ngữ hỗ trợ 
+
+dụ chứng chỉ này nó có hỗ trợ cả ngôn ngữ tiếng Ann và ngôn ngữ tiếng Nhật ha Tất nhiên mọi người sẽ thi tiếng Anh nh mình nghĩ cái này không phải vấn đề về tiếng ngoại ngữ lắm đâu các bạn sẽ biết hay không biết thôi mà nên là cũng Yên 
+
+tâm ha chứng trỉ này valid cho vòng 3 năm Nói chung là nhìn chung các chứng trỉ của cncf sẽ là valid 3 năm hoặc là 2 năm tùy chứng trị Nên là các bạn sẽ phải học liên tục bởi vì sao Bởi vì cái kubernetes thì nó sẽ release rất nhiều 
+
+các minor person trong 1 năm và các bạn sẽ cần phải học để keep up to dat những cái phần thông tin này ha Mình nghĩ cũng hợp lý thôi 3 năm đi thi 3 năm đ thi lại thi lại một lần thì cũng cũng cũng hợp lý mà và với lại đây là cái công việc 
+
+hàng ngày các bạn để các bạn có thể có thu nhập nên là cái này là khoản đầu tư mình nghĩ là xứng đáng mình có thêm một số chứng chỉ khác nữa liên quan đến Ví dụ như promus này con này thì dành cho những Engineer mà muốn tập trung vào 
+
+lĩnh vực là observability hay là monitoring cho phần Foundation promos th Đây là một cái đây có thể xem là một cái một cái phần product mà trong cái phần hệ sinh thái mà hay thường xuyên hoạt động với cities nà các bạn liên quan với 
+
+off nhiều thì các bạn sẽ dùng có khả năng các bạn sẽ dùng cá hình ISO này liên quan đến pre professional certification có nĩa là tiền ha xe City prer ha cho những cái trường hợp mà interest những cái dòng ISO cái này mình 
+
+nghĩ là khi các bạn có một hoặc là có nhiều chứng trỉ ở phía bên trên thì các bạn sẽ quan tâm đến chng trị bên dưới là nó sẽ hợp lý hơn chứ không nên đi thi vào những cái chứng trị ngay từ ban đầu mình nghĩ là sẽ là một cái mà các bạn sẽ 
+
+túng được cái phần góc thôi nha mình không tống được cái bức tranh tổng thể của cái hệ sân thái của kutis silium cái này gần đây mọi người cũng rất nhiều anh chị em mà thích thú với cái phần này ha Phần này sẽ dành cho những người nào 
+
+thích về networking Security và ability ở trên trong hệ sên thái của ctis này recommend cho một số chứng chỉ kiểu như là h have này ccna cka và ckad hay là Ago Ago CD cũng là Ago Project thì cũng được rất nhiều anh chị 
+
+em mình cũng quan tâm ha dành cho những người nào về Engineer này data scientist này hoặc là hiểu biết về Ago Project ecosystem ha git off git off này cũng là một cái phần mà mình nghĩ là rất nhiều rất nhiều Bạn đang hiện tại đang sử dụng 
+
+rồi nhưng mà cách sử dụng như thế nào cho nó gọi là best practice hay là sử dụng là sao cho nó hay á theo những recommend á thì trong chứng trình này sẽ hỗ trợ các bạn Chuyện này mình nghĩ đây là một cái chứng Trì mà giúp cho các bạn 
+
+có những cái Foundation vững chắt các bạn đi xa hơn không chỉ riêng trong lĩnh vực này đó thì đây là một số các cái thông tin mình chia sẻ cho các bạn về hệ thống chứng chỉ nằm trong cái hệ TH phóng của cncf ha Thì có một cái video 
+
+mình cũng đã làm từ rất là lâu rồi đó là cái video hướng dẫn giải 25 câu hỏi để thi thì bản chất 25 câu hỏi này chính là các cái cái simil các bạn khi các bạn mua mua cái g code này ví dụ mua mình mua thi c thì mình sẽ được hai lần ha 
+
+Thì cái này lúc mình mượn của một cái bạn bạn rất là nhiệt tình bạn cho mình mượn cái simulation của các bạn bạn ấy thi thì mình ghi video này khoảng tầm 3 tiếng ha và cũng có rất nhiều người đã thi đậu này ha Nên là các bạn nếu mà 
+
+thướng thi chứng trỉ thì mình nghĩ đây là chứng trị các bạn có thể quan tâm đầu tiên để mình có một cái tổng quan bức tranh sử dụng về communities n cka còn ví dụ sau tương lai xa thì các bạn có thể quan tâm nhiều hơn ví dụ là về 
+
+developer hay là Security specialist Ok Cảm ơn các bạn theo dõi và chúc các bạn thành công ạ 
+

@@ -1,0 +1,44 @@
+nội dung thực hành với tform workspace mình sẽ chia thành hai phần Phần đầu tiên là chúng ta sẽ học cách sử dụng với các C lệnh trong tform workspace à Có thể là trong lúc chúng ta làm việc với workspace chúng ta có thể sử dụng thêm 
+
+một cái biến nội suy thì cái biến này rất hữu ích cho việc chúng ta thay đổi môi trường giữa các word Space với nhau và nội dung thứ hai là chúng ta sẽ học cách quản lý cái biến trong tform workspace à chúng ta đến với Phần đầu 
+
+tiên là sử dụng với các câu lệnh trong word Space Chúng ta sẽ chạy câu lệnh tform word Space show show ra các cái Word Space Hiện tại trên môi trường của chúng ta mặc định thì chúng ta có một Go Space để làm việc là default để tạo ra 
+
+một cái Word Space mới thì chúng ta sẽ chạy có lệnh tform word Space new và tên các bạn để ý là sau khi mình tạo ra một word Space mới thì có một cái folder được sinh ra là tform tfstate thì cái folder này là cái nơi mà chúng 
+
+ta chữ các cái file trạng thái trên các workspace khác nhau thì ở đây chúng ta sẽ tạo thêm một word Space mới là staging chúng ta tạo thêm một cái workspace tiếp theo để xóa đi một workspace thì chúng ta sẽ chạy câu lệnh 
+
+là transform workspace delete và chỉ định đến cái workspace mà chúng ta mong muốn xóa rồi mình sẽ tạo lại cái workspace này sau khi mà các workspace được tạo ra thì nó sẽ được lưu trữ trên cái folder tform 
+
+để show ra các po Space hiện có trên cái môi trường làm việc của chúng ta thì chúng ta sẽ chạy có lệnh là terraform po Space list hiện tại đây là những workspace mà đang có trên môi trường của chúng ta các 
+
+bạn để ý là nếu có cái dấu sao này trước cái tên của một g Space thì tức là chúng ta đang làm việc trên cái g Space đó thì để chuyển giữa các Space thì chúng ta sẽ chạy câu lệnh là terraform workspace select đến cái workspace mà chúng ta 
+
+mong muốn à chuyển đến để làm việc hiện tại thì chúng ta đã chuyển đến cái workspace là dep rồi Ở đây thì mình có một cái file là main.tf thì trong file này là đơn giản thì mình chỉ tạo ra một con ec2 thôi và mình sẽ apply cái file 
+
+TF này lên cái môi trường mà mình vừa chọn là môi trường dep mình sẽ chạy câu lệnh là terraform upline sau khi mà chúng ta chạy câu lệnh terraform upline để tạo ra một con ec2 thì thì các bạn có thể theo dõi trong 
+
+cái folder là tform t.do trong cái thư mục dep thì lúc này này là trạng thái cái file State của mo de đ lưu tại đây cấu trúc code giữa các work Space khác nhau thì có thể là sẽ không thay đổi quá nhiều thì chúng ta có thể tận dụng cái 
+
+code trên Word Space này để có thể chạy trên cái Word Space khác bằng cách là chúng ta sẽ sử dụng linh hoạt Cái biến à nội suy là transform workspace ở đây thì mình sẽ thay thành cái biến là local inter và đây mình sẽ thay bằng cái biến 
+
+là local chm Mission name thì ý nghĩa của cái biến đội suy này là nó sẽ phát hiện ra là chúng ta đang làm việc trên cái workspace nào và thực liện apply cái cấu hình trên phụ hợp trên cái workspace đó nếu mà cái môi trường làm việc hiện 
+
+tại của chúng ta là de thì chúng ta sẽ apply với cái cấu hình của E2 là t. small và đối với cái môi trường còn lại thì là sử dụng với cái cấu hình là t2 micro ở đây thì mình sẽ chuyển sang cái môi trường product bằng Câ lệnh là form 
+
+select product new file và chạy câu lệnh form upline à chúng ta có thể kiểm tra cái pha trạng thái của cái Word Space product Tại đây thì các bạn có thể thấy là khi mà chúng ta sử dụng cái biến nộ x l tform chws Space thì chúng ta có thể 
+
+tái sử dụng được cái code trên các môi trường khác nhau mà không cần phải sử đổi quá nhiều chúng ta đến với phần tiếp theo là chúng ta sẽ quản lý các cái biến với telef workspace thì quản lý các biến 
+
+trong tform workspace là điều cần thiết khi mà chúng ta cần các câu hình khác nhau cho các cái môi trường khác nhau thì chúng ta sẽ tạo ra các cái file tfv cho các cái workspace khác nhau và để apply các cái file này thì chúng ta sẽ 
+
+chạy đ lệnh là tform apply trừ va trừ file và chỉ định đến cái đường dẫn của file mà chúng ta mong muốn đây thì mình sẽ tạm thời comment cái Block code này ở đây Chúng ta có một cái biến khai báo là biến tha chúng ta sẽ tạo ra một cái file 
+
+là VT thì trong cái file này chúng ta sẽ định nghĩa cái kiểu của cái biến và chúng ta tiếp theo là chúng ta sẽ tạo ra cái file tf3 trên các môi trường ví dụ chúng ta sẽ tạo ra file dep.tv cho môi trường là dep và trong cái file này là 
+
+chúng ta sẽ chỉ định cái kiểu của instant time để sử dụng trên cái môi trường ở đây thì cái biến độ suy này thì chúng ta sẽ không sử dụng nữa bởi vì là chúng ta đã định nghĩa các cái instant ty trên các cái file tfa khác nhau trên 
+
+cái mô trường khác nhau rồi tiếp theo là chúng ta sẽ chạy có lệnh tform upline tr-3 - file và chỉ định đến cái đường dẫn của cái file tf3 mà chúng ta mong muốn hiện tại là chúng ta đang ở cái cái space là product thì chúng ta sẽ chạy 
+
+cái file là producta 
+

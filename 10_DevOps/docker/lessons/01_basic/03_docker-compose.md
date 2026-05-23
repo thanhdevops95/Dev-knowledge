@@ -1,15 +1,15 @@
-# Docker Compose — Quản lý multi-container với 1 file YAML
+# 🎓 Long ghép `myapp` + Postgres + Redis — Docker Compose
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 20/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [02_dockerfile-basics.md](./02_dockerfile-basics.md)
 
-> 🎯 *App thật thường cần nhiều container: app + DB + cache + queue. Compose gói tất cả vào 1 file YAML — `docker compose up` chạy hết.*
+> 🎯 *Tiếp Long story: Long đã có image `myapp:v1`. Nhưng app cần Postgres + Redis + Celery worker — 4 container đồng thời. Gõ 4 `docker run` riêng thì rối. Bài này dạy Compose — 1 file YAML quản hết.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -22,7 +22,50 @@
 
 ---
 
-## 1️⃣ Vì sao cần Compose (WHY)
+## Tình huống — Long có image `myapp` rồi, giờ ghép DB + Cache thế nào?
+
+Long đã build được image `myapp:v1`. Test thử:
+
+```bash
+docker run -p 5000:5000 myapp:v1
+```
+
+🔥 Lỗi:
+```
+ConnectionRefusedError: Cannot connect to PostgreSQL on db:5432
+```
+
+Đúng rồi — `myapp` cần Postgres. Long thử start Postgres:
+
+```bash
+docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:15
+docker run -p 5000:5000 -e DB_HOST=db myapp:v1
+```
+
+🔥 Vẫn lỗi:
+```
+psycopg2.OperationalError: could not translate host name "db" to address
+```
+
+→ 2 container không "thấy" nhau qua tên. Phải tạo network manually. Rồi Long lại nhớ ra cần Redis cho cache, Celery cho async tasks. **4 container, mỗi cái có network/port/env/volume riêng** — gõ 4 lệnh `docker run` đầy đủ:
+
+```bash
+docker network create mynet
+docker run -d --name db --network mynet -e POSTGRES_PASSWORD=secret -v pg-data:/var/lib/postgresql/data postgres:15
+docker run -d --name redis --network mynet redis
+docker run -d --name app --network mynet -p 5000:5000 -e DB_HOST=db -e REDIS_HOST=redis myapp:v1
+docker run -d --name worker --network mynet -e DB_HOST=db myapp:v1 celery worker
+```
+
+→ 5 dòng dài + dễ sai 1 ký tự. Tắt cũng phải `docker stop` 4 lần + `docker rm` 4 lần. **Cực kỳ verbose**.
+
+Long phát hiện cái này tệ thế nào khi sếp đi qua và nói: *"Sao em không dùng Compose?"* — câu hỏi quen thuộc.
+
+Bài này dạy Compose — **1 file YAML** quản hết 4 container, **1 lệnh** start/stop tất cả.
+
+---
+
+## 1️⃣ Vậy Compose giải quyết gì?
 
 App thực tế hiếm khi chỉ 1 container. Thông thường:
 
@@ -100,7 +143,7 @@ docker compose down
 
 ---
 
-## 2️⃣ Docker Compose là gì (WHAT)
+## 2️⃣ Vậy Docker Compose thực sự là gì?
 
 **Định nghĩa**: Docker Compose là tool **quản lý multi-container** apps qua **YAML file**. Đi kèm Docker Desktop, không cần cài riêng.
 
@@ -134,7 +177,7 @@ networks:           # ← networks (optional, mặc định Compose tạo 1 netw
 
 ---
 
-## 3️⃣ Hands-on — Build app Flask + Postgres + Redis (HOW)
+## 3️⃣ Long làm cùng bạn — Build app Flask + Postgres + Redis
 
 ### 🛠️ 3.1 Setup project
 
@@ -761,4 +804,9 @@ docker compose --env-file prod.env up
 
 ## 📌 Changelog
 
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc (kết bộ Docker):
+  - Title đổi: "Docker Compose — ..." → "**Long ghép `myapp` + Postgres + Redis**"
+  - Mở bằng **tình huống Long thử ghép 4 container thủ công** — gõ 5 lệnh `docker run` rối, sếp lại buông câu hỏi quen thuộc "Sao em không dùng Compose?"
+  - Headers đổi: `1️⃣ Vì sao cần Compose (WHY)` / `2️⃣ Docker Compose là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy Compose giải quyết gì?", "Vậy Docker Compose thực sự là gì?", "Long làm cùng bạn")
+  - Content kỹ thuật KHÔNG đổi (Compose YAML + 9 lệnh + networking + volumes + .env + depends_on + healthcheck + profiles vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — Compose YAML + 9 lệnh + networking (service DNS) + volumes + .env + depends_on + healthcheck + profiles + 5 pitfall/best-practice.

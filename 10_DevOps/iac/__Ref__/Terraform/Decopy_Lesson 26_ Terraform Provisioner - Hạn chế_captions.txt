@@ -1,0 +1,30 @@
+Tại sao chúng ta cần Hạn chế sử dụng tform provisioner trong những video trước thì mình đã giới thiệu tform provisioner có ba loại là local access remote access và dạng file chúng ta sẽ sử dụng một trong ba cái loại này để 
+
+thực hiện cài đặt các phần mềm các package trên các máy remote machine ví dụ như là trên E2 và trong quá trình handon thì chúng ta thấy là việc sử dụng provisioner khá là tiện lợi khi mà chúng ta thực hiện cài đặt các phần mềm sau 
+
+khi provisioning xong tài nguyên Tuy nhiên khi mà chúng ta sử dụng tform provisioner thì chúng ta cũng nhận ra một số điểm hạn chế ví dụ như là nó sẽ phụ thuộc vào trạng thái của Resort provisioner sẽ hoạt động dựa trên trạng 
+
+thái của Resort có nghĩa là chúng có thể hoạt động không đúng nếu resort đang ở trạng thái không mong muốn hoặc là chưa hoàn thành thứ hai là nó sẽ gây ra những khó khăn trong việc khắc phục sự cố khi mà sự cố xảy ra trong quá trình chúng ta 
+
+sử dụng provisioner thì nó rất khó xác định nguyên nhân và việc xửa lỗi có thể khá là phức tạp lúc này thông tin lỗi không phải lúc nào nó cũng sẽ hiển thị rõ ràng ví dụ như là chúng khi mà chúng ta chạy ph upline thì 
+
+lỗi nó không phải lúc nào nó cũng hiển thị trên cái màn hình conso của chúng ta thứ ba là tform provisioner không được thiết kế cho việc quản lý những C hình phức tạp và để quản lý các cô hình phức tạp thì chúng ta sẽ sử dụng kết hợp thêm 
+
+các các công cụ chuyên dụng như là ansible này Chef hoặc là pub hoặc là sử dụng các tính năng cloud native trên các provider ví dụ là trên AW w thì chúng ta có tính năng là user data à các tính năng này thì nó sẽ giúp chúng ta đền các 
+
+cái đoạn Script vào trong quá trình chúng ta khởi tạo lên một con vm và khi một con vm được cài tạo thành công thì đồng nghĩa với việc là đoạn scrip đấy cũng sẽ được cài đặt trên con vm đó và cuối cùng là không hỗ trợ rollback khi 
+
+có một vấn đề xảy ra thì tform không cung cấp khả năng rollback những thay đổi thực hiện bởi provisioner chúng ta sẽ sử dụng các giải pháp thay thế tốt hơn provisioner đầu tiên là chúng ta sẽ sử 
+
+dụng các công cụ quản lý chuyên dụng như là Chef VPF hoặc là ansible thì những cái công cụ này cung cấp cho chúng ta khả năng quản lý gấu hình mạnh mẽ và an toàn hơn thứ hai là chúng ta sẽ sử dụng các tính năng cloud tip thứ ba là tạo 
+
+Ami tùy trỉ à chúng ta sẽ chuẩn bị sẵn các Ami với các C hình mong muốn để giảm thiểu việc sử dụng provisioner những lời khuyên khi sử dụng provisioner đầu tiên là Hạn chế sử dụng Có vẻ hơi vô lý nhưng thực tế là chúng 
+
+ta nên hạn chế sử dụng provisioner và chỉ sử dụng khi mà không còn giải pháp nào khác hoặc là chỉ sử dụng provisioner với những tác vụ cài đặt đơn giản thứ hai là cần quản lý lỗi cẩn thận chúng ta cần xử lý và kiểm tra lỗi một cách cẩn 
+
+thận trong các đoạn scrip Hoặc là các cái câu lệnh thực thi Bởi provisioner thứ ba là sử dụng các công cụ hỗ trợ ví dụ như là chúng ta sẽ sử dụng kết hợp với ansible này Chef hoặc là Pep để quản lý cấu hình và trạng thái 
+
+hệ thống một cách hiệu quả hơn Cuối cùng là cần kiểm tra kỹ lưỡng và thử nhiệm kỹ lưỡng các provisioner trong môi trường phát triển trước khi triển khai vào môi trường product Cảm ơn các bạn đã lắng nghe Xin chào và hẹn gặp lại các bạn 
+
+trong những bài học tiếp theo 
+

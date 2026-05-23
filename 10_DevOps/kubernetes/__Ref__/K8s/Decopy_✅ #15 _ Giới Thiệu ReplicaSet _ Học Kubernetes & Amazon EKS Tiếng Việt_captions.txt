@@ -1,0 +1,88 @@
+Hello các bạn trong những bài trước chúng ta đã tìm hiểu những cái kiến thức cơ bản nhất ha chúng ta tạo được một cái port mà cái port có thể chạy được có thể Spore ra bên ngoài có thể truy xuất được thì cái mô hình chúng ta sẽ như thế này 
+
+chúng ta sẽ có con Note chúng ta ở đây Note 1 thì trong này chúng ta có con port rồi chúng ta export ra ngoài bằng Note p rồi đúng không ạ Nhưng mà vấn đề trong thực tế chúng ta sẽ không chạy đơn giản như này một con 
+
+post này đôi khi nó không đáp ứng được cái nhu cầu của ứng dụng chúng ta hay nhớ m con post này nó bị chết thì chuyện gì sẽ xảy ra ha hoặc là chúng ta chúng ta lại chạy trên nhất nhiều các cái gole note chúng ta có Note 2 ở đây chẳng 
+
+hạn thì làm sao để có thể chạy cái port trên nhiều nố chạy nhiều port thì để làm chyện này thì chúng ta sẽ Phi trên cái catet nó có một khái niệm gọi là repli casset thì cái r cet này bản chất nó sẽ đ nghĩa là tôi muốn chạy một nhóm những 
+
+con post và cái nhóm này nó phải tỉnh nghĩa một cái số lượng ha một cái gọi là có một chỉ số g là rep l c Giả sử Mình bảo là 3 luôn luôn có ba cho tôi nếu trong trường hợp mà mình có ba con ở đây một 
+
+con port nữa Ở đây sự con này nó có lỗi gì đó Đi đi thì lúc này á hệ thống nó sẽ tự động nó sẽ spin up lên miễn sao là luôn luôn đạt được ba con replica cho cái po port cho cái cấu hầ cái port này của chúng ta ở đây thì 
+
+cái này là một cái một cái kỹ thuật mà gần như trong hệ thống nà chúng ta sẽ cần phải làm ha vì hứng dụ chúng ta sẽ cần phải scale ứng dụng cần phải giãn nở để đảm bảo cái chi suất của user lớn cả giảm thiểu đi để tiết kiệm chi phí Vậy 
+
+thì chúng ta cùng xem thêm phần tài liệu của trên cái kubet.io ha Thì r casset các bạn có thể xem thêm Mục tiêu này để duy để duy trì cái sự ổn định của một tập những con post chạy tại bất kỳ thời điểm nào ngĩ mình đị Nghĩa là 3 h s luô 
+
+là 3 thường được sử dụng để đảm bảo cái tấn tấn sẵn sàng và dựa trên số lượng identical port là số lượng port mình chỉ định thì cách thức hoạt động là các bạn thể đọc thêm đọc thêm ha cái này rất là dễ đây cái port thì như mà được biết thì 
+
+nó lại không có imperative ha à Xin lỗi cái RC set các bạn sẽ không có imperative có nghĩa là các bạn không thể gõ lận để các bạn chạy ra cái Red casset này được mà các bạn phải thông qua à gọi là là thông qua cái gọi là manifest hay 
+
+declarative ha Thì ở đây mình sẽ có một cái mình sẽ copy ccet này các bạn lưu ý này api version và k là cái này không thay đổi được nha Những cái khác các bạn có thể đổi được ví dụ như là t này những cái label các bạn dùng đây được nhưng mà 
+
+các bạn sẽ không thể thay đổi được những cái những cái cố định ví dụ như là version này K này Spec này cũng là cái cái cái thuật ngữ của cuber của kuber IS luôn thì chúng ta sẽ cùng xem cái này chúng ta có thể mở cái code chúng ta lên 
+
+chúng ta sẽ tạo một cái tài liệu ha à mình đặt tên là replica set đặt tên là số 3 nhá Để mình làm cái phiên bản số 3 của cái code của mình Mình sẽ lưu cái này lại mình đặt tên đây giả sử mình để tên Đây là app 
+
+à Đặt tên là replic set 3 đi app của mình là đặt tên là App 3 này tiar free rồi mình để replica này con số này phải C phải chỉ định là ba cái này match SM label selector này selector này chính 
+
+là cái mà sau này mình sẽ lấy cái phần thông tin của cái những con pst nào để nhóm thành cái nhóm replic này các bạn có thể xem ở đây Bây giờ mình mỗi một con pst mình sẽ có cái label con này sẽ có cái label mỗi con có th các bạn có 
+
+thể tạo n cái label nhá các bạn thả tạo thoải mái thì cái label Giả sử mình để lên là app tên là giả sử như là à App 3 chẳng hạn ĐT Mình nghĩ đơn giản thôi nhở con này C có app 3 Tên của nó là App 
+
+3 và bây giờ mình bảo là muốn tạo cet á Mình select gọi là selector tất cả những cái port nào có cái chữ app và cái giá trị của nó sẽ là app3 thì nó sẽ cô nó sẽ tạo thằng cái replic 
+
+set này cái RS này của mình ở đây vậy thì cái cái label này chính là cái cơ sở để Group hay để nhóm lại những con pst có cùng một cái thuộc tính nào đấy thuộc tính này do mình đ nghĩa là tất cả những cái thứ này mình có thể ĐT nghĩa thoải 
+
+mái được ví dụ bây giờ mình quay lại cái đây chúng ta xem này các bạn xem một cái gọi là Red v cet cái này là một cái Thục Tấn đây template này là các bạn xem này cái template này á Nó chính là định nghĩa của một cái port trong cái trường 
+
+thông tin liên quan metadata và Spec ha các bạn xem này metadata này và Spec của một con pst nà metadata của các bạn là à Con pst này sẽ x ra có một cái tia tên là fr end Thì bây giờ mình sẽ sửa này đi để các bạn thấy khác đ t tí nhá Giả sử 
+
+bây giờ mình để cái chỗ này là app app3 thì chỗ này mình dùng cái selector là cũng phải là app3 đó thì khi mình tạo ra những con post nó sẽ có cái chữ app3 ở trong cái con p đấy ha Mình sẽ để thêm một cái trường thông 
+
+tin nà Giả sử bây giờ mình mình để tên cái là Project demo mình nói ra sử Project demo thì cái này á chính là cái thuộc tính của một con post mình tạo ra mình đặt tên ở đây đi 
+
+symbol app này rồi m của mình sẽ dùng đây là vws armm V3 nha nếu mà các bạn mà dùng máy Intel thì các bạn chọn chỗ này là không phải AR đâu nhá chọn chỗ là iks ha đây iks thì các bạn sẽ chạy được nhưng 
+
+mà máy mình là chạy chip của Apple mình sẽ mở chữ arf mình để đặt tên là simple app version số 3 đây Các bạn thấy cái m label này nó chính là m với cái ở đây ha nó khác hoàn toàn và cái trên này nha mình đặt ở đây là giả sử là cái tha đây 
+
+là replica set đi app đây là giả sử app của mình Đây là app app RS đ mình đặt tên khác một chút đi để các bạn thấy cái sự khác biệt nha Cái trên này á Nó chỉ hiển thị cho cái replica set mà thôi Còn cái dưới này mới chính là cái cái phần 
+
+quan trọng nhất đầu tiên là cái phần định nghĩa một cái port thế nào gọi là nằm trong replica set là chúng ta cái Port n sẽ có hai thuộc tính App 3 và demo và mình sẽ group group tất cả những cái nào mà có chữ app3 đây ha mình đặt 
+
+mình đặt tên ở đây app app 3 đó thì cái này là replica set cá thức nó hoạt động bây giờ mình sẽ thử ở trên console n mình sẽ thử chạy lại get p ha Mình đang có hai cái port một cái lúc mình có tạo 
+
+bây giờ mình sẽ thử là mình sẽ kiểm tra có bao nhiêu replica set trong hệ thống mình sẽ Q Get replica Set đây repc set Hiện tại mình đang không có nà Hoặc là các bạn gõ này cũng được này RS nà thì các bạn sẽ xem này 
+
+hiện tại đang không có cái tài nguyên ở trong hệ thống này của chúng ta nhưng mà chúng ta sẽ thử chạy thử chạy cái replica set này Bây giờ mình sẽ là k apply trừ fs3 ha rồi mình đã tạo rồi bây giờ mình sẽ kiểm tra cái replica set Các 
+
+bạn thấy này replica set Các bạn thấy là tên replica set là rs3 này các bạn thử xem trong cái Visual code của đây Cái rs3 này chính là cái tên của cái replica set ha còn á bây giờ chúng ta là con số 3 này số 3 này chính là cái này là ba 
+
+con số này đang kỳ vọng và đang chạy là 3 này re là 0 này 5 giây 5 giây trước đây bây giờ mình sẽ kiểm tra cái P của mình có thế nào nhé q C get p đây Các bạn thấy này các con replicaset mình sẽ có rs3 này bắt đầu vào một cái chuỗi ký 
+
+tự rom này mình sẽ kiểm tra thêm này get RS nà đây Các bạn thấy là nãy mình read là 0 giờ nó là là 3 và 46 giây này tuổi 46 giây thì ba con Đây là ba con po ha bây giờ mình sẽ xem này trong từng con po này 
+
+dec p này RS 3 này rồi mình copy cái một cái này đ một con Ví dụ ha Tại vì ba con này đều giống nhau hết đây các bạn xem từ trên trên luôn nha Nên tên của nó này bd5 HR à Nhưng cái này mình sẽ nói sau cái này bạn tạ 
+
+thời điểm chưa cần quan tâm status running địa chỉ IP này đây label label của con port này là app app 3 bổ chất demo nó chính là cái này Đây đây nó chính là cái này nếu chỗ này các bạn chưa từng làm quen với cam các bạn nên 
+
+Pa video lại để các bạn xem cái manifest này và xem cái cái trên console của mình nhá ví dụ đây con P của mình App 3 demo và bây giờ r cái sel selector của cái replic set số 3 này này nó sẽ chọn tất cả những cái port nào mà có cái label 
+
+tên là app và số 3 App 3 ở đây mình sẽ cùng xem lại trên consol này bây giờ app H3 này rồi Ok đúng không ạ Các bạn có thể xem thêm này ví dụ cual này rồi mình sẽ coi replic set này mình sẽ coi rep rs3 đúng không ạ Đây mình sẽ coi này 
+
+label của con này nó có hai cái label app rs3 Tại vì tất cả các tài nguyên ở trên k8s nó đều có cái label và label chính là cái cơ chế để group các cái tài nguyên với nhau theo một nhóm nhóm nào đó chúng ta mong muốn thì label chúng ta 
+
+có có hai loại này và các bạn xem này Red car chúng ta đang có ba này ba con đang mong Đúng đây này ba con đang nhả thấy running ha và không có nào bị lỗi này đây label app app 3 demo container symbol App 3 có cái đặc 
+
+tả ở đây ha thì đây chính là cái c cách thức hoạt động của replic set là nó dựa trên cơ chế của label và cator ha Thực ra quan trọng nhất là cái đoạn ở dưới này nên các bạn có thể dừng một chút để các bạn xem thêm trong phần replica set 
+
+ha Mình sẽ thử thêm một cái nữa bây giờ mình đang có ba con post đúng không ạ K get po tại vì mình nói mới định nghĩa là để dùng cái Red casset này sẽ giúp cho mình maintain cái tính sẵn sàng của hệ thống bây giờ mình giả sử thì mình bị 
+
+chết đi bây giờ mình sẽ gọi là k Delete đó mình Del delete cái con HR này Bây giờ mình sẽ ghi này Q C get port trừ w và nó nấy mình có em mình xóa con HR này còn con TC với T này TC và T này và nó tự động tạo lại cho mình một con mới 
+
+bù V luôn đó Cái này chính là cái rất là hay của cái thằng replica set này và các bạn lưu ý này bởi vì là khi mình làm cái r casset nó dựa trên cái gọi là dựa trên cái việc mà m label này mà tối đa là 3 là luôn K là 3 đúng không Cho nên nếu mà 
+
+trong hệ thống của các bạn ấy hiện tại đang có một con post mà chạy với cái label này rồi á thì nó sẽ chỉ tạo ra hai con post thôi Thì cái phần đấy mình sẽ cùng các bạn demo trong cái bài tiếp theo nhé Ok Cảm ơn các bạn đã quan tâm 
+
+theo dõi 
+

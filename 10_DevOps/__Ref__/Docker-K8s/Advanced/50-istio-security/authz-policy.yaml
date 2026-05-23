@@ -1,0 +1,23 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: myapp-authz
+  namespace: myapp-dev
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/myapp-dev/sa/frontend-sa"]
+      to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/", "/health"]
+    - from:
+        - source:
+            namespaces: ["myapp-dev"]
+      to:
+        - operation:
+            methods: ["GET", "POST"]

@@ -50,7 +50,7 @@ graph LR
 
 ### 📚 Đọc
 
-- [ ] [Terminal](../../02_Tools/shell/lessons/01_basic/00_what-is-terminal.md) ✅ + Linux basics ([3 bài Linux](../../04_OS/linux/) ✅)
+- [ ] [Terminal](../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) ✅ + Linux basics ([3 bài Linux](../../04_OS/linux/) ✅)
 - [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
 - [ ] HTTP/REST cơ bản
 - [ ] JSON, JWT cơ bản
@@ -58,7 +58,7 @@ graph LR
 
 ### 🛠️ Setup
 
-- [ ] [VS Code](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code](../../02_Tools/ide/vs-code.md) ✅
 - [ ] [Git + GitHub](../../01_Foundations/version-control/git/setup/git.md) ✅
 - [ ] [Python](../../03_Languages/python/setup/install-python.md) ✅
 - [ ] Node.js LTS (qua nvm/fnm)

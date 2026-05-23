@@ -1,0 +1,12 @@
+đầu tiên chúng ta vẫn lên trang chủ của tform và đến với mục download tform ở đây thì mình sẽ chọn Hệ điều hành là Linux và cụ thể là mình sẽ thực hiện cài đặt trên um thì ở đây có khá nhiều các hệ điều hành mà chúng ta cài 
+
+đặt trên các cái distro Linux khác nhau có thể là cài đặt trên cenos này hoặc là cài đặt trên ent ở đây mình sẽ thực hiện cài đặt trên UB thì thực hiện cài đặt trên UB hay các cái dis Linux khác nhau thì nó khá là dễ 
+
+các bạn thực hiện copy các cái câu lệnh này và chạy trên cái turn minal của các bạn giới thiệu với các bạn thì hiện tại mình đang sử dụng cái tính năng là wsl đây là một cái tính năng mà giúp chúng ta thực hiện chạy các câu lệnh 
+
+Linux trên cái hệ điều hành Windows của chúng ta thì đối với các bạn sử dụng ansible hoặc là docker thì chúng ta nhất thiết phải cài cái tính năng này trên máy Windows Mình thực hiện các câu lệnh tiếp 
+
+theo Ctrl C và p vào terminal rồi terraform đã được cài xong chúng ta sẽ thực hiện kiểm tra terraform trừ trừ version xem terf đã cực cài trên máy umu hay chưa đây chúng ta đã thực hiện cài thành công terraform version 
+
+1.8.5 
+

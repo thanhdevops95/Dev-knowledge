@@ -1,0 +1,70 @@
+và chúng ta sẽ thực hiện cá drone bắ một cái deployment Về phiên bản cũ ha Thì như các bạn thấy trên màn hình Chúng ta đã có cái History deploy của cái app 1 Chúng ta có ba cái revision 1 2 3 và tương ứng với nó tạo ra ba cái replic 
+
+set ha và cái phiên mản hiện tại là chạy version số 3 Nó nằm ở cái mục là số có hai cái con post chúng ta đang chạy ở đây vậy thì bây giờ chúng ta muốn khi chúng ta chỉ kh nhiều nhiều cái deployment á chúng ta nhiều khi chúng ta 
+
+muốn xem lại cái revision này nó thay đổi cái gì á thì chúng ta có thể xem thêm ví dụ đây mình gõ Câ lận K cal roll la history mình h ha chọn coi nó có cái gì nà chúng ta có roll history và đây tên 
+
+tên của cái deployment hoặ thậm chí đ Ms chúng ta chúng ta chưa học ha Nhưng mà sau chúng ta sẽ học và thêm cái revision Giả sử đây là số 3 ha mà có revision dướ này này nó có thuộc tính nhiều không ạ đây revision nó ti tiết nó không có SH 
+
+hand N các bạn phải viết đầy đủ chữ revision như thế này Rô mình sẽ gõ câu luận K C roll history deployment app 1 deploy trừ revision bằng giả sử bằng 1 đi Mình có ba cái mà đúng không ạ Đây số 1 thì nó 
+
+chạy chạy cái arm V1 này số 2 này chạy cái arm V2 2 này đúng như ý tưởng chúng ta đúng không ạ và chạy cái số 3 co nha Đây chạy cái A số 3 bây giờ mình muốn roll bắ về mình muốn trả về PH bản cũ này trước khi chúng ta xem chút nha 
+
+À mình sẽ mở một cái terminal nữa đi cái terminal này mình sẽ coi là các cái GP trừ với K nhá Hiện tại mình đang có TC và LG running ở version số 3 đúng không ạ chúng ta xem trong bài trước nhá Bây giờ mình sẽ thực hiện Kill C get RS 
+
+correct casset chúng ta này 87 này D5 này và số 8B ha bây giờ chúng ta sẽ thực hiện k r r l và có đây chúng ta sẽ có những option Đây undo là bạn thấy ở đây này rone B về cái phiên bản trước ha cho các 
+
+bạn nào chưa biết thì các bạn có thể cài cái Amazon Q là một cái tiện Ất của aws ha thì các bạn có thể Remind code hiện tại phần này xài miễn phí nhá und und xong các bạn h t Lần đầu tiên mình khuyến nghị các bạn đọc cái manual của 
+
+aws ha Đây roll und deployment tên của deployment Và thậm chí chúng ta có thể chỉ chỉ định về một cái phiên bản cụ thể luôn n thì mình Bây giờ mình sẽ làm đơn giản trước mình sẽ und về một cái phên bản gọi là -1 thôi một cái phía trước 
+
+thôi r chúng ta sẽ cancel nhá roll undo deployment và app One deployment Ok enter đây đã roll B rồi này Bây giờ mình xem này mình xem ở cái thằng k get RS nha Đây RS nó roll bắt về cái 8B lúc trước chúng ta 87 đúng không 
+
+ạ Giờ nó roll bắt về 8B nó không xóa nó không xóa cái cũ để nó có thể roll về tại vì cái replic set này đang nó đang được gọi như là gom lại những cái con post nào có cùng một cái tag ha tag bằng App 2 gì đấy đây Các bạn thấy là quy 
+
+trình nó làm sẽ làm ngược lại ha Cũng là hai con đang chạy version cũ này và tạo hạ tạo version mới bending s à SZ này xong rồi download container này và Running sau khi running xong mới termin phiên bản cũ thì việc này nó sẽ đảm bảo 
+
+cho hệ thống của các bạn sẽ không bị gián đoạn hay là bị thiếu C city Thiếu cái năng lực xử lý ha Tại vì bây giờ giả sử bây giờ các bạn có hai con pst phục vụ cho Giả sử 50 user chẳng hạn lúc này khi các bạn deploy phiên bản mới nó phải 
+
+tạo ra một con bot tương ứng để đảm bảo được 50 user luôn luôn được phục vụ ha Tất nhiên đối với cơ chế triển khai mặc định như vậy các bạn sẽ thấy rằng là khi user truy xất vào có thể có user này truy xuất ở version cũ có user khác cher 
+
+version mới ha ví dụ tại thời điểm này Tại thời điểm này là chúng ta có một con post chạy version cũ và một con port chạy version mới thì lúc đấy rất có khả năng là có thể Cái chạ nghiệm nó sẽ đâu đó nó sẽ khác ha thì đây là cái cơ chế 
+
+mặc định khi chúng ta làm deployment và tương tự như thế thì nó sẽ tạo ra hai con port chạy version cũ thôi KC get p ha đây Các bạn thấy rz và SZ ha bây giờ các bạn có thể xem này K cal 
+
+decribe deployment và chọn cái app One deployment các bạn xem này đây chính là cái event của cái deployment này đầu tiên các bạn deployment này dùng cái deployment controller cái cái phần này nó chạy ở 
+
+trên control Plan ha để giúp cho maintain cái stage là cái trạng thái của cluster chúng ta này scale up replic set đến 1 này rồi scale replic set này scale down này th ạ đến 1 này 1 to 2 này 2 to one này one 
+
+to 1 này đúng không ạ Nó cho từng cái từng cái RC set của chúng ta 8B 8B 87 đây này thì đây là cái history các bạn ha Thì thay vì các bạn xem tựng xem trên post thì các bạn có thể xem trên cái deployment này để điều này sẽ giúp các 
+
+bạn đảm bảo rằng cái cái lực sử hành động của cái deployment này Action event này sự kiện này đều được track lại hết và các bạn thấy là đây này latest deployment version 2 à và mình có thể xem thêm cái 
+
+phần roll la ha Q roll la history hay status đi deployment app One deploy roll sucessful đúng không ạ roll history app One 
+
+deploy mình g sai chỗ này rồi đây Các bạn thấy không ạ Chúng ta đang có cái version số 1 version số 3 và cái version mới Hi tại số 4 tại vì cet khi nó đã roll B trở về cái số ha Thì cái số ha Nó không cò nữa rồi coi như 
+
+cái này là cái mới nhất rồi còn bây giờ các bạn muốn chuyển về cái số 3 thì các bạn sẽ cần phải chỉ đnh cái số 3 ha hoặ bạn Tại vì lúc ấy trước khi làm thế này là các bạn có 1 2 3 đúng các bạn đang ba là cái hiện tại và nó roll bắ cái thì nó 
+
+sẽ trả về phiên bản số 3 cho các bạn bây giờ các bạn xem trong cái phần service chúng ta đây chúng ta kiểm tra bây giờ mình roll bắ về rồi nó sẽ là chạy cái số 2 đúng không ạ Hoặc là các bạn trước khi các bạn kiểm tra này các bạn có thể thử 
+
+cái này Tại vì mình biết là mình biết là đang nó đang ở số 4 cho nên là mình sẽ KC roll l history deployment app One deploy trừ trừ revision bằng 4 đây nó dạy cái số 2 của các bạn Đây bây giờ mình refres này thì chắc chắn nó sẽ là 
+
+ra số 2 đúng không ạ Vậy là đúng theo cái thiết kế của chúng ta thêm một cái nữa bây giờ các bạn xem history à Sorry roll l history deployment app one 
+
+deploy bây giờ các bạn muốn muốn chuyển về một phiên bản cụ thể giả sử mình muốn chuyển về phiên bản số 3 đi thì chúng ta có thể câu lận K roll l đây und đúng không ạ und 
+
+deployment Việt g app One looy và chúng ta sẽ dùng to revision bằng 3 chuyển về vản số 3 Ok roll B về số 3 rồi này rồi bây giờ chúng ta sẽ chất lại chúng ta sẽ chất lại là lúc trước là lúc nãy mình không có moniter 
+
+rồi bây giờ nó sẽ roll B về version số 3 đúng ạ là cái 87 lúc chúng ta đúng không ạ nó chạy lại câu lận này này Đó nó chạy về cái 87 rồi Và tất nhiên thì support nó cũng sẽ nó sẽ phải tạo lại hết đây tạo hai Cái m cái đây rồi à 21 
+
+giây đây rồi Các bạn có thể xem describe cái phần deployment này nói chung làm đến k8s Nói chung hay là thậm chí Sau này các bạn làm Amazon xs á thì cái việc các bạn phải experiment là cái việc các bạn gõ lận các bạn trải nghiệm các bạn 
+
+tự các bạn suy nghĩ nó sẽ giúp các bạn nhớ kiến thức này hơn là các bạn ngồi xem người ta gõ ha ngồi xem người ta gõ thì có thể hiểu đấy nhưng mà nhưng mà đâu đó xong mình sẽ quên thôi Key qual decribe deployment app app One 
+
+deployment n đây nó scale 8B này to0 này 8B là cái cũ đúng không ạ scale to0 Có là mình về 0 này từ 1 ha nó giảm dần dần dần thì cái cách này gọi là Rolling update ha chúng ta kiểm tra bên app chúng ta này Bây giờ chúng ta sẽ suwit 
+
+về version s 3 đúng không ạ đó thì đây là cái cái cách chúng ta dùng robot ha trong bài tớ chúng ta sẽ học thêm một kỹ thuật nữa ở trên deployment là chúng ta thực hiện P và resume một cái deployment như thế nào ha Ok Cảm ơn các bạn đã theo 
+
+dõi ạ 
+

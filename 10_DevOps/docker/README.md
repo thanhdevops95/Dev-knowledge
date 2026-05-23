@@ -97,7 +97,7 @@ Sau 4 bài, bạn có thể:
 | **dive** | Phân tích layer image | `brew install dive` |
 | **hadolint** | Linter Dockerfile | `brew install hadolint` |
 | **lazydocker** | Terminal UI quản lý containers | `brew install lazydocker` |
-| **VS Code Docker extension** | Manage trong editor | xem [VS Code setup](../../02_Tools/editor/setup/vs-code.md) |
+| **VS Code Docker extension** | Manage trong editor | xem [VS Code setup](../../02_Tools/ide/vs-code.md) |
 
 ---
 

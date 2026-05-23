@@ -1,0 +1,16 @@
+đôi khi trong quá trình Chúng ta thử phát triển sản phẩm hoặc là chúng ta thử trong quá trình thử nghiệm ấy chúng ta cần thử xem là những cái nó chạy bên trong cái con p hay trong cụ thể trong con container chúng ta như thế nào những 
+
+cái phần log hay những phần s code hay những phần mà chúng ta viết do C file nó có thực sự nó đẩy lực lên trên cái kỳ vọng của chúng ta hay không Chúng ta muốn kiểm thử trong thực tế khi deploy cái container hay cái port chúng ta lên 
+
+trên kuber thì chúng ta có thể xem nó như thế nào thì trong bài này chúng ta sẽ xem cái câu luận EX để làm sao để chui vào trong cái con container ha thì chúng ta sẽ dùng cái kh pháp này kctl ha rồi ex exc này rồi chúng ta sẽ trừ it ha 
+
+gọi là interactive Mode thì lúc này chúng ta sẽ cần phải chỉ những cái port ha Giả sử cái port name mà sẽ là app ha Còn nếu mà bây giờ các bạn muốn Chu vào trong container luôn thì các bạn thêm thêm chữ c ha Nhưng đây là cái gọi là 
+
+single container port ha có là một port chỉ có một container thôi chúng ta không cần phải chỉ định cái này nữa lú đó chúng ta sẽ có gâu luận trừ trừ ở đây để bắt đầu chúng ta sẽ gõ những cái câu lận thực tế chạy ha Giả sử các bạn muốn g 
+
+câu luận LS chẳng hạn các bạn sẽ liệt kê tất cả những file đang có ở đây ha hay là các bạn muốn C một cái file cas muốn cas một cái file là giả sử như là docker file đi đó thì mình sẽ xem được nội dung của 
+
+cái file đấy ở trong cái ở trong cái con container đó ha bây giờ mình muốn chui vào trong cái cái terminal này SH đây các bạn xem này các bạn hã gó các lạn thoải mái ha cái này rất là phổ biến nếu mà các bạn muốn chạy một cái scrip nó đ 
+
+bên trong nội tại của con container này các bạn có thể trong Xem dụ cas index.js các bạn thể xem phần code mình viết ở đây như thế nào ha Mình viết cũng khá nhiều thứ ở đây các bạn có thể tham khảo nếu các bạn thích thú cái phần code này 
+

@@ -1,0 +1,30 @@
+bài đầu tiên chúng ta tìm hiểu về khái niệm infrastructure AD code terraform và tại sao chúng ta nên biết về terraform đối chiếu sang cái mô hình truyền thống thì chúng ta hay tưởng tượng là chúng ta là một kỹ sư hệ thống 
+
+công việc của chúng ta là thường xuyên cài đặt cấu hình máy chủ này Network Hoặc là các dịch vụ trên đó thì chúng ta nhận ra một điều rằng là cái công việc chúng ta làm tiềm ẩn khá nhiều cái rủi ro ví dụ như là cấu hình sai do lôi đánh 
+
+máy này hoặc là cấu hình cấu hình hàng loạt thì nó rất là khó hoặc là nó cũng sẽ rất khó khăn cho việc chúng ta sao chép từ cái cấu hình từ cái môi trường này sang môi trường khác à thì lúc này thì chúng ta đặt ra câu hỏi là liệu có 
+
+một công cụ nào giúp chúng ta tự động hóa được những công việc mà chúng ta thường làm hay không thì infrastructure ad code ra đời à nó sẽ giúp chúng ta thực hiện được điều này thì infrastructure ad code hay thường được 
+
+viết tắt là IC là một cái phương pháp quản lý và cung cấp cơ sở hạ tầng thông qua code thay vì chúng ta cấu hình cơ sở hạ tầng thủ công thì IC sẽ sử dụng các cái tệp cấu hình mà máy có thể đọc được ví dụ như là cái file J này file yaml 
+
+này hay thình mình thường đọc là file jumble hoặc là cái file scl trong các cái tệp này thì sẽ mô tả các thành phần của cơ sở hạ tầng ví dụ như là các cái vm này Hoặc là các cái đường Network các subnet Hoặc là các ppc Hoặc là các cái 
+
+bộ cân bằng Tải L baler và các cái dịch vụ khác thì các cái tệp này khi được thực th thì chúng sẽ tự động tạo ra các thành phần các cái cái cấu hình mà chúng ta đã thực hiện khai báo trong các cái file trên khi nhìn lại lịch sử máy tính 
+
+thì chúng ta thấy các công cụ quản lý câu hình được sử dụng lần đầu tiên vào những năm 1970 cụ thể là năm 1976 nhà khoa học người Mỹ là steuart F đã tạo ra công cụ M trên unix thì make là một cái công cụ tự động hóa nhằm xây dựng các 
+
+cái chương trình và các thư viện từ chuột code bằng cách là đọc các cái tệp được gọi là make file cái tệp này sẽ chỉ định cách lấy cái chương trình đích thì lấy ý tưởng từ make thì các công cụ IC lần lượt được ra 
+
+đời hiện tại phổ biến có thể kể đến như là ansible này terraform chf hoặc là ppap thì mỗi loại này nó sẽ có điểm mạnh điểm đặc trưng riêng Ví dụ như đối với tform thì rất mạnh về việc là sử dụng để provisioning hạ tầng hay là ansible thì 
+
+nó rất mạnh về việc là quản thí cấu hình tform là gì và tại sao chúng ta nên biết về tform tform là một open được phát triển bởi h Scope Đây là một cái công cụ mà giúp chúng ta chuyên sử dụng để provisioning cái hạ tầng cái 
+
+infrastructure của chúng ta và trong các cái công cụ trên thì có lẽ là hiện tại thì lf được biết đến là thông dụng nhất đầu tiên là miễn phí và oport thứ hai là nó rất dễ sử dụng à ngôn ngữ tform là một cái dạng ngôn ngữ mô tả tức là chúng 
+
+ta chỉ cần mô tả những cái gì chúng ta muốn lên một cái file và form sẽ thực hiện là đọc cái các cái cấu hình và của chung tô mô tả và thực hiện là cấu hình theo cái mô tả đó và thứ ba là có thể cung cấp hạ tầng trên nhiều loại class 
+
+khác nhau mà sẽ không bị phụ thuộc vào bất kỳ một loại nào và cuối cùng IC hay tform thường được sử dụng bởi depop Engineer cloud Engineer hoặc là system Engineer hoặc bất kỳ ai muốn sử dụng code để quản lý cơ sở hạ tầng Cảm ơn các 
+
+bạn đã lắng nghe và hẹn gặp lại các bạn trong các bài học tiếp theo 
+

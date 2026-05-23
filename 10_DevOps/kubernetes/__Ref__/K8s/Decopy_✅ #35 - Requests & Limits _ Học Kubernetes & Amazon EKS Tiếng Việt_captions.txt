@@ -1,0 +1,92 @@
+khi mà các bạn đưa ra một cái chị định là triển khai một con port lên trên một cái camet cluster thì nó sẽ có cái quy chình như thế này chúng ta sẽ có cái phần liên quan đến control Plan N và chúng ta sẽ có các cái note chúng ta thì 
+
+các Note N Chúng ta sẽ luôn luôn có liên quan đến hardware đúng không ạ CPU hay ram gì đấy [âm nhạc] Note và ở đây chúng ta I HC Min Chúng ta chạy một cái gọi là 
+
+Q ctl à Run một con port ở đây đúng không Thì lúc này nó sẽ gửi đến api server của chúng ta và đây và api api server mới à Gọi cái que scheduler để kiểm tra cái 
+
+SCD À cái mô hn kiến trúc của chúng ta v SD nó biết là à Cái con port này á nó sẽ deploy vào con Note của chúng ta chẳng hạn Note 1 Chúng chúng ta chẳng hạn thì bây giờ lúc này á cái cái con Abi Server này á nó biết r Abi server chỉ đến cho 
+
+qed à triển khai con pst này cho tôi đi thì Con pst này mặc định nó sẽ ăn bắt đầu nó ăn tài nguyên của con Server này gi sử con Server này của chúng ta có hai CPU và 4 gam 
+
+đi thì nó sẽ nếu mà chúng ta không chỉ định gì nó sẽ ăn hết Nếu mà con này giả sử mình viết code bị lú đi Chẳng hạn viết 78 bằ for chẳng hạn thì lúc này nó sẽ không Hay đúng không ạ thì thông thường khi chúng ta làm triển khai các 
+
+cái ứng dụng hay là các tài nguyên liên quan đến camet ch chúng ta có thể khai báo cái chỉ số liên quan đến giới hạn tài nguyên cho từng cho từng cái container trong một con port ha Thì cái khái niệm này mình sẽ dùng gọi là 
+
+request và Limit thì trong cái request và Limit mình có thể kh vào các chỉ số ví dụ thông thường phổ biến nhất vẫn là cpq và memory memory là ram Á và tương tự thế phần Limit chúng ta cũng có thể 
+
+khai báo CPU và memory Giả sử bây giờ mình sẽ khai báo là request của mình là 1 CPU và giả sử như là 2 2 GB RAM đi đúng không ạ 2 GB 2 GB chữ i ha ram còn Limit của 
+
+nó là 2 CPU và tối đa là giả sử như là 3 Vam chẳng hạn thì khi mà con post này được tạo ra nó nó sẽ ăn luôn bằng này và trong qu Trân sử dụng nó có thể nở cho tới cái Limit này nếu mà nó nở giả sử nó 
+
+hai trường hợp nở ha Nếu chạy đẹp đẹp trờ nó dưới cái nó không được quá nó không được quá cái phần Limit này nếu mà nó quá cái phần Limit này giả sử bây giờ Giả sử nếu mà nó over cái phần memory thì sao á memory là ở tầng ứng dụng à 
+
+Cho nên nếu mà nó lớn hơn á lớn hơn á thì cái port mình sẽ vào trạng thái là o mà viết tắt là out off memory thì C ứng dụng mình sẽ không còn chi xất được nữa coi như là bị chết 
+
+ấy còn nếu mà trường hợp mình bị over CPU thì ứng dụng mình sẽ bị Slow và các cái request nó sẽ bị throttle throttle có nghĩa là ra có nĩa là vẫn truy xất được nhưng mà nó bị chậm thì CPU nó hành vi nó khác so với memory 
+
+nha C như memory ng nh chết đấy đào đấy nhưng mà CPU nó chỉ chậm thôi thì CPU nó giống như cái chuyện mọi người sẽ coi một cái ví dụ là chúng ta có một con đường đây là con đường là chúng ta có nhiều làn N và con đường này của mình 
+
+Giả sử có thể có rất nhiều xe máy Chúng ta chạy trên này hay là ô tô Chúng ta chạy trên này đúng không ạ Nếu mà Giả sử một lúc mà chúng ta có quá nhiều có quá nhiều cái cái gọi là phương tiện giao thông á thì nó sẽ nó sẽ không không cấm 
+
+nhưng mà nó sẽ bị Slow hơn thôi cho nên là cái việc mà chúng ta làm Thông thường thì chúng ta sẽ nên set cái theo best prus thì vẫn là nên set cái request là để cấp phát là cái này các bạn nên nên Monitor ứng dụng các bạn 
+
+thường xuyên đ biết là set cái request bao nhiêu cho nó hợp lý tại vì nếu các bạn set cái request này thấp thấp quá thì ứng dụng mình sẽ mất thời gian nở ra Và thậm chí ứng dụng request mà thấp quá sau này ví dụ như là một số cái topic 
+
+advent hơn á nếu mà chúng ta đ chúng ta triển khai cái port á mà à hệ thống hết tài nguyên á thì catab nó có thể tự động xóa đi những con port mà đang chạy nhá mà ở ưu đên thấp hơn nếu mà cái request chúng ta cấu hận là thấp á thì các bạn 
+
+nên cẩn thận thì cái đó mình sẽ mình nói trước thôi còn sau này chúng ta sẽ tìm hiểu kỹ thêm thì cái qu và Limit là hai cái chúng ta có thể khai báo được cho từng con container ha sort chúng ta có hai container thì chúng ta có thể khai 
+
+báo request và Limit cho hai cái container Nếu chúng ta chúng ta khỉ khai báo Limit mà không khai báo request thì con container Chúng ta sẽ luôn Ăn luôn bằng này luôn có nghĩa là Luôn luôn lấy cái giá trị này rồi chúng ta sẽ xem 
+
+trong phần tài liệu một số cái thông tin h bết khác ha Thì trong phần tài liệu này thì các bạn có thể search cho các bạn đọc ha này tài liệu thì public Thôi thì chúng ta khai báo Limit và request này thì Limit và request thì chúng ta có 
+
+memory thì trong cái đơn vị của memory á thì các bạn sẽ có khai báo là có thể theo exb Tab pab gab memory m MB nha Nhưng mà thông thường thì các bạn hay dùng là mê hơn n chứ 
+
+chúng ta không có dùng tới hàng tj by cho một con pst về mặt bộ nhớ đâu còn CPU của mình là sao CPU của mình nó sẽ có cái chỉ số này một cái call CPU chúng ta co thông thường nó sẽ tương ứng với 1 1 và các bạn có thể khai báo thấp nhất 
+
+là 0,1 ha 0,1 tương ứng với là 1/10 của một cái co ấy nếu server các bạn có bốn co thì các bạn sẽ có bốn CPU CPU ở đây và tương ứng với 4000 4000 em em là em nhỏ nha em Chứ m Mở thường á thì cái này đọc là m CPU hoặc là micore ha đây nó nó 
+
+này một physical C Core hoặc là một vertal Core này Vậy thì các bạn đơn vị tối thiểu của các bạn sẽ là 0,1 là tương ứng với 100 100 m cor các bạn ha rồi Các bạn xem này resource Limit thì các bạn có thể x p p t ch by Nhưng mà thông 
+
+thường mình thấy dùng là mê mê thôi chứ ai cũng mình không nghĩ nhưng D phổ biến dùng t ch B đâu hay p cho b đâu Ờ cái chữ y này là sao nếu mà chữ m hoa này á thì có nghĩa rằng á là mê ha Y này là mi mi BB có nghĩa là nó tính theo 1024 hồi 
+
+xưa ấy còn nếu mà có chữ M0 á thì nó sẽ là tính theo 1000 ha 1000 1000 Mam ấy thì thông thường thì mình các bạn Tùy các bạn thôi các bạn thấy cái nào bạn dễ sử dụng các bạn dùng ha Đây là cái ví dụ ha con pst của chúng ta và đây có con 
+
+pst chúng ta có hai cái con container bên trong một con lock và một con app và chúng ta sẽ có trường request ở đây nó nằm ở dưới dường resource mình sẽ copy cái này nha rồi mình quay về cái manifest của 
+
+chúng ta con pst chúng ta ở đây Bây giờ mình sẽ sửa này mình giả sử bây giờ mình sẽ sửa cho con app chúng ta ở đây Các bạn nhớ thụt đầu dòng cho đúng này theo cái tài liệu này nếu các bạn mới làm thì các bạn nên nên viết nên gõ 
+
+ha mình giả sử con này request là 6 64 m và 250 co mình sửa số cho nó các bạn dễ nhìn nha Đây 64 con này tối đa là 128 này và Limit là 500 còn N không có Limit thì bây giờ chúng ta có con B này rồi simple app ở đây ha 
+
+chạyb Ở đây rồi chúng ta sẽ cùng thử deploy con app này thì trước khi deploy con app này thì các bạn có thể xem này get Note chúng ta có hiện tại có một con một con Note Thực ra là con control Plan luôn trường hợp đặc biệt ha chúng ta sẽ 
+
+thử này k c decribe Sorry mình bị dính cái note và Mini thì khi các bạn describe cái note của chúng ta các bạn xem này các bạn xem allocated resour này thì hiện tại cái con nốt của chúng ta có 
+
+750 này 750 m co ha và memory đang là dùng là 170 m rồi bây giờ giả sử bây giờ mình deploy con post chúng ta lên bây giờ trường hợp thứ nhất Bây giờ mình sẽ deploy con này hiện tại là không có không có 
+
+cái resource Limit nha Mình sẽ thử như thế nào chể các bạn cùng xem nha mình K get port đ mình verify trước hiện tại không có ha và mình sẽ kêu C apply trừ a port rồi port đ created k à c get port trừ What và đang có Running rồi Hiện tại 
+
+các bạn thấy là ha này là hai container và 2 là read 2/2 là ok này Bây giờ mình sẽ Kill C get Note à decline Note ha mini đây các bạn xem này Tại vì mình không có chỉ định request và memory cho nên là nó vẫn y xì như cũ tại vì cái này 
+
+là một số hiện tại hệ thống vẫ có một số các cái đã chạy rồi cho nên nó sẽ có một số con số này đã chạy sẵn Còn bây giờ Bây giờ mình sẽ địp mình sẽ mình sẽ hủy đi nh 
+
+Delete mình sẽ xóa cái này đi bây giờ mình mới enable cái phần này lên mình sẽ K clear đi các bạn dễ nhìn K C apply trừ export rồi Các bạn xem nà bây giờ chúng ta sẽ xem cái phần K get port tr V running luô rồi này nó đã chạy 
+
+rồi giờ mình sẽ kiểm tra này K de Note mini đây Các bạn thấy số nó lên đúng không ạ nãy là con số này nó sẽ cộng lên request nó sẽ cộng lên là 64 còn CPU nó sẽ cộng lên là 200 ha rồi con này Limit 
+
+của nó sẽ là nó t nó tín dồn lên đây này 128 rồi bây giờ là con số là con số sau khi cộng bây giờ mình sẽ thử Xóa đi Này mình mở một cái terminal khác để các bạn thấy nhầm số có đúng không nhé 
+
+K Delete ok rồi [âm nhạc] k descri Note min đây các bạn xem này cái gốc của nó 
+
+là 750 750 lên tới 950 là cộng thêm 200 đúng không ạ đây tại vì CPU mình là request là 200 CPU đúng không ạ memory là 234 C Con này là góc của nó là 170 170 thì 170 cộng với 64 thì nó sẽ là 234 là đúng rồi 
+
+đúng không ạ góc của mình là 170 m mib ha m I thì bây giờ mà Limit của nó là sẽ là cộng lên 128 thì 170 cộng với 128 thì đúng là 298 đúng không ạ CPU Limit là 500 mic là 0,5 CPU á thì 
+
+các bạn thấy là trước đây Limit không có này Nhưng bây giờ nó là 500 thì dựa vàoo cái này các bạn sẽ biết là con Note này của mình nó Tại vì nó đã deploy lên lên rồi thì sau này nó sẽ được giãn nở theo cái theo cái cấu hình mà mình đã thiết 
+
+lập ở đây nha Mình có thể x lập cấu hình trên từng port từng container ha và theo một số tài liệu mình đọc thì họ Khuyến nghị các bạn nên xét cái ngưỡng request này còn cái Limit này các bạn sẽ dành cho một số 
+
+trường hợp đặc biệt thôi Tại vì nếu mà ứng dụng bạn chạy quá Limit này thì memory thì nó sẽ bị out of memory và nó sẽ giống như là nó sẽ bị down cái phần po của chúng ta luôn ha Ok Cảm ơn các bạn đã theo dõi hi vọng quay bài này và 
+
+các bạn hiểu thêm và cách thiết lập mà resour và Limit cho cái con container trong cái port của chúng ta cảm ơn các bạn 
+

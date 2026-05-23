@@ -1,0 +1,3 @@
+# Dockerfile.A - chỉ CMD
+FROM alpine
+CMD ["echo", "from CMD"]

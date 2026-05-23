@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: myapp-canary
+  namespace: myapp-dev
+spec:
+  hosts:
+    - myapp-service
+  http:
+    - route:
+        - destination:
+            host: myapp-service
+            subset: v1
+          weight: 90
+        - destination:
+            host: myapp-service
+            subset: v2
+          weight: 10

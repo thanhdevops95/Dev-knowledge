@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: curl-app-service
+  labels:
+    app: curl-app
+spec:
+  selector:
+    app: curl-app      # ⚠️ SELECTOR: tìm tất cả Pods có label app=curl-app
+    tier: frontend
+  ports:
+  - name: http
+    port: 8080         # Port của Service (trong cluster)
+    targetPort: 80     # Port của Container (containerPort)
+    nodePort: 30007    # Port trên Node (30000-32767)
+    protocol: TCP
+  type: NodePort       # ⚡ Loại Service: NodePort (expose ra ngoài)
+  # Các loại khác: ClusterIP (default), LoadBalancer, ExternalName

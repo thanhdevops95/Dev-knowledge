@@ -1,9 +1,9 @@
-# Linux File Operations — Tạo, đổi, xóa file & folder với `mkdir`, `touch`, `cp`, `mv`, `rm`
+# 🎓 Linux File Operations — `mkdir`, `touch`, `cp`, `mv`, `rm`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
@@ -22,7 +22,22 @@
 
 ---
 
-## 1️⃣ Vì sao 5 lệnh này quan trọng (WHY)
+## Tình huống — bạn cần tạo cấu trúc project đầu tiên
+
+Sau bài navigation, bạn đã `cd` vào `~/projects/`. Sếp giao: *"Tạo project mới `myapp` có cấu trúc: folder `src/`, `tests/`, file rỗng `main.py`, `requirements.txt`, copy template `.gitignore` từ folder `~/templates/` qua, đổi tên cũ `old-app/` thành `myapp-v0/`, và xoá folder `tmp/` không cần nữa."*
+
+Bạn cần **5 lệnh** để làm bộ việc này:
+- `mkdir` — tạo folder mới
+- `touch` — tạo file rỗng
+- `cp` — copy file (`.gitignore` từ templates qua)
+- `mv` — đổi tên / di chuyển (`old-app` → `myapp-v0`)
+- `rm` — xoá (folder `tmp/`)
+
+**Đặc biệt**: `rm` **không có Undo** — gõ sai = mất vĩnh viễn. Bài này dành 1 phần lớn cảnh báo cách dùng an toàn.
+
+---
+
+## 1️⃣ Vì sao 5 lệnh này là CRUD cốt lõi của filesystem?
 
 Sau khi navigate (`cd`, `ls`, `pwd`), bạn cần **TƯƠNG TÁC** với file/folder. 5 lệnh trong bài là **bộ CRUD cơ bản** cho filesystem:
 
@@ -38,7 +53,7 @@ Sau khi navigate (`cd`, `ls`, `pwd`), bạn cần **TƯƠNG TÁC** với file/fo
 
 ---
 
-## 2️⃣ Mô hình tinh thần (WHAT)
+## 2️⃣ Mô hình tinh thần — 5 công cụ trong xưởng
 
 **🪞 Ẩn dụ**: *5 lệnh này như **5 công cụ trong xưởng**: `mkdir` = đào hố (tạo folder), `touch` = đặt thùng rỗng (file rỗng), `cp` = nhân bản, `mv` = chuyển/dán nhãn lại, `rm` = đốt (không có thùng rác recovery).*
 
@@ -52,7 +67,7 @@ Sau khi navigate (`cd`, `ls`, `pwd`), bạn cần **TƯƠNG TÁC** với file/fo
 
 ---
 
-## 3️⃣ Hands-on (HOW)
+## 3️⃣ Bắt tay làm — 5 lệnh CRUD
 
 ### 🛠️ 3.1 `mkdir` — Tạo folder
 
@@ -483,7 +498,7 @@ Phân tích:
 | ⬅️ Bài trước | [01_navigation.md](./01_navigation.md) |
 | ➡️ Bài tiếp | [03_view-file-content.md](./03_view-file-content.md) — cat, less, head, tail |
 | 🔗 Liên quan | (sẽ có) `06_file-permissions.md` — chmod, chown |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 
@@ -494,5 +509,9 @@ Phân tích:
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống tạo cấu trúc project đầu tiên** với 5 lệnh cụ thể (mkdir/touch/cp/mv/rm)
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Mô hình (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi/mô tả tự nhiên
+  - Content kỹ thuật KHÔNG đổi
 - **v1.1.0 (16/05/2026)** — Move từ `02_Tools/shell/` sang `04_OS/linux/` theo Blueprint v0.5 §3.2ter. Title đổi "File Operations" → "Linux File Operations".
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson `mkdir`/`touch`/`cp`/`mv`/`rm` với hands-on + 4 pitfall + 4 best practice.

@@ -1,0 +1,9 @@
+print("Docker - Bài 08 — Xem lịch sử image (History)")
+print("------------------------------------------------------------")
+print("")
+import platform
+from datetime import datetime
+print("Hello from MyApp - Version 1.2")
+print("Added: OS info feature")
+print(f"Current time: {datetime.now()}")
+print(f"OS: {platform.system()} {platform.release()}")

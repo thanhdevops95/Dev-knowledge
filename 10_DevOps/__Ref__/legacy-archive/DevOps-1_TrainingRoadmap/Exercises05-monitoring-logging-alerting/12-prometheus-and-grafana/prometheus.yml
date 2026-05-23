@@ -1,0 +1,20 @@
+# prometheus.yml
+# File cấu hình cho Prometheus Server.
+
+global:
+  scrape_interval: 15s # Tần suất "cào" (scrape) metrics mặc định là 15 giây một lần.
+
+# 'scrape_configs' định nghĩa các mục tiêu (targets) mà Prometheus sẽ scrape.
+scrape_configs:
+  # Job đầu tiên: scrape metrics của chính Prometheus.
+  - job_name: 'prometheus'
+    static_configs:
+      # Prometheus sẽ scrape chính nó tại địa chỉ localhost:9090 (bên trong mạng Docker).
+      - targets: ['localhost:9090']
+
+  # Job thứ hai: scrape metrics từ Node Exporter.
+  - job_name: 'node_exporter'
+    static_configs:
+      # Docker Compose tạo ra một mạng nội bộ, cho phép các container
+      # giao tiếp với nhau qua tên service. Ở đây, 'node_exporter' là hostname.
+      - targets: ['node_exporter:9100']

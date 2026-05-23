@@ -1,0 +1,18 @@
+chúng ta đến với tính năng testing trong tform testing trong tform là quá trình mà chúng ta xét Minh xem là cái code của chúng ta được viết bằng tform có hoạt động đúng như mong muốn hay không thì nó bao gồm việc là kiểm tra các tành Nguyên 
+
+tầng sẽ được triển khai như là các cái máy ảo này vpc các cái subnet Hoặc là các cái dịch vụ đám mây khác thì mục tiêu là đảm bảo rằng là tform tạo ra đúng cái cấu trúc hạ tầng với cấu hình chính xác và hoạt động như dự kiến trong 
+
+tform thì thường sẽ Có ba cấp độ testing phổ biến unit testing là cách mà chúng ta kiểm tra các cái module Hoặc là các thành phần code riêng lẻ trong tform mà không cần phải thực sự là triển khai chúng thì đối với unit testing thì chúng 
+
+ta có thể sử dụng công cụ của bên thứ ba như là terratest hoặc là tfl đối với kiểu thứ hai là integration testing Đây là cách chúng ta kiểm tra các thành phần trong code tform của chúng ta có tương tác và hoạt động đúng như cách mà chúng 
+
+ta triển khai hay không Và cuối cùng là nn testing làm việc với tầng thực tế kiểm cho toàn bộ quá trình từ việc triển khai hạ tầng đến việc đảm bảo rằng hệ thống chạy chính xác với các g hình được đã được định nghĩa thì đây là cái kiểu 
+
+mà testing phức tạp và tốn nhiều nỗ lực nhất việc testing trong terraform thì chúng ta có thể sử dụng các công cụ của bên thứ ba như là ter test hoặc là cái truyền terraform thì các cái công cụ này thì nó được viết bằng các cái ngôn ngữ 
+
+khác nhau thì để sử dụng dụng được thì bắt buộc là chúng ta cũng sẽ có hiểu biết về các cái loại ngôn ngữ đó Tuy nhiên từ cái version 1.6 của tform thì họ đã phát triển ra một cái test Framework Tức là nó vẫn sẽ sử dụng cái 
+
+cấu trúc của code tform thì về cơ bản thì chúng ta sẽ định nghĩa ra một cái file có cái đôi mở rộng là tft tests hoặc là tft testra thì đây chính là cấu trúc của một cái file test trong tform và Để hiểu hơn về cách hoạt động 
+
+của testing này cách viết file như thế nào thì chúng ta sẽ đến với phần thực hành 
+

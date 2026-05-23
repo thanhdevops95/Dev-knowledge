@@ -1,0 +1,46 @@
+thì chúng ta cùng xem cái À cái mô hình chúng ta một một xíu ha chúng ta có một con Note chúng ta ở đây một con Go Note Chúng ta có một con pst bên trong này mình Phóng to ra tí nha con pst này của mình tên là app 1 này hiện tại đang 
+
+là app 1 ha đó app1 trỗ này mình sẽ có một cái container container của mình ở đây thì container của mình mình đang lập trình cho nó đ chạy 8080 nhá bây giờ mục tiêu của mình này chúng ta sẽ có user nằ bên ngoài 
+
+và user này á Muốn truy xất vào con post Tất nhiên user đây không thể Chu vào trong con post này được ha mà user chỉ được truy xất vào cái ip của con Note này bản chất của con Note này nhưng mình nói là con này là một con máy chủ bình 
+
+thường xong này các bạn làm thôi thì lúc này khi các bạn làm con Go Note này á thì con này nó sẽ có một địa chỉ IP nào đấy Giả sử Mình ghi là 10 chm 10 chm 100 đi giả sử 10.1.5 ch8 đi còn con post này là mỗi 
+
+một con post này nó sẽ có một IP luôn nhá mình giả sử mình đ chỗ này lớp là 10. 9.9.9 đi thườn số chấm Rồi rồi con này sẽ có 10.99 vậy thì á Khi user á mà muốn truy xất á thì phải chỉ được nói chuyện 
+
+với con 10.10.5.dmg ở mình phải nối làm sao nối được từ con container này đi ra ngoài con post này rồi từ con post này đi ra ngoài con nốt này nó phải đi qua tận tới một cánh cửa này hai cánh cửa này thì nó 
+
+mới đi ra được ngoài user này ha Vậy thì cái port này là port container thì thông thường các bạn sẽ cần phải làm một cái port nữa là cái port ở cái con một con port này thì con p con port này á thì thông thường mọi người Sau này dùng một 
+
+cái gọi là Note Bard ha mình sẽ có một cái ở đây Cái này là một cái port ha Thì lúc này mình sẽ có hai khái niệm port cái port này là chính là cái port của con port và cái port này là cái port của con 
+
+container bây giờ mình có con port ở đây gọi là cái này gọi là t get port n là 48080 giả sử mình để cái port của con con port này sẽ là port 8081 đi để các bạn thấy sự khác biệt ha rồi 8081 nhưng mà user này sẽ không thể 
+
+tr xất 8081 này được Tại vì nó vẫn nằm trong phạm một con port thôi các bạn thn dù con có rất nhiều con port Làm sao để biết được 881 là con này thì thông thường các bạn sẽ phải expose cái con p này ra bên ngoài thì để 
+
+exp con này ra bên ngoài thì có hai kỹ thuật một kỹ thuật gọi là Note P và một kỹ thuật nó gọi là ler baler balancer là cân bằng tải thì hai cái này hai cái 
+
+này là hai cái loại dịch vụ ha gọi là service n gọi là service đá thì hai loại dịch vụ duy nhất của trên kubernetes có thể giúp các bạn expose một cái port ra bên ngoài nha Thì hai cái này khác nhau ch nào cái laner thì nó hoạt động vào 
+
+những cái công cụ G laner của các cloud provider Giả sử trên chúng ta dùng là iob ha mình sẽ nói phần này sau nó khóa phức tạp còn cái note này là sao tại vì Note này là cái export ngoài dạng Node mà đúng không ạ thì cái note port là khi 
+
+m các bạn export ra bên ngoài á nó sẽ nằm ở một cái giải port này 30 00 cho đến 32.767 có nghĩa là nó sẽ sinh ra một cái port nào đấy Giả sử cái port mình sinh ra ở đây mình sẽ dùng là port 
+
+30.000 1988 ha giả sử như thế thì lúc này cái user của mình sẽ tr suất như nào user mình sẽ tr suất như này http 10.1.5 ch8 2. 301 1988 đó nó sẽ try xuất như vậy ha 
+
+Vậy thì nếu mà gi sử cái diết vụ mình mình càng ngày càng mở rộng ra ấy thì nó lại có một chuyện nữa như thế này nó sẽ có một chuyện là à chúng ta có một con Note nữa đây không phải một con gole Note nữa mà thêm một con Note con Note 
+
+số 2 đi và cái post app1 của mình á sau này nó có nhu cầu mở rộng đâ mà nó sẽ cần phải có một cái con port ở bên này nữa p cũng là app 1 ở đây luôn thì cái logic này nó lặp lại thôi Giả sử 
+
+bâ giờ con gu này mình sẽ là 10.100 ch 5.9 đi hai này khác nhau 5.8 5.9 n thì lúc này user của mình ấy nó sẽ cần phải truy suất dạng như này HTTV 10.1.5 ch9 và cái port là 
+
+30988 ha Thì lúc này user mình phải chỉ định rõ cụ thể là từng cái từng cái port Ừ trên từng à cùng là cái port thôi nhưng mà sẽ là ở trên IP khác nhau ạ Thì cái này nó sẽ gọi là Note port mà sẽ export ra bên ngoài cho 
+
+một dịch vụ nhưng mà nó sẽ không thể dùng chung địa chỉ IP Còn nếu các bạn muốn dùng chung địa chỉ IP này giả sử là mình muốn chuy xất là dạng như là gọi vào user rồi một một cái URL DNS domain name Á và port là 10 1988 này này thì 
+
+các bạn sẽ phải dùng thông qua l ler ha Thì bạn sẽ đi từng từng bước từng bước để bài này thì mình giúp cho các bạn hiểu cái bức tranh đơn thuần thôi mình sẽ có loại Note P và loại ler là hai cái nó giúp cho mình expose ra bên ngoài bây 
+
+giờ mình có container bên trong chạy tháng 080 rồi thì trong bài tiếp theo mình sẽ nói về cái note p ha Làm sao để expose cái note p ra bên ngoài để user bên ngoài có thể chy xất thông qua cái dịch vụ của mình ha Ok Cảm ơn các bạn đã 
+
+quan tâm theo dõi ạ 
+

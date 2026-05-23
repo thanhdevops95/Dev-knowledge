@@ -1,0 +1,45 @@
+# docker-compose.yml
+# File này dùng để chạy toàn bộ ứng dụng trên môi trường local.
+version: '3.8'
+
+services:
+  # 1. Service Backend
+  backend:
+    build:
+      context: ./app/backend # Build từ Dockerfile trong thư mục app/backend
+    container_name: backend
+    ports:
+      - "3001:3001"
+    environment:
+      # Cung cấp biến môi trường để backend kết nối đến database
+      - DATABASE_URL=postgres://user:password@db:5432/todos
+    depends_on:
+      - db # Chỉ khởi động backend sau khi service 'db' đã sẵn sàng
+
+  # 2. Service Frontend
+  frontend:
+    build:
+      context: ./app/frontend
+    container_name: frontend
+    ports:
+      - "3000:80" # Ánh xạ cổng 3000 của máy host vào cổng 80 (Nginx) của container
+    depends_on:
+      - backend
+
+  # 3. Service Database
+  db:
+    image: postgres:13-alpine
+    container_name: db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=todos
+    ports:
+      # (Tùy chọn) Mở cổng 5432 để có thể kết nối từ bên ngoài nếu cần debug
+      - "5432:5432"
+    volumes:
+      # Lưu trữ dữ liệu của database để không bị mất khi container được tạo lại
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

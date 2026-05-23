@@ -1,0 +1,112 @@
+Ok chúng ta sẽ cùng thảo luận nhau một cái chủ đề khá là nhạy cảm ha và Nhưng mà mình nghĩ nó lại rất là quan trọng với các bạn đó là chúng ta có nên học và sử dụng community cho bản thân cho tội nhóm hay thậm chỉ cho công ty chúng ta 
+
+hay không Bởi vì cái việc này sẽ quyết định cái thời gian thậm chí là tiền bạc các bạn dồn và việc này ha Nó sẽ mình mình can Loan với các bạn rằng các bạn cần phải biết chuyện này ngay từ sớm để để để cái nỗ lực các bạn nó đặt ra nó 
+
+phải thật là xứng đáng ha chán trường hợp á là chúng ta chỉ biết một sự lựa chọn thôi chúng ta học nó nhưng mà sa Cuối cùng chúng ta thấy là à nó không phải dành cho chúng ta thì đây là cái bài mình sẽ thảo độn về cái chủ đề này 
+
+thì mình sẽ làm một cái So sánh dựa trên quan điểm cá nhân của mình ha nếu mà các bạn thấy rằng các bạn có những cái ý tưởng thêm nữa bổ sung các bạn mình welcom à Tại vì cái này là cũng dựa trên những cái à một một số cá nó thuộc về 
+
+quan điểm cá nhân thì đầu tiên mình sẽ recommend đầu tiên là những cái gọi là recommend để học và làm k8s Ha cái ý đầu tiên á là cái k8s này nó cực kỳ phổ biến ha Nó th nó có thể gọi là một cái tiêu 
+
+chuẩn trong ngành giống như là mình đi ra ngoài đường bây giờ mình nói xe máy nhiều khi nói là h Xe Honda đấy Kiểu kiểu như thế thì nó cực kỳ popular thì các bạn có thể xem trong cái một một cái tài liệu ở đây ha Mình xin lỗi ha Tại vì 
+
+cái website cái web này nó không có có Dark Mode ấy nên là nó hơi sáng đ các bạn xem buổi tối mình sẽ Lướt rất nhanh rồi mình sẽ suwit lại thôi Thì theo cái khảo sát một cái survey của cncf ha cloud native qu foron cái tổ chức này 
+
+được rất nhiều các công ty lớn họ họ đóng góp ha Ví dụ như aws Google Microsoft IBM gì đấy Cái danan sắt mình không liệt kê hết thì theo khảo sát của họ thì họ có ghi nhận được 6 96 pH của tổ chức tham gia trong nhóm khảo sát này 
+
+3800 part này thì sử dụng à k8s và trong trạng thái là production và đánh giá trạng thái đánh giá ha Thì tăng trưởng liên tục ha Tại vì cộng đồng càng càng lớn và giống như là container container 
+
+hóa tất cả mọi thứ á kiểu như là một cái một cái hướng đến của rất nhiều tổ chức hiện tại rồi trong khu vực đấ cả ở Việt Nam mình bây giờ rất nhiều bên adoption là sử dụng container thì cái này là giống như là tiêu chuẩn ấy 
+
+Ờ thì theo một cái một cái tài liệu mình đọc của aws á thì trong cái số lượng mà 96 ph này n có khoảng 64 PH ở đây là người ta đã chạy work lot là trên production có nghĩa là ktam dùng cho môi trường production đấy chứ không phải là 
+
+chỉ đơn thuần là học hỏi gì đâu cho nên số lượng còn số lượng này là mình nghĩ là con số lượng cực kỳ thuyết phục ha thì chính vì cái cái việc mà nó popular như vậy á mình để đây gi 66 64 ph là đang production này không thì nó sẽ sinh 
+
+ra rất nhiều các cái hệ lụy hay là rất nhiều cái hiệu ứng tích cực cho công ty nó chở cá nhân An em chúng ta học ha bởi vì á là cái thằng k8s này á Nó hỗ trợ về cái khả năng innovation cực kỳ nhanh vì là các bạn thấy là các công ty lớn họ họ 
+
+đổ cái nguồn lực con người vào việc nghiên cứu phát triển cái product and Á cho nên là cái tốc độ release ra những cái feature những cái Bản B bản vả cực kỳ lệ ha thông thường vài tháng th ví dụ như là một số tài liệu nó là khoảng 4 
+
+tháng nhưng mà thấy là cái tốc độ release của k8s các phiên bản gần đây nó rất là nhăn luôn cho nên là có bắt kịp được bắt kịp được thị trường với lại là việc mà sử dụng container Hóa thì sẽ giúp cho bản thân người sử dụng các tổ 
+
+chức mình sử dụng container ấ cũng sẽ giúp cho cái tăng về cái tốc độ release phần mềm hơn ha nhanh chóng hơn thay vì hồi xưa chúng ta làm một cục phần mềm toà đùng mỗi lần chúng ta bu deploy nó mất nhiều khi mất Thấy nửa ngày lận nó 
+
+rất là lâu bây giờ chúng ta có thể mất vài vài chục phút tậm chí mười mấy phút chúng ta release được một cái r để test rồi thì nó đáp ứng cho cái nhu cầu thực sự của những khách hàng Ví dụ như là chúng ta là người sử dụng là gọi khách 
+
+hàng ấy thì cái r big chain này Tại vì từ cái nhu cầu business chúng ta thay đổi Nên là yêu cầu chúng ta sử dụng những công nghệ nó cũng phải thay đổi nhanh chóng được như thế thế n là yếu tố thứ hai mình nghĩ là nó sẽ rất tốt cho 
+
+phía người sử dụng của chúng ta à vì cái mức độ làm container nó nó hỗ trợ vấn đề về scale mà Đúng không Nó giúp cho cái vấn vấn đề dụ thay đổi Google closs chúng ta scale cá hạ tầng chúng ta theo cái nhu cầu thực thể sử dụng cho nên là 
+
+nó sẽ giúp cho mình giản thiểu cost cho hạ tầng công ngệ thông tin chúng ta bởi vì là cái tập sử dụng của kuti cả càng đông á cho nên này đối với các công ty sử dụng á thì nó sẽ có rất nhiều điểm cộng liên quan đến hiring ha liên quan 
+
+đến tuyển dụng con người ví dụ tìm một người làm skill liên quan đến katam thì gần như Tại vì nó giống như là gần như tiêu chuẩn mà nên là tìm người tìm tuyển người nó cũng rất dễ và mình rất là yên tâm cho việc long term development ha ví 
+
+dụ như là công ty tôi là công ty lâu đời phát triển lâu lâu không phải muốn là tự nhiên hôm nay chúng dùng bên này tự nhiên hai 3 năm sau Công cái công nghệ nó bị sân xét nó bị hết thời chẳng hạn thì cái này nó rất yên tâm cho những cái 
+
+tổ chức lớn họ muốn phát triển giải hơi á Cái tiếp theo á là cái cams á có một cái cộng đồng cực kỳ tốt luôn có nghĩa là các bạn có vấn đề gì đấy các bạn có luôn luôn có người hỗ trợ các bạn ha và thực ra thì 
+
+mình cũng mình mình thấy nó đông thôi nhưng mình cũng chưa sử dụng cái community này lắm tại vì thực ra mình thấy tài liệu của ku uned n mình thấy là nó cực kỳ dễ hiểu cực kỳ trong sáng ấy nên là làm nó cũng cũng không có nhiều 
+
+trởng ngại lắm điểm thứ ba là cho anh em chúng ta này là developer là depop này là chố ha chố opportunity ha à là cơ hội việc làm mình sẽ rất là dễ hơn mình đi tuyển mình đi xin việc rồi 
+
+mình nói một cái công nghệ mà hầu hầu hết các tổ chức đang sử dụng mình cơ hội làm việc của mình nó nhiều hơn không phải làm việc trong nước mà có thể làm việc cả nước ngoài nữa và nhưng mà tất cả những thực ra nh 
+
+tất cả những thứ này nó lại không quan trọng với bản thân mình cái yếu tố cuối cùng quan trọng nhất V bản thân mình á là nó cực cực kỳ linh hoạt à và Security nha mình cực kỳ thích cái Security của nó nó chữ này mình viết bị sai rồi 
+
+Security bởi vì sao tại vì công việc như cụ thể của mình á Mình là làm rất nhiều thứ liên quan đến sofware service và trong sofware service nó có một cái pattern liên quan đến isolation thì isolation cũng như là chúng ta làm một 
+
+cái cluster làm một cái hệ thống mà cho rất nhiều khách hàng dùng chung vậ thì khi mà các nhiều khách hàng dùng chung mình sẽ có một cái nhu cầu mình muốn phát sinh đó là mình muốn các khách hàng này phải có sự cô lập nhau về mặt vật lý 
+
+n cả V mặt luận lý Thậm chí mình có thể muốn cấp phát tài nguyên hay quản lý chi phí trên từng khách hàng dùng chung một cái hạ tầng như thế thì cái việc này đối với À cái k8s mình Đán giá là nó làm cực kỳ tốt luôn cực kỳ mình mình cực kỳ hài 
+
+lòng vậy thì đây là những cái điểm cộng ha Vậy not recommend cái này hơi nhẹ cảm không phải là mình mình tâng bốc hay là mình dìm đâu nha các bạn mình thấy nó là như thế thôi còn các bạn thấy khác mình cũng rất 
+
+là tôn trọng ý kiến Các bạn điều đầu tiên mình nghĩ là một cái điểm mà các bạn cần phải cực kỳ cân nhắc nó là cái learning Cup của thằng này cực kỳ khủng khiếp mình dùng rất nhiều các cont control Plan dùng rất nhiều các 
+
+obje kiểu như ctic chỉ là một loại thôi nhá Mình thấy ctic học và sử dụng nó mất rất nhiều thời gian ha và chỉ cần các bạn dụng lãng quên không sử dụng 1 hai tuần thôi thì các bạn đụng lại là các bạn cũng Hơi ngượng ngượng ấy nên là 
+
+dùng cái này thì các bạn phải xác định là cái lên link cước các bạn phải dài Ví dụ mình nghĩ nó là phải tối thiểu 3 đ 6 tháng mình mới nói chuyện với nhau được ấy nên nếu các bạn học ban đầu mà thấy khó thấy không hiểu hay là các bạn làm 
+
+chậm á thì mình nghĩ cái chuyện đó chuyện rất là bình thường Người mình các bạn xem trên các Tutorial trên mạng Các bạn thấy người ta làm rất là nhanh Múa rất là lẹ Nhưng mà thực ra người ta làm chuyện này rất là nhiều lần rồi nên các 
+
+bạn các bạn không thể so sánh với người ta được ha nên là mình làm chậm thậm chí làm sai là mãi mãi nó không chạy thì chuyện đó nó chuyện mình nghĩ là hiển nhiên thôi Có nhưng lúc mà thật sự mình loi hay một cái một cái bấc thôi mà mình 
+
+mình nó hay mất nửa ngày thậm chí có những cái mà mình làm mình chỉ khai lên trên Mường pro s mà mình bị mất cả một ngày trời mình không làm được cái chuyện đấy luôn nên là mình bị như thế các Nếu các bạn như bị như thế Mình nghĩ cũng là 
+
+Hiển cũng bình thường không vấn đề gì thế nào thì cái ling CP này là các bạn phải cực kỳ phải cân nhắc mà cái ling CP này nó các bạn phải xem là nó thực sự xứng đáng hay không Tại vì cit nó rất là linh hoạt thì cái sự linh hoạt đấy nó sẽ 
+
+đi kèm một cái tính chất gọi là complexity là độ phục tạp nó cực kỳ lớn nên các bạn phải xem lại là bản chất các bạn đang cần chuyện gì Ví dụ các bạn cần một thứ rất là general đi đi tìm việc thôi chẳng hạn thì mình nghĩ đây là một 
+
+công cụ hợp lý đấy Nhưng mà các bạn bây giờ các bạn có một ứng dụng là các bạn tập trung vào sự đơn giản này tập trung vào sự hiệu quả này và làm sao cho cái team các bạn học làm sao càng nhanh càng tốt ha 
+
+Thì cams xin lỗi nó không phải là sự lựa chọn đầu tiên của các bạn đâu có rất nhiều các otion khác gọi thay thế này mà nó nhẹ nhàng hơn học rất là nhanh hơn ha Ví dụ như mình có thể đề xuất các bạn một số 
+
+các cái object Ví dụ như nó rất là tốt ha Ví dụ như docker swam ha là của docker luôn nhá cái thứ hai là của n thằng này thằng này của hasic thì V mình không nhớ không nhớ rõ lắm và một cái nữa mình cực kỳ recommend các bạn 
+
+Nếu các bạn chạy ở trên adp có một cái là Amazon antic container service hay biết tắt là chữ Amazon ECS ha Thì mình đã làm một cái full Tutorial để sử dụng exs này rồi Các bạn có thể search trên channel của mình hoặc mình đín kè một 
+
+cái phần description các bạn mở phần description là các bạn sẽ thấy cái phần này thì để việc học và sử dụng những cái những cái alternative những cái thay thế này học các bạn mình tin rằng các bạn học sẽ rất là dễ học rất là nhanh ha cụ 
+
+thể những cái exs này các bạn nếu học khoảng 1 hai tuần các bạn có thể Up And Running rồi và các bạn có thể làm rất nhiều thứ Ờ phức tạp cho hệ thống của của mình rồi cho nên là để sử dụng cái này á Các bạn phải xem cái mức độ ưu 
+
+tiên của bạn như thế nào ứng dụng các bạn ví dụ công việc các bạn công ty các bạn như thế nào Cái us cas các bạn đang xử lý là vấn đề nào để sử dụng một cái lin hoạt và thông minh chứ mình không theo mình mình theo bản thân mình Việt 
+
+nghĩ á là mình không nên sử dụng một Tool cho tất cả mọi thứ như thế thì mình sẽ cảm thấy là mình sẽ bị mình bị bó buộc và rất rất nhiều chuyện ấy mặc dù các bạn có thể làm cái này 3 năm 4 năm các bạn sẽ rất là biết nhiều thứ các bạn 
+
+có thể dùng cái này cho anything được nhưng mà xin lỗi nó không phải là cái công cụ để để cho chạy tất cả mọi thứ đâu và mình đã làm việc với rất nhiều các các cái khách hàng mà họ dùng K8 n cho tất cả mọi thứ á và cái cái chi phí 
+
+của họ cũng không hề rẻ và họ không optimize Cái cái workflow ch ứng dụng các bạn ấ được của các hệ thống mới được và mình phải và họ mà mất rất nhiều thời gian để họ react tắt lại cái phần kiến trúc của họ thì katam là một cái công cụ 
+
+rất là mặn rất là phổ biến rất là xịn nhưng mà nó không phải là một cái sự lựa chọn duy nhất để các bạn làm việc đâu nhá Nên là các bạn sẽ Cần phải cân nhắc à Vậy thì cá nhân mình như thế nào nhá cá nhân mình mình sẽ chỉ có xoay con hai 
+
+thứ thôi Mình sẽ chọn ECS hoặc là cái Amazon exs ha Đối với các dự án cá nhân của mình ấy mình sẽ luôn luôn ưu tiên làm iset trước tại vì exet học rất là dễ ha các bạn nó rất đơn giản nó rất là 
+
+kiểu intuitive nó rất là kiểu sang trọng rất là kiểu sạch sẽ gọn gàng ấy học rất là ok Còn những cái ứng dụng cái hệ thống nm mà mình cần nâng cao Security cần multitenant này cần kiểu đa mình không biết dừ multitenant là tiếng Việt 
+
+như nào nữa nhưng mà ứng dụng một ứng dụng mà dùng cho nhiều khách hàng mà muốn người ta muốn Security Cao ấy giữa các nam Space này nọ ấy thì mình sẽ dùng I ha cho nên là qua bài này Mình muốn chia sẻ cái cái góc nhìn cái cái kinh 
+
+nhệ thực tế của mình cũng hy vọng là các bạn hiểu ý tưởng của mình là các bạn sẽ có nhiều sự lựa chọn và các bạn nên dùng đúng cái tool dàn đúng thời gian chụ mình cho những điều Hữu ít ha Và tất nhiên katam là một công cụ rất là tốt 
+
+cho không chỉ cho CV mà cho những cái kiến thức của bạn về n k kiến thức các bạn về dep off ha Ok đó là cái bài này mình chia sẻ về các bạn có nên à sử dụng communities cho việc học và làm sắ tới ha Cảm ơn các bạn đã theo dõi 
+
+Nếu các bạn có những cái chia sẻ nào khác hay có những cái góp ý bình luận các bạn có thể để dưới phần comment Cảm ơn các bạn và chúc các bạn thành công 
+

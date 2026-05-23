@@ -1,0 +1,86 @@
+chúng ta sẽ thực hành với provisioner à ở đây mình sẽ tạo ra folder là provisioner và trong folder này mình sẽ tạo ra ba file là Logo access này remote access và file tương đương với ba loại provisioner mà chúng ta sẽ tìm hiểu 
+
+trong bài thực hành hôm nay và trong file version như thường lệ thì chúng ta cũng khai báo các thông tin cần thiết đối với provider à Ok chúng ta đến với loại provisioner đầu tiên là local access thì 
+
+local access có hai cách chúng ta sử dụng là chúng ta sử dụng local access để chuẩn bị môi trường trước khi triển khai ví dụ như là chúng ta sử dụng Logo set để tạo ra các khóa shsh hoặc là tải xuống các cái phần mềm các công cụ cần 
+
+thiết như là aws coi ngoài ra chúng ta có thể sử dụng log set để xử lý các dữ liệu sau khi triển khai ví dụ như là chích xuất các thông tin đầu ra của các cái loại tài nghiên và Lưu chữ trên a local Tứ là trên máy tính của chúng ta ở 
+
+đây thì mình sẽ tạo ra một dạng tài nguyên là E2 và sau đó mình sẽ ch xuất cái thông Private ip của con này và lưu nó vào một file Private IP file này sẽ được lưu trữ trên cái thư mục prer Tức là nó sẽ lưu trữ trên máy tính của chúng 
+
+ta ở đây thì có một object mà chúng ta thường hay sử dụng với prer là self thì cái S này nó sẽ tham chiếu đến cái dạng tài nguyên hiện tại của nó và lấy ra các thông tin các thuộc tính của dạng tài nguyên này Ví dụ như E2 ở đây thì mình 
+
+thể lấy ra thông tin như là Private IP này hoặc là trạng thái hiện tại của con E2 này theo mình sẽ chạy có lệnh Tel offline rồi sau khi chạy Câ lệnh Tel offline thì chúng ta nhận được một cái file là Private file này sẽ ghi lại địa 
+
+chỉ Private ip của con instant mà chúng ta vừa khởi tạo tiếp theo mình có thể sử dụng log access để tạo ra các khóa SH key ở đây thì mình sẽ tạo ra một dạng resort là n resort thông thường để tạo ra shh key thì chúng ta sẽ có câu lệnh 
+
+là SH key gen trên terminal của chúng ta và đây chúng ta cần nhập vào một số thông tin như là tên của cặp SH key này và password thì chúng ta có thể nhập hoặc không Tuy nhiên thì chúng ta sẽ sử dụng Logo set để tạo ra SH key này 
+
+dành cho những bạn nào chưa biết thì nan là một dạng provider mà nó sẽ không tạo ra bất kỳ một dạng tài nguyên nào cả và nó rất hữu ích khi mà chúng ta sử dụng kết hợp với các provider khác nhau như là aws hoặc là Ag và để sử dụng được 
+
+provider thì chúng ta đầu tiên là chúng ta cần phải chạy tform minit và chạy telef upline à như các bạn đã thấy ở đây là chúng ta đã tạo ra được một cặp SH thực hiện disy các tài nguyên vừa tạo và đến 
+
+với loại provision thứ hai là remote access ở đây thì chúng ta cũng sẽ tạo ra một con E2 vm05 và chúng ta sẽ sử dụng cái SH key mà chúng ta đã sinh ra ở trong bài local access Đây là cái key mà chúng 
+
+ta sử dụng để shsh vào một con vm tiếp theo để sử dụng được remote access thì chúng ta cần khai báo một Block là provisioner loại là remote access đối với remote access thì chúng ta có ba đối số mà chúng ta thường hay sử dụng đầu 
+
+tiên là inline thì inline là một danh sách các cái câu lệnh mà chúng ta cần thực hiện đối với một con máy đi hoặc là một con máy remote ở đây mình sẽ chạy một câu lệnh đơn giản là update dịch vụ và sau đó mình sẽ thực hiện cài đặt 
+
+git và để thực hiện các câu lệnh này trên máy remote thì chúng ta cần khai báo một cái Block là connection Đây là một cái Block để chúng ta thiết lập kết nối thì trong này có các cái đối số mà chúng ta cần quan tâm đầu tiên là tha 
+
+tức là loại kết nối thì thì chúng ta sẽ sử dụng giao thức là ssh thứ hai là user Tức là cái user mà chúng ta kết nối đến con vm con vm ở đây mình tạo ra là Amazon Linux thì cái user mặc định của nó sẽ là ec2 g user Private Key là cái 
+
+key mà chúng ta sẽ sử dụng để SH chúng ta sẽ đọc cái file trong thư mục hiện tại của chúng ta là file SH và cái đấu số cuối cùng là host À thì mình sẽ kết nối đến con vm remote ở đây thông qua địa chỉ public ip của nó rồi 
+
+lưu file và chạy telap offline à chúng ta có thể quan sát quá trình cài đặt dịch vụ trên cái giao diện coi khi mà chúng ta chạy có lệnh t offline à để kiểm tra git đã được cà Hay chưa thì chúng ta có thể là SH vào con 
+
+vm à public ip của vm thì mình có thể lấy trong file tform s State Các bạn thấy là git đã được cài trên con vm05 chúng ta đến với loại đồ số thứ hai trong provisional Remote assess là scrip 
+
+thì Script là cái đường dẫn đến cái Script mà chúng ta chỉ định ở đây mình sẽ tạo ra một đoạn Script thì trong Script này thì mình sẽ thực hiện cài đặt httpd ở đây thì mình chỉ định đến đường dẫn file scrip mà chúng ta vừa tặng ở 
+
+đây thì mình Mình sẽ thoát viên ssh và chạy câu lệnh tform Plan thì theo các bạn khi mình chạy Câ lệnh tform Plan thì nó có gì thay đổi không Rồi sau khi chạy câu lệnh tform Plan thì nó báo là trên cơ sở h tầng của 
+
+chúng ta không có bất kỳ một sự thay đổi nào về cấu hình mặc dù là chúng ta vừa thêm một đoạn Block remote access vào tài nguyên v05 điều này liên quan đến cách thức hoạt động của tform thì như chúng ta đã biết khi khi mà chúng ta 
+
+thực hiện thay đổi code cấu hình của tform và sau đó chạy câu lệnh tform upline hoặc là tform Plan thì nó sẽ thực hiện đối chiếu các cấu hình hiện tại trên code tform với file tform chts State và đưa ra các quyết định Thay đổi 
+
+tài nguyên và việc chúng ta thêm Block code remote access lại không làm thay đổi bản chất của tài nguyên rõ ràng là kể cả chúng ta thêm các Block code này thì cái cấu hình tài nguyên chúng ta cũng sẽ không thay đổi nó vẫn sẽ sữ 
+
+Nguyên Vậy thì để đoạn Block code này có thể thực thi thì chúng ta sẽ tạo ra một dạng Thài Nguyên là non resour và Copy đoạn Block code này xuống đây đây thì chúng ta vẫn cần phải thêm Block code connection và lúc này cái 
+
+object s sẽ không còn ý nghĩa và để lấy được giá trị public ip của instant thì chúng ta sẽ tham chiếu đến l file và chạy C lệnh offline như chúng ta thấy là đạn Script đã được thực thi trên con vm05 và để 
+
+kiểm tra thì chúng ta sẽ lên Browser và có địa chỉ public ip của con vm Ok đoạn Script đã thực sự hoạt động và chúng ta cần lưu ý một chút ở đây là trong cái đối số Security group thì chúng ta cần phải mở port 80 và 43 cho 
+
+con vm này để có thể kết nối đến dịch vụ http hoặc là https đối với provision remote set thì chúng ta còn một loại đối số nữa là scrip thì scrip tức là chúng ta sẽ khai báo nhiều các đoạn Script để chúng ta thực thi một lần thì về cơ bản 
+
+thì nó sẽ tương tự với Script tiếp theo thì chúng ta sẽ thực hiện xóa các tài nguyên vừa tạo và đến với loại provision thứ ba là file à ở đây thì mình có thể tận dụng lại code của bài thứ 
+
+hai đối với file thì chúng ta cũng sẽ thực hiện khai báo tương tự là Block code provisioner và chọn đến dạng file ở đây chúng ta có hai trường hợp sử dụng là chúng ta sử dụng content với Destination và sử dụng short với 
+
+Destination thì trong trường hợp chúng ta sử dụng content với với Destination thì ở đây chúng ta sẽ khai báo các cái nội dung các đoạn text mà chúng ta muốn truyền đến Destination tức là một cái file hoặc là một thư mục trên máy remote 
+
+rồi chúng ta lưu file và chạy câu lệnh t chúng ta có thể SH vào vm để kiểm tra ở đây thì chúng ta thấy là nội dung mà chúng ta khai báo trong cái đối số const đã được lưu trong file log TST nằm trên cái máy remote Ok chúng ta sẽ thát viên 
+
+SH Ok chúng ta sẽ chuyển đến trường hợp thứ hai Khi mà chúng ta sử dụng với provision đạng file là là sử dụng với hai đối số là short và Destination ở đây mình sẽ tạo ra một dạng tài nguyên là non res ở đây thì sell sẽ không được sử 
+
+dụng nữa và chúng ta cần phải tram chiếu đến b05 để lấy ra cái thuộc tính Private à public IP new file và chạy terraform fmt để định dạng l c và cuối cùng là chúng ta sẽ chạy terraform upline để thực hiện là truyền 
+
+file từ loogo đến máy remote rồi chúng ta có thể là SH vào vm để kiểm tra à ở đây thì chúng ta thấy là nội dung của file https từ local chúng ta đã được đã được truyền đến máy remote đây chúng ta sẽ thát viên Ok ở đây thì mình 
+
+ở đây thì chúng ta có thể sử dụng kết hợp với remote access ở đây thì chúng ta sẽ sử dụng chuyể đổi cái quyền cho cái file mà chúng ta vừa chuyển lên và thực hiện chạy cái file đấy trên máy set à chúng ta lưu file và chạy câu lệnh tform 
+
+MT để định dạng lại code tiếp theo là chúng ta sẽ chạy câu lệnh tform offline Theo các bạn thì sau khi mình chạy câu lệnh telon offline thì nó có sự thay đổi nào xảy ra không Rồi sau khi chúng ta chạy câu lệnh tform upline thì nó lại 
+
+báo là không có bất kỳ một sự thay đổi nào xảy ra trên cái code cấu hình chúng ta À thì đến đây thì mình nghĩ các bạn cũng sẽ giải thích được nguyên nhân à Thì mình mình sẽ gợi ý nhá nó sẽ liên quan đến cái cách thức hoạt động của 
+
+tform và cái cách thức hoạt động của kiểu tù ruột là nă thì để giải quyết được cái vấn đề này thì chúng ta có một giải pháp là chúng ta sẽ sử dụng tform thên thì terraform thên là gì thì mình sẽ giải thích trong bài các tính năng 
+
+nâng cao của tform và mình sẽ Thê là dạng tài nguyên là n resort ở đây mình gõ size phu phá à tform tên hiểu đơn giản là chúng ta sẽ gắn nhãn cho cái một dạng tài nguyên là nó đang bị lỗi thì khi mà chúng ta chạy câu lệnh tform 
+
+upline thì nó sẽ thực hiện thay thế cái dạng tài nguyên này bằng một dạng tài nguyên mới rồi Chúng ta sẽ chạy lại câu lệnh t offline à Ok sau khi mình chạy C lệnh Tel offline thì dạng tài nguyên là run resort đã bị thên và nó sẽ cần phải 
+
+thay thế bằng một dạng tài nguyên mới ok đạn code chúng ta đã được thực thi trên máy remote và để kiểm tra chúng ta sẽ truy cập Browser Các bạn thấy là đ scrip đã được thực thi trên máy remote và cuối cùng là 
+
+chúng ta sẽ thực hiện tform choin để xóa những tài nguyên mà chúng ta vừa Khải tạo và kết thúc bài thực hành ở đây 
+

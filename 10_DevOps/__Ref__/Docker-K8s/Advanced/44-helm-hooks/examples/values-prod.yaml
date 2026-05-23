@@ -1,0 +1,6 @@
+replicaCount: 5
+image:
+  tag: "v1.0"
+ingress:
+  host: myapp.production.com
+  tls: true

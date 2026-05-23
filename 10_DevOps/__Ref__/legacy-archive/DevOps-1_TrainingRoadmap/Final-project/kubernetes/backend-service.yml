@@ -1,0 +1,15 @@
+# kubernetes/backend-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  # Loại ClusterIP có nghĩa là Service này chỉ có thể được truy cập từ bên trong cụm K8s.
+  # Hoàn hảo cho việc backend chỉ cần giao tiếp với frontend.
+  type: ClusterIP
+  selector:
+    app: backend # Tìm các Pod có nhãn app: backend để gửi traffic đến
+  ports:
+    - protocol: TCP
+      port: 80 # Cổng của Service
+      targetPort: 3001 # Cổng của container backend

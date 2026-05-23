@@ -1,9 +1,9 @@
-# Python Control Flow — `if`, `for`, `while`
+# 🎓 Python Control Flow — `if`, `for`, `while`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~20 phút\
@@ -22,7 +22,28 @@
 
 ---
 
-## 1️⃣ Vì sao cần Control Flow (WHY)
+## Tình huống — script tính lương bài trước chưa "thông minh"
+
+Bài trước bạn viết được script tính lương đơn giản:
+
+```python
+salary = hours * rate
+tax = salary * 0.1
+print(salary - tax)
+```
+
+Sếp xem qua: *"Lương thấp dưới 5 triệu thì khỏi tính thuế. Trên 10 triệu thì 15%. Trên 20 triệu thì 20%. Và làm cho 30 nhân viên cùng lúc — đừng gõ 30 lần."*
+
+Bạn cần:
+- **`if`/`elif`/`else`** — quyết định mức thuế theo lương
+- **`for`** — lặp qua 30 nhân viên
+- **`while`** — loop đến khi user nhập đúng password
+
+Đây là 3 cấu trúc **control flow** — cốt lõi để chương trình "ra quyết định" và "lặp lại". Không có chúng, code chạy thẳng 1 lần xong là dừng — vô dụng.
+
+---
+
+## 1️⃣ Vì sao Control Flow là phần KHÔNG THỂ THIẾU?
 
 Code không có control flow = chạy 1 dòng → 2 → 3 → ... đến hết. Không "ra quyết định", không "lặp lại". Vô dụng.
 
@@ -41,7 +62,7 @@ Có control flow:
 
 ---
 
-## 2️⃣ Indentation — Đặc trưng quan trọng nhất Python (WHAT)
+## 2️⃣ Trước hết — Indentation là gì? (đặc trưng quan trọng nhất Python)
 
 Khác với hầu hết ngôn ngữ (Java/C/JS dùng `{}`), Python dùng **thụt dòng** (indentation) để định nghĩa "block":
 
@@ -91,7 +112,7 @@ IndentationError: expected an indented block
 
 ---
 
-## 3️⃣ `if / elif / else` — Rẽ nhánh (HOW)
+## 3️⃣ `if / elif / else` — Cách Python "ra quyết định"
 
 ### 🛠️ 3.1 `if` đơn giản
 
@@ -731,4 +752,8 @@ is  is not       # chỉ dùng với None, True, False
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống script tính lương cần tax theo bậc + lặp 30 nhân viên**
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Indentation (WHAT)` / `3️⃣ if/elif/else (HOW)` → câu hỏi/mô tả tự nhiên
+  - Content kỹ thuật KHÔNG đổi
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — if/elif/else + for/while + break/continue + comprehension + 5 pitfall/best-practice.

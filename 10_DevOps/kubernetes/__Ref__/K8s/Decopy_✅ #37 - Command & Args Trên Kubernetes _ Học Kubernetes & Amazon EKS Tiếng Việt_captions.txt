@@ -1,0 +1,70 @@
+trong bài này chúng ta sẽ cùng tìm hiểu về cách sử dụng command và agreement ở trong một cái container của một con post nà Thì trước khi các bạn hiểu về về cái command và argument ấ các bạn sẽ cần phải biết là nó xuất phát ở đâu thì 
+
+trong cái docker file các bạn sẽ cần phải đôi khi các bạn sẽ cần phải chạy một số cái câu lận Ví dụ như câu lận này của chúng ta là chạy một cái câu lận là Slip 1000 giây như các bạn có thể các bạn cũng đã biết rồi là một cái một cái 
+
+container mình bu nó sẽ chạy khi chạy hết tiến trình hết cái công việc của nó nó sẽ complete nó sẽ đóng lại nó sẽ coi như là mình không còn chy xất nó nữa ví dụ hệ độu hành đ chúng ta khởi tạo ra xong nếu mà trong hệ độu hành chúng ta 
+
+không tạo m gì đó không chạy m gì đó thì nó sẽ đóng container lại của chúng ta lại ha cho nên là ví dụ Thông thường các bạn chạy một con web server đó thì container sẽ chạy nó sẽ chạy mãi mãi nh Còn nếu mà khi mà cái chúng ta tạo ra 
+
+một container nó chỉ làm xong một công việc nà đó xong cá sẽ tự động nó sẽ complete Hoặc là các bạn có hiểu là nó xóa nhưng mà nó the theo kiểu là ăn toàn ha Thì để chạy m cái comment trong một cái docker file các bạn sẽ dùng thông 
+
+qua enb và comment thì an boy sẽ là cái câu lận Còn comment sẽ là agreement hay là đối số ha đây sẽ là trong cái docker file Nhưng mà như các bạn biết là đôi khi chúng ta không muốn cái những cái thông số này nó sẽ cố định ở trong cái 
+
+docker file hoặc là đôi khi trong cái docker file chúng ta không hề cấ tạo ra cái en bo mà bây giờ chúng ta muốn tạo đ chạy chạy cái này ở trong cái kubernetes manifest á thì đối với cái trị này chúng ta sẽ cần sử dụng thông qua cái hai cái 
+
+tham số gọi là comment và agreement thì comment sẽ là nó sẽ thay thế cái phần entry Point nó sẽ override còn agreement sẽ là thay thế cái phần cmd phần comment của thằng docker file thì chúng ta sẽ cùng xem một cái ví dụ ở đây thì ví dụ 
+
+đây mình sẽ Build ra một cái docer chạy bằng hệ độu hành là event to chạy câu lận là Slip 1000 giây Thì bây giờ mình sẽ dùng cái này mình sẽ tạo ra cái port của mình thì như thế nào nha mình sẽ copy cái pst ví dụ mình trong những cái 
+
+bài trước và cái thư mục folder là cmd này mình sẽ paste nó vào đây mình sẽ tên cái này là port 1 nha mình để đơn giản thì mình sẽ để mình sẽ xóa hết những cái đơn giản đi Xóa hết những cái mà không liên quan đến cái này 
+
+đi mình sẽ đặt tên thôi Cái này s app không quan trọng lắm cái image mình đã Build sẵn ở đây nó là cái image là Việt iks xkss evento 1000 n mình Thứ khôngng chạy cái post port nào hết Và mình cũng sẽ bỏ qu hần resource n 
+
+đây chúng ta sẽ chạy mặc định luôn rồi chúng ta sẽ thử deploy cái port này của chúng ta lên chúng ta kiểm tra này K C apply trừ f port 1 chúng sẽ kiểm tra port chúng ta đã 
+
+running chưa nha Rồi running luôn rồi thì chúng ta thử chui vào coi là cái câu lận Slip 1000 dây kia nó đã chạy hay chưa exq trừ it simd 1 thì K luận để kiểm tra nó chạy được hay chưa thì chúng ta sẽ co là PS xem tiến trình ha và trên 
+
+những cái tham số liên quan ví dụ chúng ta thấy 1000 giây nó đ chạy rồi Bây giờ mình sẽ quay về mình sẽ tạo một cái manifest khác mình sẽ override cái cũ ha và mình sẽ dùng comment post 2 lúc này chúng ta sẽ dùng comment của mình lúc 
+
+này comment này comment và chúng ta sẽ chạy cạn Slip luôn agreement đối số đố số chúng ta có thể truyền nhiều đối số nhá trong trường hợp mình sẽ truyền đố số là Slip 2000 giây đi thì khi mà thực tế thì các bạn có thể truyền dạng mảng 
+
+ha nhiều tham số đô tùy vào cái câu lận Chúng ta chạy như nào thì để truyền dạng mảng thì các bạn có thể dùng kiểu kiểu này Hoặc là các bạn có thể dùng xuống dòng rồi Gặt đầu dòng thụt nhớ thụt vào hai hai Tab ha để cho nó theo cấu trúc 
+
+của g phile thì các bạn Nếu các bạn chưa Nhớ Hoặc là các bạn bị quên thế này thì các bạn mở lại cái video về crass code jam của mình yl thì các bạn có thể xem kỹ hơn n đó chúng ta sẽ triển khai con post số 2 này 
+
+chúng ta À cái này chưa được đâ Tại vì là tên nó bị trùng n sẽ triển khai không được ha trong một n Space các bạn sẽ không thể nào có hai cái tài nguyên tên giống nhau được trên này chúng ta đã tạo cái port tên là sd1 thì dướ này chúng ta 
+
+phải port tên là khác chúng ta sẽ deploy thế này trước khi đ chúng ta sẽ kiểm tra Có cái có cái nó thấy chưa ha apply chort 2 rồi nó sẽ created ha chúng ta K get p co rồi running cắt đây 3 giây nha Chúng ta sẽ K sq chữ it sim D2 đây đây 
+
+Các bạn thấy Slip nó Slip 2000 giây nha Thì thì cái này nó đã override tất cả hai thứ rồi bây giờ mình sẽ thử override chỉ một thứ thôi chẳng hạn ví dụ mình copy cái số số 2 ra cái post số 3 rồi mình sẽ không có dùng comment nha 
+
+Nhưng mà lúc này mình sẽ để cho nó là 3000 giây ha Thì thì theo nguyên lý thì các bạn sẽ thấy là nó sẽ override cái cái docker file chúng ta ở đây n over cái chỗ này thôi còn entp chúng ta không đặt tả comment không có over cái Comment 
+
+này thì lúc này các bạn sẽ con nó chạy như nào nha Chúng ta sẽ thử apply thế này K apply chữ 3 mình bị cái gì đây n à Nó bị trùng cái tên này mình chưa sửa cái tên chố này số 
+
+3 tên thì nó sẽ không được không được chủng nhau lúc mình nói ha k t apply trừ f b bar chj Nhưng mà mình bị Hình như chỗ này bị ctl r port 3 đã được tạo ha chúng ta kiểm tra co nó đã tạo thành công hay 
+
+chưa Kill cap get đây chúng ta đã running rồi rồi chúng ta sẽ Chu vào nó có override thành thnh thành cái giá trị chúng ta đã đặt tả là 3000 thôi và cái Slip nó có bị 
+
+override không nhá đây xem D3 đây nó có sẵn câu l này các bạn thấy nó Slip 3000 giây nha bởi vì rằng mình không hề mình không hề over cái entry Point mình chỉ override phần agreement thôi Rồi trước khi kết thúc bài này chúng ta sẽ thử cái 
+
+một cái này nữa Cái này sẽ là cái khác biệt nhất ha chúng ta sẽ chả một con B số 4 bx số 4 chúng ta làm ngược lại chúng ta sẽ không over phần argument gi s Chúng ta sẽ chạy một cái câu luận câu lận là LS thôi chẳng hạn à liệt kê thôi 
+
+chẳng hạn ví dụ ở ở folder nào ở folder root thì liên kê tất cả các file hay directory nằm trong cái folder này thì theo các bạn đoán Nếu các bạn đoán như này thì nó sẽ chạy như nào ạ Nếu các bạn đoán đúng thì mình nghĩ rằng các bạn đã 
+
+nắm được cách sử dụng comment argument này rồi Các bạn có bạn có thể pause video này này nha mình sẽ triển khai con Q C apply trừ exp P 4 Ồ Chúng ta vẫn create thành công đúng không ạ bây giờ theo các 
+
+bạn khi chúng ta kêu cái toet po thì nó sẽ thế nào ạ đây nó sẽ báo completed ha bởi vì sao Bởi vì khi mà comment over nó nó ghi đè over cái phần ng Point á thì lúc này nó không có câu luận là câu luận Slip mấy 
+
+ngàn giây nữ 1000 giây nữa mà nó sẽ là câu luận LS mà khi như mình đã nói là cái cái cái image này nó chạy xong á LS xong khi nhiệm vụ nó xong thì nó có complete và khi complete rồi thì mình sẽ không có còn chy xất cái phần port của 
+
+nó nữa bây giờ sẽ chúng ta sẽ cùng cùng thử này nó sẽ chơi vào trạng thái đúng không ạ CR bắt CP này Kill CP r mình này nó trạng thải là completed ha đúng không ạ Tại vì nó làm xong nhiệm vụ của nó rồi nó có một container và đang không ready 
+
+ha chúng ta có thể describe cái port này ra simd 4 xem này sucessful s contain m create thành công n start thành công n sau đó thì restart thành công th nó làm xong nhiệm vụ của nó rồi ha Thì đó là cái bài này về comment và AR thì khi các 
+
+bạn sử dụng sử dụng kubit một thời gian dài hoặc là ik nó nó nó riêng ấy thì các bạn sẽ dùng cái comment Ag khá nhiều đ Tại vì đôi khi một số các bạn muốn chạy một số cái thủ tục để các bạn kiểm tra rằng con cter mình nó sống hay là nó có 
+
+cần phải restart hay không Hay chạy một số cái thủ tục khi mà chúng ta khởi tạo lên một con post nà Đặc biệt sau là các bạn tìm hiểu V phần một phần prop thì các bạn dùng này cũng rất là nhiều ờ cho nên là bài này thì mình H vọng là các 
+
+bạn nắm được cái phần này để chúng ta có thể đi xa hơn n Cảm ơn các bạn đã theo dõi ạ 
+

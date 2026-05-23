@@ -1,0 +1,62 @@
+ở trong bài này chúng ta sẽ cùng tìm hiểu cái cách để thay đổi một cái version của cái code chúng ta hay là của cái dịch vụ của chúng ta thì các bạn thấy trên màn hình Chúng ta đã có cái app Chúng ta đang ở version 1 ha và đang 
+
+chạy một con pst thì bây giờ giả sử bây giờ mình làm cho nó phức tạp một tí thì mình giả sử edit cái deployment mình sửa nó thành cái số lượng rk chúng ta sửa thàn số ha đi nhá cho nó có hai con còn cái im chúng ta vẫn đang 
+
+để số một ha tất nhiên bây giờ các bạn có sửa thẳng ở đây á thì thì nó cũng chỉ ảnh hưởng cái deployment này thôi và nó sẽ không có version in cho các deployment chúng ta và đó là cái điều chúng ta không muốn ha chúng ta muốn làm 
+
+sao để khi giả sử app chúng ta v nâng từ version 1 sang version 2 sang version 3 version 4 gì đấy thì chúng ta vẫn có thể roll bắ lại version cũ chúng ta chúng ta không muốn kiểu sửa manual kiểu thủ công cũ nữa rồi chúng ta thử get po 
+
+này chúng ta có hai con hai con port Ở Đây Rồi bây giờ mình sẽ thử port mình đang chạy version 1 và bây giờ mình muốn kiểm tra cái replica set nhá Get replica Set chúng ta đang có một ret có hai con đang chạy Ok này Bây giờ mình sẽ thử là 
+
+gọi là gọi như là thay đổi cái version của cái development chúng ta cái image đ cái container chúng ta chúng ta kill C set image các bạn có thể chọn h ha Để coi nó có cái gì nói Dung m Mỗ một câu luận mới 
+
+các bạn nên đọc tài liệu trước khi các bạn làm đây set image cho deployment hay r casset đây engine x bao nhiêu thì đây hoặc là chúng ta set image cho Demon h nay mình chưa học đây set image đây chúng ta có 
+
+deployment nào rồi Cái cái tên chúng ta như nào ha Đây cái này là cái khó này các bạn nên nhớ là một cái port chúng ta có thể có nhiều container trong đấy thì mỗi một container các bạn đều có cái tên tên giả 
+
+sử đây là bbx thì cái cái cái image nó là bbx còn tên nó Engine x còn image nó tên là engine x version 1.9.1 ha các bạn quay về quay về cái container của chúng ta đây chúng ta có cái tên nó như thế nào chúng ta coi này 
+
+à k caple decribe port à Sorry đây nó có một con đây cũng hết là nó tự động Remind chúng [âm nhạc] ta chúng ta coi này có một Còn Đây cái này là 
+
+cái label co cái label nó coi đây cái label của nó đây là app deploy nha tất cả đều như thế rồi dưới này chúng ta sẽ có container container chúng ta tên sẽ là cái Việt cái image của nó sẽ tên là cái vi armm V1 ha và cái tên của nó là 
+
+arm ha Tại vì mình không có đặc tả nó cụ thể thì nó tên nó sẽ là AR các bạn có thể xem Giả sử mình coi cái deployment m 1 chúng ta Đây này Nếu mà chúng ta triển khai từ cái manif cái tên nó sẽ là sle app thì cái chỗ này giả sử bây giờ mình 
+
+sẽ deploy cái cái cái này lại cho các bạn xem nhá mình sẽ edit cái này deploy 1 đây đặt tên này giả sử như service n app Ừ đặt tên là app 22 nhá app V2 
+
+đi rồi mình sẽ K C apply trừ f deploy 1 rồi chúng ta coi c get p Chúng ta có một đống port ở đây và chúng ta sẽ decribe nó ra K debe port đây CN lên Chậm Chậm đây Các bạn thấy không ạ T ên của 
+
+cái container này có là tên là sim app Tất nhiên các bạn có thể có nhiều container nữa ha Nhưng mà thầu hết trong các tình huống bình thường các bạn sẽ thấy là một port nó sẽ có một container Thôi thì lúc này các bạn cần phải sửa gì 
+
+K cal simple app cho cái version số cái image tên là viets arm đây 2 ha Thì trong lúc này thì mình coi này mình sẽ dùng cái Kill get p mình sẽ sửa trên cái app 1 Chúng ta chúng ta tuần thụ từ đầu đế app 
+
+1 chúng ta chúng ta sẽ review Lại Tên nó là gì này decribe p đây chúng ta cuộn lên chúng ta coi Tên của nó là arm hơi đặc biệt một tí nhá giờ chúng ta sẽ thử coi này chúng ta sẽ thử này set 
+
+image cho cái deployment tên là app1 với cái image của nó là bao nhiêu Hoặc là các bạn có thể chọn H Các bạn Nếu các bạn chưa chắc thì đây các bạn xem set image set image 
+
+deployment Engine X đây set image cho deployment em là tên của cái tên của cái deployment tên deployment là app 1 deploy ha và tiếp theo là mình tên phải đặt tả cái container name rồi cái version mới của 
+
+nó là gì thì C của mình sẽ là arm và version mới của nó sẽ là V2 chẳng hạn giờ chúng ta sẽ coi lại nà m clear đi nhá À mình clear đi để các bạn dễ nhìn hơn đây tên armm này và bằng 
+
+vi aws armm V2 đó đây deployment app deploy app1 deploy tên là tên của cái deployment chúng ta này và đây là tên cái container đang có ha Tên của container đang có và cái version mới của cái m chúng ta cái cũ chúng ta là V1 bây 
+
+giờ chúng ta sang V2 enter rồi update rồi update các bạn xem này bây giờ giờ chúng ta sẽ coi này trước khi xare này mình sẽ k c get deploy ha mình sẽ xóa cái app 2 đi nhá để các bạn đỡ bị rổi đ Delete 
+
+deployment app V h rồi chúng ta sẽ K get p đây Các bạn thấy là ha po running và high po này nó đang mới tạo ra 24 gi cái này ngắn thôi bây giờ các bạn xem này K cle get deploy Tất nhiên chúng ta sẽ chỉ có một cái 
+
+thôi get RS n đây vấn đề của các bạn đây chúng ta trước đó chúng ta thấy cái rdc set là D5 Nếu các bạn nế các bạn không Chắc chỗ này các bạn xem lại cái video trước ha để các bạn xem này cái D5 cắt đây 30 phút này và các bạn thấy này khi 
+
+chúng ta xi sửa cái deployment sửa deployment có nĩa là thay đổi liên quan đến image đó quan đến version á thì các bạn sẽ thấy là nó sẽ tự động tạo ra chúng ta một cái cái r set mới và nó sẽ provisioning cái image chúng ta cái port 
+
+chúng ta vào trong RC set này và nó sẽ terminate tất cả các port ở trong cái replic set cũ và nó vẫn giữ ret cũ ha RC set cũ nà các bạn có thể xem RC set cũ này casset đây r casset cũ nó vẫn giữa 
+
+cấu hình r casset cũ là V1 và bây giờ chúng ta coi r casset mới này K get repet và chúng ta coi ret mới đ cá m đây nó chạy cái version 2 đây ha Và tất nhiên chúng ta cũng phải kiểm tra cái port chúng ta đã chạy hay chưa 
+
+Này K get port rồi running rồi có hai con Kill cal decribe port thời gian đầu các bạn dùng đến catab các bạn chỉ khó gõ lận giúp mình nha gõ Chắc phải miệt mài đấy thì các bạn mới bắt đầu Ok được rồi running đây rồi trạng thái ok này 
+
+image của nó V2 tên container arm thì nếu chúng ta không đặc tả tên thì nó mặc định nó sẽ là lấy cái repo name ta để đặt cho cái tên của cái container luôn projected successful và là tạo thành công này container tên của tên là 
+
+arm ha Thì thì đó là cái cách mà chúng ta thay đổi một cái version ha Thì trong phầ tới thì chúng ta sẽ tìm hiểu cái cách làm sao mà để giả sử mình roll B về một cái version cũ khi chúng ta đã tạo hay gọi là roll la ra một cái version cũ 
+
+ha để chúng ta trả về triển khai cũ chẳng hạn trong trường hợp chúng ta ứng dụng chúng ta có một gì đó chúng ta thấy bị lỗi hay không hài lòng ha Ok Cảm ơn các bạn đã theo dõi ạ 
+

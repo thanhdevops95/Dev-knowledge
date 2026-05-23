@@ -1,0 +1,66 @@
+chúng ta đến với loại backend cuối cùng là remote backend và với remote backend thì mình sẽ sử dụng dịch vụ tform cloud và để sử dụng được dịch vụ tform cloud thì mình cần phải đăng ký tài khoản chúng ta sẽ đăng ký tài khoản trên cái 
+
+trang là tform cloud chúng ta có thể đăng ký tài khoản bằng Email hoặc là có thể liên kết với cái tài khoản github của chúng ta ở đây mình sẽ đăng ký bằng github trước khi sử dụng thì chúng ta cần phải xem qua cách tính giá của tform 
+
+cloud Hiện tại thì tform cloud đang có B bốn cách tính giá hiện tại chúng ta đang ở cái mức là scp free thì ở cái mức scp free thì chúng ta làm được khá là nhiều các tính năng như là tạo workspace này hoặc là chạy các cái chck cer 
+
+ccd Tuy nhiên thì nó sẽ bị hạn chế một vài cái chức năng Ví dụ như là chúng ta không có các cái tính năng nâng cao về quản lý team và thêm một vài cái hạn chế chức năng khác Tuy nhiên ở góc độ Tìm hiểu về chức năng của sản phẩm thì mình 
+
+nghĩ là scl free cũng là cách chúng ta tiếp cận khá hay rồi chúng ta quay lại tform cloud và trước khi làm việc với tform cloud thì mình cần nắm một vài khái niệm như sau đầu tiên là organization thì đây là một tổ chức cao 
+
+nhất trong Tel cloud thì nó sẽ thường đại diện cho một công ty hoặc là một cái nhóm khái niệm thứ hai là Project thì Project là một cách để chúng ta nhóm các cái workspace liên quan với nhau vào cùng một cái organization Ví dụ như 
+
+trong organization của chúng ta thì chúng ta có thể tạo ra các cái project Rh biệt ví dụ như Project Website để chúng ta phát triển website chẳng hạn Hoặc là các project về phát triển ứng dụng thứ ba là workspace thì đây mới là 
+
+nơi thực sự chúng ta viết code và chạy code terraform để quản lý cơ sở tầng mỗi workspace thì thường đại diện cho một cái môi trường Rh biệt ví dụ như là môi trường DEF môi trường testing hoặc là môi trường product và chúng ta có thể 
+
+hiểu đơn giản là organization là nơi chúng ta quản lý người dùng quản lý nhóm và quản lý tài nguyên Project là nơi chúng ta nhóm các workspace liên quan lại với nhau và workspace chính là nơi mà chúng ta viết code thực sự và chạy 
+
+code tform để quản lý cơ sở tầng ở đây thì mình có một cái ví dụ minh họa rồi chúng ta sẽ quay lại giao diện của tform cloud đầu tiên chúng ta sẽ tạo ra organization đầu tiên thì ở đây mình sẽ đặt là DEF 
+
+csc Ok với tform cloud thì chúng ta có ba cái quy trình làm việc là version control và workflow coi driven workflow và api driven workflow cái loại đầu tiên là coi driven workflow là chúng ta sẽ sử dụng các cấu 
+
+lệnh của tform coi để tương tác với tform cloud đại loại là chúng ta sẽ sử dụng tform coi trên máy của chúng ta gửi lệnh đến tform cloud để thực hiện tác động đến tài nguyên Loại thứ hai là version control system thì trong đó các 
+
+cái thay đổi sẽ được Boost lên git hoặc là git laab và nó sẽ chạy trong cái Go Space được liên kết với nó Loại thứ ba là api driven workflow thì nó cho phép chúng ta tạo ra các công cụ để tương tác với api của 
+
+cloud và trong phạm vi của bài học thì mình sẽ hướng dẫn mọi người sử dụng hai loại là ci driven và version control đầu tiên mình sẽ sử dụng ci driven mình sẽ tạo workspace đầu tiên sẽ tạo DEF và chọn project project thì chúng ta có thể 
+
+là sử dụng Project defo Tuy nhiên thì chúng ta sẽ tạo ra Project mới mình sẽ để là project 01 create rồi trong Project 01 mình sẽ tạo ra workspace đầu tiên là loại ci driven mình sẽ để là và create ở đây thì có các cái hướng dẫn sử 
+
+dụng để chúng ta kết nối đến tform cloud đầu tiên là chúng ta sẽ copy cái đoạn code này paste vào code cấu hình của chúng ta ở đây mình sẽ tạo ra một cái file là file main.tf và page đoạn Block code vào đây 
+
+đây tạm thời mình sẽ xóa đi các cái terminal này và CD đến thư mục 3 remote rồi tiếp theo chúng ta sẽ chạy câu lệnh tform login thì câu lệnh này sẽ giúp chúng ta login vào tform 
+
+cloud à Để login vào tform cloud thì chúng ta cần phải sinh ra một cái api Token ở đây mình sẽ tạo ra một cái api token trong vòng 90 ngày đi copy cái Token này và paste vào 
+
+đây tiếp theo tiếp theo là chạy có lệnh terraform init và các bạn để ý trong thư mục ch terraform thì có một file là terraform tfstate được sinh ra thì file này nó có ý nghĩa tương tự như cái file tform CHT 
+
+State được sinh ra khi mà chúng ta làm việc với standard backend Tức là cái file mô tả để tform trên máy của chúng ta kết nối đến tform cloud và cuối cùng là chúng ta sẽ chạy C lệnh tform offline và để chạy được câu lệnh ch form upline 
+
+thì trong cái code cấu hình của chúng ta chúng ta sẽ khai báo một cái dạng tài nguyên ở đây thì mình sẽ tạo ra một EC đi ok đến đây chúng ta nhận được một thông báo lỗi Và đây là cái lỗi mà chúng ta thường xuyên gặp phải khi mà làm việc 
+
+với tform cloud và để hiểu được cái lỗ này thì chúng ta cần phải hiểu được khái niệm của tform runtime bài trước thì mình đã đề cập về khái niệm tform zant thì tform zant sẽ được hiểu theo một vài cái ngữ cảnh khác nhau đầu tiên là tform 
+
+dant sẽ được chạy trên máy local chúng ta thì đây chính là cái khoảng thời gian mà tform trên máy của chúng ta tương TC với backend và giao tiếp với các provider để tạo hoặc là thay đổi tài nguyên và mọi cái thông tin hiển thị về 
+
+Thay đổi tài nguyên sẽ được hiển thị trên máy local chúng ta ngữ cảnh thứ hai với tform runtime là chúng ta sử dụng trên môi trường remote như là tform enterprise hoặc là tform cloud thì trong ngữ cảnh này mọi cái việc thực thi hoặc 
+
+là thay đổi thành nguyên đối với provider nó sẽ được thực hiện từ một con máy worker nằm trên tform cloud hoặc là tform enterprise tform cloud hoặc là tform exer prim cũng là nơi mà chúng ta lêu trữ pha trạng thái của cơ sở hạ tầng 
+
+nó cũng tương tự như cái tính năng của standard backend ngoài ra các cái thông tin xác thực thì chúng ta sẽ thực hiện khai báo trên tform cloud và sẽ không khai báo trên local đấy là lý do tại sao mà khi mình chạy có lệnh terf upline 
+
+trên máy của mình thì nó bị báo s bởi vì là chúng ta chưa khai báo thông tin xác thực của aws trên tform cloud thì để khai báo được thì chúng ta sẽ vào phần variable đây và thực hiện khai báo các thông tin xác thực như là asset key và 
+
+ser key ở đây nếu các cái biến nào mà chứa thông tin nhạy cảm thì chúng ta có thể kick Chọn vào phần sensitive này và tiếp theo chúng ta sẽ chạy lại câu lệnh tform upline và bây giờ kể cả 
+
+khi chúng ta tắt cái phiên terminal này đi thì các tiến trình nó vẫn sẽ được tiến hành từ con máy Remote trên tform cloud rồi chúng ta đã tạo xong tài nguyên chúng ta có thể lên tform cloud để kiểm tra lại trạng thái của cơ sở hạ 
+
+tầng đây thì chúng ta có thể theo dõi được các dạng tài nguyên mà chúng ta đang khởi tạng chúng ta có thể xem được cái trạng thái pha trạng thái được lưu giữ trên tform cloud đây chính là cái trạng thái hiện tại của cơ sở tầng của 
+
+chúng ta Ngoài ra thì nếu mà trong code chúng ta khai báo các cái giá trị input thì các giá trị cũng sẽ được hiển thị trong phần input ở đây ok ngoài việc chúng ta sử dụng các câu lệnh coi từ máy của chúng ta như là terraform appl hoặc 
+
+là terraform Plan để tác động tới tform cloud thì chúng ta có thể sử dụng trực tiếp trên cái giao diện của plf của cloud ở đây mình có thể chọn cái phần New run này thì trong này thì nó có các cái lựa chọn mà chúng ta có thể tác động 
+
+đến cơ sở tầng như là apply là Plan đây mình sẽ chọn là Plan và chọn start à Kết quả nó cũng sẽ được hiển thị tại đây 
+

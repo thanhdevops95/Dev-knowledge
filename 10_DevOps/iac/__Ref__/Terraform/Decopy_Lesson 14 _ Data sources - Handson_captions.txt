@@ -1,0 +1,22 @@
+Chúng ta sẽ tạo thư mục 1.4 tên là data. Trong này mình sẽ tạo 2 file, 1 file là version.tf, file thứ 2 là file main.tf File chưa cốt chính của chúng ta. Trong file version.tf, mình khai báo blog là Terraform và chỉ định cái version của provider mà chúng ta sẽ sử dụng là AWS Tiếp theo chúng ta sẽ chạy có lệnh Terraform Init để thực hiện download plugin AWS Và như chia sẻ trong video trước thì với một loại tài niên sẽ có một loại data resort riêng để tham chiếu đến Và chúng ta có thể tìm kiếm sự hướng dẫn sử dụng đối với data resort trên Terraform.tf Mình sẽ tìm đến là AWS, chọn dạng tài nguyên. Ở đây mình sẽ chọn là EC2 
+
+Như các bạn có thể thấy là đây là các loại resort của EC2 và kèm theo đó là các loại data resort tham chiếu đến Ở đây mình sẽ chọn là AWS, AMI. Chúng ta có thể tham khảo code mẫu ở đây Và ở đây có một số đối số mà chúng ta có thể sử dụng để tham chiếu đến Như là honor hoặc là shooter. Mình sẽ quay lại Visual Studio Code, quay lại file main Mình có một đoạn code mẫu sẵn về data resort là AMI Và cái block code AMI này nó sẽ thực hiện là gọi đến AWS để tìm kiếm cái AMI là ULTU 
+
+Mỗi dần là 20.04 và kiểu ảo hóa sẽ là SVM Ở đây mình sẽ sử dụng một block là output Và output là gì thì mình sẽ giả thích trong video sau Đây mình sẽ gắn giá trị value cho output là data và gọi đến cái block data trên và gọi đến thuộc tính ID của block AMI Lưu file và thực hiện chạy câu lệnh Terraform Plan Sau khi chạy câu lệnh Terraform Plan 
+
+Thì cái block output đã in cho chúng ta cái ID của AMI mà chúng ta tham chiếu đến AWS Chúng ta có thể copy cái ID này và kiểm chứng lại trên giao diện của AWS Đây mình vào phần AMI Catalog đây và search ở đây Chúng ta có thể thấy đây chính là cái AMI mà chúng ta đã tham chiếu đến từ code Terraform của chúng ta Thì bây giờ thì mình có thể sử dụng cái AMI này để tạo ra một con VM EC2 Đây mình sẽ đặt là VM01 
+
+AMI sẽ bằng data resource và tham chiếu đến ID Ngay như giá như thôi Để t⋯ Theo Đi Hi bạn Anh 
+
+Anh Hãy nhiên Nh draft tên của VM mình xóa là string mình trở lại có loại tên phong lại chúng ta sẽ lên giao diện của AWS Cloud để kiểm tra xem instant đã được khởi tạo hay chưa ngắn là một instant đây còn VM01 đã được tạo ra và chúng ta có thể kiểm tra xem là cái hệ đồ hành của con VM này sử dụng có thể là uôn thu 
+
+hay không đây mình sẽ kéo xuống này đây các bạn có thể thấy là hệ đồ hành bây giờ nó sẽ là uôn thu chúng ta quay lại vừa story code trong ví dụ vừa rồi thì mình đã tham chiếu đến AWS và để lấy ra được cái AMI của uôn thu chúng ta đặt một giả định là trong trường hợp con VM chúng ta đang tồn tại trên phía AWS là con VM01 và chúng ta mong muốn tạo ra một con VM với cái AMI tương tự với con AMI01 thì chúng ta sẽ sử dụng cái data block là data AWS Instant trong này chúng ta sẽ sử dụng filter để tìm kiếm đến instant mà chúng ta mong muốn tham chiếu đến 
+
+mình cứ giả định con VM01 là VM đã tồn tại trên AWS và chúng ta đang mong muốn tìm kiếm những thông tin của con VM này có khá nhiều cách để chúng ta tìm kiếm ra một con instant ở đây mình sẽ tìm kiếm theo tên là Task Name và value là tên của VM đó sẽ là VM01 phía này chúng ta sẽ sử dụng thêm một block output với cái tên là full to instant ở đây chúng ta sẽ sắp ra thuộc tính của con VM mà chúng ta tham chiếu đến thông qua data.aws và tham chiếu đến thuộc tính vm01 đây là cách chúng ta kiểm tra xem mà chúng ta tham chiếu đến được con VM01 hay chưa chúng ta sẽ 
+
+chạy có lệnh Terraform plan đây sau khi chúng ta tham chiếu đến con VM01 và chúng ta có thể lấy được thông tin public IP của con VM đấy chúng ta sẽ lên trang chủ của AWS Cloud này kiểm tra lại thông tin này ở đây chính là cái địa chỉ IP public của con VM01 tiếp theo chúng ta sẽ tạo ra một con instant với thông tin của instant sẽ được tham chiếu từ con VM01 đây mình sẽ đặt là VM02 gồm AMI bằng data.awsinstant.fininstant và chọn đến AMI Instant Time tắt nên thì mình sẽ để là 01 02 
+
+hiện lưu file và chạy có lệnh Terraform offline ừ ừ ừ chúng ta quay lại giao diện của AWS Cloud đây chúng ta thấy là con VM02 đã được tạo ra và chúng ta sẽ kiểm tra cái AMI ID cũng như là cái hệ đầu hành của nó đang sử dụng đây chính là hệ đoàn Ubuntu và AMI là AMI của con VM01 mà chúng ta đã tham chiếu đến kiểm tra đó là instant cũng là được tham chiếu đến từ con VM01 là T2.micro 
+
+thang at xİs dệt km x ừ ừ ừ ừ 
+

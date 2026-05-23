@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: myapp-monitor
+  namespace: myapp-dev
+  labels:
+    release: kps          # giúp Prometheus của kube-prometheus-stack pick lên
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  endpoints:
+    - port: http          # tên port trong Service phải khớp
+      path: /metrics
+      interval: 15s

@@ -1,0 +1,35 @@
+# playbook.yml
+# Playbook này sẽ cài đặt và cấu hình Nginx trên máy local.
+# Đây là phiên bản cuối cùng, đã sử dụng biến từ Bài 4.
+---
+- hosts: local # Chạy trên nhóm [local] đã định nghĩa trong file inventory
+  become: yes # Yêu cầu quyền sudo (root) để chạy các task
+  
+  # (Bài 4) Định nghĩa các biến để playbook linh hoạt hơn
+  vars:
+    package_name: nginx
+    service_name: nginx
+
+  tasks:
+    - name: Install {{ package_name }} # Sử dụng biến trong tên task
+      apt:
+        name: "{{ package_name }}" # Sử dụng biến để chỉ định tên package
+        state: present # Đảm bảo package đã được cài đặt (install/update)
+        update_cache: yes # Chạy 'apt-get update' trước khi cài đặt
+      notify: # Gửi thông báo đến handler tên là "Restart Nginx" nếu task này có thay đổi
+        - Restart Nginx
+
+    - name: Copy custom index page
+      copy:
+        src: ./index.html # File nguồn trên máy Control Node
+        dest: /var/www/html/index.html # Đường dẫn đích trên máy Managed Node
+      notify:
+        - Restart Nginx
+
+  # Handlers chỉ được chạy nếu chúng nhận được thông báo từ một task.
+  # Công dụng chính là để khởi động lại dịch vụ chỉ khi cần thiết.
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: "{{ service_name }}" # Sử dụng biến
+        state: restarted # Khởi động lại dịch vụ

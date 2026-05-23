@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: myapp-ab-test
+  namespace: myapp-dev
+spec:
+  hosts:
+    - myapp-service
+  http:
+    - match:
+        - headers:
+            user-type:
+              exact: beta-tester
+      route:
+        - destination:
+            host: myapp-service
+            subset: v2
+    - route:
+        - destination:
+            host: myapp-service
+            subset: v1

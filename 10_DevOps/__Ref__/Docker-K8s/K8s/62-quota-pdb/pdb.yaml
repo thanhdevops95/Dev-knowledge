@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: myapp-pdb
+  namespace: myapp-dev
+spec:
+  minAvailable: 2              # hoặc dùng maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: myapp

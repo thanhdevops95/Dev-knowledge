@@ -1,0 +1,42 @@
+từ bài này chúng ta sẽ sử dụng tform cloud như là một nơi chúng ta lưu trữ file State thì chúng ta sẽ tạo ra một Project là Advance tform feature và trong này chúng ta sẽ tạo ra một namespace đầu tiên là 
+
+import mình sẽ apply variable cho import copy và paste vào vi code của chúng ta và chạy tform login api Token login nó chỉ sinh ra một lần và nó sẽ không hiển thị lại nên là chúng 
+
+ta sẽ copy và L cái string này tại một nơi an toàn chúng ta sẽ tạo ra một file là ec2 import để tìm kiếm hướng dẫn sử dụng với import thì chúng ta có thể tham khảo trên tform recy ở đây thì mình sẽ tìm 
+
+kiếm đến aws instant và kéo phần xuống dưới cùng đây thì ở đây nó có hướng dẫn chúng ta sử dụng import với hai cách là sử dụng với comand Line và sử dụng với blog import mình sẽ sử dụng cách đầu tiên là tform import để import được một 
+
+tài nguyên có sẵn thì trước tiên chúng ta vẫn cần phải khai báo một Block resort và cái dạng tài nguyên là aws instant đối với Block aws instant thì có hai cái đố số mà chúng ta không thể bỏ qua và bắt buộc phải khai báo đó là Emi 
+
+và instant ty chúng ta sẽ lấy trên một con E2 instant đang tồn tại sẵn trên aws chúng ta sẽ lấy ID của Ami và instant time với những đố số nào mà chúng ta 
+
+không biết hoặc là chúng ta không muốn Điền cụ thể thì chúng ta sẽ để là unn và cuối cùng là chúng ta sẽ chạy terf import và cuối cùng là chúng ta sẽ lấy ID của conion 
+
+này các bạn có thể thấy là E2 đã được import thành công và chúng ta có thể kiểm tra trên file tform CHT State Lư trên tform cloud các bạn có thể thấy là đây là các cái cấu hình của conu nó đã được import và nó lưu vào file trạng 
+
+thái và từ bây giờ chúng ta có thể quản lý được con ins instant đang tồn tại bằng tform chúng ta sẽ import dạng Thành ngyên thứ hai là S3 với S3 thì mình sẽ sử dụng cách import thứ hai là sử dụng với Block thì 
+
+để tìm kiếm cá hướng dẫn sử dụng import trên F3 thì mình sẽ lên tform R và tìm kiếm đến S3 đây chúng ta sẽ copy cái Block này chúng ta sẽ khai báo rạng resort là aws S3 buit ID ở đây chính là tên của pockit 
+
+thì chúng ta sẽ lựa chọn một cái backit trên để import à chúng ta sẽ lấy backit này tiếp theo chúng ta sẽ chạy câu lệnh tform Plan để kiểm tra những tài nguyên cần import các bạn có thể thấy là sau khi 
+
+chúng ta chạy có lệnh tform Plan thì có một dạng tài nguyên có thể được import đó là S3 mà chúng ta vừa khai báo trên thì để import thì chúng ta sẽ chạy có lệnh ter form apply chúng ta sẽ kiểm tra trên file 
+
+tform tfstate ở đây thì chúng ta có thể thấy là S3 đã được import Thành công mình có một lưu ý nhỏ là khi mà chúng ta sử dụng với remote backend hoặc là stander backend thì chúng ta có thể chạy có lệnh terraform State full để có thể 
+
+là kéo được cái file trạng thái lưu trữ trên remote backend về cái giao diện coi của chúng ta rồi chúng ta có thể quan sát được cái file trạng thái nó sẽ hiển thị trên cái giáo diện coi của chúng ta ưu điểm của 
+
+việc sử dụng blog import là chúng ta có thể import được nhiều tài nguyên bằng cách khai báo các tài nguyên cần import trong một file terraform ở đây thì mình sẽ tách ra chúng ta sẽ không khai báo trong một file S3 mà chúng ta sẽ khai 
+
+báo trong một file riêng là file import chdf và trong này chúng ta sẽ khai báo các dạng tài nguyên mà chúng ta cần import thì cái ưu điểm lớn nhất mà khi chúng ta sử dụng với Block import là chúng ta không cần phải import riêng rẽ 
+
+từng một tài nguyên như là câu lệnh TF import và cuối cùng mình sẽ giới thiệu với mọi người một cái tính năng mà đang phát triển của tform import là tự động sinh ra các file cấu hình ở đây thì mình sẽ thực hiện khai báo và và import thêm 
+
+một dạng tài nguyên S3 ở đây mình sẽ để là buit 02 và mình sẽ import đến cái Pit thứ hai là đây mình sẽ copy cái package này và paste vào đây thực chất tính năng này là một flash tức là một cái cờ trong cái câu lệnh terraform Plan thì chúng ta 
+
+có thể kiểm tra bằng cái tham số là trừ h Đây là cái cách mà chúng ta sinh ra được cái file cứu hình của cái dạng tài nguyên mà chúng ta cần import và chúng ta cần phải lưu ý là đây mới chỉ là cái tính năng thử nhiệm rồi Chúng ta sẽ chạy 
+
+C lệnh ter form Z và thêm cái cờ này các bạn có thể thấy là file s3.1 đã được sinh ra và trong cái file này là cái cấu hình của cái packet mà chúng ta cần import và để import được cái packet này thì chúng ta Đương nhiên rồi chúng ta 
+
+phải chạy có lệnh t offline backit 02 đã được import thành công và chúng ta có thể kiểm tra cái file trạng thái các bạn có thể thấy là buit 02 đã được import kèm theo các cái cấu hình của cái buit này 
+

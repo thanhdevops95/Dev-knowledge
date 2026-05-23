@@ -1,0 +1,28 @@
+Chúng ta sẽ tìm hiểu về variable và output đối với bất kỳ một loại ngôn ngữ lập trình nào thì đều có kiểu nhập liệu và xuất dữ liệu Riêng đối với terraform không vậy và cách nhập liệu và xất dữ liệu của tform thì chúng ta sẽ sử dụng 
+
+một số loại Block như là local value này input variable hoặc là output value đầu tiên là đối với local value thì nó sẽ được miêu tả bằng Block local và trong Block local thì chúng ta sẽ thực hiện mô tả và khai báo các cặp key value sẽ được 
+
+được sử dụng trong code cấu hình của chúng ta local value h để tránh lặp lại cùng một giá trị hoặc biểu thức nhiều lần trong một cấu hình của chúng ta và để tham chiếu đến blog local chúng ta sẽ sử dụng Phú Pháp là local chấm đến tên 
+
+của các cặp giá trị trong local đây mình có một ví dụ về blog local thì trong blog local mình sẽ thực hiện khai báo các cặp giá trị như là Ami này T hoặc là tas này và để Block aws instant sử dụng các cặp giá trị này thì mình sẽ sử dụng 
+
+cú pháp tham chiếu đến là local Ami này hoặc là local.com của chúng ta có một số cách để chúng ta truyền dữ liệu bao gồm là nhập liệu trực tiếp này hoặc là thực hiện thay báo các giá trị đó trong một file 
+
+cấu hình cụ thể input variable đóng vai trò như là đầu vào cho các module Đây là thành tố quan trọng giúp cho module trong tform trở nên linh hoạt và có khả năng tái sử dụng và module trong tform là gì thì mình sẽ giải thích trong bài 
+
+tform module và để tham chiếu đến variable thì chúng ta sẽ sử dụng Phú Pháp là Va chm tên của variable trong blog variable chúng ta có các đối số mà chúng ta sẽ thường hay sử dụng như là t này description này hoặc là default này 
+
+ở đây mình có một ví dụ về variable thì trong Block variable Ami này mình sẽ thực hiện khai báo như là t này sẽ là dạng là string này Thứ hai là Miêu tả về cái Block code này này và thứ ba là default là các giá trị default mà chúng 
+
+ta có thể nhập trong Block code variable ở đây thì giá trị của Ami thì mình sẽ tham chiếu đến Block Ami thông qua cú pháp là 3. Ami và giá trị của instant Time hoặc là tas thì chúng ta cũng thực hiện tương tự trong input 
+
+variable Chúng ta có một số cách khai báo giá trị input như sau này chúng ta có thể trực tiếp khai báo trong file gấu hình code của chúng ta này hoặc là khai báo sau khi chúng ta chạy có lệnh TF upline hoặc là khai báo trong file C đôi 
+
+mở rộng là ch tfa hoặc là trong file C đôi mở rộng là auto tfa thứ ba là output value nó sẽ được mô tả bằng Block output và output trong tform sẽ được sử dụng để lấy các thông tin từ các res sau khi mà chúng ta đã triển khai giá trị trong 
+
+Block output sẽ được in ra khi chúng ta chạy C lệnh tform upline Hoặc có thể sử dụng C lệnh com mang là tform output ở đây mình viết thiếu này các đối số trong Block output bao gồm value này nó là giá trị đầu ra mà chúng ta muốn xuất đây là 
+
+giá trị bắt buộc chúng ta cần phải được khai báo trong Block output thứ hai là description tức là các cái mô tả cho Block code này thứ ba là sensitive tức là tính nhạy cảm của giá trị đầu ra và nó sẽ được xác định là 
+
+true hoặc là for ở dưới này mình có một ví dụ về Block output và cái giá trị xuất gia ở đây thì sẽ là Ami của một con vm và Để hiểu hơn về bài học chúng ta sẽ đến với phần thực hành 
+

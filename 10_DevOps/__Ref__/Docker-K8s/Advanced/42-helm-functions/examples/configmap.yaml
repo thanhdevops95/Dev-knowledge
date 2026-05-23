@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-info
+  namespace: {{ .Release.Namespace }}
+data:
+  release-name: {{ .Release.Name }}
+  release-namespace: {{ .Release.Namespace }}
+  release-revision: {{ .Release.Revision | quote }}
+  release-service: {{ .Release.Service }}
+  chart-name: {{ .Chart.Name }}
+  chart-version: {{ .Chart.Version }}
+  app-version: {{ .Chart.AppVersion }}
+  k8s-version: {{ .Capabilities.KubeVersion.Version }}

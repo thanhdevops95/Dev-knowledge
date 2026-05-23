@@ -1,0 +1,38 @@
+# docker-compose.yml
+# File này định nghĩa và liên kết các service để tạo thành một stack giám sát hoàn chỉnh.
+
+version: '3.8' # Chỉ định phiên bản của cú pháp docker-compose.
+
+services:
+  # 1. Service Prometheus
+  prometheus:
+    image: prom/prometheus:latest # Sử dụng image chính thức mới nhất của Prometheus.
+    container_name: prometheus
+    volumes:
+      # Ánh xạ file cấu hình prometheus.yml từ máy host vào bên trong container.
+      # Đây là cách để Prometheus container đọc được cấu hình chúng ta đã viết.
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      # Ánh xạ cổng 9090 của container ra cổng 9090 trên máy host.
+      - "9090:9090"
+
+  # 2. Service Node Exporter
+  # Service này có nhiệm vụ thu thập metrics của máy host (CPU, RAM, Disk...)
+  # và "phơi" chúng ra ở một endpoint để Prometheus có thể scrape.
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    ports:
+      # Ánh xạ cổng 9100 của container ra cổng 9100 trên máy host.
+      - "9100:9100"
+
+  # 3. Service Grafana
+  grafana:
+    image: grafana/grafana:latest # Sử dụng image chính thức mới nhất của Grafana.
+    container_name: grafana
+    ports:
+      # Ánh xạ cổng 3000 của container ra cổng 3000 trên máy host.
+      - "3000:3000"
+    depends_on:
+      # Khai báo rằng Grafana chỉ nên khởi động sau khi Prometheus đã khởi động.
+      - prometheus

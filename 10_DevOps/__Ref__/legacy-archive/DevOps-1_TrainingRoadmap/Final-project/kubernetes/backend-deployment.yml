@@ -1,0 +1,32 @@
+# kubernetes/backend-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 2 # Chạy 2 bản sao của backend để đảm bảo tính sẵn sàng cao
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        # Chú ý: IMAGE_TAG sẽ được thay thế bởi pipeline CI/CD
+        image: your-dockerhub-username/todo-backend:latest
+        # Sử dụng biến môi trường để envsubst thay thế. Không dùng tag 'latest' trong production.
+        image: ${BACKEND_IMAGE_TAG}
+        ports:
+        - containerPort: 3001
+        env:
+          # Lấy các biến môi trường từ Secret đã tạo
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: DB_HOST # Đây chỉ là ví dụ, thực tế sẽ cần chuỗi kết nối hoàn chỉnh

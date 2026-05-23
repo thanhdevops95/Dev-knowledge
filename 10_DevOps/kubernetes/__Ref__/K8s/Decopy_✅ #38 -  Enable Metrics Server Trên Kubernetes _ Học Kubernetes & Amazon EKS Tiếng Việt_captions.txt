@@ -1,0 +1,58 @@
+trong quá trình vận hành một cái catx cluster thì các bạn muốn Monitor những cái sử dụng tài nguyên hiện tại của bạn như thế nào thì hiện tại nếu mà các bạn dùng cái cluster mặc định thì cái kess sẽ là cái cái tác nhân hay là component 
+
+để thu thập những thông tin lên qu tài nguyên của các con port và hng ngườ từng Note nhưng mà các bạn sẽ muốn monit toàn bộ các cái con port trên tất cả các Note đúng không ạ thì lúc mà các bạn cần cài thêm một số addon một số tiện ít thì add 
+
+on thì trên k8s chúng ta sẽ có rất nhiều hay là xs sau này chúng ta h cũng sẽ có rất nhiều trong này phần này mình sẽ có giới thiệu các bạn một cái onon đầu tiên các bạn có thể sử dụng đó là gọi là Magic server thì cái con Magic Server 
+
+này sau này nó sẽ cài lên sẽ thu thập thông tin con Magic CV hay là bộ nhớ của các con post chúng ta sử dụng trên hệ thống và con này nó sẽ consolidate ở các con cu chúng ta thì các bạn có thể trên minic thì nó đã có có sẵn add on này rồi 
+
+thì các bạn có thể dùng mini add on list để các bạn xem ha chúng ta sẽ dùng câu lận này chúng ta sẽ qua terminal ha đây các bạn xem đây Ở đây các bạn sẽ thấy là một số các addon có sẵn này cái nào mà có Đây status có chữ tch có là đang 
+
+inable mặc định rồi cái nào đang không có con nào đang disable nó chưa được chưa được sử dụng các bạn xem trong cái phần này chúng ta có dòng matric server đang là dạn Thái disable ha chúng ta sẽ enable cái Magic Server này lên thì 
+
+trước khi enable Magic server các bạn sẽ lên cái GP trừ a ha Các bạn thấy là hiện tại chúng ta đang không hề có một con Magic hay ta có con SCD này api server controller Manager scheduler storage này nọ nhưng không hề có cái 
+
+phần mền ch server bây giờ chúng ta sẽ enable phần m ch server lên que à Xin lỗi mini mini nh cái add on này á Hiện tại trên Tại vì miniq nó nó có sẵn một số thứ của các bạn ở đây rồi nhưng mà trong thực tế khi các bạn dùng trên iks 
+
+elc City service á thì các bạn thẽ chư c s nà các bạn sẽ cần phải cài nha Thì mục tiêu để học thì các bạn sẽ muốn làm nhằn à Thì cái mini này rất là phù hợp với các bạn chúng ta sẽ get p để coi như thế nào nha Chúng ta đã có c Magic Server 
+
+này chưa thì Magic server các bạn thấy đây này Magic server nó đang tạo ra một con mới đây nó nằm trong cái name space là Kill system 0/1 có nghĩa là đã có một con container nhưng mà đang chưa running ha Thì cái này nó sẽ mất đâu đó khoảng 
+
+15 giây đó nó sẽ tạo Nó sẽ tạo xong ha Ừ chúng ta chờ nó 15 giy nó đã running rồi chúng ta có thể kiểm tra các con port này của chúng ta như thế nào đầu tiên mình sẽ copy cái port name của nó rồi mình sẽ k cái decribe port à Trừ next 
+
+Space chúng ta phải coi trong next Space Kill system này đây chúng ta sẽ cùng xem đây cái làm cho nên sp system t Đu Tiên n cái này mình chưa học ha mình sau này mình sẽ học cái này image registry k. IO đây ha cái image của nó ở đây port 
+
+là 4443 chạy TCV có một số các argument chúng ta ở đây này rồi chúng ta sẽ con này request là 100m và 200 200 m mib ha 100 này là 0,1 co á đó thì con này con post này đá tạo thành công rồi chúng ta sẽ có thể xem là Kill top po thì hiện 
+
+tại chúng ta sẽ coi ví dụ hệ thống mình đã có một con một con app đây ha Thì nó sẽ báo là một một m mình xóa này đi nhá để các bạn xem Delete p symbol app rồi Delete thì bây giờ chúng ta quay về manifest chúng ta sẽ tạo một con 
+
+pst từ đầu chúng ta sẽ copy vào cái phần Magic này Đây con pst này chúng ta đây tên là sim app 1 đi xóa label đi ha arm V1 cái này không không quá quan trọng resource thì chúng ta sẽ để đây giả sử resource chúng ta sẽ request đây là 1 g 
+
+vào một Core Limit chúng ta sẽ để là giả sử 2 GB đó Limit chúng ta sẽ để là 2 GB một Core CPU Xóa Con Engine này đi Đó giờ chúng ta sẽ deploy cái con post 
+
+này CD matric clear rồi chúng ta sẽ K C apply trừ F m port convert SL 6 bị lỗi hai chấm chúng ta coi l 6 đây chúng ta bị cái này 
+
+Đây đây deploy chúng ta K get chúng ta có sle app 1 running Ok đúng không ạ Chúng ta sẽ K kiểm tra cái top của chúng ta chúng ta lúc nó Mage chúng ta available rồi chúng ta thấy các bạn thấy không ạ 
+
+Cái sle app 1 chúng ta đ co CPU chúng ta là đang đang hiện tại sử dụng là 35 m Core nhá Có ngĩa là rất nhỏ đúng không ạ một 1000 m cor 1000 m này nó mới là một cor thôi memory chúng ta đang dùng là 40 MB thì các bạn sẽ vào đây này mặc dù 
+
+chúng ta request con này đang dùng đang đang cấp phát cho con này là 1 Gb bộ nhớ và một co Nhưng mà thực tế sử dụng của các bạn đang là như thế này thì cái Kat này nó sẽ giúp cho các bạn Monitor cái giá trị hiện tại ha thì đây là cái một 
+
+trong những cái tiện đất có thể đầu tiên các bạn các bạn sử sử dụng sau này các bạn càng học nhiều các bạn sẽ càng có nhiều các cái add on vào trong cái camx cluster thôi thì bài tập về nhà ha chúng ta sẽ có bài tập về nhà để các bạn làm 
+
+thì đây thì đây là cái cái maic mình đã cài rồi thì trong cái Linux á môi trường Linux á thì có một cái tiện Đất tên là chest Thì cái chest này nó sẽ giúp cho các bạn đo lường hay là nói chung là tạo ra một cái 
+
+luộc work lot ảo trên hệ thống để nó cố gắng tăng CPU tăng RAM hoặc tăng iops Ổ cứng các bạn lên thì các bạn sẽ có là giả lập bao nhiêu con CPU này IO bao nhiêu này và bộ nhớ các bạn chạy đến bao nhiêu thì ở đây có một cái ví dụ ở đây 
+
+chos này Nó sẽ chạy 8 CPU IO là 4 Số lượng của cơ là 2 vm sẽ là à bộ nhớ nó sẽ stress tới 128 MB ha Thì cái này nó là cái Chess thì trên cái docker Hub nó có một cái image nó tên là của cái bạn này tên là tress mình search đây polux 
+
+stress thì cái polux của cái bạn tên là polux stress này sẽ giúp cho các bạn chạy có sẵn cái tệ Nứ stress ở trong cái docker container rồi cho nên các bạn Thể chạy được ha Thì các bạn về nhà các bạn thử xem này thì đây là cái bài giải 
+
+của mình ha tress của mình đây này chạy cái Poly Linux ha chạy một CPU 1 GB RAM và các bạn sẽ thử Chess nó tới 1 GB và mình có pháp bộ nhớ của mình tới 2 GB 1 CPU để các bạn Monitor trên cái Magic server như thế nào thì các bạn các bạn 
+
+đừng có xem này của mình ha Đừng có xem cái cái cái đoạn này của mình các bạn thử tự làm của mình thì xem nó như thế nào thì lưu ý là cái hiện tại cái polux này nó chỉ hỗ trợ ch trên AMD thôi Có nghĩa là các bạn xài ma Apple á Hay là 
+
+chip arm Nói chung á thì cái polux này hiện tại nó không hỗ trợ ha hoặc thì các bạn phải dùng một cái gì đó để các bạn cài cái chest tool này vào cái container của các bạn Nếu các bạn dùng một cái general image gì đấy thì đó là cái bài 
+
+này hiy vọng các bạn thử thử trải nghiệm cái việc tr test trên cái container của các bạn Cảm ơn các bạn ạ 
+

@@ -1,0 +1,20 @@
+chúng ta đã học những thứ cơ bản về deployment trên k8s trước khi qu qua cái nội dung mới trong k8s thì mình cũng muốn chia sẻ thêm về cái restart trong cái deployment và xoa các tài nguyên liên quan đến deployment ha Thì restart 
+
+thì chúng ta đang hiện tại các bạn thấy là deploy chúng ta đang chạy trên RC set đây là 7C có 10 con nà và bây giờ các post chúng ta đang running ok rồi bây giờ chúng ta sẽ thử restart K roll l restart deploy m A1 deploy rồi restart 
+
+thành công này Và tất nhiên là nó sẽ tạo ra con mới và nó run Đ sau khi đó nó TM lấy con cũ thì cái này qua trình này mình nghĩ các bạn đã quen rồi Các bạn nên gõ ln nhiều vào thì các bạn sẽ nhớ hơn giờ chúng ta sẽ kiểm tra RS này Đây 
+
+nó ra con D5 rồi có là khi restart thì cơ chế của k8s nó cũng sẽ tạo một cái r casset mới ha và nó sẽ Tất nhiên nó sẽ running rồi k running không thì đây là cái cơ chế mà 
+
+chúng ta dùng với mặc định đang là Rolling update nhé Bây giờ các bạn thử sửa này k c edit deployment app one bây giờ mình đang là cái app 1 của chúng ta và chúng ta đang có cái strategy của nó là r update bây giờ mình sẽ sửa 
+
+này mình sửa thành recreated để chúng ta sẽ cùng xem nhá recreate bụp lưu k CG port trừ v k ha vấn đ running chưa gì thay đổi hết Và bây giờ chúng ta kiểm 
+
+tra RS lại này vẫn l c D5 đúng không ạ Bây giờ mình sẽ thử là kcal roll laoud restart deployment app One deploy rồi nó sẽ restart Nà Rồi chúng ta coi này các bạn xem 
+
+này rồi lên con 55 nó cũng sẽ tạo ra một con mới không và cơ chế của nó là gì cơ chế của nó đây Đây đúng như chúng ta nghĩ đúng không ạ Nó sẽ terminating thì cái Vic restart nó sẽ vẫn tạo ra một cái r cet mới các bạn lưu ý là nó cũng sẽ 
+
+không phải mặc dù nó không có tạo ra cái À cái phiên bản mới gì hết nhưng nó sẽ vẫn tạo image V như thế nhưng mà nó sẽ tạo replica set mới và nó sẽ tr Tracking đ cho chúng ta cho nên deployment là một cái Technic rất là hay cho chúng ta coi 
+
+như là audit lại những cái thứ chúng ta đã làm ha Ok Cảm ơn các bạn đã theo dõi và hẹn gặp lại các bạn trong bài tiếp theo ạ 
+

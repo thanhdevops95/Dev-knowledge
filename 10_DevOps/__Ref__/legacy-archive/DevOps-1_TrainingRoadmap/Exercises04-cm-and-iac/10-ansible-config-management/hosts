@@ -1,0 +1,7 @@
+# Đây là file inventory của Ansible.
+# Nó định nghĩa các máy chủ mà Ansible sẽ quản lý.
+
+[local]
+# Dòng dưới đây định nghĩa rằng 'localhost' thuộc nhóm [local]
+# và Ansible nên kết nối với nó trực tiếp trên máy thay vì qua SSH.
+localhost ansible_connection=local

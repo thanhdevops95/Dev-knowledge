@@ -1,0 +1,116 @@
+Hello các bạn trong phần trước chúng ta đã cùng tìm hiểu về cái cách sử dụng giữa request và Limit cho một con container cho một con post nà và lưu ý các bạn là trong tình thống thực tế vẫn có thể có trường hợp là một post chúng 
+
+ta có thể có nhiều container và cái việc mà cấu hầ request và Limit nó cũng đòi hỏi một số các cái nghệ thuật trong việc giám sát và thê lập cho nó hợp lý ha Thì trong bài này mình sẽ cùng các bạn đưa ra một số ví dụ và qua một số ví dụ này 
+
+Hy vọng rằng các bạn cũng sẽ à biết được hiểu biết được rằng cái cách thực tế chúng ta setup cái request và Limit như thế nào cho nó hợp lý ngay từ ban đầu rồi sau này ví dụ trong quá trình vận Hàn chúng ta có thể điều chỉnh bây giờ 
+
+mình sẽ đưa ra một cái ví dụ như này chúng ta sẽ có cái con mà Note chúng ta ở đây chúng ta có Note hai con Note đi thì cái việc mà khi chúng ta đưa một con chạy một con post á thì nó sẽ do cái thầnh phần c Plan cụ thể đó là cái phần 
+
+Q schedule ha mà viết tắt là KS thì nó sẽ định nghĩa là à con port này nên schedule ở con pst nà ở con Note nào thì khi mà gửi yêu cầu đó đến cho con Note thì con qed nó mới thực hiện à psion con port này cho chúng ta Và tất nhiên là 
+
+cái con Kill schedule nó làm rất nhiều việc ha và cái việc công việc này nó sẽ làm nhiều thứ nó phải biết được rằng à Cái con Note này cái phần CPU như thế nào giả sử CPU của mình ở đây là là một co đi thì tươ ứng với là 
+
+1000 mic ha chữ đây là chữ m ha à RAM của mình là bằng giả sử như 4 GB đi g g gb3 ha Thì 4 4 GB tương ứng với 4000 mi ha tương ứng với 4000 Vậy thì bây giờ Bây giờ các bạn ví dụ Giả sử 
+
+mình có con po vào đây rồi thì nó sẽ tạm một cá rất bình thường nhưng trong thực tế trong khi chúng ta làm thì nó không thể chỉ có một con port đúng không ạ Chúng ta có thể có nhiều con port Vậy thì bây giờ giả sử mình sẽ 
+
+có mình sẽ có hai con pst đi cái nốt của mình ch mình Phóng to ra tí nhá mình có hai con port à port 1 và port 2 port 1 á Mình ghi là màu cam nhé thô A và B đi ha a mình sẽ 
+
+để request nó sẽ là giả sử như là 500 co CPU và memory mình giả sử như là 2 GB rồi con post A và một con post là post 
+
+B con B này mình sẽ cấu hình hơi khác một xí con B này mình để một cái cái là request à CPU mình để giả sử như là chỉ có để có 50 5m ha con này là 5 500m và bây giờ mình sẽ không để cái Limit cho cả hai 
+
+con port a port p này bây giờ trong từ Tống thực tế này vấn đề của con con Note chúng ta cái giới hạn nó rất là cao đúng không ạ 100m và 4 4 GB thì bây giờ tạm thời thông thường memory thì các bạn trong trường hợp mình sẽ không đề cập 
+
+không đề cập CPU thôi chờ thực tế khi chạy con port A nó lại consume rất nhiều tài nguyên cụ thể là cuu và cái việc consume này á nó sẽ tăng lên rất rất nhăn và nó có khả năng nó ăn hết cái nốt này của mình vấn đề khi bây giờ mình tạo 
+
+con po p mình tạo một cái CPU nó rất là thấp là 50 m 50 m ha à và trong trường hợp này là mình đang cấu hầ xài Bởi vì lúc này mình chưa biết cái app của mình cái p p của mình cái app P của mình ở đây thực tế giả sử nó chạy nó 
+
+cần tới tận 700 cơ mình nói giả sử như thế nhá Nhưng mà mình x h mình chỉ Cấu hình nó 50 thôi Vậy thì lúc này á Khi mà con này nó consum ăn hết đúng không ạ Nó ăn hết tại vì cụ thể của mình maximum mình chỉ được 
+
+có 1000 thôi 1000 mà con này nó ăn phát vào phát deploy ra nó ăn 500 rồi thì nó còn nó lại tăng lên nó tăng lên giả sử nó tăng lên được tới 800 đi và cái con này bây giờ n Tại vì 50 nó phải tăng từ từ nó tăng từ từ nó tăng nó 
+
+tăng lên thì lúc này nó bị yếu và như mình nói trong cái bài trước á là bản chất CPU nó như một con đường đại lộ đây con đường mà rất là lớn nếu mà càng nhiều xe cộ đúng không ạ ô tô gì đấy thì nó chỉ chậm thôi Nó Slow ha các request 
+
+mà yêu cầu đến V dụ port p mình sẽ bị throttle cói là bị nghẽn hoặ là bị từ chối ở đây ha Nhưng mà con post mình nó vẫn chạy nha chứ nó không bị nó không bị Kill Vậy thì bây giờ nếu mà chúng ta thấy cái tình huống này mình sẽ có hai 
+
+giải pháp giải pháp một là các bạn sẽ cấu hình cái Limit cho con port a giải pháp số hai là các bạn increase là các bạn tăng cái request cho post B rồi mình sẽ mình sẽ 
+
+có hai hướng giải quyết ở đây ha Vậy thì bây giờ theo các bạn Các bạn nghĩ các bạn Pa video này lại nha các bạn sẽ chọn hướng giải quyết 1 hay 2 hay thậm chí các bạn nghĩ làm cả hai ha và sau khi các bạn Pa các bạn suy nghĩ tại vì các 
+
+bạn các bạn điều này các bạn phải suy nghĩ ha Tại vì không suy nghĩ mà các bạn nghe mình giải giải thích luôn thì các bạn sẽ coi như là các bạn nghe xong các bạn cũng dễ rất dễ bị quên rồi hiy vọng các bạn đã có cái thời gian Các bạn nghĩ 
+
+và các bạn ừ chọn giải pháp ha Thì cái lời giải của nó như thế này nếu các bạn mà chọn cái giải pháp Limit cụ thể là Limit CPU nhá và request n SK CPU nhá Nếu các bạn chọn giải pháp một là giải pháp xài rất tiếc là như thế ha Các bạn 
+
+chọn giải pháp một là giải pháp dài à Bởi vì sao khi các bạn Limit của con post này của mình giả sử các bạn Limit con post này của bạn ở một giải một cái ngưỡng nào đấy ha Thì con po p này nó vẫn bị vấn đề nó vẫn bị choule nó vẫn bị 
+
+vấn đề là không đủ tài nguyên n và cái hay của CP đối với đối với Ram ở trên kubernetes á là nó có tính chất gọi là mình không nhớ cái từ ấy rõ nó tên như nào có thể mình để trong phần comment nó là 
+
+com gì com gì đấy ý tưởng là này có nghĩa là khi con post của mình nó ăn CPU á nó cần nhiều CPU hơn á thì giả sử từ 500 600 700 á thì nó ăn xong rồi đúng không xong rồi khi nó không dùng nữa nó sẽ trả lại ví dụ nó rút về là còn 600 
+
+còn 400 còn 300 gì đấy Nó có thể rú lại nó có thể rú lại ha Thì cái này tính năng này cái cái đây là cái tính chất của CPU ha còn cái cho nên là đối với tất cả các hệ thống các bạn cho mình một cái ru đầu tiên đi 
+
+cái ru số 1 của tất cả các rule là đông set CPU Limit có là chúng ta sẽ không set CPU Limit Tại vì nó có tính năng giản nở theo CPU tặng cần nhiều hơn nó lấy và là lấy nó lấy tới hết con nốt này 
+
+luôn còn nếu mà nếu mà nó lấy hết rồi thì nó sẽ bị chậm thôi chứ nó sẽ không bị terminate ha đó là cái ru thứ nhất và cái giải pháp trong bài T Tất nhiên trong giải phá B này thì nó sẽ là giải pháo số hai ha các bạn sẽ tăng cái incre 
+
+của Limit này lên cho con cho cái con port B trong bàn này Ví dụ mình để một GB này hơi thấp hoặc là mình giảm cái này giảm cái này đi Con này là 300 và con này nó sẽ cần chạy tới giả sự như là 500 đi Chẳng hạn như thế thì nó sẽ m hơ 
+
+với con số này nà đó mình sẽ quần increase b b Cho nên á là các bạn cần phải setup cái CPU làm sao cho nó hợp lý ha thì việc này thì các bạn sẽ cần phải có một cái trải nghiệm các bạn phải Monitor là các bạn phải set cho à set 
+
+cái CPU đấy Cho cho nó cho nó đúng ha à và cái rule thứ hai là chúng ta define CPU request cho tất cả các container luôn định nghĩa CPU request ha 
+
+trong các cái port của chúng ta sẽ luôn luôn định nghĩa phần cvu request không bao giờ định nghĩa phần nhưng mà không bao giờ định nghĩa phần Limit ha và trong quá trình vận hàng các bạn phải Monitor và định nghĩa được cái con số 
+
+request này cho nó hợp lý vậy thì memory làm sao Các bạn nhớ cái memory nó lại tính chất hơi khác một tí ha mình kéo lại qua đây một xỉ đối với memory thì nó lại không có cái tính chất gọi là tính chất ăn ra ăn 
+
+rồi nó trả về CPU ăn xong nó có trả về Nhưng mà đối với cái thằng này nó không có trả về nhá À xứ Các bạn có có con nốt các bạn ở đây và port các bạn nằm bên trong này Bây giờ mình nói memory thô nhá memory mình đang khởi tạo request là 
+
+như thế này nha Và bây giờ nếu mà các bạn cho nó tăng cái phần Limit của nó lên nó ăn Nó ăn giả sử đầu tiên nó có 200 mi mi B đi nó ăn lên 300 ăn lên 500 Thì khi nó ăn lên 500 thì bản chất lúc 
+
+ứng dụng các bạn có không dùng để 500 ấy nó cũng sẽ không trả không trả cái phần này không trả cái phần này lại cho cái con nốt của của các bạn cho nên là các cái Khuyến nghị khi mà sử dụng liên quan đến bộ nhớ 
+
+memory là set request bằng Limit Và tất nhiên khi con post của chúng ta chạy quá Nói chung là chạy chạm cái Limit á thì nó sẽ bị vấn đề gì chạy 
+
+chạm cái Limit thì nó sẽ bị một cái nối là out of memory ha là Cái lỗi này đối với Cái lỗi này thì các bạn sẽ cần phải Kill phải Kill con post này thì nó mới trả cái memory của con pst đấy lại cho con củae của chúng ta 
+
+thì đây là cái mà chúng ta cần phải lưu ý điểm số ba Khi chúng ta làm việc với memory Và tất nhiên các bạn cũng đừng có nên xét cái mức request này nó quá thấp ha không thôi là nhiều khi là sau này các bạn xét quá thấp mà cái cái con 
+
+scheduler nó thấy con này không ưu tiên chỉ số ưu tiên nó thấp quá thì bây giờ các bạn chưa tìm hiểu về cái chỉ số ưu tiên của các con container nhưng mà sau này các bạn làm đến những cái phần sâu trong series này các bạn sẽ biết là à Nó 
+
+còn một cái chỉ số liên quan đến độ ưu tiên của các container ở trong một cái nốt của chúng ta nữa Nếu mà giả sử nó thấy là cái độ ưu tiên của container Mình thấp quá mà con nốt nấy hết tài nguyên rồi đấy thì khi khi mà chúng ta 
+
+chỉ định một con port một con port à Xin lỗi m dùng con post mới đúng ha một con post mà khi triển khai vào thấy à Con này phải con post này có yêu cầu cái cái chỉ số container nó có chỉ số ưu tiên nó cao ấy so với một cái gì đó ở trong 
+
+cluster chúng ta đang không có cao thì nó sẽ có thể evic ha Nó dùng từ gọi là evic evic là evic là terminate cái con poort đấy ra khỏi con nố đấy ha thì cái việc evic này nó cũng là một cái topic rất là lớn về mặt scheduling rồi 
+
+reschedule nó đẩy một con post ra thì nó phải nó phải để con pst N qua một con c nốt khác hoặc là nó cho đi luôn ha Thì cái này mình sẽ làm trong một cái video khác thì H vọng Qua bài này các bạn cũng đã hiểu thêm về cái cơ chế của request 
+
+và Limit và đưa ra những cái recommendation có ba cái recommendation các bạn cần phải nhờ thực ra có một cái nữa là các bạn nên Monitor Nói chung là chúng ta không có kỳ vọng rằng chúng ta sẽ làm 
+
+tốt ngay từ ngày đầu tiên ha chúng ta làm cố gắng nhất tốt nhất có thể nhưng mà trong quá trình vận hành ứng dụng chúng ta thay đổi nghiệp vụ Chúng ta thay đổi thậm chí là cái quy trình sử dụng của khách hàng cũng thay đổi nữa 
+
+cho nên là đôi khi cái ngày việc xét đấy là mình làm nó tốt rồi nhưng mà nó còn có thể tốt hơn thì nữa thì sao thì trước khi kết kết thúc cái bài này thì mình quay về cái chúng ta đ làm trong bài trước đó là thết lập con post của chúng 
+
+ta con post chúng ta như này như này các bạn Nếu các bạn sửa này các bạn sửa như nào cho nó theo đúng như cái best partus À xin cái này không có không Phả là best partus cái này còn recommendation thì trong trong cái việc mà cấu hầ CPU th 
+
+này thì thực ra nó là dựa trên dựa trên những cái recommendation của những cái người người ta làm những hệ thống quý M lớn thì ở đây mình người ta nói là không nên set CPU Limit là cái dòng này chúng ta sẽ không có làm ha chúng ta nên set 
+
+memory và à của cái request và Limit sẽ bằng nhau ha trong trường hợp mình sẽ không có set quá thấp set 128 này và set cvu thì đừng cũng đừng có nên quá thấp luôn Giả sử mình set 250 đi là 0,25 không 0,2 0,25 CPU á thì đơn vị của của 
+
+cái này chúng ta có thể nhỏ nhất nhỏ nhất đó là một một em nhưng mà chắc cũng chẳng ai xét đến một em đâu một em nó cũng quá quá là bé đi và ví dụ như là một này thì có nghĩa là một một co một co đấy một một vcpu á 
+
+thì các bạn có thể xt số nhưng mà thông thường một cái con con port hay một cái container ở trong một con port thì mình sẽ x thiết lập Đạt một cái ngưỡng của ứng dụng nào đó mình thiết lập Giả sử Mình bảo là một con port n có khả năng 
+
+phục vụ được là 200 concurrent request ha Thì mình sẽ thết lập ở một cái mức độ quy mô như thế thôi thì con số lượng Đấy là tùy thuộc vào cái microservice các bạn thiết kế như nào ha ví dụ như là nếu các bạn thiết lập một số lượng request 
+
+mà quá lớn trên một con post thì nó Đán đổi là gì thì hệ thống các bạn mỗi lần mà scale ra ấ thì có khả năng gây gây lãng phí Ha Còn nếu mà các bạn sẽ lập một cái chỉ số concurrent request trên một con port quá thấp ấy thì khả năng 
+
+các bạn sẽ phải scale rất là nhiều nếu mà cuộc log các bạn có nhiều có nhiều người chi xất cùng đồng thời ha cho nên con số này cũng sẽ là một con số các bạn cần phải Monitor và định nghĩa đôi khi khi nhỏ quá không phải là tốt đâu nhá 
+
+không phải là tiết kiệm đâu nha mà các bạn để một con số một cái điểm gọn là cái điểm swit Point ấ cái điểm nào mà coi như là điểm tối ưu nhất của cấu Hân của một con container trong một con port đấy giúp các bạn tiết kiệm chi phí lẫn 
+
+cả tăng trả sử dụng của khách hàng Ok Cảm ơn các bạn thì hi vọng Qua bài này thì các bạn đã hiểu thêm về các thiết kế của request và Limit và trong thực tế thì có một số các cái recommendation một số các cái Khuyến nghị các bạn cấu hơn 
+
+request và Limit làm sao cho nó tối ưu ha thay vì chúng ta có vần sai thì nó sẽ có nhiều cái khó khăn trong quá trình vận hành của class chúng ta cảm ơn các bạn ạ 
+

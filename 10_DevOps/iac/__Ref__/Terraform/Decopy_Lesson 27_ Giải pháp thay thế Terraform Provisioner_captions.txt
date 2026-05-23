@@ -1,0 +1,6 @@
+Chúng ta sẽ tìm hiểu về giải pháp thay thế provisional Ở đây mình sẽ sử dụng an như là một giải pháp thay thế positioner cho những tác vụ cài đặt phức tạp như là cài đặt các phần mềm cài đặt các dịch vụ 
+
+hoặc là cấu hình thì mình có thể sử dụng kết hợp với tform để làm điều này thì đầu tiên chúng ta Có hai luồng tác vụng tform sẽ thực hiện tạo ra các cái tài nguyên tạo các dịch vụ cụ thể là chúng ta sẽ tạo ra eas to và sau đó chúng ta 
+
+sẽ sử dụng code ansible để thực hiện cài đặt các cái dịch vụ và code của ansible sẽ là file mở rộng iaml hay mình thường đọc là file jamal tiếp theo Để hiểu hơn về bài học thì chúng ta sẽ đến với phần thực hành 
+

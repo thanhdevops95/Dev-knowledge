@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  namespace: myapp-dev
+  labels:
+    app: myapp
+    version: "6.0"
+spec:
+  containers:
+    - name: myapp
+      image: morom/myapp:6.0
+      imagePullPolicy: IfNotPresent   # local cluster: ưu tiên image local
+      ports:
+        - containerPort: 5000
+      env:
+        - name: APP_NAME
+          value: "K8s App"
+        - name: APP_ENV
+          value: "kubernetes"
+        - name: APP_VERSION
+          value: "6.0"

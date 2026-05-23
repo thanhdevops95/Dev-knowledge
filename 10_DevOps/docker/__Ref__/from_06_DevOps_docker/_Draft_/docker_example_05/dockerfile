@@ -1,0 +1,20 @@
+# Sử dụng image Python chính thức làm base image
+FROM python:3
+
+# Khai báo thư mục làm việc trong container
+WORKDIR /app
+
+# Sao chép file Python vào thư mục /app trong container
+COPY docker_example_04.py .
+
+# Chạy file Python khi container được khởi động
+ENTRYPOINT ["python", "docker_example_04.py"]
+## QUAN TRỌNG: SỬ DỤNG ENTRYPOINT THAY VÌ CMD ĐỂ CHO PHÉP TRUYỀN THAM SỐ DÒNG LỆNH KHI CHẠY CONTAINER.
+
+CMD ["tham số mặc định nếu không có tham số nào được cung cấp"]
+## NẾU CHỈ SỬ DỤNG ENTRYPOINT MÀ KHÔNG CÓ CMD
+## THÌ KHI CHẠY CONTAINER MÀ KHÔNG TRUYỀN THAM SỐ DÒNG LỆNH NÀO, 
+## NẾU LOGIC CỦA ỨNG DỤNG KHÔNG BẮT BUỘC PHẢI CÓ THAM SỐ DÒNG LỆNH,
+## THÌ CONTAINER SẼ CHẠY MÀ KHÔNG GẶP LỖI.
+## NẾU LOGIC CỦA ỨNG DỤNG BẮT BUỘC PHẢI CÓ THAM SỐ ĐẦU VÀO,
+## THÌ CONTAINER SẼ GẶP LỖI KHI CHẠY MÀ KHÔNG TRUYỀN THAM SỐ DÒNG LỆNH NÀO.

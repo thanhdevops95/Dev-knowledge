@@ -55,7 +55,7 @@ graph LR
 
 ### 🛠️ Setup
 
-- [ ] [VS Code](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code](../../02_Tools/ide/vs-code.md) ✅
 - [ ] Node.js LTS
 - [ ] Expo CLI (`npm install -g expo-cli`) — RECOMMEND beginner
 - [ ] iOS Simulator (Mac only) hoặc Android Emulator

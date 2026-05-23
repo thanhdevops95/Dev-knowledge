@@ -1,0 +1,22 @@
+trong bài trước chúng ta cùng tìm hiểu cái cách tạo cái replica set thì trong bài này chúng ta sẽ cùng tìm hiểu cách làm sao expose cái replica set thành cái noteb service ha dùng imperative way trước chúng ta sẽ cùng review lại cái 
+
+thông tin chúng ta đang có chúng ta sẽ K get port chúng ta đang có powerport chạy với ret tên là số 3 ha chúng ta get R casset và get service chúng ta đang có service 1 chạy với version 1 b giờ chúng ta sẽ export 
+
+ba cái con post này chạy cái version số 3 chúng ta sẽ cùng xem Kill cle expose replica set rồi RC set bây giờ chúng ta phải đặt tên của cái replic set RC set nào chúng ta sẽ rs3 ha và chúng ta sẽ có cái tên tên của cái dịch vụ chort tên là 
+
+service 3 tha của mình là Note port Nà Rồi chúng ta sẽ có là à port port Chúng ta chạy tảng 080 trường hợp này chúng ta sẽ không đặt cái target port nữa tại vì chúng ta chạy cùng port chúng ta không cần quan tâm ha các bạn có thể xem lại 
+
+cái phần Note port để các bạn thấy hiểu cái cơ chế hoạt động của cái note p này đó chúng ta sẽ enter rồi diệt vụ Chúng ta đã hoàn thành các bạn lưu ý này cái RC set này các bạn đây là cái tên của R các bạn đã tạo nha Đây là tên của cái 
+
+dịch vụ bây chúng ta sẽ cùng xem này K get svc đây tên diệt vụ của các bạn Note port các bạn expose ra cái port 30256 và như các bạn cũng đã biết á là việc mà sử dụng cái gọi là cái note p đ thì các bạn sẽ không chi xất một cái mặc 
+
+định N các bạn coi này Kill get Note trừ o trừ trừ để co thông tin chi tiết á h Xem này C tại vì cái con control con Note của mình hay control plan của mình nó đang là intern IP nó không chi xất ở bên ngoài được giờ các bạn muốn chi xất 
+
+thì các bạn phải dùng một cái nói chung là một cái trick của mini ha mini service giờ mình có cái service số 3 này tên của cái service này và mình sẽ có cái URL đây nó sẽ nó sẽ các bạn ra một cái 
+
+port kiểu này Bây giờ mình copy cái này sau đó mình quay về cái website của mình ở đây mình sẽ thử đây version số 3 ha Đây là app manual này và các bạn thử này thì đang Stick V version số 3 nhưng mà bản chất 
+
+là các bạn sẽ có ba con post nằm sau như các bạn có thể xem đây Chúng ta có ba con post đây cái rs3 của mình ở đây nh thì đó là cái cách mà chúng ta sẽ expose cái service 
+
+3 cái replic set số 3 qua cái note p bằng phương thức imperative ha Ok cả đã theo dõi ạ 
+

@@ -1,0 +1,62 @@
+đầu tiên mình sẽ giới thiệu về dự án mà chúng ta sẽ sử dụng trong bài Tel module dự án này mình sẽ tạo ra một vpc và trong vpc này mình sẽ tạo ra bốn subnet bao gồm hai public subnet đặt trên hai ig khác nhau tương tự đó là hai Private 
+
+subnet cũng sẽ đặt trên hai ig khác nhau và trên hai public subnet thì có thể được truy cập từ ngoài internet thông qua internet getway và mình sẽ gắn cho mỗi public subnet là một cái round table ở đây mình sẽ T T RA module vpc nằm 
+
+trong thư mục working with module and backend và nằm tr thư mục con là 2.1 module trong module này thì mình khai báo các cái file cấu hình tform là file main thì bao gồm các cấu hình để mình tạo ra vpc này tạo ra Internet gway và 
+
+tạo ra các cái public subnet và Private subnet và đối với public subnet thì mình sẽ lên kết với public CR table để các dịch vụ nằm trong public subnet có thể ra ngoài internet ở đây mình sẽ tạo ra một file là variable thì trong file 
+
+variable này chứa các cái thông tin biến đầu vào cho cái dự án của chúng ta bao gồm là cid Block và tên của vpc này tên của public subnet này tên của Private subnet này và thêm một vài cái chỉ định đầu vào khác trước tiên là chúng ta sẽ 
+
+chạy C lệ form init để thực hiện cài đặt về cơ bản Đây là một dự án hoàn chỉnh và mình có thể thể chạy có lệnh tform BL để kiểm tra những cái tiến trình khởi tạo tài nguyên mình sẽ quay lại thư mục 2.1 
+
+module và tạo ra một cái file là main.tf đầu tiên mình sẽ tạo ra module tform này và chỉ định đến provider là aws này tại thư mục 2.1 hay bất kỳ thư mục nào trên máy chúng ta mà muốn tái sử dụng 
+
+cái module VTC thì chúng ta chỉ định cái Block là module và tên của Block ở đây thì sẽ để là vpc demo và chỉ định đến đường dẫn thư mục đang chứa module vpc vi file và chạy lệnh tform init thì hiện tại thì chúng ta đang đứng ở thư 
+
+mục PVC chúng ta sẽ lùi lại một thư mục thư mục tra là 2.1 module để có lệnh tform init lúc này khi mà chúng ta chạy C lệnh tform init thì nó sẽ làm hai nhiệm vụ đầu tiên là nó sẽ Download plug in để 
+
+tform trên máy của chúng ta tương tác với provider thể đây là aws thứ hai là nó sẽ thực hiện khởi tạo các module mà chúng ta khai báo trong code cấu hình chúng ta à Nếu loại module chúng ta sử dụng là local module thì ch nó sẽ tham 
+
+chiếu đến cái đường dẫn mà chúng ta chỉ định trên máy của chúng ta tới cái module mà chúng ta mong muốn Thứ Hai nếu mà chúng ta sử dụng lại remote module thì nó sẽ thực hiện là Download cái module đấy ở trên internet ví dụ như là 
+
+trên telef hoặc là trên github ở đây thì các bạn có có thể thấy là khi mà chúng ta chạy có lệnh tform minit và trong thư mục là chấm tform thì nó có hai mục đầu tiên là provider là cái thông mục chứa cái plugin để tform trên máy của chúng 
+
+ta tương tác với provider cái thứ hai là thông mục module là Thứa thông tin của các cái module mà chúng ta sử dụng và sẽ sử dụng trong dự án code của chúng ta thì ở đây chúng ta đang sử dụng là local module thì nó sẽ chỉ định đến cái đường 
+
+dẫn của cái module trên máy của chúng ta và bằng cách này chúng ta có thể tái sử dụng được cái modol là vvc trong cái dự án của chúng ta chúng ta có thể chạy Câ lệnh tform Plan để kiểm tra ngoài việc chúng ta tự thiết kế ra 
+
+các loại module để tá sử dụng trong code cấu hình Chúng ta thì chúng ta có thể sử dụng các module được viết sẵn trên terf l hoặc là trên github mình có thể tên t l để tìm kiếm các module mà chúng ta có thể sử sử 
+
+dụng đây mình sẽ chọn cái module đầu tiên đây về PC chúng ta sẽ làm các bước sau để sử dụng cái module này thì ở đây nó sẽ yêu cầu là chúng ta copy cái Block code này và paste vào code cấu hình chúng ta và sau đó chạy C lệnh terf 
+
+minis mình sẽ quay lại Visual store code và có cái lệnh này vào đây đây mình sẽ sửa là ppc 01 new file và chạy câu lệnh tform init sau khi chạy câu lệnh tform init thì chúng ta sẽ thấy trong thư mục là ch 
+
+tform và trong thư mục mider thì nó đã tải cho chúng ta code cấu hình của module vpc về máy chúng ta Đây là file main này và file các cái file liên quan như là file variable và file version và cuối cùng mình sẽ hướng dẫn 
+
+mọi người cách public module của chúng ta với cộng đồng và mình sẽ public thông qua github mình sẽ vào thươ mục vpc có lệnh G init trong module vvc thì mình sẽ tạo ra 
+
+một file là g. inore trong file git ignore thì mình sẽ chỉ định các cái file Hoặc là các cái thư mục mình sẽ loại bỏ khi mà chúng ta post code lên github thì về cơ bản khi mà chúng ta pst code link thì chúng ta chỉ cần chia sẻ 
+
+những code về cấu hình của chúng ta nằm trong file Main và trong file variable và các cái file cấu hình còn lại mình sẽ chạy câu lệnh g as stus để kiểm tra trạng thái của các file ở đây khi mà chúng ta COD lên giub 
+
+thì sẽ có các file được đẩy lên này Đầu tiên là file main.ts này file output.txt mình sẽ chạy có lệnh git commit ở đây mình chưa chạy câu lệnh g config và chạy có lệnh ter form comit rồi Tiếp theo mình sẽ lên github 
+
+để tạo ra một repository khi mà CH khi mà chúng ta public module terraform của chúng ta chọ hộng đồng thì tên của trên github thì nó phải tuân theo cái cái quy tắc như sau đầu tiên là 
+
+terf thứ hai là tên của provider thì ở đây sẽ là aws và tiếp theo là tên của dự án chúng ta thì mình có thể để vpc tạo repository đây mình sẽ copy dòng này và 
+
+p vào đây tiếp theo mình sẽ chost đến đây thì chúng ta sẽ đăng nhập code của chúng ta đã p thành công lên github và chúng ta sẽ quay lại giao diện của để kiểm tra refres lại đây thì 
+
+các bạn có thể thấy là đây là các code module PVC của chúng ta và đã được Push lên kit Hub và để sử dụng code module mà chúng ta chia sẻ trên kiub thì đầu tiên chúng ta sẽ vào phần code ở đây copy cái UR này quay lại code chính của chúng 
+
+ta mình sẽ module vpc 02 và chỉ định đến cái URL mình vừa copy thêm tiền tố là git chấm chấm thì bằng cách này thì người dùng trên kit Hub có thể sử dụng code module chúng ta ngoài ra chúng ta cũng có thể public module 
+
+của chúng ta lên tform à chúng ta có thể đăng nhập bằng github trên lên cái giao diện của ter Wi và có thể publish module chúng ta trong phần publish và trong phần Module ở đây thì nó sẽ quét ra các cái 
+
+repository của chúng ta trên giub click chọn vào đây và pu module còn một điều nữa là mình cần phải gắn tas cho repository của chúng ta trên gth tạo mới một task này tas hiểu đơn giản nó như là cái version của module 
+
+của chúng ta vậy create và ấn Toic rồi Ở đây chúng ta refres lại Và bây giờ chúng ta đã publish được cái module của chúng ta với datf V và để sử dụng thì chúng ta sẽ copy cái Block 
+
+code này và paste vào code cấu hình chúng ta và sau đó là chúng ta sẽ chạy C lệnh trf mini I 
+

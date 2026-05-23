@@ -1,48 +1,70 @@
 # 🧠 01_Foundations
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v0.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 20/05/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> 🚀 **Status:** Có 2 L2 đã có content thật (industry-landscape + version-control/git). Các L2 lý thuyết khác (dsa, os-theory, networking-theory, ...) còn skeleton.
 
 ## 🎯 Chủ đề này có gì
 
-CS fundamentals: DSA, OS theory, computer architecture, math, programming paradigms
+01_Foundations là **kiến thức nền tảng** — bền vững 10+ năm. Bao gồm: bản đồ ngành IT, computational thinking, version control concept, DSA, OS theory, networking theory, math, programming paradigms.
 
-## 📂 L2 dự kiến (chủ đề con)
+**Khác với 02_Tools** (user guide cho phần mềm cụ thể): Foundations dạy **khái niệm bản chất** không lệ thuộc tool/phiên bản.
 
--dsa
-- computer-architecture
-- os-theory
-- compilers
-- math-for-cs
-- programming-paradigms
+## 📂 L2 chủ đề con
+
+| L2 | Trạng thái | Note |
+|---|---|---|
+| [`industry-landscape/`](./industry-landscape/) | 🚀 1 bài 🆕 | **Bản đồ ngành IT** — entry point cho beginner zero-base. Stage 0 của zero-to-coder |
+| [`version-control/`](./version-control/) | ✅ 6 bài | **Git concept** (move từ `02_Tools/git/` ngày 19/05/2026) — setup + 5 lesson Long story arc |
+| `computing-environment/` | ❌ Chưa có | Terminal/shell/OS concept (sẽ chuyển 1 bài từ `02_Tools/shell/`) |
+| `computational-thinking/` | ❌ Chưa có | Logic + problem solving + algorithm cơ bản |
+| `dsa/` | ❌ Chưa có | Data Structure + Algorithm |
+| `os-theory/` | ❌ Chưa có | Process, memory, file system concept |
+| `networking-theory/` | ❌ Chưa có | TCP/IP, OSI — concept thuần |
+| `math-for-cs/` | ❌ Chưa có | Discrete math, logic, set theory |
+| `programming-paradigms/` | ❌ Chưa có | OOP/FP/Procedural — so sánh |
 
 > Chi tiết sitemap mở rộng → xem [`../_Blueprint/01_sitemap-detail.md`](../_Blueprint/01_sitemap-detail.md).
 
 ## 🚀 Khi nào đọc folder này
 
-| Bạn là... | Đọc gì khi có content |
+| Bạn là... | Đọc gì |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `99_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `99_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_Roadmaps/career/`](../00_Roadmaps/career/) chọn career path đi qua chủ đề này |
+| 🟢 **Zero-base** (chưa biết IT) | [industry-landscape](./industry-landscape/lessons/01_basic/00_what-is-it-industry.md) **trước nhất** — 20 phút đọc, hiểu cả bức tranh |
+| 🟡 **Đã code 1 ngôn ngữ** | [version-control/git/](./version-control/git/) — git là MUST-KNOW mọi nhánh |
+| 🟠 **Senior ôn nền tảng** | dsa/, os-theory/, networking-theory/ (chưa có content, đang phát triển) |
+| 🧭 **Theo Zero-to-Coder roadmap** | Stage 0 link sang industry-landscape, Stage 1 link sang version-control/git |
+
+## 📊 Đặc trưng Foundations vs các L1 khác
+
+| Tiêu chí | Foundations | Tools | Domain (10_DevOps, 13_AI-ML, ...) |
+|---|---|---|---|
+| Bản chất | Lý thuyết / concept bền vững | User guide phần mềm | Concept domain cụ thể |
+| Lifespan | 10+ năm | Khi UI tool update | 2-5 năm |
+| OS-specific? | Không | Tuỳ | Tuỳ |
+| Theory:Hands-on | 70:30 | 0:100 (chỉ UI tour) | 50:50 |
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
 1. Đọc [`../_Blueprint/00_blueprint-overview.md`](../_Blueprint/00_blueprint-overview.md)
-2. Copy template từ [`../_Blueprint/templates/`](../_Blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md)
-4. Soát qua [`../_Blueprint/07_quality-checklist.md`](../_Blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+2. Copy template từ [`../_Blueprint/templates/`](../_Blueprint/templates/) (`lesson_template.md` cho Foundation lesson)
+3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md) v0.5.1+ — mở bằng tình huống, headers câu hỏi tự nhiên
+4. Tham khảo bài có sẵn:
+   - [industry-landscape lesson](./industry-landscape/lessons/01_basic/00_what-is-it-industry.md) — narrative style mẫu
+   - [git intro với Long story](./version-control/git/lessons/01_basic/00_what-is-git.md) — situation-led definition mẫu
+5. Soát qua [`../_Blueprint/07_quality-checklist.md`](../_Blueprint/07_quality-checklist.md)
+6. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
 
 ---
 
 ## 📌 Changelog
 
+- **v0.2.0 (20/05/2026)** — Update toàn bộ README phản ánh content thật:
+  - Trạng thái Skeleton → "Có 2 L2 content thật"
+  - List L2 đầy đủ với trạng thái mỗi cái (industry-landscape ✅, version-control ✅, các L2 khác ❌)
+  - Thêm bảng "khi nào đọc" + bảng "Foundations vs Tools vs Domain"
+  - Hướng dẫn viết bài link sang 2 reference mẫu (industry-landscape + git)
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.

@@ -1,0 +1,2 @@
+chúng ta sẽ thực hiện cài đặt terraform mình sẽ hướng dẫn mọi người thực hiện cài đặt tform trên cả ba h đ hành mà chúng ta thường hay sử dụng mình sẽ hướng dẫn mọi người cài đặt tform trên Linux trên Windows và trên macos 
+

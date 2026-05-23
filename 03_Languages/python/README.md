@@ -105,7 +105,7 @@ Sau setup + 4 bài (00-03), bạn có thể:
 
 | Tool | Mục đích | Cài |
 |---|---|---|
-| **VS Code + Python extension** | Editor | [VS Code setup](../../02_Tools/editor/setup/vs-code.md) |
+| **VS Code + Python extension** | Editor | [VS Code setup](../../02_Tools/ide/vs-code.md) |
 | **uv** | Package manager hiện đại | xem [setup §3 🅶](./setup/install-python.md#3️⃣-cách-cài-python) |
 | **ruff** | Linter + formatter | `pip install ruff` |
 | **mypy** | Static type checker | `pip install mypy` |

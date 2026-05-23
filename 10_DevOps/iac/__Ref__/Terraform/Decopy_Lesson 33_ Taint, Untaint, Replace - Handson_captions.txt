@@ -1,0 +1,48 @@
+ở đây mình tạo ra folder là tên ên và relax và ở đây mình đã tạo sẵn ra hai dạng tài nguyên là vm01 và vm02 giả sử chúng ta Giả sử Trong trường hợp này là vm01 nó đang bị lỗi và chúng C và chúng ta cần phải thay thế thì 
+
+chúng ta sẽ giả lập tình huống như sau à chúng ta sẽ Connect vào con vm01 này rồi Ở đây thì mình sẽ cài thêm một phần mềm là str mình sẽ sử dụng cái phần mềm này để chúng ta là thực hiện cái mô phỏng cái 
+
+tình huống là con vm này đang bị lỗi về CPU đây mình sẽ để là C8 Tức là nó sẽ sử dụng 8 CPU ở đây mình sẽ mở thêm một cái phên kết nối mới đến con ICT 01 này ở đây thì các bạn chỉ cần hiểu đơn giản là cách mình mô phỏng cái tình huống con vm 
+
+này đang gặp lỗi về cái thông số CP của nó đây mình có thể check được cái tình trạng CPU đang sử dụng của con vm này và chúng ta có thể hiểu là con vm này đang gặp lỗi và chúng ta cần phải thay thế con vm này rồi chúng ta sẽ quay lại code 
+
+viết code của chúng ta và để thay thế con vm này thì mình sẽ thực hiện trạ C lệnh terraform tên và chỉ định đến à cái tài nguyên mà mình cần thay thế Ở đây mình sẽ là instant vm01 rồi chúng ta có thể kiểm 
+
+tra lại bằng câu lệnh là tform Plan các bạn có thể thấy là sau khi chúng ta chạy câu lệnh tform Plan thì có một cái cái thông báo là con vm01 chúng ta cần phải được thay thế và để thay thế được con vm này thì chúng ta sẽ chạy ca 
+
+lệnh tr offline ở đây mình có một lưu ý cho các bạn là đối với một cái dạng tài nguyên mà chúng ta cần thay thế thì chúng ta cần phải xét đến tính quan trọng của cái dạng tài nguyên đó nếu mà chúng ta không muốn xảy ra đau th khi mà 
+
+việc chúng ta thay thế thành nguyên thì chúng ta cần phải thêm một cái Meta agement là Life cycle thì cái này mình đã giới thiệu với các bạn trong cái bài là Meta agreement và cụ thể cái Meta agement ở đây chính là create before de 
+
+choice rồi sau khi chúng ta chạy C lệnh terf upline thì chúng ta đã thay thế được con vm01 mình có thể kiểm tra lại trên aws à các bạn có thể thấy là con vm01 đây đã bị xóa đi và bị thay thế bằng một con vm 01 mới à tiếp theo chúng 
+
+ta đến với ên thì chúng ta vẫn giả định là con vm 01 này nó đang bị lỗi và chúng ta thực hiện là tên để đánh dấu con vm này à Tuy nhiên sau qu trình chúng ta thực hiện trong một sút con vm01 này thì nó quay lại hoạt động bình thường và 
+
+chúng ta không muốn thay thế con vm 01 này nữa thì chúng ta cần phải ă tên con vm này đi rồi tiếp theo chúng ta sẽ đến với relap thì ở đây mình sẽ thực hiện là relap con vm02 và mình sẽ chạy với câu 
+
+lệnh tform Plan thì chúng ta thể quan sát được các cái tài nguyên sẽ bị thay thế thì cụ thể ở đây là tài nguyên thay thế Ở đây là vm02 và để thay thế con vm này thì mình sẽ thực hiện là chạy C lệnh ter upline như các bạn có thể thấy là 
+
+khi mà chúng ta sử dụng relap để thay thế tài nguyên thì nó sẽ an toàn và nó tiệ lợi hơn khi mà chúng ta sử dụng với tên và ên và thực sự là mình khuyến khích các bạn sử dụng relax để thực hiện thay thế 
+
+dành Nguyên à như các bạn có thể thấy là sau khi mình chạy C lệnh upline với cái cờ là relax thì con pm đã được thay thế và cuối cùng là mình sẽ chạy có lệnh transform dis choice để thực hiện là xóa Tài Nguyên và kết thúc bài học tại 
+
+đây qua bài thực hành thì chúng ta có thể thấy là tên không tốt cho việc chúng ta sử dụng để thay thế các dạng tài nguyên à Thực tế thì trong những năm gần đây tform đang dịch chuyển từ cái việc loại bỏ các cái câu lệnh tác động trực 
+
+tiếp đến trạng thái của tài nguyên trừ câu lệnh tr phó upline ra một cái mô hình khai báo mà mọi thay đổi sẽ được khai báo rõ ràng trong cái tệp cấu hình À thì đây chính là lý do tại sao có lệnh tform import mà chúng ta đã học trong 
+
+vài import được thay thế bằng Block import Chúng ta có một vài vấn đề khi mà sử dụng câu lệnh terf tên để thực hiện là thay thế Tài Nguyên à Nếu mà chúng ta sử dụng cấu lệnh terf tên để thực hiện thay thế tài nhiên ấy thì thực chất là 
+
+chúng ta đang thay đổi trực tiếp dữ liệu trong cái file trạng thái mà lại không thông qua việc điều chỉnh tệp cấu hình thì trong môi trường lòng việc nhóm ấ thì hành động này có thể gây ra sự nhầm lẫn và xung đột bởi vì là những người 
+
+khác không nhìn thấy những thay đổi trong cái file cấu hình của chúng ta để dễ hình dung hơn thì mình có một ví dụ đơn giản như sau Giả sử Trong hệ thống Chúng ta có một con vm01 đang gặp sự cố và chúng ta cần phải thay thế chúng ta 
+
+sử dụng câu lệnh tform tên để thực hiện đánh dấu tài nguyên này tuy nhiên thì chúng ta chưa thực hiện apply ngay để thay thế và cũng quên không thông báo với các thành viên về cái vấn đề này à trong lúc đó thì có một người trong nhóm 
+
+chúng ta thực hiện thay đổi cấu hình trên con vm này theo quy trình thì họ sẽ sử dụng câu lệnh terraform Plan để xem trước những thay đổi nhưng lúc này thì họ không thấy bất kỳ một cái cảnh đáo nào về việc là con Vi 01 chúng ta bị 
+
+đánh dấu là thay thế vấn đề sẽ phát sinh Khi mà họ sẽ thực hiện cấu lệnh t upline tức là họ sẽ thực hiện là cài đặt lên con vm này các cái phần mềm các cấu hình mà họ mong muốn thì lúc này thì thực chất là họ đang thao tác trên một con vm 
+
+bị lỗi và tệ hơn nữa là chúng ta có thể thay thế con vm này bất kỳ lúc nào mà họ không hề hay biết như mình đã chia sẻ thì thực tế từ cái version terraform 0.15.2 thì việc sử dụng tên và ăn tên không còn được khuyến khích và thay vào 
+
+đó là chúng ta sử dụng tính năng tùy láp để thực hiện thay thế tài nguyên một cách an toàn và rõ ràng hơn Cảm ơn các bạn đã lắng nghe và hẹn gặp lại các bạn trong cái bài học tiếp theo 
+

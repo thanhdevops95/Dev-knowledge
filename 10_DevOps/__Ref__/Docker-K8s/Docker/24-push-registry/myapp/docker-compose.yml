@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    image: myapp:6.0
+    ports:
+      - "8080:5000"
+    environment:
+      APP_NAME: Compose App
+      APP_ENV: production
+      APP_VERSION: "6.0"
+    depends_on:
+      - redis
+      - db
+    networks:
+      - myapp-net
+    volumes:
+      - ./logs:/app/logs
+
+  redis:
+    image: redis:alpine
+    networks:
+      - myapp-net
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: myappdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret123
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - myapp-net
+
+networks:
+  myapp-net:
+
+volumes:
+  db-data:

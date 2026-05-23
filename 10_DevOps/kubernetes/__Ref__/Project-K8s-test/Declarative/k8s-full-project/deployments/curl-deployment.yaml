@@ -1,0 +1,61 @@
+# DEPLOYMENT với ReplicaSet
+# Deployment quản lý ReplicaSet, ReplicaSet quản lý Pods
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-deployment
+  labels:
+    app: curl-app
+    tier: backend
+    environment: learning
+spec:
+  replicas: 3  # Số lượng Pod replicas muốn chạy
+  selector:
+    matchLabels:
+      app: curl-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: curl-app
+        tier: backend
+        version: v1
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+          name: http
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: APP_NAME
+          value: "curl-learning-app"
+        - name: APP_VERSION
+          value: "v1"
+        # Readiness probe - check if nginx is running
+        readinessProbe:
+          exec:
+            command:
+            - ps
+            - aux
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        # Liveness probe
+        livenessProbe:
+          exec:
+            command:
+            - ps
+            - aux
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  namespace: myapp-dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: <YOUR_DOCKERHUB_USERNAME>/myapp:6.0
+          ports:
+            - containerPort: 5000
+          env:
+            - name: APP_ENV
+              value: "kubernetes"
+            - name: APP_REDIS_HOST
+              value: "redis"
+          # Startup: cho app tối đa 30 lần × 5s = 150s để khởi động
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            failureThreshold: 30
+            periodSeconds: 5
+          # Liveness: chỉ chạy SAU KHI startup pass
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            periodSeconds: 10
+            failureThreshold: 3
+          # Readiness: kiểm tra liên tục để decide có route traffic không
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            periodSeconds: 5
+            failureThreshold: 2
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"

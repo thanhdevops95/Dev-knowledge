@@ -1,0 +1,18 @@
+# Su dung image Python chinh thuc lam base image
+FROM python:3
+
+# Khai bao thu muc lam viec trong container
+WORKDIR /app
+
+# Sao chep file Python vao thu muc /app trong container
+COPY docker_example_04.py .
+
+# Cai dat thu vien requests
+RUN pip install requests
+## QUAN TRONG:
+## NEU THIEU BUOC NAY, KHI CHAY CONTAINER SE GAP LOI VE THU VIEN THIEU.
+## MAC DU MAY TINH CUA BAN DA CAI DAT THU VIEN `requests` ROI.
+## BOI VI MOI CONTAINER LA MOT MOI TRUONG RIENG BIET KHAC VOI MAY TINH CUA BAN.
+
+# Chay file Python khi container duoc khoi dong
+CMD ["python", "docker_example_04.py"]

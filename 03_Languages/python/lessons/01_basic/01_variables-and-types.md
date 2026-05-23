@@ -1,9 +1,9 @@
-# Python Variables + Data Types — Biến và 7 kiểu dữ liệu cốt lõi
+# 🎓 Python Variables + 7 Data Types — Viên gạch cơ bản
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút\
@@ -22,7 +22,23 @@
 
 ---
 
-## 1️⃣ Vì sao học biến + kiểu dữ liệu trước (WHY)
+## Tình huống — bạn muốn viết script tính lương
+
+Bạn được giao bài tập đầu tiên: *"Viết script tính lương. Input: tên, lương theo giờ, số giờ làm. Output: tên + tổng lương + thuế 10%."*
+
+Bạn mở Python REPL, gõ thử:
+```python
+>>> "Rom" + 50000 * 8
+TypeError: can only concatenate str (not "int") to str
+```
+
+❌ Lỗi. Bạn chưa biết phân biệt **chữ** (`"Rom"`) vs **số** (`50000`). Để viết được dòng đầu tiên, bạn cần hiểu **biến** và **kiểu dữ liệu** — nền tảng cho MỌI chương trình Python.
+
+Bài này dạy 7 kiểu cốt lõi + biến + mutable/immutable. Cuối bài bạn viết được script tính lương trên dễ dàng.
+
+---
+
+## 1️⃣ Vì sao học biến + kiểu dữ liệu TRƯỚC mọi thứ khác?
 
 Mọi chương trình = **dữ liệu** + **logic**. Trước khi viết logic (if/for), bạn phải hiểu **lưu dữ liệu thế nào**:
 
@@ -41,7 +57,7 @@ Mọi chương trình = **dữ liệu** + **logic**. Trước khi viết logic (
 
 ---
 
-## 2️⃣ Biến (Variable) là gì (WHAT)
+## 2️⃣ Vậy biến (Variable) thực sự là gì?
 
 **Định nghĩa**: Biến là **tên** trỏ tới 1 **giá trị** trong memory. Đặt tên = "dán nhãn" lên giá trị.
 
@@ -101,7 +117,7 @@ Khác với Java/C (phải khai báo `int age = 28;`), Python tự detect:
 
 ---
 
-## 3️⃣ 4 kiểu primitive (HOW)
+## 3️⃣ 4 kiểu primitive — int, float, str, bool
 
 ### 🛠️ 3.1 `int` — Số nguyên
 
@@ -807,4 +823,8 @@ True and False, True or False, not True
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống "viết script tính lương"** — gặp `TypeError` vì chưa biết phân biệt chữ/số
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ (WHAT)` / `3️⃣ (HOW)` → câu hỏi tự nhiên ("Vì sao học biến TRƯỚC mọi thứ?", "Vậy biến thực sự là gì?", "4 kiểu primitive — int/float/str/bool")
+  - Content kỹ thuật KHÔNG đổi
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — variables + 7 type chính (4 primitive + 4 collection) + casting + mutable/immutable + 5 pitfall/best-practice.

@@ -1,0 +1,94 @@
+chúng ta sẽ tạo folder terraform series để lưu trữ code cho cả khóa học này sau khi tạo xong cái folder thì chúng ta sẽ mở viết code và mở cái folder chúng ta vừa tạo 
+
+ra trong này mình tạo thêm một cái folder nữa là working with with for cho cái session đầu tiên của chúng ta và trong cái order này mình tạo thêm folder nhỏ nữa là 1.1 demo cho dự án đầu tiên chúng ta 
+
+trong cái folder này mình tạo một cái file tform đầu tiên có tên là main.tf tên file thì chúng ta đặt như thế nào cũng được chúng ta sẽ đặt là e2t hoặc là vmts để tương tác với với provider thì chúng ta cần phải tải cái 
+
+plugin cụ thể là tải plugin tương tác với provider aws thì để tải được cái plugin thì chúng ta sẽ lên là tform terraform ry là nơi mà chúng ta tìm kiếm được sự hướng dẫn sử dụng đối với các loại toài nghiên trên các provider khác 
+
+nhau bằng code terraform À hiểu đơn giản thì tform là nơi mà chúng ta tìm kiếm các cái mẫu code mẫu của tform tform cũng là nơi mà chúng ta có thể tìm kiếm được các cái module có sẵn hoặc là chúng ta có thể share cái module của chúng ta 
+
+với cộng đồng ở đây mình sẽ tìm đến provider là aws và tìm hướng dẫn sử dụng trong phần EU provider đây có một đoạn Block code hướng dẫn sử dụng để tải plugin provider a về thì đây có hướng dẫn khá là chi tiết là chúng ta sẽ copy 
+
+đoạn code này vào cái code cấu hình của Tel chúng ta và sau đó chạy câu lệnh tform init để thực hiện tả cái plugin này Block code này thì nó sẽ cải cái version là 5.49 và đây cái version mới nhất mình sẽ thực hiện copy cái đoạn 
+
+code này và paste vào Visual code của chúng ta trong Block code provider aws thì chúng ta cần chỉ định thêm một số các thuộc tính đầu tiên là region mình sẽ chỉ định là AP cho bạn nào chưa biết thì ap site one là 
+
+cái region Singapore thì đây region gần Việt Nam về mặt địa lý thì khi sử dụng tạo các tài nguyên trên region này thì chúng ta sẽ có cái độ trễ là thấp nhất tiếp theo thì chúng ta khai báo thêm một số các thông tin xác thực đối với người 
+
+dùng trên aws thì thông tin xác thực này mình đã thực hiện Tải về trong cái bài mà chúng ta tạo tài khoản đối với chúng ta copy post cái nội dung của file đó vào đây thì tform sẽ sử dụng cái cái ass Key key này để kết nối đến tài khoản của 
+
+chúng ta trên ads và tạo ra tài nguyên trên tài khoản này ở đây thì version plugin đối với aws thì mình hiện tại thì mình sẽ không tải cái version mới nhất mà mình sẽ tải xuống là version 4. 5.48 thì lý do mình 
+
+sẽ giải thích ngay sau đây thì sau khi mà chúng ta hoàn thành cái code này thì chúng ta sẽ thực hiện chạy câu lệnh là terraform ch init chúng ta sẽ chọn terminal và new terminal ở đây chúng ta đang ở thư mục tra là tform series để 
+
+chuyển đến thư mục 1.1 demo thì chúng ta sẽ thực hiện gõ câu lệnh là CD chọn đến working ở đây thì chúng ta có thể ấn tab để chuyển đến và chọn một chấm tab để chuyển đến trước khi chạy câu lệnh terraform minit thì chúng ta sẽ chạy câu 
+
+lệnh là terraform ch trừ h để kiểm tra để xem qua các cái câu lệnh có thể sử dụng đối với terraform thì ở đây có một số câu lệnh mà mình đã liệt kê trong cái bài trước mà chúng ta sẽ thường hay sử dụng như là câu lệnh tform init này câu 
+
+lệnh tform validate câu lệnh tform Plan apply hoặc là de choice mình sẽ chạy câu lệnh tform init khi mà chạy câu lệnh này thì nó sẽ thực hiện Tải cái plugin đối với provider aws về thư mục của chúng ta sau khi chạy xong câu lệnh tform minit 
+
+thì có hai file được sinh ra đầu tiên là file nằm trong cái đường dẫn là chm tform g provider và cuối cùng là kết thúc là file thực thi thì file này là chính là cái file plugin để chúng ta kết nối giữa tform của chúng ta đối với 
+
+provider và nó sẽ khác nhau trên các hệ đều hành khác nhau ở đây mình Windows thì nó sẽ tải phù hợp với bánh của mình file thứ hai là file.log chsl file này là cái file khóa chặn khóa version của provider điều này 
+
+là quan trọng khi mà chúng ta làm việc nhóm nó đảm bảo tính nhất quán và tránh cái sự sa khác version của provider giữa các người dùng và giữa các môi trường khác nhau thì trong file này chúng ta sẽ thấy các nội dung như là cái version cho 
+
+provider này là 5.4.0 chuỗi m hóa theo hàm B này đảm bảo rằng cái provider được tải xuống sẽ chính xác với cái version mà chúng ta mong muốn mình sẽ sẽ quay lại file Main và sửa lại version là 5.49 à lưu file và thực hiện chạy lại 
+
+câu lệnh terf minis đó thì các bạn thấy là sau khi mình chạy có lệnh tform minit thì nó sẽ ngay LP tức nó báo lỗi Tức là cái version mà chúng ta đang cài đặt đây nó đang không mapping với cái version chúng ta mong muốn trong cái file 
+
+terraform.io và muốn sử dụng cái version mới nhất là 5.49 thì chúng ta cần phải chạy có lệnh terraform init à Trừ update chúng ta copy câu lệnh này và sau khi chúng ta chạy Xong terraform minit thì chúng ta có thể kiểm tra lại file terf 
+
+CH l. snl này thì cái version nó đã cập nhật lên cái version mới nhất là 5.490 chúng ta quay lại file main.ts trong bài này chúng ta sẽ sử dụng code tform để tạo ec2 trên aws chúng ta có thể quay lại tform để tìm kiếm các hướng dẫn sử 
+
+dụng đối với ec2 chúng ta vào phần document ở đây và chọn đến cái dịch vụ là ec2 chúng ta sẽ chọn đến tài nguyên ở đây là ec2 instant ở đây có một đoạn code mẫu Mình thực hiện copy và paste 
+
+vào đoạn code main của chúng ta Ở đây có đoạn Block code mà chúng ta chưa cần phải quan tâm đến là data thì chúng ta có thể xóa cái Block code này đi và sửa lại một chút trong Block code aws instant à trong Block code này thì có 
+
+hai trường bắt buộc chúng ta phải thực hiện Điền vào đó là Ami và instant time thì Ami là gì Ami thì trên ads được được định nghĩa là một loạn template của máy ảo à Đây là một cái ảnh chụp hoàn chỉnh bao gồm hệ đầu hành Này các cái cấu hình 
+
+và các ứng dụng tại một thời điểm của một con vm thì mình sẽ lên trang chủ của aws và tìm kiếm trong cái mục E2 mình sẽ tìm kiếm trong cái mục là Ami catalog ở đây đây có một số loại instant và kèm theo đó là ID của nó mà chúng ta có thể 
+
+thực hiện sử dụng đây mình sẽ copy cái ID đầu tiên là ID của một con vm ec2 Amazon Linux được phát triển bởi aws tiếp theo là trường instant time Đây là các cái gói cấu hình được định nghĩa bởi aws thì ở đây chúng ta có sẽ có một số 
+
+các cái gói mà chúng ta có thể là lựa chọn như là t2 Nano này với cấu hình là 1 vcb và 0.5q ram đối với phạm vi thực hành thì chúng ta sẽ tạo những con vm với cấu hình thấp để tiết kiệm chi phí t nên mình sẽ để Hello world và con máy 
+
+này sẽ được tạo ra với cái tên của VM là Hello world tiếp theo mình sẽ chạy câu lệnh terraform Plan để xem trước những cấu hình à những cái tài nguyên mà chúng ta sẽ khởi tạo ở đây là tài nguyên được tạo là aws instant và cái Ami theo đúng 
+
+là cái Ami mà chúng ta chỉ định trước đó ở đây sẽ có một số các trường sẽ được xác định sau khi mà chúng ta chạy câu lệnh telefon upline ví dụ như là Private IP này hoặc là public IP tiếp theo chúng ta sẽ chạy câu lệnh terraform 
+
+upline chúng ta sẽ chọn Yes để đồng ý khởi tạo khi trong khi chúng ta thực hiện chạy câu lệnh tform apply thì có một cái file được sinh ra là file ch tform tfstate log.in thì cái file này được sinh ra chính là cái file sử dụng 
+
+để khóa cái trạng thái khóa cái State của cái phiên sử dụng này thì nó đảm bảo rằng là tại một thời điểm chỉ có một người dùng và một phiên được thực hiện thay đổi test thi và cái file này sẽ được Hủy đi sau khi mà cái phên đấy được 
+
+thực hiện thành công và chúng ta có thể thấy là sau khi mà cái lệnh tform offline được thực hiện thành công thì ngay lập tức cái file t.t. log.in là được Xóa đi có một số cái trường mà chúng ta cần quan tâm như là người sử 
+
+dụng offline thời gian cởi tạo có lệnh TF offline chúng ta lên giao diện của aws để kiểm tra xem là ec2 này được tạo thành công hay chưa ở đây là chính là cái con vm mà chúng ta thực hiện khởi tạo bằng code tform đây có tên là Hello 
+
+War sau khi chúng ta chạy câu lệnh tform offline thì cũng có một cái file quan trọng được sinh ra đó là file tform State à file này sẽ ghi lại à sẽ lưu lại những cái trạng thái hiện tại của cơ sở hạ tầng của chúng ta ở đây thì các bạn 
+
+có thể thấy là trạng thái hiện tại là đang khởi tạo là lên một con ec2 này với tên của nó này và các thông tin cấu hình của con vm đó đây là file quan trọng bậc nhất trong code terraform à Bởi vì khi nào mà terraform đưa ra quyết định Thay 
+
+đổi tài nguyên thì nó sẽ đọc các cái nội dung trong cái file tform tfstate này và so sánh với cái nội dung mong muốn được được khởi tạo trong đoạn code terraform của chúng ta và từ đó đưa ra cái quyết định tác động đến tài nguyên mình sẽ 
+
+quay lại file main.ts và sửa lại code đoạn này ở đây thì mình sẽ sửa lại là T3 micro và thực hiện chạy lại đoạn code này để không cần phải thực hiện cái cú pháp Yes để đồng ý khi mà chúng ta khởi tạo tài nguyên thì chúng ta có thể thêm 
+
+cái cờ là trừ trừ auto approval sau khi chúng ta sửa đổi nội dung của fil main.tf và chạy lại câu lệnh Tel upline thì nội dung trong file TF tform chts cũng sẽ bị thay đổi Chúng ta có thể kiểm tra một một số cái trường ở đây đặc biệt 
+
+chúng ta chú ý đến cái trường instant time chuyển sang dạng là T3 ch micro và sau khi chúng ta chạy có lệnh tform upline lần thứ hai thì có một file nữa được sinh ra là file tform ts.bs à file này sẽ ghi lại cái trạng thái trước đó 
+
+của cái lệnh chạy tform appl hoặc chạy câu lệnh tform Deep choice hiểu đơn giản đây chính là cái file backup của file tform TF đây chúng ta có thể tìm kiếm cái nội dung cũ của cái file này khác biệt so với file tform trước là cái 
+
+trường là instant time nội dung chính là t 2. micro chúng ta có lại fil main.tf mình có thể sửa đổi lại một chút về cái định dạng của cái file này có thể ở đây mình sẽ thụt lại một chút và lưu cái file này rõ ràng là khi mà chúng ta code 
+
+cái file nhìn nó rõ ràng nhìn nó không đẹp và để chúng ta định dạng lại cái file này thì chúng ta sẽ chạy có lệnh tform fmt để tịnh dạng lại file code của chúng ta đó thì các bạn có thể thấy là cái code chúng ta đã được Tịnh dạng nhìn 
+
+nó dễ dễ đọc và và dễ quan sát hơn tiếp theo mình sẽ thực hiện sửa lại đôi chút về cú pháp của đoạn Block code này và lưu lại chúng ta sẽ chạy câu lệnh tform V validate để kiểm tra tính chính xác của đoạn code của chúng ta sau khi chạy 
+
+câu lệnh tform validate thì chúng ta có thể thấy là nó đã phát hiện ra sự sai khác về cú pháp ngay tại dòng 17 ở đây chúng ta sẽ sửa lại s và chạy lại câu lệnh tform validate cuối cùng là chúng ta sẽ chạy cấu lệnh tform distro để xóa 
+
+đi các tành Nguyên mà chúng ta đã khởi tạm đây mình gõ sai Cup mình sẽ gõ lại việc Xóa đi các tành Nguyên mà chúng ta sử dụng đảm bảo sẽ không phát sinh những chi phí không đáng có khi mà chúng ta sử dụng aws cloud sau khi C lệnh được thực 
+
+hiện xong chúng ta có thể kiểm tra lại trên aws là xem cái conu chúng ta đã Xóa Hay chưa và con ecu chúng ta tạo đã được xóa 
+

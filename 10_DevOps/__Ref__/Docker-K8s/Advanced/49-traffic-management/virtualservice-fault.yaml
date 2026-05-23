@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: myapp-fault
+  namespace: myapp-dev
+spec:
+  hosts:
+    - myapp-service
+  http:
+    - fault:
+        delay:
+          percentage:
+            value: 50
+          fixedDelay: 5s
+        abort:
+          percentage:
+            value: 10
+          httpStatus: 500
+      route:
+        - destination:
+            host: myapp-service
+            subset: v1

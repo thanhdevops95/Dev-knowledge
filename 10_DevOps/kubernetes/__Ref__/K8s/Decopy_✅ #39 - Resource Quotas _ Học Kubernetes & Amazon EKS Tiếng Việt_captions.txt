@@ -1,0 +1,86 @@
+resource quan là một cái khái niệm rất quan trọng khi các bạn vận hành cái katam cluster qmo production khi mà các bạn muốn giới hạn số lượng tài nguyên mà cấp phát cho từng cái n Space cái này rất là phổ biến cho các bạn làm những 
+
+phần mềm liên quan đến kiểu Software R là service ha ví dụ như là multiton khi mà các bạn có rất nhiều khách hàng đang sử dụng chung một cluster ví dụ khách hàng thuộc V tia thì các bạn giới hạn số lượng CPU ram hay các tàng nguyên khác 
+
+như thế nào và khách hàng ở Platinum hay là Gold tia thì các bạn sẽ giới hạn như nào thì tất cả những thứ này để cấu hần thông qua resource quat Thậm chí các bạn có thể giới hạn là user developer 1 triển khai trên cái name Space số 1 thì 
+
+được phân chỉ được phân quyền vào cái n Space số 1 và trể khai với cái tà Nguyên tươ ứng và N Space số 1 thôi thì đây là những cái kỹ thuật mà các bạn sẽ dùng rất là nhiều trong thực tế thì để sử dụng cái qat này các bạn cần phải enable 
+
+lên trước nhưng mà cũng rất là may thì cái qu đã được đ sẵn rồi thông qua I server cái tài liệu này các bạn nên đọc ha các bạn search resort qua trên C i.io các bạn có thể đọc cá này đọc này chắc Mất khoảng tầm 30 phút một tiếng rồi đấy 
+
+chúng ta sẽ kiểm tra cái phần adion control ở trên server ha chúng ta K CP trừa chúng ta có cái QV server mini nằm trong cái namespace là que system chúng ta sẽ 
+
+describe port đây chúng ta có sẵn nằm trong n system chúng ta xem phần comment đây trong phần comment chúng ta có phần qw Server này inable admission plugin và có resour qu các bạn có thể kiểm tra tro cái môi trường của 
+
+các bạn tiếp theo chúng ta có thể xem enable một số các qu liên quan đến CPU ram một số resort khác kiểu như là gbu chẳng hạn C đồ họa này storage cũng được này hoặc có rất nhiều thứ khác liên quan đến giả s số lượng 
+
+service Secret config map hay deplo một số thứ các bạn một số thứ này các bạn chưa học nhưng mà trong thực tế các bạn có thể có thể làm được chúng ta sẽ cùng Xem một số ví dụ ở đây đây là một số ví dụ ví dụ đơn giản thì để sử dụng cái 
+
+quat thì các bạn sẽ cần phải biết là cái quat này là cái Nam Space resource ha thì làm sao mình biết thực ra là mình cũng dùng cái này mình kiểm tra l k qual api server và grab resour quar Các bạn thấy chứ true đây không ạ Có nghĩa là 
+
+chúng ta có thể cấu hầng resource qu cho từng cái n Space chúng ta quay về cái t liệu chúng ta sẽ copy một cái ví dụ ở đây rồi mình sẽ copy mình sẽ không dùng g chúng ta quay về [âm nhạc] 
+
+cái vs code chúng ta tạo một cái đầu tiên 1 qua. qu mình sẽ tật tên là comp resource mình sẽ request tối đa được một 1 CPU và 1 GB RAM maximum sẽ là 2 CPU và 2 2 GB 
+
+RAM ha cái này mình phải đặt tiện là trong n Space nếu mà các bạn để cái này mặc định sẽ nó là name Space default n Space mình sẽ đặt tên là n Space 1 tại vì cái n Space 1 này mình chưa có nên là mình sẽ cần phải tạo n Space số 1 này 
+
+mình copy cái đoạn này ra và mình sẽ để cái này sẽ là ba phần nhớ g là 3 ba gạt nha các bạn name sẽ là cái tên là ns1 và cái loại của nó sẽ là các bạn Nếu các bạn không chắc các 
+
+bạn nên kiểm tra cái phần api server các bạn này Bây giờ mình sẽ thử cái n Space này đây n Space K của nó sẽ là n Space không có trs hoa nhé version sẽ là version 1 và N space là font Tại vì nó BT nó là name Space 
+
+rồi Rồi bây giờ mình sẽ tạo cái này trước khi tạo mình sẽ kiểm tra Q C get ns chúng ta chưa có cái n Space đúng không ạ chúng ta C C get resour qu trừ A chúng chưa có cái nào hết rồi 
+
+và chúng ta bây giờ chúng ta sẽ deploy K C apply trừ F1 rồi chúng ta tạo này Bây giờ chúng ta sẽ có n Space đây có name Space số 1 và chúng ta tất nhiên chúng ta sẽ thấy là có cái get res qu tr 
+
+A chúng ta bị ctl đây chúng ta có cái compute resour nằm trong cái name Space số 1 bây giờ ở đây các bạn thực ra các bạn đ thấy đ rồi nhưng mà mình muốn hiển thị nó đẹp hơn á thì mình sẽ dùng thông qua dey ha dec 
+
+resour qua comp Ờ này nó Các bạn muốn muốn được muốn được Remind thì các bạn sẽ cần càm một cái công cụ tên là Amazon que ở trên n mình bị cái gì đây resort qua T not file compil qu mình sẽ kiểm tra cái này tên là gì đây compil 
+
+resour đúng không ạ à không phải comp qu compil resource ha đây chúng ta đang thấy là cái hạt Limit là 22 đây là CPU và memory nhá request là 1 1 11 hết bây giờ mình sẽ thử tạo một con post ở trong cái manifest chúng 
+
+ta sẽ copy cái con port sample chúng ta đã tạo rất nhiều lần rồi mình paste nó vào đây đặt tên là 2 p simple app 1 mình xóa label ha Tại vì 
+
+cái phần này không liên quan label để các bạn đỡ b conf Xóa cái engin image này đi con này mình sẽ đầu tiên mình sẽ để request nó sẽ là 0 0.5 
+
+CPU cũng sẽ là 0.5 co luôn Limit bây giờ mình sẽ không để Limit nhé để các bạn co nó sẽ như thế nào rồi mình sẽ apply cái này rồi ch con post nó sẽ bảo lỗi ha À cái này bảo lỗi bảo lỗi là bởi vì cái 
+
+tên này nó không có đúng ha Mình làm đúng cái này nó phải là trong cái Space của tầy tại vì mình đang cấ h qu cho name Space số 1 Với lại mình đang có một cái con port tên là sle app 1 rồi dụ k k get p Các bạn thấy nà Tại vì nó 
+
+bị Conflict Cái tên ấy nên là nó không tạo được thì để cái này mình xóa đi ha del B symbol app1 cho đỡ B confi rồi bây giờ mình sẽ deploy tại vì bây giờ mình deploy mình deploy vào name Space số 1 chỗ này rồi nên nó sẽ thành 
+
+công nha K apply trừ F số 2 port request nó sẽ nó sẽ bị lỗi cái này nó lỗi là đúng cái này lỗi là đúng bởi vì nó nó nói này Tại vì là cái compu resource mình đang yêu cầu phải có Limit 
+
+CPU và phần memory cái điều này nó hoàn toàn đúng thôi bởi vì là cái quat các bạn đang định nghĩa là cái Limit của bạn là 2 CPU và 2 gam đúng không ạ Nhưng con po của bạn đang không để ngĩ Limit thì có nghĩa rằng con po này khi vận hành á 
+
+Nó có thể nó có thể chạy ra bất C ci nó có thể nở lên tối đa của con Note Cái capacity của con Note của bạn thì đ này không đúng ha Con này đúng là ghi ha phải là ghi à Thì cái này tất nhiên mình delon nó vẫn bị lỗi thôi bởi vì là nó 
+
+không có specify cái phần CPU Limit bây giờ mình phải specify là đặc tả cái phần Limit ở đây Cái này bị sai đầu dòng rồi này lúc này mình sẽ để giả sử đây là 1 GB nhá và con này sẽ để là một co thì lúc này chúng ta sẽ deploy ch nó sẽ 
+
+thành công đó thành công ha chúng ta kill C kctl get port trừ n ns1 n thời gian đầu các bạn mới làm quen với kutis thì các bạn chỉ khó gó lợn một xíu để các bạn 
+
+quen mình sẽ kiểm tra cái compute qu chúng ta ha decribe resour qu và cái qu của mình tên là compute qu ns1 Không phải comp resour cái này nó bị không đúng cái tên của nó là compute 
+
+resource thôi g đi rồi Các bạn thấy này chúng ta có phần giới hạn cứng chúng ta này là phần Limit này phần này phần request này use chúng ta này đang là Limit chúng ta đang có là 1 
+
+CPU 1 GB RAM tại vì cái phần này nó Limit là Limit của cái phần dưới này nha Đây nó của cái này đây các bạn Nếu các bạn chỗ này các bạn nên xem lại chậm ho thậm chí pause video này lại Và bây giờ chúng ta sẽ có phần request này 500 mic 
+
+và 512 mi ha Tại vì mình theo đơn vị là mi sẽ là 52 chứ không phải là đơn thuần sẽ là sẽ là 500 ha rồi bây giờ mình sẽ tạo thêm một con nữa Tất nhiên nó sẽ để nó vượt quá Cái Limit này thì nó sẽ báo lỗi 
+
+nó sẽ gâ cản báo cho mình biết à số 3 post post này post số 2 đi và mình vẫn triển khai vào cái name Space số 2 nên Space số 1 này lúc này mình sẽ điều chỉnh cái này giả sử lên với 1 GB đi 0 
+
+ch 3 0.3 đi Ok ha 0.4 đi Nhưng mà lúc này mình để cái Limit của mình sẽ là như thế này coi thế nào nhá các bạn Các bạn thử coi cái này mình sẽ triển khai được không nhé với cái remaining cái resource của mình 
+
+đang cấu Hân như này chúng ta sẽ thử cứu của tổ apply trừ f mình review một chút n tên có th Ok tên mình đã đổi rồi Tại vì tên mình phải là duy nhất đây nó bảo nó bảo một cái lỗi đây mất be inger Tất nhiên là vẫn vẫn tạo được ha th cái chỉ 
+
+số của mình nó không không có đúng lắm sim h vẫn vẫn tạo rồi này chúng ta kill C get port trừ nns 1 đây vấn running rồi chúng ta sẽ kiểm tra cái quat chúng ta này chúng ta sắp hết rồi bây giờ sắp hết rồi 
+
+đây 2 Limit sẽ là 2 là hết rồi này Bây giờ chắc chắn là Limit sẽ không tạo được rồi này Limit memory cũng hết rồi này nhưng mà request chúng ta vẫn vẫn còn Tuy là vẫn còn nhưng mà cái Limit chúng ta bị hết mất rồi thì đó là cái resource 
+
+qua giú cho mình gọi như là một cái cá một cái giới hạn cho một cái name Space thì cái này là sẽ liên quan đến tà Nguyên cấp phát n nhưng đôi khi trong quá trình Chúng ta muốn à muốn một số cá thứ gọi là mặc định đi nếu mà chúng ta 
+
+làm tất cả những thứ này đúng không ạ đôi khi đôi khi mình không muốn cấu hần cái Limit này chẳng hạn tại vì cái Limit lúc nào C cấu hần nó sẽ rất là cực cho chúng ta Hay là chúng ta muốn những cái giá trị đặc định cho phần request Nếu mà 
+
+chúng ta bị quền cái gấu hần thì chúng ta sẽ dùng thông qua một cái khái niệm khác của trên k8s đó là phần Limit rank ha và phần đó cũng th phần rất hay và thông thường khi các bạn làm về quat thì các bạn cũng hay Thông thường các bạn 
+
+làm về Limit rank ha à Ok Cảm ơn các bạn dõi và hẹn gặp lại các bạn trong bài tiếp theo ạ 
+

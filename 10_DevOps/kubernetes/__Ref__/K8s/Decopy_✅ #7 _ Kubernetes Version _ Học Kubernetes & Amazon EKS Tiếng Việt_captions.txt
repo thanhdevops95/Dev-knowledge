@@ -1,0 +1,102 @@
+Hello xin chào các bạn trong này chúng ta sẽ cùng tìm hiểu về cái phiên bản sử dụng của kubernetes nà và đây cũng là một cái mà các bạn sẽ cần phải lưu ý khi bạn Triển khai sử dụng và vận hành một cái cis cluster thì để cấu trúc một cái 
+
+phiên bản của cis thì cùng có ba phần Ví dụ các bạn thấy đây ví dụ 1.29.4 này số 1 nĩa là major có là chín 29 này là minor và số 4 này là b thì B này là nó cập nhật cho cái bản miner đấy thì C thì họ sẽ release khoảng 4 tháng 
+
+họ sẽ ra được một cái minor ha có nghĩa là ví dụ như là bây giờ chúng ta có 1.30 thì khoảng 4 tháng sau thì nó sẽ có 1.31 chẳng hạn cho nên tốc độ release này mình theo mình là tốc độ release rất là nhăn thì khi mà các bạn tốc độ relas như 
+
+vậy thì các bạn sẽ gặp một vấn đề nữa là các bạn cần phải giải quyết về mặt vận Hàn Đó là những cái mà phiên bản hỗ trợ của của kuis thì hỗ trợ ba cái minor gần nhất ha ví dụ bây giờ đang bản mới nhất là 1.30 thì nó là 1.30 1.29 và 1.28 thì 
+
+những cái phiên bản sau đó thì tất nhiên thì càng ngày càng lâu thì nó sẽ không còn hỗ trợ nữa còn lại en upl thì ở đây nó nói là khoảng 1 năm HA Chúng ta sẽ cùng xem cái 1 năm này là như thế nào à cụ thể là 14 tháng 14 tháng là trong 
+
+đó có 12 tháng đầu tiên là nằm trong giai đoạn Hỗ Trợ tiêu chuẩn gọi là standard support thì trong đó có sau đó có 2 tháng thì có cái cất release này với đưa vào maintenance Mode ha Thì trong m maintenance mode thì họ giải 
+
+quyết những vấn đề gọi là là cực kỳ nghêm trọng thôi Hay là những lỗi về Security thôi chứ họ không có làm thêm mới thì sau khi hai cái tháng mental Mode này á thì sẽ rơi vào giai đoạn end ofl ha Thì lúc này thì coi như là các 
+
+bạn có muốn làm gì nó cũng rất là khó khăn cho nên là mình nên mình nên nâng cấp cái cluster của mình khi mình vận hành và đây cũng sẽ là một cái challeng cực kỳ lớn cho các bạn vận hành ở Hệ thống mà đang chẳng Thái 
+
+đặc biệt trạng thái prodon mà các bạn có rất nhiều cuc nốt ha Thì đó là cái một cái một một cái gọi là một cái trở ngại một cái thử thách khi mà dùng dùng commodities về mặt lâu dài thì chính vì lý do đấy thì sau này các bạn ví dụ như 
+
+các bạn học lên Amazon iks là elc comp service thì edit họ đã làm cho các bạn cái việc đấy rất là nhiều rồi Tuy nhên các bạn vẫn phải làm nhưng mà làm rất ít tại vì đó là dịch vụ manage service của là hỗ trợ phần control Plan x các bạn 
+
+nâng cấp nó cũng sẽ dễ dàng hơn thay vì các bạn cứ phải dra rồi stop rồi tạo những cái nốt mới N nó rất mất rất nhiều thời gian Và thậm chí lo vấn đề V h a cho control Plan n ví dụ trong cái bài Các bạn có thể xem lại cái bài cluster 
+
+archit mình làm bài số 4 á Các bạn có xem là các thành phần của C control Plan Các bạn thấy là nó rất là quan trọng đúng không bạn thì thông thường khi quan trọng thì các bạn sẽ phải triển khai nó phải là 2 ba thậm chí 4 năm những cái 
+
+thành phần gọi là replica hay là thành phần dự phòng cho những cái component ấy giả sử api server hay sdcd chẳng hạn SCD chẳng hạn thì lúc ấy sẽ khiến các bạn sẽ về vật về mặt triển khai nó cực kỳ phức tạp Vậy thì đây là một một cái thứ các 
+
+bạn cần phải có ý niệm ngay từ ban đầu tiếp theo là một cái cực kỳ quan trọng khi các bạn chạy cả communities hay là hay lẫn cả cái việc mà sau này các bạn nếu mà chạy trên iks ha đó là cái version skill policy có nghĩa là sao Có 
+
+nghĩa là tại vì chúng ta có rất nhiều component trong một cái cluster từ phần control Plan cũng có một đống đúng không ạ phần ở phần cuộ nướ cũng có một đống nữa vậy thì các verion của các component này nó cũng sẽ rời rạc nhau có nghĩa là 
+
+mình có thể xài server là một version khác rồi Q của con sẽ một version Khác Hay là mình xài một cái SCD Hay là mình xài một cái gọi là control Manager thì cũng là một cái version khác ha thì các bạn cần phải tuân thủ cái cái ru này của 
+
+communities này kể cả chạy ik cũng đều phải tuần thủ hết Ha các đọc Thêm chỗ này mấy đường link mình sẽ để trong phần description các bạn chêm nghiệm thêm thì cái này thì các bạn nghe các bạn hiểu Nhưng mà phải đọc để các bạn ghi nhớ đầu 
+
+tiên đó là những cái support version các bạn xem là phần q server ha À thì nó sẽ cần phải có trong một minor version Nếu trường hợp các bạn triển khai hai cái con control Plan đ ha với nhau á thì nó phải nó được lật nhau thì cũng chỉ được 
+
+lật một version thôi các bạn có thể xem thêm ở đây này mình có thể vẽ một cái lại cái cái cluster nha nếu bây giờ giả sử mình có hai con control Plan đi hai con này là C control Plan nhá mình sẽ có cuộ nố bên này 
+
+nhá mình sẽ có gọi là cp1 đi cp2 mình có cái này là cái Note 1 và cái này là cái note 2 nhá bây giờ nếu mà mình sẽ có cái con api server ở đây api server ở 
+
+đây nếu mà cái con này là version 1.30 chẳng hạn 1.30 thì cái con này á nó phải là 1 ch 30 hoặc là 1.29 n nó sẽ không thể 1.28 được nên là các bạn lưu ý khi mà sau này vận hành thì các bạn triển khai Hay là thêm cái 
+
+phần c Plan thì các bạn phải lưu ý thì đây là cái đầu tiên i server nó có rng bộ và cái version này ở đây rồi chúng ta sẽ xem tiếp trong cái phần tải liệu của chúng ta đây các bạn ví dụ đây 1.0.29 q q thì nó chạy ở bên C Note thì Q ở đây 
+
+nó nói là không thể nhỏ h không thể mới hơn có là verion phiên bản mới hơn Q II server ha Q led có thể up to tre minor version older Dan không có nĩa là nó giả sử mà nếu mà cluster mà chạy 1.29 thì các bạn sẽ không thể chạy cái q 1.30 
+
+được đó nếu mà cái này thì nó được nó được thoải mái hơn ha chậm ba version ha Ví dụ mình coi lại cái ví dụ của mình ở đây bây giờ nếu mà qed mình để cái qed ở đây đây nhá Q l đây cũng qed 
+
+luôn qed vậy thì bây giờ nó được nó được bé hơn ba version thì bây giờ các bạn nếu mà cluster các bạn có hai cái version như này nè 1.30 1.29 thì nó sẽ phải tính từ cái 1.30 này có nghĩa là nếu mà À cái này thì sẽ được chậm ba cái 
+
+đúng không 1.30 Này 1.29 1.28 1.27 đó nó sẽ được những cái version như vậy nó không được chậm hơn ba cái nó không được 1.31 ha tất nhiên bây giờ chưa có 1.31 nhưng mà nó cũng không được 1.31 ha Thì mình sẽ để chung một cái công thức ở đây 
+
+này x trừ 3 x - 3 cái này mình đặt chung là x nhá và bây giờ mình giả sử bây giờ trường hợp đẹp nhất đi hai cái f server mình để kip chung một cái version nà đó 
+
+x và x - 3 x -3 rồi chúng ta sẽ xem tiếp trong cái phần những cái thành phần khác ha K proxy K proxy các bạn xem phần nhớ trong phần akitas đấy các bạn bạn thấy là k proxy nó nằm ở bên chỗ phía cu clote đúng không ạ cũng không được mới 
+
+hơn QV server K proxy có thể ba version cũ hơn nó cũng khá giống thằng Q nà và một 1.25 cũ trở đi thì được hai version rồi nhưng mà bây giờ chắc cũng không ai dùng cái cluster cũ đâu Bây giờ chúng ta ngầm định với nhau chúng ta 
+
+dùng version mới nhá K proxy có thể up to version older Dan Kill l instant run alongside À cái này là thêm một tiêu chỉ nữa Kill proxy nó bị thuộc hai yếu tố một yếu tố là nó phải bé hơn Q server tối đa là ba version và nó tất nhiên nó 
+
+cũng phải bé hơn thằng K tối đa ba version n Tất nhiên mình cũng không không nghĩ đến ai mà giải kutis mà mà kiểu lì đến mức độ mà lâu như vậy đ nh trừ khi mọi người quên luôn cái phần này Nếu mà những cái An anh chị em bạn bè 
+
+nào không không có rằn về vấn đề maintenance hay là vấn đề operation này thì C sẽ là một cái cực kỳ đau đầu cho mọi người nhá mình để k proxy X mình để chung sẽ là x tr-3 luôn nhé chúng ta sẽ xem ở đây thêm thành phần nữa đây sẽ 
+
+là Kill proxy Kill proxy cái này cũng sẽ là x Chiều 3 luôn Tất nhiên X -3 là phụ thuộc vào AB server và nó cũng phải bé hơn thực ra 
+
+cái này là y thì cái này phải là cũng y -3 luôn nha nếu mà giả được con số này là i1 I2 thì cái này cũng phải là nhỏ hơn ha Mình mình giả sử đây là i1 nhé H vọng các bạn cũng hiểu được ý tưởng của mình Đây là I2 thì cái này cũng sẽ phải 
+
+là i1 - 3 cái này sẽ là y2 - 3 đó nó s nó sẽ bị hai yếu tố cộng dồn lại với nhau r chúng ta xem tiếp trong cái à phần tiếp theo cu proxy rồi tiếp theo chúng ta xem này q controller 
+
+q schedule con này ba cái thành phần này đều nằm ở trong control Plan hết nà các bạn xem lại nếu các bạn không nhớ cái này bạn xem là phần cluster thì đây này ba cái thành phần này không thể mới hơn QV server nó nói chung là x trừ n đúng 
+
+không ạ Và nó kỳ vọng match với Q avi server minor version Maybe up to one minor version order wow cái này khó hơn này các bạn cái này các bạn sẽ bị thấp hơn một version mà thôi không được thoải mái như thằng goot ha Ở đây các bạn sẽ 
+
+thấy là các bạn thấy nếu mà cái q server 1.30 thì con kia sẽ được 1.30 hoặc 1.29 Còn nếu mà trường hợp mà mình làm lười nữa â C control play mình có vừa 1.29 1.30 th thì chắc chắn nó chỉ có 1.29 thôi còn không được 130 nữa thì bây 
+
+giờ mình sẽ ghi những thành phầm tiếp theo nha mình sẽ có là à mình có là Cm ha Mình viết hơi lười vớ control controller Manager ha Mình gọi cm đi mình có cái scheduler scheduler 
+
+luôn rồi một cái là cloud ha cloud control Manager ha Mình ghi cloud cm luô đi cloud cm và bây giờ mình sẽ cái này đều là s -1 hết đúng không ạ X -1 này x -1 1 này x - 1 x - 
+
+1 x - 1 và x - 1 Thực ra chỗ này mình ghi đúng phải đúng là Min của x - 1 ha Tại vì bây giờ có thể là nếu mà api server các bạn nó có 1.29 nó phải nó phải tính từ 1.29 nhá và nó bị rằng buộc bở 130 nữa thì cái này nếu mà trong 
+
+trường hợp này ví dụ server mình là 13 1.29 nữa đấy thì các bạn sẽ chắc chắn là hai con này nó chỉ được 1.29 N không được 1.30 luôn n tại vì yêu cầu nó là không được mới hơn I server Tại vì f server mình nếu mà các bạn upgrade trên 
+
+một control Plan mà các bạn không upgrade contol Plan còn lại thì thì nó có 4.29 á thì coi như các bạn bị phụ thuộc vào cả hai yếu tố rồi nên là cái này sẽ là một cái cực kỳ Các Bạn phải cẩn thận nếu các bạn tự triển khai cái 
+
+catx cluster ha rồi chúng ta xem trong phần tài liệu nó còn có những thông tin hu Ớt nào không nhá rồi qct qct là thao tác từ phía admin thao tác từ phía người quản trị chúng ta đấy thì bây giờ qcl nó support One minor version à Con này nó 
+
+thoải mái hơn này one miner version nhưng mà có thể mới hoặc là cũ hơn Nếu mà bây giờ K server các bạn là 1.30 thì Q cl hay Kill cle á thì nó có thể là 1.30 này 1. 1.31 1.30 và 1.29 thoải mái hơn đúng không ạ Vậy thì mình sẽ xem 
+
+trong cái này mình sẽ có bây giờ mình sẽ có cái k cal Ở ngoài này ha q ctl thì qcl á thì nó sẽ là x cộng hoặc là -1 ha cộng 1 hoặc là x - 
+
+1 hoặc ha điều kiện dụ cái này 130 thì có thể 131 hoặc là 1.29 đó nhưng mà Tất nhiên nếu các bạn mà bị một con mà một con contr Plan nó có 1.29 ấ thì các bạn lại bị thu hẹp lại không Nó là cái QC cái này khá thoải mái bây giờ chúng ta 
+
+sẽ xem tiếp trong phần tài liệu có cái gì support com upgrade order cái này mình sẽ nói sau tại vì cái này nó cũng khá là phức tạp nữa thì trong cái bài này thì các bạn sẽ lưu ý là cái phiên bản các bạn sử dụng ha chúng ta sẽ thử 
+
+thử xem trong cái miniq chúng ta coi nhé chúng ta coi này Q C get Note này đó này 1.28 đúng không ạ chúng ta xem cái k Kill cap version của mình coi Ạ thừa chữ t mất rồi đây 1. 1.29 n 1.29 là cái này 1.28 nó nó 
+
+có thể mới hơn một minor version nà Ok Cảm ơn các bạn theo dõi ha hy vọng co này các bạn đã hiểu về những cái ràng buộc Về phiên bản sử dụng của các component trong một cái C cluster Cảm ơn các bạn Hẹn gặp lại các bạn trong những 
+
+bài tiếp theo ạ 
+

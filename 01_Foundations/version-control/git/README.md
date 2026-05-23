@@ -1,11 +1,13 @@
-# 🌿 Git — Version Control
+# 🌿 Git — Version Control concept
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0\
+> **Phiên bản:** v0.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 19/05/2026
 
-> 🎯 *Git là **distributed version control system** dùng bởi 90%+ developer. Folder này cover từ "cài Git lần đầu" tới workflow team chuyên nghiệp với GitHub.*
+> 🎯 *Git là **distributed version control system** dùng bởi 90%+ developer. Folder này (thuộc `01_Foundations/version-control/` — Git là VCS concept, không phải tool guide) cover từ "cài Git lần đầu" tới workflow team chuyên nghiệp.*
+
+> 📌 **Đã move từ `02_Tools/git/` (19/05/2026)** — git về đúng chỗ Foundations vì là khái niệm nền tảng. Tool guide cho GUI (GitHub UI, GitLab, GitHub Desktop) sẽ ở `02_Tools/git-clients/`.
 
 ---
 
@@ -84,21 +86,22 @@ Sau 4 bài (setup + 00-03), bạn có thể:
 |---|---|
 | Học cùng visual | Dùng [Learn Git Branching](https://learngitbranching.js.org/) — game |
 | Cần ôn kiến thức | Xem [Pro Git tiếng Việt](https://git-scm.com/book/vi/v2) — free |
-| Cần GUI thay CLI | Cài GitLens extension cho VS Code (xem [VS Code setup](../editor/setup/vs-code.md) §6) |
+| Cần GUI thay CLI | Cài GitLens extension cho VS Code (xem [VS Code setup](../../../02_Tools/ide/vs-code.md) §6) hoặc [GitHub Desktop](../../../02_Tools/git-clients/github-desktop.md) (chưa có) |
 
 ---
 
 ## 🤝 Muốn viết thêm bài cho Git?
 
-1. Đọc [`../../_Blueprint/00_blueprint-overview.md`](../../_Blueprint/00_blueprint-overview.md)
+1. Đọc [`../../../_Blueprint/00_blueprint-overview.md`](../../../_Blueprint/00_blueprint-overview.md)
 2. Chọn template:
    - Setup → `setup_template.md`
-   - Lesson tool feature → `lesson_template.md`
-3. Tham khảo 4 bài có sẵn làm reference
-4. Cập nhật bảng trên + [`../../MASTER-CATALOG.md`](../../MASTER-CATALOG.md)
+   - Lesson concept → `lesson_template.md`
+3. Tham khảo 5 bài có sẵn làm reference (đã refactor v2.0 với Long story arc)
+4. Cập nhật bảng trên + [`../../../MASTER-CATALOG.md`](../../../MASTER-CATALOG.md)
 
 ---
 
 ## 📌 Changelog
 
+- **v0.2.0 (19/05/2026)** — **Move folder từ `02_Tools/git/` sang `01_Foundations/version-control/git/`** (git là VCS concept). Fix 3 broken relative paths trong README (sang `../../../02_Tools/`, `../../../_Blueprint/`, `../../../MASTER-CATALOG.md`). 5 lesson đã refactor v2.0.0 với Long story arc (intro → init → branching → remote → undo).
 - **v0.1.0 (16/05/2026)** — Bộ Git đầu tiên hoàn thành: setup + 4 bài (intro + 3 lesson). Stage 1 zero-to-coder có Git foundation đủ.

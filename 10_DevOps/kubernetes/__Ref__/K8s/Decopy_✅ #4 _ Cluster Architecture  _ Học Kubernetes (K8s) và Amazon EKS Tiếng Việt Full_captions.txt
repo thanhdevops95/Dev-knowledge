@@ -1,0 +1,92 @@
+Ok bài này chúng ta sẽ cùng tìm hiểu về cái kiến trúc hay là arit tắt một cái catet cluster gồm những thành phần nào và trong các thành phần đấy chúng ta sẽ có những cái thành phần nhỏ nở bên trong ha thì một cái cluster của catet nó sẽ 
+
+gồm có hai thành phần chính phần phần Thứ Thần phần thứ nhất gọi là C control Plan phần phần thứ hai gọi là củae ha mình sẽ vẽ tạm thời Đây đây là control Plan hay một số tài liệu gọi là 
+
+mastere Master Note Cái này gọi là worke worker 1 thỉ thoảng mình sẽ gọi cái này Note cho nó ngắn nhều khi đọc hơi dải worke 2 thì trong một cái cluster nó sẽ 
+
+gmi thầnh phần chính này Plan thì các này nó gọi ch một từ gọi là data Plan thì cái ứng dụng của mình á về mặt kỹ thuật có thể deploy lên cả Master Note đến cả gole Note Nhưng thông thường best practice chúng ta deploy ứng dụng 
+
+chúng ta trên các gole noe ha ứng dụng mà là gì Giả sử Chúng ta có một dịch vụ một cái chương trình về dụ quản lý Khách hàng chẳng hạn hay là có những dịch vụ quản lý Khách hàng hạn thì chúng ta sẽ deploy lên trên các work Note ha thì một 
+
+cái cluster chúng ta sẽ gồm có hai thần phẩn chính này như thế này mình sẽ rào cái này lại ha Oh sorry à mình sẽ vẽ cái này cái này gọi là một cái à catet 
+
+cluster cat cluster thì bây giờ á cái cái C control Plan sẽ làm nhiệm vụ quản lý triển khai các cái ứng dụng chúng này gọi là một cái port hay một port có nhiều container ha thì chúng ta sẽ có giả sử mình sẽ có rất nhiều dịch vụ 
+
+chúng ta sẽ triển khai ở trong các cu Note này rồi to nhỏ gì mỗi một cái mỗi một cái đây ngườ gọi là một cái port ha pod ha Vậy thì làm sao mà chúng ta có thể lưu trữ các thông tin Giả sử chúng ta có 
+
+các hai con gole noe đúng không ạ thì làm sao để lưu chữ trên Master Note này thì trên Master Node nó sẽ có một thành phần tên là SCD ha hay mọi người gọ là etcd Nhưng mà thông thường mình đọc là SCD thì SCD chính là một cái database 
+
+một cái cơ sở dữ liệu dạng key value là cặp khóa đấy con này là cơ sở dữ liệu cũng là được maintain bởi một cái tổ chức gọi là cncf luôn cùng cái tổ chức hiện tại là chịu trách nhiệm về cái ctis này thì con này là một cái dat store sẽ 
+
+lưu trữ tất cả các thông tin liên quan của các cái ứng dụng mình đang chạy ở trên các Go Note này trạng thái các ứng dụng là như thế nào nó là cơ sở dữ liệu Thôi vậy thì cái cơ sở dữ liệu này á thì sẽ là dựa trên cái nó sẽ là một cái cơ 
+
+sở để khi mình có một cái yêu cầu mới chả sử chúng ta chúng ta là admin chúng ta ngoài này nha Chúng ta sẽ có chúng ta admin admin chúng ta khi chúng ta đưa ra một cái Yêu cầu là à triển khai cho tôi cái container hay cái port này thì lúc 
+
+đấy á trên trên cái contol Plan á nó sẽ có một cái tác nhân có một cái gọi là api server hay gọi là Q api server ấy thì cái cái api Server này sẽ làm cái nhiệm vụ này nó sẽ nhận cái yêu cầu từ cái người quản trị viên hay người vận 
+
+hành của chúng ta thì trong cái qi Server này á lúc này á nó sẽ hỏi một thành phần khác thành phần này tên là à Sorry schedule ha cu scheduler á scheduler chúng ta sẽ có api server hỏi scheduler thì scheduler sẽ không để đi 
+
+hỏi các cuộ cơ nố Tại vì cuộc nố chúng ta có thể có tới hàng trăm cuộc cơ nố trong hệ thống nó bình thường ha Thì lúc này nó sẽ xem các thông tin cơ sở dữ liệu à Cái SCD hiện tại là nó sẽ tính toán à Con gue nào là con phù hợp nhất 
+
+trong các con gu này giả sử Sau khi nó xử lý tính toán thì nó thấy rằng à à gu Note 2 sẽ là cái nơi phù hợp để trển khi cuộc ló nhất ha Thì nó à try định là gu Go Note 2 lúc này á scheduler sẽ truyền Nói chung truyền thông com new Kết n 
+
+truyền thông với I server à Bạn ơi cái pst của cái người yêu cầu này á sẽ nên triển khai vào cái cái con Go Note 2 thì trên các gole noe 2 sẽ có một cái tác nhân để nhận yêu cầu này thì cái tác nhân nhận yêu cầu này ta gọi là à QL ha 
+
+Tên nó là vậy Q l Vậy thì lúc này đó cái q AB server sẽ có cái đường Tất nhiên sau này mình sẽ biết là cái cắt mà để cái này nó kết nối với nhau cấu h nó kết nối với nhau nhưng mà mình sẽ không quá đi sâu 
+
+vào việc này đâu tại vì sau này chúng ta dùng Amazon exs thì cái việc này đã được làm một cách rất là thuận lợi được họ đã làm hộ mình rất nhiều thứ rồi thì lúc này Abi server và nó sẽ có yêu cầu à triển khai cái cái port này triển khai 
+
+cái container này cho cái qbl ở cái note 2 này thì qed này giống như là giống như chủ nhà hay là giống như một cái người thuyền trưởng của một cái thuyền ở đây nha ch rất nhiều cái container ở đây lúc là qed là cái cái người quản lý nội bộ 
+
+của một cái nốt ha thì nhận được yêu cầu là á thì qbl sẽ đi deploy cái container mong muốn của mình Ha cái này sau này mình mình sẽ dùng từ từ boss luôn nha tự ra dùng dùng từ container không đúng đâu Tại vì một cái port này nó sẽ có thể gồm 
+
+nhiều container trong đấy ha mà thông thường các bạn sẽ làm là một port sẽ một container Thôi thì đó là cái api server thì cái api Server này cực kỳ quan trọng và SCD này cái cực kỳ quan trọng ha nên thông thường các hệ thống mà PR người ta 
+
+sẽ triển khai ha là high availability á là tên s sẵn sàng cao á thì sẽ luôn luôn ưu tiên cái phần api server và cái phần SCD này Vậy thì cái việc nào nó sẽ giúp cho mình á ví dụ Chúng ta có những cái dịch vụ sau này chúng ta triển khai các 
+
+service nà dịch vụ về user dịch vụ về payment gì đấy Làm sao để quản lý à hệ thống chúng ta luôn có hai cái note nó đang available đang sống ha thì trong này nó sẽ có một cái tác nhân nữa tên là control 
+
+Manager nó nằm tại controller Manager ha Thì controller Manager sẽ là cái tác nhân sẽ giúp cho mình kiểm soát cái cái baseline hay gọi là cái là cái ví dụ như là ứng dụng là chúng ta sẽ có năm cái port chẳng hạn 
+
+dịch vụ n có năm cái port thì làm sao để cái việc đấy được giám sát là thì cái control Manager sẽ là nhiệm vụ để giám sát những cái nhụ replica set các kiểu các kiểu sau nó chúng ta học kỹ hơn thì con này sẽ là nhiệm vụ để giữ cái 
+
+baseline của cái cluster chúng ta ổn định ha Thì con này nó cũng sẽ làm việc truyền thông với v i server lưu ý nhá scheduler làm nhiệm vụ K N mọi ngườii là Kill cuber K scheduler sẽ giúp là nhiệm vụ là định chỉ định ra cái cái port sẽ 
+
+được triển khai lên trên của C nào chứ skiller sẽ không làm việc trực tiếp với các Go Note ha để làm việc với các Go Note thì chúng ta sẽ cần phải thông qua một ăn trung gian Đây gọi là api server Cái này là cực kỳ cực kỳ quan trọng ha 
+
+Thì cái control controller Manager làm nhiệm vụ như vậy thì thì bên bên bên trong một cái Master Note hay là bên trong một cái mình gọi là cái control Plan này nó nó thân thiện ha control Plan nó sẽ có một cái công một cái thông 
+
+thường sẽ có một cái component một cái thành phần nữa để nói chuyện với các cloud provider ha Tại vì kubernetes thì có một cái điểm lợ lỡ í là có thể triển khai trên các nền tảng cloud lẫn cả triển khai on on premise vẫn được ha thì 
+
+thông thường cái sản phẩm đó nó gọi là cloud Manager ha Mình sẽ đặt tên đ là cloud Manager ví dụ Giả sử bây giờ mình nối với bên này mình nối với aws chẳng hạn thì nó sẽ có cái cloud Manager của để 
+
+nói chuyện với aws một cách thuận lợi nha đó Thì bởi vì bản chất sau này các bạn hiểu sẽ là các api server các scaler các SCD hay control Manager này nó cũng sẽ chạy dưới dạng là container nên ở ở các cái control Plan ở cái control Plan 
+
+và ở các Go Note ấy nó sẽ có một cái thành phần gọi là run time container run time thì thông thường ví dụ các bạn hay dùng có thể là doc cer ha nhưng mà hiện tại thì để cái tính phổ biến của kubernetes nói riêng ấy thì họ phát 
+
+triển một cái gọi là interface Mở ha một cái giao diện mở thì cái cái giao diện mở đấy có thể hỗ trợ chạy rất nhiều nền tảng cer miễn sao nó tuần thủ được cái tuân thủ được cái chuẩn của nó ha Thì cái chuẩn này nó hiện tại là gọi là 
+
+container run time run time ấy crii đấy thì nó sẽ có một cái container run time đây ha mình sẽ ghi chung là container run time thôi Mình ghi ở đây ha và ở các Google này mình sẽ đều có container run 
+
+time run time ha mình sẽ có cái container run time ở đây đó Vậy thì đây là các thành phần chính của control Plan lẫn cả của cái phần gole Note hay của các Note ha Vậy thì bây giờ qpl nó chỉ là một cái nhiệm vụ 
+
+là deploy những cái chỉ thị từ bên phía AB server van cũng làm một cái nhiệm vụ nữa đó là nó sẽ làm nhiệm vụ là gửi các bạnn gọi là report ha Tôi có muốn à báo những cái trạng thái của những con dịch vụ hay những con con post chúng ta trể 
+
+khai như này thì con này nó sẽ có con liên kết hai chiều với AB server thì bây giờ chúng ta có rất nhiều các post thì payment user các dịch vụ dịch vụ này muốn nói chuyện với nhau á thì nó có một cái hệ thống là quản lý để nói chuyện 
+
+các dịch vụ các cái container ở đây à riêng thàng phần đó Nó tên gọi là Q proxy ha Mình nĩ ở đây ha Q proxy mình có cái q proxy ở đây nữa chỉ nói ch kh nó hơi nhỏ ha các bạn ha Thì Q proxy sẽ được triển khai ở trên các cu 
+
+Note này thì đây là một cái kiến trúc cơ bản nh thành phần cơ bản thì trong quá trình mình làm đó thì mình sẽ mình sẽ chủ yếu học các thao tác giữa các yêu cầu của Admin rồi Tho tác trên control Plan để triển khai những cái Thành phần 
+
+những cái resource ở trên các cu Note ha Thì mình có một cái đường link mình sẽ đến kèm vào trong cái description của cái video này ha thì đây là cái tài liệu từ cái trang gọi là kubernetes.io Thì thực tế các bạn Nếu 
+
+các bạn đi thi những chứng chỉ liên quan đến ctis của cái cncf này á chứng chỉ ví dụ như cụ cerfi ctic administrator á thì mình cũng có thi cái này cũng chứ tiể thi cũng rất là dễ thôi cũng rất là fun Thôi thì các bạn cũng được mở tài liệu 
+
+ha và trong quá trình các bạn làm á thì các bạn sẽ không nhớ được các thứ đâ Tại vì nó nó rất nhiều nó rất nhiều nhiều thứ mà các bạn không th hơn học thuộc ha các bạn hiểu cái cơ chế để làm thì các bạn cùng review này này cái kiến trúc ở 
+
+trong cái slide này nhìn nó đẹp hơn ha Thì mình sẽ có phần cloud control Manager chúng mình nói nói với các cloud provider Giả sử aws này phần control Plan này có SCD này có QV Server này có scheduler này control Manager này qed ha 
+
+Q proxy và C port chúng ta chể khai có ci container run time này interface này đó thì đây là một cái cái kiến trúc một cái một cái kiến trúc phổ biến giữa control Plan và phần data Plan ha thì hi vọng Qua bài này các bạn cũng không còn 
+
+cái sự mơ hồ giữa các khái niệm liên quan đến cluster khác với control Plan khác với các Go Note như thế nào á Ok Cảm ơn các bạn đã theo dõi và hẹn gặp lại các bạn ở những bài tiếp theo ạ 
+

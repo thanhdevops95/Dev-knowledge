@@ -1,0 +1,32 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: myapp-gateway
+  namespace: myapp-dev
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "myapp.local"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: myapp-vs
+  namespace: myapp-dev
+spec:
+  hosts:
+    - "myapp.local"
+  gateways:
+    - myapp-gateway
+  http:
+    - route:
+        - destination:
+            host: myapp-service
+            port:
+              number: 80

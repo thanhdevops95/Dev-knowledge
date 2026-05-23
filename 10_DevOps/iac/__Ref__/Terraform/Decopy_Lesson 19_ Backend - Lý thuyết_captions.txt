@@ -1,0 +1,42 @@
+Chúng ta sẽ tìm hiểu về tform backend backend trong tform chính là nơi mà chúng ta lưu chữ file State thì như các bạn đã biết thì file State trong tform chính là cái tập tin ghi lại trạng thái hiện tại của cơ sở hạ tầng và được tạo 
+
+ra khi chúng ta chạy có lệnh tform offline hoặc câu lệnh tform destroy file stage trong tform là file quan trọng bậc nhất giúp cho tform theo dõi những thay đổi và thực hiện cập nhật chính xác cho cơ sở h tầng của chúng ta trong tform 
+
+thì có ba loại backend đầu tiên là l Loc backend standard backend và thứ ba là remote backend đầu tiên chúng ta kể đến là local backend Đây là loại backend mà chúng ta thường hay sử dụng trong các 
+
+cái buổi handon của chúng ta và loại Loc backend này thì form run time sẽ thực hiện tại local và lưu trữ f State cục bộ trong cái thu mục hiện tại của dự án của chúng ta ưu điểm thì khi thực hiện nhon thì chúng ta cũng sẽ thấy là nó khá là 
+
+đơn giản và dễ sử dụng và cũng chả cần phải cấu hình thêm bất kỳ bổ sung gì cả nhược điểm thì chúng ta sẽ thấy là nó sẽ không phù hợp với cái môi trường có sự cộng tác bởi vì là để cộng tác thì chúng ta phải chia sẻ cái file stage của chúng 
+
+ta cho mọi người mà về cơ bản thì khi sử dụng logal backend thì file stage nó sẽ lưu trên máy của chúng ta thứ hai là nguy cơ mất mát dữ liệu cao Nếu file State bị hỏng hoặc bị xóa thì đây là một cái rủi ro khá lớn mặc dù là tạo một 
+
+thời điểm khi mà chúng ta thực hiện câu lệnh tform upline hoặc tform dis choy thì nó sẽ đều lưu lại cái cái trạng thái của State trong một file backup và thứ ba là không hỗ trợ khóa State các bạn có thể thấy Đây là mô hình 
+
+làm việc khi mà chúng ta sử dụng local backend thì đầu tiên khi mà tform thực hiện câu lệnh là appl hoặc là de choy thì nó sẽ gửi cái thông tin này đến cho provider là aws và thực hiện tạo hoặc xóa sửa các tài nguyên Sau đó các thông 
+
+tin hiện tại của cơ sở tầng sẽ được lưu lại file một đôi mở rộng là ch tfstate và lưu tại cái thứ mục hiện tại làm việc của chúng ta à Loại backend thứ hai là standard backend thì đối với loại standard backend thì terf run time sẽ 
+
+thực hiện tại local Tuy nhiên thì cái file State nó sẽ lưu tại một K Lưu chữ dam như là aws3 này Google cloud storage này hoặ là aure storage này ưu điểm khi mà chúng ta sử dụng standard backend đó là nó sẽ an toàn hơn LC back bởi vì là 
+
+do cái tính năng giao lưu và khôi phục của các dạng service Lưu chữ trên các vụ đám mâ như là aws3 hoặc là Google cloud storage thứ hai là cho phép nhiều người có thể truy cập và sửa đổi file C một lúc nó sẽ phù hợp với cái môi trường khi 
+
+mà chúng ta có sự cộng tác và làm việc nhóm ba là hỗ trợ khóa State để bảo mật dữ liệu nhược điểm có thể kể đến khi mà chúng ta sử dụng standard backend đó là chúng ta cần phải mất thêm phí khi mà sử dụng các dịch vụ lưu chữ dam và thứ hai 
+
+là chúng ta cần phải cố hình thêm các cái kết nối đến cái khoa Lưu chữ Dam Đây là một mô hình khi mà chúng ta sử dụng standard backend trên aws S3 à Thì file State của dự án chúng ta sẽ được lưu trên S3 và có thể replicate sang một 
+
+region khác để tăng tính khả năng chịu lỗi và khả năng khôi phục và sao lưu thứ hai là chúng ta sẽ sử dụng là Dynamo DB để thực hiện khóa cái State lại Loại backen thứ ba là remote backend thì nó sẽ sử dụng các backend của bên thứ ba 
+
+như là terraform cloud này hoặc là terraform C enterprise này và lúc này tform l time sẽ không thực hiện trên máy local chúng ta mà thực hiện ở máy remote server nằm trên các dịch vụ backend bên thứ ba như là tform cloud ưu điểm khi 
+
+chúng ta sử dụng remote backend là nó sẽ cung cấp nhiều tính năng nâng cao như là quản lý người dùng này tự động hóa triển khai hoặc là giám sát trạng thái thứ hai là dễ dàng sử dụng và quản lý thứ ba là có khả năng tích hợp với các công cụ ci 
+
+CD khác nhược điểm khi mà chúng ta sử dụng remote backend là chúng ta cần phải tạo tài khoản và trả phí cho dịch vụ backend Tuy nhiên chúng ta vẫn có thể trải nghiệm remote backend thông qua chính sách là free trial cuối cùng là 
+
+khả năng tùy chỉnh hạn chế so với standard backend Đây là một mô hình khi mà chúng ta sử dụng remote backend là tform cloud Ừ về cơ bản thì tform zant time lúc này nó sẽ chạy trên máy remote và ở phía chúng ta chỉ có nhiệm vụ là 
+
+thực hiện chạy câu lệnh terraform upline và gửi cái request này đến cho máy remote thực hiện hiện và máy này nó sẽ gửi kết quả lại ngược cho chúng ta thông qua coi việc lựa chọn loại backen nào nó sẽ tùy thuộc vào nhu cầu và mục đích của 
+
+chúng ta ví dụ khi mà chúng ta sử dụng local vn thì nó sẽ phù hợp cho các dự án nhỏ Hoặc là các dự án cá nhân thứ hai là standard backen thì nó phù hợp với các dự án vừa và nhỏ cần có sự cộng tác giữa các thành viên và cần lưu trữ dữ liệu an 
+
+toàn và remote backs phù hợp cho các cái tổ chức lớn cần nhiều tính năng nâng cao và khả năng quản lý tập trung và Để hiểu hơn về bài học chúng ta sẽ đến với phần thực hành 
+

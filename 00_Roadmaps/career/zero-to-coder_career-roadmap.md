@@ -98,10 +98,11 @@ graph LR
 - [ ] [Linux navigation cơ bản (pwd, ls, cd)](../../04_OS/linux/lessons/01_basic/01_navigation.md) ✅ — *15 phút*
 - [ ] [Linux file operations (mkdir, cp, mv, rm)](../../04_OS/linux/lessons/01_basic/02_file-operations.md) ✅ — *15 phút*
 - [ ] [Linux view file content (cat, less, head, tail)](../../04_OS/linux/lessons/01_basic/03_view-file-content.md) ✅ — *10 phút*
-- [ ] [Version Control + Git là gì](../../01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md) (đang chuyển từ 02_Tools) — *12 phút*
-- [ ] [Git init + first commit](../../01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md) (đang chuyển) — *20 phút*
-- [ ] [Git branching + merging](../../01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md) (đang chuyển) — *25 phút*
-- [ ] [Git remote + GitHub](../../01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) (đang chuyển) — *20 phút*
+- [ ] [Version Control + Git là gì](../../01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md) ✅ — *15 phút*
+- [ ] [Git init + first commit](../../01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md) ✅ — *20 phút*
+- [ ] [Git branching + merging](../../01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md) ✅ — *25 phút*
+- [ ] [Git remote + GitHub](../../01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) ✅ — *20 phút*
+- [ ] [Git undo + recovery](../../01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md) ✅ — *20 phút*
 
 ### 🛠️ Setup môi trường — chỉ TỐI THIỂU
 
@@ -428,7 +429,7 @@ Mỗi cuối tháng, ghi vào file `progress.md` cá nhân (cũng push lên GitH
   - Thêm **Stage 0** "Bản đồ ngành" link sang [industry-landscape lesson](../../01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md) ✅
   - Stage 2 đổi từ *"Python từ đầu"* → **"Chọn 1 ngôn ngữ + Logic"** với bảng so sánh Python/JS/Go/C + khuyến nghị Python (không ép)
   - Stage 1 đổi từ *"Tools cơ bản"* → **"Tools TỐI THIỂU"** — không bắt master terminal/git stage này
-  - Mọi link git move sang `01_Foundations/version-control/git/` (đang chuyển)
+  - Mọi link git move sang `01_Foundations/version-control/git/` ✅ (đã chuyển xong 19/05/2026 — 5 lesson refactor v2.0 với Long story arc)
   - Link tool deep (IDE, terminal emulator, GitHub) trỏ sang `02_Tools/<category>/` (sẽ viết sau)
   - Thêm **Stage 5** Pick career chuyên sâu — tách rõ phần "chọn" thành stage riêng
   - Thêm bảng project gợi ý theo định hướng Stage 4 (Backend/Frontend/Data/Automation/Tinkering/DevOps/AI)

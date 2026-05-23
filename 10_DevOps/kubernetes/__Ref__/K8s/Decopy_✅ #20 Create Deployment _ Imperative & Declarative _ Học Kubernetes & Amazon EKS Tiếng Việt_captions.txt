@@ -1,0 +1,74 @@
+trong bài này chúng ta sẽ cùng tìm hiểu cái cách tạo một cái deployment và cái cách hoạt động của deployment trên cams như các bạn thấy trên màn hình thì mình đang xóa hết Ha mà không có port không có replica set không có service nào hết 
+
+để tạo một cái deployment thì cách dễ nhất đầu tiên là các bạn nên tham khảo Cái cch imperative nó chực quan hơn k cal create deployment và các bạn chừ trữ he ha thì các bạn SC những option nào này chúng ta có thể alias là deployment 
+
+hoặc deploy đều được hết n cái này các bạn thức dùng cái nào các bạn dùng ha có một số ví dụ này tạo deployment tên là myd image là bbox tạo một cái deployment tên là My dep image số lượng replica cái này chắc có lẽ mình sẽ dùng trừ số lượng 
+
+replica của mình ở đây này hoặc là chúng ta tạo một deployment chạy ở cái port nào ha port V dụ 57 57001 đây chúng ta sẽ dùng cái này nha các bạn có thể có B nhưng mà mình nghĩ các bạn đầu tiên các bạn nên dùng các 
+
+bạn nên gõ chịu khó gõ một xíu ha Ví dụ mình k c create deployment ch s Mình tên là app 1 deploy trừ trừ image ha mình sẽ dùng vi aarm V1 nhá trừ port Giả sử mình sẽ port là 
+
+8080 Các bạn thấy là deployment đã tạo này K get à deploy bạn bạn thấy có một cái app deploy À mình quên là sà CR V casset rồi nên các bạn thấy thấy có một nhưng mà nhưng mà nghĩ cũng không vấn đề đâu 
+
+À đây là mình sẽ kiểm tra này Q cal get svc không qua svc nào hết K cal Get replic Set Đây cái này là cái quan trọng của nó đây cle get p nào bạn thấy này khi chúng ta tạo một cái deployment tên là app1 deploy thì nó sẽ tạo ra một cái 
+
+replic set replic set này 9 D5 này có 1 1 này đó chúng ta có cái get po chúng ta tạo ra một cái port này chúng ta kiểm tra cái pst này này kctl describe 
+
+port đây s s full tạo container image V1 đây arm start container đây thành công rồi ha rồi port của chúng ta 8080 chạy đúng rồi chúng ta có cái image armm V1 thì cái này là cái cách mà chúng ta làm dễ nhất ha Mình sẽ thử một cái cách nữa 
+
+là chúng ta dùng th qua gọi là phương thức declarative mà sau này chúng ta sẽ dùng thường xuyên hơn chúng ta sẽ search này development các bạn có thể tra kiểu trên trang city.io ha Thì cái trang này là trang public và các bạn có thể sau 
+
+này các bạn nếu mà các bạn thi chứng chỉ liên quan đến ctic các bạn cũng có thể được mở trang này miễn phí các bạn không không có bị giới hạn chy soát cái trang này rồi ch chúng ta chờ một lúc nó mở ra các bạn xem này deployment decorative 
+
+update port parca có cơ chế hoạt động nó sẽ dựa trên tạo ra replica set ở bên dưới nha các bạn nhá Cho nên là các bạn hiểu về replica set thì các bạn học cái development này nó rất là dễ chịu US cas này một số us cas phổ biến tạo 
+
+development rone out này để tạo rone out có nghĩa là tạo ra PR asset tạo một cái trạng thái mới cho một cái port declare trạng thái mới ví dụ như là các bạn update một cái version hay là update số lượng replic set cho cái cho cái triển 
+
+khai của các bạn á deployment thì nó có thể Tracking các verion mà các bạn có thể r roll B nó là chở trả về chả Thy cũ được n nên cái này cái này sử dụng cực kỳ phổ biến trong cams ha việc việc các bạn hiểu cái này sẽ giúp các bạn sau này 
+
+đi xa trong cams nhiều và mình nghĩ là các bạn làm cái này thì các bạn cứ tập trung thời gian đầu là các bạn chịu khó gõ nhiều khoảng một hai tuần đầu các bạn sẽ rất vất vả nhưng mà chịu khó gõ thì Ok thôi rồi mình copy cái cái template 
+
+của nó nó này các bạn xem này car deployment á Cái này các bạn phải tuân thủ nha metadata name label app engine X và số lượng sport nó là 3 à replica số là là 3 này mas mas là dựa trên cái cơ chế của replica set này cái đoạn từ dưới 
+
+template này này chính là cái đoạn mô tả một con pst của chúng ta Con đoạn này từ trên từ trên đạn đoạn này từ từ cái đoạn dòng này trở lên ấy nó chính là cái đoạn mô tả cái deployment cái này không khác gì so với cái r casset nó chỉ khác duy 
+
+nhất thôi là cái thai của của nó là cái cy của nó Cái loại của nó là deployment thay vì là replica set nà cho nên là nếu mà các bạn muốn làm imperative à declarative của thằng redc các bạn cũng copy deployment Nhưng mà thông thường 
+
+thì trong các hầu hết các tình huống nếu mà cho các bạn kiể khai các bạn thông thường dùng deployment trừ khi các bạn làm dạng cu cơ hay là dạng jop CR á thì các bạn dùng ccet only thôi Thì cái đó mình mình giới thiệu trước thôi còn sau 
+
+này mình sẽ có bài riêng với nó ha tạm thời điểm này thì các bạn sẽ hầu hết các bạn sẽ thấy là deployment sẽ đi tạo ra RC set chứ không có tạo replic set một cách một cách độc lập ha rồi chúng ta copy cái template này chúng ta quay về 
+
+cái terminal của chúng ta mình clear ha chúng ta sẽ thử này deploy 1. nhá chúng ta sẽ sửa cái template này app mình đặt tên là gi mình đặt tên là app 2 đi app 2 nha cho nó đỡ bị cho nó đỡ bị trùng nha mình 
+
+M với tất cả những App nào tên là app 2 và cái khi chúng ta tạo một con pst nó sẽ lấy là pst là app2 ha tên là của mình tên là sle app image của mình là Vi awss arm 
+
+V2 port của mình là B 8080 lưu ý nha nếu mà các bạn xài không phải ma Apple á thì các bạn sửa số thành chữ i này giúp mình còn nếu các bạn xài Apple M1 ná thì các bạn sửa sửa arm ha đây Ở đây các bạn cần có đây Đúng là lúc các bạn có thể conf 
+
+nhất cho những bạn chưa từng làm k8f thì đối với câu luận này á Cái ky cuộc của nó là gì cái dòng này nà và cái dòng này cái dòng này chính là tất cả các post chúng ta á tạo ra sẽ có một cái một cái label hay là một cái nhãn như này và cái 
+
+replic set này hay Cái deployment này nó sẽ gồm tất cả những cái port nào nó có cái label như vậy cho nên hai dòng này là hai dòng phải giống nhau nha các bạn Nếu các bạn dưới này để là App 3 thì trên này nó để là match label là app 2 á 
+
+thì nó không gom được cái nào vào trong cái deployment casset này hết chúng ta sẽ lưu lại rồi chúng ta sẽ view lại nhá rồi api version này 3 ha rồi bây giờ mình sẽ thử chạy cái deployment chúng ta tạo 
+
+rồi created này Bây giờ mình sẽ thử get p đây Các bạn thấy không ạ Rồi mình quên đổi cái tên rồi nó sẽ là Eng deployment ở đây này Tại vì lúc ấy mình mình không có sửa cái chỗ này á nên là nó thành là ng deployment nhưng mà 
+
+thự thực tế nó chạy cái app version 2 của chúng ta ở đây rồi chúng ta chấp nhận các bạn hiểu ch đ chú mình nhé rồi chúng ta sẽ coi này K cle Get replic Set đây nó sẽ tạo là một cái replic set Chúng ta có ba con ở đây ha rất là rất 
+
+là dễ đúng không ạ Rồi chúng ta sẽ có cái kiểm tra cái deployment ha K cle get deploy à c b ctl get deployment các bạn có thể decribe ra kctl 
+
+decribe deployment rồi có cái Giả sử app1 deploy hay là cái eng deploy cũng đều không vấn đề gì hết engine X deployment đây các bạn xem này chúng ta có n Space default Mình chưa học về n 
+
+Space cái này cũng là một cái topic rất hay r cet số lượng 3 update 3 Total 3 3 valable ha và không có cái nào unavailable là không có không có gọi như là không có cái nào bị down không có là chưa tạo thành công ấy là này là ok chat 
+
+nó là Rolling update Rolling update là ví dụ thay đổi sau này khi thay đổi Chúng ta sẽ Rolling nó ng là xoay vòng á thì đến lúc mà khi mình thừa mình thao tác một số thao tác ví dụ như là update liên quan development mình sẽ nói về cái 
+
+strategy này sau hiện tại là Rolling upd 25 Max unable và 25 max gọi là SH Cái này có là tối đ tối tối đa là 25 ph là không có gọi là không có hiện hữu available ha label Map của nó sẽ là up to container image là V2 và cái port của 
+
+nó là 8080 ha Và tất nhiên khi các bạn đã làm này thì các bạn sẽ vẫn có thể expose dạng service ha mình có deployment là get deploy Thì bây giờ mình sẽ có cái replica set đúng không 
+
+ạ Service Service chưa có gì này k c get RS ha ctl get RS và bây giờ các bạn làm một cái homework nhá các bạn bây giờ chúng ta đã có cái deployment chúng ta có V1 và V2 rồi bây giờ các bạn thử expose hai 
+
+cái V1 V2 này ra dưới dạng Note po ha để các bạn có thể chỉ xất nếu các bạn làm thành công thì các bạn cho mình và phần comment là Ok ha đ để chúng ta qua bài tiếp theo thử thao tác với deployment giả sự update một cái deployment nó sẽ 
+
+như thế nào Ok Cảm ơn các bạn và hẹn gặp lại trong bàn tiếp theo ạ 
+

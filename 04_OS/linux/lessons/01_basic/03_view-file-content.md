@@ -1,9 +1,9 @@
-# Linux: View File Content — Đọc file với `cat`, `less`, `head`, `tail`
+# 🎓 Linux View File Content — `cat`, `less`, `head`, `tail`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~10 phút\
@@ -22,7 +22,20 @@
 
 ---
 
-## 1️⃣ Vì sao cần 4 lệnh khác nhau (WHY)
+## Tình huống — app sập, log file dài 50,000 dòng
+
+App production vừa sập. Bạn SSH vào server, vào `/var/log/myapp/` thấy file `error.log` dài **50,000 dòng**. 3 câu hỏi:
+1. **Lỗi mới nhất là gì?** — chỉ cần 20 dòng cuối
+2. **File log bắt đầu từ khi nào?** — chỉ cần 10 dòng đầu
+3. **Theo dõi log realtime** khi restart app — log mới ra sao?
+
+`cat error.log` → terminal scroll 50,000 dòng, không đọc kịp. Bạn cần **4 lệnh khác nhau** cho **4 tình huống đọc file**: `cat`, `less`, `head`, `tail`.
+
+Bài này dạy 4 lệnh đó — đặc biệt `tail -f` (theo dõi log realtime) là kỹ năng cứu mạng khi debug production.
+
+---
+
+## 1️⃣ Vì sao 1 lệnh đọc file không đủ?
 
 Cùng đọc file, sao cần 4 lệnh? Vì **mỗi tình huống có cách đọc tối ưu**:
 
@@ -38,7 +51,7 @@ Cùng đọc file, sao cần 4 lệnh? Vì **mỗi tình huống có cách đọ
 
 ---
 
-## 2️⃣ Mô hình tinh thần (WHAT)
+## 2️⃣ Mô hình tinh thần — 4 cách đọc 1 cuốn sách
 
 **🪞 Ẩn dụ**: *4 lệnh này như **4 cách đọc 1 cuốn sách***:
 - `cat` = **đập ra mặt bàn**, đọc cả lúc (chỉ với sách mỏng)
@@ -51,7 +64,7 @@ Cùng đọc file, sao cần 4 lệnh? Vì **mỗi tình huống có cách đọ
 
 ---
 
-## 3️⃣ Hands-on (HOW)
+## 3️⃣ Bắt tay làm — 4 lệnh đọc file
 
 ### Setup test file
 
@@ -391,7 +404,7 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 | ⬅️ Bài trước | [02_file-operations.md](./02_file-operations.md) |
 | ➡️ Bài tiếp | (sắp có) `04_text-search-and-pipes.md` — `grep`, `find`, `|`, `>` |
 | 🔗 Liên quan | (sắp có) `06_log-debugging.md` |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-cơ-bản-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
 ### Tài nguyên ngoài
 
@@ -402,5 +415,9 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống debug production log 50,000 dòng** — 3 câu hỏi (lỗi mới nhất / bắt đầu khi nào / realtime)
+  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Mô hình (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên
+  - Content kỹ thuật KHÔNG đổi
 - **v1.1.0 (16/05/2026)** — Move từ `02_Tools/shell/` sang `04_OS/linux/` theo Blueprint v0.5 §3.2ter.
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson `cat`/`less`/`head`/`tail` với hands-on + setup test file + 5 pitfall/best-practice.

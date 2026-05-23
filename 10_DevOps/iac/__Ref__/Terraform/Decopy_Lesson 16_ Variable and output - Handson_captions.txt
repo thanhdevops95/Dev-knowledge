@@ -1,0 +1,88 @@
+Chúng ta sẽ tạo thư mục cho bài học này. Mình sẽ tạo là 1.3-meta-agroman. Trong folder này mình sẽ thực hiện tạo lần lượt các file. Là file cao, file for each, file provider, dependon, life cycle. Để tách biệt chức năng thì mình sẽ tạo thêm một file nữa là file version.ts. File này có chức năng là thực hiện khai báo version của plugin AWS. 
+
+Để chúng ta kết nối đến provider. Mình sẽ tận dụng lại code của bài 1.demo. Mình sẽ lấy block code này. Perfect vào đây. Có một cách mà các bạn ẩn đi được thông tin access key và access key trên code cấu hình chúng ta. Là chúng ta sẽ sử dụng công cụ AWS COI. 
+
+Dành cho những bạn nào chưa biết thì AWS COI là một chương trình sale dòng lệnh. Cung cấp tính năng tiện lợi để người dùng có thể tương tác với AWS Cloud Provider. Để cài AWS COI thì chúng ta sẽ lên trang chủ của AWS. Ở đây thì AWS COI hỗ trợ cho chúng ta trên cả 3 hệ đồ hành khác nhau. Ở đây mình đã thực hiện cài đặt trên Windows rồi thì mình sẽ không thực hiện cài đặt lại nữa. Và để cấu hình access key và access key trên AWS COI thì chúng ta sẽ thực hiện gõ cấu lệnh là AWS Config. 
+
+Chúng ta sẽ nhập access key vào đây. Tiếp theo là series key. Tiếp theo là region mặc định. Copy và paste vào đây. Đến đây thì mình có thể là bỏ cái block code này đi được rồi. Việc loại bỏ thông tin xác thực, access key và series key ra khỏi code có bình của chúng ta. 
+
+Giúp chúng ta tránh cái trường hợp khi chúng ta public code cho cộng đồng và bị lọt lọt thông tin. Chúng ta sẽ vào thư vực 1.3. Chạy Terraform Init để thực hiện download plugin. Chúng ta bắt đầu với loại meta argument đầu tiên là count. Mình sẽ tận dụng code của bài demo. Mình sẽ thêm đối số count ở đây. 
+
+Count là một đối số được xác định bởi một giá trị nguyên. Đây, test name mình có thể thay đổi một chút. Mình sẽ đặt là server. Và tên hậu tố sẽ là count.mindex. Tức là các chỉ số của count. Và sẽ đã bắt đầu từ 0. 
+
+Hình nghĩa của block code này là tạo ra 2 instance có cấu hình giống nhau. Và tên của instance sẽ được thay đổi theo chỉ số của count. Mình chạy Terraform FMT để định dạng lại code. Tiếp theo mình sẽ chạy cấu lệnh Terraform Plan. Chúng ta thấy sẽ có 2 instance được tạo ra với cấu hình tương tự nhau. Và tên sẽ bắt đầu là server 0. 
+
+Và tiếp theo sẽ là server 1. Nếu các bạn không muốn bắt đầu từ chỉ số bắt đầu từ 0. Thì chúng ta có thể thêm. Ở đây là cộng 1 ở đây. Để chạy 2 instance này chúng ta sẽ chạy cấu lệnh Terraform Apply. Trừ trừ Auto Approval. 
+
+Hoặc chỉ cần trừ Auto Approval cũng được. Chúng ta sẽ lên giao duyện của AWS Cloud để kiểm tra. Ở đây thì chúng ta đã tạo được 2 con instance. Với cái tên là server 1 và server 2. Theo đúng với chỉ định trong block code của chúng ta. Với cơ bản khi sử dụng count thì nó sẽ giúp chúng ta tạo ra các loại tài nguyên có cấp hình giống nhau. 
+
+Và không cần phải lặp lại code. Thực hiện xóa tài nguyên và đến loại meta argument thứ 2 là 4X. Tạm thời chúng ta sẽ comment block code này. Mình vẫn sẽ thực hiện tạo instance. Có ít được xác định là map hoặc là set của 1 string. Mình sẽ tạo ra map với giá trị là các loại AMI khác nhau. 
+
+AWS Linux. Mình sẽ lấy giá trị này. Copy và paste. Dịch thêm 1 loại AMI nữa là U2. ID AMI của U2 thì mình sẽ lên AWS và tìm kiếm copy cái ID của nó. Lúc này giá trị của đối số AMI thì mình sẽ thay là x.value. 
+
+Và hậu tố start name của instance sẽ là x.key. Ý nghĩa của block code này là tạo ra 2 con instance với AMI khác nhau. Lần lần là các giá trị chúng ta chỉ định trong 4X ở trên. Ở đây mình sẽ chạy Terraform FNT để định dạng lại code. Và chạy Terraform Plan để xem trước các dạng tài nguyên. Chúng ta sẽ thấy là có 2 instance được tạo ra. 
+
+Và tên của 2 instance sẽ là server Amazon Linux và server U2. Tiếp theo chạy Terraform Upline để thực hiện tạo tài nguyên. Chúng ta sẽ quay lại trang chủ của AWS và kiểm tra trong phần instance. Ở đây có 2 instance được tạo ra là server AWS Linux và server U2. Ngoài việc chúng ta khai báo map hoặc set trực tiếp trong 4X. Chúng ta có thể khai báo qua local. 
+
+Một là một cái block mà chúng ta sẽ học trong bài tiếp theo. Mình sẽ tạo ra một block local. Với giá trị bên trong là AMI ID. Tại đối số 4X chúng ta sẽ tham chiếu đến block local và tham chiếu đến AMI ID. Lúc này 4X sẽ thực hiện lấy các giá trị đã được xác định trong block code local. Chạy có lệnh Terraform Vistroi để xóa đi các tài nguyên đa tạo. 
+
+Comment block code 4X và chuyển đến dạng meta argument thứ 3 là provider. Chúng ta sẽ khai báo provider thứ nhất là AWS. Với region ở đây là AP-6-1. Khai báo provider thứ 2 vẫn là AWS. Nhưng region lúc này chúng ta sẽ sử dụng là US-1. Chúng ta vẫn sử dụng code tạo easy tool trong ví dụ này. 
+
+Đây chúng ta chỉ định 2 provider với 2 region khác nhau. Để sử dụng provider cụ thể chúng ta cần khai báo đối số trong các block provider là alias và chỉ định mục giá trị. Trong block AWS Instant ta chỉ định cụ thể provider chúng ta muốn sử dụng để tạo tài nguyên. Ở đây mình sẽ tạo Instant trên region Singapore. View code và chạy Terraform FMP để định dạng lại code. Tiếp theo là chạy câu lệnh Terraform offline. 
+
+Ingen đã được tạo thành công trên region là Singapore. Chạy câu lệnh Terraform Distroi để xóa tài nguyên. Và thử tạo lại Instant trên region là Virginia. Mình sẽ tham chiếu đến region này thông qua tên alias. Chạy câu lệnh Terraform offline để tạo Instant trên region mới. Theo các bạn khi mình chạy Terraform offline thì nó có báo lỗi không? 
+
+Sau khi chạy Terraform offline chúng ta nhận được 1 thông báo lỗi. Đó là image ID chúng ta chỉ định ở trên đây. Nó đang không tồn tại trên region Virginia. Và chúng ta cần phải lên giao diện của AWS. Chuyển sang region là Virginia. Và tìm kiếm cái AMI phù hợp với region này. 
+
+Sẽ copy ID này và paste vào code của chúng ta. View file và thử hiện trại lại câu lệnh Terraform offline. Chúng ta có thể thấy là mỗi lần chúng ta thay đổi ID của AMI trên các region khác nhau. Thì chúng ta cần phải lên trang chủ của AMS và thực hiện tìm kiếm. Điều này khá thủ công và bi động. Và trên thực thế thì ID của AMI trên 1 region cụ thể cũng sẽ thay đổi theo thời gian. 
+
+Terraform có 1 cách giúp chúng ta tìm kiếm thông tin trên các provider 1 cách linh hoạt. Cụ thể mình sẽ giới thiệu trong bài sau. Và như thường lệ chúng ta sẽ chạy các lệnh Terraform Destroy để xoá đi các thành nguyên đa tạo. Comment code provider và chuyển đến dạng meta-alguerment thứ 4 là Depend-on. Chúng ta có thể sử dụng code của bài thứ 2 cho ví dụ này. Mình sẽ cho block code này lên trên. 
+
+Đây mình sẽ tạo thêm 1 dạng tài nguyên nữa là Security Group. Thực hiện lưu code và chạy cơ lệnh Terraform offline. Đây chúng ta sẽ thấy là Security sẽ được tạo trước và 2 con engine sẽ được tạo sau. Mặc dù trên code của chúng ta là chúng ta khai báo AWS engine trước. Trên thực tế Terraform sẽ thực hiện đọc các nội dung code trên các file cấu hình của chúng ta. Và nó sẽ biết được dạng tài nguyên nào nên được tạo trước. 
+
+Và sắp xếp thứ tự tạo các tài nguyên sao cho phù hợp. Đây cũng là 1 phần lý do sau khi mình thực hiện 1 ví dụ như K hoặc HoX. Mình đều phải comment lại. Để khi chúng ta thực hành trên 1 ví dụ mới. Thì nó sẽ không bị lẫn code cấu hình của ví dụ cũ. Chúng ta quay lại Depend-on. 
+
+Ở đây chúng ta sẽ không muốn Terraform quyết định thứ tự tạo tài nguyên. Mà chúng ta sẽ chủ động quyết định điều này thông qua cái meta-argument là Depend-on. Block code là AWS Security. Thì mình sẽ chỉ định 1 cái meta-argument là Depend-on. Và nó sẽ phụ thuộc vào AWS Instant. Và hiểu đơn giản là AWS Security Group sẽ được tạo sau. 
+
+Sau khi AWS Instant tạo thành công. Chúng ta sẽ thoái bỏ tài nguyên vừa tạo. Và thực hiện tạo lại sau khi chúng ta đã thêm cái meta-argument là Depend-on. Ở đây chúng ta thấy là thứ tự tạo tài nguyên đã có sự thay đổi. AWS Instant sẽ được tạo trước. Và sau khi tạo xong thì AWS Security mới được tạo. 
+
+Tiếp theo chúng ta sẽ xóa tài nguyên. Và đến với loại meta-argument thứ 5 là Lifecycle. Trong Lifecycle có 4 loại meta-argument. Đầu tiên là Create Before Depend-on. Thứ 2 là Prevent Depend-on. Thứ 3 là Ignore Train. 
+
+Và cuối cùng là Relug Up Figure By. Với Create Before Depend-on. Mình có ví dụ như sau. Để đơn giản thì mình sẽ tận dụng lại code của bài thứ nhất. Copy và Paste vào đây. Trong code này mình sẽ sửa lại đôi chút. 
+
+Cao mình sẽ để là 1. Và đây mình sẽ chỉ định AZ. Cụ thể là AP1A. New code và chạy Terraform Upline. Quay lại code cấu hình. Mình sẽ sửa lại đôi chút phần AZ. 
+
+Ở đây mình sẽ sửa thành 1B. Comment dòng này lại. Android và chạy Terraform Upline. Ở đây các bạn có thấy là Instant Server 1 đang running. Và đang chạy ở AZ là 1B. Theo logic thông thường. 
+
+Khi chúng ta thay đổi code cấu hình của Terraform. Trên 1 dạng tài nguyên. Thì tài nguyên cũ sẽ được xóa đi. Và sau khi tài nguyên cũ được xóa đi hoàn toàn. Thì tài nguyên mới mới bắt đầu khởi tạo. Như các bạn có thể thấy. 
+
+Thì giữa thời gian xóa tài nguyên cũ. Và khởi tạo tài nguyên mới. Có 1 khoảng thời gian chết. Và nếu như tài nguyên của chúng ta đang phục vụ 1 ứng dụng nào đó. Thì rõ ràng là nó bị xảy ra đau tham. Chúng ta quay lại code và thực hiện sửa đổi đôi chút. 
+
+Đây mình sẽ thêm 1 log line cycle. Và chỉ định meta argument là create before destroy. Giá trị là true. Mình sửa lại az đây là 1c. New file. Và thực hiện chạy lại câu lệnh Terraform offline. 
+
+Sau khi chạy câu lệnh Terraform offline. Thì instant với cấu hình mới được tạo ra. Và instant với cấu hình cũ vẫn được duy trì. Và sau khi instant mới được tạo thành công. Thì instant cũ mới bắt đầu được xóa đi. Việc sử dụng meta argument là create before destroy. 
+
+Đảm bảo rằng không có khoảng chết đau tham. Giữa việc chúng ta xóa tài nguyên cũ. Và khởi tạo tài nguyên mới. Tiếp theo là prevent destroy. Mình có thể tận dụng lại ví dụ trên. Đây mình sẽ sửa lại thành web 1. 
+
+My cycle mình sẽ sửa là prevent destroy. Thực hiện new file và chạy câu lệnh Terraform offline. Ở đây sau khi mình chạy câu lệnh Terraform offline. Thì có thêm 1 instant được tạo ra là instant web 1. Tiếp theo mình chạy câu lệnh Terraform destroy. Ở đây có 1 thông báo lỗi. 
+
+Là do chúng ta chỉ định cái meta argument là. Prevent destroy trong block code là AWS edition web 1. Điều này dẫn đến là khi chúng ta chạy câu lệnh Terraform destroy. Thì nó sẽ cấm xóa tài nguyên này. Ở đây nó có 1 cái chỉ định để chúng ta tránh được cái lỗi này. Là thứ nhất chúng ta có thể disable. 
+
+Disable cái thuộc tính prevent destroy trên code của chúng ta. Thứ 2 là nếu mà chúng ta vẫn muốn xóa các dạng tài nguyên. Trừ các dạng tài nguyên chúng ta chỉ định cái meta argument là prevent destroy. Thì mình cần phải thêm 1 cái đối số là target và chỉ định cụ thể đến tài nguyên cần xóa. Và để xóa đi dạng tài nguyên này thì đơn giản chúng ta sẽ thực hiện comment lại cái meta argument này. Và thực hiện chạy câu lệnh Terraform. 
+
+Deep choice. Vượt thêm prevent destroy vào những tài nguyên quan trọng là cần thiết tránh trường hợp chúng ta xóa nhầm. Thứ 3 là ignore train. Mình cũng có thể tận dụng lại block code này. Mình sẽ sửa lại đôi chút trong phần touch name này thì mình sẽ thêm 1 cái hàm là timestamp. Đoạn thời phần này mình comment lại. 
+
+Lưu file và thực hiện chạy trên file offline. Mình quay lại giao diện của AWS Cloud để tìm kiếm condition mình vừa tạo. Đây là condition chúng ta vừa tạo với cái tên là server 1 và hậu tố là timestamp tại thời điểm chúng ta tạo. Chúng ta quay lại code và thực hiện chạy lại câu lệnh Terraform offline. Bởi vì là cái hàm timestamp này là khác nhau tại một thời điểm nên là cái giá trị task này nó cũng sẽ khác nhau. Chính vì sự khác nhau này thì sau khi chúng ta chạy có lệnh Terraform offline, task name của instance này cũng sẽ bị thay đổi và cần phải cầm nhập lại. 
+
+Chúng ta quay lại giao diện của AWS Cloud. Ở đây chúng ta thấy là task name của con instance này đã được thay đổi. Tại thời điểm mà chúng ta apply lần thứ 2. Chúng ta quay lại giao diện code. Ở đây mình sẽ sửa thành là ignore train. Trong ignore train chúng ta sẽ chỉ định các cái thuộc tính mà chúng ta có thể bỏ qua khi mà cập nhật tài nguyên. 
+
+Ở đây mình sẽ để là task. Điều này có nghĩa là khi chúng ta cập nhật tài nguyên thì nó sẽ bỏ qua sự thay đổi trong cái thuộc tính task này. Mình lưu file và chạy lại câu lệnh Terraform offline. Bởi vì chúng ta chỉ định cái meta agreement là ignore train với thuộc tính là start. Cho nên là khi chúng ta chạy câu lệnh Terraform offline để cập nhật tài nguyên thì nó đảm báo là không có bất kỳ một sự thay đổi nào trên tài nguyên của chúng ta. Mình sẽ chạy câu lệnh Terraform Detroit để xóa cái tài nguyên vừa tạo. 
+
+Tiếp theo mình đến với cái meta agreement cuối cùng là relapse trigger buy. Thì mình cũng vẫn có thể tận dụng được lại code của blockchain. Ở đây mình tạo thêm một dạng tài nguyên nữa là AWS security group. Ở đây mình sẽ chỉ định đối số security group và chỉ định đến block code security group phía trên. Tạm thời mình sẽ comment lại dòng này. Lưu file và chạy câu lệnh Terraform offline. 
+
+Tiếp theo mình sẽ sửa lại đôi chút trong phần in-cat ở đây. Bọt đây mình sẽ sửa thành 80. Lưu file và chạy câu lệnh Terraform offline. Theo logic thông thường khi mà mình thay đổi cấu hình trên block code nào thì chỉ những tài nguyên trên block code đó mới bị thay đổi sau khi mà chúng ta chạy câu lệnh Terraform offline để cập nhật tài nguyên. Như các bạn có thể thấy là khi mà mình chạy câu lệnh Terraform offline 
+
+chỉ block code AWS security group bị cập nhật. Quay lại code cấu hình của chúng ta thì phần line cycle ở đây mình sẽ sửa thành metadata là relapsed your file và mình chỉ định đến AWS security group. Điều này có nghĩa là mọi sự thay đổi cấu hình trên block code AWS security group thì nó đều dẫn đến sự thay đổi của block code AWS instant. 
+
+Trên đây mình sẽ sửa lại đôi chút. Mình sẽ sửa lại port 22 và chạy lại câu lệnh Terraform offline. Như các bạn có thể thấy là sau khi mình chạy câu lệnh Terraform offline thì ở đây nó sẽ báo là cái instant web của chúng ta sẽ bị thay đổi khi mà chúng ta thay đổi cái cấu hình trên block code AWS security group. 
+

@@ -1,0 +1,36 @@
+để chắc chắn rằng chúng ta cùng hiểu chung và hiểu đúng về cái sự khác biệt giữa cluster và N Space mình sẽ làm thêm cái video này để chia sẻ cùng các bạn thì trên hình là các bạn thấy đây là một cái cluster ha Thì trong một cái cluster 
+
+thì các bạn sẽ luôn luôn có cả về phần control Plan và các cái gu noe ha Thì các cuộ con nố này bản chất là con server máy chủ chúng ta thì server máy chủ chúng ta sẽ có giả sự có có CPU có RAM và có giả sử ổ cứng đúng không HDD 
+
+chẳng hạn thì đây là server vật lý đây cũng là server vật lý luôn thì đây là cluster ha còn namespace nó là khái niệm về mặt luận Lý bây giờ B các bạn hình dung này Bây giờ các bạn sẽ có thể trong các một cluster các bạn thể tạo ra rất 
+
+nhiều các name Space và các name Space các bạn có thể định nghĩa khác nhau thì namespace mặc định ra ấy thì nó sẽ không có gắn liền với cái nốt nào hết các Tại vì nó là khái niệm luận lý mà có thể n Space nó nằm hết ở bên Note 1 nhưng mà 
+
+có thể n Space nó vừa có thể trải dài cho cả Note 1 Note 2 bây giờ mình sẽ ví dụ nha mình sẽ có cái name Space đầu tiên là namespace tên là dep đi đó thì nên Space dep này nó sẽ các resour các con poort mình nằm cả bên này lên cả bên 
+
+này là name Space chúng ta có cái name Space nữa mình sẽ đây một cái n Space này cái n Space này lên Space giả sử như là test thì nó sẽ có con post hoặc là service gì đấy nó sẽ nằm ở trong con 
+
+Note 1 nhưng mà giả sử bây giờ mình sẽ có một cái n Space khác n Space Giả sử n Space liên quan đến share chẳng hạn một cái namespace khác mình có thể tạo nhiều name Space trong một cluster mà cái n Space này nó lại nằm ở cort đ triển khai 
+
+chia có Note 2 Hay là chúng ta sẽ có những cái n Space liên quan đến production chẳng hạn thì port n nằm trên cả hai ở đây rồi service các kiểu hoặc các cái resour khác của katam Vậy thì N Space các bạn có thể tạo 
+
+ra n và cái điểm hay của n Space và Đó cũng chính là cái Theo mình nghĩ nó là cái cor value của cái catet kubernetes bởi vì dựa vào cái n Space này các bạn làm rất nhiều thứ các bạn có thể phân ra rất nhiều các cái tầ ha một 
+
+cái n Space Sau này các bạn có thể gọi là một cái tầ các bạn hình dung này sau này ví dụ các bạn viết một cái ứng dụng gọi là Software là service và các bạn triển khai cho rất nhiều các cái khách hàng 
+
+thì mỗi khách hàng này sẽ là một cái n Space bây giờ hiện tại ở cái mô hình mặc định này Các bạn thấy n Space nó có thể chạy ngẫu nhiên nó sẽ deploy lúc thì ở Note 1 lúc ở Note 2 lúc thì ở cả hai Note tại vì do phần tài nguyên thôi n 
+
+chỉ là logical thôi còn sau này các bạn định nghĩa tài nguyên các bạn chể khai ở Note 1 Note 2 Note 3 Note Note 4 hay là trên nhiều Note nào đó thì do các bạn khi chúng ta học càng lâu các bạn sẽ có nhiều kỹ thuật để các bạn phân phân chia 
+
+mapping nó như thế nào nha thì các bạn có thể ngoài cái chuyện phân chia là à Nên Space ở những cái tài nguyên nào Ví dụ con server ở qu server nhỏ server lớn ha server ví dụ xịn hơn chẳng hạn thì các bạn có thể gán tài nguyên cấp phát 
+
+tài nguyên cho từng name Space được nha Cái này là cái hay nha resour ví dụ như bảo là n Space này có bao nhiêu CPU tố đa ram bao nhiêu hay là nên Space này ví dụ test mình cho ít hơn chẳng hạn ram và C bao nhiều chúng ta sẽ cấp phát tải 
+
+Nguyên cho từng n Space và vấn đề là khi chúng ta deploy ví dụ triển khai lên trên các n Space chúng ta có thể bị được restrict ha ví dụ n Space này bảo là không triển Kai quá 4 CPU chẳng hạn thì không bao giờ deploy quá 4 CPU được cats 
+
+sẽ chặn chuyện đấy chúng ta luôn nà thì đó là cái hay khi chúng ta dùng n Space và N space là một là một cái rất là quan trọng Sau này các bạn dùng cái này rất nhiều ha Tại vì nếu mà các bạn không dùng name Space thì mình cũng nghĩ là 
+
+không biết mình cũng không biết là các bạn dùng katam để làm gì còn nếu mà hệ thống các bạn là là flash luôn rồi ấ thì có rất nhiều cách để làm ví dụ các bạn dùng Amazon exs làm rất là dễ Tất nhiên nó cũng có khả năng các bạn làm nên 
+
+Space nhưng mà làm nó không có native không có dễ như thằng k8s này nh ok hi vọng Qua bài này các bạn cũng sẽ có một chút hiểu biết thêm và không bị nhầm lẫn giữa cluster và nam Space nhá Cảm ơn các bạn đã theo dõi ạ 
+

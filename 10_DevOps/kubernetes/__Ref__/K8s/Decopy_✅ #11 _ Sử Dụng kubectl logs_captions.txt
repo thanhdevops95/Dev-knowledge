@@ -1,0 +1,28 @@
+đôi khi trong lúc phát triển sản phẩm chúng ta muốn xem các cái lock của cái ứng dụng chúng ta viết ra Ví dụ tùy Ngô ngữ lập trình các bạn có thể in cái LCK ra Ví dụ như Python dùng print hay là trên noe các bạn dùng là consol lock gì 
+
+đấy thì các lock đấy bình thường mặc định nó sẽ lưu ở trên cái con port của chúng ta bây giờ chúng ta muốn xem những cái lock của con này một cách trực quan thì nó cũng giống như docker thôi các bạn có thể handson lại cái chuỗi bài một 
+
+cái class cost 101 về docker các bạn thể xem cái Câ lật docker log á thì trên kutis nó sẽ tương tự vậy ha các bạn sẽ xem này Q ctl này log và tên cái port chúng ta ha app 1 ở đây đó thì các bạn xem này log chúng ta này đang có mình in 
+
+ra cái con log của mình đang chạy ở port app mình đang chạy port 8080 Con này là viết bằng mình viết bằng Express n trên Note js á thì các bạn thấy cái LCK của mình mỗi lần truy xất sẽ là app 1 ha Thì hiện tại á là mình nó chạy cái con 
+
+service 1 của chúng ta ở Cái port 59 07 ha Thì cái lock này nó sẽ chỉ là xem được cái log ở trạng thái hiện tại thôi Bây giờ nếu mà muốn xem cái lock này ở trạng thái gọi là liên tục á thì các bạn sẽ có một cái chữ có một cái cục Pháp là 
+
+chữ f ha F có nghĩa là Follow thế này nè Bây giờ mình sẽ f này các bạn thấy nà bây giờ nó đang dấ chờ có hai đang có hai cái record đúng không ạ Giờ mình sẽ thử truy xá web một lần nữa mình reload web site này đó lần nữa rồi đúng không ạ 
+
+Thì bây giờ mình sẽ quay lại cái terminal của chúng ta này đó có ba cái ha Thì cái này sẽ một cách rất là Hữu ít để các các bạn giả sử các bạn muốn Chup su các bạn muốn xem cái log của ứng dụng các bạn đã xem ha Đây là trường hợp đặc 
+
+biệt ha nếu mà các bạn trong trường hợp các bạn một cái pst mà có nhiều container thì chúng ta sẽ phải dùng một cái C pháp khác ha chúng ta sẽ dùng Q ctl này log này app 1 rồi trừ c c c container thì lúc này cái c á thì các 
+
+bạn sẽ cần phải chỉ đượ cái C là ví dụ container user user m user service chẳng hạn hay user container hay là dịch vụ về log container chẳng hạn chúng ta mới chừ f ha Thì làm sao để biết cái container name của chúng ta ở đây ha thì các bạn 
+
+sẽ cần phải xem cái đoạn này ví dụ như là Q cil describe cái port ví dụ app1 của chúng ta này các bạn xem ở đây chúng ta sẽ xem này cái nde name của mình của cái port là app1 này đây image của mình là V1 của mình đây port của mình imit ID 
+
+của mình ở đây rồi chúng ta sẽ cuộn xuống dưới coi volume volume qos ây đây container của mình đấy container app1 của mình đây Nếu giả sử Sau này các bạn có một cái Container là app1 rồi 
+
+Block hay gì đấy thì các bạn phải chỉ định rõ cái container đó ha Ví dụ như trong trường hợp này mình sẽ mình sẽ nếu mà giả sử mình có một container trong cái port này nữa mình sẽ phải dùng công luận như thế này ha Q ctl log trừ app 1 
+
+trừ c app1 ha Thì tại vì cái này Đặc biệt quá n mình chỉ có một container thôi Nhưng mà nếu các bạn N các bạn trong cái trong cái trong cái port mình có một cái cer là LCK thì các bạn cần phải chỉ định cái log này ha Ok Cảm ơn 
+
+các bạn đã theo dõi và hẹn gặp lại các bạn trong bài tiếp theo ạ 
+

@@ -1,0 +1,14 @@
+chúng ta sử dụng tform import trong một số trường hợp Ví dụ như là quản lý các tài nguyên đang tồn tại khắc phục thảm hạ Nếu f stage bị hỏng hoặc không còn quyền truy cập thì chúng ta có thể sử dụng tính năng tform import để tạo lại 
+
+file State và cuối cùng chúng ta sử dụng tform import để chuyển đổi cách quản lý tài nguyên theo từng giai đoạn ví dụ với một công ty có dự định chuyển đổi cách quản lý tài nguyên bằng tform thì chúng ta sẽ sử dụng tính năng tform import để 
+
+giúp quá trình truyền đổi diễn ra an toàn và và có thể bắt đầu từ quy mô nhỏ có một số lưu ý khi chúng ta sử dụng tform import là không phải mọi Tài Nguyên đều hỗ trợ import một số thuộc tính của các tài nguyên có thể không 
+
+được import đầy đủ và khi làm việc với import thì chúng ta cần kiểm tra kỹ cái cấu hình sau khi import các hạn chế của tform import ví dụ như là hạn chế của provider có một số provider không cung cấp api đầy đủ để tform có thể đọc được 
+
+toàn bộ thông tin cấu hình của tài nguyên thứ hai là sự phức tạp của tài nguyên một số tài nguyên có cấu trúc quá phức tạp hoặc là phụ thuộc vào nhiều tài ngyên khác nhau thì nó sẽ khiến cho việc import trở nên khó khăn và gần như không 
+
+khả thi và cuối cùng là tính năng chưa được hỗ trợ đôi khi tform chưa kịp cập nhập để hỗ trợ import các tài nguyên mới Hoặc là các tính năng mới của các tài nguyên hiện có cảm ơn các bạn đã lắng nghe và hẹn gặp lại các bạn trong các 
+
+bài học tiếp theo 
+

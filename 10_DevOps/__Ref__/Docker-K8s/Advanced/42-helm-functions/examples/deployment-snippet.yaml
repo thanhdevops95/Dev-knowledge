@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name | lower }}-app
+  labels:
+    app: {{ .Chart.Name | upper }}
+    version: {{ .Chart.Version | replace "." "-" }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        deployed-at: {{ now | date "2006-01-02T15:04:05Z" | quote }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+            - name: APP_NAME
+              value: {{ .Values.appName | quote }}
+            - name: ENVIRONMENT
+              value: {{ .Values.environment | upper | quote }}
+            - name: FULL_NAME
+              value: {{ printf "%s-%s" .Release.Name .Values.environment | quote }}

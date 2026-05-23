@@ -1,0 +1,124 @@
+chúng ta sẽ tạo thư mục cho bài học hôm nay mình sẽ đặt là 1.3 g Meta trong folder này mình sẽ thực hiện tạo lần lượt các file c provider depon l cycle để tách biệt 
+
+chức năng thì mình sẽ tạo thêm một file nữa là file version.com version của plugin aws để chúng ta kết nối đến provider mình sẽ tận dụng lại code của bài 1.do à mình sẽ lấy Block code 
+
+này paste vào đây có một cách mà các bạn ẩn đi được thông tin ass key và s key trên code cấu hình Chúng ta là chúng ta sẽ sử dụng công cụ aws coi dành cho những bạn nào chưa biết thì aws coi là một cái chương trình sale dòng lệnh cung 
+
+cấp các tính năng tiện lợi để người dùng có thể tương tác với aws cloud provider thì để cài aws cui thì chúng ta sẽ lên trang chủ của aws ở đây thì aws cui hỗ trợ cho chúng ta trên cả ba hệ đều hành khác nhau ở đây mình đã thực hiện cài 
+
+đặt trên Windows rồi thì mình sẽ không thực hiện cài đặt lại nữa và để cấu hình asset key và C key trên aws ci thì chúng ta sẽ thực hiện gõ câu lệnh là aws config và chúng ta sẽ nhập asset key vào đây tiếp theo là serus 
+
+key tiếp theo là reason mặc định copy và page vào đây đến đây thì mình có thể là bỏ cái Block code này đi được rồi việc loại bỏ thông tin xác thực asset key và s key ra khỏi code cố hình chúng ta giúp chúng ta 
+
+tránh cái trường hợp khi chúng ta public code cho cộng đồng và bị lộ lọt thông tin chúng ta sẽ vào thư mục 1.3 chạy terraform init để thực hiện Download plugin chúng ta bắt đầu với loại Meta 
+
+argument đầu tiên là cao mình sẽ tận dụng code của bài demo mình sẽ thêm Đối số cao vào đây cao là một đối số được xác định bởi một giá trị nguyên đây tas name thì mình có thể thay đổi một chút mình sẽ đặt là 
+
+server và tên hậu tố sẽ là coun. Index tức là các cái chỉ số của coun và sẽ đ bắt đầu từ 0 ý nghĩa của Block code này là tạo ra hai instant có cấu hình giống nhau và tên của instant sẽ được thay đổi theo cái chỉ số của account mình chạy 
+
+tform fmt để định dạng lại code tiếp theo mình sẽ chạy câu lệnh tform l chúng ta thấy sẽ có hai inst được tạo ra với cấu hình tương tự nhau và tên sẽ bắt đầu là server 0 và tiếp theo sẽ là server 1 Nếu các bạn không muốn bắt đầu từ chỉ số 
+
+bắt đầu từ 0 thì chúng ta có thể thêm ở đây là cộng 1 ở đây để chạy hai instance này chúng ta sẽ chạy C lệnh tform apply trừ trừ auto approval hoặc chỉ cần trừ auto approval cũng được chúng ta sẽ lên giao diện của 
+
+ads cloud để kiểm tra ở đây thì chúng ta đã tạo được hai con instant với cái tên là server 1 và server 2 theo đúng V chỉ định trong Block code của chúng ta về cơ bản khi sử dụng cao thì nó sẽ giúp chúng ta tạo ra các loại toài nên có hình 
+
+giống nhau và không cần phải lặp lại code thực hiện xóa tài nguyên và đến loại Meta Ag thứ hai là forx Tạm thời chúng ta sẽ comment Block code này mình vẫn sẽ thực hiện tạo instant for được xác định là map hoặc là set của 
+
+một string mình sẽ tạo ra map với giá trị là các loại Ami khác nhau aws Linux mình sẽ lấy giá trị này copy và paste và 
+
+đây định thêm một loại Ami nữa là dạng UB to ID Ami của m thì mình sẽ lên aws và tìm kiếm copy cái ID của nó lúc này giá trị của đối số emil mình sẽ thay là x. value và hậu tố start name của instant 
+
+sẽ là x. key ý nghĩa của Block code này là tạo ra hai condition với Ami khác nhau lần lượt là các giá trị chúng ta chỉ định trong forx ĐT trên ở đây mình sẽ chạy tform 
+
+fmt để định định dạng l code và chạy tform Plan để xem trước các dạng tài nguyên chúng ta sẽ thấy là có hai instant được tạo ra và tên của hai instance sẽ là server Amazon Linux và 
+
+server untu tiếp theo chạy terraform upline để thực hiện tạo tài nguyên chúng ta sẽ quay lại trang chủ của aws và kiểm tra trong phần instant Ở đây có hai instant được tạo ra là server aws Linux và server 
+
+un ngoài việc chúng ta khai báo map hoặc set trực tiếp trong for chúng ta có thể khai báo qua local một là một cái Block mà chúng ta sẽ học trong bài tiếp theo đây mình sẽ tạo ra một Block local với giá trị bên trong là Ami ID 
+
+tại đối số forx chúng ta sẽ tham chiếu đến blog local và tham chiếu đến Ami ID lúc này for sẽ thực hiện lấy các giá trị đã được xác định trong Block code local chạy C lệnh TF detroy để xóa đi các tánh Nguyên dat 
+
+tạ comment Block code for it và chuyển đến dạng Meta Ag thứ ba là provider chúng ta sẽ khai báo provider thứ nhất là aws V region ở đây là IP si One vào provider thứ hai vẫn là aws nhưng Legion lúc này chúng ta sẽ sử dụng 
+
+là us1 chúng ta vẫn sử dụng code tạo E2 trong ví dụ này đây chúng ta chỉ định hai provider với hai region khác nhau để sử dụng provider cụ thể chúng ta cần khai báo 
+
+đối số trong các Block provider là alias và chỉ định một giá trị trong Block aws instant ra thỉ định cụ thể provider chúng ta muốn sử dụng để tạo tài nguyên ở đây mình sẽ tạo instant trên 
+
+region Singapore vi code và chạy tform fmt để định dạng l code tiếp theo là chạy C lệnh tform upline lon đã được tạo thành công trên Legion là Singapore lạ câu lệnh terraform destroy để xóa tài nguyên và 
+
+th tạo lại instant trên region là Virginia mình sẽ tham chiếu đến Legion này thông qua tên Adidas chyện câu lệnh Tel upline để tạo instant train Legion mới theo các bạn khi mình chạy tform upline thì nó có báo 
+
+lỗi không sau khi chạy tform upline chúng ta nhận được một thông báo lỗi đó là cái image ID chúng ta chỉ định ở trên đây nó đang không tồn tại trên cái region Virginia và chúng ta cần phải lên giao diện của aws chuyển sang region là 
+
+Virginia và tìm kiếm cái Ami phù hợp với region này sẽ copy ID này và paste vào code của chúng ta vi file và thực hiện chạ lại câu vệnh terraform upline chúng ta có thể thấy là mỗi lần chúng ta thay đổi ID 
+
+của Ami trên các region khác nhau thì chúng ta cần phải lên trang chủ của ns và thực hiện Tìm kiếm điều này khá thủ công và bị động và trên thực tế thì ID của mii trên một Legion cụ thể cũng sẽ thay đổi theo thời gian tform có một 
+
+cách giúp chúng ta tìm kiếm thông tin trên các provider một cách linh hoạt cụ thể mình sẽ giới thiệu trong bài sau và như thường lệ Chúng ta sẽ chạy có lệnh terf dis choice để xóa đi các thành Nguyên đã tạo comment code provider và 
+
+chuyển đến dạng Meta argument thứ tư là depon chúng ta có thể sử dụng code của bài thứ hai cho ví dụ này mình sẽ cho Block code này lên trên đây mình sẽ tạo thêm một dạn tài nguyên nữa là Security group thực hiện lưu code và chạy câu 
+
+lệnh t upline đây chúng ta sẽ thấy là Security sẽ được tạo trước và hai con inst sẽ được tạo sau Mặc dù trên code của chúng ta là chúng ta khai báo AW inst trước trên thực tế tform sẽ thực hiện đọc các 
+
+nội dung code trên các cái file cấu hình của chúng ta và nó sẽ biết được dạng tài nguyên nào nên được tạo trước và sắp xếp thứ tự tạo các tài nguyên sao cho phù hợp đây cũng là một phần lý do sau khi mình thực hiện một ví dụ như cao hoặc 
+
+for ít mình đều phải comment lại để khi chúng chúng ta thực hành trên một ví dụ mới thì nó sẽ không bị lẫn code cấu hình của ví dụ cũ à chúng ta quay lại depon ở đây chúng ta sẽ không muốn the form quyết định thứ tự tạo tài nguyên mà 
+
+chúng ta sẽ chủ động Quyết định điều này thông qua cái Meta agement là depend on Block code là aws Security thì mình sẽ chỉ định một cái Meta arent là depon và nó sẽ phụ thuộc vào aws instance và hiểu đơn giản là adws Security group sẽ được 
+
+tạo sau sau khi aws instant tạo thành công chúng ta sẽ xóa vỏ tài nguyên vừa tạo và thực hiện tạo lại sau khi chúng ta đã thêm cái Meta argument là dep Pon ở đây chúng ta thấy là thứ tự tạo tài nguyên đã có sự thay đổi AW inion sẽ 
+
+được tạo trước và sau khi tạo xong thì aws Security mới được tạo tiếp theo chúng ta sẽ xóa tài nguyên và đến với loại Meta agon thứ nă là l cycle trong live cycle có bốn loại Meta argument đầu tiên là create before de 
+
+choice thứ hai là prevent de choice thứ ba là ignore change và cuối cùng là reap picker by với create before de choice mình có ví dụ như sau à để đơn giản thì mình sẽ tận dụng lại code của bài thứ nhất copy và paste vào đây trong code 
+
+này mình sẽ sửa lại đô chú cao Mình sẽ để là 1 và đây mình sẽ chỉ định Ag cụ thể là ap 1A new code và chạy TF offline quay lại code cấu hình mình sẽ sửa lại đôi chút phần AZ ở đây mình sẽ sửa thành 1 bi comment dòng này lại Andro và chạy 
+
+upline ở đây Các bạn có thấy là instant server 1 đang running và đang chạy ở AZ là 1 bi theo logic thông thường khi chúng ta thay đổi code cấu hình của terraform trên một dạng tài nguyên thì tài nguyên cũ sẽ được xóa đi và sau khi 
+
+tài nguyên C được Xóa đi hoàn toàn thì tài nguyên mới mới bắt đầu khởi tạo như các bạn có TH thể thấy thì giữa thời gian xóa tài nguyên cũ và khởi tạo tài nguyên mới có một khoảng thời gian chết và nếu như tài nguyên của chúng ta đang 
+
+phục vụ một ứng dụng nào đó thì rõ ràng là nó bị xảy ra down time chúng ta quay lại code và thực hiện sửa đổi đô chú đây mình sẽ thêm một blog l cycle và chỉ định Meta argument là create before de choice giá trị là true mình sửa lại AZ 
+
+đây là 1C new file và thực hiện chạy lại câu lệnh tform upline sau khi chạy câu lệnh tform offline thì instant với cấu hình mới được tạo ra và instant với cấu hình cũ vẫn được duy trì và sau khi instant mới 
+
+được tạo thành công thì inst cũ mới bắt đầu được Xóa đi việc sử dụng Meta agreement là create before de choice đảm bảo rằng không có khoảng chết down time giữa việc chúng ta xóa tài nguyên cũ và khởi tạo tài ngyên mới tiếp theo là 
+
+preventive choice mình có thể tận dụng lại ví dụ trên đây mình sẽ sửa lại thành web 1 live cycle mình sẽ sửa là preventive choice thực hiện Lư file và chạy câu lệnh tform 
+
+apply ở đây sau khi mình chạy có lệnh Tel upline thì có thêm một instant được tạo ra là instant web 1 tiếp theo mình chạy C lệnh tform de choice Ở đây có một thông báo lỗi là do chúng ta chỉ định cái Meta agement là 
+
+prevent de choice trong Block code là AW web 1 điều điều này dẫn đến là khi chúng ta chạy có lệnh terf bitro thì nó sẽ Cấm xóa tài nguyên này ở đây nó có một cái chỉ định để chúng ta tránh được Cái lỗi này là thứ nhất Chúng ta có thể disable 
+
+cái thuộc tính prevent de choy trên code của chúng ta Thứ Hai là nếu mà chúng ta vẫn muốn xóa các dạng tài nguyên trừ các dạng tài nguyên chúng ta chỉ định cái Meta agement là preventive choice thì mình cần phải thêm một cái đối số là 
+
+target và chỉ định cụ thể đến tài nguyên cần xóa và để xóa đi dạng tài nguyên này thì đơn giản chúng ta sẽ thực hiện comment lại cái Meta Comment này và thực hiện chạy có lệnh terf dis choy Vic thêm preventive choice vào 
+
+những tài nguyên Quan trọng là cần thiết Tránh trường hợp chúng ta xóa nhầm thứ ba là xn train mình cũng có thể tận dụng lại Block code này mình sẽ sửa lại đô chút trong phần task name này thì mình sẽ thêm một cái 
+
+hàm là timestamp tạm thời phần này mình comment lại lưu file và thực hiện chạy ch offline mình quay lại giao diện của aws cloud để tìm kiếm con inston mình vừa tạo đây là contion chúng ta vừa tạo với 
+
+cái tên là server 1 và hậu tố là timestamp tại thời điểm chúng ta tạo chúng ta quay lại code và thực hiện chạy lại câu lệnh terf upline bởi vì là cái hàm timestamp này là khác nhau tại một thời điểm nên là cái giá trị tas này nó 
+
+cũng sẽ khác nhau Chính vì sự khác nhau này thì sau khi chúng ta chạy có lệnh terap offline t name của instant này cũng sẽ bị thay đổi và cần phải cập nhập lại chúng ta quay lại giao diện của AD cloud ở đây chúng ta thấy là task name 
+
+của condition này đã được thay đổi tại thời điểm mà chúng ta apply lần thứ hai chúng ta quay lại giao diện code ở đâyy mình sẽ sửa thành là ignor train trong ignor train chúng ta sẽ chỉ định các cái thuộc tính mà chúng ta có thể bỏ qua khi 
+
+mà cập nhật tài nguyên ở đây mình sẽ để là tas điều này có nghĩa là khi chúng ta cập nhật Tài Nguyên thì nó sẽ bỏ qua sự thay đổi trong cái thuộc tính tác này Mình lưu file và chạy lại có lệnh TF upline bởi vì chúng ta chỉ định cái Meta 
+
+agement là xor train với thuộc tính là start cho nên là khi chúng ta chạy câu lệnh tform upline để cập nhật Tài Nguyên thì nó đã báo là không có bất kỳ một sự thay đổi nào trên tài nguyên của chúng ta mình sẽ chạy C lệnh terf detroy để 
+
+Xáng cái tài nguyên vừa tạo tiếp theo mình đến với cái Meta cuối cùng là rel l Trigger by thì mình cũng vẫn có thể tận dụng được lại code của blockchain ở đây mình tạo thêm một dạng tài nguyên nữa là aws Security group ở đây mình sẽ chỉ 
+
+định đối số Security group và chỉ định đến Block code Security group phía trên tạm thời mình sẽ comment lại dòng này l file và chạy C lệnh terf upline tiếp theo mình sẽ sửa lại đôi chút trong phần inc ở đây port đây mình sẽ sửa thành 
+
+80 l file và chạy có lệnh form offline theo logic thông thường khi mà mình thay đổi cấu hình trên Block code nào thì chỉ những tài nguyên trên Block code đó mới bị thay đổi sau khi mà chúng ta chạy C lệnh tform offline để cầm nhập thành 
+
+Nguyên à như các bạn có thể thấy là khi mà mình chạy C lệnh tform upline chỉ Block code aws Security group bị cập nhật quay lại code cấu hình của chúng ta thì phần live cycle ở đây mình sẽ sửa thành metadata là relap tri your by và 
+
+mình chỉ định đến aws Security Group điều này có nghĩa là mọi sự thay đổi cấu hình trên Block code aws Security group thì nó đều dẫn đến sự thay đổi của Block code aws instant trên đây mình sẽ sửa lại đôi chút mình sẽ sửa lại C 
+
+22 và chạy lại C lệnh form upline như các bạn có thể thấy là sau khi mình mình chạy có lệnh tform upline thì ở đây nó sẽ báo là cái instant web của chúng ta sẽ bị thay đổi khi mà chúng ta thay đổi cái cấu hình trên Block code aws 
+
+Security Group y 
+

@@ -1,0 +1,146 @@
+trong bầ này chúng ta sẽ cùng tìm hiểu về một cái khái niệm mới trên k8s là namespace ha thì đây là một khái niệm rất rất quan trọng khi các bạn muốn học và triển khai các hệ thống ở quy mô thực tế thì nó sẽ giúp cho các bạn làm chuyện 
+
+gì theo cái tài liệu của kubes thì định nghĩa là giúp cho mình isolating các cái Group resour là một nhóm các tài nguyên trong một cluster ha Thì các biết là một cluster là một khái niệm vật lý một cluster các bạn sẽ có một hoặc nhiều 
+
+control Plan ha hoặc và nhiều cái gole note ha Vậy thì khi chúng ta triển khai các cái resource gọi là tài nguyên ví dụ như là port này các cái service hay các deployment thì nó sẽ nằm trong các cái namespace thì khi mặc định chúng ta 
+
+không chỉ trong từ đầu series đến giờ chúng ta chỉ làm ở namespace mặc định luôn được gọi là default namespace nha Chúng ta không có chỉ định chúng ta chể khai đâu hết thì các chúng ta có thể tạo Nhiều cái namespace trong một cluster và 
+
+các cái namespace này á sẽ giúp cho các bạn làm chuyện là các bạn deploy các cái resource có thể trùng tên nhau ha bây giờ ví dụ Các bạn xem ở đây Các bạn chúng ta xem các cái get pst chúng ta chúng ta đang có một cái pst bây giờ các 
+
+bạn sẽ không thể tạo một cái pst tên là port 1 nữa tại vì bây giờ chúng ta có thể xem này chúng ta decribe cái port 1 chúng ta này decribe port và port 1 khi chúng ta tạo mặc định chúng ta không chỉ định gì 
+
+name Space sẽ là name Space default Và bây giờ chúng ta sẽ không tạo được một cái cái tên là port 1 trong cái n Space default nữa Bây giờ chúng ta muốn tạo cái tên là cái port 1 thì chúng ta nữa chúng ta phải tạo một cái nes Space khác 
+
+thì ý nghĩa khi làm n Space về mặt luật lý này này thứ nhất giả sử các bạn có hai hệ thống dep và Môi trường production chẳng hạn triển khai trong cùng một cái katam cluster bây giờ các bạn muốn là những cái tài nguyên trong 
+
+dep và trong production là nó khá khá giống nhau đúng không ạ nhưng mà cái C city Nó có thể là khác nhau vậy thì hai cái môi trường này các bạn có thể isolate bằng cách là à Tôi sẽ quy định là cái tài nguyên này được truy xuất vào 
+
+Tào ng bên kia hay không thì mặc định giữa các name Space ở trên k8s nó sẽ có thể truy xuất được với nhau để mình vẽ này ra để các bạn mình xóa cái hình này đi nha Bây giờ mình giả sử mình có cái name 
+
+Space chúng ta ở đây mình có hai name Space Cái này là khái niệm luận luận lý nhá các bạn mình có name Space tên là dep name Space tên là production Và tất nhiên hai cái name Space này đều nằm trong một cái cluster của chúng ta ở đây 
+
+hết một cái katam cluster trong trong các môi trường dep các bạn vẫn sẽ có các cái con port chẳng hạn rồi svc Bên này cũng có port spc hay thậm chí là có những cái 
+
+sau này chúng ta học nhiều hơm ví dụ như là config map hay là liên quan đến à ingress control ha để làm phn l baning thì trong trong các môi trường này các bạn có thể quyết định là à trong môi trường dep này tôi sẽ Limit một số các 
+
+cái giới hạn reck một số cái giới hạn liên quan đến tài nguyên trong môi trường dep này không không thể dùng quá 10 CPU hay là 16 g ram được hay là môi trường pron này sẽ có những cái Limit truy suất nào đấy ví dụ như là Cộng tài 
+
+nguyên ha Thì mình có thể Limit tài nguyên trên từng các cái namespace này nếu mà chúng ta mình mặc định mặc định khi chúng ta không có điều không có không có chỉ định gì nó sẽ triển khai trong một cái n tên là default Và tất 
+
+nhiên đây là luận lý thì nó sẽ triển khai trên những cái con server có tên là gole Note ha nếu mà server mình hết hay các po mình sau này mà giãn nở đấy thì nó hết thì nó sẽ ảnh hưởng đến nhau trong kh đó nếu mà chúng ta làm các name 
+
+Space ch có thể i à quy định cái n sp này có cái tài nguyên bao nhiêu nên sp này có cái tài nguyên bao nhiêu nó sẽ quy định chúng ta còn việc truy xất thì sao mặc định trên k8s thì các cái tài nguyên 
+
+giữa các n Space đều có thể chi xuất nhau trực tiếp được mình muốn làm cái phần này mà isolation giữa các cái n Space thì thông thường dùng thêm nh một số công cụng mới ví dụ như là chúng ta có thể dùng netw policy hoặc chúng ta có 
+
+thể dùng một cái phần mềm rất một cái tiện rất là nổi tiếng tên là carico ha Thì phần này khá advent việc isolation giữa các n sp ví dụ tài nguyên trong n sp này không thể truy suất tài nguyên trong l khác thì chúng ta phải làm thêm 
+
+nữa mặc định sẽ vẫn là truy suất và chúng ta có thể là isolating hoặc là chúng ta sẽ làm các cái nghiệp vụ liên quan đến phân quyền chúng ta có developer à developer và chúng ta sẽ có 
+
+admin thì chúng ta Đây là user chúng ta sử dụng ha đối với developer chỉ có quyền Giả sử deploy view ở trên cái cái tài nguyên của namespace dep thôi còn admin có thể thao tác trên cả hai namespace chẳng hạn thì Đây là một cái 
+
+số Ngư cảnh rất là phổ biến khi chúng ta làm liên quan đến l Space thì trong quá trình Dần dần chúng ta sẽ làm chúng ta sẽ tìm hiểu cách làm sao để thực thi cái này trên k8s nhá thì đối với name Space thì khi chúng ta tạo một cluster á mình 
+
+sẽ có một số cái name Space mặc định ha mình sẽ Kill cle các bạn có thể kiểm tra này resour cái này các bạn biết rồi đúng không ạ Mình sẽ grab name n Space ha Đây n Space tên n Space cái Kai của nó là n Space này tên vết rắ ngắn gọn là ns 
+
+version 1 và force mình nói sau nhá K get ns ha thì đối với KTS mình sẽ có một số names Space mặc định khi chúng ta tạo một cluster đầu tiên là default default Nam space là khi chúng ta tạo một cái tài nguyên giả sử port này service này 
+
+chúng ta không chỉ định thì mặc định nó sẽ chui vào trong name Space tên là default Q Note le này này là một cái n Space dành cho ví dụ chúng ta có rất nhiều các cái Google Note đúng không ạ chúng ta lại có c control Plan thì cái 
+
+name Space tên là Q Note le này nó sẽ gồm chứa các cái con port giúp cho mình heo gọi là gọi là hbit đó Kiểu như là kiểm tra các con các gole con Note đang còn sống đang còn thuộc về một cái C control Plan thuộc về cluster á thì con 
+
+này sẽ mình làm chuyện đấy còn cu public là những là cái name Space giúp cho mình chể khai các tài nguyên mặc định sẽ luôn luôn là Read Only ha là tất cả các n Space khác đều có thể đ đọc được trong cái k public này Cho nên Thông thường 
+
+thì mình cũng không có dùng cái này nhiều hoặ cái này dành cho những đặc biệt thôi dành cho những cái mà kiểu mình các bạn muốn cho tất cả mọi các cluster khác đều đọc vào trong được cái này thì cái này là Kill public còn Kill 
+
+system thì các bạn sẽ co được là những cái n những cái con port thuộc về system của KS ha các bạn có thể dùng cái câu luận K C get port trừ A để tất A có nghĩa là tự on name Space ha đây các bạn xem này n 
+
+Space chúng ta thẽ có n Space default chúng ta có con port 1 Chúng ta có này Kill system Kill system Kill system Kill system và Kill dasp kill dasp là một cái n Space của riêng của riêng cái miniq này nó tạo ra mình cũng không muốn đề 
+
+cập này để kh các bạn bị sao nhãn các bạn muốn xem Giả sử getb Giả sử trừ n default thì các bạn sẽ name name Space default hay là trừ tên là Q system thì sẽ liệt kê tất cả các cái con post nào nh trong K tầ chúng ta có 
+
+cor DNS này SCD này f server controller Manager proxy này scheduler ha và st profer thì cái này phần cái phần kiến trúc của một cái cluster các bạn có thể xem lại nha Thì đó là các cái name Space mà đã đi sẵn cùng với một cái cluster 
+
+phổ phổ biến ha chúng ta get ns chúng ta có thể tạo nhiều name Space chúng ta để tạo name Space chúng ta có thể dùng K cal ctl à create Ms hoặc là namespace ha namespace xong rồi tên giả sử tên mình tên là dep 
+
+chẳng hạn thì các bạn bây giờ chúng ta có thể que C get get name Space chúng ta thẽ có một cái name Space tên là dep status Active và tạo C đây 7 giây bây giờ mình sẽ tạo một Run một cái port ha Mình tên là cũng 
+
+tên là port 1 luôn và mình sẽ image của mình sẽ là Vi aws armm V1 rồi cái port của mình đúng không ạ port của mình là port 8080 chạy port and already ready tại vì mình đang Nếu mình không chỉ định name 
+
+Space thì nó sẽ luôn luôn mặc định nó chặn vào n Space default Tại vì nên Space default mình là có rồi mà đúng không ạ K get get port đây chúng ta có này Bây giờ mình muốn tạo này thì mình sẽ trừ N và định nghĩa cái n Space tên 
+
+là dep nó tạo cái po thành công rồi bây giờ mình sẽ gọi kcal get port nhưng mà bây giờ mình sẽ thêm cái dep này nữa thì chúng ta đã có cái con post này còn nên sp default chúng ta vẫn có bình thường ha chúng ta 
+
+có con po cả t đây 48 phút các bạn có thể xem ví dụ B chúng ta muốn xem describe nó đúng không ạ describe port port 1 trừ ND đó thì chúng ta xem đây bây giờ n là n nó dep này I trạng thái running label 
+
+là run và port 1 image không khác V nhau hết N và bây giờ mình muốn thử truy suất này Bây giờ mình có con port của mình là ở port 1 ở default namespace và chúng ta cũng sẽ có con port 1 ở dep Nam Space thì như mình nói là hai cái Nam Space 
+
+này mặc định nó sẽ không có rri không có giới hạn có thể truy xất nhau một cách trực tiếp bây giờ mình muốn xem thì chúng ta muốn trước h chúng ta xem chúng ta xem IP trước nha get p tr thì cái này là cái ip của cái con ở 
+
+namespace là default bây giờ mình muốn coi các cái con ở bên dep thì ip của nó là 124 và 122 bây giờ mình sẽ chui vào cái con 124 này đi từ con bên dep và mình muốn nói chuyện với cái con ở bên default name Space thì chúng ta sẽ 
+
+dùng C XQ trừ it 1 trừ n dep à thiếu SS SH đây chúng ta đã vào con này chúng ta kiểm tra này I If config 124 này các bạn thử xem nhá Chúng ta thử 
+
+này ping này 10.244801 22 đây ping thằng Thành công rồi đúng không ạ Đây 24122 từ con kia này hoặc chúng ta dùng C coi 10.24 0.122 à má của mình này không có cái cái 
+
+cơ rồi để mình có thể xem được cái web web của nó thì thì đó là cái cái n Space thì N Space này là các bạn có thể tạo bằng cả phương thức declarative và imperative ha chúng ta sẽ cùng xem cái phần tài liệu của 
+
+iws lu tài liệu của camet ha Nó để cũng giới thiệu một số tên Space các bạn có thể đọc thêm kỹ ha tạo get namespace xem được ở đây Kill cle xem phần api ở đây thì các bạn xem tiếp này cái phần K api resour 
+
+này á sẽ giúp cho các bạn xem tất cả các tài nguyên hỗ trợ bởi k8s ha qct avi server I resource đây Các bạn thấy cái cột khá dài ha Đây cái cột name Space nó có 
+
+true forse ha thì đối với trên catet thì có một số các tài nguyên nó thẽ là Belong vào namespace một số tài nguyên nó không thuộc namespace nào hết ví dụ chúng ta sẽ coi cái phần grab port đi port của chúng ta sẽ 
+
+là true ha Nó có là nó thuộc về names Space Chúng ta thử xem cái phần Ví dụ service chúng ta đã biết rồi service nó cũng là true luôn nó cũng thuộc là n Space nhưng mà sẽ có một số cái thành phần nó sẽ không thuộc N Space Ví dụ như 
+
+gọi là PV cái PV Mình chưa học nên là mình gọi như những cái persistent volume giúp mình làm những cái lưu trữ mà dạng ổ cứng ấ của cho các con container chúng ta thì sẽ là force thì đây là những cái tài nguyên sẽ khi mà chúng ta tạo các 
+
+manifest nó sẽ không có cái phần namay Ờ Còn những cái tài nguyên nào sẽ có n Space thì các bạn phải đặt tả còn nếu không đặt tả sẽ tựng nó sẽ chui vào trong phần default name Space Chúng ta thử xem trong phần Ví dụ phần Ví dụ này 
+
+lại không có cái phần name Space nh Nhưng mà nó cũng không quá khó đâu chúng ta có thể tạo ra cái namespace chúng ta mình sẽ ví dụ Các bạn xem này một cái namespace chúng ta ở đây mình sẽ tạo một cái tên namespace CH zamo 
+
+n. tại vì nó cũng sẽ tuân thủ cái cái cấu trúc chúng ta I version này K này metadata và sp ha Thì trong phần này mình sẽ không có phần Spec ha mình sẽ chỉ có metadata chn này ns1 này K là gì K là chúng ta sẽ Tùng kiểm tra cái 
+
+phần n Space đây n Space mà không có không có khái niệm n Space name Space tên nó tên đây cái khai nó names Space chữ viết hoa chữ này viết thường và version nó sẽ là 
+
+V1 rồi chúng ta đã có các cái n Space ns1 nhá trước khi làm chúng ta thử kiểm tra này get ns đây không có ns1 đúng không ạ Chúng ta sẽ apply trừ f ns ha các bạn có thể đặc 
+
+tả luôn là ns đây created đây chúng ta get ns Các bạn thấy có ns1 đây đúng không ạ bây giờ gi sử mình muốn tạo thêm cái nữa đi Mình sẽ gặt ba dấu trừ đây mình sẽ tạo ns2 
+
+bây giờ mình sẽ kê t apply đây nó sẽ ns1 không thay đổi và ss2 tạo mới ở đây và bây giờ mình sẽ kiểm tra get ns chúng ta đã có hai cái namespace bây giờ giả sử mình muốn deploy hai cái dịch vụ nằm vào hai cái namespace này chúng ta sẽ làm 
+
+như nào nha bắt đầu mình cũng tăng tốc lên để các bạn làm những cái to tác hơn rồi bây giờ mình sẽ tạo một cái service tên là app1 zamo và và cái app 1 này mình sẽ triển khai vào cái names Space 1 à app 2 sẽ triển khai vào cái names 
+
+Space 2 chúng ta sẽ đi copy trong cái phần deployment nha Chúng ta coi deployment chúng ta ở đây Ờ các bạn chịu khó gõ ha mình thì mình lười mình copy thôi mình sẽ chỉ khay hai con port hai con replica app mình vẫn là 
+
+app 1 ha và lúc này á trong phần metadata á mình sẽ để cái name Space của mình ở đây ns1 và app của mình Đây là app 1 app 1 sle app 1 luôn Cái này là deploy ở đâu deployment Cái label nó là F1 và chúng 
+
+ta sẽ coi cái copy cái note port của mình ở đây luôn app1 của mình ở đây các bạn chị khó Follow Nếu các bạn chỗ này nhanh qua các bạn pause video các bạn xem mình sẽ làm cái note p service ở cái name Space m 
+
+bây giờ mình sẽ kiểm tra cái service này nó là thuộc tài nguyên là namespace hay không namespace nha các bạn dừng lại là sao chúng ta biết được ạ Chúng ta có thể tra cứu ở đây ha K cal get api resource 
+
+grab service đây service đây service chúng ta đây SBC tru luôn nó có name Space luôn ha cho nên chỗ này mình có thể định nghĩa này service nó nằm dưới đây name Space ns1 luôn và mình muốn lấy ns1 ở trong các cái app 1 này của chúng 
+
+ta selector là app 1 nằm trong cái n Space 1 ở đây cái phần trên này là chúng ta tạo ra các cái con port chúng ta ha còn phần dưới này chúng ta sẽ tạo cái service này và cái service này tên là Note po service chạy trong Nam Space 
+
+1 và nó sẽ lấy nó sẽ lấy tất cả những con post nào có cái selector là app có cái label là app và app 1 Chúng ta sẽ copy cái này thằng cái số 2i app 2 lúc này á mình sẽ deploy vào trong cái name Space số 2 Và tất nhiên 
+
+chỗ này mình vẫn sẽ dùng là vẫn sẽ dùng là con cần con app 1 đây các bạn có thể dùng chuyển sang App 2 cũng được không vấn đề gì hết nhưng mà muốn để các bạn thấy là nó cùng tên hết nhưng mà triển khai nên Space khác nhau thôi cùng tên 
+
+dịch vụ luôn nh lên Space khác ha Đây tính nó thiếu chỗ này ha đó Vậy thì bây giờ chúng ta sẽ thử deploy nha Thì mình sẽ deploy kiểu này chúng ta sẽ K cal apply trừ f và name Space thì nó sẽ tự động trể khai luôn 
+
+cho chúng ta này chúng ta không phải hai cái n Space này đã tạo rồi không tạo không sửa này tạo ra app 1 này tạo ra Note p service 1 và tạo ra app1 luôn cũng thành công luôn và tạo ra service cũng thành công luôn ha chúng ta sẽ 
+
+verify này K get port Các bạn đoán là có bao nhiêu con port ở đây ạ Nó sẽ có một con port nà con port này con port mặc định mình tạo từ t trước ha Mình muốn get p đúng á thì mình phải ghi thêm ns1 name Space 1 và ns2 name Space 2 của 
+
+chúng ta chúng ta thấy đều là app 1 hết đúng không ạ nhưng mà bây giờ chúng ta sẽ có những con port khác nhau này chúng ta kiểm tra con này trước nhá Q descri port trừ ns1 đây chúng ta xem này ns1 này rồi chúng 
+
+ta sẽ kiểm tra một con port ở ở cái ns2 nhé các bạn các bạn mới làm thì các bạn cố gắng chịu khó gõ thêm nhá trừ n này ns2 các bạn không đặt tả ns2 thì các bạn sẽ không ch suất được đây nó sẽ là ở ns2 
+
+nha rồi mình sẽ K cal get svc svc thì nó sẽ ra service nhưng bây giờ mình muốn trừ a trừ thì nó sẽ hiển thị tất cả các service ở tất cả các names Space luôn các bạn xem này ở default Nam Space chúng ta có cái này 
+
+Kill kill system có cái này dasp có cái này và đây các bạn quan trọng nam Space 1 có cái noteb service name Space 2 có có Note po service Và tất nhiên các port chúng ta không chỉ định thì sẽ là port random port ngẫu nhiên thì nó sẽ chạy ra 
+
+như thế này B này cũng khá dài rồi cho nên là cái phần mà để truy xuất từ một con pst sang các cái service ở các namespace khác nhau ấy mình sẽ để ở cái bài tiếp theo ha Cảm ơn các bạn đã theo dõi ạ 
+

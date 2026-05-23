@@ -1,0 +1,146 @@
+Thì trước khi học và bắt đầu thao tác với kutis thì các bạn cần thết lập máy tính cá nhân các bạn một số cái phần mềm bổ trợ trước ha Thì trong đó chúng ta sẽ có cái phần đầu tiên là chúng phải cả cái doc cer run time ở trên máy tí các 
+
+bạn thì đây mình có m đường link n tất cả các đường link mình sẽ để trong phần description để các bạn có thể Follow một cách từ từ thì đầu tiên các bạn phải cài doc cer ha Thì doc cer engine thì các bạn sẽ hỗ trợ những nền tảng rất là phổ 
+
+biến Linux này macos và Windows Nói chung là đâ là ba cái phổ biến nhất rồi cũng rất là may á là hiện tại đã hỗ trợ Nếu các bạn xài ma max mà hỗ trợ xài chip arm chip M1 á thì cũng đã hỗ trợ một cách mình thấy cũng không vấn đề gì 
+
+lắm rồi ha cách đây khoảng tầm 2 năm thì mình cũng gặp một số vấn đề nhỏ thôi nhưng hiện tại thì mình thấy cũng rất là sply rất là Thuận Lợi rồi thì các bạn xem ví chụ mình coi cài trên macos này này mình sẽ Download cái cho Apple 
+
+silicon hoặc là Intel chip Intel chip là những con con máy tính các bạn xài đời cũ rồi đó còn những con máy tính ví dụ chip m M1 M2 M3 gọi là Apple cicor ha các bạn download về rồi các bạn cài đặt ha thì các bạn xem một số cá yêu cầu về 
+
+hệ thống các bạn ví dụ Apple silicon này máy cần t tố thiểu 4 4 GB RAM ha Đây Software update install nhì đây install cho max Tất nhiên mình đã cài trên máy tính của mình rồi cái việc cài đặt này khá là dễ ha Mình không muốn kéo dài 
+
+video này quá nhiều cho việc cài đặt này thì các bạn r hết các bạn Download này về giúp mình các bạn cài cài trên máy tính của các bạn à tiếp theo Bước tiếp theo là các bạn cần tạo một cái tài khoản docer hấ ha tài khoản này thì thực 
+
+ra đây không phải yêu cầu của cái chương trình học này Nhưng mà mình nghĩ các bạn Nếu các bạn làm lâu dài các bạn nên tạo tài khoản trên docker Hub thì docker Hub là cái tài khoản sẽ giúp cho các bạn lưu trữ những cái container image ha ví dụ 
+
+Các bạn muốn đóng những cái docker image gì đấy các bạn sẽ lưu ở đây thì sa N các bạn dùng cho những cái dự án cá nhân hoặc thậm chí D những dự án ở công ty hay là độ nhóm các bạn vẫn được thì đc C hấp sẽ là một cái gọi là reg gọi là một 
+
+cái nơi để lưu trữ những container thì bên cạnh đây các bạn cũng có rất rất nhiều các các lựa chọn thay thế khác ví dụ như các bạn chạy trên aws thì các bạn sẽ dùng cái gọi là Amazon antic container registry hay gọi là Amazon Ea 
+
+ha thì sau phân sang phần hai của chương trình mình sẽ học về những cái Bill trong môi trường ở trên ws thì mình sẽ hướng dẫn các bạn Build hoàn toàn những cái peline hoàn toàn những cái dịch vụ dùng của luôn để các bạn dùng gọi như là 
+
+thống nhất duy nhất thì trong mình đã Build một số image sẵn để phục vụ cái cái chương trình học này rồi nên các bạn sẽ không có cần phải không có phải điều kiện bắt buộc đâu nhưng Mình khuyến nghĩ các bạn tạo ha đặ vệ trong phần tạo này 
+
+các bạn sẽ tạo những alias name của bạn Sau này các bạn dùng trong tương lai mình nghĩ cũng là một cái rất là hay thì đó là cái thứ hai thì sau khi các bạn cài á thì các bạn sẽ thử validate các bạn này ví dụ do các bạn có là docker 
+
+image ha thì các bạn thấy đâ một số các cái comment đã giới hiệu ví dụ docker image này ví dụ s không có s sẽ là li K cả cái imit mình đang có ở đây ha ví dụ máy mình đang có những cái imit này mình sẽ 
+
+kiểm tra docker version đ đó loger version chữ máy của mình hiện tại là mình đang cài là version là 25 25.0.3 ha Thì thời điểm các bạn coi video này thì nó có thể là lên version mới hơn rồi các bạn cài máy tính các bạn 
+
+có thể version mới hơn rồi nhưng mà nó cũng không quá khác biệt đâu tại những cái phần này là phần gọi như code Lõ nhất của liên quan docker rồi thì đây là cái thứ hai mình cái thứ ba mình sẽ nhờ các bạn cần phải làm và một cái nữa là 
+
+các bạn xem và làm chúng mình cái docker 1 L1 ha dành cho những bạn nào mà chưa từng làm về docker Hoặc là các bạn đã lâu rồi không th tắt những docker comment docker Build docker Push hay là docker ví dụ như là docker lock hay xem 
+
+loog chong một cái docker đang running hay xem những cái process ha ví dụ như là các bạn sẽ ví dụ Các bạn xem Xem image hay là xóa Nhữ cái docker đi ha Ví dụ như có dụ docker log hay là doger exact gì đó ví dụ thực ti Chu và 
+
+con Chu vào một con docker container đang running để xem những cái file system của nó hã Xem những cái process đang chảy trên con docker này thì mình khuyến nghị các bạn nên à handzone này lại một l một lượt ha Thì cái docker 
+
+imit mình đã cung cấp cho các bạn trong cái bài handzone này rồi thì các bạn có thể thực tế thực thực hiện thao tác luôn dụ mình thấy đang có cái bài đấy là mình mình dùng g Locker trong cái exs này á thì nếu các bạn không muốn dùng cái 
+
+docker ở trong exs này thì mình đã Build sẵn Ờ cái docker của các bạn chạy trên hai nền tảng ha nền tảng là vi awr thì cái này dành cho những các bạn nào mà muốn dùng cho máy má t chạy chip M1 ha chạy chạy chip Apple cicor ấy thì mình 
+
+nó Build sẵn ở đây rồi và hoặc là iks thì dành cho những chip phổ biến ví dụ các bạn xài Windows xài chent to rồi đấy Nhưng cái máy mà không phải Apple M1 các bạn dùng cái xs này ví dụ như các bạn muốn chạy một cái docker là 
+
+dạng là ví dụ mình có mình có năm version ha ví dụ như là Viet adrm cái t là V1 ha Ví dụ mình chạy như này đi docker Hiện tại mình sẽ có process đang có này docker PS Hiện tại mình đang không có cái nào đúng không ạ 
+
+mình sẽ thử chạy một cái docker ở máy tính cá nhân của mình ha ch docker run này thì mình sẽ có option là trừ p trừ p có nghĩa là trừ cái port chạy ở trên cái port nào ha Thì doc cơ mình đang bu ở chạy port 8080 Nhưng mà mình sẽ expose 
+
+máy mình ở bất kỳ port nào khác mình sẽ expose máy tính mình sẽ là port 80.1 Tiếp theo là cái đc cơ mịt ha và cái cái tag hay là cái version nó mình để là version 1 ha Mình sẽ thử chạy thì khi chạy thì các bạn sẽ thấy là các bạn sẽ 
+
+có cái app của mình đang start ở port 080 rồi nhá rồi chúng ta sẽ thử try sát ứng dụng chúng ta local hot port 8081 này đây ứng dụng chúng ta chạy ở đây này d55 ha ip của nó là 0.2 và version version 1 thì 
+
+lúc này các bạn sẽ xem được cái log của mình host name của mình đang chạy ở đây tại vì mình mình cố tình mình echo ra cái cái dòng log này thì mình có thể refres lại thử đây nó sin ra thêm một dòng lock nữa chúng ta có hai dòng blck 
+
+Cái này mình sẽ bị hang ở đây ha thì nếu các bạn không muốn bị bị hang ở đây á để phải mở một cái terminal khác á thì các bạn có thể chạy với option ví dụ đ detect ha Mình chạy lại cái Câ lận Lúc nãy nhá Nhưng mà mình sẽ thêm một chữ d 
+
+nữa Thôi trừ D đây nó chạy một ID này các bạn xem lại BS này mình sẽ clear đi nh nó đây docker BS này à có một cái ID cái tên khác này à và chạy vẫn chạy B 8081 ha Nhưng mà con này là một docker khác 
+
+rồi ID của nó là 9697 đây này bạn xem reload lại nha Đây 697 nh là một ID khác thì các bạn muốn xem được cái log của nó thì các bạn sẽ xem này docker log rồi Cái đây nó gửi ý trên phần đ luôn là rất là nhanh Nếu các bạn muốn 
+
+làm nhanh thì các bạn cài cái cper thì cái này hiện tại đang như mình biết là hỗ trợ cho maxos ha C của maxos ha đ các bạn xem cái OS của mình ở đây đ thì xem được cái log của mình hoặc là cái một cái Câ lận rất là phổ biến nữ là 
+
+hay dùng để chui vào con container gọi là ex ha exq á thì tất cả những cái chi tiết này các bạn xem giúp mình lại ở cái video này mình sẽ đứn K trong phần description các bạn xem lại các bạn phải làm cái này kỹ trước ha để các bạn đi 
+
+những cái phần sau nó sẽ thuận lợi hơn phần tiếp theo chúng ta sẽ cần phải cà những thứ liên quan đến comist thì công công đ công cụ đầu tiên là các bạn thao tác comment những cái imperative comment với ctic thông qua một cái tool các bạn 
+
+phải cả Nhữ máy tính của các bạn đó là kctl TH như s là các bạn chạy trên iks elc service thì các bạn không phải dùng cái tool này để các bạn thao tác với cái cluster của các bạn nên cái này trước sau các bạn cũng phả cần phải làm thôi 
+
+thì cái cái công cụ này nó sẽ hỗ trợ đủ nền tảng của các bạn ha Linux Mac OS và Windows thì trong phần này nó sẽ hiện tại trên tài liệu chính thống của cis iio đang recommend có hai cái môi trườ này các bạn trong quá trình Bạn học là 
+
+dùng cái Kai hoặc là dùng cái mini mini này thì giúp cho bạn hai cái này giống như các bạn xây một cái să Bóc một cái môi trường này các bạn thự thực tập trên má tíng ng nha các bạn có ng là các bạn không phải cài thật ho cài thật thì nó 
+
+rất là phức tạp đôi khi các bạn mất cả ngày các bạn loay hoay cài nó rất mất mất thời gian thì cái này nó buư sẵn cho các bạn trên máy tính cá nhân của bạn lôc computer rồi n sẽ rất là lẹ ha Thì mình đều đọc các review của hai hai cái 
+
+này thì đều đang rất là đ đánh giá rất là cao đều hai thằng đều nó ok hết mình thì mình dùng cái mini này nha thì trong quá trình hướng dẫn mình sẽ dùng cái mini Còn về phần sau mình sẽ dùng Build thẳng trên ab luôn để các bạn coi trên 
+
+môi trường PR thế nào nhưng mà đầu tiên thì các bạn dựng môi trường sbox rồi lên để các bạn đỡ bị tốn kém chi phí phát sinh tại vì mình có Má Tí cá nhân mình rồi mình tận dụng nó thì cái phần này phần sau mình có Min 
+
+Kill cài sau Nhưng mà các bạn phải cài cái q ctl ha cái này cái này cũng đọc cũng sẽ là một vấn đề nữa mọi người có thể đọc là k ctl hoặc là đọc là Kill cle ha Mình thấy là các cái bạn nước ngoài học là k cle Ờ Ví dụ mình xài trên nền 
+
+tảng maxos này mình sẽ Click vào maxos nhá đây macos thì các bạn có thể cài thông qua cái thư viện download hoặc là home rw ha Thì hiện tại mình đọc một số cái tài liệu thì nó sẽ recommend các bạn cài 
+
+thông qua lại binary này thậm chí sau này cài một số tool riêng của aws nữa ví dụ như là iks cle á iks ctl á thì các bạn recommend thông qua phương thức trên binary thì Nhưng mà mình làm cả hai bước thì cũng không Không có vấn đề chưa có 
+
+phát sin vấn đề gì ngoài ý muốn hết tiếp theo các bạn cần phải Download cái công Download cái packet nó về ha Thì nó có hai Tab Intel Apple cicor Nếu các bạn sàn những con chip M1 M2 M3 gì đấy thì các bạn sẽ qua cái Tab các bạn copy cái 
+
+đường link này ha và mở cái terminal lên r các bạn paste các bạn Download ví dụ các bạn paste các bạn download ở đây đây các bạn ví dụ bạn paste bạn Download Rồi enter nó sẽ lưu ở local của các bạn nà sau đó thì các bạn sẽ Download specific 
+
+nh này này cấp quyền cho nó này validate validate là C co chất sum nó ok gì không đấy download có đúng phiên bản không Rồi chất root này này chất out root gì này chạy đây này được kiểm tra version ha mình sẽ copy cái này trên máy mình đã 
+
+cài rồi thì mình thì mình gõ cái version này sẽ ra thì hiện tại version trên máy mình chạy là 1.29 thì theo thời gian các bạn xem video này nó có thể là vên 130 131 132 133 gì đấy nó rất là nhanh ha Nhưng mà 
+
+những cái thao tác trong cái trong cái giai đoạn fundal này thì nó sẽ không có sự khác biệt quá lớn đâu tại những cái phần này là phần cốt lõi rồi thì rất khó thay đổi ha nếu như mà nếu có thay đổi nào thì mình sẽ để trong phần comment 
+
+hoặc là mình sẽ làm video mới để mình thay đổi cái phần này â mình sẽ có cái này coi như cài đặt thành công thì cái này chỉ là bước đầu thôi Bây giờ mình muốn có một cái môi trường để mình thao tác những cái à những cái câu lận những 
+
+cái Thiết kế những cái resource ở trên ctis thì mình cần phải môi trường thì như phần trước mình các bạn đã thấy là nó có hai cái recommend một là dùng K hoặc là dùng miniq thì mình thấy cứ đường lên này mình để cả hai ch trong cả 
+
+phần description này các bạn có thể xem ha tùy thộc các bạn đôi khi các bạn nhiều khi các bạn máy các bạn có những cái đặc thù đấy có thể Cái này nó không thàn công thì các bạn thử cái khác Mình nghĩ cũng không có gì sự khác biệt đâu 
+
+mình sẽ Cài miniq này thì mình thấy m Tài liệu miniq này nó nó nó nó khá đẹp đẽ hơn nó khá sáng sủa hơn ha trực quan hơ này ví dụ Các bạn xem này Ờ nó sẽ rất rõ ràng chọn hệ đều Hà ví dụ chọn Linux có những con kiến trúc nào ha hay chọn 
+
+Windows ha Windows thì đơn giản hơn này LX thì các bạn sẽ có rất nhiều con chip đây macos ví dụ maos nó lại đề mặc định là x86 ha các bạn nhớm V Nếu các bạn xài chip đời mới của Apple bạn chọn arm chọn Bản stable chọn binary hoặc chọn home 
+
+prw ha Ví dụ mình cài đặt thông qua home prw này Ví dụ mình copy cái câu luận này tất nhiên máy các bạn phải có home prw trước xong rồi link mini xong rồi mình sẽ thử start cái cluster mình lên đây mình sẽ thử nha Thì trước khi trước khi 
+
+mình thử mình sẽ có thể coi là à version này mình coi version của mình min của mình đang là version 1.32 nha thì các bạn có thể khởi khởi tạo những cái cl i à Xin lỗi kutis cluster có những cái phiên bản khác nhau ha mình sẽ xem một 
+
+số cái câu luận phổ biến rồi mình sẽ coi mini Kill start ha để mình start cái cluster mình lên ha rồi mình sẽ thấy các bạn xem này con này qu là 1.32 chạy chip arm cái này sẽ mất khoảng 1 2 phút thì nó tùy thuộc các bạn cái này nó sẽ có 
+
+một trong cái trên trờ này mình sẽ mở về cái tài liệu các bạn xem thêm đ này nha nó sẽ yêu cầu các bạn một số các các cái tài nguyên dụ cuu này bộ nhớ này 20 g cứng Và Internet connection Tất nhiên là hiển nhiên rồi thì để nó tạo ra những 
+
+cái hạ tầng những cái con Dock cer liên quan đến cái miniq này r mà đây xem nó chạy Ờ nó đã chạy Xong rồi cũng không không quá lâu ha docker này rồi Pom base image ha Thì nếu mà lần đầu tiên các bạn mà chạy cái này trên máy tí các bạn chưa 
+
+có cái image của con miniq á nó bản chất Nó là một cái do cơ image Thôi thì các bạn sẽ chờ Đoạn này hơi lâu ha Nhưng mà những lần sau các bạn sẽ rất là nhanh ví dụ mình thì mình rất là nhanh rồi ctis thì 1 chạy phiên bản 1.28 này docker hai 
+
+phiên bản 24 này thì cái này nó cũng không quá Ảnh hưởng cái đoạn giai đoạn này của bạn học đâu sau này các bạn chạy trên môi trường pran xs hay là hay là những môi trường phức tạp thì các bạn mới quan tâm đến này nhiều hơn Hiện tại 
+
+thì những cái phần cơ bản này luôn luôn có image nó mặc định dùng cái image mini st provisioner version 5 này đó inable add on này các có có một số addon n giống như là một số các cái giống như một số các cái tiện ứt mà nó có sẵn 
+
+trong cái phần cluster của các bạn có rồi Hiện tại xong ha các bạn có thể chất lại cái mini status ở đây đây C Đang có loại là control Plan running Running running configure r đang chạy ok rồi này Bây giờ 
+
+mình muốn kiểm tra này Thực ra trên tài liệu nó cũng rất là nó cũng rất là sáng sủa thôi mini skill start này Kill cle này câu lận đầu tiên các bạn xem cái này Kill kill cle get po trừ a a là phần tất cả Hiển thệ tất cả cái phần namespace 
+
+của cái miniq này thời điểm này các bạn có thể chưa biết không vấn đề gì thế nào trong quá trình mình sẽ chỉ các bạn một lần nữa nó cẩn thận hơn k cle get post đó rồi post này thì trừ A là Hiển thị tất cả post chúng ta có chúng 
+
+ta có một số post này Đang hiển thị trên đang chạy trên class chúng ta có c DNS này có SCD này Cái này dùng để phân giả tên miền cho những cái dịch vụ chúng ta Q server các bạn có thể xem lại bài về cross architect Xem một số thành phần ha 
+
+Kill controller Manager này Kill proxy này con này sẽ chạy trên các cái cái note của mình ha Kill scheduler này và storage professional đó đó là một số các cái đi kèm cho với phần mini sbox của chúng ta thì sau này các bạn khi đi 
+
+Build trên những hệ thống thực tế á thì tùy thuộc vào cái nền tảng các bạn thì nó sẽ có thêm hoặc là bớt một số các cái port à mình gọi là lên là cái port bài t mình sẽ tìm hiểu về port mình sẽ có thêm một số này để gán 
+
+alias đ thể gõ gõ lận Nhanh hơn à Thì cái này mình chưa quan tâm lắm đâu nó sẽ có một cái mini dasb chúng ta sẽ thử nha đây nó sẽ chạy một cái dasb cho mình Bạn chờ một xíu ha rồi Đây là cái dasp sau khi nó chạy 
+
+Xong mình chở khoảng cũng nhanh th 1 2 phút gì đấy các bạn xem này port này đó hiện tại không có cái port ở trong cái default name spacey giờ mình chọn qu name Space khác đi mình có cái phần câu lận của mình này cái n Space của mình 
+
+đang có ở cái Kill sy và sau các bạn sẽ coi cái phần này trong phần chi tiết hơn đây các bạn sẽ xem một số đây là một cái giao diện để các bạn xem trực quan hơn thôi Nhưng mà thực tế với mình thì cái này nó cũng nó cũng dành cho thời gian 
+
+đâu các bạn tò mò bạn ngt ngật thôi nhưng mà sau này các bạn sẽ chủ yếu các bạn sẽ làm trên cái terminal này nhiều hơn n thì cái này sẽ giúp một công cụ bổ trợ chên mới bắt đầu các bạn Các bạn xem nó hiệu quả dễ dàng hơn thì đây là có 
+
+nghĩa là đến đạn này các bạn cài cái mini thành công r ha các bạn có thể Xem này hiện tại trong cái phần cluster này Kill C get Note à các bạn đang có một Note là C control Plan thô trong bài t mình sẽ tìm hiểu để dựng một cái cluster 
+
+mà nó có thêm Giả sử có thêm hai gole Node chẳng hạn để các bạn thấy môi trường nó có thể nó có thực tế hơn Tại vì chúng ta nếu mà chỉ làm một control Plan rồi chúng ta Build những cái container những cái pst chúng ta trên 
+
+thẳng thẳng cái control Plan này luôn thì nó hơi hơi đặc thù và trong thực tế chúng ta sẽ không làm chuyện đấy thì hẹn gặp lại các bạn B tiếp theo cảm ơn các bạn đã theo dõi ạ m 
+

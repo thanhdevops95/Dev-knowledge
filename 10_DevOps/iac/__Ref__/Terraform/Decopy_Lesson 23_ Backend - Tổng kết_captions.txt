@@ -1,0 +1,10 @@
+để làm việc hiệu quả Với Tel backend đặc biệt là với remote backend thì chúng ta cần cân nhắc thực hành các cách ki chính như sau đầu tiên là giao tiếp thực tế thì giao tiếp rất quan trọng trong quá trình chúng ta làm việc nhóm và thực tế 
+
+đối với một dự án tform khi có nhiều người thì việc giao tiếp hiệu quả giữa các thành viên là điều vô cùng quan trọng trong quá trình giao tiếp thì chúng ta cần phải thông báo cho các thành viên trong nhóm khi mà chúng ta 
+
+thực hiện các thay đổi lớn hoặc là những câu lệnh apply thứ hai là chúng ta nên sử dụng git để quản lý code của dự án và code của cả nhóm và trong quá trình sử dụng git thì chúng ta cần lưu ý hai yếu tố 
+
+quan trọng là P và MT hai cái hành động này nó sẽ giúp chúng ta đảm bảo rằng là code và file State sẽ được cập nhật trên cái không gian làm việc của mỗi thành viên thứ ba là trước khi áp dụng bất kỳ một thay đổi nào thì tất cả thành viên 
+
+trong nhóm cần phải luôn Chạy câu lệnh tform Plan để kiểm tra và xác nhận thay đổi sẽ được áp dụng và cuối cùng chúng ta cần đảm bảo rằng f State sẽ luôn được khá khi thực hiện thay đổi để tránh xung đột giữa các thành viên trong nhóm 
+

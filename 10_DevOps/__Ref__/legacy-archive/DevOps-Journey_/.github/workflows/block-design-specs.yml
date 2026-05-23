@@ -1,0 +1,31 @@
+# Block .DesignSpecifications from main branch
+# This workflow prevents .DesignSpecifications folder from being pushed to main
+
+name: Block Design Specs on Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-design-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for .DesignSpecifications folder
+        run: |
+          if [ -d ".DesignSpecifications" ]; then
+            echo "❌ ERROR: .DesignSpecifications folder detected!"
+            echo ""
+            echo "The .DesignSpecifications folder is NOT allowed on the 'main' branch."
+            echo "This folder should only exist in the 'Design' branch."
+            echo ""
+            echo "Please remove .DesignSpecifications before pushing to main."
+            exit 1
+          else
+            echo "✅ No .DesignSpecifications folder found. OK to proceed."
+          fi

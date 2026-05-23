@@ -1,0 +1,126 @@
+Chúng ta sẽ tạo ra folder 2.2 backend và trong folder này mình sẽ tạo ra 1 folder con là 1 local backend Và tạo thêm 1 folder nữa là 2 standard backend Và folder thứ 3 là remote backend Chúng ta sẽ lần lượt đi tìm hiểu 3 loại backend Đầu tiên mình sẽ tìm hiểu về loại local backend Ở đây mình sẽ tạo ra 1 file main.tf 
+
+Local backend thì xưa nay chúng ta đã làm việc nhiều rồi qua các bài hand on Thực chất đây là cách chúng ta thực hiện lưu trữ các file state của cơ sở hiện tại trên máy local của chúng ta Và đây mình sẽ tạo ra 1 dạng tài nguyên là EC2 Mình sẽ lấy cái ví dụ từ bài demo new file và mở terminal thực hiện chạy câu lệnh telephone mini Và kể từ bài này chúng ta sẽ sử dụng cái terminal là BAST Chúng ta sẽ xe lê đến thư mục local backend 
+
+Theo chạy câu lệnh telephone init Để thực hiện cài đặt plugin AWS Sau khi chạy câu lệnh telephone offline Sau khi chạy câu lệnh telephone offline thì chúng ta thấy là file terraform.tfc được sinh ra Và nó lưu trữ trên thư mục hiện tại của chúng ta Tức là lưu trữ trên máy local 
+
+Chúng ta đến với loại backend thứ 2 là standard backend Và trong loại standard backend này thì mình sẽ sử dụng dịch vụ là AWS 3 Để lưu trữ các file state Và sử dụng thêm 1 dịch vụ nữa là AWS DynamoDB Thì cái DynamoDB này sẽ giúp chúng ta thực hiện khóa cái file state lại Thì tại sao chúng ta sử dụng DynamoDB 
+
+Thì nó sẽ liên quan nhiều đến cái tính năng của DynamoDB là hiệu suất cao và độ chế thấp Thì DynamoDB là 1 cái dịch vụ NoSQL Có hiệu suất cao và độ chế thấp Nó sẽ đảm bảo rằng việc khóa và mở state nó diễn ra nhanh chóng Điều này có nghĩa là khi mà 1 người dùng thực hiện apply Hay thực hiện 1 cái câu lệnh nào đó tác động đến hệ thống 
+
+Thì ngay lập tức cái file state nó sẽ được khóa lại Và người khác sẽ không được sử dụng Và sau khi tác vụ của người dùng đó được hoàn thành Thì ngay lập tức cái file state nó sẽ được giải phóng Và người khác có thể được sử dụng ngay lập tức Và chúng ta có thể setup 2 cái dịch vụ này trên giao diện web console của AWS 
+
+Tuy nhiên chỉ trong cái phạm vi thực hành với Teleform Thì mình sẽ sử dụng luôn code của Teleform để setup lên Săn đợt bách n Gồm 2 dịch vụ là AWS S3 và DanoDB Và nội dung hand on tiếp theo là mình sẽ mô phỏng 
+
+Quá trình chúng ta làm việc nhóm Ở đây mình sẽ có 2 team Team 1 và team 2 Và người dùng trên team 1 Sẽ thực hiện lưu trữ cái file state trên AWS S3 Và team 2 cũng vậy 
+
+Cả team 1 và team 2 sẽ sử dụng chung 1 file state của 1 dự án Chúng ta qua lại VS Code Và trong thư mục 2 Standard Backend Chúng ta sẽ tạo ra 1 thư mục là setup Và trong thư mục này 
+
+Thì mình sẽ tạo ra 1 file main.tf Trong file này mình thực hiện mô tả Tạo ra 2 dịch vụ Là AWS S3 Bucket Và AWS DynamoDB Đối với S3 thì tên của Bookkit là duy nhất trên toàn region 
+
+Nên là ở đây mình sẽ thêm 1 hàm timestamp đằng sau khẩu thố Trước theo là dịch vụ AWS DynamoDB Thì đây mình có 1 vài đối số miêu tả như là tên này Tên của thay bồ này là Teleform Log này Và thêm 1 vài đối số bắt buộc nữa Mình sẽ lưu file này 
+
+Và thực hiện CD đến thư mục HiStandard Đến setup Và thực hiện chạy có lệnh Teleform init Tiếp theo mình sẽ thực hiện Apply để tạo ra 2 dịch vụ 
+
+Ở đây 2 dịch vụ đã được tạo thành công Mình sẽ lên trang chủ của AWS Và kiểm tra Thì đầu liên mình kiểm tra S3 trước Đây cái bucket mà chúng ta vừa tạo ra đây Tiếp theo chúng ta sẽ kiểm tra dịch vụ DynamoDB 
+
+Đây table Teleform Log Đã được tạo thành công Tiếp theo thì mình sẽ tạo ra Tiếp theo thì mình sẽ tạo ra 2 team Là team 1 và team 2 Ở đây mình sẽ tạo ra 2 thư mục 
+
+Tương đương với kết thúc làm việc của team 1 và team 2 Để cho tác biệt thì mình sẽ tạo ra 2 user 2 user này mình sẽ tạo trên AWS Để cho tiện thì mình sẽ tạo user group Và sau đó mình sẽ 
+
+Add 2 cái user Và cái group này để quản lý tập trung Tiếp theo mình sẽ tạo 2 user Tiếp theo mình sẽ tạo 2 user Tiếp theo mình sẽ tạo 2 user Mình sẽ tạo user 
+
+user 1 Chọn group cho user Chọn next Tiếp theo mình sẽ Thực hiện là Tạo ra 1 cặp key 
+
+Asset key và csv key cho user này Và thực hiện download Tương tự mình sẽ tạo ra user Thứ 2 Tiếp theo mình sẽ tạo ra 2 không gian làm việc cho 2 user Thì ở trong cái folder 2 standard backend này 
+
+Mình sẽ tạo ra 2 folder là user 1 và user 2 Trong các folder này thì mình sẽ tạo ra 2 file Terraform Đầu tiên là file backend 
+
+Là những file mô tả để kết nối với Standard backend Và file thứ 2 là file main.ts Thì cái file main.ts là file chừa cốt chính Cấu trúc file 
+
+Cấu trúc file trên user thứ 2 Cũng sẽ tương tự trên user thứ nhất Nên mình sẽ thực hiện copy và paste vào đây Để các user có thể sử dụng Standard backend Trong file backend.tenafor 
+
+Mình sẽ tạo ra 1 Block code là telephone Và trong đây mình sẽ chỉ định Đến backend S3 Thì trong backend S3 
+
+Thì có 1 số đối số Mà chúng ta cần phải khai báo Đầu tiên là Bookkit Tức là cái Bookkit mà chúng ta vừa tạo ra Trong folder setup vừa rồi Thứ 2 là Key 
+
+Thứ 3 là Lusion Thứ 4 là Endscript Và thứ 5 là DynamoDB Đối với tên Bookkit S3 mà chúng ta vừa khởi tạo Thì chúng ta có thể lấy 
+
+Thông tin của Bookkit Trong cái file terraform.tfState Trong thư mục setup Ở đây Mình sẽ lấy copy cái file tên này Và paste vào đây 
+
+Key sẽ là 1 cái đường dẫn thư mục Trên Bookkit S3 Nơi mà chúng ta sẽ thực hiện Lưu cái file state Ở đây mình sẽ chỉ định Cái thư mục là state 
+
+Và trong này mình sẽ lưu cái file Terraform.tfState Region thì mình sẽ để là Singapore Mình sẽ để là True Tức là mình sẽ có thực hiện mã hóa Ở đây thì mình sẽ điền cái table 
+
+Của DynamoDB Cái mà chúng ta vừa tạo ra Trong cái thư mục setup vừa rồi Vì cả user 1 và user 2 Đều sử dụng chung 1 file state Nên mình có thể là copy 
+
+Nội dung của cái file cấu hình này Và paste trên cái file terraform backend Của user thứ 2 View file backend Và đến thư mục user 1 Thư mục user 1 
+
+Để thực hiện chạy cấu hình Terraform backend Chúng ta thực hiện tương tự Với thư mục trên user thứ 2 Thì lúc này khi mà chúng ta chạy cấu hình Terraform backend 
+
+Trên cả 2 thư mục user 1 và user 2 Thì nó có 2 nhiệm vụ Đầu tiên thì nó sẽ thực hiện Là cài đặt cái plugin Để tương tác với AWS Và thứ 2 là nó sẽ thực hiện 
+
+Setup để kết nối đến Standard backend là S3 Tiếp theo trên user 1 Thì mình sẽ thực hiện tạo ra một dạng tài nguyên View file và thực hiện chạy cấu hình Terraform offline trên user thứ 1 
+
+Để tạo ra dạng tài nguyên Ở đây thì mình sẽ thực hiện khai báo Các thông tin xác thực của user thứ 1 Cái mà mình vừa thực hiện download về Mình sẽ thực hiện lần lượt khai báo Các thông tin xác thực trên user thứ 1 
+
+Và user thứ 2 Tiếp theo mình sẽ chạy Terraform offline Để tạo ra dạng tài nguyên Trên không gian học việc của user thứ 1 Tài nguyên đã được tạo thành công Mình sẽ lên S3 để kiểm tra xem là 
+
+FileState đã được lưu trên Thư mục mà chúng ta đã chỉ định hay chưa Trong bucket demo S3 Trong thư mục State Và đã có một file Terraform.tfstate 
+
+Mình có thể mở để xem nội dung Trong file này File này chính là file State Lưu lại trạng thái hiện tại của cơ sở hạ tầng của chúng ta Ở đây có một điểm lưu ý Mặc dù file State của chúng ta 
+
+Đã được lưu trữ trên S3 Tuy nhiên thì trên Thư mục là .terraform Có một file terraform.tfstate Được sinh ra File này được sinh ra có 2 mục đích 
+
+Nhiệm vụ đầu tiên là khởi tạo Terraform sẽ đọc file này để biết rằng State của chúng ta đang lưu trữ trên S3 Và sử dụng các thông tin lưu trữ trong file này để kết nối đến S3 và DynamoDB Nhiệm vụ thứ 2 là Cách Trinh File này đang vai trò là cách để terraform không phải liên tục kết nối đến S3 để lấy thông tin Mỗi khi mà chúng ta chạy câu lệnh 
+
+Điều này sẽ giúp chúng ta cải thiện được hiệu suất và giảm kế độ chế Quay lại file nội dung của file này Nó sẽ bao gồm các thông tin Để chúng ta có thể kết nối đến Bắc Kit mà chúng ta chỉ định Backend ở đây là S3 
+
+Và bao gồm một số các thông tin Như là tên của Bắc Kit mà chúng ta chỉ định Và tên của DynamoDB Thì Terraform sẽ sử dụng các thông tin trong file này Để kết nối đến Standard Backend mà chúng ta xét tắt 
+
+Tiếp theo chúng ta quay lại file main Trên thư mục user thứ nhất Ở đây mình sẽ tạo ra một dạng tài nguyên nữa là EBS New file và chạy lại câu lệnh Terraform Online Xong xong với quá trình này Trên thư mục của user thứ 2 
+
+Mình sẽ chạy câu lệnh Terraform Chúng ta thấy là hiện tại nó đang bị báo lỗi Bởi vì là hiện tại user thứ nhất đang có quyền thực hiện Với Terraform Nên nó sẽ quá trạng thái Của file state lại 
+
+Và lúc này user thứ 2 sẽ không có quyền đọc file state này Đồng nghĩa với việc là khi mà chúng ta chạy câu lệnh Terraform Online Hay câu lệnh Terraform Online Thì nó sẽ để báo lỗi Rồi hiện tại trên thư mục user thứ 2 Thì chưa có bất kỳ một cấu hình nào liên quan đến code telephone 
+
+Thì mình sẽ quay lại thư mục trên user thứ 2 Và chạy câu lệnh Terraform Online Thì khi mình chạy câu lệnh Terraform Online Tại thời điểm này Thì theo các bạn Thì nó sẽ xảy ra các tình trạng như nào 
+
+Ok sau khi mình chạy câu lệnh Terraform Plan Trên user thứ 2 Thì nó đang dự đoán là sẽ xóa đi 2 dạng tài nguyên Là EPS Và EC2 Cái mà chúng ta đã vừa tạo trên 
+
+User thứ 1 Điều này xảy ra bởi vì Trên user thứ 2 chúng ta không có bất kỳ một nội dung khai báo code nào Điều này thường xảy ra khi mà chúng ta làm việc nhóm Bởi vì là chúng ta đang không share code Giữa các thành viên với nhau 
+
+Cho nên là nó đang bị lệch Các cái code cấu hình trên các user Và thông thường thì để giải quyết vấn đề này Chúng ta sẽ sử dụng git Để chia sẻ code giữa các user trong một cái dự án Thì đầu tiên chúng ta sẽ thực hiện khởi tạo git init 
+
+Trên cả 2 user Ở đây thì chúng ta sẽ sử dụng GitHub Như là nơi để chia sẻ code chung cho cả 2 user Thì chúng ta sẽ lên GitHub để tạo ra một cái repository Tiếp theo chúng ta sẽ kết nối đến cái repository này Từ 2 user 
+
+Trên user thứ nhất chúng ta sẽ chạy các lệnh này Tiếp theo chúng ta sẽ chạy các lệnh git friend Để tạo ra một cái nhánh mới Ok, ở đây kênh logic làm việc như sau Hiện tại thì chúng ta đang có code cấu hình của user thứ nhất Chúng ta có thể share code này cho user thứ 2 thông qua GitHub 
+
+Và nhiệm vụ của user thứ nhất Bây giờ là sẽ push code này lên GitHub Và chia sẻ cho user thứ 2 Và user thứ 2 sẽ pull code này về thư mục làm việc của họ User 2 có thể thay đổi và thêm sửa sửa sửa các dịch vụ Và sau đó có thể push lên GitHub 
+
+Rồi user thứ nhất lại tiếp tục có thể pull nội dung code đó về thư mục của mình để làm việc Thì ở đây trên user thứ nhất mình sẽ tạo ra một cái file Là file gitignore Mình thể copy cái file gitignore này từ cái module trước là module 2.1 module Và paste vào đây Thì về các bạn chúng ta chỉ cần push code chính của các user lên thôi 
+
+Nên là chúng ta sẽ bỏ qua những cái file của mình còn lại Mình sẽ miêu tả thêm một cái file là backend .tf Tiếp theo chúng ta sẽ tiến hành push code của user thứ nhất lên GitHub Thì trước tiên chúng ta cần phải add file main Và tiếp theo chúng ta thực hiện commit Cuối cùng là chúng ta sẽ push code cấu hình trên user thứ nhất lên GitHub 
+
+Chúng ta đã push thành công Chúng ta sẽ quay lại GitHub để kiểm tra Mình sẽ refresh lại Các bạn có thể thấy đây chính là nội dung code cấu hình của user thứ nhất Khi mà chúng ta push lên GitHub Thì lúc này user thứ hai có thể pull cái code này 
+
+Về cái không gian làm việc của họ Thì trên thư mục của user thứ hai Thì chúng ta có thể thực hiện cấu lệnh là git pull Ở đây thì cái file main này nó đang tồn tại trên cái user thứ hai Và việc pull về nó đang gặp vấn đề Thì để đơn giản thì chúng ta có thể để xóa cái file này đi 
+
+Và thực hiện pull lại Thực ra ngoài cái việc xóa file main này đi Thì chúng ta có thể sử dụng git pass Để ghi đè lên cái file main này Ok Thì đây là phương án thứ hai 
+
+Thì chúng ta sẽ quay lại cái file main trên user thứ hai Và đây các bạn có thấy là đây chính là cái nội dung code của user thứ nhất Đã chia sẻ trên GitHub Và user thứ hai đã pull về Ở đây thì trên file main của user thứ hai Mình sẽ thêm một cái dịch vụ 
+
+Mình sẽ ad-tech cái volume Được tạo ra vào con VM01 Dư file Và thực hiện chạy có lệnh telephone online Lúc này các bạn thấy là sẽ có một dịch vụ được tạo thêm là volume extract Rồi lúc này chúng ta hoàn toàn có thể là post code của user thứ hai 
+
+Lên GitHub để chia sẻ cho user thứ nhất Ở đây mình sẽ thực hiện là git ask Cái tiếp theo chúng ta sẽ commit Và cuối cùng là chúng ta sẽ Push lên GitHub Chúng ta đã push thành công code từ user thứ hai 
+
+Và trên user thứ nhất chúng ta có thể là full code mới nhất từ user thứ hai Rồi chúng ta đã full thành công là chúng ta sẽ quay lại file main của user thứ nhất Và các bạn thấy là cái version mới nhất của code gấu hình đã được cập nhật trên user thứ nhất Ok chúng ta đã đi qua được nội dung của local backend và standard backend Thì đến đây thì mình tin là các bạn sẽ đặt ra một câu hỏi Là trong trường hợp mà bạn đang dùng local backend 
+
+Và bạn muốn đưa cái file state của mình lên standard backend như là S3 Thì chúng ta làm như thế nào Thì việc này hoàn toàn là có thể Chúng ta đơn giản là chúng ta sẽ khai báo Thì chúng ta sẽ khai báo cái standard backend Nơi mà chúng ta mong muốn lưu trữ cái file state tăng lưu ở local 
+
+Thì ở đây mình sẽ sử dụng cái backend mà mình đã setup vừa rồi Và thêm một cái đường dẫn để lưu trữ file state cho local backend Thì mình quay lại không gian làm việc của local backend Và chạy có lệnh telephone init Thì lúc này nó sẽ báo là chúng ta có mong muốn di chuyển cái file state trên local chúng ta lên S3 hay không Nếu chúng ta muốn thì chúng ta sẽ gõ list 
+
+Thì nó sẽ mu cái file state trên local chúng ta lên backend là AWS3 Rồi các bạn có thể thấy là nội dung trong cái file terraform.tfstate trên local đã không còn nữa Bởi vì nó đã mu lên AWS3 thành công rồi Thì chúng ta có thể kiểm tra lại Trên cái bucket mà chúng ta vừa setup Đây chính là cái thư mục mà mình vừa chỉ định cho local 
+
+Đây chính là nội dung của file terraform.tfstate Và cuối cùng nếu các bạn quan tâm đến chủ đề GitHub hoặc GitLab Thì mình sẽ làm một khoa học liên quan đến chủ đề này Và nó sẽ miễn phí dành cho các bạn Cảm ơn các bạn đã theo dõi Cảm ơn các bạn đã theo dõi 
+

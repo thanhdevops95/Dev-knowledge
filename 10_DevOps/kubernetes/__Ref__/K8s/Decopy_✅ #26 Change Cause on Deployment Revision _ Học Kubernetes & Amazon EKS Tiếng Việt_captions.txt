@@ -1,0 +1,34 @@
+các bạn làm qua các bạn thấy rằng khi chúng ta roll la bằng cái version mới của deployment nó sẽ tạo ra cái revision và cái change C hiện tại đã mặc đ đều là nông hết tại vì nhìn như vậy thì mình nghĩ về lâu dài thì nó sẽ không hay bởi 
+
+vì chúng ta sẽ không biết chúng ta không thay đổi gì chẳng ngay mỗi lần chúng ta đều phải là chúng ta phải đi vào trong chui vào trong từng cái verion revision Giả sử bằng n chẳng hạn mình co năm nó là cái gì đúng không Mình thiếu rồi 
+
+revision à À cái này chạy version 3 gì gì đấy Hay là chúng ta có cái version 6 chúng ta làm cái gì đây Chúng ta chạy cái version 4 và chúng ta thêm cái thay đổi này thì cái này là xem phần detail rồi nhưng mà đôi khi chúng ta muốn muốn 
+
+một chuyện rất đơn giản thôi đó là chúng ta muốn cái change scot một cái gì đó để mình gợi nhớ cho mình dễ dàng giống như description phần mô tả thì chúng ta sẽ làm như th nào thì trong cái tài liệu của ctis nó Định nghĩa để chúng ta làm 
+
+chuyện đấy đó thì chúng ta phải định nghĩa một cái annotation annotation có giá trị như thế này kutis h ch cost nà Thì annotation đó chính là những cái thuộc tính của một cái tài nguyên ở trên katam ví dụ các bạn tài 
+
+nguyên là gì depl là tài nguyên này Red casset là tài nguyên này l ler là tài nguyên này port cũng là tài nguyên tất cả những cái đối tượng chúng ta làm việc đều gọi là tài nguyên thì đối với mỗi Tài Nguyên chúng ta sẽ có những cái 
+
+thuộc tấn cứu h đặc thủ của nó thì thuộc tính nó sẽ định nghĩa thông qua annotation ha và cái này việc này nó sẽ là ví dụ camet hay là những cái bên th party họ Build á thì họ sẽ có những annotation riêng thì trong quá trình các 
+
+bạn làm các bạn sẽ bắt đầu các bạn đọc tài liệu bạn bắt đầu thấy nó liên quan thấy nó hiệu ít chúng ta sẽ sử dụng à Thì phần change code này hiện tại mặc đợ nó sẽ không có các bạn muốn được muốn chỉ định các bạn phải gõ trong 
+
+annotation Hoặc là các bạn phải deploy cái này ha Ví dụ như chúng ta có ctis này qct này enate deploy tên của deployment và cái cái cờ của nó là cái key của nó là change code này và cái value của nó 
+
+chính là cái nội dung thông thông điểu của chúng ta chúng ta xem chúng ta có B cái này nha Rồi chúng ta sẽ quay về consol chúng ta kill C mình quay p luôn nha Đây mình sẽ sửa mình sẽ sửa cái đoạn này 
+
+ha image update to r v4 đi giảng sử dễ Unlimited CPU ram à Xin lỗi các bạn Mình vẫn hơi ho 
+
+quá rồi tên của cái deployment chúng ta đặt ở đây là cái deployment name của chúng ta các bạn có thể dùng dấu X Hoặc là các bạn không cần gõ cũng được khoảng cch cũng được ha mình thì hay dùng không khoảng cách như trong tài liệu thì nó nó 
+
+hay có khoảng cch thì mình cứ t mình cứ nói chung mình cứ tôn trọng tài liệu tài liệu là cái nguồn là nguồn thông tin tin cậy nhất của mình rồi enot rồi Giờ chúng ta kiểm tra này k c edit deployment app One deployment Các 
+
+bạn thấy này khi enot thì nó sẽ sẽ có thêm một cái dọng ở đây nữa đây đây đây đây và chúng ta sẽ thử kiểm tra coi nhá À chúng ta sẽ từ kiểm tra cái kyw roll laoud history deployment app One deploy đây Các bạn thấy không ạ ví dụ tương ứng 
+
+với mỗi mỗi một cái lần thay đổi thì các bạn có thể sửa cái sửa cái của chúng ta ở đây các bạn có thể ví dụ như là a này chúng ta sửa đây ha à Chữ update với sài này hề quá chúng ta sử test luôn nha upd này này nó cũng update sai đúng không ạ 
+
+giờ chúng ta sẽ thử đây update tt đây thì cái cách này giúp chúng ta mình nghĩ là nó không quá to tác gì nhưng mà nó sẽ giúp các bạn về mặt lâu dài các bạn sẽ quản lý cái phần revision chúng ta sẽ tốt ha Ok Cảm ơn các bạn đã theo dõi và 
+
+hẹn gặp lại trong tiếp theo ạ 
+

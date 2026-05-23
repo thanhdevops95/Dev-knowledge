@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: myapp-backup
+  namespace: myapp-dev
+spec:
+  schedule: "0 * * * *"              # Cron syntax — mỗi giờ
+  concurrencyPolicy: Forbid          # không cho 2 job chạy chồng
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: postgres:15-alpine
+              command:
+                - sh
+                - -c
+                - |
+                  pg_dump -h db -U admin myappdb > /backup/dump-$(date +%F-%H%M).sql
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: backup-pvc

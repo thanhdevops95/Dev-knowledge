@@ -60,7 +60,7 @@ graph LR
 ### 🛠️ Setup
 
 - [ ] [Python 3.12+ + venv](../../03_Languages/python/setup/install-python.md) ✅
-- [ ] [VS Code + Python ext](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code + Python ext](../../02_Tools/ide/vs-code.md) ✅
 - [ ] OpenAI account + API key
 - [ ] Anthropic account (Claude API) — alternative
 

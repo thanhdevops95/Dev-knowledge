@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: myapp-environments
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            namespace: myapp-dev
+            branch: develop
+          - env: staging
+            namespace: myapp-staging
+            branch: staging
+          - env: prod
+            namespace: myapp-prod
+            branch: main
+  template:
+    metadata:
+      name: 'myapp-{{env}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/<YOUR_GITHUB_USERNAME>/myapp-gitops
+        targetRevision: '{{branch}}'
+        path: 'environments/{{env}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

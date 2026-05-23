@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-config
+  namespace: myapp-dev
+data:
+  APP_NAME: "MyApp on K8s"
+  APP_ENV: "production"
+  APP_VERSION: "7.0"
+  LOG_LEVEL: "INFO"

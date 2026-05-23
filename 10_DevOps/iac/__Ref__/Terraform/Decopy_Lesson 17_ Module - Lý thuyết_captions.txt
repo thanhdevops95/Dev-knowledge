@@ -1,0 +1,38 @@
+bài này chúng ta sẽ tìm hiểu về module như cách trước nay chúng ta thừa làm khi mà tạo ra một cái dạng tài nguyên thông qua terf thì đầu tiên chúng ta sẽ thực hiện khai báo ra các cái file cấu hình ter form ví dụ như là .tp này 
+
+thì trong file này mình sẽ thực hiện khai báo và mô tả các cấu hình của institute đối với các dịch vụ khác cũng sẽ tương tự như là vpc này hoặc là S3 hoặc là ads này thì khả năng cao chúng ta sẽ tạo ra các file cấu hình cho các 
+
+dịch vụ này đ đối với dự án cá nhân hoặc dự án nhỏ thì về cơ bản dịch vụ chúng ta vẫn chưa nhiều và khả năng cao chúng ta vẫn có thể quản lý được tuy nhiên khi dự án của chúng ta được mở rộng thì không chỉ có một vài dịch vụ mà có đến cả chục 
+
+dịch vụ cùng sử dụng thì khi dự án chúng ta được mở rộng thì nó sẽ gặp các vấn đề như sau đầu tiên là thiếu khả năng tổ chức à như các bạn đã biết thì khi một dự án được mở rộng thì đồng nghĩa việc các file cấu hình cũng sẽ được mở rộng 
+
+và nó sẽ được sinh ra khá là nhiều Điều đó khiến chúng ta rất khó khă trong việc quản lý thứ hai là thiếu khả năng tá sử dụng thì về cơ bản khi một dự án c h rộng thì nó sẽ được sử dụng trên nhiều môi trường như là môi trường Death này 
+
+môi trường staging hoặc là môi trường product khi sử dụng code của môi trường này cho một môi trường khác thì khả năng cao thì chúng ta phải viết lại code Mặc dù là về cấu trúc code giữa hai môi trường nó không có sự khác biệt kh nhiều 
+
+thì lớn thứ hai là giảm hiệu suất khi làm việc nhóm thì một dự án được mở rộng đồng nghĩa với việc là các thành viên trong đó cũng sẽ được mở rộng rộng và không chỉ một mình cá nhân mà sẽ có nhiều thành viên cùng thực hiện trong 
+
+một dự án lúc này thì mọi người phải viết code và quản lý COD của riêng họ thì khả năng cao là dân đấy sự trồng lọc công việc giữa các thành viên trong nhóm thứ hai là dự án lúc này nó sẽ trở nên kém hiệu quả và khó quản lý ý lớn thứ ba 
+
+là giảm khả năng bảo trì nó sẽ khó khăn trong việc tìm và sửa lỗi trong cơ sở hạ đồng chúng ta và để giải quyết những hạn chế khi mà một dự án được mở rộng thì tform sinh ra một khái niệm đó là tform module thì 
+
+tform module là một đơn vị đóng gói có khả năng tái sử dụng trong tform nó giúp tổ chức code cơ sở hạ tầng phức tạp thành các thành phần nhỏ hơn lúc này chúng ta sẽ dễ quản lý và dễ dàng tái sử dụng lại và cách làm của chúng ta bây 
+
+giờ như sau chúng ta sẽ không tạo dàn trải các cái file cấu hình tform mà chúng ta sẽ đưa các file cấu hình tform vào một đơn vị và mình sẽ định nghĩa là module và trong module là những cái file cấu hình sẽ có cùng đơn vị chức năng Ví 
+
+dụ như là trong module vpc thì trong này sẽ chế các cái file cấu hình như là tạo subnet này hoặc là internet gway Chúng ta có một số lợi ích khi sử dụng tform module như sau đầu tiên là tăng tính tái sử dụng thì module sẽ giúp 
+
+chúng ta dễ dàng sử dụng lại code cơ sở hạ tầng đã được viết và sử dụng lại trên các môi trường khác nhau thứ hai là tăng tính modun Hóa thì lúc này thì cơ sở tầng của chúng ta khi mà sử dụng modun thì nó sẽ chia thành các thành phần nhỏ 
+
+hơn và lúc này chúng ta sẽ dễ dàng quản lý và bảo trì thứ ba ba là tăng tính linh hoạt Nó giúp chúng ta dễ dàng thay đổi và cập nhật các thành phần cơ sở hạ tầng mà không ảnh hưởng đến các thành phần khác Thứ tư là tăng cái khả năng 
+
+bảo trì nó sẽ giúp chúng ta dễ dàng tìm và xử lỗi trong cơ sở hạ tầng thì về cơ bản mỗi một module có một chức năng riêng và việc tìm lỗ trong một module cũng sẽ dễ dàng hơn module trong tform được miêu tả bằng Block module và trong 
+
+module chúng ta có hai loại là local module và remote module local module hiểu đơn giản là Nhữ module mà chúng ta tự phát triển và lưu trữ tại máy của chúng ta do chúng ta quản lý và để sử dụng Loc module thì đơn 
+
+giản chúng ta sẽ khai báo đường dẫn đến cái local module đang lưu trữ trên máy của chúng ta thứ hai là remote module Đây là những loại module mà lưu trữ ở một nơi nào đó ngoài internet ví dụ như là terraform r 
+
+hoặc là git và để sử dụng remote module trên code cấu hình Chúng ta thì về cơ bản Chúng ta sẽ khai báo cái đường dẫn của module đó và cuối cùng chúng ta sẽ sử dụng câu lệnh là tform init để thực hiện Download module đó về máy của chúng 
+
+ta và Để hiểu hơn về bài học chúng ta sẽ đến với phần thực hành 
+

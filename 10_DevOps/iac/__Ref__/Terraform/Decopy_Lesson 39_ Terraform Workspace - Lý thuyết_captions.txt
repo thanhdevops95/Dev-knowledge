@@ -1,0 +1,26 @@
+chúng ta đến với tform workspace à thông thường đối với một dự án cá nhân hoặc là một dự án nhỏ trong tform thì chúng ta chỉ cần dùng một môi trường duy nhất để thực hiện kiểm thử và triển khai dự án Tuy nhiên khi mà dự án của chúng ta mở 
+
+rộng thì chúng ta lại có yêu cầu về việc là mở rộng các cái môi trường ví dụ như là mở thêm cái môi trường dep môi trường staging hoặc là môi trường product thì để giải quyết vấn đề này thì tform sinh ra cho chúng ta một cái khái niệm là 
+
+workspace à thì đây là một khái niệm trong tform cho phép chúng ta tách biệt các trạng thái trên các môi trường khác nhau trong cùng một dự án à Mỗi workspace là một cái không gian làm việc độc lập là cái nơi lưu trữ các t tệp 
+
+trạng thái file cấu hình à cho các cái thao tác apply Hoặc là các thao tác Plan riêng biệt chúng ta có thể kể đến bốn mục đích sử dụng đối với terraform workspace à đầu tiên là tách biệt môi trường thì mỗi Go space là tương đương 
+
+với một môi trường cụ thể như là môi trường dep hoặc là môi trường product thứ hai là là chúng ta sử dụng workspace để quản lý trạng thái Độc Lập à trạng thái của mỗi môi trường lúc này nó sẽ lưu riêng biệt và giúp tránh cái xung 
+
+đột và đảm bảo tính nhất quán giữa các môi trường Thứ ba là dễ dàng truyển đổi và kiểm soát thì khi chúng ta sử dụng terraform workspace thì nó cho phép chúng ta chuyển giữa các môi trường một cách linh hoạt và dễ dàng giúp chúng ta 
+
+kiểm soát và triển khai thay đổi một cách hiệu quả và cuối cùng là hỗ trợ quá trình phát triển và thử nghiệm giúp đội ngũ phát triển và văn hành dễ dàng thử nghiệm các cái thay đổi trên các môi trường khác nhau mà không ảnh hưởng đến 
+
+các cái môi trường còn lại các câu lệnh chúng ta thường sử dụng với workspace như là tạm mới workspace này chuyển đổi giữa các workspace xóa workspace hoặc là liệt kê ra các workspace hiện có trên không gian làm 
+
+việc của chúng ta đây chính là cái Mô hình cấu trúc các cái file khi mà chúng ta làm việc với workspace thì khi mà chúng ta tạo mới ra các cái workspace thì tform sẽ sinh cho chúng ta một cái cấu trúc như sau đầu tiên thì tform sẽ 
+
+sinh cho chúng ta cái folder là tform tfstate chd và trong này nó sẽ lưu trữ các cái file cấu hình các cái tệp cấu hình của các cái môi trường khác nhau ví dụ khi mà chúng ta tạo ra môi trường dep thì trong cái thư mục dep này nó sẽ lưu 
+
+trữ các cái file trạng thái của những cái lần Chúng ta chạy câu lệnh tform offline Hoặc là những cái lần Chúng ta chạy câu lệnh tform Plan à tương tự đối với môi trường staging cũng vậy mỗi lần Chúng ta chạy các câu lệnh terraform 
+
+upline hoặc là terraform Plan trên cái mô trường staging thì cái file terraform stage nó sẽ lưu tại cái thư mục này và đối với các cái môi trường khác còn lại cũng tương tự cảm ơn các bạn đã lắng nghe và hẹn gặp lại các bạn trong các 
+
+bài học tiếp theo 
+

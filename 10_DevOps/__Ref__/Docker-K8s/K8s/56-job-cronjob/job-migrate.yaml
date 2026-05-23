@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myapp-migrate
+  namespace: myapp-dev
+spec:
+  backoffLimit: 3                    # số lần retry khi fail
+  ttlSecondsAfterFinished: 600       # tự xóa sau 10 phút
+  template:
+    spec:
+      restartPolicy: OnFailure       # bắt buộc cho Job (Never hoặc OnFailure)
+      containers:
+        - name: migrate
+          image: <YOUR_DOCKERHUB_USERNAME>/myapp:6.0
+          command: ["python", "-c", "import time; print('migrating...'); time.sleep(10); print('done')"]

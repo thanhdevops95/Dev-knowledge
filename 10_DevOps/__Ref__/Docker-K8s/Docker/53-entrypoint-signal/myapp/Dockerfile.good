@@ -1,0 +1,5 @@
+# Dockerfile.good — exec form, Python LÀ PID 1, nhận SIGTERM trực tiếp
+FROM python:3.11-slim
+ENV PYTHONUNBUFFERED=1
+COPY signal_app.py .
+CMD ["python", "signal_app.py"]

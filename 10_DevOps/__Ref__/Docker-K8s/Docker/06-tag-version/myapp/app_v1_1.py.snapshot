@@ -1,0 +1,8 @@
+print("Docker - Bài 06 — Tag và Versioning")
+print("------------------------------------------------------------")
+print("")
+from datetime import datetime
+
+print("Hello from MyApp - Version 1.1")
+print("Added: timestamp feature")
+print(f"Current time: {datetime.now()}")

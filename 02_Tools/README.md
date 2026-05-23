@@ -1,9 +1,9 @@
 # 🛠️ 02_Tools
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.2.0\
+> **Phiên bản:** v0.6.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 20/05/2026
 
 > 🚀 **Status:** Có 1 bài đầu tiên ở [`shell/`](./shell/). Các L2 khác còn skeleton.
 
@@ -27,9 +27,13 @@ Chi tiết quy tắc → [`../_Blueprint/02_folder-structure.md`](../_Blueprint/
 
 | L2 | Trạng thái | Note |
 |---|---|---|
-| [`shell/`](./shell/) | 🚀 1 bài | Terminal + bash/zsh intro |
-| [`editor/`](./editor/) | 🚀 1 setup | VS Code chi tiết |
-| [`git/`](./git/) | ✅ 5 bài | **Bộ Git hoàn chỉnh**: setup + intro + 3 lessons (workflow đầy đủ) |
+| [`ide/`](./ide/) | ✅ 2 bài 🆕 | **Tool category đầu tiên** — category file `00_what-is-ide.md` (so sánh 7 editor) + `vs-code.md` v2.0 user guide |
+| [`shell/`](./shell/) | 🚀 1 bài | Terminal + bash/zsh intro (sẽ chuyển sang Foundations/computing-environment) |
+| ~~`editor/`~~ | 🔄 Đã move | Rename → `ide/` (20/05/2026) |
+| ~~`git/`~~ | 🔄 Đã move | Git concept đã chuyển sang [`../01_Foundations/version-control/git/`](../01_Foundations/version-control/git/) — git là VCS concept, không phải tool guide |
+| `terminal-emulators/` | ❌ Chưa có | iTerm, Kitty, Alacritty, Warp, ... |
+| `git-clients/` | ❌ Chưa có | GitHub/GitLab UI, GitHub Desktop, GitKraken |
+| `k8s-local/` | ❌ Chưa có | Minikube vs Kind vs k3d |
 | `terminal-tools/` | ❌ Chưa có | tmux, fzf, ripgrep, lazygit |
 | `package-managers/` | ❌ Chưa có | brew, apt, npm, pip |
 | `productivity/` | ❌ Chưa có | Obsidian, Notion, Raycast |
@@ -59,6 +63,16 @@ Chi tiết quy tắc → [`../_Blueprint/02_folder-structure.md`](../_Blueprint/
 
 ## 📌 Changelog
 
+- **v0.6.0 (20/05/2026)** — **Tool category đầu tiên hoàn chỉnh** ở `ide/`:
+  - `00_what-is-ide.md` — category overview, so sánh 7 editor (VS Code, Cursor, Neovim, JetBrains, Zed, Sublime, Xcode), bảng AI integration 2026, 7 case khuyến nghị theo profile
+  - `vs-code.md` v2.0.0 — restructure từ setup-only → full user guide với UI tour, workflows, profile theo vai trò (Python/Frontend/DevOps/Data)
+  - Move `editor/setup/vs-code.md` → `ide/vs-code.md` (rename L2 theo tool category convention)
+  - 15 file cross-link auto-updated
+- **v0.5.0 (19/05/2026)** — **Restructure theo phân vai trò 3 bucket**:
+  - **Move `git/` sang `01_Foundations/version-control/git/`** — git là VCS concept, không phải tool guide. 02_Tools dành cho tool category với 2-level (category overview + individual tools).
+  - Thêm danh sách L2 dự kiến: `ide/`, `terminal-emulators/`, `git-clients/`, `k8s-local/` — mỗi cái là 1 tool category với 1 file `00_what-is-X.md` (so sánh + chọn) + N file `<tool>.md` (focused individual).
+  - `editor/` sẽ rename thành `ide/` để khớp tool category naming.
+  - `shell/` content terminal-concept sẽ chuyển sang `01_Foundations/computing-environment/`.
 - **v0.4.0 (16/05/2026)** — **Bộ Git hoàn chỉnh** ở `git/` (5 bài: setup + intro + 3 lessons). L2 đầy đủ đầu tiên trong kho.
 - **v0.3.0 (16/05/2026)** — Thêm `editor/setup/vs-code.md` ✅ — setup guide đầu tiên của kho, dogfood `setup_template`.
 - **v0.2.0 (16/05/2026)** — Có bài đầu tiên ở `shell/` ✅ (Terminal Fundamentals).

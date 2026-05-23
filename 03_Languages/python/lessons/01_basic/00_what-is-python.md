@@ -1,15 +1,15 @@
-# Python là gì — Ngôn ngữ "dễ nhất để học, đủ mạnh để làm tất cả"
+# 🎓 Python là gì? — Ngôn ngữ "dễ nhất để học, đủ mạnh để làm tất cả"
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026\
+> **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Đã [cài Python](../../setup/install-python.md) ✅
 
-> 🎯 *Bài INTRO — Python là gì, vì sao chọn, có thể làm gì, REPL là gì. KHÔNG dạy syntax chi tiết (sẽ học ở bài 01 trở đi).*
+> 🎯 *Bài INTRO — Python là gì, vì sao 80% beginner 2026 được khuyên Python trước, có thể làm gì, cách chạy thử. KHÔNG dạy syntax chi tiết (sẽ học ở bài 01 trở đi).*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,7 +21,22 @@
 
 ---
 
-## 1️⃣ Vì sao chọn Python (WHY)
+## Tình huống — bạn vừa cài Python xong, mở terminal lần đầu
+
+Sau khi xong [Stage 1 zero-to-coder](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md) (tools tối thiểu), bạn cài Python theo [setup guide](../../setup/install-python.md). Mở terminal:
+
+```bash
+python3 --version
+# Python 3.11.7
+```
+
+OK Python đã có. Bây giờ... **gõ gì tiếp**? Tại sao 9/10 blog tutorial VN đều nói *"học Python trước"*? Python khác gì JavaScript, Java, C++ — và đặc biệt khác gì cho **bạn năm 2026**?
+
+Bài này trả lời 3 câu đó + show bạn 3 cách chạy Python để **viết được 1 dòng code thật sự** trong vòng 5 phút.
+
+---
+
+## 1️⃣ Vì sao Python là default cho 80% beginner 2026?
 
 Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao mọi beginner đều khuyên Python?
 
@@ -52,7 +67,7 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 
 ---
 
-## 2️⃣ Python là gì (WHAT)
+## 2️⃣ Vậy Python thực sự là gì?
 
 **Định nghĩa**: Python là **ngôn ngữ lập trình thông dịch** (interpreted), bậc cao (high-level), có **dynamic typing**, tạo bởi **Guido van Rossum** năm 1991.
 
@@ -120,7 +135,7 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 
 ---
 
-## 4️⃣ Cách chạy Python — 3 cách phổ biến (HOW)
+## 4️⃣ Làm sao chạy Python? — 3 cách phổ biến
 
 ### 🅰️ Cách 1: REPL (Read-Eval-Print Loop) — Test nhanh
 
@@ -196,7 +211,7 @@ jupyter notebook
 
 → Browser mở → tạo new notebook → mỗi cell chạy độc lập, output (kể cả biểu đồ matplotlib) hiện ngay dưới cell.
 
-> 💡 VS Code có hỗ trợ `.ipynb` tích hợp — không cần `jupyter notebook` riêng. Cài [Jupyter extension](../../../02_Tools/editor/setup/vs-code.md#6️⃣-extensions-phổ-biến).
+> 💡 VS Code có hỗ trợ `.ipynb` tích hợp — không cần `jupyter notebook` riêng. Cài [Jupyter extension](../../../02_Tools/ide/vs-code.md#6️⃣-extensions-phổ-biến).
 
 ### Chạy Python từ VS Code
 
@@ -340,4 +355,8 @@ Python làm được cả 2. Không có boundary cứng.
 
 ## 📌 Changelog
 
+- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
+  - Mở bằng **tình huống beginner vừa cài Python**, mở terminal, không biết gõ gì tiếp
+  - Headers đổi: `1️⃣ Vì sao chọn Python (WHY)` / `2️⃣ Python là gì (WHAT)` / `4️⃣ Cách chạy Python (HOW)` → câu hỏi tự nhiên ("Vì sao Python là default cho 80% beginner?", "Vậy Python thực sự là gì?", "Làm sao chạy Python?")
+  - Content kỹ thuật KHÔNG đổi
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — intro Python: WHY, WHAT, 5 ứng dụng, 3 cách chạy (REPL/file/Jupyter), Zen of Python, lộ trình Stage 2.

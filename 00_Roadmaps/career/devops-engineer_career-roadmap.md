@@ -52,7 +52,7 @@ graph LR
 ### 📚 Đọc
 
 - [ ] Linux basics — [3 bài ✅](../../04_OS/linux/lessons/01_basic/) + advanced (process, permission, systemd) — chưa có
-- [ ] [Terminal](../../02_Tools/shell/lessons/01_basic/00_what-is-terminal.md) ✅
+- [ ] [Terminal](../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) ✅
 - [ ] Networking: TCP/IP, DNS, HTTP, HTTPS, ports, firewall — `05_Networking/` (chưa có)
 - [ ] SSH (key-based auth)
 - [ ] systemd (service, journalctl)

@@ -1,0 +1,22 @@
+# deployment.yaml
+# Định nghĩa về "trạng thái mong muốn" cho ứng dụng của chúng ta.
+
+apiVersion: apps/v1
+kind: Deployment # 1. Loại đối tượng: Deployment
+metadata:
+  name: my-app-deployment # 2. Tên của Deployment này
+spec:
+  replicas: 3 # 3. Trạng thái mong muốn: Luôn có 3 bản sao (Pod) của ứng dụng chạy
+  selector:
+    matchLabels:
+      app: my-app # 4. Cách Deployment tìm các Pod mà nó quản lý
+  template: # 5. "Bản thiết kế" để tạo ra các Pod
+    metadata:
+      labels:
+        app: my-app # 6. Gán nhãn cho mỗi Pod được tạo ra. Phải khớp với `selector` ở trên.
+    spec:
+      containers:
+      - name: my-app-container # Tên của container bên trong Pod
+        image: my-first-app:latest # 7. Docker image sẽ được sử dụng để chạy container
+        ports:
+        - containerPort: 8080 # 8. Cổng mà ứng dụng bên trong container đang lắng nghe

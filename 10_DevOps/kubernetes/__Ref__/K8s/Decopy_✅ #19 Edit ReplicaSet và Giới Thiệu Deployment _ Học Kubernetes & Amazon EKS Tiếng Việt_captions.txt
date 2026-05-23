@@ -1,0 +1,38 @@
+ở trong bài này chúng ta sẽ cùng tìm hiểu một số cách thao tác ở trên replic của k8s ha ở trước chúng ta đã cùng tạo cái repc set số 3 có ba port đang running Ở đây các bạn có thể xem chúng ta thấy có một cái replic set này K get 
+
+RS Hoặc là các bạn có tường minh ra là replic chúng ta coi service chúng ta có cái service 3 declarative ha Mình đã xóa cái service 3 dùng cái phương thức gọi là imperative rồi exp port 31 988 để sử dụng cái thao tác đối với RC 
+
+set các bạn có Kill cal edit rồi gõ rep casset ha hoặc là có rất nhiều bạn đang hỏi mình là mình xài cái tool gì để nó Remind thì cái tool nó tên là Amazon Kill các bạn có thể cài đặt hiện tại cái tool này nó đang là miễn phí à các bạn 
+
+có thể cài vào tạo tài khoản này nó sẽ Remind code cho các bạn hồi xưa này chúng ta mình hay dùng đó là code crer nhưng mà sau này Nội Đổi thành cái Amazon queue này các bạn có thể thự tìm hiểu thêm RC set Sau đó mình có rs3 ở 
+
+đây các bạn xem này chúng ta đây bản chất cái này chính là một cái manifest ha các bạn có thể sửa Ví dụ mình sửa chỗ này thành RC sử hành số 4 đấy Chẳng hạn Mình lưu lại ha Thì bây giờ mình sẽ mình sẽ coi này k c get port chúng ta có bốn 
+
+cái ha một cái đây nó mới tạo ra được 4 giây đây chúng ta có thể thử sửa nhiều cái nữa dụ cle edit replica set rs3 chú chúng ta có thể sửa cái Giả sử mình sửa cái image image chúng ta lãy trước là chúng ta dùng cái image version 
+
+số 3 đúng không ạ Giả sử bây giờ mình dùng cái version số 4 đi Mình lưu lại thì lúc này á Các bạn thử coi Này k c getb trừ V ha để watch đây thì hiện tại cái r cet mình nó đang cấu hình bởi 
+
+bốn bởi cái version số 3 image số 3 và có bốn cái Port ở đây Hiện tại như các bạn thấy là cái po của mình không hề bị terminate đi tại vì r cet r casset cơ chế hoạt động nó là gì cơ chế hoạt động của nó là để mình mở cái r casset số 3 
+
+mình coi này bản chất Red casset nó sẽ không hiểu được là các cái port của mình nó đang trạng thái như nào nó chỉ biết là à Tôi sẽ góp Tôi sẽ góp tất cả những cái những cái port nào mà nó có cái app lbel bằng số 3 thôi thì cơ chế hoạt động 
+
+nó rất là kiểu theo dạng group ha Cho nên bây giờ mình khi mình thay đổi thay đổi cái image á thì bây giờ mình muốn làm cái đó đó thì mình cần phải delete các cái port cũ ha và cái cách làm Delete này thì mình làm mình sẽ làm thủ 
+
+công ví dụ k k get Giả sử bây giờ mình sẽ ghi là k c này Delete pst ha và bây giờ các bạn sẽ có các cái port ở đây k v này v này r s 3 này các bạn copy ở đây chịu khó copy 
+
+nha Rồi rồi chúng ta Delete thì khi Delete bây giờ nó sẽ tạo lại bốn cái port khác ha ví dụ port container creating chúng ta sẽ chừ What Ở Đây Rồi running này chúng ta sẽ thử thử xem cái running này 
+
+nha k decribe p chúng ta xem cái image của nó đây v4 này thì bây giờ các bạn có thể export này ra mà giả sử bây giờ mình sẽ expose 
+
+cái này mình sẽ Kill get svc này service này mình sẽ expose cái service này ra mini Service Service ba declarative này mình copy cái này và trừ URL đây port của nó export ra ngoài đây 
+
+rồi chúng ta sẽ cùng xem vàở trên cái web đây sẽ ra cái v4 nà thì đối với đối với hình thức chúng ta làm cái replica set này nó sẽ có ưu điểm là chúng ta sẽ tạo những cái gọi là ha variable group những con post theo một nhóm tính chất 
+
+nó đấy nhưng mà giả sử khi mà chúng ta thay đổi thay đổi Giả sử vất Giận mới roll l này image mới này hay là có sự thay đổi gì đó chúng ta cần phải làm nó khá thủ công và nó không hỗ trợ một cách tối ưu cho cái việc kh chúng ta thay đổi 
+
+version cho cái ứng dụng chúng ta hay cái pst chúng ta Vậy thì để thiên về việc roll laoud Hay là đưa ra một cái version mới release này có khả năng roll b là trả về version cũ ấy hay là có khả năng liên quan đến development b p hoặc 
+
+là resum á thì chúng ta sẽ dùng một cái object khác gọi là deployment ở trên cams ha thì hẹn gặp lại trong bài tiếp theo chúng ta sẽ tìm hiểu cái deployment nó sẽ nó sẽ có cái ưu điểm nào và cái cơ chế hoạt động của deployment thế nào ha 
+
+Cảm ơn các bạn 
+

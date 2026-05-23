@@ -1,0 +1,12 @@
+Đầu tiên mình sẽ lên trang chủ của Teleform và thực hiện tìm kiếm các gói cài cho Windows. Mình sẽ chọn cái trang đầu tiên này là Teleform by Hasecoop. Và mình sẽ chọn đến mục Download Teleform. Ở đây mình sẽ tìm kiếm Windows để chọn các gói cài phù hợp. Mình sẽ chọn cái version mới nhất của Teleform là 1.8.2. Thì ở đây có 2 gói cài battery cho Windows. 
+
+Thì trước khi download các gói cài này về thì mình cần phải xác định là máy tính của mình đang sử dụng kiến trúc tập lệnh là như thế nào. Nếu mà là 386 hay được biết đến là kiến trúc 32 bit thì mình sẽ cài cái này. Và nếu mà là AMD 64 tức là 64 bit thì mình sẽ thực hiện cái gói cài 64 bit. Thì để check được thì mình sẽ vần vào phần GPC và mình sẽ chọn đến Property. Thì ở đây thì mình có thể check được là thông qua cái thường là InSystem Time. Ở đây nếu mà 64 thì mình sẽ cài là AMD 64. 
+
+Ở đây thì mình sẽ cài là AMD 64. Mình thực hiện là download và thực hiện chờ đợi trong dây lát. Thì sau khi mình download xong thì mình sẽ thực hiện giải nén gói cài này ra. Và sau khi mình giải nén ra xong thì mình cần phải làm thêm một bước nữa đó là edit cái biển môi trường cho cái Terraform này. Cho cái gói cài Terraform này. Thì để làm được đấy thì mình sẽ vào phần Loop này và tiếp tục chọn đến phần... 
+
+Mình sẽ góp lại edit cho System Availment và chọn đến Availment và chọn đến phần Path này. Sau đấy mình sẽ thực hiện là copy cái đường dẫn đến cái gói cài mình vừa cài và mình kích đúc vào đây. Để thực hiện là copy. Sau khi copy xong mình sẽ ấn tạo mới, ấn new. Và thực hiện là paste cái đường dẫn mình vừa copy vào đây. Ok. 
+
+Cuối cùng là mình sẽ kiểm tra xem là... Bằng CBD xem là Terraform đã thực hiện cài đặt trên máy tính của mình chưa. Đây mình sẽ góp là Terraform... Chữ chữ version. Chữ chữ version. Đúng rồi. 
+
+Đây, Terraform đã được cài. Chữ chữ temps. Yên Even ất cáiне mal để chọn Here t yani High School 4 
+

@@ -51,7 +51,7 @@ graph LR
 
 ### 📚 Lý thuyết
 
-- [ ] [Terminal fundamentals](../../02_Tools/shell/lessons/01_basic/00_what-is-terminal.md) ✅
+- [ ] [Terminal fundamentals](../../01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) ✅
 - [ ] Linux basics (navigation, file ops, permissions) — [`04_OS/linux/`](../../04_OS/linux/) ✅ 3 bài
 - [ ] [Git workflow đầy đủ](../../01_Foundations/version-control/git/) ✅ 6 bài
 - [ ] HTTP protocol cơ bản (methods, status codes, headers) — `05_Networking/http-https/` (chưa có)
@@ -59,7 +59,7 @@ graph LR
 
 ### 🛠️ Setup
 
-- [ ] [VS Code + Python/Node extensions](../../02_Tools/editor/setup/vs-code.md) ✅
+- [ ] [VS Code + Python/Node extensions](../../02_Tools/ide/vs-code.md) ✅
 - [ ] [Git + GitHub](../../01_Foundations/version-control/git/setup/git.md) ✅
 - [ ] [Python 3.12+](../../03_Languages/python/setup/install-python.md) ✅ (nếu chọn Python)
 - [ ] [Postman](../../02_Tools/) hoặc Bruno (chưa có) — test API

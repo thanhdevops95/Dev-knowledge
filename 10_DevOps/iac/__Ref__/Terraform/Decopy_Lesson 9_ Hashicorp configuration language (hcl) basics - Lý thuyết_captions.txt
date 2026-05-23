@@ -1,0 +1,20 @@
+Bài học này mình sẽ giới thiệu về Hasecoff Configuration Language. Hasecoff Configuration Language, hai viết tắt là SCL, là một ngôn ngữ được Hasecoff phát triển để ghi các tiệp cấu hình, được sử dụng để xác định và định cấu hình các tài nguyên cơ sở hạ tầng. SCL được thiết kế để người dùng dễ đọc và dễ hiểu, tập trung vào sự đơn giản. Thực tế là khi tiếp xúc với SCL thì mọi người có thể thấy đây là một ngôn ngữ khá là dễ học và dễ hiểu. SCL được sử dụng bởi một số công cụ của Hasecoff, bao gồm Terraform và Packer. Hiểu về SCL sẽ là một lợi thế để chúng ta sử dụng các công cụ của Hasecoff ngoài Terraform. 
+
+Ngôn ngữ cấu hình của Terraform sẽ dựa trên các cấu trúc cơ bản và các khái niệm cơ bản của SCL. Đây là các công cụ được phát triển bởi Hasecoff, mặc dù mỗi công cụ sẽ có một kiểu file cấu hình khác nhau, tuy nhiên thì chúng vẫn tuân theo các cú pháp cơ bản và các khái niệm cơ bản của SCL. Chúng ta sẽ tìm hiểu các khái niệm cơ bản của SCL, bao gồm Comment, Block, Attribute, DataTile, Conditional, Function, ResortDependency. Đầu tiên là Comment. Thứ 2 là 2 ký tự gạch chéo sẽ được sử dụng thay thế cho ký tự thăng để comment một dòng. 
+
+Thứ 3 là ký tự gạch chéo, sao, và bên trong là nội dung code. Kết thúc là ký tự, sao và gạch chéo. Thì sẽ sử dụng để comment trải dài trên nhiều dòng khác nhau. Thứ 2 là Block. Đây là một cái khối code chứa các nội dung được xác định bên trong. Cú pháp của Block sẽ bao gồm Block Type là kiểu của Block. 
+
+Thứ 2 là Block Label là label của Block. Thì trong Block có thể có một hoặc là nhiều label. Và cuối cùng là nội dung của Block được chứa trong cặp dấu quảng nhọn. Ở đây mình lấy 2 ví dụ về 2 loại Block khác nhau. Với ví dụ bên trái thì kiểu của Block sẽ là Provider. Label của Block sẽ là AWS. 
+
+Và nội dung bên trong sẽ là Reason bằng AP 6X1. Ính nghĩa của Block này sẽ là Provider sử dụng ở đây sẽ là AWS. Và Reason cụ thể sử dụng trên AWS ở đây sẽ là AP 6X1. Với ví dụ thứ 2 thì kiểu của Block sẽ là Resort. Label thứ nhất sẽ là AWS Instant. Label thứ 2 là EC2. 
+
+Và bên trong là các nội dung của Block này. Ính nghĩa của Block này là kiểu Resort ở đây sử dụng là AWS Instant. Tên của Resort sẽ là EC2. Đây là cái tên định danh trên toàn file cấu hình. Thứ 3 là Attribute. Hay được biết đến là các thuộc tính. 
+
+Được xác định bởi một cặp key value và thường được sử dụng trong Block. Giá trị của Attribute có thể là String, là Number, hoặc có thể là List. Thứ 4 là các kiểu dữ liệu sử dụng trong ACL. Bao gồm String là các chuối ký tự nằm trong ký tự nhái kép. Thứ 2 là Number là dữ liệu dạng số. Thứ 3 là Bull được xác định là True hoặc là Full. 
+
+Thứ 4 là List. Đây là danh sách các giá trị được xác định trong dấu ngoặc vuông. Thứ 5 là Mark là một nhóm các giá trị được xác định bằng cặp key value. Cuối cùng là Set thì tương tự như List nhưng các giá trị trong Set sẽ là duy nhất và sẽ không được lặp lại. Kiểu thức điều kiện trong ACL sẽ sử dụng toán tử 3 ngôi để thay thế cho If và L. Cú pháp sẽ là Condition, tức câu điều kiện, hỏi chấm. 
+
+Giá trị True, 2 chấm. Giá trị Full. Chúng ta sẽ tận dụng đa dạng các hàm có sẵn trong ACL, bao gồm các hàm về String, các hàm về số học, hàm về ngày tháng và các hàm về truyền tố các kiểu dữ liệu. Thứ 7 là Resort Dependency. Chúng ta sẽ thực hiện thiết lập mối quan hệ giữa các Resort với nhau. Ví dụ trong blog AWS Instant thì thuộc tính KeyName đã gọi đến blog awskeype.shkey.keyname để lấy giá trị KeyName. 
+
+Để hiểu hơn về bài học chúng ta sẽ đến với phần thực hành ACL. Để hiểu hấp dẫn 
+

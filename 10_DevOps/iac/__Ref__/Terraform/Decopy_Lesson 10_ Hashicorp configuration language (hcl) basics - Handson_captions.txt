@@ -1,0 +1,46 @@
+Chúng ta sẽ tạo folder thứ 2 có tên là 1.2-excel Chúng ta tạo 1 file main.excel Trong tiên chúng ta sẽ tìm hiểu về comment Trong Excel hỗ trợ 3 cái cú pháp comment khác nhau Trong tiên là chúng ta sẽ có thể sử dụng ký tự thăng để comment 1 dòng Mình có 1 đoạn text là tôi là kỹ sư cloud 
+
+Để comment đoạn text này thì mình sẽ thêm ký tự thăng ở đâu Thứ 2 là chúng ta sẽ sử dụng 2 ký tự kẻ chéo kẻ chéo để comment thay thế cho thăng Ở đây mình có 1 đoạn text khác Để comment 1 dòng text này mình sẽ ấn tổ hợp control kẻ chéo Sử dụng Ctrl 
+
+Cộng kẻ chéo Cục pháp thứ 3 để sử dụng comment nhiều dòng thì chúng ta sẽ sử dụng Ký tự kẻ chéo Sau đó là 1 dãy code hoặc 1 dãy các kẻ đoạn text Các kẻ chéo Chúng ta có thể lấy đoạn code trong ví dụ trước 
+
+Copy Và paste vào đây Để comment các đoạn code này thì chúng ta sẽ sử dụng dấu kẻ chéo này Sau đó Và kết thúc Sẽ là dấu kẻ chéo 
+
+Ngoài ra thì để comment nhiều dòng một lúc một cách nhanh nhất thì chúng ta có thể là bôi đen Đoạn code này và ấn tổ hợp control kẻ chéo Đoạn code này và ấn tổ hợp control kẻ chéo Cộng kẻ chéo Thứ 2 là block Block là 1 khối code chứa các nội dung được xác định bên trong 
+
+Và cú pháp của block sẽ bao gồm data type Tiếp đến là data label Và cuối cùng là 1 đoạn code được xác định bên trong Ở đây chúng ta có 1 ví dụ về đoạn code block mà chúng ta sử dụng ở phía trên Thì data type của block code này là resort Data label của block code này là AWS và web 
+
+Và bên trong là các nội dung được xác định Thứ 3 là attribute Attribute được xác định bằng cặp giá trị key value Và trong file gấu hình Terraform thì khái niệm attribute sẽ được thay thế bằng khái niệm argument Tức là đối số Giá trị của attribute 
+
+Có thể là string Có thể là số học Hoặc có thể là list Thứ 4 là data type Tức là các kiểu dẫn lượng khác nhau trong SCL Bao gồm string 
+
+Number Number Number Bull Smart List 
+
+Và set String là một chuối các ký tự Ví dụ như AMI Number là số học Ví dụ như là cao bằng 3 Thứ 3 là Bull được xác định bằng giá trị chu hoặc phô 
+
+Thứ 4 là map Là nhóm các giá trị được xác định bằng cặp key value Đây chính là một ví dụ về map Chúng ta có thể thêm một số các giá trị như là BU Có thể xác định là 
+
+Cloud BU Hoặc là Honor Thứ 5 là list List là danh thách các giá trị được xác định trong dấu mặc vuông Ở đây chính là một ví dụ về list Copy paste ở đây 
+
+Và cuối cùng là set Set thì nó sẽ tương tự như list Nhưng mà các giá trị trong set nó sẽ là duy nhất Thông thường chúng ta sẽ sử dụng một hàm chuyển đổi dữ liệu Để chuyển đổi các dạng dữ liệu như map hoặc list sang set Mình có một ví dụ về set như sau 
+
+Mình sẽ mở terminal Và chạy câu lệnh Terraform Console Ở đây mình có một câu lệnh là tool set Với cái giá trị bên trong là một danh sách ABC Và sau khi chạy câu lệnh này 
+
+Thì giá trị trả về là một danh sách theo thư tự ABC Mình có một ví dụ nữa Ở đây giá trị mình có thể thay đổi là B Và kết quả trả về Bây giờ chỉ có hai giá trị là A và B 
+
+Bởi vì trong cái danh sách này đã có hai giá trị bị chống nhau Và cái nguyên tắc của set làm việc là Tất cả giá trị trong set phải là duy nhất Và sẽ không được chống lập Thứ năm là câu điều kiện Trong SCL sẽ sử dụng toán từ 3 ngôi 
+
+Để thay thế cho biểu thức điều kiện EPL Với gú pháp sẽ là Câu điều kiện Hỏi chấm giá trị true Hai chấm giá trị full Ở đây mình có một ví dụ về biểu thức điều kiện như sau 
+
+Hình nghĩa của biểu thức này là Instant Time sẽ bằng T2.micro nếu môi trường Sử dụng là môi trường DEV Và bằng T2.small nếu là môi trường khác Mình có một biểu thức điều kiện phức tạp hơn 
+
+Instant Time sẽ bằng T2.last Nếu Bookspace là Product Nếu Bookspace là DEV Thì Instant Time sẽ là T2.small Và trường hợp còn lại sẽ là T2.micro Terraform Bookspace là gì thì mình sẽ giải thích trong những bài sau 
+
+Thứ 6 là Function Chúng ta sẽ sử dụng các hàm có sẵn Bao gồm các hàm về String Hàm về Chữ Số Hàm về Số Học Hàm về Ngày Tháng 
+
+Và các hàm về Truyền Đội Các kiểu Thứ Liệm Ngoài ra thì có rất nhiều đa dạng các loại hàm khác nhau Mà chúng ta có thể tận dụng được Ở đây mình tiếp tục mở Terminal để lấy một số ví dụ về các hàm mà chúng ta thường sử dụng trong Excel Chúng ta chạy có lệnh Terraform 
+
+Console Chúng ta sẽ lấy ví dụ về hàm Max Mình sẽ lấy thêm một ví dụ về hàm Timestamp Nó sẽ hiển thị ra ngày giờ theo chuẩn là múi giờ là 0 Cuối cùng là Resort Dependency là thiết hạm mối quan hệ giữa các Resort với nhau Trong ví dụ này mình có 2 block code là AWS KeyPair và AWS Instant 
+
+Trong block code AWS Instant mình có một cái đối số là KeyName Trong cái đối số này thực hiện gọi đến block AWS KeyPair thông qua cú pháp AWS KeyPair.shhkey.keyname Để lấy giá trị của KeyName ở đây là chính là SSH Thông qua cách này chúng ta đã thiết lập được mối quan hệ giữa các Resort với nhau Trong cái đối số này chúng ta đã thiết lập được mối quan hệ giữa các Resort với nhau 
+
