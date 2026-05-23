@@ -120,7 +120,7 @@ graph LR
   - Linux: `apt install git`
   - Windows: [Git for Windows](https://git-scm.com/download/win)
 - [ ] **GitHub**: tạo account miễn phí
-  - 🛠️ Hướng dẫn setup account + SSH key + 2FA → [GitHub user guide](../../02_Tools/git-clients/github.md) (chưa có)
+  - 🛠️ Hướng dẫn setup account + SSH key + 2FA → [GitHub user guide](../../02_Tools/git-clients/github.md) ✅
 - [ ] **VS Code extension** (chỉ cài 3 cái cốt lõi, đừng cài 50):
   - GitLens (xem git history inline)
   - Indent Rainbow (đỡ nhầm indent)

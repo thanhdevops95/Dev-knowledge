@@ -1,7 +1,7 @@
 # 📊 Master Catalog
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.11.0\
+> **Phiên bản:** v1.14.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 23/05/2026
 
@@ -34,11 +34,11 @@
 
 | Chỉ số | Giá trị |
 |---|---|
-| Tổng số bài | 46 |
-| ✅ Done | 46 |
+| Tổng số bài | 53 |
+| ✅ Done | 53 |
 | 🚧 WIP | 0 |
 | ❌ Chưa có | Lessons (Phase 2) + Lab series (Phase 3) |
-| 🌟 MUST-KNOW | 46 (17 career roadmaps + 27 lesson + 2 tool guide) |
+| 🌟 MUST-KNOW | 53 (17 career roadmaps + 27 lesson + 9 tool guide) |
 
 > 💡 Khi bài đầu tiên được viết → cập nhật bảng này.
 
@@ -122,9 +122,17 @@ Rename theo tool category naming chuẩn.
 #### ~~git/~~ → **MOVED to `01_Foundations/version-control/git/`** (19/05/2026)
 Git là VCS concept (Foundations), không phải tool guide. Xem section 01_Foundations bên trên.
 
+#### git-clients/ ✅ **CLUSTER HOÀN CHỈNH 7/7** 🎉
+- ✅ 🌟 [`00_what-is-git-hosting.md`](02_Tools/git-clients/00_what-is-git-hosting.md) — So sánh 7 platform + bảng 14 tiêu chí + 7 case + AI integration 2026
+- ✅ 🌟 [`github.md`](02_Tools/git-clients/github.md) — GitHub full user guide
+- ✅ 🌟 🆕 [`github-desktop.md`](02_Tools/git-clients/github-desktop.md) — GUI client cho người ghét CLI (Mai story)
+- ✅ 🌟 🆕 [`gitlab.md`](02_Tools/git-clients/gitlab.md) — GitLab cloud + self-host CE + CI/CD + Auto DevOps
+- ✅ 🌟 🆕 [`bitbucket.md`](02_Tools/git-clients/bitbucket.md) — Atlassian + Smart Commits + Jira integration
+- ✅ 🌟 🆕 [`codeberg.md`](02_Tools/git-clients/codeberg.md) — Non-profit ethical (Forgejo-based)
+- ✅ 🌟 🆕 [`gitea.md`](02_Tools/git-clients/gitea.md) — Self-host lightweight (Docker, <100MB RAM)
+
 #### Tool category dự kiến khác (theo pattern 2-level)
 - ❌ `terminal-emulators/` — iTerm, Kitty, Alacritty, Warp
-- ❌ `git-clients/` — GitHub UI, GitLab, GitHub Desktop, GitKraken
 - ❌ `k8s-local/` — Minikube, Kind, k3d
 - ❌ `docker-tools/`, `api-clients/`, `db-clients/`
 - ❌ `terminal-tools/`, `package-managers/`, `productivity/`
@@ -303,6 +311,24 @@ Tích hợp pre-commit hook hoặc CI job để giữ catalog luôn fresh.
 
 ## 📌 Changelog
 
+- **v1.14.0 (23/05/2026)** — 🎉 **`02_Tools/git-clients/` CLUSTER HOÀN CHỈNH 7/7**:
+  - 🆕 `github-desktop.md` (~400 dòng) — GUI client GitHub: Mai sợ CLI, 5-phần UI, workflow, vs VS Code Source Control
+  - 🆕 `gitlab.md` (~600 dòng) — Long join fintech: MR vs PR, GitLab CI yaml, Auto DevOps, CE self-host, `glab` CLI
+  - 🆕 `bitbucket.md` (~500 dòng) — Atlassian: Smart Commits magic, Jira integration native, 3-tier workspace, Pipelines weakest
+  - 🆕 `codeberg.md` (~450 dòng) — Maria ethical: NPO non-profit, Codeberg vs Forgejo vs Gitea phân biệt, migrate built-in
+  - 🆕 `gitea.md` (~500 dòng) — Homelab self-host: Docker 5-phút, vs GitLab CE (100MB vs 8GB), Gitea Actions + runner
+  - Cluster đầu tiên của `02_Tools/` đóng hoàn chỉnh — pattern category + 6 tool individual đầy đủ.
+  - Tổng bài 48 → **53** (17 career + 27 lesson + **9 tool guide**).
+- **v1.13.0 (23/05/2026)** — **GitHub user guide hoàn chỉnh** (tool individual đầu tiên trong git-clients/):
+  - 🆕 `github.md` ~720 dòng: tình huống Long tạo account → §1 GitHub là gì → §2 Account+2FA (3 option) → §3 Auth 3 cách (SSH/PAT/gh login chi tiết) → §4 Tạo repo + push → §5 UI tour 8 tab → §6 PR workflow chi tiết Long+Mai → §7 Actions CI/CD → §8 Pages portfolio → §9 gh CLI → §10 Security 7 must-do + 5 không được → §11 Settings nâng cao. 5 pitfall + 4 self-check + cheatsheet.
+  - 🔗 Unblock 3 "(chưa có)" link → ✅ ở `zero-to-coder` + `git/00_what-is-git`
+  - 02_Tools/git-clients/README.md v0.2.0 → v0.3.0
+  - Tổng bài 47 → **48** (17 career + 27 lesson + 4 tool guide)
+- **v1.12.0 (23/05/2026)** — **Tool category `git-clients/` mở** + unblock git lessons links:
+  - 🆕 `00_what-is-git-hosting.md` — category file (~520 dòng): so sánh 7 platform (GitHub/GitLab/Bitbucket/Codeberg/Gitea/Sourcehut/Gitee) + bảng 14 tiêu chí + 7 case khuyến nghị theo profile + Git decentralized (vendor lock-in section) + AI integration 2026 + 5 FAQ + link sang 6 file individual sẽ viết
+  - 02_Tools/git-clients/README.md v0.1.0 → v0.2.0
+  - 5+ "(chưa có)" links từ git lessons (`github.md`, `github-desktop.md`, `gitlab.md`, `gitkraken.md`) giờ có **parent category** giải thích trước khi đi vào tool cụ thể
+  - Tổng bài 46 → **47** (17 career + 27 lesson + 3 tool guide: ide category, vs-code, git-clients category)
 - **v1.11.0 (23/05/2026)** — 🎉 **Computing-environment CLUSTER BASIC HOÀN CHỈNH 6/6**:
   - 🆕 `05_io-redirection.md` — 3 streams (stdin/stdout/stderr) với mermaid + redirect `>`/`>>`/`2>`/`2>&1`/`&>` + giải mã thứ tự `2>&1` + pipe `|` triết lý Unix + `/dev/null` "hố đen" + `tee` "chữ T" + 3 ví dụ kết hợp phức tạp (ps|grep|head, docker logs|grep|tee, curl|jq|sort). 5 pitfall + 4 self-check.
   - Bài cuối đóng cluster basic. Beginner giờ có **toàn bộ kiến thức computing environment OS-agnostic** (terminal, shell, filesystem, process, env vars, I/O).

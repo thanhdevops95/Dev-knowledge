@@ -1,7 +1,7 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.4.0\
+> **Phiên bản:** v0.5.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 23/05/2026
 
@@ -39,11 +39,6 @@ _(none — Docker refactor vừa xong, chuyển sang ✅ Done)_
 
 ## 📋 Backlog (planned, chưa làm)
 
-### Tool category tiếp theo — `02_Tools/git-clients/`
-- 📅 Added: 20/05/2026
-- 🎯 Khi làm: tạo `00_what-is-git-hosting.md` (so sánh GitHub/GitLab/Bitbucket/Codeberg) + `github.md` (full user guide: account/2FA/SSH/PR/Actions)
-- 📁 Sẽ tạo: `02_Tools/git-clients/00_what-is-git-hosting.md` + `github.md`
-- 💡 Lý do priority: nhiều "(chưa có)" link từ git lessons trỏ sang đây
 
 
 ### Lesson series tiếp theo (sau Docker)
@@ -85,6 +80,9 @@ _(none — Docker refactor vừa xong, chuyển sang ✅ Done)_
 
 ### 23/05/2026
 
+- ✅ **🎉 git-clients CLUSTER HOÀN CHỈNH 7/7** — Thêm 5 file: github-desktop (~400), gitlab (~600), bitbucket (~500), codeberg (~450), gitea (~500). Tool category đầu tiên của `02_Tools/` đóng đủ pattern (category + 6 individual). README v1.0.0 + MASTER-CATALOG v1.14.0. Tổng bài 48 → 53.
+- ✅ **GitHub user guide** — `github.md` (~720 dòng): account+2FA, SSH/PAT/gh auth, repo+UI tour, PR Long+Mai, Actions, Pages, gh CLI, security. Unblock 3 "(chưa có)" link → ✅. README v0.3.0 + MASTER-CATALOG v1.13.0. Tổng bài 47 → 48.
+- ✅ **Tool category git-clients mở** — `00_what-is-git-hosting.md` (~520 dòng): so sánh 7 platform, 7 case khuyến nghị, vendor lock-in, AI 2026. README v0.2.0 + MASTER-CATALOG v1.12.0.
 - ✅ **🎉 Computing-environment CLUSTER BASIC HOÀN CHỈNH 6/6** — Thêm `05_io-redirection.md` (~520 dòng): 3 streams + redirect + pipe + /dev/null + tee + 3 ví dụ kết hợp. README v1.0.0 + MASTER-CATALOG v1.11.0. Cluster đầu tiên của Foundations đóng hoàn chỉnh.
 - ✅ **Computing-environment 04_env-variables** (~470 dòng): env var + $PATH + 3 scope + inheritance + `.env`/`.env.example` + secrets vs config + vault tools + Docker env. README v0.6.0 + MASTER-CATALOG v1.10.0. Cluster basic 5/6.
 - ✅ **Computing-environment 03_process-and-pid** (~470 dòng): Program vs Process, PID tree, PID 1 (systemd/launchd/Docker), 4 trạng thái + Zombie, signal SIGTERM/SIGKILL, fg/bg/nohup/disown, Docker context. README v0.5.0 + MASTER-CATALOG v1.9.0. Cluster basic 4/6.

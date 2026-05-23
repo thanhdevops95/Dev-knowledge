@@ -91,7 +91,7 @@ graph LR
     B -->|git checkout| A
 ```
 
-> 💡 **Bạn có thể dùng Git mà KHÔNG cần GitHub** (project cá nhân local). Nhưng dùng GitHub thì PHẢI có Git. Hiện bài này dạy Git (concept). Tool guide cho [GitHub UI/account/PR](../../../../../02_Tools/git-clients/github.md) (chưa có) để riêng.
+> 💡 **Bạn có thể dùng Git mà KHÔNG cần GitHub** (project cá nhân local). Nhưng dùng GitHub thì PHẢI có Git. Hiện bài này dạy Git (concept). Tool guide cho [GitHub UI/account/PR](../../../../../02_Tools/git-clients/github.md) ✅ để riêng.
 
 ---
 
@@ -286,7 +286,7 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 
 | Tool | Khi nào dùng tool guide |
 |---|---|
-| 🛠️ [GitHub user guide](../../../../../02_Tools/git-clients/github.md) (chưa có) | Khi tạo account, setup SSH, dùng PR, GitHub Actions |
+| 🛠️ [GitHub user guide](../../../../../02_Tools/git-clients/github.md) ✅ | Khi tạo account, setup SSH, dùng PR, GitHub Actions |
 | 🛠️ [GitLab user guide](../../../../../02_Tools/git-clients/gitlab.md) (chưa có) | Nếu company dùng GitLab thay GitHub |
 | 🛠️ [GitHub Desktop](../../../../../02_Tools/git-clients/github-desktop.md) (chưa có) | Beginner muốn GUI thay CLI |
 | 🛠️ [So sánh các Git hosting + GUI](../../../../../02_Tools/git-clients/) (chưa có) | Khi cần quyết platform/tool dùng |
