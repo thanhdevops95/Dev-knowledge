@@ -1,7 +1,7 @@
 # 🎓 Linux Navigation — `pwd`, `ls`, `cd`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -17,7 +17,7 @@
 - [ ] Dùng `pwd` xem đang đứng ở đâu
 - [ ] Dùng `ls` (+ flag `-l`, `-a`, `-la`) liệt kê file/folder
 - [ ] Dùng `cd` di chuyển — kể cả các shortcut `..`, `~`, `-`
-- [ ] Hiểu **absolute path** (`/Users/rom`) vs **relative path** (`./Desktop`)
+- [ ] Hiểu **absolute path** (`/Users/user`) vs **relative path** (`./Desktop`)
 - [ ] Navigate folder bất kỳ trong < 5 giây
 
 ---
@@ -27,7 +27,7 @@
 Bạn mở terminal lần đầu. Prompt hiện:
 
 ```
-rom@MacBook ~ %
+user@laptop ~ %
 ```
 
 Câu hỏi đầu tiên:
@@ -60,7 +60,7 @@ Trước khi học lệnh, hiểu cấu trúc filesystem.
 ```
 /                          ← root (Mac/Linux)
 ├── Users/
-│   └── rom/               ← home folder của user "rom" (= ~)
+│   └── user/               ← home folder của user (= ~)
 │       ├── Desktop/
 │       ├── Documents/
 │       └── projects/
@@ -74,7 +74,7 @@ Trước khi học lệnh, hiểu cấu trúc filesystem.
 
 | Loại | Format | Ví dụ | Đặc điểm |
 |---|---|---|---|
-| **Absolute** (tuyệt đối) | Bắt đầu bằng `/` | `/Users/rom/Desktop` | Hoạt động ở mọi nơi — không phụ thuộc đang đứng đâu |
+| **Absolute** (tuyệt đối) | Bắt đầu bằng `/` | `/Users/user/Desktop` | Hoạt động ở mọi nơi — không phụ thuộc đang đứng đâu |
 | **Relative** (tương đối) | Không bắt đầu bằng `/` | `./Desktop` hoặc `../etc` | Phụ thuộc folder hiện tại |
 
 **Ký hiệu đặc biệt**:
@@ -104,10 +104,10 @@ pwd
 Output mẫu:
 
 ```
-/Users/rom
+/Users/user
 ```
 
-→ Bạn đang ở folder `/Users/rom` (home folder trên Mac). Trên Linux có thể là `/home/rom`. Trên Windows Git Bash: `/c/Users/rom`.
+→ Bạn đang ở folder `/Users/user` (home folder trên Mac). Trên Linux có thể là `/home/user`. Trên Windows Git Bash: `/c/Users/user`.
 
 > 💡 **Path trên Mac/Linux dùng `/` (forward slash)**. Windows native dùng `\` nhưng Git Bash convert thành `/`.
 
@@ -116,6 +116,8 @@ Output mẫu:
 `ls` = **List**.
 
 #### Cơ bản
+
+Gõ `ls` không tham số → liệt kê tên file/folder ngay trong folder hiện tại:
 
 ```bash
 ls
@@ -134,9 +136,9 @@ ls -l
 ```
 
 ```
-drwxr-xr-x  5 rom  staff   160 May 16 10:00 Desktop
-drwxr-xr-x  8 rom  staff   256 May 15 14:30 Documents
--rw-r--r--  1 rom  staff   542 May 16 09:00 my-note.txt
+drwxr-xr-x  5 user  staff   160 May 16 10:00 Desktop
+drwxr-xr-x  8 user  staff   256 May 15 14:30 Documents
+-rw-r--r--  1 user  staff   542 May 16 09:00 my-note.txt
 ```
 
 | Ký hiệu đầu | Ý nghĩa |
@@ -161,6 +163,8 @@ ls -a
 
 #### Kết hợp — `ls -la`
 
+Gộp `-l` (chi tiết) + `-a` (cả file ẩn) — đây là **lệnh `ls` dùng nhiều nhất hàng ngày**:
+
 ```bash
 ls -la
 ```
@@ -168,6 +172,8 @@ ls -la
 → Vừa chi tiết, vừa show file ẩn. **Lệnh `ls` dùng nhiều nhất**.
 
 #### Sort theo size — `ls -lhS`
+
+Khi muốn tìm file/folder chiếm disk nhiều nhất, thêm `-h` (human-readable: KB/MB thay byte) + `-S` (sort theo size giảm dần):
 
 ```bash
 ls -lhS
@@ -189,7 +195,7 @@ pwd
 ```
 
 ```
-/Users/rom/Desktop
+/Users/user/Desktop
 ```
 
 → Đã chuyển vào `Desktop`. Giờ `ls` sẽ liệt kê thứ trong Desktop, không phải home folder.
@@ -212,7 +218,7 @@ pwd
 #### Ví dụ chuỗi điều hướng
 
 ```bash
-pwd                          # /Users/rom
+pwd                          # /Users/user
 cd Desktop                   # vào Desktop
 cd ../Documents              # ra Desktop → vào Documents (qua home)
 cd ../../etc                 # ra Documents → ra home → vào /etc (system folder)
@@ -264,7 +270,7 @@ cd My Folder/   # ❌ thực ra cd "My" rồi báo lỗi
 ### ❌ Pitfall: Quên `cd` ra → chạy lệnh sai chỗ
 
 ```bash
-# Tưởng đang ở /Users/rom/projects, thực ra ở /
+# Tưởng đang ở /Users/user/projects, thực ra ở /
 ls          # output toàn folder hệ thống — KHÔNG phải projects
 rm -r tmp   # xóa /tmp — có thể thảm họa!
 ```
@@ -300,7 +306,7 @@ ls          # luôn ls sau cd để biết folder có gì
 
 ## 🧠 Self-check
 
-**Q1.** `cd ../../etc` đi đâu (giả sử đang ở `/Users/rom/projects/my-app`)?
+**Q1.** `cd ../../etc` đi đâu (giả sử đang ở `/Users/user/projects/my-app`)?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -308,15 +314,15 @@ ls          # luôn ls sau cd để biết folder có gì
 `/etc`.
 
 Đường đi:
-- `..` → `/Users/rom/projects`
-- `..` → `/Users/rom`
-- `etc` (relative) → `/Users/rom/etc`?
+- `..` → `/Users/user/projects`
+- `..` → `/Users/user`
+- `etc` (relative) → `/Users/user/etc`?
 
 ❌ Sai! `etc` ở root, không phải trong home. Đáp án đúng:
 
-- `..` → `/Users/rom/projects`
-- `..` → `/Users/rom`
-- `etc` → `/Users/rom/etc` (path TƯƠNG ĐỐI, không có `/`)
+- `..` → `/Users/user/projects`
+- `..` → `/Users/user`
+- `etc` → `/Users/user/etc` (path TƯƠNG ĐỐI, không có `/`)
 
 Nếu muốn đến `/etc` (system folder), phải dùng absolute: `cd /etc`.
 
@@ -338,7 +344,7 @@ Nếu muốn đến `/etc` (system folder), phải dùng absolute: `cd /etc`.
 
 </details>
 
-**Q3.** Đang ở `/Users/rom`, sau khi chạy chuỗi sau, đứng ở đâu?
+**Q3.** Đang ở `/Users/user`, sau khi chạy chuỗi sau, đứng ở đâu?
 ```bash
 cd ~/Desktop
 cd ../Documents
@@ -349,18 +355,18 @@ cd -
 <details>
 <summary>💡 Đáp án</summary>
 
-Bước 1: `cd ~/Desktop` → `/Users/rom/Desktop`\
-Bước 2: `cd ../Documents` → `/Users/rom/Documents` (../ lùi từ Desktop về rom)\
+Bước 1: `cd ~/Desktop` → `/Users/user/Desktop`\
+Bước 2: `cd ../Documents` → `/Users/user/Documents` (../ lùi từ Desktop về home)\
 Bước 3: `cd ../../etc` → `/etc`? 
 
-❌ Phân tích kỹ: `../..` từ `/Users/rom/Documents`:
-- `..` → `/Users/rom`
+❌ Phân tích kỹ: `../..` từ `/Users/user/Documents`:
+- `..` → `/Users/user`
 - `..` → `/Users`
 - `etc` → `/Users/etc` ❌
 
 Đáp án đúng: `/Users/etc` (relative path, không phải `/etc`).
 
-Bước 4: `cd -` → quay lại folder trước = `/Users/rom/Documents`.
+Bước 4: `cd -` → quay lại folder trước = `/Users/user/Documents`.
 
 </details>
 
@@ -394,7 +400,7 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/rom/Documents`.
 | EN | VN | Giải thích |
 |---|---|---|
 | Filesystem | Hệ thống file | Cấu trúc cây folder/file của OS |
-| Path | Đường dẫn | Vị trí 1 file/folder, vd `/Users/rom` |
+| Path | Đường dẫn | Vị trí 1 file/folder, vd `/Users/user` |
 | Absolute path | Đường dẫn tuyệt đối | Bắt đầu bằng `/`, không phụ thuộc folder hiện tại |
 | Relative path | Đường dẫn tương đối | Không bắt đầu bằng `/`, phụ thuộc folder hiện tại |
 | Working directory | Thư mục đang làm việc | Folder bạn đang đứng (xem bằng `pwd`) |
@@ -425,6 +431,9 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/rom/Documents`.
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (ls cơ bản, ls -la, ls -lhS).
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống beginner mở terminal lần đầu** với 3 câu hỏi cụ thể (đang ở đâu, có gì, đi đâu)

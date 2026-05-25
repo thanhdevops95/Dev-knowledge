@@ -1,7 +1,7 @@
 # 🎓 Python Control Flow — `if`, `for`, `while`
 
-> **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Tác giả:** Mr.Nguyen Van A\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -64,6 +64,8 @@ Có control flow:
 
 ## 2️⃣ Trước hết — Indentation là gì? (đặc trưng quan trọng nhất Python)
 
+🪞 **Ẩn dụ**: *Indentation (thụt dòng) như **lề lùi vào của 1 đoạn văn** — đoạn nào lùi vào cùng mức = cùng "thuộc về" 1 phần. Python ép viết lề rõ ràng để code dễ đọc; ngôn ngữ khác cho phép viết loạn, Python bắt phải có trật tự.*
+
 Khác với hầu hết ngôn ngữ (Java/C/JS dùng `{}`), Python dùng **thụt dòng** (indentation) để định nghĩa "block":
 
 ### Java
@@ -89,6 +91,8 @@ if age >= 18:
 
 ### Quy tắc indent
 
+3 quy tắc bắt buộc khi indent Python — vi phạm 1 trong 3 = lỗi `IndentationError`:
+
 | Quy tắc | Chi tiết |
 |---|---|
 | **4 spaces** chuẩn PEP 8 | Không phải 2, không phải Tab |
@@ -99,9 +103,11 @@ if age >= 18:
 
 ### IndentationError — Lỗi đặc trưng Python
 
+Đây là lỗi 99% người mới Python gặp ít nhất 1 lần. Trông như code đúng nhưng Python từ chối chạy:
+
 ```python
 if age >= 18:
-print("Adult")    # ❌ Không indent
+print("Adult")    # ❌ Không indent — phải có 4 spaces đầu dòng
 ```
 
 ```
@@ -272,7 +278,7 @@ n
 ### 🛠️ 4.4 Lặp qua dict
 
 ```python
-user = {"name": "Rom", "age": 28, "email": "rom@example.com"}
+user = {"name": "Nguyen Van A", "age": 28, "email": "dev@example.com"}
 
 # Lặp qua keys (mặc định)
 for key in user:
@@ -312,7 +318,7 @@ for i, fruit in enumerate(fruits):
 ### 🛠️ 4.6 `zip` — Lặp song song nhiều list
 
 ```python
-names = ["Rom", "Lan", "Hoa"]
+names = ["Nguyen Van A", "Le Van B", "Tran Van C"]
 ages = [28, 25, 30]
 
 for name, age in zip(names, ages):
@@ -320,9 +326,9 @@ for name, age in zip(names, ages):
 ```
 
 ```
-Rom: 28
-Lan: 25
-Hoa: 30
+Nguyen Van A: 28
+Le Van B: 25
+Tran Van C: 30
 ```
 
 ### 🛠️ 4.7 Nested loops
@@ -486,8 +492,8 @@ squares = {n: n ** 2 for n in range(5)}
 ### Set comprehension
 
 ```python
-unique_lengths = {len(name) for name in ["Rom", "Lan", "Hoa", "Tom"]}
-# {3} — Rom, Lan, Hoa, Tom đều 3 ký tự
+unique_lengths = {len(name) for name in ["Nguyen Van A", "Le Van B", "Tran Van C", "Tom"]}
+# {3} — Nguyen Van A, Le Van B, Tran Van C, Tom đều 3 ký tự
 ```
 
 > 💡 **Quy tắc**: comprehension đẹp khi đơn giản. Nếu nested 2+ for hoặc logic phức tạp → quay về for loop thường (đọc dễ hơn).
@@ -554,11 +560,11 @@ while i < 10:
 
 ```python
 # ❌
-if name == "Rom" or name == "Lan" or name == "Hoa":
+if name == "Nguyen Van A" or name == "Le Van B" or name == "Tran Van C":
     ...
 
 # ✅
-if name in ("Rom", "Lan", "Hoa"):
+if name in ("Nguyen Van A", "Le Van B", "Tran Van C"):
     ...
 ```
 
@@ -751,6 +757,9 @@ is  is not       # chỉ dùng với None, True, False
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm ẩn dụ "lề lùi đoạn văn" cho indentation, 2 lead-in trước bảng quy tắc indent + IndentationError example.
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống script tính lương cần tax theo bậc + lặp 30 nhân viên**

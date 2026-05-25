@@ -403,7 +403,7 @@ Sau bài này, **3 step tiếp theo**:
 - 🥚 [Zero-to-coder roadmap](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md) — nếu chưa code dòng nào
 - 🗺️ [00_Roadmaps README](../../../../00_Roadmaps/) — danh sách 17 career roadmap đầy đủ
 - 📚 [Computational Thinking](../../computational-thinking/) (chưa có) — kỹ năng tư duy giải bài toán bằng máy tính
-- 📚 [Version Control](../../version-control/git/) ✅ — git concept (6 bài Long story arc)
+- 📚 [Version Control](../../version-control/git/) ✅ — git concept (6 bài bạn story arc)
 
 ### Tài nguyên ngoài (đáng đọc)
 

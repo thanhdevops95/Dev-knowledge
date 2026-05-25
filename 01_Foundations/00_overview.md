@@ -14,7 +14,7 @@
 | L2 | Trạng thái | Note |
 |---|---|---|
 | [`industry-landscape/`](./industry-landscape/) | 🚀 1 bài 🆕 | Bản đồ ngành IT — entry point cho beginner zero-base. Stage 0 của zero-to-coder |
-| [`version-control/`](./version-control/) | ✅ 6 bài 🆕 | Git concept (move từ `02_Tools/git/`) — setup + 5 lesson với Long story arc |
+| [`version-control/`](./version-control/) | ✅ 6 bài 🆕 | Git concept (move từ `02_Tools/git/`) — setup + 5 lesson với bạn story arc |
 | `computing-environment/` | ❌ Chưa có | Terminal / shell / OS concept (sẽ chuyển 1 bài từ `02_Tools/shell/`) |
 | `computational-thinking/` | ❌ Chưa có | Logic + problem solving + algorithm cơ bản |
 | `dsa/` | ❌ Chưa có | Data Structure + Algorithm |
@@ -48,5 +48,5 @@
 
 - **v0.2.0 (19/05/2026)** — Có 2 sub-folder content thật:
   - `industry-landscape/` ✅ 1 bài "Ngành IT là gì + bản đồ các nhánh" (cho Stage 0 zero-to-coder)
-  - `version-control/git/` ✅ 6 bài (setup + 5 lesson Long story) — move từ `02_Tools/git/`
+  - `version-control/git/` ✅ 6 bài (setup + 5 lesson bạn story) — move từ `02_Tools/git/`
 - **v0.1.0 (16/05/2026)** — Skeleton.

@@ -251,7 +251,7 @@ graph LR
 | Sách | Khi đọc |
 |---|---|
 | *Designing Data-Intensive Applications* — Martin Kleppmann | Sau Stage 4 — bible system design |
-| *Clean Architecture* — Uncle Bob | Khi muốn refactor tốt hơn |
+| *Clean Architecture* — Uncle Le Van B | Khi muốn refactor tốt hơn |
 | *The Pragmatic Programmer* | Bất kỳ lúc nào |
 
 ### Khoá / Practice

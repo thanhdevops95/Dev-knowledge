@@ -1,15 +1,15 @@
-# 🎓 Long thử Google login an toàn — Branching + Merging
+# 🎓 bạn thử Google login an toàn — Branching + Merging
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md)
 
-> 🎯 *Tiếp Long story: Long đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này Long không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.*
+> 🎯 *Tiếp bạn story: bạn đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này bạn không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,19 +21,19 @@
 
 ---
 
-## Tình huống — Long không muốn lặp lại bi kịch cuối tuần
+## Tình huống — bạn không muốn lặp lại bi kịch cuối tuần
 
-Tuần trước Long mất 1 ngày code vì sửa Google login phá login cũ ([nhớ lại bài intro](./00_what-is-git.md)). Giờ có Git rồi, sếp lại bảo:
+Tuần trước bạn mất 1 ngày code vì sửa Google login phá login cũ ([nhớ lại bài intro](./00_what-is-git.md)). Giờ có Git rồi, sếp lại bảo:
 
 > *"Thêm tính năng dark mode. Nếu OK thì merge production. Không OK thì hủy luôn, KHÔNG ảnh hưởng login."*
 
-Long suy nghĩ:
+Bạn suy nghĩ:
 - **Cách cũ** (chưa biết Git tốt): sửa thẳng `main`. Dark mode buggy → ảnh hưởng login → repeat bi kịch cũ.
-- **Cách Long mới hiểu**: dùng `git branch` để tạo **nhánh thời gian song song** — code dark mode trong nhánh riêng, `main` không bị động. Tốt thì merge, không thì xóa nhánh.
+- **Cách bạn mới hiểu**: dùng `git branch` để tạo **nhánh thời gian song song** — code dark mode trong nhánh riêng, `main` không bị động. Tốt thì merge, không thì xóa nhánh.
 
 Đây chính là **killer feature** của Git, làm nó vượt xa các VCS cũ (SVN, CVS).
 
-> 💡 **Quy tắc team chuyên nghiệp**: KHÔNG ai code thẳng vào `main`. Mọi thay đổi đều qua feature branch + Pull Request (xem bài 03). Long đang học chuẩn từ đầu — tốt.
+> 💡 **Quy tắc team chuyên nghiệp**: KHÔNG ai code thẳng vào `main`. Mọi thay đổi đều qua feature branch + Pull Request (xem bài 03). Bạn đang học chuẩn từ đầu — tốt.
 
 ---
 
@@ -83,7 +83,7 @@ feature:       D → E (HEAD ở đây)
 
 ---
 
-## 2️⃣ Long tạo nhánh đầu tiên — Hands-on
+## 2️⃣ bạn tạo nhánh đầu tiên — Hands-on
 
 ### Setup project mới
 
@@ -633,10 +633,12 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 
 ## 📌 Changelog
 
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
 - **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi: "Long thử Google login an toàn — Branching + Merging" (gắn vào story)
-  - Mở bằng **tình huống Long tuần trước mất 1 ngày code** + cách cũ vs cách mới với Git branch
-  - Headers đổi: `1️⃣ Vì sao cần branch (WHY)` / `2️⃣ Branch là gì (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Merge` / `5️⃣ Conflict` → câu hỏi tự nhiên ("Vậy branch thực sự là gì?", "Long tạo nhánh đầu tiên", "Hợp 2 nhánh thành 1", "Khi 2 nhánh đụng cùng dòng")
+  - Title đổi: "bạn thử Google login an toàn — Branching + Merging" (gắn vào story)
+  - Mở bằng **tình huống bạn tuần trước mất 1 ngày code** + cách cũ vs cách mới với Git branch
+  - Headers đổi: `1️⃣ Vì sao cần branch (WHY)` / `2️⃣ Branch là gì (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Merge` / `5️⃣ Conflict` → câu hỏi tự nhiên ("Vậy branch thực sự là gì?", "bạn tạo nhánh đầu tiên", "Hợp 2 nhánh thành 1", "Khi 2 nhánh đụng cùng dòng")
   - Move folder từ `02_Tools/git/` → `01_Foundations/version-control/git/`
   - Fix relative path depth
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — branching/merging + fast-forward vs three-way + conflict resolution + 5 pitfall + naming convention.

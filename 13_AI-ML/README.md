@@ -1,52 +1,89 @@
 # 🤖 13_AI-ML
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 24/05/2026\
+> **Status:** 🟢 Active — 1/10 cluster có basic content (llm)
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> 🎯 *AI / ML knowledge: LLM (ChatGPT/Claude/Gemini), RAG, AI Agents, Vector Search, Embeddings, Fine-tuning, classical ML, Deep Learning, Math for ML, MLOps, NLP, Computer Vision. LLM cluster là cluster đầu tiên — cross-cuts mọi dev role 2026.*
+
+---
 
 ## 🎯 Chủ đề này có gì
 
-Math, ML fundamentals, Deep Learning, NLP, CV, LLM, RAG/Agent, MLOps
+LLM (Large Language Models), RAG (Retrieval Augmented Generation), AI Agents, Vector Search, Embeddings, Fine-tuning, classical ML, Deep Learning fundamentals, Math for ML, MLOps, NLP, Computer Vision.
 
-## 📂 L2 dự kiến (chủ đề con)
+---
 
--math-for-ml
-- ml-fundamentals
-- deep-learning
-- nlp
-- computer-vision
-- llm
-- rag-and-ai-agent
-- fine-tuning-and-training
-- mlops
-- vector-search-and-embeddings
+## 📂 Sub-clusters
 
-> Chi tiết sitemap mở rộng → xem [`../_Blueprint/01_sitemap-detail.md`](../_Blueprint/01_sitemap-detail.md).
+| Cluster | Status | Basic | Intermediate |
+|---|---|---|---|
+| [llm](llm/) | ✅ Active | 5/5 ✅ | ⏳ |
+| [rag-and-ai-agent](rag-and-ai-agent/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [vector-search-and-embeddings](vector-search-and-embeddings/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [math-for-ml](math-for-ml/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [ml-fundamentals](ml-fundamentals/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [deep-learning](deep-learning/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [nlp](nlp/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [computer-vision](computer-vision/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [fine-tuning-and-training](fine-tuning-and-training/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [mlops](mlops/) | 🟡 Skeleton | ⏳ | ⏳ |
 
-## 🚀 Khi nào đọc folder này
+> Chi tiết sitemap → [`../_Blueprint/01_sitemap-detail.md`](../_Blueprint/01_sitemap-detail.md).
 
-| Bạn là... | Đọc gì khi có content |
+---
+
+## 🚀 Lộ trình đề xuất
+
+| Bạn là... | Đi theo |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `99_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `99_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_Roadmaps/career/`](../00_Roadmaps/career/) chọn career path đi qua chủ đề này |
+| 🟢 **Beginner muốn build LLM app** | [llm/01_basic/](llm/lessons/01_basic/) — không cần math/ML trước |
+| 🟡 **Backend dev integrate AI** | llm → rag-and-ai-agent → vector-search-and-embeddings |
+| 🟠 **ML Engineer truyền thống** | math-for-ml → ml-fundamentals → deep-learning → nlp/cv |
+| 🔵 **AI Engineer 2026** | llm → rag-and-ai-agent → fine-tuning → mlops |
 
-## 🤝 Muốn viết bài cho chủ đề này?
+→ **2026 reality**: Đa số dev chỉ cần `llm` + `rag-and-ai-agent` để build AI app. Math/classical ML cho ML engineer truyền thống.
 
-1. Đọc [`../_Blueprint/00_blueprint-overview.md`](../_Blueprint/00_blueprint-overview.md)
-2. Copy template từ [`../_Blueprint/templates/`](../_Blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md)
-4. Soát qua [`../_Blueprint/07_quality-checklist.md`](../_Blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+---
+
+## 📖 Active cluster — llm basic (5 bài)
+
+| # | Bài | Tag | Thời lượng |
+|---|---|---|---|
+| 00 | [LLM intro + tokenization](llm/lessons/01_basic/00_what-is-llm-and-tokenization.md) | MUST-KNOW | ~18p |
+| 01 | [Prompt engineering](llm/lessons/01_basic/01_prompt-engineering-and-context.md) | MUST-KNOW | ~22p |
+| 02 | [Function calling + tools](llm/lessons/01_basic/02_function-calling-and-tools.md) | MUST-KNOW | ~22p |
+| 03 | [RAG fundamentals](llm/lessons/01_basic/03_rag-fundamentals.md) | MUST-KNOW | ~22p |
+| 04 | [Production LLM app](llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md) | MUST-KNOW | ~22p |
+
+→ **Tổng ~106 phút**. Foundation cho mọi AI app 2026.
+
+---
+
+## 🔗 Liên kết
+
+### Trong workspace
+- 🐍 [Python](../03_Languages/python/)
+- 🌐 [HTTP API](../05_Networking/http-https/)
+- 🛡️ [OWASP LLM Top 10](../12_Security/owasp-top-10/)
+- 🐘 [pgvector + Postgres](../06_Databases/sql/postgresql/)
+- 🐳 [Docker + K8s](../10_DevOps/)
+- ☁️ [11_Cloud](../11_Cloud/)
+- 💰 [Cloud cost management](../11_Cloud/cloud-cost-management/)
+
+### Tài nguyên ngoài 2026
+- 📖 [Anthropic Docs](https://docs.anthropic.com/)
+- 📖 [OpenAI Docs](https://platform.openai.com/docs)
+- 📖 [Hugging Face](https://huggingface.co/)
+- 📖 [Andrej Karpathy YouTube](https://www.youtube.com/@AndrejKarpathy)
+- 📖 [LangChain](https://python.langchain.com/)
+- 📖 [LlamaIndex](https://docs.llamaindex.ai/)
 
 ---
 
 ## 📌 Changelog
 
-- **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+- **v1.0.0 (24/05/2026)** — Cluster **llm basic 5/5 hoàn chỉnh**. Cluster đầu tiên của 13_AI-ML branch. 1/10 sub-clusters active. Foundation cho dev build AI app — không cần math/classical ML trước.
+- **v0.1.0 (16/05/2026)** — Skeleton ban đầu.

@@ -1,9 +1,9 @@
 # 🛠️ GitHub Desktop — GUI client cho người ghét CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Loại:** Tool individual — focused vào GitHub Desktop\
 > **Đọc trước:** [00_what-is-git-hosting.md](./00_what-is-git-hosting.md) (chọn GitHub), [github.md](./github.md) (GitHub web)
 
@@ -11,9 +11,9 @@
 
 ---
 
-## Tình huống — Mai sợ terminal
+## Tình huống — Đồng nghiệp sợ terminal
 
-Tiếp Long story. Mai (junior FE dev) đã follow git lessons + setup GitHub account. Nhưng terminal đen kịt với 50 lệnh khiến Mai stress. Mỗi lần Mai cần commit, phải:
+Tiếp story. 1 đồng nghiệp junior FE đã follow git lessons + setup GitHub account. Nhưng terminal đen kịt với 50 lệnh khiến họ stress. Mỗi lần cần commit, phải:
 
 ```bash
 git status      # gì thay đổi?
@@ -23,11 +23,11 @@ git commit -m "..."
 git push
 ```
 
-→ 5 dòng cho 1 commit. Mai prefers **GUI** — click, drag, type message → done.
+→ 5 dòng cho 1 commit. Họ prefer **GUI** — click, drag, type message → done.
 
-Long bảo: *"Cài GitHub Desktop. Cùng repo, cùng PR — chỉ là giao diện thân thiện hơn."*
+Bạn bảo: *"Cài GitHub Desktop. Cùng repo, cùng PR — chỉ là giao diện thân thiện hơn."*
 
-Bài này dạy Mai (và bạn) dùng **GitHub Desktop** — GUI chính thức của GitHub, free, đẹp, có mọi tính năng cốt lõi.
+Bài này dạy bạn dùng **GitHub Desktop** — GUI chính thức của GitHub, free, đẹp, có mọi tính năng cốt lõi.
 
 ---
 
@@ -202,7 +202,7 @@ GitHub Desktop layout:
 4. Sau push, banner xuất hiện: **"Create Pull Request"** → click
 5. Browser mở trang PR trên GitHub → điền title + description → Create
 
-### Review PR (của Long)
+### Review PR (của bạn)
 
 GitHub Desktop hiển thị:
 - **Pull Requests** tab (top-left, gần branch switcher)
@@ -265,8 +265,8 @@ Click 1 PR → **Checkout** branch của PR đó local → review code trong edi
 | **Footprint** | App ~200 MB riêng | Đã có VS Code, không thêm |
 
 → **Khuyến nghị**:
-- **Mai (FE dev)**: dùng GitHub Desktop song song VS Code. Desktop cho overview repo + PR list. VS Code Source Control cho daily commit.
-- **Long (BE dev quen CLI)**: dùng `git` CLI + VS Code Source Control khi cần visual diff. Không cần GitHub Desktop.
+- **Đồng nghiệp FE dev**: dùng GitHub Desktop song song VS Code. Desktop cho overview repo + PR list. VS Code Source Control cho daily commit.
+- **bạn (BE dev quen CLI)**: dùng `git` CLI + VS Code Source Control khi cần visual diff. Không cần GitHub Desktop.
 
 ---
 
@@ -426,7 +426,7 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 - 🛠️ [00_what-is-git-hosting.md](./00_what-is-git-hosting.md) — So sánh git hosting
 - 🛠️ [github.md](./github.md) — GitHub web user guide (account, PR, Actions, ...)
 - 🛠️ [VS Code Source Control](../ide/vs-code.md#git-tích-hợp-không-cần-cli) — alternative GUI trong VS Code
-- 🎓 [Git basic 5 lessons](../../01_Foundations/version-control/git/lessons/01_basic/) — Long story arc concept
+- 🎓 [Git basic 5 lessons](../../01_Foundations/version-control/git/lessons/01_basic/) — bạn story arc concept
 - 🧭 [Zero to Coder Stage 1](../../00_Roadmaps/career/zero-to-coder_career-roadmap.md) — beginner cài git tools
 
 ### Tài nguyên ngoài
@@ -442,4 +442,6 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 
 ## 📌 Changelog
 
-- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #2 trong git-clients/. Cover: tình huống Mai sợ CLI → §1 GitHub Desktop là gì + khi nào dùng → §2 Install 3 OS → §3 UI tour 5 phần + diagram → §4 Workflow clone/commit/push → §5 PR workflow → §6 Branching qua GUI → §7 So sánh với VS Code Source Control. 4 pitfall + 3 self-check + cheatsheet shortcut.
+- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #2 trong git-clients/. Cover: tình huống đồng nghiệp sợ CLI → §1 GitHub Desktop là gì + khi nào dùng → §2 Install 3 OS → §3 UI tour 5 phần + diagram → §4 Workflow clone/commit/push → §5 PR workflow → §6 Branching qua GUI → §7 So sánh với VS Code Source Control. 4 pitfall + 3 self-check + cheatsheet shortcut.

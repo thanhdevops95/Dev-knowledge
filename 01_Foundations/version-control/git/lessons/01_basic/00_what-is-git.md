@@ -3,7 +3,7 @@
 > **Tác giả:** Mr.Rom\
 > **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
@@ -21,29 +21,29 @@
 
 ---
 
-## Tình huống — tối thứ 6 của Long
+## Tình huống — tối thứ 6 của bạn
 
-Long, junior dev mới đi làm tuần đầu. Tối thứ 6, hoàn thành xong feature đăng nhập, code đang **chạy hoàn hảo**. Sướng quá, đóng máy về cuối tuần.
+Bạn, junior dev mới đi làm tuần đầu. Tối thứ 6, hoàn thành xong feature đăng nhập, code đang **chạy hoàn hảo**. Sướng quá, đóng máy về cuối tuần.
 
-Sáng thứ 2 quay lại — sếp nói *"feature đăng nhập cũ vẫn ổn, em thử thêm Google login đi"*. Long bắt tay viết. 4 tiếng sau...
+Sáng thứ 2 quay lại — sếp nói *"feature đăng nhập cũ vẫn ổn, em thử thêm Google login đi"*. Bạn bắt tay viết. 4 tiếng sau...
 
 ```
 TypeError: Cannot read property 'token' of undefined
 ```
 
-Code GG login phá luôn login cũ. Long thử undo trong VS Code — nhưng đã save + đóng VS Code cả cuối tuần, undo stack mất hết. Tệ hơn: Long không nhớ chính xác đã sửa những file nào.
+Code GG login phá luôn login cũ. Bạn thử undo trong VS Code — nhưng đã save + đóng VS Code cả cuối tuần, undo stack mất hết. Tệ hơn: bạn không nhớ chính xác đã sửa những file nào.
 
-→ Long phải **viết lại login cũ** từ đầu, mất nguyên ngày làm phí cuối tuần đã code. Lúc nhìn Long khổ sở, anh senior chỉ buông 1 câu:
+→ Bạn phải **viết lại login cũ** từ đầu, mất nguyên ngày làm phí cuối tuần đã code. Lúc nhìn bạn khổ sở, anh senior chỉ buông 1 câu:
 
 > *"Sao em không dùng Git?"*
 
-Câu đó làm Long nhận ra mình đang code như "không có lưới an toàn". Long lên Google. *"Git là gì?"* — và đến đây là lúc Long sẽ đọc bài này.
+Câu đó làm bạn nhận ra mình đang code như "không có lưới an toàn". Bạn lên Google. *"Git là gì?"* — và đến đây là lúc bạn sẽ đọc bài này.
 
 ---
 
 ## 1️⃣ Vậy Git thực sự là gì?
 
-**Trả lời tình huống của Long**: Git là **lưới an toàn cho code**. Mỗi lần bạn hoàn thành 1 ý tưởng (vd: "login chạy được"), bạn bảo Git *"chụp ảnh"* — đóng gói toàn bộ trạng thái code thành 1 **commit**. Sau này code lỡ hư, bạn quay về commit cũ trong 1 giây. Như Long: chỉ cần 1 commit "login xong" trước khi bắt đầu thêm Google login → không bao giờ mất 1 ngày work.
+**Trả lời tình huống của bạn**: Git là **lưới an toàn cho code**. Mỗi lần bạn hoàn thành 1 ý tưởng (vd: "login chạy được"), bạn bảo Git *"chụp ảnh"* — đóng gói toàn bộ trạng thái code thành 1 **commit**. Sau này code lỡ hư, bạn quay về commit cũ trong 1 giây. Như bạn: chỉ cần 1 commit "login xong" trước khi bắt đầu thêm Google login → không bao giờ mất 1 ngày work.
 
 🪞 **Ẩn dụ đời thường**: Git giống **máy thời gian cho code**. Mỗi commit là 1 cột mốc — quay về bất kỳ cột mốc nào trong vài giây. Hơn nữa, Git cho phép tạo **nhánh thời gian song song** (branching) — thử idea điên trong nhánh phụ, không ảnh hưởng dòng chính.
 
@@ -97,7 +97,7 @@ graph LR
 
 ## 3️⃣ Bên dưới Git ngầm chạy ra sao? — Mô hình 3 vùng
 
-Quay lại Long. Khi Long sửa file `login.js` và muốn "chụp ảnh" trạng thái này, Git **không chụp tất cả file trong folder ngay** — mà chia thành **3 vùng** rõ rệt:
+Quay lại tình huống đầu bài. Khi bạn sửa file `login.js` và muốn "chụp ảnh" trạng thái này, Git **không chụp tất cả file trong folder ngay** — mà chia thành **3 vùng** rõ rệt:
 
 ```mermaid
 graph LR
@@ -112,9 +112,9 @@ graph LR
 | **Staging Area** (index) | Khu "chờ commit" — file đã chọn để chụp ảnh | "**Khay xếp đồ**" — đồ chuẩn bị đóng hộp |
 | **Repository** (.git) | Database lưu mọi commit | "**Tủ kho**" — chứa tất cả "ảnh chụp" lịch sử |
 
-### Ví dụ thực tế — Long làm gì với Git
+### Ví dụ thực tế — Bạn làm gì với Git
 
-Tình huống: Long vừa sửa `login.js` và `db.js`, đã chạy test xong, muốn "đóng gói" trạng thái này.
+Tình huống: bạn vừa sửa `login.js` và `db.js`, đã chạy test xong, muốn "đóng gói" trạng thái này.
 
 ```
 Working Directory                Staging Area              Repository (history)
@@ -123,7 +123,7 @@ Working Directory                Staging Area              Repository (history)
 [notes.txt: đã sửa]                                        
 ```
 
-**Bước 1** — Long chỉ muốn đóng gói 2 file `login.js` và `db.js` (file `notes.txt` là ghi chú cá nhân, không muốn lưu):
+**Bước 1** — Bạn chỉ muốn đóng gói 2 file `login.js` và `db.js` (file `notes.txt` là ghi chú cá nhân, không muốn lưu):
 
 ```bash
 git add login.js db.js
@@ -136,7 +136,7 @@ Working Directory                Staging Area              Repository
 [notes.txt: đã sửa]              (notes.txt không staged)  
 ```
 
-**Bước 2** — Long commit (đóng gói staging thành 1 ảnh chụp):
+**Bước 2** — Bạn commit (đóng gói staging thành 1 ảnh chụp):
 
 ```bash
 git commit -m "feat: add basic login"
@@ -149,7 +149,7 @@ Working Directory                Staging Area              Repository
 [notes.txt: đã sửa]                                        
 ```
 
-→ Giờ Long có **2 cột mốc** trong tủ kho. Có thể tiếp tục thêm Google login mà không sợ — lỗi gì cũng `git checkout d4e5f6` để quay về.
+→ Giờ bạn có **2 cột mốc** trong tủ kho. Có thể tiếp tục thêm Google login mà không sợ — lỗi gì cũng `git checkout d4e5f6` để quay về.
 
 > 💡 *Hiểu được **3 vùng + flow Working → Staging → Repository** là đã **80% Git** rồi. 20% còn lại là branching/merging — sẽ học ở bài 02.*
 
@@ -157,7 +157,7 @@ Working Directory                Staging Area              Repository
 
 ## 4️⃣ Mỗi ngày làm việc trông như thế nào? — Commit cycle
 
-Hiểu 3 vùng rồi, mỗi ngày Long sẽ lặp lại vòng quay này hàng chục lần:
+Hiểu 3 vùng rồi, mỗi ngày bạn sẽ lặp lại vòng quay này hàng chục lần:
 
 ```mermaid
 flowchart LR
@@ -188,7 +188,7 @@ Bài intro này chỉ giới thiệu sơ. Mỗi khái niệm sau có 1 bài họ
 |---|---|---|
 | **Repository (repo)** | Folder được Git track + thư mục `.git/` ẩn | [01_init-and-first-commit](./01_init-and-first-commit.md) |
 | **Commit** | 1 "ảnh chụp" code + metadata (tác giả, time, message) | [01_init-and-first-commit](./01_init-and-first-commit.md) |
-| **Branch** | Nhánh phát triển song song — Long thử Google login mà không phá main | [02_branching-and-merging](./02_branching-and-merging.md) |
+| **Branch** | Nhánh phát triển song song — bạn thử Google login mà không phá main | [02_branching-and-merging](./02_branching-and-merging.md) |
 | **Merge** | Gộp 2 branch — sau khi feature xong | [02_branching-and-merging](./02_branching-and-merging.md) |
 | **Conflict** | Khi 2 thay đổi đụng cùng dòng khi merge | [02_branching-and-merging](./02_branching-and-merging.md) |
 | **Remote** | Repo ở server xa (vd GitHub) | [03_remote-and-github](./03_remote-and-github.md) |
@@ -212,7 +212,7 @@ Cụ thể:
 
 ✅ **Có 100%**. 4 lý do:
 
-1. Quay lại version cũ khi đứng giờ — như tình huống Long ở đầu bài
+1. Quay lại version cũ khi đứng giờ — như tình huống ở đầu bài
 2. Thử idea trong **branch** riêng, không phá main
 3. Lưu lịch sử **lý do** tại sao sửa code (qua commit message)
 4. Backup lên GitHub miễn phí + portfolio cho recruiter
@@ -304,10 +304,12 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 
 ## 📌 Changelog
 
+- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
 - **v2.0.0 (19/05/2026)** — **Restructure** theo writing-style v0.5.1:
-  - Mở bằng **tình huống Long mất 1 ngày code cuối tuần** — narrative dẫn dắt thay vì định nghĩa khô
+  - Mở bằng **tình huống mất 1 ngày code cuối tuần** — narrative dẫn dắt thay vì định nghĩa khô
   - Headers đổi từ `## 1️⃣ Vì sao cần Git (WHY)` / `## 2️⃣ Git là gì (WHAT)` → **câu hỏi tự nhiên** ("Vậy Git thực sự là gì?", "Khoan — Git khác GitHub thế nào?", "Bên dưới Git ngầm chạy ra sao?")
-  - Định nghĩa Git **đến SAU tình huống Long** — đóng vai "lời giải"
+  - Định nghĩa Git **đến SAU tình huống** — đóng vai "lời giải"
   - Thêm bảng "Vì sao Git là MUST-KNOW cho mọi nhánh IT" — link sang 8 nhánh
   - Thêm câu hỏi mới "Tại sao gọi là 'Git'?" trong FAQ
   - Move folder từ `02_Tools/git/` → `01_Foundations/version-control/git/` (git là VCS concept, không phải tool guide)

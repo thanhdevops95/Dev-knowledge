@@ -1,7 +1,7 @@
 # 🎓 Linux File Operations — `mkdir`, `touch`, `cp`, `mv`, `rm`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -75,6 +75,8 @@ Sau khi navigate (`cd`, `ls`, `pwd`), bạn cần **TƯƠNG TÁC** với file/fo
 
 #### Tạo 1 folder
 
+Đầu tiên `cd` vào nơi muốn tạo (vd Desktop), rồi gõ `mkdir <tên-folder>`. Đây là pattern cơ bản nhất:
+
 ```bash
 cd ~/Desktop
 mkdir my-first-project
@@ -87,6 +89,8 @@ my-first-project
 
 #### Tạo nhiều folder cùng lúc
 
+`mkdir` nhận nhiều tên folder cách nhau bằng dấu cách → tạo tất cả trong 1 lệnh:
+
 ```bash
 mkdir docs src tests
 ls
@@ -97,6 +101,8 @@ docs  my-first-project  src  tests
 ```
 
 #### Tạo folder lồng nhau — `-p`
+
+Khi muốn tạo cây folder nhiều cấp (vd `projects/python/learning/week-01`), `mkdir` thường sẽ báo lỗi vì folder cha chưa tồn tại. Thêm flag `-p` để tạo cả chuỗi cha + con cùng lúc:
 
 ```bash
 mkdir -p projects/python/learning/week-01
@@ -144,7 +150,7 @@ ls -la hello.txt
 ```
 
 ```
--rw-r--r--  1 rom  staff  0 May 16 10:30 hello.txt
+-rw-r--r--  1 user  staff  0 May 16 10:30 hello.txt
 ```
 
 → File rỗng (0 byte) được tạo. Giờ bạn có thể mở `hello.txt` trong VS Code (`code hello.txt`) để viết nội dung.
@@ -164,7 +170,7 @@ ls -la hello.txt
 ```
 
 ```
--rw-r--r--  1 rom  staff  0 May 16 10:35 hello.txt
+-rw-r--r--  1 user  staff  0 May 16 10:35 hello.txt
                                     ↑
                               (timestamp mới)
 ```
@@ -508,6 +514,9 @@ Phân tích:
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (mkdir 1 folder, nhiều folder, -p lồng nhau).
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống tạo cấu trúc project đầu tiên** với 5 lệnh cụ thể (mkdir/touch/cp/mv/rm)

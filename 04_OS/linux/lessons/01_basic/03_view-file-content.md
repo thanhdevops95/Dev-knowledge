@@ -1,7 +1,7 @@
 # 🎓 Linux View File Content — `cat`, `less`, `head`, `tail`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -94,6 +94,8 @@ EOF
 
 #### Cơ bản
 
+Gõ `cat <file>` → in toàn bộ nội dung file ra terminal. Phù hợp cho file ngắn (< 30 dòng):
+
 ```bash
 cat sample.txt
 ```
@@ -107,6 +109,8 @@ Dòng 10: Dòng cuối cùng
 ```
 
 #### Hiển thị số dòng — `-n`
+
+Thêm `-n` để in kèm số thứ tự dòng — rất hữu ích khi debug (vd trình lỗi báo "lỗi ở dòng 47" thì biết tìm chỗ nào):
 
 ```bash
 cat -n sample.txt
@@ -132,6 +136,8 @@ cat -e sample.txt    # Mac
 → `$` cuối mỗi dòng = newline. `^I` = Tab. Hữu ích khi debug whitespace.
 
 #### Nối nhiều file
+
+Đây là tên gốc của `cat` (concatenate = nối). Truyền nhiều file → in liên tiếp, nối lại thành 1 output:
 
 ```bash
 cat file1.txt file2.txt
@@ -414,6 +420,9 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (cat cơ bản, -n đánh số dòng, nối file).
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống debug production log 50,000 dòng** — 3 câu hỏi (lỗi mới nhất / bắt đầu khi nào / realtime)

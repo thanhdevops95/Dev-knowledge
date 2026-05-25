@@ -48,11 +48,11 @@
 ## 📌 Changelog
 
 - **v1.0.0 (23/05/2026)** — 🎉 **CLUSTER HOÀN CHỈNH 7/7**. Thêm 5 file tool individual còn lại:
-  - `github-desktop.md` — GUI client GitHub (~400 dòng): Mai sợ CLI, 5-phần UI, workflow clone/commit/PR, vs VS Code Source Control
-  - `gitlab.md` — GitLab cloud + self-host (~600 dòng): Long join fintech, MR vs PR, GitLab CI/Auto DevOps, CE self-host, `glab` CLI
+  - `github-desktop.md` — GUI client GitHub (~400 dòng): đồng nghiệp sợ CLI, 5-phần UI, workflow clone/commit/PR, vs VS Code Source Control
+  - `gitlab.md` — GitLab cloud + self-host (~600 dòng): bạn join fintech, MR vs PR, GitLab CI/Auto DevOps, CE self-host, `glab` CLI
   - `bitbucket.md` — Atlassian (~500 dòng): Smart Commits, Jira integration native, workspace 3-tier, Pipelines yếu nhất
   - `codeberg.md` — Non-profit (~450 dòng): Maria ethical dev, Codeberg vs Forgejo vs Gitea, migrate từ GitHub
   - `gitea.md` — Self-host lightweight (~500 dòng): homelab K8s lab, Docker setup 5 phút, vs GitLab CE 100MB vs 8GB
-- **v0.3.0 (23/05/2026)** — Thêm `github.md` ✅ (~720 dòng): full user guide GitHub (account + 2FA + SSH/PAT/gh auth + repo + UI tour 8 tab + PR workflow Long+Mai + Actions CI/CD + Pages portfolio + gh CLI + security 7 must-do + settings nâng cao). Tool individual đầu tiên hoàn chỉnh.
+- **v0.3.0 (23/05/2026)** — Thêm `github.md` ✅ (~720 dòng): full user guide GitHub (account + 2FA + SSH/PAT/gh auth + repo + UI tour 8 tab + PR workflow bạn+đồng nghiệp + Actions CI/CD + Pages portfolio + gh CLI + security 7 must-do + settings nâng cao). Tool individual đầu tiên hoàn chỉnh.
 - **v0.2.0 (23/05/2026)** — Tool category đầu tiên hoàn chỉnh. Thêm `00_what-is-git-hosting.md` — so sánh 7 platform (GitHub/GitLab/Bitbucket/Codeberg/Gitea/Sourcehut/Gitee) + bảng 14 tiêu chí + 7 case khuyến nghị + vendor lock-in + AI integration 2026.
 - **v0.1.0 (20/05/2026)** — Skeleton.

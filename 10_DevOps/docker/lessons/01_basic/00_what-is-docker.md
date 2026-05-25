@@ -1,15 +1,15 @@
-# 🎓 Long ship project — Mai bị "works on my machine"
+# 🎓 Bạn ship project — đồng nghiệp bị "works on my machine"
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.3.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 20/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Đã [cài Docker](../../setup/install-docker.md) ✅, biết Terminal cơ bản, đã đọc [git bộ](../../../../01_Foundations/version-control/git/) ✅
 
-> 🎯 *Tiếp Long story sau git: Long ship được project lên GitHub, nhưng Mai pull về máy không chạy. Bài này dẫn Long (và bạn) hiểu vì sao có Docker, Container khác VM thế nào, mô hình 3 khái niệm Image/Container/Registry — KHÔNG dạy `docker run` chi tiết (sẽ học ở bài 01).*
+> 🎯 *Tiếp story sau git: bạn ship được project lên GitHub, nhưng đồng nghiệp pull về máy không chạy. Bài này dẫn bạn hiểu vì sao có Docker, Container khác VM thế nào, mô hình 3 khái niệm Image/Container/Registry — KHÔNG dạy `docker run` chi tiết (sẽ học ở bài 01).*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,17 +21,17 @@
 
 ---
 
-## Tình huống — Mai pull project của Long về máy
+## Tình huống — đồng nghiệp pull project của bạn về máy
 
-Sau bộ git, Long đã ship `myapp` lên GitHub. Chiều thứ 2, Mai (đã join team) bắt đầu setup máy mới để code Frontend.
+Sau bộ git, bạn đã ship `myapp` lên GitHub. Chiều thứ 2, 1 đồng nghiệp mới join team bắt đầu setup máy mới để code Frontend.
 
-Mai clone:
+Đồng nghiệp clone:
 ```bash
-git clone https://github.com/long/myapp
+git clone https://github.com/acmeshop/myapp
 cd myapp
 ```
 
-README ghi: *"chạy `pip install -r requirements.txt` rồi `python main.py`"*. Mai làm theo:
+README ghi: *"chạy `pip install -r requirements.txt` rồi `python main.py`"*. Họ làm theo:
 
 ```bash
 pip install -r requirements.txt
@@ -42,7 +42,7 @@ pip install -r requirements.txt
 ERROR: Python 3.9 detected. Need Python 3.11+
 ```
 
-Mai dùng Python 3.9, Long dùng 3.11. Mai upgrade Python — 20 phút.
+Đồng nghiệp dùng Python 3.9, bạn dùng 3.11. Họ upgrade Python — 20 phút.
 
 ```bash
 pip install -r requirements.txt
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 error: psycopg2 requires pg_config — Postgres dev headers missing
 ```
 
-Mai phải cài Postgres dev headers — 15 phút Google + cài.
+Đồng nghiệp phải cài Postgres dev headers — 15 phút Google + cài.
 
 ```bash
 python main.py
@@ -64,25 +64,25 @@ python main.py
 ConnectionRefusedError: Cannot connect to PostgreSQL on localhost:5432
 ```
 
-Mai chưa có Postgres running. Cài Postgres 16 (Long dùng 15). Cấu hình user, password. **40 phút**.
+Họ chưa có Postgres running. Cài Postgres 16 (bạn dùng 15). Cấu hình user, password. **40 phút**.
 
 Tiếp tục: Redis chưa cài. Celery worker cần Redis. **30 phút**.
 
-→ **2 tiếng** chỉ để **chạy app cũng không xong**. Mai chưa code 1 dòng.
+→ **2 tiếng** chỉ để **chạy app cũng không xong**. Đồng nghiệp chưa code 1 dòng.
 
-Sếp đi qua, thấy Mai khổ sở, chỉ buông 1 câu:
+Sếp đi qua, thấy team khổ sở, chỉ buông 1 câu:
 
 > *"Sao không dùng Docker?"*
 
-Long sững lại — câu này giống hệt câu sếp nói lúc Long mất 1 ngày code vì không dùng git. Long Google. *"Docker là gì?"* — đến đây là lúc Long (và bạn) đọc bài này.
+Bạn sững lại — câu này giống hệt câu sếp nói lúc bạn mất 1 ngày code vì không dùng git. Bạn Google. *"Docker là gì?"* — đến đây là lúc bạn đọc bài này.
 
 ---
 
 ## 1️⃣ Vậy Docker giải quyết gì?
 
-**Trả lời tình huống của Mai**: 3 lỗi Mai gặp đều do **"dependency hell"** — môi trường máy Mai khác máy Long (Python version, Postgres version, Redis chưa cài, OS khác).
+**Trả lời tình huống trên**: 3 lỗi đồng nghiệp gặp đều do **"dependency hell"** — môi trường máy họ khác máy bạn (Python version, Postgres version, Redis chưa cài, OS khác).
 
-Docker giải quyết bằng cách: đóng gói **app + Python interpreter + thư viện + Postgres + Redis + OS layer** vào các **container** chạy giống nhau ở mọi nơi (Mac/Linux/Windows/AWS/GCP). Mai pull project → `docker compose up` → 1 lệnh, mọi thứ chạy. Không cần cài Python, Postgres, Redis riêng.
+Docker giải quyết bằng cách: đóng gói **app + Python interpreter + thư viện + Postgres + Redis + OS layer** vào các **container** chạy giống nhau ở mọi nơi (Mac/Linux/Windows/AWS/GCP). Đồng nghiệp pull project → `docker compose up` → 1 lệnh, mọi thứ chạy. Không cần cài Python, Postgres, Redis riêng.
 
 ```mermaid
 graph LR
@@ -95,6 +95,8 @@ graph LR
 ```
 
 ### Bảng so sánh
+
+So sánh **trực tiếp** workflow trước và sau Docker cho 6 vấn đề phổ biến nhất — từ setup máy dev mới đến scale production. Khoảng cách lợi ích là vài giờ vs vài ngày:
 
 | Vấn đề | Không Docker | Với Docker |
 |---|---|---|
@@ -160,6 +162,8 @@ graph TB
 
 ### 3 khái niệm cốt lõi
 
+Docker ecosystem có **3 concept core** — Image (bản thiết kế), Container (instance chạy), Registry (kho lưu). Hiểu được 3 cái này là hiểu 80% Docker. Như OOP: 1 class → nhiều object:
+
 | Khái niệm | Là gì | Ẩn dụ |
 |---|---|---|
 | **Image** | "Bản thiết kế" + snapshot app — file `.tar` chứa filesystem | Bản vẽ + linh kiện lego |
@@ -180,6 +184,8 @@ graph LR
 
 ## 3️⃣ Bên dưới Docker ngầm chạy ra sao?
 
+Khi gõ `docker run`, có **4 component** phối hợp dưới capo — CLI gửi lệnh tới Daemon, Daemon dùng containerd/runc gọi Linux kernel feature (namespace + cgroup) tạo container. Diagram architecture:
+
 ```mermaid
 graph LR
     CLI[💻 docker CLI] -->|REST API| Daemon[🔧 Docker Daemon dockerd]
@@ -199,6 +205,8 @@ graph LR
 
 ### Workflow chuẩn
 
+Docker workflow 5 bước rõ ràng từ source → production. Mỗi lệnh là 1 bước. Đây là loop bạn sẽ lặp daily khi làm DevOps:
+
 ```
 1. Viết Dockerfile (mô tả image)
        ↓
@@ -216,6 +224,9 @@ graph LR
 ## 4️⃣ Use cases — Docker dùng cho gì trong 2026
 
 ### 🌐 Local development
+
+Use case phổ biến nhất — chạy full stack (Flask + Postgres + Redis + RabbitMQ) bằng **1 lệnh** thay vì cài từng tool riêng. Đây là superpower mà mọi dev junior khi chạm Docker đều "wow":
+
 ```bash
 docker compose up    # 1 lệnh — chạy app + DB + cache + queue
 ```
@@ -361,10 +372,16 @@ Trên thực tế: **VM chạy Docker** (vd: Linux VM trên AWS chạy Docker co
 
 ## 📌 Changelog
 
-- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc continuation từ git:
-  - Title đổi: "Docker là gì — Hộp lego..." → "**Long ship project — Mai bị 'works on my machine'**"
-  - Mở bằng **tình huống Mai 2 tiếng không chạy được app** (Python 3.9 vs 3.11, psycopg2 thiếu pg_config, Postgres chưa cài, Redis chưa cài) — đóng vòng với câu sếp lặp lại: *"Sao không dùng Docker?"*
-  - Headers đổi: `1️⃣ Vì sao cần Docker (WHY)` / `2️⃣ Docker là gì (WHAT)` / `3️⃣ Architecture (HOW)` → câu hỏi tự nhiên ("Vậy Docker giải quyết gì?", "Vậy Docker thực sự là gì?", "Bên dưới Docker ngầm chạy ra sao?")
-  - Định nghĩa Docker đến SAU tình huống Mai — trả lời 3 lỗi cụ thể Mai gặp
+- **v2.3.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước Bảng so sánh + 3 khái niệm cốt lõi + §3 Architecture + Workflow chuẩn + §4 Local development.
+
+- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.5 §3.5. Thay tên riêng fictional "Mai" → generic role "đồng nghiệp". Title đổi "bạn ship project — Mai bị..." → "Bạn ship project — đồng nghiệp bị...". Tình huống "Mai 2 tiếng không chạy được" → narrative dùng "đồng nghiệp/họ". Nội dung kỹ thuật giữ nguyên 100%.
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "Long" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + story arc continuation từ git:
+  - Title đổi: "Docker là gì — Hộp lego..." → story-driven
+  - Mở bằng **tình huống đồng nghiệp 2 tiếng không chạy được app** (Python 3.9 vs 3.11, psycopg2 thiếu pg_config, Postgres chưa cài, Redis chưa cài) — đóng vòng với câu sếp lặp lại: *"Sao không dùng Docker?"*
+  - Headers đổi: `1️⃣ Vì sao cần Docker (WHY)` / `2️⃣ Docker là gì (WHAT)` / `3️⃣ Architecture (HOW)` → câu hỏi tự nhiên
+  - Định nghĩa Docker đến SAU tình huống — trả lời 3 lỗi cụ thể beginner gặp
   - Content kỹ thuật KHÔNG đổi (Container vs VM, 3 khái niệm, architecture, use cases vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — intro Docker: WHY (dependency hell), WHAT (Container vs VM, 3 khái niệm), HOW (architecture), 6 use cases, 5 câu hỏi beginner.

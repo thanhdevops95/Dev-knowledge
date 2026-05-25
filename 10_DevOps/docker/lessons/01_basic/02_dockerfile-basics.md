@@ -1,15 +1,15 @@
-# 🎓 Long build image `myapp` đầu tiên — Dockerfile Basics
+# 🎓 bạn build image `myapp` đầu tiên — Dockerfile Basics
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.3.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 20/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [01_images-and-containers.md](./01_images-and-containers.md)
 
-> 🎯 *Tiếp Long story: Long đã `docker run nginx` chạy ngon, nhưng `docker run myapp` báo lỗi — image 'myapp' không tồn tại. Bài này dạy Long viết Dockerfile để build image cho app của chính mình.*
+> 🎯 *Tiếp bạn story: bạn đã `docker run nginx` chạy ngon, nhưng `docker run myapp` báo lỗi — image 'myapp' không tồn tại. Bài này dạy bạn viết Dockerfile để build image cho app của chính mình.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -22,9 +22,9 @@
 
 ---
 
-## Tình huống — Long muốn share `myapp` cho Mai bằng Docker
+## Tình huống — bạn muốn share `myapp` cho đồng nghiệp bằng Docker
 
-Long đã quen với `docker run nginx`, `docker run postgres`. Nhưng vấn đề ban đầu (Mai không chạy được `myapp`) **chưa giải quyết**. Long thử:
+Bạn đã quen với `docker run nginx`, `docker run postgres`. Nhưng vấn đề ban đầu (đồng nghiệp không chạy được `myapp`) **chưa giải quyết**. Bạn thử:
 
 ```bash
 docker run myapp
@@ -35,16 +35,18 @@ Unable to find image 'myapp:latest' locally
 docker: Error response from daemon: pull access denied for myapp...
 ```
 
-❌ **Không có image `myapp`** — nginx/postgres/redis đều là image public trên Docker Hub, có sẵn. App của Long thì **chưa ai build image cho nó**.
+❌ **Không có image `myapp`** — nginx/postgres/redis đều là image public trên Docker Hub, có sẵn. App của bạn thì **chưa ai build image cho nó**.
 
-Long phải tự build. Câu hỏi:
+Bạn phải tự build. Câu hỏi:
 1. **"Build" image nghĩa là gì cụ thể?**
 2. **Cấu hình** (Python 3.11, requirements.txt, source code) đi vào image như nào?
-3. Sau khi build, làm sao **share** cho Mai dùng?
+3. Sau khi build, làm sao **share** cho đồng nghiệp dùng?
 
-Đáp án: **Dockerfile** — file text "công thức" cho image. Bài này dạy Long viết Dockerfile đầu tiên cho `myapp`.
+Đáp án: **Dockerfile** — file text "công thức" cho image. Bài này dạy bạn viết Dockerfile đầu tiên cho `myapp`.
 
 ### Quy trình build → run
+
+Workflow Docker từ source code → production gồm **6 bước** rõ ràng. Hiểu flow này giúp pick đúng tool (Dockerfile + Docker Hub + production server). Diagram dưới minh hoạ:
 
 ```mermaid
 graph LR
@@ -62,11 +64,13 @@ graph LR
 
 ## 1️⃣ Vậy Dockerfile thực sự là gì?
 
-**Trả lời**: Dockerfile là **file text** chứa các **instruction** Docker thực hiện theo thứ tự để build image — đúng "công thức nấu ăn" cho image của Long.
+**Trả lời**: Dockerfile là **file text** chứa các **instruction** Docker thực hiện theo thứ tự để build image — đúng "công thức nấu ăn" cho image của bạn.
 
 **🪞 Ẩn dụ**: *Dockerfile như **công thức nấu ăn** — liệt kê nguyên liệu (base image) + các bước (chế biến, gia vị, nêm) → kết quả là 1 món ăn (image). Cùng công thức → cùng món ăn ở mọi nơi.*
 
 ### Cú pháp cơ bản
+
+Dockerfile tuân theo cấu trúc đơn giản: **dòng đầu phải là `FROM <base-image>`**, sau đó là các instruction (UPPERCASE). 12 instruction chính bao trùm mọi need. Skeleton:
 
 ```dockerfile
 # Mọi Dockerfile bắt đầu bằng FROM
@@ -93,7 +97,7 @@ INSTRUCTION arguments
 
 ---
 
-## 2️⃣ Long viết Dockerfile đầu tiên cho `myapp`
+## 2️⃣ Viết Dockerfile đầu tiên cho `myapp`
 
 ### 🛠️ 3.1 App mẫu — Python Flask hello world
 
@@ -123,6 +127,8 @@ EOF
 
 ### 🛠️ 3.2 Viết Dockerfile — Bản đơn giản
 
+Dockerfile chuẩn cho Python Flask gồm **7 dòng**: FROM (base image), WORKDIR (đặt cwd), COPY (chép file), RUN (cài deps), EXPOSE (note port), CMD (lệnh start). Pattern này áp dụng cho 90% app:
+
 ```dockerfile
 # Dockerfile
 FROM python:3.12-slim
@@ -141,6 +147,8 @@ CMD ["python", "app.py"]
 ```
 
 ### 🛠️ 3.3 Build image
+
+Build = thực thi Dockerfile → tạo image. Cú pháp `docker build -t <name>:<tag> <context>`. Dấu `.` cuối là **build context** (folder hiện tại — Docker đọc Dockerfile + tải files vào):
 
 ```bash
 docker build -t my-flask-app:v1 .
@@ -168,6 +176,8 @@ Output:
 ```
 
 ### 🛠️ 3.4 Run
+
+Image vừa build chạy như mọi image khác — `docker run` với port mapping + tên container. Sau khi run, verify bằng curl/browser tới `localhost:5000`:
 
 ```bash
 docker run -d -p 5000:5000 --name flask my-flask-app:v1
@@ -560,7 +570,7 @@ RUN apt-get update && \
 ### ✅ Best practice: Label image với metadata
 
 ```dockerfile
-LABEL maintainer="rom@example.com"
+LABEL maintainer="dev@example.com"
 LABEL version="1.0.0"
 LABEL description="Flask hello world app"
 ```
@@ -750,9 +760,15 @@ docker rmi my-app:v1                     # xóa
 
 ## 📌 Changelog
 
-- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc:
-  - Title đổi: "Dockerfile Basics" → "**Long build image `myapp` đầu tiên**"
-  - Mở bằng **tình huống Long thử `docker run myapp`** thất bại (image không tồn tại) — phải tự build
-  - Headers đổi: `1️⃣ Vì sao cần Dockerfile (WHY)` / `2️⃣ Dockerfile là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Tình huống — Long muốn share myapp cho Mai", "Vậy Dockerfile thực sự là gì?", "Long viết Dockerfile đầu tiên cho myapp")
+- **v2.3.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §0 Quy trình build→run + §1 Cú pháp + §3.2 Viết Dockerfile + 3.3 Build + 3.4 Run. Sửa "bạn viết Dockerfile đầu tiên" → "Viết Dockerfile đầu tiên" cho clean.
+
+- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.5 §3.5. Thay tên riêng fictional "Mai" → generic role "đồng nghiệp" trong tình huống. Nội dung kỹ thuật giữ nguyên.
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "Long" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + story arc:
+  - Title đổi: "Dockerfile Basics" → "**bạn build image `myapp` đầu tiên**"
+  - Mở bằng **tình huống bạn thử `docker run myapp`** thất bại (image không tồn tại) — phải tự build
+  - Headers đổi: `1️⃣ Vì sao cần Dockerfile (WHY)` / `2️⃣ Dockerfile là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên
   - Content kỹ thuật KHÔNG đổi (8 instruction + build + layer caching + .dockerignore + CMD vs ENTRYPOINT vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — 8 instruction Dockerfile + build process + layer caching + .dockerignore + CMD vs ENTRYPOINT + 6 pitfall/best-practice.

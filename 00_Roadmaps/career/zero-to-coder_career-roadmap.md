@@ -429,7 +429,7 @@ Mỗi cuối tháng, ghi vào file `progress.md` cá nhân (cũng push lên GitH
   - Thêm **Stage 0** "Bản đồ ngành" link sang [industry-landscape lesson](../../01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md) ✅
   - Stage 2 đổi từ *"Python từ đầu"* → **"Chọn 1 ngôn ngữ + Logic"** với bảng so sánh Python/JS/Go/C + khuyến nghị Python (không ép)
   - Stage 1 đổi từ *"Tools cơ bản"* → **"Tools TỐI THIỂU"** — không bắt master terminal/git stage này
-  - Mọi link git move sang `01_Foundations/version-control/git/` ✅ (đã chuyển xong 19/05/2026 — 5 lesson refactor v2.0 với Long story arc)
+  - Mọi link git move sang `01_Foundations/version-control/git/` ✅ (đã chuyển xong 19/05/2026 — 5 lesson refactor v2.0 với bạn story arc)
   - Link tool deep (IDE, terminal emulator, GitHub) trỏ sang `02_Tools/<category>/` (sẽ viết sau)
   - Thêm **Stage 5** Pick career chuyên sâu — tách rõ phần "chọn" thành stage riêng
   - Thêm bảng project gợi ý theo định hướng Stage 4 (Backend/Frontend/Data/Automation/Tinkering/DevOps/AI)

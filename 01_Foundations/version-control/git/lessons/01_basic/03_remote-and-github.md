@@ -1,15 +1,15 @@
-# 🎓 Mai join project — Long học push/pull/PR
+# 🎓 Đồng nghiệp vào team — bạn học push/pull/PR
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [02_branching-and-merging.md](./02_branching-and-merging.md), đã có account [GitHub](https://github.com)
 
-> 🎯 *Tiếp Long story: project chạy ngon, sếp gửi thêm Mai — junior mới — vào team. Long phải share code với Mai. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.*
+> 🎯 *Tiếp tục story: project chạy ngon, sếp gửi thêm 1 đồng nghiệp junior vào team. Bạn phải share code với họ. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,21 +21,21 @@
 
 ---
 
-## Tình huống — Mai mới vào team, làm sao share code?
+## Tình huống — Có đồng nghiệp mới vào team, làm sao share code?
 
-Long đã code project `myapp` được 2 tuần (qua bài 01-02). Sáng nay sếp dắt Mai — junior mới — qua bàn Long:
+Bạn đã code project `myapp` được 2 tuần (qua bài 01-02). Sáng nay sếp dắt 1 đồng nghiệp junior qua bàn bạn:
 
-> *"Anh share project myapp cho Mai. Hai đứa cùng làm. Mai phụ trách Frontend, anh tiếp Backend. Tuần sau demo."*
+> *"Share project myapp cho bạn này nhé. Hai bạn cùng làm — junior phụ trách Frontend, bạn tiếp Backend. Tuần sau demo."*
 
-Long bí. Có 4 cách Long từng thấy:
-1. **Email file ZIP?** — mỗi lần sửa lại zip → cuối ngày 20 file zip, Mai không biết bản nào mới 😩
-2. **USB?** — 2020 rồi mà còn USB? Mai cười 😅
+Bạn bí. Có 4 cách bạn từng thấy:
+1. **Email file ZIP?** — mỗi lần sửa lại zip → cuối ngày 20 file zip, đồng nghiệp không biết bản nào mới 😩
+2. **USB?** — 2020 rồi mà còn USB? 😅
 3. **Google Drive folder?** — sync tự động, nhưng không có commit history, conflict ghi đè 🤔
-4. **GitHub?** — sếp nhắc *"đẩy lên GitHub đi, Mai clone về là xong"* — đúng ✅
+4. **GitHub?** — sếp nhắc *"đẩy lên GitHub đi, đồng nghiệp clone về là xong"* — đúng ✅
 
-Long mới hiểu: GitHub không phải "Dropbox cho dev" — nó là **remote Git repo**. Cả Long và Mai đều có repo local riêng, đồng bộ qua remote GitHub. Mỗi commit có message rõ ràng, conflict resolve được, history đầy đủ.
+Bạn mới hiểu: GitHub không phải "Dropbox cho dev" — nó là **remote Git repo**. Cả bạn và đồng nghiệp đều có repo local riêng, đồng bộ qua remote GitHub. Mỗi commit có message rõ ràng, conflict resolve được, history đầy đủ.
 
-> 💡 Bài 01-02 mọi thứ Long làm đều **local** — chỉ ở máy Long. Hôm nay là lần đầu Long đẩy code "lên mây".
+> 💡 Bài 01-02 mọi thứ bạn làm đều **local** — chỉ ở máy bạn. Hôm nay là lần đầu bạn đẩy code "lên mây".
 
 ---
 
@@ -76,7 +76,7 @@ Bạn có thể đặt tên khác (vd `upstream`, `production`) nhưng `origin` 
 
 ---
 
-## 2️⃣ Long đẩy code lên GitHub lần đầu
+## 2️⃣ bạn đẩy code lên GitHub lần đầu
 
 ### Setup: tạo repo trên GitHub
 
@@ -204,7 +204,7 @@ gh auth login
 
 ---
 
-## 3️⃣ Mai làm sao có code của Long? — `git clone`
+## 3️⃣ Đồng nghiệp làm sao có code của bạn? — `git clone`
 
 ### Clone repo có sẵn
 
@@ -250,7 +250,7 @@ git clone --depth 1 https://github.com/torvalds/linux.git
 
 ---
 
-## 4️⃣ Khi Mai push xong, Long làm sao update? — `git pull`
+## 4️⃣ Khi đồng nghiệp push xong, bạn làm sao update? — `git pull`
 
 Khi đồng nghiệp push code mới, hoặc bạn sửa từ máy khác → cần `pull`:
 
@@ -301,7 +301,7 @@ git merge origin/main         # merge nếu OK
 
 ---
 
-## 5️⃣ Khi cả Long + Mai cùng sửa — Workflow Pull Request
+## 5️⃣ Khi cả team cùng sửa — Workflow Pull Request
 
 Đây là workflow chuẩn khi làm việc nhóm:
 
@@ -554,7 +554,7 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [02_branching-and-merging.md](./02_branching-and-merging.md) |
-| ➡️ Bài tiếp | [04_undo-and-recovery.md](./04_undo-and-recovery.md) — Long lỡ tay 2h sáng, `restore`/`reset`/`revert`/`stash`/`reflog` |
+| ➡️ Bài tiếp | [04_undo-and-recovery.md](./04_undo-and-recovery.md) — bạn lỡ tay 2h sáng, `restore`/`reset`/`revert`/`stash`/`reflog` |
 | 🛠️ Setup | [SSH key cho GitHub](../../setup/ssh-key-github.md) (chưa có) |
 | 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
@@ -569,10 +569,14 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 
 ## 📌 Changelog
 
+- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.5 §3.5. Thay tên riêng fictional "Mai" → generic role "đồng nghiệp". Title đổi từ "Mai join project" → "Đồng nghiệp vào team". Section headers, narrative đều dùng generic. Nội dung kỹ thuật giữ nguyên 100%.
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "Long" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
 - **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi: "Mai join project — Long học push/pull/PR" (gắn vào story)
-  - Mở bằng **tình huống sếp gửi Mai vào team**, Long phải share code — so sánh 4 cách (ZIP / USB / Drive / GitHub)
-  - Headers đổi: `1️⃣ Vì sao cần remote (WHY)` / `2️⃣ Remote là gì (WHAT)` / `3️⃣ Hands-on` / `4️⃣ Clone` / `5️⃣ Pull` / `6️⃣ PR` → câu hỏi tự nhiên ("Vậy remote và origin là gì?", "Long đẩy code lên GitHub lần đầu", "Mai làm sao có code của Long?", "Khi Mai push xong, Long làm sao update?", "Khi cả Long + Mai cùng sửa")
+  - Title đổi theo story arc (gắn vào tình huống thực)
+  - Mở bằng **tình huống sếp gửi đồng nghiệp mới vào team**, bạn phải share code — so sánh 4 cách (ZIP / USB / Drive / GitHub)
+  - Headers đổi: `1️⃣ Vì sao cần remote (WHY)` / `2️⃣ Remote là gì (WHAT)` / `3️⃣ Hands-on` / `4️⃣ Clone` / `5️⃣ Pull` / `6️⃣ PR` → câu hỏi tự nhiên
   - Move folder từ `02_Tools/git/` → `01_Foundations/version-control/git/`
   - Fix relative path depth
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — push/clone/pull/PR workflow + authentication (PAT/SSH/CLI) + 6 pitfall/best-practice.

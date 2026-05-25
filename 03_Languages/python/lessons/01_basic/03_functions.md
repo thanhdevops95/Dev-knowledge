@@ -1,7 +1,7 @@
 # 🎓 Python Functions — `def`, args, return
 
-> **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Tác giả:** Mr.Nguyen Van A\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -41,9 +41,9 @@ Code không có function:
 
 ```python
 # In ra "Hello" 3 lần với 3 tên khác nhau
-print(f"Hello Rom! Welcome to Python.")
-print(f"Hello Lan! Welcome to Python.")
-print(f"Hello Hoa! Welcome to Python.")
+print(f"Hello Nguyen Van A! Welcome to Python.")
+print(f"Hello Le Van B! Welcome to Python.")
+print(f"Hello Tran Van C! Welcome to Python.")
 ```
 
 Vấn đề:
@@ -57,9 +57,9 @@ Có function:
 def greet(name):
     print(f"Hello {name}! Welcome to Python.")
 
-greet("Rom")
-greet("Lan")
-greet("Hoa")
+greet("Nguyen Van A")
+greet("Le Van B")
+greet("Tran Van C")
 ```
 
 → **Function = đóng gói logic + tái sử dụng**. 
@@ -78,6 +78,8 @@ greet("Hoa")
 **🪞 Ẩn dụ**: *Function như **máy xay sinh tố** — bỏ trái cây (input) → xay (logic) → ra ly sinh tố (output). Cùng 1 máy dùng cho nhiều loại trái cây khác nhau.*
 
 ### Anatomy của function
+
+Function trong Python có 7 thành phần. Hãy xem code mẫu và bảng giải thích mỗi phần đóng vai trò gì:
 
 ```python
 def calculate_total(price, quantity):    # tên + parameters
@@ -98,6 +100,8 @@ def calculate_total(price, quantity):    # tên + parameters
 
 ### Gọi function
 
+Định nghĩa rồi, để function chạy thật, bạn phải **gọi** nó — viết tên + dấu `()` + truyền giá trị cụ thể:
+
 ```python
 result = calculate_total(100, 3)
 print(result)    # 300
@@ -108,6 +112,8 @@ print(result)    # 300
 ## 3️⃣ Bắt tay viết function — Hands-on chi tiết
 
 ### 🛠️ 3.1 Function đơn giản — không argument, không return
+
+Bắt đầu từ function đơn giản nhất: không nhận gì, không trả về gì, chỉ in dòng chữ. Đây là mẫu "Hello World" của function:
 
 ```python
 def say_hello():
@@ -124,11 +130,11 @@ say_hello()    # gọi lại
 def greet(name):
     print(f"Hello {name}!")
 
-greet("Rom")    # Hello Rom!
-greet("Lan")    # Hello Lan!
+greet("Nguyen Van A")    # Hello Nguyen Van A!
+greet("Le Van B")    # Hello Le Van B!
 ```
 
-→ `name` = parameter. `"Rom"` = argument truyền vào.
+→ `name` = parameter. `"Nguyen Van A"` = argument truyền vào.
 
 ### 🛠️ 3.3 Function nhiều parameter
 
@@ -163,11 +169,11 @@ print(divide(numerator=10, 2))      # SyntaxError
 
 ```python
 # ❌ Khó hiểu
-create_user("Rom", 28, True, False, "vi")
+create_user("Nguyen Van A", 28, True, False, "vi")
 
 # ✅ Rõ ràng
 create_user(
-    name="Rom",
+    name = "Nguyen Van A",
     age=28,
     is_active=True,
     is_admin=False,
@@ -181,9 +187,9 @@ create_user(
 def greet(name, greeting="Hello"):
     print(f"{greeting} {name}!")
 
-greet("Rom")                     # Hello Rom!
-greet("Lan", "Hi")               # Hi Lan!
-greet("Hoa", greeting="Chào")    # Chào Hoa!
+greet("Nguyen Van A")                     # Hello Nguyen Van A!
+greet("Le Van B", "Hi")               # Hi Le Van B!
+greet("Tran Van C", greeting="Chào")    # Chào Tran Van C!
 ```
 
 ⚠️ **Pitfall**: Default value mutable
@@ -236,13 +242,13 @@ def create_user(**fields):
     for key, value in fields.items():
         print(f"{key}: {value}")
 
-create_user(name="Rom", age=28, email="rom@example.com")
+create_user(name = "Nguyen Van A", age=28, email="dev@example.com")
 ```
 
 ```
-name: Rom
+name: Nguyen Van A
 age: 28
-email: rom@example.com
+email: dev@example.com
 ```
 
 `**fields` thu thập mọi keyword argument thành **dict**.
@@ -257,14 +263,14 @@ def log(level, *messages, **metadata):
     for k, v in metadata.items():
         print(f"  {k}: {v}")
 
-log("INFO", "App started", "Listening on port 8080", user="rom", env="prod")
+log("INFO", "App started", "Listening on port 8080", user="alice", env="prod")
 ```
 
 ```
 [INFO]
   Message: App started
   Message: Listening on port 8080
-  user: rom
+  user: alice
   env: prod
 ```
 
@@ -300,7 +306,7 @@ print(q, r)    # 3 2
 def greet(name):
     print(f"Hello {name}!")
 
-result = greet("Rom")    # Hello Rom!
+result = greet("Nguyen Van A")    # Hello Nguyen Van A!
 print(result)             # None
 ```
 
@@ -655,7 +661,7 @@ def add(item, lst=None):
   ```python
   def f(**kwargs):
       print(kwargs)
-  f(name="Rom", age=28)    # {'name': 'Rom', 'age': 28}
+  f(name = "Nguyen Van A", age=28)    # {'name': 'Nguyen Van A', 'age': 28}
   ```
 
 Dùng combo: `def f(positional, *args, **kwargs):` — accept mọi kiểu input.
@@ -674,7 +680,7 @@ def greet(name):
     print(f"Hi {name}")
     # không có return
 
-result = greet("Rom")    # in "Hi Rom"
+result = greet("Nguyen Van A")    # in "Hi Nguyen Van A"
 print(result)             # None
 print(type(result))       # <class 'NoneType'>
 ```
@@ -714,7 +720,7 @@ f(1, 2, 3)
 # **kwargs (dict)
 def f(**kwargs):
     for k, v in kwargs.items(): ...
-f(name="Rom", age=28)
+f(name = "Nguyen Van A", age=28)
 
 # Combine
 def f(a, *args, b=10, **kwargs):
@@ -784,6 +790,9 @@ list(map(lambda x: x * 2, nums))
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (anatomy function, gọi function, function "Hello World").
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống script tính lương lặp 180 chỗ** vì chưa biết function — đổi công thức = sửa 180 chỗ

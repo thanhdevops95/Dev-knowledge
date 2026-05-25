@@ -1,15 +1,15 @@
-# 🎓 Long ghép `myapp` + Postgres + Redis — Docker Compose
+# 🎓 bạn ghép `myapp` + Postgres + Redis — Docker Compose
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 20/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [02_dockerfile-basics.md](./02_dockerfile-basics.md)
 
-> 🎯 *Tiếp Long story: Long đã có image `myapp:v1`. Nhưng app cần Postgres + Redis + Celery worker — 4 container đồng thời. Gõ 4 `docker run` riêng thì rối. Bài này dạy Compose — 1 file YAML quản hết.*
+> 🎯 *Tiếp bạn story: bạn đã có image `myapp:v1`. Nhưng app cần Postgres + Redis + Celery worker — 4 container đồng thời. Gõ 4 `docker run` riêng thì rối. Bài này dạy Compose — 1 file YAML quản hết.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -22,9 +22,9 @@
 
 ---
 
-## Tình huống — Long có image `myapp` rồi, giờ ghép DB + Cache thế nào?
+## Tình huống — bạn có image `myapp` rồi, giờ ghép DB + Cache thế nào?
 
-Long đã build được image `myapp:v1`. Test thử:
+Bạn đã build được image `myapp:v1`. Test thử:
 
 ```bash
 docker run -p 5000:5000 myapp:v1
@@ -35,7 +35,7 @@ docker run -p 5000:5000 myapp:v1
 ConnectionRefusedError: Cannot connect to PostgreSQL on db:5432
 ```
 
-Đúng rồi — `myapp` cần Postgres. Long thử start Postgres:
+Đúng rồi — `myapp` cần Postgres. Bạn thử start Postgres:
 
 ```bash
 docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:15
@@ -47,7 +47,7 @@ docker run -p 5000:5000 -e DB_HOST=db myapp:v1
 psycopg2.OperationalError: could not translate host name "db" to address
 ```
 
-→ 2 container không "thấy" nhau qua tên. Phải tạo network manually. Rồi Long lại nhớ ra cần Redis cho cache, Celery cho async tasks. **4 container, mỗi cái có network/port/env/volume riêng** — gõ 4 lệnh `docker run` đầy đủ:
+→ 2 container không "thấy" nhau qua tên. Phải tạo network manually. Rồi bạn lại nhớ ra cần Redis cho cache, Celery cho async tasks. **4 container, mỗi cái có network/port/env/volume riêng** — gõ 4 lệnh `docker run` đầy đủ:
 
 ```bash
 docker network create mynet
@@ -59,7 +59,7 @@ docker run -d --name worker --network mynet -e DB_HOST=db myapp:v1 celery worker
 
 → 5 dòng dài + dễ sai 1 ký tự. Tắt cũng phải `docker stop` 4 lần + `docker rm` 4 lần. **Cực kỳ verbose**.
 
-Long phát hiện cái này tệ thế nào khi sếp đi qua và nói: *"Sao em không dùng Compose?"* — câu hỏi quen thuộc.
+Bạn phát hiện cái này tệ thế nào khi sếp đi qua và nói: *"Sao em không dùng Compose?"* — câu hỏi quen thuộc.
 
 Bài này dạy Compose — **1 file YAML** quản hết 4 container, **1 lệnh** start/stop tất cả.
 
@@ -151,6 +151,8 @@ docker compose down
 
 ### Cấu trúc cơ bản
 
+YAML file `docker-compose.yml` có **3 section top-level** chính: `services` (containers), `volumes` (persistent storage), `networks` (optional). Skeleton tổng quát cho mọi project:
+
 ```yaml
 services:           # ← các container (gọi là "service")
   service-name:
@@ -170,6 +172,8 @@ networks:           # ← networks (optional, mặc định Compose tạo 1 netw
 
 ### `docker compose` vs `docker-compose` (lưu ý)
 
+Đây là pitfall hay gặp: 2 lệnh **tên gần giống** nhưng khác phiên bản. Modern Docker (2024+) dùng `docker compose` (V2 plugin), version cũ `docker-compose` (V1) đã deprecated:
+
 - **`docker compose`** (V2, có space) — modern, plugin built-in của Docker (RECOMMEND)
 - **`docker-compose`** (V1, có dash) — cũ, Python standalone, được deprecated
 
@@ -177,9 +181,11 @@ networks:           # ← networks (optional, mặc định Compose tạo 1 netw
 
 ---
 
-## 3️⃣ Long làm cùng bạn — Build app Flask + Postgres + Redis
+## 3️⃣ Mình làm cùng bạn — Build app Flask + Postgres + Redis
 
 ### 🛠️ 3.1 Setup project
+
+Tạo folder project + 3 file core: `app.py` (Flask app), `requirements.txt` (Python deps), `Dockerfile` (image build). Đây là setup tối thiểu cho demo Compose multi-service:
 
 ```bash
 mkdir compose-demo && cd compose-demo
@@ -241,6 +247,8 @@ CMD ["python", "app.py"]
 
 ### 🛠️ 3.2 Viết `docker-compose.yml`
 
+File `docker-compose.yml` định nghĩa **3 service** (app + db + cache), 1 volume (pg-data persistent). Compose tự tạo network chung — service gọi nhau qua DNS bằng tên service (`db`, `cache`):
+
 ```yaml
 # docker-compose.yml
 services:
@@ -276,6 +284,8 @@ volumes:
 ```
 
 ### 🛠️ 3.3 Chạy lên
+
+`docker compose up -d` start tất cả service trong file 1 phát — build image nếu cần, tạo network, tạo volume, start containers theo `depends_on` order. Đây là **1 lệnh thay 5-10 docker run**:
 
 ```bash
 docker compose up -d
@@ -804,9 +814,13 @@ docker compose --env-file prod.env up
 
 ## 📌 Changelog
 
-- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc (kết bộ Docker):
-  - Title đổi: "Docker Compose — ..." → "**Long ghép `myapp` + Postgres + Redis**"
-  - Mở bằng **tình huống Long thử ghép 4 container thủ công** — gõ 5 lệnh `docker run` rối, sếp lại buông câu hỏi quen thuộc "Sao em không dùng Compose?"
-  - Headers đổi: `1️⃣ Vì sao cần Compose (WHY)` / `2️⃣ Docker Compose là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy Compose giải quyết gì?", "Vậy Docker Compose thực sự là gì?", "Long làm cùng bạn")
+- **v2.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §2 Cấu trúc YAML + Compose V2 vs V1 + §3.1 Setup project + 3.2 docker-compose.yml + 3.3 Chạy lên.
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + bạn story arc (kết bộ Docker):
+  - Title đổi: "Docker Compose — ..." → "**bạn ghép `myapp` + Postgres + Redis**"
+  - Mở bằng **tình huống bạn thử ghép 4 container thủ công** — gõ 5 lệnh `docker run` rối, sếp lại buông câu hỏi quen thuộc "Sao em không dùng Compose?"
+  - Headers đổi: `1️⃣ Vì sao cần Compose (WHY)` / `2️⃣ Docker Compose là gì (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy Compose giải quyết gì?", "Vậy Docker Compose thực sự là gì?", "Mình làm cùng bạn")
   - Content kỹ thuật KHÔNG đổi (Compose YAML + 9 lệnh + networking + volumes + .env + depends_on + healthcheck + profiles vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — Compose YAML + 9 lệnh + networking (service DNS) + volumes + .env + depends_on + healthcheck + profiles + 5 pitfall/best-practice.

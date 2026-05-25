@@ -1,7 +1,7 @@
 # 🎓 Python là gì? — Ngôn ngữ "dễ nhất để học, đủ mạnh để làm tất cả"
 
-> **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Tác giả:** Mr.Nguyen Van A\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -56,6 +56,8 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 
 ### Ví dụ syntax: in "Hello World"
 
+Câu nói nổi tiếng nhất khi học lập trình: in chữ "Hello, World!" ra màn hình. Cùng 1 việc đơn giản, mỗi ngôn ngữ cần lượng code khác nhau — Python ngắn nhất:
+
 | Ngôn ngữ | Code |
 |---|---|
 | **Python** | `print("Hello, World!")` |
@@ -75,6 +77,8 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 
 ### Đặc trưng chính
 
+6 điểm nổi bật làm Python "dễ học hơn ngôn ngữ khác" + đa dụng cho mọi domain:
+
 | Đặc điểm | Ý nghĩa |
 |---|---|
 | **Interpreted** | Chạy từng dòng, không cần compile trước → nhanh prototype |
@@ -85,6 +89,8 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 | **"Batteries included"** | Standard library rất lớn — đa số task có sẵn |
 
 ### Python vs CPython — phân biệt
+
+Nhiều người mới hay nhầm 2 từ này. Phân biệt giúp đọc tài liệu chính thức + chọn đúng interpreter cho task đặc biệt:
 
 | | **Python** | **CPython** |
 |---|---|---|
@@ -99,29 +105,43 @@ Năm 2026, Python là **ngôn ngữ #1** theo các index TIOBE / PYPL. Vì sao m
 
 ## 3️⃣ Python dùng để làm gì
 
+🪞 **Ẩn dụ tiếp**: *Nếu Python là "người phiên dịch giỏi" thì ngày nay phiên dịch này được mời vào 5 ngành công nghiệp lớn nhất — mỗi ngành có "bộ sách giáo khoa" (thư viện) riêng.*
+
 5 lĩnh vực Python thống trị 2026:
 
 ### 🤖 AI / Machine Learning
-- **PyTorch**, **TensorFlow** — Deep Learning
-- **scikit-learn** — ML classic
-- **LangChain**, **OpenAI SDK** — LLM / GenAI
-- **Hugging Face** — pre-trained models
+
+Đây là **mảng số 1** Python dominate. Gần như 100% AI research + production dùng Python:
+
+- **PyTorch**, **TensorFlow** — *Deep Learning* (mạng neural sâu)
+- **scikit-learn** — ML classic (hồi quy, phân loại)
+- **LangChain**, **OpenAI SDK** — LLM / GenAI (ChatGPT/Claude apps)
+- **Hugging Face** — Pre-trained models (download model có sẵn)
 
 ### 📊 Data Science
-- **Pandas** — DataFrame
-- **NumPy** — Numerical computing
-- **Matplotlib**, **Seaborn**, **Plotly** — Visualization
-- **Jupyter Notebook** — Interactive analysis
+
+Phân tích dữ liệu — Python là chuẩn vàng (thay R cũ):
+
+- **Pandas** — Bảng dữ liệu (DataFrame) — như Excel programmatic
+- **NumPy** — Tính toán số học mảng nhanh
+- **Matplotlib**, **Seaborn**, **Plotly** — Vẽ biểu đồ
+- **Jupyter Notebook** — Sổ tay tương tác để phân tích
 
 ### 🌐 Web Backend
-- **FastAPI** — Modern API (async)
-- **Django** — Full-stack framework
-- **Flask** — Microframework
+
+Viết API/server cho web/mobile app:
+
+- **FastAPI** — *Modern* API (hỗ trợ *async* — chạy song song hiệu quả)
+- **Django** — Full-stack framework (cả frontend + backend)
+- **Flask** — Microframework — nhẹ, đơn giản
 
 ### 🤖 Automation / Scripting
-- **System admin** (replace bash with Python)
-- **Web scraping** (BeautifulSoup, Scrapy, Playwright)
-- **Task automation** (rename file, send email, scrape data)
+
+Tự động hoá việc lặp đi lặp lại:
+
+- **System admin** — thay shell script bằng Python (mạnh hơn)
+- **Web scraping** — lấy dữ liệu từ web (BeautifulSoup, Scrapy, Playwright)
+- **Task automation** — đổi tên hàng loạt file, gửi email tự động, cào dữ liệu
 
 ### 🛠️ DevOps tools
 - **Ansible** (config management) viết bằng Python
@@ -158,9 +178,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 Hello, Python!
 >>> 2 + 3
 5
->>> name = "Rom"
+>>> name = "Nguyen Van A"
 >>> f"Hello, {name}!"
-'Hello, Rom!'
+'Hello, Nguyen Van A!'
 >>> exit()
 ```
 
@@ -186,8 +206,8 @@ python hello.py
 ```
 
 ```
-Tên bạn là gì? Rom
-Xin chào, Rom!
+Tên bạn là gì? Nguyen Van A
+Xin chào, Nguyen Van A!
 Tên bạn có 3 ký tự.
 ```
 
@@ -354,6 +374,9 @@ Python làm được cả 2. Không có boundary cứng.
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước bảng (Hello World, đặc trưng chính, Python vs CPython), mở rộng ẩn dụ "người phiên dịch" sang section 3 (5 lĩnh vực), Việt hoá + thuật ngữ EN có giải thích (interpreter, async, DataFrame, ...).
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống beginner vừa cài Python**, mở terminal, không biết gõ gì tiếp

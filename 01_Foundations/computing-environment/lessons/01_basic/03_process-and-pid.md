@@ -1,7 +1,7 @@
 # 🎓 Process & PID concept — Khi máy bạn "chạy" 1 chương trình
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
@@ -50,6 +50,8 @@ Cùng lúc, bạn chạy `python myapp.py` trong terminal. App treo. Bạn nhấ
 **Trả lời tình huống Chrome**: Chrome **đóng gói thành nhiều process** vì kiến trúc multi-process — mỗi tab/extension là 1 process riêng. Tab này crash không chết cả browser. **Mỗi process = 1 instance độc lập** trong RAM, có ID riêng (PID), bộ nhớ riêng.
 
 ### Program vs Process — đừng nhầm
+
+Đây là 2 khái niệm rất hay bị trộn lẫn. Hiểu phân biệt giúp bạn debug nhanh hơn khi gặp lỗi "process died" hay "program crashed":
 
 | | **Program** | **Process** |
 |---|---|---|
@@ -108,6 +110,8 @@ graph TD
 
 ### PID 1 — "Tổ tiên của mọi process"
 
+Mỗi hệ điều hành có 1 process đầu tiên (PID 1) khởi động ngay sau kernel boot. Nó là "ông tổ" sinh ra mọi process khác. Tên cụ thể khác nhau giữa các OS:
+
 | OS | PID 1 |
 |---|---|
 | Linux | `systemd` (modern) hoặc `init` (cũ) |
@@ -117,6 +121,8 @@ graph TD
 → PID 1 là **process đầu tiên** khi OS boot. Mọi process khác là con/cháu của nó. Khi PID 1 chết → OS crash.
 
 ### Tree hiển thị qua `pstree` (lệnh thực tế xem ở `04_OS/linux/`)
+
+Linux có lệnh `pstree` vẽ "cây gia phả" process. Output trông như sau (mỗi dòng là 1 nhánh process):
 
 ```
 systemd(1)─┬─sshd(123)───sshd(456)───zsh(1000)───python(1234)───sleep(1235)
@@ -131,6 +137,8 @@ systemd(1)─┬─sshd(123)───sshd(456)───zsh(1000)───python(
 
 ## 3️⃣ Trạng thái process — 4 trạng thái chính
 
+Process không phải lúc nào cũng "chạy" — nó có **5 trạng thái** chính trong vòng đời. Khi gõ `ps aux`, cột STAT cho biết mỗi process đang ở trạng thái nào:
+
 | State | Mã (ps) | Ý nghĩa | Ví dụ |
 |---|---|---|---|
 | **Running** | `R` | Đang chiếm CPU thực sự | Script đang tính loop nặng |
@@ -140,6 +148,8 @@ systemd(1)─┬─sshd(123)───sshd(456)───zsh(1000)───python(
 | **Zombie** | `Z` | Đã chết nhưng parent chưa "thu hồi" | Parent process bug — không cleanup child |
 
 ### Zombie process — vì sao "thây ma"?
+
+Trong các state ở trên, **Zombie** (`Z`) là trạng thái lạ nhất — process đã chết nhưng vẫn nằm trong bảng PID. Tại sao? Diagram dưới mô tả vòng đời gây ra zombie:
 
 ```mermaid
 sequenceDiagram
@@ -479,4 +489,5 @@ Nhược: tốn RAM (mỗi process ~50-200 MB overhead).
 
 ## 📌 Changelog
 
+- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 5 lead-in trước bảng/code/diagram (Program vs Process, PID 1, pstree output, 5 trạng thái, Zombie sequence diagram).
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster basic computing-environment 4/6 bài. Cover: Program vs Process, PID, parent/child tree với mermaid, PID 1 (systemd/launchd/Docker), 4 trạng thái + Zombie, signal (SIGTERM/SIGKILL/SIGINT/SIGSTOP/SIGCONT/SIGHUP), foreground/background + nohup/disown, process trong Docker context, 4 pitfall + 4 self-check + cheatsheet signal table.

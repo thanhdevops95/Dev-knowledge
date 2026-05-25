@@ -96,12 +96,12 @@ Sau 4 bài (setup + 00-03), bạn có thể:
 2. Chọn template:
    - Setup → `setup_template.md`
    - Lesson concept → `lesson_template.md`
-3. Tham khảo 5 bài có sẵn làm reference (đã refactor v2.0 với Long story arc)
+3. Tham khảo 5 bài có sẵn làm reference (đã refactor v2.0 với bạn story arc)
 4. Cập nhật bảng trên + [`../../../MASTER-CATALOG.md`](../../../MASTER-CATALOG.md)
 
 ---
 
 ## 📌 Changelog
 
-- **v0.2.0 (19/05/2026)** — **Move folder từ `02_Tools/git/` sang `01_Foundations/version-control/git/`** (git là VCS concept). Fix 3 broken relative paths trong README (sang `../../../02_Tools/`, `../../../_Blueprint/`, `../../../MASTER-CATALOG.md`). 5 lesson đã refactor v2.0.0 với Long story arc (intro → init → branching → remote → undo).
+- **v0.2.0 (19/05/2026)** — **Move folder từ `02_Tools/git/` sang `01_Foundations/version-control/git/`** (git là VCS concept). Fix 3 broken relative paths trong README (sang `../../../02_Tools/`, `../../../_Blueprint/`, `../../../MASTER-CATALOG.md`). 5 lesson đã refactor v2.0.0 với bạn story arc (intro → init → branching → remote → undo).
 - **v0.1.0 (16/05/2026)** — Bộ Git đầu tiên hoàn thành: setup + 4 bài (intro + 3 lesson). Stage 1 zero-to-coder có Git foundation đủ.

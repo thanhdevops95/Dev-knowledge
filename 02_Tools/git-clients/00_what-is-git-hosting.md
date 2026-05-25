@@ -282,7 +282,7 @@ Cần đọc Terms of Service:
 ### Trong kho
 
 - 🎓 [Git là gì](../../01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — Git concept (đọc trước)
-- 🎓 [Git Remote + GitHub](../../01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) — bài lesson Mai join project
+- 🎓 [Git Remote + GitHub](../../01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) — bài lesson đồng nghiệp join project
 - 🧭 [Zero to Coder Roadmap](../../00_Roadmaps/career/zero-to-coder_career-roadmap.md) — Stage 1 cài git + tạo GitHub account
 - 🛠️ [02_Tools README](../README.md) — danh sách tool category khác
 

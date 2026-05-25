@@ -1,15 +1,15 @@
-# 🎓 Long lỡ tay 2h sáng — Undo + Recovery
+# 🎓 bạn lỡ tay 2h sáng — Undo + Recovery
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md), [02_branching-and-merging.md](./02_branching-and-merging.md)
 
-> 🎯 *Tiếp Long story: 2h sáng, Long gõ nhầm `git reset --hard`, mất 3 commit của 1 đêm code. Hoảng. Anh senior chỉ nói "đừng panic, Git rất khó mất data thật". Bài này dạy mọi cách "quay lại" — restore/amend/reset/revert/reflog/stash.*
+> 🎯 *Tiếp bạn story: 2h sáng, bạn gõ nhầm `git reset --hard`, mất 3 commit của 1 đêm code. Hoảng. Anh senior chỉ nói "đừng panic, Git rất khó mất data thật". Bài này dạy mọi cách "quay lại" — restore/amend/reset/revert/reflog/stash.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -23,9 +23,9 @@
 
 ---
 
-## Tình huống — Long ở giây phút hoảng nhất
+## Tình huống — bạn ở giây phút hoảng nhất
 
-2h sáng thứ Bảy. Long vừa code 6 tiếng cho feature thanh toán, 3 commit nối nhau:
+2h sáng thứ Bảy. Bạn vừa code 6 tiếng cho feature thanh toán, 3 commit nối nhau:
 
 ```
 abc123 (HEAD -> feature/payment) feat: integrate Stripe
@@ -33,7 +33,7 @@ def456 feat: add payment form UI
 ghi789 feat: add payment validation
 ```
 
-Mắt mờ. Long muốn dọn workspace, gõ "trí nhớ cơ":
+Mắt mờ. Bạn muốn dọn workspace, gõ "trí nhớ cơ":
 
 ```bash
 git reset --hard HEAD~3   # bỏ 3 commit
@@ -45,9 +45,9 @@ Enter. Terminal:
 HEAD is now at xyz000 docs: update README
 ```
 
-**Long tê người**. 6 tiếng code — biến mất. Working directory cũng sạch luôn (`--hard` xoá tất). Nhịp tim 120bpm.
+**bạn tê người**. 6 tiếng code — biến mất. Working directory cũng sạch luôn (`--hard` xoá tất). Nhịp tim 120bpm.
 
-Long nhắn tin senior:
+Bạn nhắn tin senior:
 
 > *"Anh ơi em vừa `git reset --hard HEAD~3` mất 3 commit cứu em với 😱"*
 
@@ -55,7 +55,7 @@ Anh senior trả lời 30 giây sau:
 
 > *"Đừng panic. Gõ `git reflog`. Git rất khó mất data thật."*
 
-Long gõ. 30 giây sau, tất cả 3 commit phục hồi nguyên vẹn. Bài này dạy đúng câu thần chú đó — và 5 lệnh tương tự cho mọi tình huống "lỡ tay".
+Bạn gõ. 30 giây sau, tất cả 3 commit phục hồi nguyên vẹn. Bài này dạy đúng câu thần chú đó — và 5 lệnh tương tự cho mọi tình huống "lỡ tay".
 
 > 💡 **Sự thật của Git**: data đã commit hầu như không bao giờ mất thật. Git giữ "reflog" — log mọi thao tác di chuyển HEAD — trong **90 ngày**. Trong khoảng đó, mọi commit đều cứu được.
 
@@ -66,7 +66,7 @@ Long gõ. 30 giây sau, tất cả 3 commit phục hồi nguyên vẹn. Bài nà
 | Commit xong nhưng quên file, hoặc message sai | `git commit --amend` |
 | Vừa commit nhưng muốn hủy hoàn toàn | `git reset --hard HEAD~1` |
 | Đã push commit có bug, muốn "đảo ngược" | `git revert <hash>` |
-| **Lỡ `git reset --hard`, mất commit (như Long)** | `git reflog` + `git reset --hard <hash>` |
+| **Lỡ `git reset --hard`, mất commit (như bạn)** | `git reflog` + `git reset --hard <hash>` |
 | Đang dở thay đổi, cần switch branch gấp | `git stash` |
 
 ---
@@ -99,7 +99,7 @@ graph LR
 
 ---
 
-## 2️⃣ Bắt tay làm cùng Long — 7 lệnh cứu mạng
+## 2️⃣ Bắt tay làm cùng bạn — 7 lệnh cứu mạng
 
 ### Setup test repo
 
@@ -370,9 +370,9 @@ git stash pop                 # apply + xóa
 git stash drop stash@{0}      # chỉ xóa, không apply
 ```
 
-### 🛠️ 2.7 `git reflog` — Câu thần chú cứu Long lúc 2h sáng
+### 🛠️ 2.7 `git reflog` — Câu thần chú cứu bạn lúc 2h sáng
 
-Quay lại tình huống Long ở đầu bài: lỡ `git reset --hard`, 3 commit "biến mất". Đừng panic.
+Quay lại tình huống bạn ở đầu bài: lỡ `git reset --hard`, 3 commit "biến mất". Đừng panic.
 
 ```bash
 git reflog
@@ -635,11 +635,13 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 
 ## 📌 Changelog
 
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
 - **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi: "Long lỡ tay 2h sáng — Undo + Recovery" (gắn vào story)
-  - Mở bằng **tình huống Long 2h sáng** `git reset --hard HEAD~3` mất 3 commit feature payment, nhịp tim 120bpm — anh senior dạy `git reflog`
-  - Headers đổi: `1️⃣ Vì sao học Undo (WHY)` / `2️⃣ Mô hình 4 vùng (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Decision tree` → câu hỏi tự nhiên ("Lệnh nào tác động vùng nào?", "Bắt tay làm cùng Long", "Lỡ chỗ nào fix lệnh nào?")
-  - §2.7 `git reflog` thêm callback "quay lại tình huống Long ở đầu bài"
+  - Title đổi: "bạn lỡ tay 2h sáng — Undo + Recovery" (gắn vào story)
+  - Mở bằng **tình huống bạn 2h sáng** `git reset --hard HEAD~3` mất 3 commit feature payment, nhịp tim 120bpm — anh senior dạy `git reflog`
+  - Headers đổi: `1️⃣ Vì sao học Undo (WHY)` / `2️⃣ Mô hình 4 vùng (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Decision tree` → câu hỏi tự nhiên ("Lệnh nào tác động vùng nào?", "Bắt tay làm cùng bạn", "Lỡ chỗ nào fix lệnh nào?")
+  - §2.7 `git reflog` thêm callback "quay lại tình huống bạn ở đầu bài"
   - Move folder từ `02_Tools/git/` → `01_Foundations/version-control/git/`
   - Fix relative path depth
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — restore/amend/reset (3 mode)/revert/stash/reflog + decision tree + 6 pitfall/best-practice.

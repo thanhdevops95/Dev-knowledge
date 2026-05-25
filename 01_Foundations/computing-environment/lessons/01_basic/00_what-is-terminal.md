@@ -1,9 +1,9 @@
 # 🎓 Terminal là gì? — Cánh cửa back door của máy tính
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 21/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~10 phút\
@@ -34,20 +34,22 @@ Bài này dạy: terminal là gì, mở ở đâu (Mac/Linux/Win), đọc prompt
 
 ## 1️⃣ Vì sao coder phải học terminal (dù GUI đang dùng tốt)?
 
-Bạn vẫn dùng máy tính tốt qua GUI (chuột + cửa sổ). Vậy vì sao coder phải học terminal?
+🪞 **Ẩn dụ**: *Bạn dùng GUI giống như **gọi món ăn bằng menu có hình** — chỉ chỉ tay vào món bạn thấy. Terminal là **gọi món bằng cách miêu tả** — phức tạp hơn lúc đầu nhưng có thể yêu cầu mọi thứ ("cho tôi 100 tô phở, mỗi tô bỏ thêm trứng, không hành"). Cùng nhà hàng, 2 cách giao tiếp.*
 
-| Lý do | GUI | Terminal |
+Bạn vẫn dùng máy tính tốt qua GUI (chuột + cửa sổ). Vậy vì sao coder phải học terminal? Bảng dưới so sánh 6 việc thường gặp giữa 2 cách:
+
+| Công việc | Cách GUI (chuột + cửa sổ) | Cách Terminal |
 |---|---|---|
-| Tạo 1 folder | Click chuột phải → New | 1 lệnh, 1 giây |
-| Tạo 100 folder cùng lúc | Lặp 100 lần | 1 lệnh |
-| Đổi tên 50 file `.txt` → `.md` | Vô vọng | 1 vòng lặp |
-| Chạy chương trình bạn vừa code | Không có cách | `python my-app.py` |
-| Cài thư viện Python | Không có | `pip install requests` |
-| Kết nối server xa | Phần mềm riêng | `ssh user@server.com` |
+| Tạo 1 folder | Click chuột phải → "New folder" | 1 lệnh, mất 1 giây |
+| Tạo 100 folder cùng lúc | Click 100 lần → ~ 10 phút | 1 lệnh, 1 giây |
+| Đổi tên 50 file `.txt` → `.md` | Đổi từng file 1 → vô vọng | 1 vòng lặp, 1 giây |
+| Chạy chương trình Python vừa code | Không có cách qua GUI | `python my-app.py` |
+| Cài thư viện Python (vd: `requests`) | Không có GUI cho việc này | `pip install requests` |
+| Kết nối server từ xa (vd: VPS) | Phải cài app riêng | `ssh user@server.com` |
 
-→ **Terminal cho phép automation + scale**. Coder không click 100 lần — viết 1 lệnh chạy 100 lần.
+→ Điểm chính: **Terminal cho phép tự động hoá + làm việc với số lượng lớn**. Coder không click 100 lần — viết 1 lệnh chạy 100 lần. Đây là **scale** — làm nhanh hơn 100x.
 
-Ngoài ra, **hầu hết hướng dẫn online dùng terminal** — bạn buộc phải đọc hiểu để follow tutorial, bug fix, install tool.
+Ngoài ra, **hầu hết hướng dẫn lập trình online viết bằng terminal** — bạn buộc phải đọc hiểu để follow tutorial, fix bug, cài tool. Đây là kỹ năng nền — không học = không follow được bất kỳ tutorial coding nào.
 
 ---
 
@@ -80,15 +82,17 @@ graph LR
 
 ### Cấu trúc 1 prompt
 
+🪞 **Ẩn dụ**: *Prompt như **tài xế taxi đỗ trước nhà chờ bạn ra** — anh ta sẵn sàng đi đâu bạn bảo. Dấu `$` chính là "anh tài xế đang chờ". Nếu bạn không gõ gì, anh ta đứng đó mãi. Gõ lệnh + Enter = bảo anh ta "đi đến chỗ X".*
+
 Khi mở terminal, bạn thấy thứ trông như:
 
 ```
-rom@macbook ~/Desktop $
+user@laptop ~/Desktop $
 ```
 
 | Phần | Ý nghĩa |
 |---|---|
-| `rom` | User name (tên đăng nhập) |
+| `user` | User name (tên đăng nhập) |
 | `macbook` | Hostname (tên máy) |
 | `~/Desktop` | Folder hiện tại (`~` = home folder của user) |
 | `$` | **Prompt** — báo "shell sẵn sàng nhận lệnh" |
@@ -101,11 +105,13 @@ Bạn chỉ cần gõ lệnh **SAU dấu `$`** (hoặc `%` với zsh, hoặc `#`
 
 ## 3️⃣ Cách mở terminal trên 3 OS
 
+Mỗi hệ điều hành có cách mở khác nhau. Mục tiêu chung: tìm app nào có biểu tượng "cửa sổ đen có chữ" → mở lên. Bảng dưới liệt kê cách nhanh nhất cho 3 OS phổ biến:
+
 | Hệ điều hành | Cách mở |
 |---|---|
-| **macOS** | `Cmd + Space` → gõ "Terminal" → Enter. Hoặc cài [iTerm2](https://iterm2.com/) (đẹp hơn). Sâu hơn: 🛠️ [Tool guide terminal emulators](../../../../02_Tools/terminal-emulators/) (chưa có) — so sánh iTerm/Kitty/Alacritty/Warp |
-| **Linux (Ubuntu)** | `Ctrl + Alt + T` |
-| **Windows** | Cài [Windows Terminal](https://aka.ms/terminal) từ Microsoft Store → mở. Hoặc dùng [Git Bash](https://gitforwindows.org/) (kèm Git) |
+| **macOS** | Bấm `Cmd + Space` → gõ "Terminal" → Enter. Hoặc cài [iTerm2](https://iterm2.com/) (đẹp + nhiều tính năng hơn). Sâu hơn: 🛠️ [Tool guide terminal emulators](../../../../02_Tools/terminal-emulators/) (chưa có) — so sánh iTerm / Kitty / Alacritty / Warp |
+| **Linux (Ubuntu)** | Bấm phím tắt `Ctrl + Alt + T`. Hoặc tìm app "Terminal" trong menu Activities |
+| **Windows** | Cài [Windows Terminal](https://aka.ms/terminal) từ Microsoft Store → mở. Hoặc dùng [Git Bash](https://gitforwindows.org/) (kèm khi cài Git — nhẹ + giống Linux) |
 
 Sau khi mở, bạn thấy prompt giống §2 ở trên.
 
@@ -118,7 +124,7 @@ pwd
 Output mẫu:
 
 ```
-/Users/rom
+/Users/user
 ```
 
 → Đó là folder hiện tại bạn đang đứng. Chúc mừng — bạn vừa chạy lệnh terminal đầu tiên! 🎉
@@ -160,7 +166,7 @@ Sau khi vững lệnh Linux, học **shell-as-tool features** ở chính folder 
 | CLI | Giao diện dòng lệnh | Command Line Interface — đối nghịch với GUI |
 | GUI | Giao diện đồ hoạ | Graphical User Interface — chuột + cửa sổ |
 | Prompt | Dấu nhắc | Ký tự `$` hoặc `%` báo shell sẵn sàng nhận lệnh |
-| Path | Đường dẫn | Vị trí 1 file/folder trong filesystem (vd `/Users/rom/Desktop`) |
+| Path | Đường dẫn | Vị trí 1 file/folder trong filesystem (vd `/Users/user/Desktop`) |
 | Home | Thư mục nhà | Folder cá nhân của user, ký hiệu `~` |
 | Working directory | Thư mục đang làm việc | Folder hiện tại bạn đang đứng |
 
@@ -186,6 +192,7 @@ Sau khi vững lệnh Linux, học **shell-as-tool features** ở chính folder 
 
 ## 📌 Changelog
 
+- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 2 ẩn dụ mở rộng (gọi món ăn vs miêu tả; tài xế taxi cho prompt), bổ sung lead-in 2-3 câu trước 2 bảng so sánh GUI/Terminal + bảng OS, Việt hoá thêm trong bảng.
 - **v2.1.0 (21/05/2026)** — **Move** từ `02_Tools/shell/lessons/01_basic/` → `01_Foundations/computing-environment/lessons/01_basic/`. Lý do: terminal/shell là **concept tính toán nền tảng**, thuộc Foundations chứ không phải Tools. Tool guide cho từng terminal emulator (iTerm/Kitty/...) ở `02_Tools/terminal-emulators/`. Update 2 internal refs từ `../../setup/terminal-apps.md` (cũ, không tồn tại) sang `../../../../02_Tools/terminal-emulators/`. Sweep 6 external refs sang path mới.
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống follow tutorial Python**, tutorial bảo "mở terminal" mà beginner không biết terminal ở đâu

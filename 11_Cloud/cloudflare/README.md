@@ -1,32 +1,53 @@
-# cloudflare
+# ☁️ Cloudflare
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v1.0.0\
+> **Tạo lúc:** 20/05/2026\
+> **Cập nhật:** 24/05/2026\
+> **Status:** ✅ Basic cluster hoàn chỉnh (5/5 bài)
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_Blueprint/01_sitemap-detail.md`](../../_Blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_Blueprint/03_writing-style.md`](../../_Blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_Blueprint/templates/`](../../_Blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 *Cloudflare — vendor edge-first 320+ POPs toàn cầu. 3 trụ cột: Network (CDN/DNS/SSL), Security (WAF/Bot/DDoS/Zero Trust), Developer Platform (Workers/Pages/R2/D1). Khác paradigm AWS/GCP — edge-distributed.*
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+---
 
-```
-cloudflare/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"cloudflare là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── 99_cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
-```
+## 🚀 Quick start
 
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.
+- [00_what-is-cloudflare-overview](lessons/01_basic/00_what-is-cloudflare-overview.md)
+- [01_cdn-dns-and-ssl](lessons/01_basic/01_cdn-dns-and-ssl.md)
+- [02_workers-and-pages](lessons/01_basic/02_workers-and-pages.md)
+- [03_r2-and-d1-and-queues](lessons/01_basic/03_r2-and-d1-and-queues.md)
+- [04_security-zero-trust-and-waf](lessons/01_basic/04_security-zero-trust-and-waf.md)
+
+---
+
+## 📖 Lessons — Basic cluster (5 bài)
+
+| # | Bài | Trọng tâm | Thời lượng |
+|---|---|---|---|
+| 00 | [Cloudflare overview](lessons/01_basic/00_what-is-cloudflare-overview.md) | 3 pillars + Account/Zone + wrangler + Free Tier | ~17p |
+| 01 | [CDN + DNS + SSL](lessons/01_basic/01_cdn-dns-and-ssl.md) | DNS proxied + SSL modes + Cache rules + Universal SSL | ~20p |
+| 02 | [Workers + Pages](lessons/01_basic/02_workers-and-pages.md) | V8 isolate edge + KV + Durable Objects + Pages | ~22p |
+| 03 | [R2 + D1 + Queues](lessons/01_basic/03_r2-and-d1-and-queues.md) | R2 zero egress + D1 SQLite edge + Queues + Hyperdrive | ~22p |
+| 04 | [Security + Zero Trust + WAF](lessons/01_basic/04_security-zero-trust-and-waf.md) | WAF + Bot + DDoS + Zero Trust + cloudflared + Turnstile | ~22p |
+
+→ **Tổng ~103 phút đọc + 6-8h hands-on**.
+
+---
+
+## 🔗 Liên kết
+
+- ↑ [11_Cloud README](../README.md)
+- ☁️ [AWS](../aws/), [GCP](../gcp/) — origin server
+- 🌐 [DNS cluster](../../05_Networking/dns/)
+
+### Tài nguyên ngoài 2026
+- 📖 [Cloudflare docs](https://developers.cloudflare.com/)
+- 📖 [Workers docs](https://developers.cloudflare.com/workers/)
+- 📖 [Zero Trust docs](https://developers.cloudflare.com/cloudflare-one/)
+
+---
+
+## 📌 Changelog
+
+- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Edge-first paradigm, khác region-based AWS/GCP.
+- **v0.1.0 (20/05/2026)** — Skeleton ban đầu.

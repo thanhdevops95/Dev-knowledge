@@ -1,7 +1,7 @@
 # 🎓 Python Variables + 7 Data Types — Viên gạch cơ bản
 
-> **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Tác giả:** Mr.Nguyen Van A\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
@@ -28,11 +28,11 @@ Bạn được giao bài tập đầu tiên: *"Viết script tính lương. Inpu
 
 Bạn mở Python REPL, gõ thử:
 ```python
->>> "Rom" + 50000 * 8
+>>> "Nguyen Van A" + 50000 * 8
 TypeError: can only concatenate str (not "int") to str
 ```
 
-❌ Lỗi. Bạn chưa biết phân biệt **chữ** (`"Rom"`) vs **số** (`50000`). Để viết được dòng đầu tiên, bạn cần hiểu **biến** và **kiểu dữ liệu** — nền tảng cho MỌI chương trình Python.
+❌ Lỗi. Bạn chưa biết phân biệt **chữ** (`"Nguyen Van A"`) vs **số** (`50000`). Để viết được dòng đầu tiên, bạn cần hiểu **biến** và **kiểu dữ liệu** — nền tảng cho MỌI chương trình Python.
 
 Bài này dạy 7 kiểu cốt lõi + biến + mutable/immutable. Cuối bài bạn viết được script tính lương trên dễ dàng.
 
@@ -46,7 +46,7 @@ Mọi chương trình = **dữ liệu** + **logic**. Trước khi viết logic (
 |---|---|
 | Tuổi (28) | `int` |
 | Lương (1.5 triệu) | `float` |
-| Tên ("Rom") | `str` |
+| Tên ("Nguyen Van A") | `str` |
 | Đăng nhập rồi (Yes/No) | `bool` |
 | Danh sách bạn bè (5 người, có thể thêm/bớt) | `list` |
 | Thông tin user (tên + tuổi + email) | `dict` |
@@ -61,9 +61,11 @@ Mọi chương trình = **dữ liệu** + **logic**. Trước khi viết logic (
 
 **Định nghĩa**: Biến là **tên** trỏ tới 1 **giá trị** trong memory. Đặt tên = "dán nhãn" lên giá trị.
 
-**🪞 Ẩn dụ**: *Biến giống như **nhãn dán trên hộp**. `name = "Rom"` = "dán nhãn 'name' lên hộp chứa chữ Rom". Khi gọi `name`, Python tìm hộp có nhãn đó và lấy nội dung.*
+**🪞 Ẩn dụ**: *Biến giống như **nhãn dán trên hộp**. `name = "Nguyen Van A"` = "dán nhãn 'name' lên hộp chứa chữ Nguyen Van A". Khi gọi `name`, Python tìm hộp có nhãn đó và lấy nội dung.*
 
 ### Cú pháp gán biến
+
+Để "dán nhãn" lên giá trị, Python dùng dấu `=`. Đọc là *"gán"* (đừng đọc là "bằng" — đó là `==`):
 
 ```python
 <tên_biến> = <giá_trị>
@@ -73,7 +75,7 @@ Ví dụ:
 
 ```python
 age = 28
-name = "Rom"
+name = "Nguyen Van A"
 is_logged_in = True
 ```
 
@@ -97,6 +99,8 @@ Khác với Java/C (phải khai báo `int age = 28;`), Python tự detect:
 
 ### Quy tắc đặt tên biến
 
+Python không cho đặt tên tuỳ ý — có 5 quy tắc bắt buộc. Bảng dưới so sánh đúng/sai cho mỗi loại lỗi phổ biến:
+
 | ✅ Đúng | ❌ Sai | Lý do |
 |---|---|---|
 | `age` | `Age` | Convention: snake_case, không Pascal |
@@ -108,12 +112,12 @@ Khác với Java/C (phải khai báo `int age = 28;`), Python tự detect:
 
 ### PEP 8 — Python style guide
 
-[PEP 8](https://peps.python.org/pep-0008/) là chuẩn naming Python:
+[PEP 8](https://peps.python.org/pep-0008/) là **chuẩn cộng đồng** cho cách đặt tên trong Python (PEP = Python Enhancement Proposal — đề xuất cải tiến). 4 loại tên có quy ước khác nhau:
 
-- **Variable / function**: `snake_case` — `user_name`, `calculate_total`
-- **Class**: `PascalCase` — `UserAccount`, `HttpClient`
-- **Constant**: `UPPER_CASE` — `MAX_RETRY`, `API_KEY`
-- **Private**: prefix `_` — `_internal_helper`
+- **Biến / hàm**: `snake_case` (chữ thường, gạch dưới) — `user_name`, `calculate_total`
+- **Lớp** (class): `PascalCase` (mỗi từ hoa chữ đầu) — `UserAccount`, `HttpClient`
+- **Hằng số** (constant — không đổi): `UPPER_CASE` — `MAX_RETRY`, `API_KEY`
+- **Private** (nội bộ module): prefix `_` — `_internal_helper`
 
 ---
 
@@ -219,10 +223,10 @@ Phép toán:
 #### f-string — Format string (Python 3.6+, RECOMMEND)
 
 ```python
-name = "Rom"
+name = "Nguyen Van A"
 age = 28
 print(f"Tên: {name}, Tuổi: {age}")
-# Tên: Rom, Tuổi: 28
+# Tên: Nguyen Van A, Tuổi: 28
 ```
 
 Tính trong f-string:
@@ -304,7 +308,7 @@ else:
 ```python
 fruits = ["apple", "banana", "cherry"]
 numbers = [1, 2, 3, 4, 5]
-mixed = ["Rom", 28, True, 3.14]    # list mix nhiều type được
+mixed = ["Nguyen Van A", 28, True, 3.14]    # list mix nhiều type được
 empty = []
 ```
 
@@ -364,9 +368,9 @@ Thay đổi:
 
 ```python
 user = {
-    "name": "Rom",
+    "name": "Nguyen Van A",
     "age": 28,
-    "email": "rom@example.com",
+    "email": "dev@example.com",
     "is_active": True
 }
 ```
@@ -375,10 +379,10 @@ Truy cập:
 
 ```python
 >>> user["name"]
-'Rom'
+'Nguyen Van A'
 
 >>> user.get("name")            # an toàn — None nếu không có key
-'Rom'
+'Nguyen Van A'
 
 >>> user.get("phone", "N/A")    # default value
 'N/A'
@@ -390,7 +394,7 @@ Thay đổi:
 >>> user["age"] = 29              # update value
 >>> user["phone"] = "0123456789"  # thêm key mới
 >>> user
-{'name': 'Rom', 'age': 29, 'email': '...', 'is_active': True, 'phone': '0123456789'}
+{'name': 'Nguyen Van A', 'age': 29, 'email': '...', 'is_active': True, 'phone': '0123456789'}
 
 >>> del user["phone"]              # xóa key
 >>> user.pop("is_active")          # xóa + trả value
@@ -402,21 +406,21 @@ Lặp:
 ```python
 >>> for key in user:
 ...     print(key, user[key])
-name Rom
+name Nguyen Van A
 age 29
-email rom@example.com
+email dev@example.com
 
 >>> for key, value in user.items():
 ...     print(f"{key}: {value}")
-name: Rom
+name: Nguyen Van A
 age: 29
-email: rom@example.com
+email: dev@example.com
 
 >>> user.keys()
 dict_keys(['name', 'age', 'email'])
 
 >>> user.values()
-dict_values(['Rom', 29, 'rom@example.com'])
+dict_values(['Nguyen Van A', 29, 'dev@example.com'])
 ```
 
 ### 🛠️ 4.3 `tuple` — List immutable
@@ -634,7 +638,7 @@ def add_item(item, items=[]):    # ❌ MẶC ĐỊNH list rỗng
 ### ❌ Pitfall: KeyError khi truy cập dict
 
 ```python
->>> user = {"name": "Rom"}
+>>> user = {"name": "Nguyen Van A"}
 >>> user["email"]
 KeyError: 'email'
 ```
@@ -660,11 +664,11 @@ f"Hello {name}, age {age}"
 
 ```python
 # ❌ Không Pythonic
-userName = "Rom"
+userName = "Nguyen Van A"
 isActive = True
 
 # ✅ Pythonic
-user_name = "Rom"
+user_name = "Nguyen Van A"
 is_active = True
 ```
 
@@ -672,10 +676,10 @@ is_active = True
 
 ```python
 # Optional nhưng giúp đọc code + IDE autocomplete
-name: str = "Rom"
+name: str = "Nguyen Van A"
 age: int = 28
 fruits: list[str] = ["apple", "banana"]
-user: dict[str, str] = {"name": "Rom"}
+user: dict[str, str] = {"name": "Nguyen Van A"}
 
 def greet(name: str) -> str:
     return f"Hello, {name}!"
@@ -747,12 +751,12 @@ print(original)    # [[1, 2], [3, 4]] — không ảnh hưởng
 # Primitive
 age: int = 28
 price: float = 9.99
-name: str = "Rom"
+name: str = "Nguyen Van A"
 is_active: bool = True
 
 # Collection
 fruits: list = ["apple", "banana"]            # mutable, ordered
-user: dict = {"name": "Rom", "age": 28}       # mutable, key-value
+user: dict = {"name": "Nguyen Van A", "age": 28}       # mutable, key-value
 birthday: tuple = (1996, 5, 20)               # immutable, ordered
 tags: set = {"python", "tutorial"}            # mutable, no duplicate, unordered
 
@@ -798,7 +802,7 @@ True and False, True or False, not True
 | Slice | Lát cắt | Lấy phần con: `[start:end:step]` |
 | Comprehension | Cú pháp tổng hợp | `[expr for x in iter if cond]` — đặc trưng Python |
 | Unpacking | Bóc tách | `a, b, c = tuple` — gán nhiều biến 1 lúc |
-| Type hint | Gợi ý kiểu | `name: str = "Rom"` — annotation cho IDE |
+| Type hint | Gợi ý kiểu | `name: str = "Nguyen Van A"` — annotation cho IDE |
 | Truthy / Falsy | Có-thật / Sai-mặc-định | Value coi như True/False trong `if` |
 
 ---
@@ -822,6 +826,9 @@ True and False, True or False, not True
 ---
 
 ## 📌 Changelog
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 2 lead-in (cú pháp gán, quy tắc đặt tên), Việt hoá PEP 8 section (Biến/Lớp/Hằng số/Private — giải thích VN cho mỗi naming convention).
+
 
 - **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
   - Mở bằng **tình huống "viết script tính lương"** — gặp `TypeError` vì chưa biết phân biệt chữ/số

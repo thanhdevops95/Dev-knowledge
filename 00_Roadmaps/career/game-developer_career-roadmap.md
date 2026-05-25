@@ -228,7 +228,7 @@ graph LR
 | [Unity Learn (free)](https://learn.unity.com/) | Tutorial chính thức |
 | [Brackeys YouTube](https://youtube.com/@Brackeys) | Best beginner channel (đã ngừng nhưng video còn) |
 | [Game Maker's Toolkit](https://youtube.com/@GMTK) | Game design analysis |
-| *Game Programming Patterns* — Bob Nystrom (free) | Architecture patterns |
+| *Game Programming Patterns* — Le Van B Nystrom (free) | Architecture patterns |
 | [r/Unity3D](https://reddit.com/r/Unity3D), [Unity forums](https://forum.unity.com) | Community |
 
 ---

@@ -1,7 +1,7 @@
 # 🎓 Environment Variables — `$PATH`, `.env`, secrets, scope
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
@@ -61,13 +61,15 @@ SECRET_KEY=...
 
 ### Cú pháp cơ bản
 
+5 thao tác hay dùng nhất với env var: đọc, set, xoá, list tất cả, lọc theo pattern. Cú pháp giống nhau trên bash/zsh — chỉ vài ký tự đơn giản:
+
 ```bash
 # Đọc 1 env var
 echo $HOME
-# /Users/rom
+# /Users/user
 
 echo $USER
-# rom
+# user
 
 # Tạo / set env var (chỉ trong session hiện tại)
 export MY_VAR="hello"
@@ -87,6 +89,8 @@ env | grep API
 > 💡 **Quy ước Unix**: env var **TÊN VIẾT HOA** (`HOME`, `PATH`), giữa các từ dùng `_` (`API_KEY`, `DATABASE_URL`). Phân biệt với biến shell thường (lowercase: `my_var`).
 
 ### Env var vs Shell variable — phân biệt
+
+Có 2 loại biến trong shell — hay bị nhầm. Khác biệt chính: **`export` hay không**. Có `export` = child process kế thừa được; không có = chỉ shell hiện tại thấy:
 
 ```bash
 local_var="hello"           # shell variable — chỉ shell hiện tại thấy
@@ -139,6 +143,8 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 ### Check binary đang dùng — `which`
 
+Để biết khi gõ `python` shell sẽ chạy file binary nào, dùng lệnh `which`. Hữu ích khi máy có nhiều version Python/Node và bạn không chắc cái nào đang được pick:
+
 ```bash
 which python
 # /opt/homebrew/bin/python      ← binary thật sự shell sẽ chạy
@@ -154,6 +160,8 @@ which -a python
 
 ## 3️⃣ Scope của env var — 3 mức persistence
 
+Khi set env var, biến đó tồn tại trong **phạm vi** nhất định. Hiểu 3 mức scope giúp đỡ "vì sao biến của tôi biến mất sau khi đóng terminal":
+
 | Scope | Phạm vi | Cách set | Persist sau khi đóng? |
 |---|---|---|---|
 | **Process-level** | Chỉ process đó | `VAR=value <command>` | ❌ Mất sau command |
@@ -161,6 +169,8 @@ which -a python
 | **System-wide / Persistent** | Mọi terminal future | Ghi vào `~/.zshrc`, `~/.bashrc`, `/etc/environment` | ✅ Còn mãi |
 
 ### 1. Process-level — 1 command duy nhất
+
+Đây là mức **hẹp nhất**. Bạn đặt biến **trước** 1 lệnh cụ thể — biến chỉ "sống" trong process của lệnh đó. Sau khi lệnh xong, biến biến mất:
 
 ```bash
 DEBUG=1 python app.py
@@ -210,7 +220,7 @@ Sau khi sửa → `source ~/.zshrc` hoặc đóng-mở terminal → giờ MỌI 
 
 ```mermaid
 graph TD
-    A[zsh: PATH=A,B,C<br/>HOME=/Users/rom<br/>API_KEY=abc] -->|fork + exec| B[python app.py<br/>= COPY env từ zsh<br/>PATH=A,B,C<br/>HOME=/Users/rom<br/>API_KEY=abc]
+    A[zsh: PATH=A,B,C<br/>HOME=/Users/user<br/>API_KEY=abc] -->|fork + exec| B[python app.py<br/>= COPY env từ zsh<br/>PATH=A,B,C<br/>HOME=/Users/user<br/>API_KEY=abc]
     B -->|os.environ['NEW_VAR']='hi'| C[NEW_VAR chỉ trong python<br/>zsh KHÔNG thấy]
 ```
 
@@ -440,6 +450,23 @@ export PATH="/my/custom/bin"   # ❌ Bỏ qua $PATH cũ
 - Dev không bao giờ biết secret production (chỉ dev/staging secrets)
 - Production secrets QUẢN bằng vault tool, không file `.env`
 
+### ✅ Best practice: Phân biệt `.env`, `.env.example`, `.env.local`
+
+3 file đi cùng nhau trong project chuẩn — mỗi cái có vai trò khác:
+
+- **`.env.example`** — template (an toàn commit lên Git). Chỉ chứa **tên** biến, **không** chứa giá trị thật:
+  ```
+  DATABASE_URL=postgresql://user:password@localhost/dbname
+  API_KEY=your-api-key-here
+  ```
+  Dev mới onboard copy thành `.env` rồi điền giá trị thật.
+
+- **`.env`** — file thật chứa secret. **Phải nằm trong `.gitignore`**, không commit.
+
+- **`.env.local`** — override cho máy local (vd: override DB local thay vì staging). Cũng `.gitignore`.
+
+→ Pattern này phổ biến trong React, Next.js, FastAPI, Rails — quen ngay từ đầu giúp tránh leak secret lên public repo.
+
 ---
 
 ## 🧠 Self-check
@@ -551,7 +578,7 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 
 | Variable | Ý nghĩa |
 |---|---|
-| `$HOME` | Home folder user (`/Users/rom`) |
+| `$HOME` | Home folder user (`/Users/user`) |
 | `$USER` | Tên user |
 | `$PATH` | List folder shell tìm command |
 | `$SHELL` | Path shell hiện tại |
@@ -608,5 +635,8 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 ---
 
 ## 📌 Changelog
+
+- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 5 lead-in trước code/bảng (cú pháp env, shell var vs env var, `which`, scope persistence, process-level), bổ sung ✅ Best practice thứ 2 (phân biệt `.env` / `.env.example` / `.env.local`).
+
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster basic computing-environment 5/6 bài. Cover: env var concept, $PATH với mermaid lookup flow, 3 scope (process/session/persistent), inheritance parent-child với mermaid, `.env` pattern + `.env.example`, secrets vs config thường, vault tools, env trong Docker (3 cách), 5 pitfall + 4 self-check + cheatsheet 10 env var phổ biến.

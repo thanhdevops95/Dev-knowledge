@@ -1,9 +1,9 @@
 # 🛠️ GitLab — User Guide (Cloud + Self-host)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 24/05/2026\
 > **Loại:** Tool individual — focused vào GitLab\
 > **Đọc trước:** [00_what-is-git-hosting.md](./00_what-is-git-hosting.md) — đã chọn GitLab vì lý do gì
 
@@ -11,11 +11,11 @@
 
 ---
 
-## Tình huống — Long join team mới dùng GitLab
+## Tình huống — bạn join team mới dùng GitLab
 
-Tiếp Long story. Long đổi việc sang **fintech startup**. First day, sếp: *"Repo của tụi anh ở GitLab self-host trên server công ty. Tạo account đi."*
+Tiếp bạn story. Bạn đổi việc sang **fintech startup**. First day, sếp: *"Repo của tụi anh ở GitLab self-host trên server công ty. Tạo account đi."*
 
-Long ngạc nhiên:
+Bạn ngạc nhiên:
 - Tại sao **không dùng GitHub** mà tự host GitLab?
 - **Merge Request** là gì? — sao không phải Pull Request?
 - File `.gitlab-ci.yml` cũng như GitHub Actions?
@@ -24,7 +24,7 @@ Long ngạc nhiên:
 Sếp giải thích:
 > *"Banking + finance không được lưu code ngoài cloud — compliance. GitLab Community Edition (CE) free + self-host được. Plus, GitLab CI là CI/CD mạnh nhất thị trường, all-in-one không cần thêm tool."*
 
-→ Long cài account → bài này dạy mọi cái cần biết để **switch từ GitHub sang GitLab** + tận dụng strengths.
+→ Bạn cài account → bài này dạy mọi cái cần biết để **switch từ GitHub sang GitLab** + tận dụng strengths.
 
 ---
 
@@ -619,4 +619,6 @@ GitLab group: mycompany
 
 ## 📌 Changelog
 
-- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #3 trong git-clients/. Cover: tình huống Long join fintech → §1 GitLab là gì → §2 Strengths vs GitHub (bảng 11 tiêu chí) → §3 Account + 2FA + SSH + PAT → §4 Project + UI tour 8 tab → §5 MR workflow + approval rules → §6 GitLab CI/CD (yaml mẫu + Auto DevOps) → §7 Self-host CE chi tiết → §8 Settings + security + SAST → §9 `glab` CLI. 5 pitfall + 3 self-check + cheatsheet.
+- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #3 trong git-clients/. Cover: tình huống bạn join fintech → §1 GitLab là gì → §2 Strengths vs GitHub (bảng 11 tiêu chí) → §3 Account + 2FA + SSH + PAT → §4 Project + UI tour 8 tab → §5 MR workflow + approval rules → §6 GitLab CI/CD (yaml mẫu + Auto DevOps) → §7 Self-host CE chi tiết → §8 Settings + security + SAST → §9 `glab` CLI. 5 pitfall + 3 self-check + cheatsheet.

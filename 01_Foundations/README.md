@@ -18,7 +18,7 @@
 | L2 | Trạng thái | Note |
 |---|---|---|
 | [`industry-landscape/`](./industry-landscape/) | 🚀 1 bài 🆕 | **Bản đồ ngành IT** — entry point cho beginner zero-base. Stage 0 của zero-to-coder |
-| [`version-control/`](./version-control/) | ✅ 6 bài | **Git concept** (move từ `02_Tools/git/` ngày 19/05/2026) — setup + 5 lesson Long story arc |
+| [`version-control/`](./version-control/) | ✅ 6 bài | **Git concept** (move từ `02_Tools/git/` ngày 19/05/2026) — setup + 5 lesson bạn story arc |
 | `computing-environment/` | ❌ Chưa có | Terminal/shell/OS concept (sẽ chuyển 1 bài từ `02_Tools/shell/`) |
 | `computational-thinking/` | ❌ Chưa có | Logic + problem solving + algorithm cơ bản |
 | `dsa/` | ❌ Chưa có | Data Structure + Algorithm |
@@ -54,7 +54,7 @@
 3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md) v0.5.1+ — mở bằng tình huống, headers câu hỏi tự nhiên
 4. Tham khảo bài có sẵn:
    - [industry-landscape lesson](./industry-landscape/lessons/01_basic/00_what-is-it-industry.md) — narrative style mẫu
-   - [git intro với Long story](./version-control/git/lessons/01_basic/00_what-is-git.md) — situation-led definition mẫu
+   - [git intro với bạn story](./version-control/git/lessons/01_basic/00_what-is-git.md) — situation-led definition mẫu
 5. Soát qua [`../_Blueprint/07_quality-checklist.md`](../_Blueprint/07_quality-checklist.md)
 6. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
 

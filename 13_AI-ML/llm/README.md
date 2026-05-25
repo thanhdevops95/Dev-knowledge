@@ -1,32 +1,60 @@
-# llm
+# 🤖 LLM (Large Language Models)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v1.0.0\
+> **Tạo lúc:** 20/05/2026\
+> **Cập nhật:** 24/05/2026\
+> **Status:** ✅ Basic cluster hoàn chỉnh (5/5 bài)
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_Blueprint/01_sitemap-detail.md`](../../_Blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_Blueprint/03_writing-style.md`](../../_Blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_Blueprint/templates/`](../../_Blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 *LLM = Large Language Model (ChatGPT, Claude, Gemini, Llama). Foundation cho mọi AI app 2026. 5 bài cover tokenization → prompt engineering → tool use/agent → RAG → production. Sau cluster: build LLM app production-ready.*
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+---
 
-```
-llm/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"llm là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── 99_cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
-```
+## 🚀 Quick start
 
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.
+- [00_what-is-llm-and-tokenization](lessons/01_basic/00_what-is-llm-and-tokenization.md)
+- [01_prompt-engineering-and-context](lessons/01_basic/01_prompt-engineering-and-context.md)
+- [02_function-calling-and-tools](lessons/01_basic/02_function-calling-and-tools.md)
+- [03_rag-fundamentals](lessons/01_basic/03_rag-fundamentals.md)
+- [04_llm-app-cost-eval-and-production](lessons/01_basic/04_llm-app-cost-eval-and-production.md)
+
+---
+
+## 📖 Lessons — Basic cluster (5 bài)
+
+| # | Bài | Trọng tâm | Thời lượng |
+|---|---|---|---|
+| 00 | [LLM intro + tokenization](lessons/01_basic/00_what-is-llm-and-tokenization.md) | Transformer + token + context window + Claude 4 / GPT-5 / Gemini 2 / Llama 4 | ~18p |
+| 01 | [Prompt engineering](lessons/01_basic/01_prompt-engineering-and-context.md) | Zero/few-shot + CoT + structured output + injection | ~22p |
+| 02 | [Function calling + tools](lessons/01_basic/02_function-calling-and-tools.md) | Tool schema + agent loop ReAct + MCP standard 2024 | ~22p |
+| 03 | [RAG fundamentals](lessons/01_basic/03_rag-fundamentals.md) | Embedding + vector DB + hybrid search + reranker + RAGAS | ~22p |
+| 04 | [Production LLM app](lessons/01_basic/04_llm-app-cost-eval-and-production.md) | Cost + eval + 6-layer guardrail + observability + 30-item checklist | ~22p |
+
+→ **Tổng ~106 phút đọc + 10-15h hands-on**. Production-ready LLM app skill.
+
+---
+
+## 🔗 Liên kết
+
+- ↑ [13_AI-ML README](../README.md)
+- 🐍 [Python](../../03_Languages/python/)
+- 🌐 [HTTP API](../../05_Networking/http-https/)
+- 🛡️ [OWASP LLM Top 10](../../12_Security/owasp-top-10/)
+- 🐘 [pgvector + Postgres](../../06_Databases/sql/postgresql/)
+- 💰 [Cloud cost management](../../11_Cloud/cloud-cost-management/)
+
+### Tài nguyên ngoài 2026
+- 📖 [Anthropic Docs](https://docs.anthropic.com/)
+- 📖 [OpenAI Docs](https://platform.openai.com/docs)
+- 📖 [Hugging Face](https://huggingface.co/)
+- 📖 [Andrej Karpathy YouTube](https://www.youtube.com/@AndrejKarpathy)
+- 📖 [LangChain](https://python.langchain.com/)
+- 📖 [LlamaIndex](https://docs.llamaindex.ai/)
+- 📖 [MCP Specification](https://spec.modelcontextprotocol.io/)
+
+---
+
+## 📌 Changelog
+
+- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Foundation cho mọi AI app 2026 — không cần math/classical ML trước.
+- **v0.1.0 (20/05/2026)** — Skeleton ban đầu.

@@ -1,15 +1,15 @@
-# 🎓 Long làm chủ 8 lệnh Docker — Images & Containers
+# 🎓 bạn làm chủ 8 lệnh Docker — Images & Containers
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 20/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~25 phút (kèm hands-on)\
 > **Prerequisites:** [00_what-is-docker.md](./00_what-is-docker.md), đã [cài Docker](../../setup/install-docker.md) chạy được
 
-> 🎯 *Tiếp Long story: Long đọc xong intro Docker, mở Docker Desktop, gõ lệnh đầu tiên — gõ lệnh gì? Bài này dạy **8 lệnh CRUD container** Long sẽ dùng hàng ngày: pull, run, ps, stop, rm, logs, exec, images.*
+> 🎯 *Tiếp bạn story: bạn đọc xong intro Docker, mở Docker Desktop, gõ lệnh đầu tiên — gõ lệnh gì? Bài này dạy **8 lệnh CRUD container** bạn sẽ dùng hàng ngày: pull, run, ps, stop, rm, logs, exec, images.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -21,18 +21,18 @@
 
 ---
 
-## Tình huống — Long mở Docker Desktop lần đầu
+## Tình huống — bạn mở Docker Desktop lần đầu
 
-Long vừa hiểu Docker là gì. Mở Docker Desktop — giao diện trống trơn. Terminal:
+Bạn vừa hiểu Docker là gì. Mở Docker Desktop — giao diện trống trơn. Terminal:
 
 ```bash
 docker --version
 # Docker version 25.0.3, build...
 ```
 
-OK Docker đang chạy. Nhưng **gõ lệnh đầu tiên là gì?** Long search Google "docker tutorial" — 47 tab mở ra, mỗi tutorial dạy thứ tự khác nhau. Hỗn loạn.
+OK Docker đang chạy. Nhưng **gõ lệnh đầu tiên là gì?** bạn search Google "docker tutorial" — 47 tab mở ra, mỗi tutorial dạy thứ tự khác nhau. Hỗn loạn.
 
-Long quay sang sếp:
+Bạn quay sang sếp:
 
 > *"Anh, có 100+ lệnh docker, em phải học từ đâu?"*
 
@@ -86,9 +86,11 @@ stateDiagram-v2
 
 ---
 
-## 3️⃣ Long bắt tay làm — 8 lệnh cốt lõi
+## 3️⃣ Bắt tay làm — 8 lệnh cốt lõi
 
 ### 🛠️ 3.1 `docker pull` — Tải image về
+
+`docker pull` tải image từ registry (mặc định Docker Hub) về máy local. Tương tự `git clone` — chỉ cần làm 1 lần, image cache lại sau đó:
 
 ```bash
 docker pull nginx:latest
@@ -118,6 +120,8 @@ docker pull python:3.12-slim   # Python với image slim
 
 ### 🛠️ 3.2 `docker images` — List images đã tải
 
+Liệt kê mọi image đã pull về máy. Output 5 cột — repository, tag, SHA hash, created time, size. Dùng để check trước khi `docker run`:
+
 ```bash
 docker images
 ```
@@ -142,6 +146,8 @@ hello-world  latest    jkl901mno234   6 months ago   13.3kB
 
 #### Cơ bản
 
+`docker run <image>` là **lệnh quan trọng nhất** Docker — create + start container 1 phát. Default foreground (terminal block). Ctrl+C để stop:
+
 ```bash
 docker run nginx
 ```
@@ -151,6 +157,8 @@ docker run nginx
 Nhấn `Ctrl + C` để stop.
 
 #### Detached mode (`-d`) — chạy nền
+
+Cờ `-d` (detached) chạy container **trong background** — terminal được free để gõ lệnh khác. Đây là mode chạy production server (nginx, postgres, redis):
 
 ```bash
 docker run -d nginx
@@ -179,6 +187,8 @@ docker run -d -p 8080:80 nginx
 | `-p 8080-8090:80-90` | Range |
 
 #### Đặt tên container (`--name`)
+
+Mặc định Docker assign tên random kiểu "hopeful_einstein" — khó nhớ. `--name` cho phép đặt tên dễ nhớ, dùng để stop/exec/log sau này:
 
 ```bash
 docker run -d -p 8080:80 --name my-nginx nginx
@@ -692,9 +702,13 @@ docker rmi $(docker images -q)      # xóa ALL image
 
 ## 📌 Changelog
 
-- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + Long story arc:
-  - Title đổi: "Docker Images & Containers" → "**Long làm chủ 8 lệnh Docker**"
-  - Mở bằng **tình huống Long mở Docker Desktop lần đầu**, hỏi sếp "100 lệnh, học từ đâu?", sếp dạy "mỗi ngày 8 lệnh"
-  - Headers đổi: `1️⃣ Vì sao học 8 lệnh (WHY)` / `2️⃣ Lifecycle (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy 8 lệnh CRUD là gì?", "Container đi qua trạng thái nào?", "Long bắt tay làm — 8 lệnh cốt lõi")
+- **v2.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §3.1 pull + 3.2 images + 3.3 run Cơ bản + Detached mode + Đặt tên container. Sửa "bạn bắt tay làm" → "Bắt tay làm" cho clean. Nội dung kỹ thuật giữ nguyên.
+
+- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+
+- **v2.0.0 (20/05/2026)** — **Restructure** theo writing-style v0.5.1 + bạn story arc:
+  - Title đổi: "Docker Images & Containers" → "**bạn làm chủ 8 lệnh Docker**"
+  - Mở bằng **tình huống bạn mở Docker Desktop lần đầu**, hỏi sếp "100 lệnh, học từ đâu?", sếp dạy "mỗi ngày 8 lệnh"
+  - Headers đổi: `1️⃣ Vì sao học 8 lệnh (WHY)` / `2️⃣ Lifecycle (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên ("Vậy 8 lệnh CRUD là gì?", "Container đi qua trạng thái nào?", "bạn bắt tay làm — 8 lệnh cốt lõi")
   - Content kỹ thuật KHÔNG đổi (8 lệnh + state diagram + pitfalls vẫn nguyên)
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — 8 lệnh Docker daily + lifecycle + 6 pitfall + best-practice + cleanup.
