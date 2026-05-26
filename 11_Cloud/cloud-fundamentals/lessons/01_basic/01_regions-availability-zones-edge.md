@@ -1,9 +1,9 @@
 # 🎓 Regions, Availability Zones, Edge — Geographic distribution
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~17 phút\
@@ -79,6 +79,8 @@ Azure:
 
 ### Region structure
 
+Mỗi region không phải 1 toà nhà — nó là **cụm 3-6 datacenter** (gọi là AZ) phân tán trong bán kính ~100km. Các datacenter nối với nhau bằng fiber tốc độ cao (sub-1ms latency). Edge location nhỏ hơn, đặt rải rác gần user thay vì gần region:
+
 ```
 Region (e.g., ap-southeast-1 Singapore)
 ├── AZ-a (datacenter 1)
@@ -135,6 +137,8 @@ Region: us-east-1
 - **Multi-AZ**: spread across AZs, automatic failover.
 
 ### Multi-AZ pattern
+
+Production phải deploy across multiple AZ để chịu được sự cố toàn datacenter. Pattern điển hình: Load Balancer **front cả 3 AZ**, EC2 spread đều, RDS có Primary ở AZ-a + Standby sync ở AZ-b. AZ-a sập = LB tự loại bỏ + RDS promote standby. Recovery 60-120 giây:
 
 ```
 Load Balancer (multi-AZ)
@@ -212,6 +216,8 @@ aws ec2 describe-availability-zones --region us-east-1
 - **Google Cloud CDN**: GCP-native.
 
 ### How CDN works
+
+Workflow CDN xoay quanh **cache-or-fetch** ở edge node. User request file → DNS resolve trả về IP edge node gần nhất → edge check cache: hit thì trả ngay (~10ms), miss thì fetch từ origin server (~200ms), lưu cache, trả user. Request thứ 2 trở đi cùng file = cache hit cho mọi user vùng đó:
 
 ```
 User browser → DNS resolve www.acmeshop.vn → CDN node (closest)
@@ -300,6 +306,8 @@ Real latency:
 
 ### TCP / TLS handshake amplifies
 
+Latency RTT (round-trip time) tưởng nhỏ — nhưng setup connection mới (TCP + TLS + HTTP) tốn **6 RTT** trước khi byte đầu tiên về. Với region xa (200ms RTT), first request chạm ~800ms — gần ngưỡng user cảm thấy "chậm". Đây là lý do connection pooling + HTTP/2/3 quan trọng:
+
 ```
 TCP connect:    3 packets = 1 RTT  → 200ms
 TLS handshake:  2 RTTs            → 400ms more
@@ -311,6 +319,8 @@ First request total:              ~800ms-1s
 → One slow request can ruin UX. **Latency budget** for good UX = < 500ms total.
 
 ### Latency improvement tactics
+
+8 kỹ thuật giảm latency phổ biến, sắp xếp theo mức tiết kiệm. **Pick close region** là biện pháp đầu tiên + đơn giản nhất (80% latency biến mất). **CDN** giảm 90% cho static. Còn lại là protocol/network tuning — dùng kết hợp cho cumulative effect:
 
 | Tactic | Saving |
 |---|---|
@@ -1131,4 +1141,5 @@ resource "aws_subnet" "public" {
 
 ## 📌 Changelog
 
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Region structure + Multi-AZ pattern + How CDN works + TCP/TLS handshake amplifies + Latency improvement tactics.
 - **v1.0.0 (24/05/2026)** — Bài thứ 2 cluster cloud-fundamentals. Region + AZ + Edge + CDN + latency physics + multi-region patterns (active-passive/active-active/geo-routed) + GDPR/data residency + reliability tiers + hands-on Vietnam startup region pick. Apply Schrems II context cho EU compliance.

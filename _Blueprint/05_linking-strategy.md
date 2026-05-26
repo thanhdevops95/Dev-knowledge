@@ -338,8 +338,23 @@ glossary: ../../_glossary.md
 | Thuật ngữ kỹ thuật | Glossary cấp 1 (bài) → cấp 2 (L2) → cấp 3 (L1) |
 | Roadmap → bài cụ thể | Checklist với relative path |
 
+
+## 1️⃣1️⃣ Nguyên tắc Modular & Không rò rỉ Lộ trình (Zero Roadmap Leakage)
+
+> [!IMPORTANT]
+> **Quy tắc cốt lõi:** Các mô-đun kiến thức L1/L2 (ví dụ: `02_Tools/git`, `03_Languages/python`) phải hoàn toàn độc lập với các lộ trình nghề nghiệp cụ thể (Career Roadmap như `zero-to-coder`). Chúng được thiết kế để phục vụ cho *mọi* lộ trình học tập khác nhau mà không bị ràng buộc cứng nhắc vào bất kỳ lộ trình nào.
+
+### Quy định chi tiết:
+1. **Không rò rỉ liên kết (Zero Roadmap Leakage):** Tuyệt đối không chèn liên kết cứng trỏ trực tiếp từ các bài học hoặc tài liệu của mô-đun kiến thức về các anchor cụ thể của một Career Roadmap (ví dụ: không dùng `[Zero to Coder — Stage 1](../../../../00_Roadmaps/career/zero-to-coder_career-roadmap.md#stage-1)`).
+2. **Điểm định hướng trung tâm:** Thay vì trỏ về một lộ trình cụ thể, các bài học chỉ được phép liên kết về **Sitemap/README chính của mô-đun** đó (ví dụ: `[Git Module README](../../README.md)`). Từ README chính này, người học sẽ có cái nhìn toàn cảnh về chặng đường chinh phục kỹ năng đó (Basic → Intermediate → Advanced).
+3. **Chất keo liên kết tuyến tính (Glue Layer):** Lộ trình nghề nghiệp (`00_Roadmaps/career/`) là thực thể duy nhất chịu trách nhiệm liên kết tuyến tính. Nó sẽ deep-link tới các bài học/bài tập cụ thể trong các mô-đun và chịu trách nhiệm hướng dẫn người học quay trở lại trang lộ trình sau khi hoàn thành.
+4. **Lời nhắc generic thông thái:** Ở Sitemap/README chính của mô-đun, có thể sử dụng các lời nhắc generic để hướng dẫn người học quay lại lộ trình cá nhân của họ mà không chỉ danh cụ thể lộ trình nào.
+   *   *Ví dụ:* *"Nếu bạn đang học theo một Lộ trình sự nghiệp cụ thể (Career Roadmap) tại thư mục `00_Roadmaps/`, hãy quay lại trang lộ trình của bạn sau khi hoàn tất chặng này để nhận các chỉ dẫn tiếp theo."*
+
 ---
 
 ## 📌 Changelog
 
+- **v0.2.0 (26/05/2026)** — Thêm nguyên tắc "Modular & Không rò rỉ Lộ trình (Zero Roadmap Leakage)" để chuẩn hóa độc lập hóa mô-đun kiến thức.
 - **v0.1.0 (15/05/2026)** — Bản đầu tiên. Spec 5 loại link (internal, anchor, anchor cross-file, external, wiki-link). Pattern cross-L2 reference. Navigation footer chuẩn. Glossary 3 cấp (bài → L2 → L1). Link checker. Anchor quy ước.
+

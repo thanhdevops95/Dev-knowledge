@@ -31,7 +31,7 @@
 
 → **Canonical**: [`02_folder-structure.md` §3](./02_folder-structure.md#3️⃣-cấu-trúc-l2--1-chủ-đề-con)
 
-Tóm tắt: Bên trong mỗi L2, content tổ chức theo 7 loại folder: `lessons/`, `setup/`, `exercises/`, `projects/`, `recipes/`, `99_cheatsheet.md`, `_glossary.md`. Chọn loại nào áp dụng cho chủ đề — không bắt buộc đủ 7. Có thể mở rộng (`references/`, `interview-questions/`, ...).
+Tóm tắt: Bên trong mỗi L2, content tổ chức theo 7 loại folder: `lessons/`, `setup/`, `exercises/`, `projects/`, `recipes/`, `_cheatsheet.md`, `_glossary.md`. Chọn loại nào áp dụng cho chủ đề — không bắt buộc đủ 7. Có thể mở rộng (`references/`, `interview-questions/`, ...).
 
 ### 0.3 Quy ước nội dung xuyên L2 (cross-cutting)
 
@@ -59,7 +59,7 @@ Tóm tắt: L1 có 2 nhóm — **meta slots** (prefix `_`: `_notes/`, `_concepts
 |---|---|---|---|---|
 | 00 | 🗺️ **Roadmaps** | Tập hợp các lộ trình học theo nghề | ⭐ Ưu tiên 1 | [§2.0](#20-00_roadmaps) |
 | 01 | 🧠 **Foundations** | CS basics: DSA, OS theory, architecture | 🆕 | [§2.1](#21-01_foundations) |
-| 02 | 🛠️ **Tools** | Git, Shell, Editor, productivity | 🆕 | [§2.2](#22-02_tools) |
+| 02 | 🛠️ **Tools** | IDE, Git, Shell, productivity | 🆕 | [§2.2](#22-02_tools) |
 | 03 | 💻 **Languages** | Python, Go, JS/TS, Rust, ... | 🆕 | [§2.3](#23-03_languages) |
 | 04 | 🖥️ **OS** | Linux, MacOS, Windows | ⭐ Ưu tiên 2 | [§2.4](#24-04_os) |
 | 05 | 🌐 **Networking** | TCP/IP, HTTP, DNS, ... | 🆕 | [§2.5](#25-05_networking) |
@@ -106,9 +106,11 @@ CS fundamentals — kiến thức gốc rễ cho mọi mảng.
 01_Foundations/
 ├── README.md
 ├── 00_overview.md
-├── dsa/                             ← cấu trúc dữ liệu & giải thuật
-├── computer-architecture/           ← CPU, memory, bus, ...
-├── os-theory/                       ← process, thread, scheduling, memory mgmt
+├── industry-landscape/              ← Bản đồ ngành IT & Lịch sử
+├── computer-architecture-theory/    ← Lý thuyết máy tính: CPU, RAM, compiler/interpreter
+├── computing-environment/           ← Môi trường tính toán: Terminal, Shell, Process, Env vars
+├── dsa/                             ← Cấu trúc dữ liệu & giải thuật
+├── os-theory/                       ← Lý thuyết OS nâng cao
 ├── compilers-and-interpreters/
 ├── math-for-cs/                     ← discrete math, logic, linear algebra
 ├── programming-paradigms/           ← OOP, FP, declarative, ...
@@ -127,7 +129,7 @@ Công cụ dùng hằng ngày.
 ├── 00_overview.md
 ├── git/                             ← phiên bản kiểm soát code
 ├── shell/                           ← Bash, Zsh, Fish
-├── editor/                          ← VSCode, Vim, JetBrains
+├── ide/                             ← VS Code, Cursor, JetBrains...
 ├── terminal-tools/                  ← tmux, fzf, ripgrep, bat, lazygit, ...
 ├── package-managers/                ← brew, apt, yum, npm, pip, ...
 ├── productivity/                    ← Obsidian, Notion, Raycast, ...
@@ -138,7 +140,7 @@ Công cụ dùng hằng ngày.
 
 ### 2.3 `03_Languages`
 
-Mỗi ngôn ngữ một thư mục con. Cấu trúc bên trong **giống nhau**: `01_basic/`, `02_intermediate/`, `03_advanced/`, `99_cheatsheet.md`.
+Mỗi ngôn ngữ một thư mục con. Cấu trúc bên trong **giống nhau**: `01_basic/`, `02_intermediate/`, `03_advanced/`, `_cheatsheet.md`.
 
 ```
 03_Languages/
@@ -629,7 +631,7 @@ kubernetes/
 │       ├── cluster-upgrade.md
 │       └── disaster-recovery.md
 │
-├── 99_cheatsheet.md                     ⚡ kubectl + YAML reference
+├── _cheatsheet.md                     ⚡ kubectl + YAML reference
 └── _glossary.md                         📘 Pod, Node, Deployment, CRD, ...
 ```
 
@@ -745,7 +747,7 @@ linux/
 │       ├── system-info.md
 │       └── network-debug.md
 │
-├── 99_cheatsheet.md                     ⚡ lệnh Linux cheatsheet
+├── _cheatsheet.md                     ⚡ lệnh Linux cheatsheet
 └── _glossary.md                         📘 inode, daemon, kernel, ...
 ```
 

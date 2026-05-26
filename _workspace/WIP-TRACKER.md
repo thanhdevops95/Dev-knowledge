@@ -1,7 +1,7 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.61.0\
+> **Phiên bản:** v0.62.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 25/05/2026
 
@@ -114,11 +114,11 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 - 📅 Added: 21/05/2026
 - 💡 Content có sẵn trong `__Ref__/` có thể nâng:
   - **Python** (`03_Languages/python/__Ref__/python_from_05Languages/`): có `01-python-basics`, `02-python-advanced`, `03-packaging-setup`, `04-testing-practices`, `05-performance-practices`, `06-cheatsheet`
-    - → Cherry-pick cho lessons mới: `04_io-and-files`, `05_modules-and-packages`, `06_error-handling` + tạo `99_cheatsheet.md`
+    - → Cherry-pick cho lessons mới: `04_io-and-files`, `05_modules-and-packages`, `06_error-handling` + tạo `_cheatsheet.md`
   - **Linux** (`04_OS/linux/__Ref__/linux/`): có `01-essentials-basics`, `02-administration-advanced`, `03-networking-advanced`
     - → Cherry-pick cho `lessons/02_intermediate/` (systemd, ssh, networking)
   - **Docker** (`10_DevOps/docker/__Ref__/`): có `_Draft_Syntax.md`, `from_06_DevOps_docker/_quizzes/`, `_projects/simple-webapp-dockerized`
-    - → Cherry-pick cho `exercises/` (quiz), `projects/` (webapp), `99_cheatsheet.md`
+    - → Cherry-pick cho `exercises/` (quiz), `projects/` (webapp), `_cheatsheet.md`
   - **Shell/terminal** (`02_Tools/terminal-emulators/__Ref__/`): có `02-bash-scripting-basics`, `04-vim-neovim-basics`, `03-shell-tools-cheatsheet`
     - → Cherry-pick cho `02_Tools/shell/lessons/01_basic/` lessons mới (bash scripting, vim intro)
   - **Git** (`01_Foundations/version-control/__Ref__/git_*`): đã có nội dung tham khảo — git bộ đã viết v2.0.0, có thể bổ sung lesson `05_rebase-cherrypick` nếu cần
@@ -127,6 +127,17 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 25/05/2026 (phiên đêm — 11_Cloud start)
+
+- ✅ **🎉 Phase 4 11_Cloud/cloud-fundamentals COMPLETE 5/5** (5 file 1 turn, **mốc 100 lessons ✨**):
+  - File 97: `00_what-is-cloud-computing.md` v1.0.0 → v1.1.0 — 5 lead-in (Bonus models + Stack diagram + Timeline + Market share + Decision matrix)
+  - File 98: `01_regions-availability-zones-edge.md` v1.0.0 → v1.1.0 — 5 lead-in (Region structure + Multi-AZ + How CDN + TCP/TLS handshake + Latency tactics)
+  - File 99: `02_cloud-networking.md` v1.0.0 → v1.1.0 — 5 lead-in (CIDR planning + Multi-AZ subnet + Why separate DB + How IGW + How NAT)
+  - File 100: `03_storage-and-databases.md` v1.0.0 → v1.1.0 — 5 lead-in (Decision matrix + Storage classes + Encryption + S3 features + S3 vs alternatives) ✨ **mốc 100**
+  - File 101: `04_cloud-security-and-shared-responsibility.md` v1.0.0 → v1.1.0 — 5 lead-in (Why this matters + Policy example + Encryption everywhere + Compliance frameworks + Compliance as differentiator)
+- **11_Cloud progress 5/45**: cloud-fundamentals 5/5 ✅. Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file.
+- **Phase 4 total: 101/156 (64.7%)**
 
 ### 25/05/2026 (phiên tối)
 
@@ -333,6 +344,7 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 
 ## 📌 Changelog
 
+- **v0.62.0 (25/05/2026)** — Phase 4 11_Cloud/cloud-fundamentals COMPLETE 5/5 ✅ (5 file 1 turn, files 97-101). Mốc **100 lessons** Phase 4 đạt ở file 100. Total 101/156 (64.7%). Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file 11_Cloud + 15 file 12_Security/13_AI-ML.
 - **v0.61.0 (25/05/2026)** — 🎉🎉🎉 **10_DevOps COMPLETE 49/49 ✅** (9 file 1 turn). observability 10/10 đóng (files 93-96). Toàn bộ DevOps tier-1 + tier-2 apply Blueprint v0.5.4+. Phase 4 total 93/156 (59.6%). Tiếp 11_Cloud 45 → 12_Security 10 → 13_AI-ML 5.
 - **v0.60.0 (25/05/2026)** — Phase 4 progress: 10_DevOps/kubernetes 10/10 ✅ COMPLETE (6 files in 1 turn). observability 7/10 (file 93 metrics-prometheus done). Total 90/156 (57.7%). Còn 3 file observability + 11_Cloud 45 + 12_Security 10 + 13_AI-ML 5.
 - **v0.27.0 (24/05/2026)** — 🆕 `11_Cloud/aws/` basic cluster complete 5/5 (~5890 dòng). Cluster vendor-specific đầu tiên. AWS production foundation (EC2/S3/IAM/RDS/DynamoDB/Lambda). Tổng 155 → **160**. 2/9 sub-clusters của 11_Cloud active.

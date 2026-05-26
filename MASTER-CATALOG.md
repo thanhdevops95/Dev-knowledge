@@ -80,6 +80,9 @@
 #### industry-landscape/ 🆕 ✅ **Bộ Stage 0 cho zero-to-coder**
 - ✅ 🌟 🆕 [`lessons/01_basic/00_what-is-it-industry.md`](01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md) — Bản đồ ngành IT, 8 nhánh chính, lương VN 2026, hiểu lầm phổ biến, link 17 career
 
+#### computer-architecture-theory/ 🆕 ✅ **Lý thuyết máy tính cơ bản**
+- ✅ 🌟 🆕 [`lessons/01_basic/00_how-computer-works.md`](01_Foundations/computer-architecture-theory/lessons/01_basic/00_how-computer-works.md) — Máy tính hoạt động thế nào, CPU & RAM ở mức sơ giản, biên dịch vs thông dịch, chương trình chạy ra sao.
+
 #### computing-environment/ ✅ **CLUSTER BASIC HOÀN CHỈNH 6/6**
 - ✅ 🌟 [`lessons/01_basic/00_what-is-terminal.md`](01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) — Intro terminal/shell/command (move 21/05/2026 từ `02_Tools/shell/`)
 - ✅ 🌟 [`lessons/01_basic/01_what-is-shell.md`](01_Foundations/computing-environment/lessons/01_basic/01_what-is-shell.md) — Phân biệt Terminal/Shell/Command + so sánh bash/zsh/fish + config file
@@ -88,13 +91,8 @@
 - ✅ 🌟 [`lessons/01_basic/04_env-variables.md`](01_Foundations/computing-environment/lessons/01_basic/04_env-variables.md) — Env var, $PATH, 3 scope, inheritance, `.env`/`.env.example`, secrets vs config, vault tools, Docker env
 - ✅ 🌟 🆕 [`lessons/01_basic/05_io-redirection.md`](01_Foundations/computing-environment/lessons/01_basic/05_io-redirection.md) — 3 streams (stdin/stdout/stderr), `>`/`>>`/`2>&1`/`&>`, pipe `\|`, `/dev/null`, `tee`
 
-#### version-control/git/ ✅ **Bộ Git hoàn chỉnh** (6 bài, refactor v2.0 story arc)
-- ✅ 🌟 [`setup/git.md`](01_Foundations/version-control/git/setup/git.md) — Cài Git 5 OS + config + GUI tools
-- ✅ 🌟 [`lessons/01_basic/00_what-is-git.md`](01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — Intro: bạn mất 1 ngày code cuối tuần
-- ✅ 🌟 [`lessons/01_basic/01_init-and-first-commit.md`](01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md) — bạn mở terminal lần đầu
-- ✅ 🌟 [`lessons/01_basic/02_branching-and-merging.md`](01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md) — bạn thử Google login an toàn
-- ✅ 🌟 [`lessons/01_basic/03_remote-and-github.md`](01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) — đồng nghiệp join project
-- ✅ 🌟 [`lessons/01_basic/04_undo-and-recovery.md`](01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md) — bạn lỡ tay 2h sáng
+#### ~~version-control/git/~~ → **MOVED back to `02_Tools/git/`** (26/05/2026)
+Git là VCS tool phối hợp mã nguồn → thuộc Tools. Xem mục 02_Tools bên dưới.
 
 #### Khác — chưa có
 - ❌ `computational-thinking/`, `dsa/`, `os-theory/`, `networking-theory/`, `math-for-cs/`, `programming-paradigms/`
@@ -119,8 +117,28 @@
 #### ~~editor/~~ → **MOVED to `ide/`** (20/05/2026)
 Rename theo tool category naming chuẩn.
 
-#### ~~git/~~ → **MOVED to `01_Foundations/version-control/git/`** (19/05/2026)
-Git là VCS concept (Foundations), không phải tool guide. Xem section 01_Foundations bên trên.
+#### git/ 🚧 **Bộ Git Tái Cấu Trúc Phân Tầng** (9 bài học + 7 bài tập, moved back 26/05/2026)
+- **Setup & Cấu hình:**
+  - ✅ 🌟 [`setup/git.md`](02_Tools/git/setup/git.md) — Cài Git 5 OS + config user.name/email + GUI tools
+- **Cụm 01_basic (Git Cơ Bản - Stage 1):**
+  - ✅ 🌟 [`lessons/01_basic/00_what-is-git.md`](02_Tools/git/lessons/01_basic/00_what-is-git.md) — Intro: bạn mất 1 ngày code cuối tuần
+  - ✅ 🌟 [`lessons/01_basic/01_init-and-first-commit.md`](02_Tools/git/lessons/01_basic/01_init-and-first-commit.md) — bạn mở terminal lần đầu
+  - 🚧 🌟 [`lessons/01_basic/02_remote-and-github-basic.md`](02_Tools/git/lessons/01_basic/02_remote-and-github-basic.md) — Đẩy code lên đám mây (Cơ bản)
+  - 🚧 [`exercises/01_basic/quiz_basic-concepts.md`](02_Tools/git/exercises/01_basic/quiz_basic-concepts.md) — Trắc nghiệm nền tảng Git & 3 Vùng
+  - 🚧 [`exercises/01_basic/lab_my-first-portfolio.md`](02_Tools/git/exercises/01_basic/lab_my-first-portfolio.md) — Thực hành tự xây dựng Portfolio
+- **Cụm 02_intermediate (Git Trung Cấp - Stage 3):**
+  - ✅ 🌟 [`lessons/02_intermediate/00_branching-and-merging.md`](02_Tools/git/lessons/02_intermediate/00_branching-and-merging.md) — Nhánh song song & Gộp code (Branch & Merge)
+  - 🚧 🌟 [`lessons/02_intermediate/01_resolving-conflicts.md`](02_Tools/git/lessons/02_intermediate/01_resolving-conflicts.md) — Giải quyết xung đột gộp code
+  - ✅ 🌟 [`lessons/02_intermediate/02_collaborative-workflows.md`](02_Tools/git/lessons/02_intermediate/02_collaborative-workflows.md) — Quy trình làm việc nhóm (Remote & Pull Request)
+  - 🚧 [`exercises/02_intermediate/quiz_branching-and-conflicts.md`](02_Tools/git/exercises/02_intermediate/quiz_branching-and-conflicts.md) — Trắc nghiệm phân nhánh & xung đột
+  - 🚧 [`exercises/02_intermediate/lab_conflict-hero.md`](02_Tools/git/exercises/02_intermediate/lab_conflict-hero.md) — Thực hành tự giải quyết Merge Conflict
+  - 🚧 [`exercises/02_intermediate/lab_team-pull-request.md`](02_Tools/git/exercises/02_intermediate/lab_team-pull-request.md) — Thực hành quy trình làm việc nhóm PR
+- **Cụm 03_advanced (Git Nâng Cao - Stage 3):**
+  - ✅ 🌟 [`lessons/03_advanced/00_undo-and-recovery.md`](02_Tools/git/lessons/03_advanced/00_undo-and-recovery.md) — Sửa sai & Hoàn tác (Undo & Recovery)
+  - 🚧 🌟 [`lessons/03_advanced/01_advanced-recovery-reflog.md`](02_Tools/git/lessons/03_advanced/01_advanced-recovery-reflog.md) — Khôi phục nâng cao với Git Reflog
+  - 🚧 [`lessons/03_advanced/02_rebase-and-cherry-pick.md`](02_Tools/git/lessons/03_advanced/02_rebase-and-cherry-pick.md) — Làm sạch lịch sử với Rebase & Cherry-Pick
+  - 🚧 [`exercises/03_advanced/lab_git-time-traveler.md`](02_Tools/git/exercises/03_advanced/lab_git-time-traveler.md) — Thực hành Git Stash & Amend (Du hành thời gian)
+  - 🚧 [`exercises/03_advanced/lab_emergency-reflog-rescue.md`](02_Tools/git/exercises/03_advanced/lab_emergency-reflog-rescue.md) — Thực hành cứu hộ 3 commit bằng Reflog
 
 #### git-clients/ ✅ **CLUSTER HOÀN CHỈNH 7/7** 🎉
 - ✅ 🌟 [`00_what-is-git-hosting.md`](02_Tools/git-clients/00_what-is-git-hosting.md) — So sánh 7 platform + bảng 14 tiêu chí + 7 case + AI integration 2026
@@ -380,25 +398,28 @@ Git là VCS concept (Foundations), không phải tool guide. Xem section 01_Foun
 
 ## 🌟 Danh sách MUST-KNOW (toàn kho)
 
-- 🌟 ✅ 🆕 [`01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md`](01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md) — **Bài đầu tiên zero-base đọc**. Bản đồ ngành IT, 8 nhánh, lương VN, hiểu lầm phổ biến.
-- 🌟 ✅ [`00_Roadmaps/career/zero-to-coder_career-roadmap.md`](00_Roadmaps/career/zero-to-coder_career-roadmap.md) — Entry roadmap cho mọi beginner. Đi xong industry-landscape thì đọc cái này.
-- 🌟 ✅ [`01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md`](01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) — Intro terminal/shell cho beginner zero-base.
-- 🌟 ✅ [`04_OS/linux/lessons/01_basic/01_navigation.md`](04_OS/linux/lessons/01_basic/01_navigation.md) — Lesson Linux `pwd`/`ls`/`cd`.
-- 🌟 ✅ [`04_OS/linux/lessons/01_basic/02_file-operations.md`](04_OS/linux/lessons/01_basic/02_file-operations.md) — Lesson Linux `mkdir`/`touch`/`cp`/`mv`/`rm`.
-- 🌟 ✅ [`04_OS/linux/lessons/01_basic/03_view-file-content.md`](04_OS/linux/lessons/01_basic/03_view-file-content.md) — Lesson Linux `cat`/`less`/`head`/`tail`.
-- 🌟 ✅ 🆕 [`02_Tools/ide/00_what-is-ide.md`](02_Tools/ide/00_what-is-ide.md) — Tool category: so sánh editor + chọn theo profile.
-- 🌟 ✅ 🆕 [`02_Tools/ide/vs-code.md`](02_Tools/ide/vs-code.md) — VS Code user guide đầy đủ (UI tour + workflows).
-- 🌟 ✅ [`01_Foundations/version-control/git/setup/git.md`](01_Foundations/version-control/git/setup/git.md) — Cài Git 5 OS.
-- 🌟 ✅ [`01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md`](01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — Intro Git + GitHub.
-- 🌟 ✅ [`01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md`](01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md) — Workflow đầu tiên.
-- 🌟 ✅ [`01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md`](01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md) — Branch + merge + conflict.
-- 🌟 ✅ [`01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md`](01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) — Push/pull + PR workflow.
+### Foundations
+- 🌟 ✅ 🆕 [`01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md`](01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md) — Bản đồ ngành IT.
+- 🌟 ✅ 🆕 [`01_Foundations/computer-architecture-theory/lessons/01_basic/00_how-computer-works.md`](01_Foundations/computer-architecture-theory/lessons/01_basic/00_how-computer-works.md) — Máy tính hoạt động thế nào.
+- 🌟 ✅ [`01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md`](01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) — Intro terminal.
+
+### Git
+- 🌟 ✅ [`02_Tools/git/setup/git.md`](02_Tools/git/setup/git.md) — Cài Git 5 OS.
+- 🌟 ✅ [`02_Tools/git/lessons/01_basic/00_what-is-git.md`](02_Tools/git/lessons/01_basic/00_what-is-git.md) — Intro Git + GitHub.
+- 🌟 ✅ [`02_Tools/git/lessons/01_basic/01_init-and-first-commit.md`](02_Tools/git/lessons/01_basic/01_init-and-first-commit.md) — Workflow đầu tiên.
+- 🌟 🚧 [`02_Tools/git/lessons/01_basic/02_remote-and-github-basic.md`](02_Tools/git/lessons/01_basic/02_remote-and-github-basic.md) — Đẩy code lên GitHub (Cơ bản).
+- 🌟 ✅ [`02_Tools/git/lessons/02_intermediate/00_branching-and-merging.md`](02_Tools/git/lessons/02_intermediate/00_branching-and-merging.md) — Nhánh & gộp code (Branch & Merge).
+- 🌟 🚧 [`02_Tools/git/lessons/02_intermediate/01_resolving-conflicts.md`](02_Tools/git/lessons/02_intermediate/01_resolving-conflicts.md) — Giải quyết merge conflict.
+- 🌟 ✅ [`02_Tools/git/lessons/02_intermediate/02_collaborative-workflows.md`](02_Tools/git/lessons/02_intermediate/02_collaborative-workflows.md) — Quy trình làm việc nhóm PR.
+- 🌟 ✅ [`02_Tools/git/lessons/03_advanced/00_undo-and-recovery.md`](02_Tools/git/lessons/03_advanced/00_undo-and-recovery.md) — Sửa sai & hoàn tác cơ bản.
+- 🌟 🚧 [`02_Tools/git/lessons/03_advanced/01_advanced-recovery-reflog.md`](02_Tools/git/lessons/03_advanced/01_advanced-recovery-reflog.md) — Cứu hộ thảm họa với Reflog.
+
+### Languages
 - 🌟 ✅ [`03_Languages/python/setup/install-python.md`](03_Languages/python/setup/install-python.md) — Cài Python 7 option + venv.
 - 🌟 ✅ [`03_Languages/python/lessons/01_basic/00_what-is-python.md`](03_Languages/python/lessons/01_basic/00_what-is-python.md) — Intro Python.
 - 🌟 ✅ [`03_Languages/python/lessons/01_basic/01_variables-and-types.md`](03_Languages/python/lessons/01_basic/01_variables-and-types.md) — 7 kiểu data.
 - 🌟 ✅ [`03_Languages/python/lessons/01_basic/02_control-flow.md`](03_Languages/python/lessons/01_basic/02_control-flow.md) — if/for/while.
 - 🌟 ✅ [`03_Languages/python/lessons/01_basic/03_functions.md`](03_Languages/python/lessons/01_basic/03_functions.md) — Functions.
-- 🌟 ✅ [`01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md`](01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md) — restore/reset/revert/stash/reflog.
 - 🌟 ✅ [`10_DevOps/docker/setup/install-docker.md`](10_DevOps/docker/setup/install-docker.md) — Cài Docker 5 OS.
 - 🌟 ✅ [`10_DevOps/docker/lessons/01_basic/00_what-is-docker.md`](10_DevOps/docker/lessons/01_basic/00_what-is-docker.md) — Intro: Container vs VM.
 - 🌟 ✅ [`10_DevOps/docker/lessons/01_basic/01_images-and-containers.md`](10_DevOps/docker/lessons/01_basic/01_images-and-containers.md) — 8 lệnh daily.
@@ -663,7 +684,15 @@ Tích hợp pre-commit hook hoặc CI job để giữ catalog luôn fresh.
   - 🆕 `04_https-tls.md` (~500 dòng) — bạn deploy self-signed cert browser warn: HTTPS = HTTP + TLS, TLS handshake mermaid, CA chain, Let's Encrypt + Certbot, HSTS, 5 cert errors
   - 🆕 `05_rest-api-concepts.md` (~480 dòng) — Sếp bảo "phải RESTful": REST 6 constraints + resource design (bạn viết lại 7→5 endpoint) + HATEOAS + REST vs GraphQL vs gRPC vs SOAP + versioning 3 cách
   - Cluster đầu tiên của `05_Networking/`. 6 bài đủ cho beginner đọc DevTools Network tab + design REST API + hiểu HTTPS.
-  - Tổng bài 53 → **59** (17 career + **33 lesson** + 9 tool guide).
+  - Tổng bài 59 → **60** (17 career + **34 lesson** + 9 tool guide).
+- **v1.15.0 (26/05/2026)** — **Tái cấu trúc sitemap & Nâng cấp roadmap học tập (Narrative Master)**:
+  - 🔄 Chuyển Git từ `01_Foundations/version-control/git/` quay trở lại `02_Tools/git/` (git là VCS tool, không phải lý thuyết CS cơ bản).
+  - 🧹 Dọn dẹp thư mục trống `01_Foundations/version-control/`.
+  - 🆕 Thêm bài học kiến trúc máy tính mới: `01_Foundations/computer-architecture-theory/lessons/01_basic/00_how-computer-works.md` giải thích CPU, RAM, compiler/interpreter, chương trình chạy ra sao.
+  - 🧭 Nâng cấp `zero-to-coder_career-roadmap.md` thành bản dẫn truyện có chiều sâu, kết hợp các câu bắc cầu logic giữa 5 Stage.
+  - 🔗 Cập nhật tất cả liên kết tương đối bị ảnh hưởng trong 5 file Git lessons và các tài liệu liên quan.
+  - 📋 Cập nhật `_Blueprint/01_sitemap-detail.md`, `README.md`, `MASTER-CATALOG.md` và `CONTRIBUTING.md` để đồng bộ.
+  - Tổng bài 59 → **60** (17 career + **34 lesson** + 9 tool guide).
 - **v1.14.0 (23/05/2026)** — 🎉 **`02_Tools/git-clients/` CLUSTER HOÀN CHỈNH 7/7**:
   - 🆕 `github-desktop.md` (~400 dòng) — GUI client GitHub: đồng nghiệp sợ CLI, 5-phần UI, workflow, vs VS Code Source Control
   - 🆕 `gitlab.md` (~600 dòng) — bạn join fintech: MR vs PR, GitLab CI yaml, Auto DevOps, CE self-host, `glab` CLI

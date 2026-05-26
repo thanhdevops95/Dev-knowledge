@@ -24,7 +24,7 @@ flowchart LR
 | Bước | Chi tiết |
 |---|---|
 | 1 | Fork repo về tài khoản, clone về local |
-| 2 | Đọc `_Blueprint/` để hiểu cấu trúc + chuẩn viết (đặc biệt `00_blueprint-overview.md`) |
+| 2 | Đọc `_Blueprint/` để hiểu cấu trúc + chuẩn viết (đặc biệt `README.md`) |
 | 3 | Vào `_Blueprint/templates/` copy template phù hợp loại bài |
 | 4 | Viết theo `_Blueprint/03_writing-style.md` (khung 8 phần, WHY→WHAT→HOW) |
 | 5 | Soát qua `_Blueprint/07_quality-checklist.md` — tick mọi mục |
@@ -109,7 +109,7 @@ Chi tiết: `_Blueprint/03_writing-style.md` §2.1.
 
 ## 6️⃣ Đặt tên
 
-Tuân theo `_Blueprint/04_naming-convention.md`. Tóm tắt:
+Tuân theo `_Blueprint/02_folder-structure.md`. Tóm tắt:
 
 - File: kebab-case, tiếng Anh, đánh số `NN_` nếu trong series
 - Folder L1: `NN_Name/` (sentence case)
@@ -157,4 +157,5 @@ Chi tiết workflow → [`_Blueprint/07_quality-checklist.md`](_Blueprint/07_qua
 
 ## 📌 Changelog
 
+- **v1.0.1 (26/05/2026)** — Cập nhật quy tắc đặt tên sitemap và các đường dẫn tương ứng với đợt tái cấu trúc Git về 02_Tools.
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên. Quy trình 7 bước + 11 anti-patterns + Reference workflow (cherry-pick từ `_Ref/`).

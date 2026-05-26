@@ -25,7 +25,7 @@ dns/
 ├── exercises/         ← 🧪 bài tập nhỏ
 ├── projects/          ← 🎯 project lớn nhiều bước
 ├── recipes/           ← 📚 công thức / troubleshooting
-├── 99_cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
+├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
 └── _glossary.md       ← 📘 thuật ngữ (nếu có)
 ```
 

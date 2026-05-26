@@ -1,9 +1,9 @@
 # 🎓 Cloud Networking — VPC, Subnets, Peering, VPN
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~17 phút\
@@ -70,6 +70,8 @@ AWS creates default VPC per region per account:
 
 ### CIDR planning
 
+CIDR = cách chia private IP range cho VPC. Quy ước: dùng RFC 1918 (`10.x.x.x` phổ biến nhất), VPC /16 đủ cho hàng chục nghìn IP. **Quan trọng**: nếu định peer VPC sau (multi-region, multi-account, on-prem VPN), các VPC **không được trùng CIDR** — không sửa được sau khi đã có resource:
+
 ```
 10.0.0.0/16    = 10.0.0.0 - 10.0.255.255  (65,536 IPs, /16)
 10.0.0.0/24    = 10.0.0.0 - 10.0.0.255    (256 IPs, /24)
@@ -119,6 +121,8 @@ AWS creates default VPC per region per account:
 
 ### Multi-AZ subnet pattern
 
+Pattern production tiêu chuẩn: **3 tier (public/private/db) × 3 AZ = 9 subnet**. Public chứa Load Balancer + NAT, Private chứa app server, DB subnet chứa database isolated. Trải đều 3 AZ để chịu được 1 AZ chết. Subnet `/24` (251 IP usable) đủ cho ~100 app instance:
+
 ```
 VPC 10.0.0.0/16
   ├── Public Subnet AZ-a   10.0.0.0/24   (256 IPs, for LB)
@@ -135,6 +139,8 @@ VPC 10.0.0.0/16
 → 3 tiers (public/private/db) × 3 AZs = 9 subnets.
 
 ### Why separate DB subnet?
+
+DB subnet riêng có 3 lý do thực tế. **Isolation**: app subnet không thể truy cập DB trực tiếp — phải qua security group rule cụ thể. **Compliance**: PCI/HIPAA bắt buộc DB phải nằm trong subnet không có route đến Internet. **Cost**: DB không cần NAT (không gọi API ngoài) → tiết kiệm phí NAT processing:
 
 - **Isolation**: DB only accessible from app subnet (security group).
 - **Compliance**: PCI requires DB in isolated subnet.
@@ -165,6 +171,8 @@ AWS reserves **5 IPs per subnet**:
 - Free (no cost).
 
 ### How traffic flows
+
+IGW vận hành như một **NAT 1:1**: EC2 có cả private IP (10.0.0.5) và public IP (54.123.45.67). Khi packet ra Internet, IGW thay private IP bằng public IP; khi packet về, IGW translate ngược lại. Quy trình diễn ra trong suốt — EC2 không "biết" mình có public IP:
 
 ```
 EC2 in public subnet (10.0.0.5, ENI has public IP 54.123.45.67)
@@ -204,6 +212,8 @@ But shouldn't accept inbound from internet.
 → NAT Gateway: outbound only.
 
 ### How NAT works
+
+NAT Gateway khác IGW: làm **N:1 NAT** (nhiều private IP chia sẻ 1 public IP). EC2 private gửi packet → route đến NAT (nằm ở public subnet) → NAT thay source IP + port, gửi qua IGW. Khi response về, NAT lookup connection table để trả đúng EC2. **Asymmetric**: outbound OK, inbound bị block:
 
 ```
 EC2 private (10.0.10.5)
@@ -1367,4 +1377,5 @@ resource "aws_vpc_endpoint" "s3" {
 
 ## 📌 Changelog
 
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước CIDR planning + Multi-AZ subnet pattern + Why separate DB subnet + How traffic flows (IGW) + How NAT works.
 - **v1.0.0 (24/05/2026)** — Bài 02 cluster cloud-fundamentals. VPC + subnet types + IGW + NAT Gateway + route tables + SG vs NACL + VPC Peering + Transit Gateway + VPN + Direct Connect + VPC Endpoints. Hands-on Terraform production VPC design. Apply security: DB in isolated subnet, SG-to-SG references, defense-in-depth.

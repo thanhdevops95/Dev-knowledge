@@ -50,7 +50,7 @@
 
 ### ⚡ Cheatsheet <!-- OPT -->
 
-→ [`99_cheatsheet.md`](./99_cheatsheet.md)
+→ [`_cheatsheet.md`](./_cheatsheet.md)
 
 ### 📘 Glossary <!-- OPT -->
 
@@ -64,8 +64,8 @@
 |---|---|
 | 🟢 Beginner zero-base | [`00_overview.md`](./00_overview.md) → [`lessons/01_basic/`](./lessons/01_basic/) |
 | 🟡 Người chuyển ngành | [`00_overview.md`](./00_overview.md) → [`lessons/02_intermediate/`](./lessons/02_intermediate/) |
-| 🟠 Senior ôn lại | [`99_cheatsheet.md`](./99_cheatsheet.md) + [`_glossary.md`](./_glossary.md) |
-| 🔵 Tra cứu nhanh | [`recipes/`](./recipes/) + [`99_cheatsheet.md`](./99_cheatsheet.md) |
+| 🟠 Senior ôn lại | [`_cheatsheet.md`](./_cheatsheet.md) + [`_glossary.md`](./_glossary.md) |
+| 🔵 Tra cứu nhanh | [`recipes/`](./recipes/) + [`_cheatsheet.md`](./_cheatsheet.md) |
 
 ## 🗺️ Roadmap đi qua chủ đề này
 

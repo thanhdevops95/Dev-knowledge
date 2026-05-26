@@ -60,7 +60,7 @@ graph LR
 ### 🛠️ Setup
 
 - [ ] [VS Code + Live Server extension](../../02_Tools/ide/vs-code.md) ✅
-- [ ] [Git + GitHub](../../01_Foundations/version-control/git/setup/git.md) ✅
+- [ ] [Git + GitHub](../../02_Tools/git/setup/git.md) ✅
 - [ ] Browser DevTools (Chrome/Firefox)
 
 ### 🧪 Bài tập

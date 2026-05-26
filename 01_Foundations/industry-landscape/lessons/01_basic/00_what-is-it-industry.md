@@ -81,7 +81,21 @@ IT cũng vậy. *"Tôi học IT"* nghe rất rộng — bằng *"tôi học Y"* 
 | Networking | Kết nối, truyền tải dữ liệu |
 | Security | Bảo vệ tất cả thứ trên khỏi attack |
 
-→ Bản đồ 8-12 nhánh ở §3 dưới là cách thị trường chia nhỏ 5 mảng này thành **vai trò công việc cụ thể**.
+Trong 5 mảng trên, mảng **Software (Phát triển phần mềm)** là mảng phổ biến nhất, có nhu cầu tuyển dụng khổng lồ nhất và cũng chính là mảng mà hầu hết người mới (beginner) hướng tới khi bước chân vào IT.
+
+### 🎬 Vậy Phát triển phần mềm (Software Development) thực sự là gì?
+
+Phát triển phần mềm là quá trình thiết kế, xây dựng và vận hành các ứng dụng, hệ thống và dịch vụ số — từ chiếc ứng dụng nhỏ nhắn trên điện thoại, website thương mại điện tử bạn lướt hàng ngày, đến những hệ thống ngân hàng khổng lồ xử lý hàng triệu giao dịch mỗi giây. Đây là nơi bạn dùng tư duy logic và những dòng code để giải quyết các bài toán thực tế.
+
+🪞 **Ẩn dụ**: Hãy hình dung xây dựng một phần mềm giống hệt như **xây một tòa nhà cao tầng**:
+- Cần có **Kiến trúc sư (Architect)** để vẽ bản thiết kế tổng quan và chọn vật liệu phù hợp.
+- Cần có **Thợ xây (Developer / Programmer)** để gõ từng dòng code vững chãi dựng nên các bức tường, căn phòng.
+- Cần có **Thợ điện nước (DevOps / SRE)** để đi đường ống hạ tầng, kéo cáp, đảm bảo tòa nhà có điện nước vận hành êm ái, trơn tru.
+- Cần có **Người kiểm định (QA / Tester)** để kiểm tra xem cửa có kẹt, tường có nứt, điện có rò rỉ trước khi bàn giao nhà cho cư dân.
+
+Trong thế giới phần mềm, tùy theo sở thích và thế mạnh, bạn có thể chọn làm **Frontend** (thiết kế những gì người dùng nhìn thấy và tương tác trực tiếp), **Backend** (xử lý logic, tính toán và lưu trữ dữ liệu phía sau), **DevOps** (vận hành máy chủ và tự động hóa hệ thống), hoặc **Data/AI** (thu thập dữ liệu và huấn luyện trí tuệ nhân tạo).
+
+→ Bản đồ 8-12 nhánh ở §3 dưới là cách thị trường chia nhỏ các mảng này thành **vai trò công việc cụ thể**.
 
 ---
 

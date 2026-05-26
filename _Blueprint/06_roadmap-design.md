@@ -366,8 +366,21 @@ Roadmap có version riêng. Bump khi:
 | Thêm/sửa 1 stage | Minor (1.0.x → 1.1.0) |
 | Thay đổi định hướng lớn | Major (1.x.x → 2.0.0) |
 
+
+## 8️⃣ Vai trò Glue Layer & Đảm bảo Tính cô lập Modular
+
+> [!IMPORTANT]
+> **Vai trò của Roadmap:** Roadmap không sở hữu nội dung bài giảng. Nó đóng vai trò là **lớp chất keo (Glue Layer)** kết nối các mô-đun độc lập bên dưới.
+
+### Cách thức hoạt động:
+1. **Deep-link một chiều đi xuống:** Roadmap trỏ trực tiếp đến các file bài học (`lessons/**/*.md`) hoặc bài tập (`exercises/**/*.md`) của các mô-đun kiến thức cụ thể.
+2. **Không trỏ ngược trực tiếp:** Tuyệt đối không yêu cầu các mô-đun trỏ ngược lại chính xác tên hay anchor của Roadmap.
+3. **Exit criteria rõ ràng:** Tại mỗi cuối stage trong Roadmap, cần ghi rõ "Exit Criteria" kèm chỉ dẫn kiểm thử/xác minh, và cung cấp hướng dẫn rõ ràng để người học biết khi nào nên đi tiếp hoặc quay trở lại lộ trình chung sau khi hoàn thành một mô-đun bên ngoài.
+
 ---
 
 ## 📌 Changelog
 
+- **v0.2.0 (26/05/2026)** — Thêm mục "Vai trò Glue Layer & Đảm bảo Tính cô lập Modular" để định vị rõ trách nhiệm liên kết của Roadmap.
 - **v0.1.0 (15/05/2026)** — Bản đầu tiên. Spec 2 loại roadmap (career + lab-series). Template đầy đủ cho cả 2. Pattern thiết kế stage (mục tiêu + theory + practice + verify). Quy ước index `00_Roadmaps/README.md`.
+

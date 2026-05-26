@@ -25,7 +25,7 @@ Bộ **9 template** để bắt đầu viết bài mới. Copy file phù hợp, 
 
 1. Identify loại bài cần viết → chọn template phù hợp
 2. Copy nội dung template sang file mới
-3. Đổi tên file theo `_Blueprint/04_naming-convention.md`
+3. Đổi tên file theo `_Blueprint/02_folder-structure.md`
 4. Điền nội dung — giữ structure, đổi nội dung
 5. Xóa các phần OPTIONAL không dùng
 6. Soát qua `_Blueprint/07_quality-checklist.md` trước khi commit

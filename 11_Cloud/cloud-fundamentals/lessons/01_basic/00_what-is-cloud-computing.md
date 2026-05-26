@@ -1,9 +1,9 @@
 # 🎓 Cloud computing là gì? — IaaS / PaaS / SaaS + landscape 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
@@ -142,6 +142,8 @@ git push heroku main
 
 ### Bonus models 2026
 
+3 model gốc IaaS/PaaS/SaaS được mở rộng thành nhiều subcategory 2026 — mỗi cái phục vụ use case riêng. **CaaS** cho team đã đóng gói container (giữa IaaS-PaaS), **FaaS** cho event-driven workload, **DBaaS** cho team chỉ cần DB không muốn vận hành. Hiểu rõ giúp chọn đúng layer thay vì over-provision:
+
 - **CaaS — Containers as a Service**: AWS ECS/Fargate, GCP Cloud Run, Azure Container Apps. Between IaaS + PaaS.
 - **FaaS — Functions as a Service** (serverless): AWS Lambda, GCP Cloud Functions, Azure Functions. PaaS but event-driven.
 - **DBaaS — Database as a Service**: AWS RDS, Aurora, GCP Cloud SQL. PaaS for databases.
@@ -149,6 +151,8 @@ git push heroku main
 - **BaaS — Backend as a Service**: Firebase, Supabase. Mobile + frontend get backend without code.
 
 ### Stack diagram
+
+Cloud stack có 9 lớp xếp chồng từ datacenter dưới cùng lên Data trên cùng. Tuỳ model (IaaS/PaaS/SaaS) mà ranh giới "ai quản gì" dịch lên hay xuống. Diagram dưới đây minh hoạ trực quan: layer càng cao bạn quản càng ít — đổi lại càng phụ thuộc vendor:
 
 ```
                   ┌──────────────────┐
@@ -264,6 +268,8 @@ Use **multiple public clouds** for different workloads.
 
 ### Timeline
 
+Cloud không "đột nhiên" có — nó nảy mầm từ 1999 với Salesforce SaaS, bùng nổ 2006 khi AWS public S3+EC2. Timeline dưới đây show 26 năm — chú ý 3 cột mốc: 2006 (AWS — modern cloud), 2014 (Kubernetes — orchestration), 2023 (AI cloud — current era):
+
 | Year | Event |
 |---|---|
 | 1999 | Salesforce — first major SaaS (CRM in cloud) |
@@ -287,6 +293,8 @@ Use **multiple public clouds** for different workloads.
 | **2026** | **AI-first cloud services** + sustainability focus + post-quantum encryption |
 
 ### Market share 2026 (estimates)
+
+Thị phần *Infrastructure-as-a-Service* (IaaS) năm 2026 vẫn đậm chất "Big 3": AWS, Azure, GCP chiếm ~70%. Số liệu dưới đây ước lượng từ Synergy Research + Canalys — không exact nhưng cho cái nhìn cân đối khi học. Quan trọng: chọn cloud nên dựa **use case + team skill**, không theo top:
 
 | Vendor | Market share | Strength |
 |---|---|---|
@@ -392,6 +400,8 @@ Use **multiple public clouds** for different workloads.
 **Best for**: Next.js, frontend SPAs.
 
 ### Decision matrix 2026
+
+Không có "cloud tốt nhất" — chỉ có "cloud phù hợp use case". Ma trận dưới đây tổng hợp 8 tình huống điển hình + cloud khuyến nghị tương ứng. Dùng làm gợi ý xuất phát; quyết định cuối phụ thuộc thêm team skill, budget, compliance:
 
 | Use case | Recommended |
 |---|---|
@@ -652,4 +662,5 @@ Tools: **Infracost** (CI estimate), **Vantage**, **CloudHealth**.
 
 ## 📌 Changelog
 
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Bonus models 2026 + Stack diagram + Timeline + Market share 2026 + Decision matrix 2026.
 - **v1.0.0 (24/05/2026)** — Bài đầu tiên của `11_Cloud/`. Cloud definition NIST + IaaS/PaaS/SaaS + 4 deployment models (public/private/hybrid/multi-cloud) + history 1999-2026 + vendor comparison (AWS/GCP/Azure/DO/Cloudflare/Vercel) + cost models + cloud vs on-prem + anti-patterns. Foundation cho 4 bài kế tiếp.

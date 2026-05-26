@@ -81,7 +81,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 ## 🤝 Muốn viết bài cho chủ đề này?
 
 1. **Xác nhận scope**: bài có thuộc shell-as-tool? Nếu thuộc Linux/OS → đặt vào `04_OS/linux/`
-2. Đọc [`../../_Blueprint/00_blueprint-overview.md`](../../_Blueprint/00_blueprint-overview.md)
+2. Đọc [`../../_Blueprint/README.md`](../../_Blueprint/README.md)
 3. Copy template phù hợp:
    - Setup → `setup_template.md`
    - Lesson tool feature → `lesson_template.md`

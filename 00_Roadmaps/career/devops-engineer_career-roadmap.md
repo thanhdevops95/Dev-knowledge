@@ -86,7 +86,7 @@ graph LR
 
 - [ ] Bash scripting: variables, control flow, functions, traps
 - [ ] [Python basics](../../03_Languages/python/lessons/01_basic/) ✅
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 - [ ] Cron + systemd timers
 
 ### 🧪 Bài tập

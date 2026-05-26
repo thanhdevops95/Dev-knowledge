@@ -57,7 +57,7 @@ graph LR
 - [ ] Transform (position, rotation, scale)
 - [ ] Update vs FixedUpdate vs LateUpdate
 - [ ] Prefabs
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅ + LFS cho asset
+- [ ] [Git workflow](../../02_Tools/git/) ✅ + LFS cho asset
 
 ### 🛠️ Setup
 

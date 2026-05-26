@@ -358,6 +358,8 @@ là đủ rồi sao?
   ```
   ````
 
+- **Bắt buộc giải thích các dòng trạng thái quan trọng trong Output mẫu:** Đối với các lệnh Terminal phức tạp hoặc lệnh kiểm tra trạng thái (như `git status`, `git commit`, `docker ps`, `kubectl describe`), bên dưới Output mẫu **bắt buộc phải có 2-3 câu giải thích ngắn gọn ý nghĩa của các dòng trạng thái hoặc mã màu quan trọng** (ví dụ: giải thích tại sao có chữ màu đỏ, chữ màu xanh, hoặc ý nghĩa cột STATUS/READY). Điều này giúp người học tự tin đối chiếu kết quả thực tế trên máy tính của họ mà không bị hoang mang.
+
 ### 2.4 💡 Pitfall & Best practice (OPTIONAL)
 
 Format chuẩn:
@@ -946,9 +948,71 @@ schema-less, scale ngang dễ, nhưng không có JOIN truyền thống, transact
 | Khi chọn | Cần JOIN phức tạp, ACID | Web app traditional | Document, scale ngang |
 ```
 
-→ Người đọc nhìn cột "Khi chọn" → biết ngay pick cái nào cho use case nào. Bảng làm xong việc giải thích trade-off trong 1 ngụm mắt.
+
+### 3.13 💡 Quy chuẩn sử dụng Alert Boxes (GitHub Alerts)
+
+Để làm nổi bật các ghi chú, mẹo, yêu cầu cốt lõi, cạm bẫy hoặc cảnh báo nguy hiểm — tránh cho bài viết bị "bình bình", đều đều — hãy sử dụng cú pháp **GitHub Markdown Alerts**. Điều này tạo điểm nhấn thị giác cực kỳ chuyên nghiệp và thu hút sự chú ý của người học ngay lập tức.
+
+#### 5 Cấp độ Alert tiêu chuẩn
+
+| Loại Alert | Cú pháp Markdown | Khi nào dùng |
+|---|---|---|
+| 🔵 **NOTE** (Ghi chú) | `> [!NOTE]` | Cung cấp thông tin nền tảng, ghi chú thú vị, ngữ cảnh lịch sử không ảnh hưởng trực tiếp tới lab |
+| 🟢 **TIP** (Mẹo / Lối tắt) | `> [!TIP]` | Chia sẻ phím tắt (shortcut), mẹo tối ưu hiệu suất, cách làm nhanh, best practice hữu ích |
+| 🟣 **IMPORTANT** (Yêu cầu cốt lõi) | `> [!IMPORTANT]` | Các bước bắt buộc, thông tin sống còn, trực tiếp quyết định sự thành bại của bài thực hành |
+| 🟡 **WARNING** (Rủi ro / Cạm bẫy) | `> [!WARNING]` | Cảnh báo cạm bẫy phổ biến (pitfalls), các lỗi cấu hình sai dễ mắc, hoặc rủi ro mất an toàn thông tin |
+| 🔴 **CAUTION** (Nguy hiểm cực độ) | `> [!CAUTION]` | Cảnh báo cực kỳ nguy hiểm, có thể gây sập hệ thống (prod downtime), mất dữ liệu vĩnh viễn |
+
+#### Quy tắc viết Alert Box
+
+1. **Phải có lead-in và ngữ cảnh**: Cấm quăng Alert box cô đơn mà không có câu dẫn trước đó. Phải giải thích ngữ cảnh rồi mới đưa ra Alert.
+2. **Không lạm dụng**: Tối đa **2 Alert boxes** trong cùng 1 bài học (hoặc 1 step của project). Quá nhiều alert box sẽ làm loãng và gây mỏi mắt cho người học.
+3. **Văn phong của Alert**: Phải cực kỳ súc tích, ngắn gọn (dưới 3 câu), đi thẳng vào vấn đề.
+
+#### Ví dụ thực tế (tiếng Việt sinh động)
+
+> [!NOTE]
+> K8s ban đầu được Google phát triển nội bộ dưới tên dự án là **Borg** (hệ thống quản lý cụm máy tính khổng lồ của họ) trước khi đóng góp cho cộng đồng open source vào năm 2014.
+
+> [!TIP]
+> Bạn có thể cấu hình phím tắt tự động hoàn thành lệnh trong Terminal bằng cách thêm `source <(kubectl completion bash)` vào file `.bashrc`.
+
+> [!IMPORTANT]
+> Hãy chắc chắn rằng bạn đã khởi động Minikube bằng lệnh `minikube start` trước khi thực hiện bất kỳ lệnh `kubectl` nào tiếp theo.
+
+> [!WARNING]
+> Tuyệt đối không được commit file `.env` chứa API Key hoặc mật khẩu database thật lên GitHub public. Hãy luôn thêm nó vào `.gitignore`.
+
+> [!CAUTION]
+> Chạy lệnh `rm -rf /` trên container chạy quyền root sẽ ngay lập tức xóa sạch filesystem của container đó và làm sập ứng dụng.
+
+#### ⚠️ Quy định nghiêm ngặt: Chỉ dùng đúng từ khóa và đúng ngữ cảnh
+
+GitHub Markdown **chỉ hỗ trợ duy nhất 5 từ khóa** ở trên (`NOTE`, `TIP`, `IMPORTANT`, `WARNING`, `CAUTION`). Mọi từ khóa tự bịa khác (như `[!OUTPUT]`, `[!EXERCISE]`, v.v.) sẽ **không** được render và chỉ hiển thị dưới dạng blockquote thường.
+
+Để giữ nguyên giá trị nhấn mạnh tối đa của Alert Box, chúng ta **chỉ sử dụng đúng 5 loại Alert Box này cho đúng tình huống nguyên bản của chúng** (như định nghĩa ở bảng trên). Tuyệt đối **không lạm dụng lung tung** (ví dụ: không dùng Alert Box để đóng gói đề bài thực hành dài, không dùng để hiển thị output của lệnh Terminal, hoặc giải thích code block thông thường). 
+
+Đối với các phần như đề bài, giải thích code hay hiển thị output, hãy sử dụng định dạng Markdown truyền thống chuẩn mực, gọn gàng (như code block ` ```text `, checklist `- [ ]`, hoặc blockquote thường `> ` không có tiền tố Alert).
+
+### 3.14 📊 Quy tắc tỷ lệ vàng 30-20-40-10 trong cấu trúc bài
+
+Để đảm bảo bài học có chất lượng truyền tải cao nhất, cân bằng giữa lý thuyết và thực hành, tránh tình trạng bài viết quá khô khan hoặc ngược lại là chỉ "quăng code block" bắt người học tự hiểu, mọi bài học lý thuyết (`lessons/`) nên tuân thủ nghiêm ngặt **Quy tắc tỷ lệ vàng 30-20-40-10** về phân bổ nội dung:
+
+| Phần | Tỷ lệ vàng | Mục đích | Cách thể hiện |
+|---|---|---|---|
+| **WHY** (Tại sao) | **30%** | Khơi gợi động lực học, làm rõ "không có nó thì khổ ra sao" | Mở đầu bằng tình huống relatable, câu chuyện sự cố, hoặc so sánh với cách làm cũ. |
+| **WHAT** (Nó là gì) | **20%** | Định hình mental model vững chắc cho người học | Đưa ra định nghĩa kỹ thuật chuẩn, ẩn dụ (metaphor) trực quan, và diagram/sơ đồ kiến trúc. |
+| **HOW** (Dùng thế nào) | **40%** | Hướng dẫn thực hành chi tiết, tay gõ mắt thấy | Code examples/lệnh chạy thực tế, có lead-in trước code và phân tích giải thích chi tiết sau code. |
+| **WHEN** (Khi nào chọn) | **10%** | Nâng cao tư duy phản biện và đưa ra quyết định | Đưa ra bảng so sánh trade-off (ưu/nhược), các Gotchas (cạm bẫy) và khi nào dùng/không nên dùng. |
+
+> [!NOTE]
+> Con số tỷ lệ này không cần phải chính xác tuyệt đối ở mức đếm từng dòng chữ, mà là **kim chỉ nam để phân bổ trọng tâm**. Người viết bài cần tự đánh giá sau khi hoàn thành: nếu bài học có tới 90% là code block và không giải thích WHY/WHAT, bài viết đó vi phạm nghiêm trọng triết lý giáo dục của repo và sẽ bị từ chối phê duyệt.
 
 ---
+
+
+
+
 
 ## 4️⃣ Diagram & Visualization
 
@@ -1195,6 +1259,57 @@ Chi tiết quy ước link → xem `05_linking-strategy.md`.
 
 ---
 
+## 1️⃣1️⃣ Đặc tả cấu trúc bài thực hành thực chiến (Labs) & Trắc nghiệm tự đánh giá (Quizzes)
+
+> [!IMPORTANT]
+> **Quy tắc thiết kế bài tập:** Mọi bài tập nằm trong thư mục `exercises/` của các mô-đun kiến thức L2 phải tuân thủ nghiêm ngặt hai bộ khung cấu trúc dưới đây để đảm bảo tính an toàn cho máy tính người học (Do No Harm), tính trực quan sinh động và đo lường được kết quả.
+
+### 🧪 11.1 Cấu trúc bắt buộc của Bài thực hành (Labs)
+
+Mọi bài Lab thực hành gõ lệnh trên Terminal bắt buộc phải tuân thủ bộ khung 7 phần sau đây để tránh bừa bãi hệ điều hành của người học và hướng dẫn họ tự tin sửa lỗi:
+
+1. **📋 Metadata (Bắt buộc):** Giống bài học lý thuyết nhưng có thêm trường `Độ khó: ⭐ | ⭐⭐ | ⭐⭐⭐` và `Thời gian ước tính: ~X phút làm bài`.
+2. **🎯 Mục tiêu của bài Lab (Bắt buộc):** Trình bày rõ ràng sau khi hoàn thành bài Lab, người học sẽ tự tay xây dựng được sản phẩm/tính năng gì thực tế.
+3. **🔍 Kiểm tra môi trường (Environment Check) (BẮT BUỘC):** Đặt ngay đầu bài thực hành. Là một bảng Markdown so sánh cụ thể:
+   - *Cột 1:* Công cụ cần kiểm tra
+   - *Cột 2:* Câu lệnh kiểm tra (`git --version`, `docker --version`, ...)
+   - *Cột 3:* Kết quả mong đợi hiển thị trên màn hình.
+   *Mục đích:* Tránh việc người học gõ lệnh bị lỗi do thiếu công cụ hoặc sai cấu hình ban đầu.
+4. **🛠️ Từng bước thực hành chi tiết (Bắt buộc):** 
+   - Đánh số rõ ràng từng bước (`Bước 1: ...`, `Bước 2: ...`).
+   - Cung cấp các lệnh có thể copy-paste chạy ngay.
+   - Bắt buộc hiển thị **Output mẫu** của Terminal sau khi chạy lệnh.
+   - **Bắt buộc có 2-3 câu giải thích chi tiết** ngay dưới Output mẫu để phân tích ý nghĩa các dòng trạng thái quan trọng (màu sắc, cột STATUS, READY...).
+5. **✅ Tiêu chí hoàn thành bài Lab (Exit Criteria) (BẮT BUỘC):** 
+   - Hướng dẫn người học tự kiểm tra/chạy lệnh kiểm chứng để biết chắc chắn mình đã làm đúng (ví dụ: gõ `git status` phải báo `working tree clean`).
+6. **🧹 Dọn dẹp tài nguyên (Cleanup) (BẮT BUỘC):** 
+   - Cung cấp các câu lệnh dọn dẹp sạch sẽ tài nguyên tạm, file rác đã tạo trong quá trình học trên Desktop hoặc ổ cứng (`rm -rf <folder>`, `docker rm -f`, ...). 
+   - *Phương châm:* "Do No Harm" — không để lại tàn dư rác máy tính sau khi người học tắt máy.
+7. **🔗 Liên kết & Điều hướng (Bắt buộc):** Điều hướng tới bài học tiếp theo hoặc trở lại README chính của mô-đun qua relative path.
+
+---
+
+### 🧠 11.2 Cấu trúc bắt buộc của Trắc nghiệm tự đánh giá (Quizzes)
+
+Đối với các bài Quiz tự đánh giá lý thuyết và tư duy bản chất công cụ, không yêu cầu gõ lệnh thực hành trên máy chủ, cấu trúc bắt buộc như sau:
+
+1. **📋 Metadata (Bắt buộc):** Tác giả, Phiên bản, Độ khó, Mục tiêu ôn tập.
+2. **🎯 Hướng dẫn làm bài (Bắt buộc):** Lời nhắc khích lệ người học tự suy nghĩ trước khi xem đáp án.
+3. **🧠 Các câu hỏi tình huống tự đánh giá (Bắt buộc):**
+   - Đặt câu hỏi dưới dạng các tình huống thực tế hoặc so sánh bản chất (ví dụ: *"Tại sao dùng Staging Area thay vì commit trực tiếp?"*).
+   - Đáp án và giải thích chuyên sâu của `Mr.Rom` **bắt buộc phải ẩn hoàn toàn** bên trong thẻ `<details>` và `<summary>`:
+     ```markdown
+     <details>
+     <summary>💡 Xem giải thích của Mr.Rom</summary>
+
+     [Nội dung giải thích sâu sắc, sử dụng ẩn dụ sư phạm dễ hiểu]
+
+     </details>
+     ```
+4. **🔗 Liên kết học tập tiếp theo (Bắt buộc):** Trỏ về bài học lý thuyết hoặc bài thực hành Lab kế tiếp.
+
+---
+
 ## 🔚 Tổng kết
 
 | Nguyên tắc cốt lõi | Phương châm |
@@ -1211,6 +1326,7 @@ Chi tiết quy ước link → xem `05_linking-strategy.md`.
 
 ## 📌 Changelog
 
+- **v0.6.0 (26/05/2026)** — **Thêm §11**: Đặc tả cấu trúc bắt buộc cho bài thực hành (Labs) với Environment Check/Cleanup và Trắc nghiệm tự đánh giá (Quizzes) với details tag giải thích sâu từ di sản `__Ref__`.
 - **v0.5.8 (25/05/2026)** — **Soften §3.5**: đổi từ "CẤM" → "**hạn chế, không ép**". User feedback: *"các ví dụ bạn muốn đưa data sao cũng được, miễn sao hạn chế tên riêng là được. Hạn chế, chứ không ép không dùng nhé."* Quy tắc cập nhật:
   - Title: "Nhân vật và tên riêng — **Hạn chế, không ép**" (thay vì "KHÔNG tự bịa").
   - Bảng so sánh: `✅ Default` / `⚠️ Hạn chế` (thay vì `✅ Dùng` / `❌ Tránh`) — phản ánh "hạn chế" không "cấm".

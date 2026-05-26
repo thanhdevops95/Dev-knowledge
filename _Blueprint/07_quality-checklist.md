@@ -63,7 +63,7 @@
 - [ ] **Mermaid render thử** đã work (mở file trong GitHub preview hoặc VSCode)
 - [ ] **Alt text bắt buộc** cho image: `![Mô tả](path)` — không để rỗng `[]`
 - [ ] **Image path tương đối** từ file hiện tại
-- [ ] **Image trong `_assets/`** ở cấp phù hợp (xem `04_naming-convention.md` §5)
+- [ ] **Image trong `_assets/`** ở cấp phù hợp (xem `02_folder-structure.md` §5)
 - [ ] **ASCII tree** dùng box-drawing chars: `├──`, `└──`, `│`
 - [ ] **Diagram có heading** trên — không "diagram dưới đây", phải nói rõ "Diagram X cho thấy..."
 
@@ -95,14 +95,14 @@
 ## 7️⃣ Cấu trúc folder & file (REQUIRED)
 
 - [ ] **File ở đúng vị trí** theo `02_folder-structure.md`
-- [ ] **Tên file đúng convention** theo `04_naming-convention.md`:
+- [ ] **Tên file đúng convention** theo `02_folder-structure.md`:
   - [ ] Lowercase (trừ folder L1)
   - [ ] Hyphen `-` trong name, underscore `_` giữa segment
   - [ ] Không space, không dấu tiếng Việt
 - [ ] **Đánh số `NN_`** đúng (nếu file thuộc series có thứ tự)
 - [ ] **README.md tồn tại** ở folder nếu folder có >3 file
 - [ ] **Prefix `_`** đúng nghĩa cho meta content
-- [ ] **`00_overview.md`** và `99_cheatsheet.md` (nếu có) đúng tên
+- [ ] **`00_overview.md`** và `_cheatsheet.md` (nếu có) đúng tên
 
 ---
 

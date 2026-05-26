@@ -1,9 +1,9 @@
 # 🎓 Cloud Storage + Databases landscape
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~17 phút\
@@ -106,6 +106,8 @@ Sếp: *"EBS is block storage, bound to 1 instance. Photo storage = object stora
 
 ### Decision matrix
 
+3 loại storage (Block/Object/File) phục vụ 3 use case khác nhau. Quy tắc đơn giản: cần bind cứng 1 máy chủ (DB, boot disk) → **Block**; cần share filesystem cho nhiều máy → **File**; còn lại (90% case) → **Object**. Diagram dưới giúp đưa quyết định nhanh:
+
 ```mermaid
 graph TD
     Need[Need to store data]
@@ -146,6 +148,8 @@ https://acme-images.s3.us-east-1.amazonaws.com/2026/photo.jpg
 
 ### Storage classes (cost tiers)
 
+S3 không phải "1 giá". AWS chia thành 7 tier theo tần suất truy cập — từ Standard ($0.023/GB, truy cập liên tục) đến Deep Archive ($0.00099/GB, lấy ra mất 12 giờ). Data 1 năm tuổi thường chuyển xuống Glacier hoặc Deep Archive → tiết kiệm 95%+ chi phí:
+
 | Class | Use case | Cost/GB/month (US East) | Retrieval |
 |---|---|---|---|
 | **S3 Standard** | Hot data, frequent access | $0.023 | Free |
@@ -183,6 +187,8 @@ https://acme-images.s3.us-east-1.amazonaws.com/2026/photo.jpg
 
 ### Encryption
 
+S3 hỗ trợ 4 cơ chế mã hoá at-rest, khác nhau ở chỗ **ai giữ key**. SSE-S3 đơn giản nhất (AWS quản key, default 2026). SSE-KMS bổ sung audit log + per-key access policy — production thường chọn cái này cho data nhạy cảm. Client-side mã hoá trước khi upload là mức cao nhất (AWS không thấy plaintext):
+
 - **SSE-S3**: AWS manages keys (default 2026, free).
 - **SSE-KMS**: KMS customer managed key (BYOK, audit log).
 - **SSE-C**: Customer provides key (you manage).
@@ -191,6 +197,8 @@ https://acme-images.s3.us-east-1.amazonaws.com/2026/photo.jpg
 → Default SSE-KMS for sensitive data.
 
 ### S3 features beyond storage
+
+S3 không chỉ là "ổ chứa file". Bộ feature đi kèm biến nó thành nền tảng phục vụ nhiều pattern: **Versioning** (rollback), **Object lock** (WORM cho compliance), **CRR** (DR cross-region), **Event notification** (trigger Lambda), **Presigned URL** (chia sẻ tạm thời), **Static hosting** (serve web tĩnh), **S3 Select** (SQL trên Parquet):
 
 - **Versioning**: keep multiple versions of object.
 - **Object lock**: write-once-read-many (compliance).
@@ -201,6 +209,8 @@ https://acme-images.s3.us-east-1.amazonaws.com/2026/photo.jpg
 - **S3 Select**: SQL query on objects (CSV, JSON, Parquet).
 
 ### S3 vs alternatives
+
+S3 không độc quyền object storage — nhiều vendor cung cấp **S3-compatible API**, đổi backend dễ dàng. Khác biệt nằm ở giá egress và region coverage. **Cloudflare R2** nổi bật vì **zero egress fee** (giá lưu trữ tương đương S3 nhưng không tính phí kéo data ra — phù hợp workload serve nhiều bandwidth):
 
 | Service | Equivalent | Notes |
 |---|---|---|
@@ -1202,4 +1212,5 @@ response = table.get_item(Key={'user_id': '123'})
 
 ## 📌 Changelog
 
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Decision matrix + Storage classes cost tiers + Encryption + S3 features beyond storage + S3 vs alternatives.
 - **v1.0.0 (24/05/2026)** — Bài 03 cluster cloud-fundamentals. 3 storage categories (block/object/file) + S3 deep (classes, lifecycle, durability) + EBS deep + Managed DB (RDS/Aurora/DynamoDB) + Cache Redis + Search OpenSearch + Time-series + Message queue SQS/Kafka. Hands-on FastAPI e-commerce storage+DB design.

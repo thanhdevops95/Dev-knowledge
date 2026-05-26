@@ -94,7 +94,7 @@ A: <Trả lời>
 ### Trong kho
 - [README chủ đề](./README.md)
 - [Glossary](./_glossary.md)
-- [Cheatsheet](./99_cheatsheet.md)
+- [Cheatsheet](./_cheatsheet.md)
 
 ### Tài nguyên ngoài
 - [<Official docs>](<URL>) — <ngắn gọn>

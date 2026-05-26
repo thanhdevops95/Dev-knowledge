@@ -1,9 +1,9 @@
 # 🎓 Cloud Security & Shared Responsibility Model
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~17 phút\
@@ -94,6 +94,8 @@ Damages:
 
 ### Why this matters
 
+Shared Responsibility Model không phải khái niệm trừu tượng — nó **quyết định ai chịu hậu quả** khi có breach. AWS bảo mật datacenter, mã hoá disk vật lý, nhưng nếu bạn để S3 bucket public hoặc IAM key trên GitHub, đó là lỗi của bạn — vendor không bồi thường, audit ghi bạn vi phạm:
+
 - **Don't assume vendor secures everything**.
 - **Don't blame vendor for your misconfig**.
 - Audit + compliance: you must demonstrate IN-cloud security.
@@ -114,6 +116,8 @@ Damages:
 **Policy**: JSON document defining permissions.
 
 ### Policy example
+
+IAM policy là **JSON statement** — mỗi statement có Effect (Allow/Deny), Action (`s3:GetObject`), Resource (ARN cụ thể), và optional Condition (chỉ áp dụng khi điều kiện đúng). Ví dụ dưới đây: cho phép read+write 1 bucket cụ thể, đồng thời **deny mọi S3 request không qua HTTPS** (defence-in-depth):
 
 ```json
 {
@@ -348,6 +352,8 @@ aws kms decrypt --ciphertext-blob ...
 
 ### Encryption everywhere
 
+Production deploy 2026 phải mã hoá **end-to-end** — không có chỗ nào data đi qua dạng plaintext. Diagram dưới đây minh hoạ: TLS từ browser đến CloudFront, tiếp TLS đến ALB, tiếp TLS đến EC2, tiếp TLS đến RDS, và EBS disk được KMS mã hoá at-rest. Mỗi hop một lớp:
+
 ```
 User browser ──TLS──→ CloudFront ──TLS──→ ALB ──TLS──→ EC2
                                                        ↓
@@ -497,6 +503,8 @@ GitHub auto-scans public repos for known secret patterns. If detected:
 
 ### Common frameworks
 
+Compliance không phải "1 chuẩn cho mọi loại". Mỗi framework phục vụ 1 domain riêng — SaaS B2B cần SOC 2, healthcare cần HIPAA, payment cần PCI DSS, EU user cần GDPR. Đa số startup khi scale gặp đồng thời 3-4 framework. Bảng dưới giúp scope đúng audit cần làm:
+
 | Framework | Domain | Required for |
 |---|---|---|
 | **SOC 2** | Trust services criteria | SaaS B2B (sales requirement) |
@@ -510,6 +518,8 @@ GitHub auto-scans public repos for known secret patterns. If detected:
 | **PIPEDA** | Canada privacy | Canada users |
 
 ### Compliance as differentiator
+
+Compliance không chỉ là "tránh phạt" — nó là **chiến lược kinh doanh**. Enterprise B2B sẽ yêu cầu SOC 2 trước khi ký hợp đồng; healthcare cần HIPAA BAA mới dùng được data PHI; thẻ tín dụng phải qua PCI DSS. Đầu tư audit = unlock market — không có compliance = mất deal:
 
 - **B2B SaaS** sales: SOC 2 mandatory ($5K+/year audit).
 - **Healthcare**: HIPAA BAA (Business Associate Agreement).
@@ -1422,4 +1432,5 @@ aws secretsmanager get-secret-value --secret-id prod/db
 
 ## 📌 Changelog
 
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Why this matters + Policy example + Encryption everywhere + Common frameworks + Compliance as differentiator.
 - **v1.0.0 (24/05/2026)** — Bài 04 — cuối cluster cloud-fundamentals basic. Shared Responsibility Model + IAM deep (users/roles/policies/MFA/SSO/IRSA) + encryption (KMS, BYOK, at-rest, in-transit) + network security (WAF, DDoS, defense in depth) + secrets management + compliance frameworks (SOC2/ISO27001/HIPAA/PCI/GDPR) + top 6 cloud breaches + tools 2026 + hands-on secure baseline. 7 pitfall + 4 best practice + 5 self-check + cheatsheet.

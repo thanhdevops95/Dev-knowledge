@@ -103,7 +103,7 @@ Sau 4 bài, bạn có thể:
 
 ## 🤝 Muốn viết thêm bài Docker?
 
-1. Đọc [`../../_Blueprint/00_blueprint-overview.md`](../../_Blueprint/00_blueprint-overview.md)
+1. Đọc [`../../_Blueprint/README.md`](../../_Blueprint/README.md)
 2. Chọn template:
    - Setup → `setup_template.md`
    - Lesson → `lesson_template.md`

@@ -5,7 +5,7 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 16/05/2026
 
-> 🎯 *Bộ sưu tập **lộ trình học** — dẫn người đọc đi xuyên qua các chủ đề theo thứ tự.* Mục đích: giúp bạn có một lộ trình tổng thể để đi xuyên suốt từ bước zero-to-coder cho đến khi trở thành một chuyên gia trong lĩnh vực bạn chọn.
+> 🎯 *Bộ sưu tập **lộ trình học** — hướng dẫn đi xuyên qua các chủ đề theo thứ tự.* Mục đích: giúp bạn có một lộ trình tổng thể để đi xuyên suốt từ bước zero-to-coder cho đến khi trở thành một chuyên gia trong lĩnh vực bạn chọn.
 
 ---
 

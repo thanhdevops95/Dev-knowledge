@@ -50,7 +50,7 @@ graph LR
 ### 📚 Đọc
 
 - [ ] [Python advanced](../../03_Languages/python/) ✅ basics + OOP, async
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 - [ ] Classical ML (regression, classification, clustering) — `13_AI-ML/ml-fundamentals/` (chưa có)
 - [ ] Deep Learning basics (NN, CNN, RNN) — `13_AI-ML/deep-learning/` (chưa có)
 - [ ] PyTorch fundamentals

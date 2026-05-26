@@ -1,9 +1,9 @@
 # 🗺️ Concept Map — Single Source of Truth (SSOT)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.6.0\
+> **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 26/05/2026
 
 > 🎯 *File này declare **canonical owner** cho mọi concept trong Blueprint. Khi cần biết "concept X định nghĩa ở đâu" → tra map này. Khi muốn sửa concept → chỉ sửa canonical + bump version của file đó.*
 
@@ -21,13 +21,13 @@
 | 4 | **Menu 7 loại nội dung** (lessons/setup/exercises/projects/recipes/cheatsheet/glossary) | `02_folder-structure.md` §3 | `01_sitemap-detail.md` §0.2 chỉ link |
 | 5 | **L1 meta slots** (`_notes/`, `_concepts/`, `_capstone-projects/`) | `02_folder-structure.md` §2 | `01_sitemap-detail.md` §0.4 chỉ link |
 | 6 | **Cấu trúc folder mọi cấp (root → L4)** | `02_folder-structure.md` | Mọi file link |
-| 7 | **Naming prefix mọi cấp** (`_`, `NN_`, `99_`, `00_`) | `04_naming-convention.md` | `02_folder-structure.md` §5 chỉ link |
+| 7 | **Naming prefix mọi cấp** (`_`, `NN_`, `99_`, `00_`) | `02_folder-structure.md` | `02_folder-structure.md` §5 chỉ link |
 | 8 | **Khung 8 phần bài học** (REQUIRED/OPTIONAL) | `03_writing-style.md` §1 | `templates/lesson_template.md` là *instance*, không spec |
 | 9 | **Metadata header format** (Tác giả, version, level, ...) | `03_writing-style.md` §2.1 | Mọi file link |
 | 10 | **WHY → WHAT → HOW framework** | `03_writing-style.md` §2.3 | Templates apply |
 | 11 | **Văn phong, câu dẫn liền mạch** | `03_writing-style.md` §3 | Mọi file link |
 | 12 | **Diagram & visualization** (mermaid, ASCII) | `03_writing-style.md` §4 | Mọi file link |
-| 13 | **Bộ emoji nhất quán** (section + inline) | `03_writing-style.md` §5 | `00_blueprint-overview.md` §6 chỉ link |
+| 13 | **Bộ emoji nhất quán** (section + inline) | `03_writing-style.md` §5 | `README.md` §6 chỉ link |
 | 14 | **Code blocks, tables, lists, links cú pháp** | `03_writing-style.md` §6-§10 | Mọi file link |
 | 15 | **Link strategy: internal, anchor, external, wiki** | `05_linking-strategy.md` §2 | Mọi file link |
 | 16 | **Cross-L2 reference 3 case (A/B/C)** | `05_linking-strategy.md` §3 | `01_sitemap-detail.md` §0.3 chỉ link |
@@ -71,22 +71,23 @@ flowchart TD
 
 ## 4️⃣ Khi nào cần tạo file mới trong Blueprint
 
-Chỉ tạo file mới khi có **nhóm concept lớn** không thuộc 8 file hiện có:
-- `00_blueprint-overview.md` — meta về Blueprint
+Chỉ tạo file mới khi có **nhóm concept lớn** không thuộc 7 file hiện có:
+- `README.md` — meta về Blueprint
 - `01_sitemap-detail.md` — bản đồ kho
-- `02_folder-structure.md` — cấu trúc folder/file
+- `02_folder-structure.md` — cấu trúc folder/file & quy ước đặt tên (đã gộp)
 - `03_writing-style.md` — viết content
-- `04_naming-convention.md` — đặt tên
 - `05_linking-strategy.md` — link/glossary
 - `06_roadmap-design.md` — roadmap
 - `07_quality-checklist.md` — soát chất lượng
 
-Nếu concept mới rơi vào 1 trong 8 mảng trên → thêm section vào file đó, không tạo file mới.
+Nếu concept mới rơi vào 1 trong 7 mảng trên → thêm section vào file đó, không tạo file mới.
 
 ---
 
 ## 📌 Changelog
 
+- **v1.0.0 (26/05/2026)** — **Tái cấu trúc lớn (Đồng bộ hóa gộp file)**:
+  - Cập nhật danh sách file Blueprint còn 7 file chính sau khi gộp Quy ước đặt tên (`04_naming-convention.md`) vào `02_folder-structure.md`.
 - **v0.6.0 (16/05/2026)** — Thêm #30: Scope của 02_Tools (canonical `02_folder-structure.md` §3.2ter).
 - **v0.5.0 (16/05/2026)** — Thêm #29: Phân biệt Intro vs Lesson chi tiết (canonical `02_folder-structure.md` §3.0).
 - **v0.4.0 (16/05/2026)** — Thêm 2 concept:

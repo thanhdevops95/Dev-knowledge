@@ -49,7 +49,7 @@
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
-1. Đọc [`../_Blueprint/00_blueprint-overview.md`](../_Blueprint/00_blueprint-overview.md)
+1. Đọc [`../_Blueprint/README.md`](../_Blueprint/README.md)
 2. Copy template từ [`../_Blueprint/templates/`](../_Blueprint/templates/) (`lesson_template.md` cho Foundation lesson)
 3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md) v0.5.1+ — mở bằng tình huống, headers câu hỏi tự nhiên
 4. Tham khảo bài có sẵn:

@@ -7,7 +7,7 @@
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~15 phút\
-> **Prerequisites:** Đã [cài Docker](../../setup/install-docker.md) ✅, biết Terminal cơ bản, đã đọc [git bộ](../../../../01_Foundations/version-control/git/) ✅
+> **Prerequisites:** Đã [cài Docker](../../setup/install-docker.md) ✅, biết Terminal cơ bản, đã đọc [git bộ](../../../../02_Tools/git/) ✅
 
 > 🎯 *Tiếp story sau git: bạn ship được project lên GitHub, nhưng đồng nghiệp pull về máy không chạy. Bài này dẫn bạn hiểu vì sao có Docker, Container khác VM thế nào, mô hình 3 khái niệm Image/Container/Registry — KHÔNG dạy `docker run` chi tiết (sẽ học ở bài 01).*
 

@@ -50,7 +50,7 @@ graph LR
 ### 📚 Đọc
 
 - [ ] [Python ✅ 5 bài](../../03_Languages/python/) hoặc JavaScript/TypeScript — `03_Languages/javascript-typescript/` (chưa có)
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 - [ ] Test pyramid (unit/integration/E2E)
 - [ ] TDD vs BDD
 - [ ] AAA pattern (Arrange-Act-Assert)

@@ -7,7 +7,7 @@
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Thời lượng đọc:** ~16 phút\
-> **Prerequisites:** [Git basics](../../../../01_Foundations/version-control/git/), [Docker](../../../docker/)
+> **Prerequisites:** [Git basics](../../../../02_Tools/git/), [Docker](../../../docker/)
 
 > 🎯 *Bài INTRO. Hiểu **CI/CD** (Continuous Integration + Continuous Delivery/Deployment), **why** + **lịch sử**, **landscape 2026** (GitHub Actions / GitLab CI / CircleCI / Jenkins / Drone), **anatomy pipeline**, **trunk-based vs Gitflow**, **DORA metrics**.*
 
@@ -586,7 +586,7 @@ Failure:     0-15%
 - ↑ Cluster: [ci-cd README](../../README.md)
 
 ### Cross-reference
-- [Git basics](../../../../01_Foundations/version-control/git/) — branching foundation
+- [Git basics](../../../../02_Tools/git/) — branching foundation
 - [Docker](../../../docker/) — CI build images
 - [Kubernetes](../../../kubernetes/) — CI deploy K8s
 

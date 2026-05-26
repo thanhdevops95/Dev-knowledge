@@ -56,7 +56,7 @@ graph LR
 - [ ] Networking deep (TCP/IP, DNS, HTTP, TLS) — `05_Networking/` (chưa có)
 - [ ] [Python ✅](../../03_Languages/python/) — viết tool exploit
 - [ ] [Bash scripting](../../02_Tools/shell/) — automation
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 
 ### 🎯 Project Stage 1
 

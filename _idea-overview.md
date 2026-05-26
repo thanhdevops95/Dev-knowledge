@@ -122,7 +122,7 @@ graph TD
 │   └── ...
 ├── 02_intermediate/         ← đã biết cơ bản
 ├── 03_advanced/             ← nâng cao, chuyên sâu
-├── 99_cheatsheet.md         ← bảng tra cứu nhanh
+├── _cheatsheet.md         ← bảng tra cứu nhanh
 └── _glossary.md             ← thuật ngữ EN ↔ VN
 ```
 
@@ -155,7 +155,7 @@ graph TD
 
 ## Bước 1 — Nền tảng (1-2 tháng)
 - [ ] [Linux cơ bản](../04_OS/Linux/01_basic/)
-- [ ] [Git](../01_Foundations/version-control/git/)
+- [ ] [Git](../02_Tools/git/)
 - [ ] [Python cơ bản](../03_Languages/python/01_basic/)
 
 ## Bước 2 — Database (1 tháng)

@@ -31,13 +31,13 @@ DevOps stack: Docker, Kubernetes, CI/CD, IaC (Terraform, Ansible), Observability
 |---|---|
 | 🟢 Beginner | `lessons/01_basic/` |
 | 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `99_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `99_cheatsheet.md` |
+| 🟠 Senior ôn lại | `_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
+| 🔵 Tra cứu nhanh | `recipes/` + `_cheatsheet.md` |
 | 🧭 Theo roadmap | Xem [`../00_Roadmaps/career/`](../00_Roadmaps/career/) chọn career path đi qua chủ đề này |
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
-1. Đọc [`../_Blueprint/00_blueprint-overview.md`](../_Blueprint/00_blueprint-overview.md)
+1. Đọc [`../_Blueprint/README.md`](../_Blueprint/README.md)
 2. Copy template từ [`../_Blueprint/templates/`](../_Blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
 3. Viết theo [`../_Blueprint/03_writing-style.md`](../_Blueprint/03_writing-style.md)
 4. Soát qua [`../_Blueprint/07_quality-checklist.md`](../_Blueprint/07_quality-checklist.md)

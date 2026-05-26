@@ -55,7 +55,7 @@ graph LR
 - [ ] OOP + type hints
 - [ ] FastAPI cơ bản — `07_Web/backend/python-fastapi/` (chưa có)
 - [ ] pydantic (validation)
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 
 ### 🛠️ Setup
 

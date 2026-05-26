@@ -52,7 +52,7 @@ graph LR
 - [ ] [Linux ✅](../../04_OS/linux/) deep (systemd, networking, performance)
 - [ ] [Docker ✅ 5 bài](../../10_DevOps/docker/)
 - [ ] Kubernetes — `10_DevOps/kubernetes/` (chưa có)
-- [ ] [Git workflow](../../01_Foundations/version-control/git/) ✅
+- [ ] [Git workflow](../../02_Tools/git/) ✅
 - [ ] Cloud (AWS) — `11_Cloud/` (chưa có)
 - [ ] Networking deep (TCP debugging, tcpdump, mtr)
 
