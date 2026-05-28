@@ -11,7 +11,7 @@ Per Blueprint v0.5.5 §3.5.
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Specific patterns for remaining residue
 PATTERNS = [
@@ -72,7 +72,7 @@ def main():
     for p in ROOT.rglob("*.md"):
         if "__Ref__" in p.parts:
             continue
-        if "_Blueprint" in str(p):
+        if "_blueprint" in str(p):
             continue
         if "_workspace" in str(p):
             continue

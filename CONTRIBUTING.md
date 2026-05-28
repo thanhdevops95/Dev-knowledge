@@ -13,7 +13,7 @@
 
 ```mermaid
 flowchart LR
-    A[1. Fork / clone] --> B[2. Đọc _Blueprint/]
+    A[1. Fork / clone] --> B[2. Đọc _blueprint/]
     B --> C[3. Copy template]
     C --> D[4. Viết theo writing-style]
     D --> E[5. Soát quality checklist]
@@ -24,10 +24,10 @@ flowchart LR
 | Bước | Chi tiết |
 |---|---|
 | 1 | Fork repo về tài khoản, clone về local |
-| 2 | Đọc `_Blueprint/` để hiểu cấu trúc + chuẩn viết (đặc biệt `README.md`) |
-| 3 | Vào `_Blueprint/templates/` copy template phù hợp loại bài |
-| 4 | Viết theo `_Blueprint/03_writing-style.md` (khung 8 phần, WHY→WHAT→HOW) |
-| 5 | Soát qua `_Blueprint/07_quality-checklist.md` — tick mọi mục |
+| 2 | Đọc `_blueprint/` để hiểu cấu trúc + chuẩn viết (đặc biệt `README.md`) |
+| 3 | Vào `_blueprint/templates/` copy template phù hợp loại bài |
+| 4 | Viết theo `_blueprint/03_writing-style.md` (khung 8 phần, WHY→WHAT→HOW) |
+| 5 | Soát qua `_blueprint/07_quality-checklist.md` — tick mọi mục |
 | 6 | Cập nhật `MASTER-CATALOG.md` với entry bài mới (status: ✅/🚧) |
 | 7 | Mở PR theo template (ngay trong repo) |
 
@@ -52,7 +52,7 @@ PR body nên có:
 - <list file mới/sửa>
 
 ## Quality checklist
-- [ ] Đã soát theo `_Blueprint/07_quality-checklist.md`
+- [ ] Đã soát theo `_blueprint/07_quality-checklist.md`
 - [ ] Code mẫu đã test chạy
 - [ ] Link nội bộ + external đã test
 - [ ] Cập nhật MASTER-CATALOG.md
@@ -90,7 +90,7 @@ Mỗi bài lesson có Level trong metadata:
 | `Advanced` | Chuyên sâu, cần nền vững |
 | Tag `[MUST-KNOW]` | Bài bắt buộc trong roadmap tương ứng (vd: Pod cho DevOps roadmap) |
 
-Chi tiết: `_Blueprint/03_writing-style.md` §2.1.
+Chi tiết: `_blueprint/03_writing-style.md` §2.1.
 
 ---
 
@@ -98,18 +98,18 @@ Chi tiết: `_Blueprint/03_writing-style.md` §2.1.
 
 | Nguyên tắc | Tham chiếu |
 |---|---|
-| Tiếng Việt có dấu, EN cho thuật ngữ | `_Blueprint/03_writing-style.md` §3.1 |
-| Xưng hô: tác giả = mình/Mr.Rom, đọc = bạn | `_Blueprint/03_writing-style.md` §3.1 |
-| Câu dẫn liền mạch | `_Blueprint/03_writing-style.md` §3.3 |
-| Cấm sáo rỗng | `_Blueprint/03_writing-style.md` §3.4 |
-| Khung 8 phần bài | `_Blueprint/03_writing-style.md` §1 |
-| WHY → WHAT → HOW | `_Blueprint/03_writing-style.md` §2.3 |
+| Tiếng Việt có dấu, EN cho thuật ngữ | `_blueprint/03_writing-style.md` §3.1 |
+| Xưng hô: tác giả = mình/Mr.Rom, đọc = bạn | `_blueprint/03_writing-style.md` §3.1 |
+| Câu dẫn liền mạch | `_blueprint/03_writing-style.md` §3.3 |
+| Cấm sáo rỗng | `_blueprint/03_writing-style.md` §3.4 |
+| Khung 8 phần bài | `_blueprint/03_writing-style.md` §1 |
+| WHY → WHAT → HOW | `_blueprint/03_writing-style.md` §2.3 |
 
 ---
 
 ## 6️⃣ Đặt tên
 
-Tuân theo `_Blueprint/02_folder-structure.md`. Tóm tắt:
+Tuân theo `_blueprint/02_folder-structure.md`. Tóm tắt:
 
 - File: kebab-case, tiếng Anh, đánh số `NN_` nếu trong series
 - Folder L1: `NN_Name/` (sentence case)
@@ -120,7 +120,7 @@ Tuân theo `_Blueprint/02_folder-structure.md`. Tóm tắt:
 
 ## 7️⃣ Liên kết
 
-Tuân theo `_Blueprint/05_linking-strategy.md`. Tóm tắt:
+Tuân theo `_blueprint/05_linking-strategy.md`. Tóm tắt:
 
 - Internal: dùng relative path
 - Link text mô tả đích — không "click here"
@@ -143,7 +143,7 @@ Quy trình đúng khi muốn tham khảo:
 5. Bỏ phần rác/lỗi thời — không "tiếc"
 6. Time-box tham khảo: **15 phút/bài tối đa**
 
-Chi tiết workflow → [`_Blueprint/07_quality-checklist.md`](_Blueprint/07_quality-checklist.md) §15.
+Chi tiết workflow → [`_blueprint/07_quality-checklist.md`](_blueprint/07_quality-checklist.md) §15.
 
 ---
 
@@ -157,5 +157,5 @@ Chi tiết workflow → [`_Blueprint/07_quality-checklist.md`](_Blueprint/07_qua
 
 ## 📌 Changelog
 
-- **v1.0.1 (26/05/2026)** — Cập nhật quy tắc đặt tên sitemap và các đường dẫn tương ứng với đợt tái cấu trúc Git về 02_Tools.
+- **v1.0.1 (26/05/2026)** — Cập nhật quy tắc đặt tên sitemap và các đường dẫn tương ứng với đợt tái cấu trúc Git về 02_tools.
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên. Quy trình 7 bước + 11 anti-patterns + Reference workflow (cherry-pick từ `_Ref/`).

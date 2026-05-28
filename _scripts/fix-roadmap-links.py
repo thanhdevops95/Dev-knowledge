@@ -5,8 +5,8 @@
 Tên script: fix-roadmap-links.py
 Tác giả: Mr.Rom
 Phiên bản: v1.0.0
-Mô tả: Tự động quét toàn bộ thư mục 00_Roadmaps/career/ và sửa các liên kết tương đối
-       trỏ về thư mục Git cũ (01_Foundations/version-control/git/) sang thư mục mới (02_Tools/git/).
+Mô tả: Tự động quét toàn bộ thư mục 00_roadmaps/career/ và sửa các liên kết tương đối
+       trỏ về thư mục Git cũ (01_foundations/version-control/git/) sang thư mục mới (02_tools/git/).
 Sử dụng: python3 _scripts/fix-roadmap-links.py
 """
 
@@ -15,12 +15,12 @@ import os
 # 1. Xác định đường dẫn gốc dự án và thư mục roadmaps
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-CAREER_DIR = os.path.join(REPO_ROOT, "00_Roadmaps", "career")
+CAREER_DIR = os.path.join(REPO_ROOT, "00_roadmaps", "career")
 
 # 2. Cấu hình các chuỗi cần thay thế
 REPLACEMENTS = {
-    "../../01_Foundations/version-control/git/setup/git.md": "../../02_Tools/git/setup/git.md",
-    "../../01_Foundations/version-control/git/": "../../02_Tools/git/",
+    "../../01_foundations/version-control/git/setup/git.md": "../../02_tools/git/setup/git.md",
+    "../../01_foundations/version-control/git/": "../../02_tools/git/",
 }
 
 def fix_roadmap_links():

@@ -15,20 +15,20 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 FILES = [
-    "01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md",
-    "01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md",
-    "01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md",
-    "01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md",
-    "02_Tools/git-clients/github-desktop.md",
-    "02_Tools/git-clients/github.md",
-    "02_Tools/git-clients/gitlab.md",
-    "10_DevOps/docker/lessons/01_basic/00_what-is-docker.md",
-    "10_DevOps/docker/lessons/01_basic/01_images-and-containers.md",
-    "10_DevOps/docker/lessons/01_basic/02_dockerfile-basics.md",
-    "10_DevOps/docker/lessons/01_basic/03_docker-compose.md",
+    "01_foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md",
+    "01_foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md",
+    "01_foundations/version-control/git/lessons/01_basic/03_remote-and-github.md",
+    "01_foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md",
+    "02_tools/git-clients/github-desktop.md",
+    "02_tools/git-clients/github.md",
+    "02_tools/git-clients/gitlab.md",
+    "10_devops/docker/lessons/01_basic/00_what-is-docker.md",
+    "10_devops/docker/lessons/01_basic/01_images-and-containers.md",
+    "10_devops/docker/lessons/01_basic/02_dockerfile-basics.md",
+    "10_devops/docker/lessons/01_basic/03_docker-compose.md",
 ]
 
 

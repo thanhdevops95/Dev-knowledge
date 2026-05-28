@@ -12,22 +12,22 @@
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Files with broken roadmap links
 TARGET_FILES = [
-    ROOT / "10_DevOps/docker/lessons/02_intermediate/README.md",
-    ROOT / "10_DevOps/kubernetes/README.md",
-    ROOT / "10_DevOps/kubernetes/lessons/02_intermediate/README.md",
-    ROOT / "10_DevOps/ci-cd/README.md",
-    ROOT / "10_DevOps/ci-cd/lessons/02_intermediate/README.md",
-    ROOT / "10_DevOps/observability/README.md",
-    ROOT / "10_DevOps/observability/lessons/02_intermediate/README.md",
-    ROOT / "10_DevOps/iac/README.md",
-    ROOT / "10_DevOps/iac/lessons/02_intermediate/README.md",
-    ROOT / "11_Cloud/README.md",
-    ROOT / "11_Cloud/cloud-fundamentals/README.md",
-    ROOT / "11_Cloud/aws/README.md",
+    ROOT / "10_devops/docker/lessons/02_intermediate/README.md",
+    ROOT / "10_devops/kubernetes/README.md",
+    ROOT / "10_devops/kubernetes/lessons/02_intermediate/README.md",
+    ROOT / "10_devops/ci-cd/README.md",
+    ROOT / "10_devops/ci-cd/lessons/02_intermediate/README.md",
+    ROOT / "10_devops/observability/README.md",
+    ROOT / "10_devops/observability/lessons/02_intermediate/README.md",
+    ROOT / "10_devops/iac/README.md",
+    ROOT / "10_devops/iac/lessons/02_intermediate/README.md",
+    ROOT / "11_cloud/README.md",
+    ROOT / "11_cloud/cloud-fundamentals/README.md",
+    ROOT / "11_cloud/aws/README.md",
 ]
 
 # Roadmap name mapping: old basename → new basename
@@ -54,7 +54,7 @@ ROADMAP_MAP = {
 
 def transform(text):
     # 1. Replace folder: career-guides/ → career/
-    text = text.replace("00_Roadmaps/career-guides/", "00_Roadmaps/career/")
+    text = text.replace("00_roadmaps/career-guides/", "00_roadmaps/career/")
 
     # 2. Replace filenames
     for old, new in ROADMAP_MAP.items():

@@ -17,7 +17,7 @@ Patterns replace:
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Patterns: (regex, replacement) — ORDER MATTERS
 PATTERNS = [
@@ -83,7 +83,7 @@ def main():
 
         # Skip Blueprint files (they mention Long in §3.5 rule example)
         rel = str(path.relative_to(ROOT))
-        if "_Blueprint" in rel:
+        if "_blueprint" in rel:
             continue
 
         new_content, changes, was_changed = fix_content(content)

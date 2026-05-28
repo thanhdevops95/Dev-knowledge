@@ -20,15 +20,15 @@ import re
 from pathlib import Path
 
 FILES = [
-    "06_Databases/sql-fundamentals/lessons/01_basic/00_what-is-sql.md",
-    "06_Databases/sql-fundamentals/lessons/01_basic/01_select-and-filter.md",
-    "06_Databases/sql-fundamentals/lessons/01_basic/02_aggregations.md",
-    "06_Databases/sql-fundamentals/lessons/01_basic/03_joins.md",
-    "06_Databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md",
-    "06_Databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/00_what-is-sql.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/01_select-and-filter.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/02_aggregations.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/03_joins.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md",
+    "06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md",
 ]
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Patterns ordered so longer/safer ones come first.
 # IMPORTANT: do NOT replace "bạn" globally — that's 2nd-person pronoun.

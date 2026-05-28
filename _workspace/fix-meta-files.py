@@ -11,7 +11,7 @@
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 FILES = [
     ROOT / "MASTER-CATALOG.md",
     ROOT / "_workspace/WIP-TRACKER.md",

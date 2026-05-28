@@ -33,7 +33,7 @@
 
 ## 🔥 Đang làm (current)
 
-_(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security/owasp-top-10** + **12_Security/authentication** + **13_AI-ML/llm** = **60 lessons mới ~54,500 dòng**. Next options: sibling 12_Security (authorization/cryptography/tls-ssl/compliance), sibling 13_AI-ML (rag-and-ai-agent), intermediate clusters, hoặc cluster mới (14_Data-Engineering).)_
+_(none — session 24/05 cumulative: **11_cloud full 9/9 basic** + **12_security/owasp-top-10** + **12_security/authentication** + **13_ai-ml/llm** = **60 lessons mới ~54,500 dòng**. Next options: sibling 12_security (authorization/cryptography/tls-ssl/compliance), sibling 13_ai-ml (rag-and-ai-agent), intermediate clusters, hoặc cluster mới (14_data-engineering).)_
 
 ---
 
@@ -44,25 +44,25 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 ### Lesson series tiếp theo (sau PostgreSQL basic)
 - 📅 Added: 20/05/2026 — updated: 23/05/2026
 - 💡 Candidates (priority cao):
-  - HTTP intermediate (`05_Networking/http-https/02_intermediate/`) — CORS deep, JWT advanced, caching, HTTP/3
-  - SQL intermediate (`06_Databases/sql-fundamentals/02_intermediate/`) — subquery, CTE, window functions
-  - Redis (`06_Databases/redis/`) — cache + pub/sub, có __Ref__ content sẵn
-  - MongoDB (`06_Databases/mongodb/`) — document NoSQL, có __Ref__ content sẵn
-  - FastAPI intermediate (`07_Web/backend/python-fastapi/02_intermediate/`) — testing, WebSocket, deploy
-  - K8s basic (`10_DevOps/kubernetes/`) — devops/sre/platform roadmap
-  - Build tools (`07_Web/frontend/build-tools/`) — Vite deep, esbuild
-  - Load balancing (`05_Networking/load-balancing/`) — Nginx + HAProxy
-  - HTTP intermediate (`05_Networking/http-https/02_intermediate/`) — CORS deep, JWT advanced, caching, HTTP/3
-  - Load balancing (`05_Networking/load-balancing/`) — Nginx + HAProxy + cloud LB
-  - SQL intermediate (`06_Databases/sql-fundamentals/02_intermediate/`) — subquery, CTE, window functions
-  - PostgreSQL specific (`06_Databases/postgresql/`) — backend-dev Stage 3
-  - FastAPI intermediate (`07_Web/backend/python-fastapi/02_intermediate/`) — testing, WebSocket, deploy
-  - K8s basic lessons (`10_DevOps/kubernetes/`) — devops/sre/platform roadmap
+  - HTTP intermediate (`05_networking/http-https/02_intermediate/`) — CORS deep, JWT advanced, caching, HTTP/3
+  - SQL intermediate (`06_databases/sql-fundamentals/02_intermediate/`) — subquery, CTE, window functions
+  - Redis (`06_databases/redis/`) — cache + pub/sub, có __Ref__ content sẵn
+  - MongoDB (`06_databases/mongodb/`) — document NoSQL, có __Ref__ content sẵn
+  - FastAPI intermediate (`07_web/backend/python-fastapi/02_intermediate/`) — testing, WebSocket, deploy
+  - K8s basic (`10_devops/kubernetes/`) — devops/sre/platform roadmap
+  - Build tools (`07_web/frontend/build-tools/`) — Vite deep, esbuild
+  - Load balancing (`05_networking/load-balancing/`) — Nginx + HAProxy
+  - HTTP intermediate (`05_networking/http-https/02_intermediate/`) — CORS deep, JWT advanced, caching, HTTP/3
+  - Load balancing (`05_networking/load-balancing/`) — Nginx + HAProxy + cloud LB
+  - SQL intermediate (`06_databases/sql-fundamentals/02_intermediate/`) — subquery, CTE, window functions
+  - PostgreSQL specific (`06_databases/postgresql/`) — backend-dev Stage 3
+  - FastAPI intermediate (`07_web/backend/python-fastapi/02_intermediate/`) — testing, WebSocket, deploy
+  - K8s basic lessons (`10_devops/kubernetes/`) — devops/sre/platform roadmap
 - 🎯 Cần user pick priority cho cluster kế tiếp
 
 ### Phase 3: Lab Series
 - 📅 Added: 20/05/2026
-- 🎯 Khi làm: viết 4 lab series ở `00_Roadmaps/lab-series/`:
+- 🎯 Khi làm: viết 4 lab series ở `00_roadmaps/lab-series/`:
   - `docker-to-k8s_lab-series.md` (50 bài)
   - `full-stack-web-app_lab-series.md`
   - `home-lab-self-hosted_lab-series.md`
@@ -108,40 +108,40 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 - "Git = single source of truth" — bổ sung GitOps intro
 - "Production system as patient" cho observability (vital signs = metrics, EKG = traces)
 
-→ **Sources**: `10_DevOps/__Ref__/legacy-archive/{MINIKUBE-LOCAL-TIPS.md, SRE-practices_Ref.md, GitOps-practices_Ref.md, docker-k8s-practice.md, 12-factor-app_Ref.md}`
+→ **Sources**: `10_devops/__Ref__/legacy-archive/{MINIKUBE-LOCAL-TIPS.md, SRE-practices_Ref.md, GitOps-practices_Ref.md, docker-k8s-practice.md, 12-factor-app_Ref.md}`
 
 ### __Ref__ improvements candidates (cherry-pick khi rảnh)
 - 📅 Added: 21/05/2026
 - 💡 Content có sẵn trong `__Ref__/` có thể nâng:
-  - **Python** (`03_Languages/python/__Ref__/python_from_05Languages/`): có `01-python-basics`, `02-python-advanced`, `03-packaging-setup`, `04-testing-practices`, `05-performance-practices`, `06-cheatsheet`
+  - **Python** (`03_languages/python/__Ref__/python_from_05Languages/`): có `01-python-basics`, `02-python-advanced`, `03-packaging-setup`, `04-testing-practices`, `05-performance-practices`, `06-cheatsheet`
     - → Cherry-pick cho lessons mới: `04_io-and-files`, `05_modules-and-packages`, `06_error-handling` + tạo `_cheatsheet.md`
-  - **Linux** (`04_OS/linux/__Ref__/linux/`): có `01-essentials-basics`, `02-administration-advanced`, `03-networking-advanced`
+  - **Linux** (`04_os/linux/__Ref__/linux/`): có `01-essentials-basics`, `02-administration-advanced`, `03-networking-advanced`
     - → Cherry-pick cho `lessons/02_intermediate/` (systemd, ssh, networking)
-  - **Docker** (`10_DevOps/docker/__Ref__/`): có `_Draft_Syntax.md`, `from_06_DevOps_docker/_quizzes/`, `_projects/simple-webapp-dockerized`
+  - **Docker** (`10_devops/docker/__Ref__/`): có `_Draft_Syntax.md`, `from_06_DevOps_docker/_quizzes/`, `_projects/simple-webapp-dockerized`
     - → Cherry-pick cho `exercises/` (quiz), `projects/` (webapp), `_cheatsheet.md`
-  - **Shell/terminal** (`02_Tools/terminal-emulators/__Ref__/`): có `02-bash-scripting-basics`, `04-vim-neovim-basics`, `03-shell-tools-cheatsheet`
-    - → Cherry-pick cho `02_Tools/shell/lessons/01_basic/` lessons mới (bash scripting, vim intro)
-  - **Git** (`01_Foundations/version-control/__Ref__/git_*`): đã có nội dung tham khảo — git bộ đã viết v2.0.0, có thể bổ sung lesson `05_rebase-cherrypick` nếu cần
+  - **Shell/terminal** (`02_tools/terminal-emulators/__Ref__/`): có `02-bash-scripting-basics`, `04-vim-neovim-basics`, `03-shell-tools-cheatsheet`
+    - → Cherry-pick cho `02_tools/shell/lessons/01_basic/` lessons mới (bash scripting, vim intro)
+  - **Git** (`01_foundations/version-control/__Ref__/git_*`): đã có nội dung tham khảo — git bộ đã viết v2.0.0, có thể bổ sung lesson `05_rebase-cherrypick` nếu cần
 - 🎯 KHÔNG ưu tiên — Phase 2 chính trước. Note để khỏi quên.
 
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
 
-### 25/05/2026 (phiên đêm — 11_Cloud start)
+### 25/05/2026 (phiên đêm — 11_cloud start)
 
-- ✅ **🎉 Phase 4 11_Cloud/cloud-fundamentals COMPLETE 5/5** (5 file 1 turn, **mốc 100 lessons ✨**):
+- ✅ **🎉 Phase 4 11_cloud/cloud-fundamentals COMPLETE 5/5** (5 file 1 turn, **mốc 100 lessons ✨**):
   - File 97: `00_what-is-cloud-computing.md` v1.0.0 → v1.1.0 — 5 lead-in (Bonus models + Stack diagram + Timeline + Market share + Decision matrix)
   - File 98: `01_regions-availability-zones-edge.md` v1.0.0 → v1.1.0 — 5 lead-in (Region structure + Multi-AZ + How CDN + TCP/TLS handshake + Latency tactics)
   - File 99: `02_cloud-networking.md` v1.0.0 → v1.1.0 — 5 lead-in (CIDR planning + Multi-AZ subnet + Why separate DB + How IGW + How NAT)
   - File 100: `03_storage-and-databases.md` v1.0.0 → v1.1.0 — 5 lead-in (Decision matrix + Storage classes + Encryption + S3 features + S3 vs alternatives) ✨ **mốc 100**
   - File 101: `04_cloud-security-and-shared-responsibility.md` v1.0.0 → v1.1.0 — 5 lead-in (Why this matters + Policy example + Encryption everywhere + Compliance frameworks + Compliance as differentiator)
-- **11_Cloud progress 5/45**: cloud-fundamentals 5/5 ✅. Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file.
+- **11_cloud progress 5/45**: cloud-fundamentals 5/5 ✅. Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file.
 - **Phase 4 total: 101/156 (64.7%)**
 
 ### 25/05/2026 (phiên tối)
 
-- ✅ **🎉 Phase 4 10_DevOps/kubernetes/ COMPLETE 10/10** (phiên tối 25/05, 5 file 1 turn + 1 file turn này = 6 file/turn):
+- ✅ **🎉 Phase 4 10_devops/kubernetes/ COMPLETE 10/10** (phiên tối 25/05, 5 file 1 turn + 1 file turn này = 6 file/turn):
   - File 87: `01_basic/00_what-is-kubernetes.md` v1.0.0 → v1.1.0 — 5 lead-in (K8s không phải + K8s là + Docker Compose + Khi nào chọn + Architecture)
   - File 88: `01_basic/01_pods-and-deployments.md` v1.0.0 → v1.1.0 — 5 lead-in (Why Pod + YAML đơn giản + Pod lifecycle + Pitfall + Khi nào dùng raw Pod) + add changelog
   - File 89: `01_basic/04_namespaces-and-rbac.md` v1.0.0 → v1.1.0 — 5 lead-in (§1 Namespaces + Create + Use + namespaced vs cluster + Limit Namespaces) + add changelog
@@ -153,13 +153,13 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
   - File 94: `01_basic/03_traces-opentelemetry.md` v1.0.0 → v1.1.0 — 5 lead-in (Trace Tree of Spans + Span anatomy + Components + Why OTel + W3C TraceContext)
   - File 95: `01_basic/04_grafana-and-alerting.md` v1.0.0 → v1.1.0 — 5 lead-in (Install K8s + Anatomy + Panel Latency + Variables template + Useful variables)
   - File 96: `02_intermediate/03_opentelemetry-instrumentation.md` v1.0.0 → v1.1.0 — 5 lead-in (Why OTel vs Vendor SDK + Python Auto+manual + Manual span business logic + Node.js + Go)
-- **🎉🎉🎉 10_DevOps COMPLETE 49/49 ✅**: docker 9/9 + ci-cd 10/10 + iac 10/10 + kubernetes 10/10 + **observability 10/10**. Toàn bộ DevOps stack production-grade tier-1 + tier-2 đã apply Blueprint v0.5.4+ §3.6.
-- **Phase 4 total: 93/156 (59.6%)**. Tiếp theo: 11_Cloud 45 files (0% done) → 12_Security 10 → 13_AI-ML 5.
+- **🎉🎉🎉 10_devops COMPLETE 49/49 ✅**: docker 9/9 + ci-cd 10/10 + iac 10/10 + kubernetes 10/10 + **observability 10/10**. Toàn bộ DevOps stack production-grade tier-1 + tier-2 đã apply Blueprint v0.5.4+ §3.6.
+- **Phase 4 total: 93/156 (59.6%)**. Tiếp theo: 11_cloud 45 files (0% done) → 12_security 10 → 13_ai-ml 5.
 
 ### 25/05/2026
 
 - ✅ **🧹 Tier 2 residue cleanup**: 36 subs across 8 files (`long@example.com` → `nguyenvana@`, `long@vps`/`long@laptop` → `user@*`, `/Users/long` → `/Users/user`, `longshop`/`pg-longshop` → `acmeshop`/`pg-acmeshop`, `psql -U longshop` → `-U acmeshop`). Files: http-methods, what-is-http, ports-sockets, dns-records, psql-meta, what-is-postgresql, ssh-deep-dive, systemd-services + manual fix ssh-deep L269 `long@bastion` → `user@bastion`.
-- ✅ **🎉 Phase 4 06_Databases sql-fundamentals/ COMPLETE 6/6 files** (cùng phiên với 05_Networking dns + sql-fundamentals batch):
+- ✅ **🎉 Phase 4 06_databases sql-fundamentals/ COMPLETE 6/6 files** (cùng phiên với 05_networking dns + sql-fundamentals batch):
   - 05_schema-design-basics → v1.1.0 (data types numeric/text/boolean/date/JSON)
   - 01_select-and-filter → v1.1.0 (SELECT syntax + cột cụ thể + alias + biểu thức)
   - 03_joins → v1.1.0 (Setup 2 bảng + 5 loại JOIN + INNER JOIN)
@@ -167,15 +167,15 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
   - 00_what-is-sql → v1.1.0 (Excel vs SQL + Anatomy table + Relational diagram + Khi nào chọn gì + Flow đầy đủ) + fix residue `bạn` → `Nguyen Van A` 2 places
   - 02_aggregations → v1.1.0 (Ví dụ toàn bộ + COUNT variations + GROUP BY + multi-col + Quy tắc vàng) + fix residue `bạn` → `Nguyen Van A` output table
   - **🎉 PostgreSQL/ COMPLETE 5/5** (cùng phiên): 00_what-is-postgresql v1.0.0 → v1.1.0 (đổi "History" → "Lịch sử" + "Adoption" → "Mức độ phổ biến" theo §3.7), 01_psql-and-meta-commands v1.0.0 → v1.1.0 (Kết nối 5 cách + .pgpass + .psqlrc + meta-commands), 02_indexes-and-performance v1.0.0 → v1.1.0 (đổi "5 loại index" → "6 loại" cho đúng count + CONCURRENTLY), 03_jsonb-and-arrays v1.0.0 → v1.1.0 (JSON vs JSONB + Create+insert + operators + path access) + fix `'bạn'` → `'Nguyen Van A'`, 04_backup-and-replication v1.0.0 → v1.1.0 (2 loại backup + Logical/Physical pros/cons Việt hoá + format + options).
-  - **06_Databases COMPLETE 11/11 ✅** (sql-fundamentals 6 + postgresql 5).
-  - **🔄 10_DevOps progress 37/49**: docker 9/10 ✅ + ci-cd 10/10 ✅ + kubernetes 4/10 + observability 6/10 + iac 8/10 (basic 4/5 + intermediate 4/5 — còn iac basic 04 + iac intermediate 03).
-  - **🎉 07_Web COMPLETE 20/20 ✅** (4 phiên dồn):
+  - **06_databases COMPLETE 11/11 ✅** (sql-fundamentals 6 + postgresql 5).
+  - **🔄 10_devops progress 37/49**: docker 9/10 ✅ + ci-cd 10/10 ✅ + kubernetes 4/10 + observability 6/10 + iac 8/10 (basic 4/5 + intermediate 4/5 — còn iac basic 04 + iac intermediate 03).
+  - **🎉 07_web COMPLETE 20/20 ✅** (4 phiên dồn):
     - html-css 5/5: 00+01+02+03+04 → v1.1.0 (fix `bạn Shop` 3 files)
     - js-dom 5/5: 00+01+02+03+04 → v1.1.0 (đổi "History" → "Lịch sử")
     - react 5/5: 00+01+02+03+04 → v1.1.0 (fix `name="bạn"` 2 files)
     - fastapi 5/5: 00+01+02+03+04 → v1.1.0 (fix `"bạn"` user data 2 files)
 
-- ✅ **🎉 Phase 4 05_Networking COMPLETE 16/16 files** (manual thorough — pace ~5 files/turn):
+- ✅ **🎉 Phase 4 05_networking COMPLETE 16/16 files** (manual thorough — pace ~5 files/turn):
   - `http-methods.md` v1.0.0 → v1.1.0 — 5 lead-in + name placeholder
   - `http-status-codes.md` v1.0.0 → v1.1.0 — 5 lead-in (5 nhóm + 2xx + 200/201/204 + 202 + 3xx)
   - `http-headers.md` v1.0.0 → v1.1.0 — 5 lead-in (CORS tình huống + 4 nhóm + Content-Type + Multipart) + name fix
@@ -183,9 +183,9 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
   - `what-is-http.md` v1.0.0 → v1.1.0 — 5 lead-in (Bản chất + Versions + Use cases + Luôn theo cặp + Anatomy)
   - `https-tls.md` v1.1.0 → v1.2.0 — 5 lead-in (Port + Vì sao HTTPS + TLS versions + Handshake mermaid + 4 bước)
   - `what-is-tcp-ip.md` v1.0.0 → v1.1.0 — 5 lead-in (4-layer + Nhiệm vụ + Layer X mapping + TCP/IP vs OSI + Header per layer)
-  - **http-https/ 6/6 ✅** + **tcp-ip-fundamentals/ 5/5 ✅** + **dns/ 5/5 ✅** — TOÀN BỘ 05_Networking đóng.
+  - **http-https/ 6/6 ✅** + **tcp-ip-fundamentals/ 5/5 ✅** + **dns/ 5/5 ✅** — TOÀN BỘ 05_networking đóng.
   - Batch cuối: 01_dns-records → v1.1.0; 02_dns-resolution → v1.1.0; 03_dns-tools → v1.1.0; 04_dns-setup-and-security → v1.2.0.
-  - **Next**: Phase 4 06_Databases (11 files) — sql-fundamentals 6 + postgresql 5.
+  - **Next**: Phase 4 06_databases (11 files) — sql-fundamentals 6 + postgresql 5.
 
 - ✅ **🔄 Blueprint v0.5.8 — Soften §3.5: "hạn chế" không "cấm"**: User clarify *"các ví dụ bạn muốn đưa data sao cũng được, miễn sao hạn chế tên riêng là được. Hạn chế, chứ không ép không dùng nhé."* — mình hôm 24/05 quá cứng nhắc bulk-fix Alice→Nguyen Van A. Update Blueprint:
   - Title §3.5: "Nhân vật và tên riêng — **Hạn chế, không ép**"
@@ -221,29 +221,29 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
   - **7 Foundations**: terminal (00), shell (01), filesystem (02), process (03), env-vars (04), io-redirection (05), industry-landscape (00) — thêm lead-in trước bảng/code, mở rộng ẩn dụ.
   - **4 Python basic**: what-is-python (00), variables-and-types (01), control-flow (02), functions (03) — lead-in + ẩn dụ liên tục (người phiên dịch xuyên section, lề lùi đoạn văn cho indentation).
   - **8 Linux**: 3 basic (navigation, file-ops, view-content) + 5 intermediate (users-permissions, systemd, ssh, package-mgmt, text-processing) — lead-in + ẩn dụ mới (biên lai cho `ls -l`, mật mã 3 số cho octal, quản gia cho systemd, bộ chìa khoá cho SSH, app store + thợ sửa cho package, kính lúp cho grep). Fix residue `long` lowercase username → `rom`.
-  - Tổng phiên: 19 files manual rewrite. Còn ~155 files. Next: 05_Networking (16 files).
+  - Tổng phiên: 19 files manual rewrite. Còn ~155 files. Next: 05_networking (16 files).
 - ✅ **🔍 Blueprint v0.5.4 + Audit + Long character fix** (cuối phiên 24/05, sau khi user yêu cầu kiểm tra toàn bộ):
   - **Blueprint v0.5.3** thêm §3.6 (Anti-pattern Header→Code) + §3.7 (Vietnamese-first principle).
   - **Blueprint v0.5.4** thêm §3.8-3.12: Comments code đánh số bước, Mở bài relatable problem, Ẩn dụ liên tục, ✅❌ format, Bảng trade-off + lead-in. Học từ mining 10 pattern hay trong __Ref__ folders.
   - **Auth 01 (password-and-mfa) v2.0.0** rewrite làm demo theo Blueprint mới (1149 dòng, đậm tiếng Việt + lead-in đầy đủ).
   - **Audit 186 files** với script `_workspace/audit-blueprint-v0.5.4.py` — kết quả: 181/186 files vi phạm (97%), 6 loại vi phạm phổ biến.
-  - **Phase 4 manual fix 7 files 01_Foundations**: 00_terminal, 01_shell, 02_filesystem, 03_process, 04_env-vars, 05_io-redirect, industry-landscape/00 — thêm lead-in trước bảng/code, mở rộng ẩn dụ.
+  - **Phase 4 manual fix 7 files 01_foundations**: 00_terminal, 01_shell, 02_filesystem, 03_process, 04_env-vars, 05_io-redirect, industry-landscape/00 — thêm lead-in trước bảng/code, mở rộng ẩn dụ.
   - **Phát hiện 12 files vi phạm §3.5 (Long character)** — audit cũ miss vì chỉ check Mai/longshop. Fix tất cả via targeted script: 5 file git/, 3 file git-clients tool guide, 4 file Docker basic. Bump version v1.0→v1.1 hoặc v2.0→v2.1.
   - **Sự cố revert** giữa quá trình: bulk-fix Long script tạo inconsistency capitalization. User chọn revert. `git checkout HEAD --` reset quá tay → MẤT 14 README files (3 parent + 11 cluster). Restore lại tay tất cả 14 READMEs (v1.0.0+).
   - **Blueprint v0.5.4** + Auth 01 v2.0.0 + 8 file Foundations đã fix + 12 file Long fixed + 14 file README restored.
 - ✅ **🔍 Audit pass — Blueprint v0.5.2 compliance** (cuối phiên 24/05): User yêu cầu dừng + kiểm tra rule. Tìm + fix:
-  - **5 vi phạm Blueprint §3.5** (fictional character "Mai") trong `13_AI-ML/llm/01` + `04` — replace bằng "trợ lý support Acme Shop" generic
-  - **2 vi phạm** "Mai 2h" + "em" trong `11_Cloud/serverless/01` + `03` — replace bằng "bạn" + "Deadline mai"
-  - **1 PII leak** trong `12_Security/authentication/00` ("Nguyễn Thiện Lê, sinh 1990") — replace bằng generic "tên + ngày sinh + số CMND"
-  - **1 title missing emoji** `11_Cloud/azure/00` ("# Azure" → "# ☁️ Azure")
+  - **5 vi phạm Blueprint §3.5** (fictional character "Mai") trong `13_ai-ml/llm/01` + `04` — replace bằng "trợ lý support Acme Shop" generic
+  - **2 vi phạm** "Mai 2h" + "em" trong `11_cloud/serverless/01` + `03` — replace bằng "bạn" + "Deadline mai"
+  - **1 PII leak** trong `12_security/authentication/00` ("Nguyễn Thiện Lê, sinh 1990") — replace bằng generic "tên + ngày sinh + số CMND"
+  - **1 title missing emoji** `11_cloud/azure/00` ("# Azure" → "# ☁️ Azure")
   - **3 broken filenames** trong cross-reference (04_authentication-jwt → 04_auth-and-middleware; 04_sre-practices-and-postmortem → 04_sre-practices; 00_what-is-cloud-overview → 00_what-is-cloud-computing) ở 5 files
   - **5 wrong-depth paths** (`../../../<L1>` → `../../../../<L1>`) trong OWASP 00
   - Verified: zero smart quotes, zero broken links sau fix, all 8-part Blueprint structure trong files Mr.Rom viết, all metadata headers complete.
   - Lesson learned: trước khi launch agent → brief rõ ràng hơn về Blueprint §3.5, cross-reference depth, không tự bịa nhân vật.
-- ✅ **🆕 `12_Security/authentication/` BASIC cluster COMPLETE 5/5** — Cluster thứ hai của 12_Security branch (2/10 sub-clusters active). 5 bài (~3443 dòng): Auth foundation + AuthN/AuthZ + factors + session vs token (00), Password Argon2id + breach check + TOTP + WebAuthn/Passkey + backup codes (01), OAuth 2.1 + OIDC + 5 flows + JWKS + Google/Apple login (02), JWT/JWS/JWE + signing algorithms + key rotation + refresh family + revocation strategies + session lifecycle (03), SAML vs OIDC + Keycloak self-host + SCIM + JIT + break-glass + audit + compliance (04). Auth cluster README v1.0.0. 12_Security parent README v1.0.0 → v1.1.0. MASTER-CATALOG v1.39.0 → v1.40.0. Tổng bài 205 → **210**. Deep dive OWASP A07.
-- ✅ **🆕 `13_AI-ML/llm/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của 13_AI-ML branch (1/10 sub-clusters active). 5 bài (~3683 dòng): LLM intro + tokenization + models 2026 (00), prompt engineering + structured output + injection (01), function calling + agent loop + MCP standard (02), RAG fundamentals + embedding + vector DB + reranker (03), production LLM app cost + eval + guardrails + 30-item checklist (04). LLM cluster README v1.0.0. 13_AI-ML parent README v0.1.0 → v1.0.0. MASTER-CATALOG v1.38.0 → v1.39.0. Tổng bài 200 → **205**. Foundation cho dev build AI app — không cần math/classical ML trước.
-- ✅ **🆕 `12_Security/owasp-top-10/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của 12_Security branch (1/10 sub-clusters active). 5 bài (~3353 dòng): OWASP intro + threat modeling STRIDE/DREAD (00), A01 Access Control + A03 Injection + XSS/CSRF/CSP (01), A02 Crypto + A04 Insecure Design + Argon2/TLS/JWT (02), A05 Misconfig + A06 Vulnerable Components + A08 Supply Chain + cosign/SLSA (03), A07 Auth + A09 Logging + A10 SSRF + MFA WebAuthn/TOTP + audit log (04). OWASP cluster README v1.0.0. 12_Security parent README v0.1.0 → v1.0.0. MASTER-CATALOG v1.37.0 → v1.38.0. Tổng bài 195 → **200**. Foundation cross-stack security cho mọi role backend/devops/cloud.
-- ✅ **🎉🎉🎉 11_Cloud BASIC BRANCH HOÀN CHỈNH 9/9 SUB-CLUSTER** (45 lessons, ~40,625 dòng) — Trong cùng session 24/05:
+- ✅ **🆕 `12_security/authentication/` BASIC cluster COMPLETE 5/5** — Cluster thứ hai của 12_security branch (2/10 sub-clusters active). 5 bài (~3443 dòng): Auth foundation + AuthN/AuthZ + factors + session vs token (00), Password Argon2id + breach check + TOTP + WebAuthn/Passkey + backup codes (01), OAuth 2.1 + OIDC + 5 flows + JWKS + Google/Apple login (02), JWT/JWS/JWE + signing algorithms + key rotation + refresh family + revocation strategies + session lifecycle (03), SAML vs OIDC + Keycloak self-host + SCIM + JIT + break-glass + audit + compliance (04). Auth cluster README v1.0.0. 12_security parent README v1.0.0 → v1.1.0. MASTER-CATALOG v1.39.0 → v1.40.0. Tổng bài 205 → **210**. Deep dive OWASP A07.
+- ✅ **🆕 `13_ai-ml/llm/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của 13_ai-ml branch (1/10 sub-clusters active). 5 bài (~3683 dòng): LLM intro + tokenization + models 2026 (00), prompt engineering + structured output + injection (01), function calling + agent loop + MCP standard (02), RAG fundamentals + embedding + vector DB + reranker (03), production LLM app cost + eval + guardrails + 30-item checklist (04). LLM cluster README v1.0.0. 13_ai-ml parent README v0.1.0 → v1.0.0. MASTER-CATALOG v1.38.0 → v1.39.0. Tổng bài 200 → **205**. Foundation cho dev build AI app — không cần math/classical ML trước.
+- ✅ **🆕 `12_security/owasp-top-10/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của 12_security branch (1/10 sub-clusters active). 5 bài (~3353 dòng): OWASP intro + threat modeling STRIDE/DREAD (00), A01 Access Control + A03 Injection + XSS/CSRF/CSP (01), A02 Crypto + A04 Insecure Design + Argon2/TLS/JWT (02), A05 Misconfig + A06 Vulnerable Components + A08 Supply Chain + cosign/SLSA (03), A07 Auth + A09 Logging + A10 SSRF + MFA WebAuthn/TOTP + audit log (04). OWASP cluster README v1.0.0. 12_security parent README v0.1.0 → v1.0.0. MASTER-CATALOG v1.37.0 → v1.38.0. Tổng bài 195 → **200**. Foundation cross-stack security cho mọi role backend/devops/cloud.
+- ✅ **🎉🎉🎉 11_cloud BASIC BRANCH HOÀN CHỈNH 9/9 SUB-CLUSTER** (45 lessons, ~40,625 dòng) — Trong cùng session 24/05:
   - cloud-fundamentals (5/5) + aws (5/5) + gcp (5/5) — đầu phiên
   - **Azure (5/5 — ~4400 dòng)**: overview/VM/Blob/SQL+Cosmos/Functions — agent (1067s) + Mr.Rom finalize README
   - **DigitalOcean (5/5 — ~3974 dòng)**: overview/Droplet/Spaces/MgdDB/AppPlatform — agent complete (full + README)
@@ -252,18 +252,18 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
   - **Multi-cloud-strategies (5/5 — ~4000 dòng)**: overview/LockIn/Network-Identity/K8s-Anthos/DR-Patterns — agent (1026s, 3/4 lessons + bài 04 Mr.Rom write) + Mr.Rom README
   - **Cloud-cost-management (5/5 — ~3530 dòng)**: FinOps/Pricing/Tagging/Optimization/Tools — agent (1326s, full lessons) + Mr.Rom README
   - MASTER-CATALOG v1.36.0 → v1.37.0. Tổng bài 165 → **195** (+30 lessons).
-  - 11_Cloud parent README v1.2.0 → v1.3.0.
+  - 11_cloud parent README v1.2.0 → v1.3.0.
   - 4/6 agent hit session limit "2:40pm Asia/Saigon" giữa task → Mr.Rom finalize 2 lesson 04 thiếu (serverless + multi-cloud) + 5 README skeleton (azure/cloudflare/serverless/multi-cloud/cost).
-- ✅ **🆕 `11_Cloud/gcp/` BASIC cluster COMPLETE 5/5** — Cluster vendor-specific thứ hai (sau AWS) của `11_Cloud/`. 5 bài (GCP overview + Compute Engine/PD + Cloud Storage/IAM + Cloud SQL/Firestore + Cloud Functions/Run/API Gateway) ~6000 dòng. Pattern mirror AWS 00-04 + GCP-specific topics: Live Migration, IAP SSH, Workload Identity Federation, Firestore Security Rules, Cloud Run scale-to-zero, Spanner/Bigtable mention. README cluster v1.0.0. 3/9 sub-clusters active.
+- ✅ **🆕 `11_cloud/gcp/` BASIC cluster COMPLETE 5/5** — Cluster vendor-specific thứ hai (sau AWS) của `11_cloud/`. 5 bài (GCP overview + Compute Engine/PD + Cloud Storage/IAM + Cloud SQL/Firestore + Cloud Functions/Run/API Gateway) ~6000 dòng. Pattern mirror AWS 00-04 + GCP-specific topics: Live Migration, IAP SSH, Workload Identity Federation, Firestore Security Rules, Cloud Run scale-to-zero, Spanner/Bigtable mention. README cluster v1.0.0. 3/9 sub-clusters active.
 - ✅ **2 sơ sài overview expanded** — docker/02_intermediate/00 (311→401 dòng) + k8s/02_intermediate/00 (337→437 dòng). Bổ sung: real-world incidents table, ROI metric table, learning timeline Day 1-90, anti-patterns 8-10 mục, +3 Q&A. Lý do: user feedback yêu cầu chiều sâu cho intro overview lessons.
 - ✅ **13 🪞 metaphor added** — Lessons DevOps intermediate (CI/CD supply chain, Docker security/optimization/registry, IaC state/Pulumi, K8s ingress/autoscaling, Observability PromQL/OTel) + AWS basic (S3/RDS/Lambda) bổ sung 🪞 Ẩn dụ theo Blueprint v0.5.2 §2.3.
-- ✅ **🆕 `11_Cloud/aws/` BASIC cluster COMPLETE 5/5** — Cluster vendor-specific đầu tiên của `11_Cloud/`. 5 bài (AWS overview + EC2/EBS + S3/IAM + RDS/DynamoDB + Lambda/API Gateway) ~5890 dòng. Build on cloud-fundamentals. Production-grade AWS skill foundation. MASTER-CATALOG v1.35.0. Tổng 155 → **160** (134 lesson). 2/9 sub-clusters của 11_Cloud active.
-- ✅ **🆕 `11_Cloud/cloud-fundamentals/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của `11_Cloud/` (was skeleton). 5 bài (cloud computing + regions/AZs + networking + storage/DBs + security/shared responsibility) ~5200 dòng. Vendor-neutral foundation. MASTER-CATALOG v1.34.0. Tổng 150 → **155** (129 lesson). Cluster README + 11_Cloud parent README updated (v0.1.0 → v1.0.0). Next: AWS / GCP / Azure specific clusters hoặc continue career roadmaps.
+- ✅ **🆕 `11_cloud/aws/` BASIC cluster COMPLETE 5/5** — Cluster vendor-specific đầu tiên của `11_cloud/`. 5 bài (AWS overview + EC2/EBS + S3/IAM + RDS/DynamoDB + Lambda/API Gateway) ~5890 dòng. Build on cloud-fundamentals. Production-grade AWS skill foundation. MASTER-CATALOG v1.35.0. Tổng 155 → **160** (134 lesson). 2/9 sub-clusters của 11_cloud active.
+- ✅ **🆕 `11_cloud/cloud-fundamentals/` BASIC cluster COMPLETE 5/5** — Cluster đầu tiên của `11_cloud/` (was skeleton). 5 bài (cloud computing + regions/AZs + networking + storage/DBs + security/shared responsibility) ~5200 dòng. Vendor-neutral foundation. MASTER-CATALOG v1.34.0. Tổng 150 → **155** (129 lesson). Cluster README + 11_cloud parent README updated (v0.1.0 → v1.0.0). Next: AWS / GCP / Azure specific clusters hoặc continue career roadmaps.
 - ✅ **🎉🎉🎉 DEVOPS INTERMEDIATE SPRINT 100% COMPLETE 🎉🎉🎉** — IaC intermediate cluster 5/5 hoàn thành ~5870 dòng (overview + Terragrunt + Atlantis + State+Drift + Pulumi/CDK/Crossplane). Apply 4+ insight từ `__Ref__/` (GitOps as enforcement gate, drift detection workflow, state migration, multi-cloud abstraction). MASTER-CATALOG v1.33.0. Tổng 145 → **150** (124 lesson). **DevOps tier-1 production-grade toàn bộ stack** (Docker + K8s + CI/CD + Obs + IaC = 49 lessons).
-- ✅ **🎉 Observability INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 4 của `10_DevOps/`. 5 bài (overview + PromQL deep + LogQL deep + OTel instrumentation + SRE practices) ~5560 dòng. Apply 4+ insight từ `__Ref__/` (SRE practices, blameless postmortem, burn rate alerts, on-call patterns). MASTER-CATALOG v1.32.0. Tổng 140 → **145** (119 lesson). 4/5 DevOps cluster intermediate complete.
-- ✅ **🎉 CI/CD INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 3 của `10_DevOps/`. 5 bài (overview + ArgoCD + Supply chain SLSA + Secret Vault/ESO + Progressive delivery Argo Rollouts) ~4830 dòng. Apply 4 insight từ `__Ref__/` (GitOps anti-pattern, 12-factor, SLSA L3, progressive delivery). MASTER-CATALOG v1.31.0. Tổng 135 → **140** (114 lesson). SOC2-ready CI/CD pipeline.
-- ✅ **🎉 Kubernetes INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 2 của `10_DevOps/`. 5 bài (overview + Helm + Ingress+cert-manager + StatefulSet + Autoscaling+Operators) ~4220 dòng. Apply 4 insight từ `__Ref__/` (CNI dependency, PDB-HPA, CloudNativePG, Cilium). MASTER-CATALOG v1.30.0. Tổng 130 → **135** (109 lesson). Foundation cho Platform/SRE/DevOps role production.
-- ✅ **🎉 Docker INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate đầu tiên của `10_DevOps/`. 5 bài (overview + BuildKit + security + optimization + registry) ~3540 dòng. Apply Blueprint v0.5.2 rule mới (no fictional character). MASTER-CATALOG v1.29.0. Tổng 125 → **130** (104 lesson). Foundation cho K8s intermediate + CI/CD intermediate sau.
+- ✅ **🎉 Observability INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 4 của `10_devops/`. 5 bài (overview + PromQL deep + LogQL deep + OTel instrumentation + SRE practices) ~5560 dòng. Apply 4+ insight từ `__Ref__/` (SRE practices, blameless postmortem, burn rate alerts, on-call patterns). MASTER-CATALOG v1.32.0. Tổng 140 → **145** (119 lesson). 4/5 DevOps cluster intermediate complete.
+- ✅ **🎉 CI/CD INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 3 của `10_devops/`. 5 bài (overview + ArgoCD + Supply chain SLSA + Secret Vault/ESO + Progressive delivery Argo Rollouts) ~4830 dòng. Apply 4 insight từ `__Ref__/` (GitOps anti-pattern, 12-factor, SLSA L3, progressive delivery). MASTER-CATALOG v1.31.0. Tổng 135 → **140** (114 lesson). SOC2-ready CI/CD pipeline.
+- ✅ **🎉 Kubernetes INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate thứ 2 của `10_devops/`. 5 bài (overview + Helm + Ingress+cert-manager + StatefulSet + Autoscaling+Operators) ~4220 dòng. Apply 4 insight từ `__Ref__/` (CNI dependency, PDB-HPA, CloudNativePG, Cilium). MASTER-CATALOG v1.30.0. Tổng 130 → **135** (109 lesson). Foundation cho Platform/SRE/DevOps role production.
+- ✅ **🎉 Docker INTERMEDIATE cluster HOÀN CHỈNH 5/5** — Cluster intermediate đầu tiên của `10_devops/`. 5 bài (overview + BuildKit + security + optimization + registry) ~3540 dòng. Apply Blueprint v0.5.2 rule mới (no fictional character). MASTER-CATALOG v1.29.0. Tổng 125 → **130** (104 lesson). Foundation cho K8s intermediate + CI/CD intermediate sau.
 - ✅ **Audit toàn bộ DevOps basic 24 lessons** — 4 Explore agent song song + mining `__Ref__/`. Fix 5 critical bug + 3 polish + apply 2 nugget (SIGTERM pitfall docker/02, SLO error-budget obs/00). Verified bằng grep toàn bộ (zero "Long"/"Mai"/"longshop" residual).
 - ✅ **Blueprint governance update**: writing-style v0.5.2 (§3.5 cấm tự bịa nhân vật) + quality-checklist v0.3.1 (2 checkpoint mới). Save 2 memory: governance-changelog-discipline + no-self-invented-characters. Capture 20+ insight cho DevOps Intermediate vào backlog.
 - ✅ **Bulk fix Long/Mai/longshop character** qua 3 pass Python script (95+ files). Verified clean toàn bộ DevOps lesson + meta files.
@@ -274,26 +274,26 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 - ✅ **🎉 iac BASIC CLUSTER HOÀN CHỈNH 5/5** — Cuối DevOps sprint. story arc: click-ops vs IaC (00) → Terraform basics + AWS VPC (01) → S3+DynamoDB state production (02) → modules DRY multi-env (03) → security + cost + policy + alternatives (04). 5 bài ~2790 dòng. README v1.0.0. MASTER-CATALOG v1.28.0. Tổng 120 → **125**.
 - ✅ **🎉 observability BASIC CLUSTER HOÀN CHỈNH 5/5** — DevOps sprint #3. story arc tiếp CI/CD: deploy crash unknown → Prometheus metrics → centralize logs → distributed tracing OTel → Grafana + alerting on-call. 5 bài ~2660 dòng. README v1.0.0. MASTER-CATALOG v1.27.0. Tổng 115 → **120**.
 - ✅ **🎉 ci-cd BASIC CLUSTER HOÀN CHỈNH 5/5** — DevOps sprint #2. story arc tiếp K8s: deploy thủ công khổ → GitHub Actions master → GitLab CI → patterns production → 5 deploy strategies. 5 bài ~2680 dòng. README v1.0.0. MASTER-CATALOG v1.26.0. Tổng 110 → **115**.
-- ✅ **🎉 kubernetes BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `10_DevOps/` (sau Docker). DevOps sprint #1. story arc: scale 1000 user (00) → first Pod (01) → expose ra Internet (02) → hardcode DATABASE_URL (03) → share cluster 3 team (04). 5 bài ~2980 dòng. README v1.0.0. MASTER-CATALOG v1.25.0. Tổng 105 → **110**.
-- ✅ **🎉 postgresql BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `06_Databases/`. story arc tiếp React: chọn DB production (00) → debug Postgres lần đầu (01) → 5s query slow (02) → lưu config động (03) → rm-rf DB (04). 5 bài ~2920 dòng. README v1.0.0. MASTER-CATALOG v1.24.0. Tổng 100 → **105**. `__Ref__/06_Databases/` chỉ có NoSQL content (Mongo/Redis/Neo4j) → save cho Redis/Mongo cluster sau.
-- ✅ **🎉 react BASIC CLUSTER HOÀN CHỈNH 5/5 — MỐC 100 BÀI ✨** — Cluster thứ 3 của frontend. story arc tiếp javascript-dom: vanilla JS scale kém (00) → copy-paste card 10 lần (01) → mutate cart vô tận (02) → fetch infinite loop (03) → SPA nhiều trang + cart count khắp nơi (04). 5 bài ~2910 dòng. README v1.0.0. MASTER-CATALOG v1.23.0. Tổng 95 → **100**. Fullstack complete (React + FastAPI). `__Ref__/07_Web/` rỗng → skip.
-- ✅ **🎉 javascript-dom BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của frontend. story arc tiếp html-css: thêm interactivity (00) → copy SO 3 bug (01) → thay jQuery cũ (02) → 1000 listener performance (03) → fetch FastAPI lỗi không hiện (04). 5 bài ~2850 dòng. README v1.0.0. MASTER-CATALOG v1.22.0. Tổng 90 → **95**. `__Ref__/07_Web/` rỗng → skip.
-- ✅ **🎉 html-css BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster đầu tiên của `07_Web/frontend/`. story arc tiếp Linux: build frontend cho FastAPI (00) → viết about.html div lung tung (01) → form login đồng nghiệp không dùng được (02) → "sao style không apply" (03) → viết homepage responsive (04). 5 bài ~2730 dòng. README v1.0.0. MASTER-CATALOG v1.21.0. Tổng 85 → **90**. `__Ref__/07_Web/` rỗng → skip cherry-pick.
+- ✅ **🎉 kubernetes BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `10_devops/` (sau Docker). DevOps sprint #1. story arc: scale 1000 user (00) → first Pod (01) → expose ra Internet (02) → hardcode DATABASE_URL (03) → share cluster 3 team (04). 5 bài ~2980 dòng. README v1.0.0. MASTER-CATALOG v1.25.0. Tổng 105 → **110**.
+- ✅ **🎉 postgresql BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `06_databases/`. story arc tiếp React: chọn DB production (00) → debug Postgres lần đầu (01) → 5s query slow (02) → lưu config động (03) → rm-rf DB (04). 5 bài ~2920 dòng. README v1.0.0. MASTER-CATALOG v1.24.0. Tổng 100 → **105**. `__Ref__/06_databases/` chỉ có NoSQL content (Mongo/Redis/Neo4j) → save cho Redis/Mongo cluster sau.
+- ✅ **🎉 react BASIC CLUSTER HOÀN CHỈNH 5/5 — MỐC 100 BÀI ✨** — Cluster thứ 3 của frontend. story arc tiếp javascript-dom: vanilla JS scale kém (00) → copy-paste card 10 lần (01) → mutate cart vô tận (02) → fetch infinite loop (03) → SPA nhiều trang + cart count khắp nơi (04). 5 bài ~2910 dòng. README v1.0.0. MASTER-CATALOG v1.23.0. Tổng 95 → **100**. Fullstack complete (React + FastAPI). `__Ref__/07_web/` rỗng → skip.
+- ✅ **🎉 javascript-dom BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của frontend. story arc tiếp html-css: thêm interactivity (00) → copy SO 3 bug (01) → thay jQuery cũ (02) → 1000 listener performance (03) → fetch FastAPI lỗi không hiện (04). 5 bài ~2850 dòng. README v1.0.0. MASTER-CATALOG v1.22.0. Tổng 90 → **95**. `__Ref__/07_web/` rỗng → skip.
+- ✅ **🎉 html-css BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster đầu tiên của `07_web/frontend/`. story arc tiếp Linux: build frontend cho FastAPI (00) → viết about.html div lung tung (01) → form login đồng nghiệp không dùng được (02) → "sao style không apply" (03) → viết homepage responsive (04). 5 bài ~2730 dòng. README v1.0.0. MASTER-CATALOG v1.21.0. Tổng 85 → **90**. `__Ref__/07_web/` rỗng → skip cherry-pick.
 - ✅ **🎉 linux INTERMEDIATE CLUSTER HOÀN CHỈNH 5/5** — Cluster intermediate đầu tiên đóng. story arc tiếp FastAPI: deploy bind port 80 (00) → đóng SSH app chết (01) → 5 server gõ pass mệt (02) → cài Python 3.12 (03) → log nginx 10GB (04). 5 bài ~2840 dòng. README v0.2.0 (Linux). MASTER-CATALOG v1.20.0. Tổng 80 → **85**.
-- ✅ **Cherry-pick 2 gem từ `__Ref__/04_OS/linux/__Ref__/`** → improve:
+- ✅ **Cherry-pick 2 gem từ `__Ref__/04_os/linux/__Ref__/`** → improve:
   - 🔧 `02_ssh-deep-dive.md` v1.0.0 → v1.1.0 — mở rộng **fail2ban** (jail.local config + 6 commands + whitelist + bantime.increment)
   - 🔧 `03_package-management.md` v1.0.0 → v1.1.0 — mở rộng **unattended-upgrades** (auto-reboot scheduling, production strategy table, disable cho critical service)
-- ✅ **🎉 python-fastapi BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster đầu tiên của `07_Web/backend/`. Synthesis của Python + SQL + HTTP + REST. story arc: build API đầu tiên (00) → CRUD chuẩn REST (01) → lộ password response (02) → cần DB persistent (03) → ai cũng vào được, cần auth (04). 5 bài ~2570 dòng. README cluster v1.0.0. MASTER-CATALOG v1.19.0. Tổng bài 75 → **80**. `__Ref__/07_Web/` rỗng — skip cherry-pick lần này.
-- ✅ **Cherry-pick 3 gem từ `__Ref__/05_Networking/04_Networking_old/`** → apply 3 cluster networking:
+- ✅ **🎉 python-fastapi BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster đầu tiên của `07_web/backend/`. Synthesis của Python + SQL + HTTP + REST. story arc: build API đầu tiên (00) → CRUD chuẩn REST (01) → lộ password response (02) → cần DB persistent (03) → ai cũng vào được, cần auth (04). 5 bài ~2570 dòng. README cluster v1.0.0. MASTER-CATALOG v1.19.0. Tổng bài 75 → **80**. `__Ref__/07_web/` rỗng — skip cherry-pick lần này.
+- ✅ **Cherry-pick 3 gem từ `__Ref__/05_networking/04_Networking_old/`** → apply 3 cluster networking:
   - 🔧 `tcp-vs-udp.md` v1.0.0 → v1.1.0 — thêm **Nagle's Algorithm + TCP_NODELAY** (interactive app latency)
   - 🔧 `https-tls.md` v1.0.0 → v1.1.0 — thêm **Perfect Forward Secrecy + ECDHE** (RSA vs ECDHE key exchange, TLS 1.3 enforce PFS)
   - 🔧 `dns-setup-and-security.md` v1.0.0 → v1.1.0 — thêm **DNSSEC 4 records** (DNSKEY/RRSIG/DS/NSEC) + **chain of trust flow** + adoption stats
   - Workflow `__Ref__` cherry-pick mới được verify — apply mỗi cluster sau khi đóng.
 - ✅ **🎉 tcp-ip-fundamentals BASIC CLUSTER HOÀN CHỈNH 5/5** — 3-trụ-cột networking đủ (HTTP + DNS + TCP/IP). story arc tiếp SQL: bạn debug "Connection refused" (00) → config VPS network engineer hỏi đầy lạ (01) → video stream lag (02) → port 5432 timeout (03) → on-call 2 giờ sáng (04). 5 bài ~2560 dòng. README cluster v1.0.0. MASTER-CATALOG v1.18.0. Tổng bài 70 → **75**.
-- ✅ **🎉 sql-fundamentals BASIC CLUSTER HOÀN CHỈNH 6/6** — Cluster đầu tiên của `06_Databases/`. story arc tiếp DNS: bạn quản lý 100 user trong Excel (00) → query 5s với SELECT* (01) → sếp hỏi "user mỗi city" (02) → list user+order (03) → DELETE quên WHERE (04) → schema sai sau 3 tháng (05). 6 bài ~3150 dòng. README cluster v1.0.0. MASTER-CATALOG v1.17.0. Tổng bài 64 → **70**.
-- ✅ **🎉 dns BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `05_Networking/`. story arc tiếp HTTP: bạn đổi máy chủ user kêu site die (00) → mua domain ngơ trước Cloudflare panel (01) → đợi 24h vẫn 5% IP cũ (02) → debug DNS không biết lỗi đâu (03) → mua domain `.vn` đầu tiên muốn setup từ A-Z (04). 5 bài ~2300 dòng. README cluster v1.0.0. MASTER-CATALOG v1.16.0. Tổng bài 59 → **64**.
-- ✅ **🎉 http-https BASIC CLUSTER HOÀN CHỈNH 6/6** — Cluster đầu tiên của `05_Networking/`. story arc tiếp git/docker: bạn debug 401 DevTools (00) → design POST /getUsers bị chê (01) → debug 5 status (02) → 5 lỗi CORS 1 ngày (03) → deploy self-signed cert (04) → sếp bảo "phải RESTful" (05). 6 bài ~3000 dòng + mermaid TLS handshake + framework code samples. README cluster v1.0.0. MASTER-CATALOG v1.15.0. Tổng bài 53 → **59**.
-- ✅ **🎉 git-clients CLUSTER HOÀN CHỈNH 7/7** — Thêm 5 file: github-desktop (~400), gitlab (~600), bitbucket (~500), codeberg (~450), gitea (~500). Tool category đầu tiên của `02_Tools/` đóng đủ pattern (category + 6 individual). README v1.0.0 + MASTER-CATALOG v1.14.0. Tổng bài 48 → 53.
+- ✅ **🎉 sql-fundamentals BASIC CLUSTER HOÀN CHỈNH 6/6** — Cluster đầu tiên của `06_databases/`. story arc tiếp DNS: bạn quản lý 100 user trong Excel (00) → query 5s với SELECT* (01) → sếp hỏi "user mỗi city" (02) → list user+order (03) → DELETE quên WHERE (04) → schema sai sau 3 tháng (05). 6 bài ~3150 dòng. README cluster v1.0.0. MASTER-CATALOG v1.17.0. Tổng bài 64 → **70**.
+- ✅ **🎉 dns BASIC CLUSTER HOÀN CHỈNH 5/5** — Cluster thứ 2 của `05_networking/`. story arc tiếp HTTP: bạn đổi máy chủ user kêu site die (00) → mua domain ngơ trước Cloudflare panel (01) → đợi 24h vẫn 5% IP cũ (02) → debug DNS không biết lỗi đâu (03) → mua domain `.vn` đầu tiên muốn setup từ A-Z (04). 5 bài ~2300 dòng. README cluster v1.0.0. MASTER-CATALOG v1.16.0. Tổng bài 59 → **64**.
+- ✅ **🎉 http-https BASIC CLUSTER HOÀN CHỈNH 6/6** — Cluster đầu tiên của `05_networking/`. story arc tiếp git/docker: bạn debug 401 DevTools (00) → design POST /getUsers bị chê (01) → debug 5 status (02) → 5 lỗi CORS 1 ngày (03) → deploy self-signed cert (04) → sếp bảo "phải RESTful" (05). 6 bài ~3000 dòng + mermaid TLS handshake + framework code samples. README cluster v1.0.0. MASTER-CATALOG v1.15.0. Tổng bài 53 → **59**.
+- ✅ **🎉 git-clients CLUSTER HOÀN CHỈNH 7/7** — Thêm 5 file: github-desktop (~400), gitlab (~600), bitbucket (~500), codeberg (~450), gitea (~500). Tool category đầu tiên của `02_tools/` đóng đủ pattern (category + 6 individual). README v1.0.0 + MASTER-CATALOG v1.14.0. Tổng bài 48 → 53.
 - ✅ **GitHub user guide** — `github.md` (~720 dòng): account+2FA, SSH/PAT/gh auth, repo+UI tour, PR workflow, Actions, Pages, gh CLI, security. Unblock 3 "(chưa có)" link → ✅. README v0.3.0 + MASTER-CATALOG v1.13.0. Tổng bài 47 → 48.
 - ✅ **Tool category git-clients mở** — `00_what-is-git-hosting.md` (~520 dòng): so sánh 7 platform, 7 case khuyến nghị, vendor lock-in, AI 2026. README v0.2.0 + MASTER-CATALOG v1.12.0.
 - ✅ **🎉 Computing-environment CLUSTER BASIC HOÀN CHỈNH 6/6** — Thêm `05_io-redirection.md` (~520 dòng): 3 streams + redirect + pipe + /dev/null + tee + 3 ví dụ kết hợp. README v1.0.0 + MASTER-CATALOG v1.11.0. Cluster đầu tiên của Foundations đóng hoàn chỉnh.
@@ -304,7 +304,7 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 
 ### 21/05/2026
 
-- ✅ **Move terminal intro** `02_Tools/shell/lessons/01_basic/00_what-is-terminal.md` → `01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md` (v2.0.0 → v2.1.0). Sweep 6 external + 2 internal refs. Update shell README (v0.4.0) + computing-environment README (v0.2.0) + MASTER-CATALOG (v1.6.0).
+- ✅ **Move terminal intro** `02_tools/shell/lessons/01_basic/00_what-is-terminal.md` → `01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md` (v2.0.0 → v2.1.0). Sweep 6 external + 2 internal refs. Update shell README (v0.4.0) + computing-environment README (v0.2.0) + MASTER-CATALOG (v1.6.0).
 - ✅ **Python 4 lessons refactor v2.0.0** — `00_what-is-python` (tình huống cài Python, mở terminal không biết gõ gì), `01_variables-and-types` (viết script tính lương, TypeError vì chưa biết types), `02_control-flow` (tax theo bậc + lặp 30 nhân viên), `03_functions` (lặp 180 chỗ vì chưa biết function). Headers câu hỏi tự nhiên. Content kỹ thuật KHÔNG đổi.
 - ✅ **Linux 3 lessons refactor v2.0.0** — `01_navigation` (terminal mở lần đầu, 3 câu hỏi), `02_file-operations` (tạo cấu trúc project + cảnh báo rm), `03_view-file-content` (debug log production 50,000 dòng). Style v0.5.1.
 - ✅ **Shell intro refactor v2.0.0** — Tutorial bảo "mở terminal" mà beginner không biết. Style v0.5.1.
@@ -316,17 +316,17 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 - ✅ **WIP-TRACKER + memory** — tạo `_workspace/WIP-TRACKER.md` + 3 memory (expert collab, __Ref__ intentional, WIP tracker auto-load)
 - ✅ **Folder skeleton đầy đủ** — 146 L2 + 15 L3 web + 264 README placeholder + 608 .gitkeep theo Blueprint sitemap
 - ✅ **Fix broken anchor** — `#stage-1--tools-cơ-bản` → `#stage-1--tools-tối-thiểu` ở 8 file
-- ✅ **Tool category đầu tiên** — `02_Tools/ide/` với `00_what-is-ide.md` + `vs-code.md` v2.0.0 (move từ `editor/setup/`)
+- ✅ **Tool category đầu tiên** — `02_tools/ide/` với `00_what-is-ide.md` + `vs-code.md` v2.0.0 (move từ `editor/setup/`)
 - ✅ **MASTER-CATALOG** v1.1.0 → v1.2.0 → v1.3.0
 
 ### 19/05/2026
 
-- ✅ **Move git folder** từ `02_Tools/git/` → `01_Foundations/version-control/git/`
+- ✅ **Move git folder** từ `02_tools/git/` → `01_foundations/version-control/git/`
 - ✅ **Git lessons refactor v2.0.0** — 5 bài (intro + 01-04) với story arc narrative
 - ✅ **zero-to-coder v2.0.0** — thêm Stage 0 (bản đồ ngành) + Stage 2 đổi sang "Chọn 1 ngôn ngữ"
 - ✅ **industry-landscape lesson** — NEW (~470 dòng) cho Stage 0
 - ✅ **Writing style v0.5.1** — WHY/WHAT/HOW từ "tiêu đề bắt buộc" → "tiêu chí đánh giá"
-- ✅ **Blueprint cleanup** — sync MASTER-CATALOG, 01_Foundations README, version-control git README
+- ✅ **Blueprint cleanup** — sync MASTER-CATALOG, 01_foundations README, version-control git README
 
 ---
 
@@ -344,34 +344,34 @@ _(none — session 24/05 cumulative: **11_Cloud full 9/9 basic** + **12_Security
 
 ## 📌 Changelog
 
-- **v0.62.0 (25/05/2026)** — Phase 4 11_Cloud/cloud-fundamentals COMPLETE 5/5 ✅ (5 file 1 turn, files 97-101). Mốc **100 lessons** Phase 4 đạt ở file 100. Total 101/156 (64.7%). Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file 11_Cloud + 15 file 12_Security/13_AI-ML.
-- **v0.61.0 (25/05/2026)** — 🎉🎉🎉 **10_DevOps COMPLETE 49/49 ✅** (9 file 1 turn). observability 10/10 đóng (files 93-96). Toàn bộ DevOps tier-1 + tier-2 apply Blueprint v0.5.4+. Phase 4 total 93/156 (59.6%). Tiếp 11_Cloud 45 → 12_Security 10 → 13_AI-ML 5.
-- **v0.60.0 (25/05/2026)** — Phase 4 progress: 10_DevOps/kubernetes 10/10 ✅ COMPLETE (6 files in 1 turn). observability 7/10 (file 93 metrics-prometheus done). Total 90/156 (57.7%). Còn 3 file observability + 11_Cloud 45 + 12_Security 10 + 13_AI-ML 5.
-- **v0.27.0 (24/05/2026)** — 🆕 `11_Cloud/aws/` basic cluster complete 5/5 (~5890 dòng). Cluster vendor-specific đầu tiên. AWS production foundation (EC2/S3/IAM/RDS/DynamoDB/Lambda). Tổng 155 → **160**. 2/9 sub-clusters của 11_Cloud active.
-- **v0.26.0 (24/05/2026)** — 🆕 `11_Cloud/cloud-fundamentals/` basic cluster complete 5/5 (~5200 dòng). Cluster đầu tiên `11_Cloud/`. Vendor-neutral foundation (cloud computing concepts + regions + networking + storage/DBs + security). Tổng 150 → **155**. Sub-clusters AWS/GCP/Azure/etc. còn skeleton.
+- **v0.62.0 (25/05/2026)** — Phase 4 11_cloud/cloud-fundamentals COMPLETE 5/5 ✅ (5 file 1 turn, files 97-101). Mốc **100 lessons** Phase 4 đạt ở file 100. Total 101/156 (64.7%). Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file 11_cloud + 15 file 12_security/13_ai-ml.
+- **v0.61.0 (25/05/2026)** — 🎉🎉🎉 **10_devops COMPLETE 49/49 ✅** (9 file 1 turn). observability 10/10 đóng (files 93-96). Toàn bộ DevOps tier-1 + tier-2 apply Blueprint v0.5.4+. Phase 4 total 93/156 (59.6%). Tiếp 11_cloud 45 → 12_security 10 → 13_ai-ml 5.
+- **v0.60.0 (25/05/2026)** — Phase 4 progress: 10_devops/kubernetes 10/10 ✅ COMPLETE (6 files in 1 turn). observability 7/10 (file 93 metrics-prometheus done). Total 90/156 (57.7%). Còn 3 file observability + 11_cloud 45 + 12_security 10 + 13_ai-ml 5.
+- **v0.27.0 (24/05/2026)** — 🆕 `11_cloud/aws/` basic cluster complete 5/5 (~5890 dòng). Cluster vendor-specific đầu tiên. AWS production foundation (EC2/S3/IAM/RDS/DynamoDB/Lambda). Tổng 155 → **160**. 2/9 sub-clusters của 11_cloud active.
+- **v0.26.0 (24/05/2026)** — 🆕 `11_cloud/cloud-fundamentals/` basic cluster complete 5/5 (~5200 dòng). Cluster đầu tiên `11_cloud/`. Vendor-neutral foundation (cloud computing concepts + regions + networking + storage/DBs + security). Tổng 150 → **155**. Sub-clusters AWS/GCP/Azure/etc. còn skeleton.
 - **v0.25.0 (24/05/2026)** — 🎉 IaC INTERMEDIATE cluster hoàn thành 5/5 bài (~5870 dòng). **DEVOPS INTERMEDIATE SPRINT 100% COMPLETE** — 5/5 clusters intermediate (Docker + K8s + CI/CD + Obs + IaC = 25 intermediate lessons total). Apply 4+ insight từ `__Ref__/` đã capture (GitOps enforcement, drift detection, state migration, multi-cloud abstraction). Tổng bài 145 → **150**. Production-grade DevOps stack tier-1 hoàn chỉnh.
-- **v0.24.0 (24/05/2026)** — Observability INTERMEDIATE cluster hoàn thành 5/5 bài (~5560 dòng). Cluster intermediate thứ 4 của `10_DevOps/`. Apply 4+ insight từ `__Ref__/` đã capture (SRE practices, blameless postmortem template, on-call patterns, burn rate alerts, alert on saturation). Tổng bài 140 → **145**. 4/5 DevOps cluster intermediate complete. Còn IaC intermediate cuối.
-- **v0.23.0 (24/05/2026)** — CI/CD INTERMEDIATE cluster hoàn thành 5/5 bài (~4830 dòng). Cluster intermediate thứ 3 của `10_DevOps/`. Apply 4 insight từ `__Ref__/` đã capture (GitOps anti-pattern, 12-factor violations, SLSA L3, progressive delivery patterns). Tổng bài 135 → **140**. 3 cluster DevOps đã intermediate (Docker + K8s + CI/CD).
-- **v0.22.0 (24/05/2026)** — K8s INTERMEDIATE cluster hoàn thành 5/5 bài (~4220 dòng). Cluster intermediate thứ 2 của `10_DevOps/`. Apply 4 insight từ `__Ref__/` đã capture (NetworkPolicy CNI dependency, PDB-HPA war story, Postgres Operator CloudNativePG, Cilium kube-proxy replacement). Tổng bài 130 → **135**.
-- **v0.21.0 (24/05/2026)** — Docker INTERMEDIATE cluster hoàn thành 5/5 bài (~3540 dòng). Cluster intermediate đầu tiên của `10_DevOps/`. Apply rule mới Blueprint v0.5.2 (no fictional character). Tổng bài 125 → **130**. Foundation cho K8s/CI-CD intermediate.
+- **v0.24.0 (24/05/2026)** — Observability INTERMEDIATE cluster hoàn thành 5/5 bài (~5560 dòng). Cluster intermediate thứ 4 của `10_devops/`. Apply 4+ insight từ `__Ref__/` đã capture (SRE practices, blameless postmortem template, on-call patterns, burn rate alerts, alert on saturation). Tổng bài 140 → **145**. 4/5 DevOps cluster intermediate complete. Còn IaC intermediate cuối.
+- **v0.23.0 (24/05/2026)** — CI/CD INTERMEDIATE cluster hoàn thành 5/5 bài (~4830 dòng). Cluster intermediate thứ 3 của `10_devops/`. Apply 4 insight từ `__Ref__/` đã capture (GitOps anti-pattern, 12-factor violations, SLSA L3, progressive delivery patterns). Tổng bài 135 → **140**. 3 cluster DevOps đã intermediate (Docker + K8s + CI/CD).
+- **v0.22.0 (24/05/2026)** — K8s INTERMEDIATE cluster hoàn thành 5/5 bài (~4220 dòng). Cluster intermediate thứ 2 của `10_devops/`. Apply 4 insight từ `__Ref__/` đã capture (NetworkPolicy CNI dependency, PDB-HPA war story, Postgres Operator CloudNativePG, Cilium kube-proxy replacement). Tổng bài 130 → **135**.
+- **v0.21.0 (24/05/2026)** — Docker INTERMEDIATE cluster hoàn thành 5/5 bài (~3540 dòng). Cluster intermediate đầu tiên của `10_devops/`. Apply rule mới Blueprint v0.5.2 (no fictional character). Tổng bài 125 → **130**. Foundation cho K8s/CI-CD intermediate.
 - **v0.20.0 (24/05/2026)** — Bulk fix "Long"/"Mai" character + "longshop" brand qua 95+ files (24 DevOps lessons + meta files) qua 3 pass Python script. Audit toàn bộ 24 DevOps lessons + mining `__Ref__/` qua 5 Explore agent → fix 5 critical bug (broken HTML `<ated>`, residual `long-staging/long-prod` cluster name, `substr "long"` output bug, "backend Long" README leak) + 3 polish + 2 nugget (SIGTERM pitfall vào docker/02, SLO/error-budget table vào obs/00). **Capture 20+ insight cho DevOps Intermediate** vào backlog. Blueprint writing-style v0.5.2 + quality-checklist v0.3.1 thêm rule "KHÔNG tự bịa nhân vật fictional".
 - **v0.19.0 (23/05/2026)** — IaC basic cluster 5/5 done. **DEVOPS SPRINT COMPLETE** 4 clusters (K8s+CICD+Obs+IaC) = 20 lessons.
 - **v0.18.0 (23/05/2026)** — Observability basic cluster 5/5 done. DevOps sprint #3.
 - **v0.17.0 (23/05/2026)** — CI/CD basic cluster 5/5 done. DevOps sprint #2.
 - **v0.16.0 (23/05/2026)** — Kubernetes basic cluster 5/5 done. DevOps sprint #1.
-- **v0.15.0 (23/05/2026)** — PostgreSQL basic cluster 5/5 done. Cluster thứ 2 của 06_Databases.
+- **v0.15.0 (23/05/2026)** — PostgreSQL basic cluster 5/5 done. Cluster thứ 2 của 06_databases.
 - **v0.14.0 (23/05/2026)** — React basic cluster 5/5 done. **MỐC 100 BÀI ✨**. Fullstack React + FastAPI complete.
 - **v0.13.0 (23/05/2026)** — javascript-dom basic cluster 5/5 done. Cluster thứ 2 của frontend.
-- **v0.12.0 (23/05/2026)** — html-css basic cluster 5/5 done. Cluster đầu tiên của `07_Web/frontend/`.
+- **v0.12.0 (23/05/2026)** — html-css basic cluster 5/5 done. Cluster đầu tiên của `07_web/frontend/`.
 - **v0.11.0 (23/05/2026)** — Linux intermediate cluster 5/5 done + cherry-pick 2 gem (fail2ban, unattended-upgrades). Cluster intermediate đầu tiên.
-- **v0.10.0 (23/05/2026)** — FastAPI basic cluster 5/5 done. Synthesis Python+SQL+HTTP+REST. Cluster đầu tiên của `07_Web/backend/`.
+- **v0.10.0 (23/05/2026)** — FastAPI basic cluster 5/5 done. Synthesis Python+SQL+HTTP+REST. Cluster đầu tiên của `07_web/backend/`.
 - **v0.9.0 (23/05/2026)** — TCP/IP fundamentals basic cluster 5/5 done. 3-trụ-cột networking đủ. **Workflow mới**: sau khi đóng cluster → cherry-pick `__Ref__/` improve.
-- **v0.8.0 (23/05/2026)** — SQL fundamentals basic cluster 6/6 done. Cluster đầu tiên của `06_Databases/` đóng.
-- **v0.7.0 (23/05/2026)** — DNS basic cluster 5/5 done. Cluster thứ 2 của `05_Networking/` đóng.
+- **v0.8.0 (23/05/2026)** — SQL fundamentals basic cluster 6/6 done. Cluster đầu tiên của `06_databases/` đóng.
+- **v0.7.0 (23/05/2026)** — DNS basic cluster 5/5 done. Cluster thứ 2 của `05_networking/` đóng.
 - **v0.6.0 (23/05/2026)** — HTTP basic cluster 6/6 done. Backlog "Lesson series" → updated với HTTP intermediate/DNS làm candidate kế tiếp.
 - **v0.5.0 (23/05/2026)** — git-clients cluster 7/7 done + computing-environment cluster 6/6 done.
 - **v0.4.0 (23/05/2026)** — Computing-environment buildout: thêm `01_what-is-shell.md` (cluster basic 2/6 bài).
-- **v0.3.0 (21/05/2026)** — Move terminal intro xong (02_Tools/shell → 01_Foundations/computing-environment), Backlog "Move terminal" → Done.
+- **v0.3.0 (21/05/2026)** — Move terminal intro xong (02_tools/shell → 01_foundations/computing-environment), Backlog "Move terminal" → Done.
 - **v0.2.0 (21/05/2026)** — Audit + refactor cycle:
   - ✅ Done 8 lesson refactor v2.0.0 (Python 4 + Linux 3 + Shell intro 1)
   - ✅ Fix 3 stale § refs trong Docker file 02

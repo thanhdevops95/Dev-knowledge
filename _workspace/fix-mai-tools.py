@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Replace Mai/Hùng/Hung fictional names in:
-- 02_Tools/git-clients/ (github.md, github-desktop.md, README.md, 00_what-is-git-hosting.md)
-- 04_OS/linux/ text-processing sample data
+- 02_tools/git-clients/ (github.md, github-desktop.md, README.md, 00_what-is-git-hosting.md)
+- 04_os/linux/ text-processing sample data
 
 Per Blueprint v0.5.5 §3.5: KHÔNG tên riêng.
 Use generic role: "đồng nghiệp" for character, "Alice/Bob" for sample data.
@@ -11,16 +11,16 @@ Use generic role: "đồng nghiệp" for character, "Alice/Bob" for sample data.
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Specific files to target (avoid risky bulk replace on whole tree)
 FILES = [
-    "02_Tools/git-clients/github.md",
-    "02_Tools/git-clients/00_what-is-git-hosting.md",
-    "02_Tools/git-clients/README.md",
-    "02_Tools/git-clients/github-desktop.md",
-    "02_Tools/git-clients/codeberg.md",  # only if has Mai (not Đức)
-    "04_OS/linux/lessons/02_intermediate/04_text-processing-advanced.md",
+    "02_tools/git-clients/github.md",
+    "02_tools/git-clients/00_what-is-git-hosting.md",
+    "02_tools/git-clients/README.md",
+    "02_tools/git-clients/github-desktop.md",
+    "02_tools/git-clients/codeberg.md",  # only if has Mai (not Đức)
+    "04_os/linux/lessons/02_intermediate/04_text-processing-advanced.md",
 ]
 
 PATTERNS = [

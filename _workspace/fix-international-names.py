@@ -30,10 +30,10 @@ Mapping:
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Skip these directories
-SKIP_DIRS = ("__Ref__", "_Blueprint", "_workspace", "language/vietnamese")
+SKIP_DIRS = ("__Ref__", "_blueprint", "_workspace", "language/vietnamese")
 
 # Mapping (longest first to avoid prefix collision)
 NAME_MAP = [

@@ -13,13 +13,13 @@
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 TARGET_DIRS = [
-    ROOT / "10_DevOps/kubernetes/lessons",
-    ROOT / "10_DevOps/ci-cd/lessons",
-    ROOT / "10_DevOps/observability/lessons",
-    ROOT / "10_DevOps/iac/lessons",
-    ROOT / "10_DevOps/docker/lessons",
+    ROOT / "10_devops/kubernetes/lessons",
+    ROOT / "10_devops/ci-cd/lessons",
+    ROOT / "10_devops/observability/lessons",
+    ROOT / "10_devops/iac/lessons",
+    ROOT / "10_devops/docker/lessons",
 ]
 
 # Technical English terms that contain "long" — MUST NOT be touched

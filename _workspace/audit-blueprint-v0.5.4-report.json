@@ -11,7 +11,7 @@
   },
   "results": [
     {
-      "file": "10_DevOps/iac/lessons/01_basic/02_state-and-backend.md",
+      "file": "10_devops/iac/lessons/01_basic/02_state-and-backend.md",
       "issues": {
         "situation_open": "line 26: '1️⃣ State file — Inside' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -100,7 +100,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/iac/lessons/01_basic/04_best-practices-and-alternatives.md",
+      "file": "10_devops/iac/lessons/01_basic/04_best-practices-and-alternatives.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ Security scanning — tfsec, checkov' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -189,7 +189,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/iac/lessons/02_intermediate/03_state-advanced-and-drift.md",
+      "file": "10_devops/iac/lessons/02_intermediate/03_state-advanced-and-drift.md",
       "issues": {
         "header_to_code": [
           {
@@ -285,7 +285,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/01_basic/01_pods-and-deployments.md",
+      "file": "10_devops/kubernetes/lessons/01_basic/01_pods-and-deployments.md",
       "issues": {
         "header_to_code": [
           {
@@ -380,7 +380,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/02_intermediate/02_ingress-cert-manager-tls.md",
+      "file": "10_devops/kubernetes/lessons/02_intermediate/02_ingress-cert-manager-tls.md",
       "issues": {
         "header_to_code": [
           {
@@ -476,7 +476,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/02_intermediate/03_statefulset-and-storage.md",
+      "file": "10_devops/kubernetes/lessons/02_intermediate/03_statefulset-and-storage.md",
       "issues": {
         "header_to_code": [
           {
@@ -572,7 +572,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md",
+      "file": "10_devops/kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md",
       "issues": {
         "header_to_code": [
           {
@@ -668,7 +668,7 @@
       "total_issues": 16
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/02_intermediate/03_secret-management.md",
+      "file": "10_devops/ci-cd/lessons/02_intermediate/03_secret-management.md",
       "issues": {
         "header_to_code": [
           {
@@ -758,7 +758,7 @@
       "total_issues": 15
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/01_basic/04_namespaces-and-rbac.md",
+      "file": "10_devops/kubernetes/lessons/01_basic/04_namespaces-and-rbac.md",
       "issues": {
         "header_to_code": [
           {
@@ -846,7 +846,7 @@
       "total_issues": 15
     },
     {
-      "file": "11_Cloud/aws/lessons/01_basic/02_s3-deep-and-iam.md",
+      "file": "11_cloud/aws/lessons/01_basic/02_s3-deep-and-iam.md",
       "issues": {
         "header_to_code": [
           {
@@ -936,7 +936,7 @@
       "total_issues": 15
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/01_basic/00_what-is-kubernetes.md",
+      "file": "10_devops/kubernetes/lessons/01_basic/00_what-is-kubernetes.md",
       "issues": {
         "header_to_code": [
           {
@@ -1018,7 +1018,7 @@
       "total_issues": 14
     },
     {
-      "file": "10_DevOps/observability/lessons/01_basic/01_metrics-prometheus.md",
+      "file": "10_devops/observability/lessons/01_basic/01_metrics-prometheus.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ Prometheus là gì?' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1095,7 +1095,7 @@
       "total_issues": 14
     },
     {
-      "file": "11_Cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+      "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -1179,7 +1179,7 @@
       "total_issues": 14
     },
     {
-      "file": "11_Cloud/cloudflare/lessons/01_basic/02_workers-and-pages.md",
+      "file": "11_cloud/cloudflare/lessons/01_basic/02_workers-and-pages.md",
       "issues": {
         "header_to_code": [
           {
@@ -1264,7 +1264,7 @@
       "total_issues": 14
     },
     {
-      "file": "12_Security/owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md",
+      "file": "12_security/owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md",
       "issues": {
         "header_to_code": [
           {
@@ -1348,7 +1348,7 @@
       "total_issues": 14
     },
     {
-      "file": "13_AI-ML/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+      "file": "13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
       "issues": {
         "header_to_code": [
           {
@@ -1432,7 +1432,7 @@
       "total_issues": 14
     },
     {
-      "file": "06_Databases/postgresql/lessons/01_basic/04_backup-and-replication.md",
+      "file": "06_databases/postgresql/lessons/01_basic/04_backup-and-replication.md",
       "issues": {
         "header_to_code": [
           {
@@ -1511,7 +1511,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/01_basic/01_github-actions.md",
+      "file": "10_devops/ci-cd/lessons/01_basic/01_github-actions.md",
       "issues": {
         "situation_open": "line 28: '1️⃣ Anatomy workflow' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1580,7 +1580,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/01_basic/03_pipeline-patterns.md",
+      "file": "10_devops/ci-cd/lessons/01_basic/03_pipeline-patterns.md",
       "issues": {
         "situation_open": "line 28: '1️⃣ PR validation pattern' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1649,7 +1649,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/01_basic/04_deploy-strategies.md",
+      "file": "10_devops/ci-cd/lessons/01_basic/04_deploy-strategies.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ 5 Strategies overview' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1718,7 +1718,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md",
+      "file": "10_devops/ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md",
       "issues": {
         "header_to_code": [
           {
@@ -1796,7 +1796,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/iac/lessons/01_basic/00_what-is-iac.md",
+      "file": "10_devops/iac/lessons/01_basic/00_what-is-iac.md",
       "issues": {
         "situation_open": "line 26: '1️⃣ IaC là gì?' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1865,7 +1865,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/iac/lessons/01_basic/01_terraform-basics.md",
+      "file": "10_devops/iac/lessons/01_basic/01_terraform-basics.md",
       "issues": {
         "situation_open": "line 28: '1️⃣ Install' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -1937,7 +1937,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/iac/lessons/01_basic/03_modules-and-workspaces.md",
+      "file": "10_devops/iac/lessons/01_basic/03_modules-and-workspaces.md",
       "issues": {
         "situation_open": "line 26: '1️⃣ Module là gì?' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -2006,7 +2006,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/observability/lessons/01_basic/03_traces-opentelemetry.md",
+      "file": "10_devops/observability/lessons/01_basic/03_traces-opentelemetry.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ Distributed tracing — Model' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -2075,7 +2075,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/observability/lessons/01_basic/04_grafana-and-alerting.md",
+      "file": "10_devops/observability/lessons/01_basic/04_grafana-and-alerting.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ Grafana — Unified visualization' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -2144,7 +2144,7 @@
       "total_issues": 13
     },
     {
-      "file": "10_DevOps/observability/lessons/02_intermediate/03_opentelemetry-instrumentation.md",
+      "file": "10_devops/observability/lessons/02_intermediate/03_opentelemetry-instrumentation.md",
       "issues": {
         "header_to_code": [
           {
@@ -2222,7 +2222,7 @@
       "total_issues": 13
     },
     {
-      "file": "11_Cloud/aws/lessons/01_basic/04_lambda-and-api-gateway.md",
+      "file": "11_cloud/aws/lessons/01_basic/04_lambda-and-api-gateway.md",
       "issues": {
         "header_to_code": [
           {
@@ -2300,7 +2300,7 @@
       "total_issues": 13
     },
     {
-      "file": "11_Cloud/cloud-cost-management/lessons/01_basic/04_finops-tools-and-automation.md",
+      "file": "11_cloud/cloud-cost-management/lessons/01_basic/04_finops-tools-and-automation.md",
       "issues": {
         "header_to_code": [
           {
@@ -2380,7 +2380,7 @@
       "total_issues": 13
     },
     {
-      "file": "11_Cloud/cloud-fundamentals/lessons/01_basic/01_regions-availability-zones-edge.md",
+      "file": "11_cloud/cloud-fundamentals/lessons/01_basic/01_regions-availability-zones-edge.md",
       "issues": {
         "header_to_code": [
           {
@@ -2458,7 +2458,7 @@
       "total_issues": 13
     },
     {
-      "file": "12_Security/authentication/lessons/01_basic/03_jwt-and-sessions-deep.md",
+      "file": "12_security/authentication/lessons/01_basic/03_jwt-and-sessions-deep.md",
       "issues": {
         "header_to_code": [
           {
@@ -2536,7 +2536,7 @@
       "total_issues": 13
     },
     {
-      "file": "05_Networking/dns/lessons/01_basic/04_dns-setup-and-security.md",
+      "file": "05_networking/dns/lessons/01_basic/04_dns-setup-and-security.md",
       "issues": {
         "header_to_code": [
           {
@@ -2604,7 +2604,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/01_basic/00_what-is-cicd.md",
+      "file": "10_devops/ci-cd/lessons/01_basic/00_what-is-cicd.md",
       "issues": {
         "header_to_code": [
           {
@@ -2672,7 +2672,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/01_basic/02_gitlab-ci.md",
+      "file": "10_devops/ci-cd/lessons/01_basic/02_gitlab-ci.md",
       "issues": {
         "header_to_code": [
           {
@@ -2740,7 +2740,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/02_intermediate/02_supply-chain-security.md",
+      "file": "10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md",
       "issues": {
         "header_to_code": [
           {
@@ -2812,7 +2812,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/docker/lessons/02_intermediate/04_registry-production-patterns.md",
+      "file": "10_devops/docker/lessons/02_intermediate/04_registry-production-patterns.md",
       "issues": {
         "header_to_code": [
           {
@@ -2884,7 +2884,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/iac/lessons/02_intermediate/01_terragrunt-dry-multi-env.md",
+      "file": "10_devops/iac/lessons/02_intermediate/01_terragrunt-dry-multi-env.md",
       "issues": {
         "header_to_code": [
           {
@@ -2956,7 +2956,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/iac/lessons/02_intermediate/04_pulumi-cdk-crossplane.md",
+      "file": "10_devops/iac/lessons/02_intermediate/04_pulumi-cdk-crossplane.md",
       "issues": {
         "header_to_code": [
           {
@@ -3028,7 +3028,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/01_basic/02_services-and-networking.md",
+      "file": "10_devops/kubernetes/lessons/01_basic/02_services-and-networking.md",
       "issues": {
         "header_to_code": [
           {
@@ -3100,7 +3100,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/observability/lessons/01_basic/00_what-is-observability.md",
+      "file": "10_devops/observability/lessons/01_basic/00_what-is-observability.md",
       "issues": {
         "header_to_code": [
           {
@@ -3168,7 +3168,7 @@
       "total_issues": 12
     },
     {
-      "file": "10_DevOps/observability/lessons/02_intermediate/04_sre-practices.md",
+      "file": "10_devops/observability/lessons/02_intermediate/04_sre-practices.md",
       "issues": {
         "header_to_code": [
           {
@@ -3240,7 +3240,7 @@
       "total_issues": 12
     },
     {
-      "file": "11_Cloud/aws/lessons/01_basic/01_ec2-and-ebs-compute.md",
+      "file": "11_cloud/aws/lessons/01_basic/01_ec2-and-ebs-compute.md",
       "issues": {
         "header_to_code": [
           {
@@ -3312,7 +3312,7 @@
       "total_issues": 12
     },
     {
-      "file": "11_Cloud/aws/lessons/01_basic/03_rds-and-dynamodb.md",
+      "file": "11_cloud/aws/lessons/01_basic/03_rds-and-dynamodb.md",
       "issues": {
         "header_to_code": [
           {
@@ -3384,7 +3384,7 @@
       "total_issues": 12
     },
     {
-      "file": "11_Cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+      "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
       "issues": {
         "header_to_code": [
           {
@@ -3456,7 +3456,7 @@
       "total_issues": 12
     },
     {
-      "file": "12_Security/authentication/lessons/01_basic/04_federation-sso-and-idp.md",
+      "file": "12_security/authentication/lessons/01_basic/04_federation-sso-and-idp.md",
       "issues": {
         "header_to_code": [
           {
@@ -3528,7 +3528,7 @@
       "total_issues": 12
     },
     {
-      "file": "12_Security/owasp-top-10/lessons/01_basic/00_what-is-owasp-and-application-security.md",
+      "file": "12_security/owasp-top-10/lessons/01_basic/00_what-is-owasp-and-application-security.md",
       "issues": {
         "header_to_code": [
           {
@@ -3600,7 +3600,7 @@
       "total_issues": 12
     },
     {
-      "file": "13_AI-ML/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+      "file": "13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
       "issues": {
         "header_to_code": [
           {
@@ -3672,7 +3672,7 @@
       "total_issues": 12
     },
     {
-      "file": "07_Web/frontend/react/lessons/01_basic/00_what-is-react.md",
+      "file": "07_web/frontend/react/lessons/01_basic/00_what-is-react.md",
       "issues": {
         "header_to_code": [
           {
@@ -3735,7 +3735,7 @@
       "total_issues": 11
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/02_intermediate/04_progressive-delivery.md",
+      "file": "10_devops/ci-cd/lessons/02_intermediate/04_progressive-delivery.md",
       "issues": {
         "header_to_code": [
           {
@@ -3799,7 +3799,7 @@
       "total_issues": 11
     },
     {
-      "file": "10_DevOps/docker/lessons/02_intermediate/02_image-security-supply-chain.md",
+      "file": "10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md",
       "issues": {
         "header_to_code": [
           {
@@ -3863,7 +3863,7 @@
       "total_issues": 11
     },
     {
-      "file": "10_DevOps/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md",
+      "file": "10_devops/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md",
       "issues": {
         "header_to_code": [
           {
@@ -3927,7 +3927,7 @@
       "total_issues": 11
     },
     {
-      "file": "10_DevOps/observability/lessons/02_intermediate/01_promql-deep-and-alerting.md",
+      "file": "10_devops/observability/lessons/02_intermediate/01_promql-deep-and-alerting.md",
       "issues": {
         "header_to_code": [
           {
@@ -3991,7 +3991,7 @@
       "total_issues": 11
     },
     {
-      "file": "10_DevOps/observability/lessons/02_intermediate/02_loki-logql-deep.md",
+      "file": "10_devops/observability/lessons/02_intermediate/02_loki-logql-deep.md",
       "issues": {
         "header_to_code": [
           {
@@ -4055,7 +4055,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/azure/lessons/01_basic/01_virtual-machines-and-disks.md",
+      "file": "11_cloud/azure/lessons/01_basic/01_virtual-machines-and-disks.md",
       "issues": {
         "header_to_code": [
           {
@@ -4119,7 +4119,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/azure/lessons/01_basic/03_azure-sql-and-cosmosdb.md",
+      "file": "11_cloud/azure/lessons/01_basic/03_azure-sql-and-cosmosdb.md",
       "issues": {
         "header_to_code": [
           {
@@ -4183,7 +4183,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
+      "file": "11_cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
       "issues": {
         "header_to_code": [
           {
@@ -4247,7 +4247,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/cloud-fundamentals/lessons/01_basic/02_cloud-networking.md",
+      "file": "11_cloud/cloud-fundamentals/lessons/01_basic/02_cloud-networking.md",
       "issues": {
         "header_to_code": [
           {
@@ -4311,7 +4311,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md",
+      "file": "11_cloud/cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md",
       "issues": {
         "header_to_code": [
           {
@@ -4375,7 +4375,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md",
+      "file": "11_cloud/cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md",
       "issues": {
         "header_to_code": [
           {
@@ -4439,7 +4439,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/cloudflare/lessons/01_basic/03_r2-and-d1-and-queues.md",
+      "file": "11_cloud/cloudflare/lessons/01_basic/03_r2-and-d1-and-queues.md",
       "issues": {
         "header_to_code": [
           {
@@ -4507,7 +4507,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/digitalocean/lessons/01_basic/01_droplets-and-volumes.md",
+      "file": "11_cloud/digitalocean/lessons/01_basic/01_droplets-and-volumes.md",
       "issues": {
         "header_to_code": [
           {
@@ -4571,7 +4571,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+      "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -4635,7 +4635,7 @@
       "total_issues": 11
     },
     {
-      "file": "11_Cloud/serverless/lessons/01_basic/02_event-driven-and-triggers.md",
+      "file": "11_cloud/serverless/lessons/01_basic/02_event-driven-and-triggers.md",
       "issues": {
         "header_to_code": [
           {
@@ -4703,7 +4703,7 @@
       "total_issues": 11
     },
     {
-      "file": "12_Security/authentication/lessons/01_basic/00_what-is-authentication.md",
+      "file": "12_security/authentication/lessons/01_basic/00_what-is-authentication.md",
       "issues": {
         "header_to_code": [
           {
@@ -4767,7 +4767,7 @@
       "total_issues": 11
     },
     {
-      "file": "12_Security/owasp-top-10/lessons/01_basic/02_crypto-failures-and-secure-design.md",
+      "file": "12_security/owasp-top-10/lessons/01_basic/02_crypto-failures-and-secure-design.md",
       "issues": {
         "header_to_code": [
           {
@@ -4831,7 +4831,7 @@
       "total_issues": 11
     },
     {
-      "file": "13_AI-ML/llm/lessons/01_basic/01_prompt-engineering-and-context.md",
+      "file": "13_ai-ml/llm/lessons/01_basic/01_prompt-engineering-and-context.md",
       "issues": {
         "header_to_code": [
           {
@@ -4895,7 +4895,7 @@
       "total_issues": 11
     },
     {
-      "file": "13_AI-ML/llm/lessons/01_basic/02_function-calling-and-tools.md",
+      "file": "13_ai-ml/llm/lessons/01_basic/02_function-calling-and-tools.md",
       "issues": {
         "header_to_code": [
           {
@@ -4962,7 +4962,7 @@
       "total_issues": 11
     },
     {
-      "file": "13_AI-ML/llm/lessons/01_basic/03_rag-fundamentals.md",
+      "file": "13_ai-ml/llm/lessons/01_basic/03_rag-fundamentals.md",
       "issues": {
         "header_to_code": [
           {
@@ -5026,7 +5026,7 @@
       "total_issues": 11
     },
     {
-      "file": "05_Networking/tcp-ip-fundamentals/lessons/01_basic/03_ports-sockets-firewall.md",
+      "file": "05_networking/tcp-ip-fundamentals/lessons/01_basic/03_ports-sockets-firewall.md",
       "issues": {
         "header_to_code": [
           {
@@ -5084,7 +5084,7 @@
       "total_issues": 10
     },
     {
-      "file": "07_Web/backend/python-fastapi/lessons/01_basic/01_routes-and-parameters.md",
+      "file": "07_web/backend/python-fastapi/lessons/01_basic/01_routes-and-parameters.md",
       "issues": {
         "header_to_code": [
           {
@@ -5142,7 +5142,7 @@
       "total_issues": 10
     },
     {
-      "file": "07_Web/frontend/html-css/lessons/01_basic/02_forms-and-accessibility.md",
+      "file": "07_web/frontend/html-css/lessons/01_basic/02_forms-and-accessibility.md",
       "issues": {
         "header_to_code": [
           {
@@ -5200,7 +5200,7 @@
       "total_issues": 10
     },
     {
-      "file": "07_Web/frontend/react/lessons/01_basic/03_useeffect-and-fetch.md",
+      "file": "07_web/frontend/react/lessons/01_basic/03_useeffect-and-fetch.md",
       "issues": {
         "header_to_code": [
           {
@@ -5258,7 +5258,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/docker/lessons/01_basic/00_what-is-docker.md",
+      "file": "10_devops/docker/lessons/01_basic/00_what-is-docker.md",
       "issues": {
         "header_to_code": [
           {
@@ -5317,7 +5317,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/docker/lessons/02_intermediate/03_optimization-and-distroless.md",
+      "file": "10_devops/docker/lessons/02_intermediate/03_optimization-and-distroless.md",
       "issues": {
         "header_to_code": [
           {
@@ -5379,7 +5379,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/iac/lessons/02_intermediate/00_intermediate-overview.md",
+      "file": "10_devops/iac/lessons/02_intermediate/00_intermediate-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -5439,7 +5439,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/01_basic/03_configmaps-and-secrets.md",
+      "file": "10_devops/kubernetes/lessons/01_basic/03_configmaps-and-secrets.md",
       "issues": {
         "header_to_code": [
           {
@@ -5497,7 +5497,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/02_intermediate/00_intermediate-overview.md",
+      "file": "10_devops/kubernetes/lessons/02_intermediate/00_intermediate-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -5557,7 +5557,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/kubernetes/lessons/02_intermediate/01_helm-package-manager.md",
+      "file": "10_devops/kubernetes/lessons/02_intermediate/01_helm-package-manager.md",
       "issues": {
         "header_to_code": [
           {
@@ -5621,7 +5621,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/observability/lessons/01_basic/02_logs-loki-elk.md",
+      "file": "10_devops/observability/lessons/01_basic/02_logs-loki-elk.md",
       "issues": {
         "situation_open": "line 27: '1️⃣ Structured vs Unstructured' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -5675,7 +5675,7 @@
       "total_issues": 10
     },
     {
-      "file": "10_DevOps/observability/lessons/02_intermediate/00_intermediate-overview.md",
+      "file": "10_devops/observability/lessons/02_intermediate/00_intermediate-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -5735,7 +5735,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/azure/lessons/01_basic/02_blob-storage-and-rbac.md",
+      "file": "11_cloud/azure/lessons/01_basic/02_blob-storage-and-rbac.md",
       "issues": {
         "header_to_code": [
           {
@@ -5797,7 +5797,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/cloud-cost-management/lessons/01_basic/02_tagging-allocation-and-showback.md",
+      "file": "11_cloud/cloud-cost-management/lessons/01_basic/02_tagging-allocation-and-showback.md",
       "issues": {
         "header_to_code": [
           {
@@ -5856,7 +5856,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+      "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
       "issues": {
         "header_to_code": [
           {
@@ -5916,7 +5916,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/cloudflare/lessons/01_basic/01_cdn-dns-and-ssl.md",
+      "file": "11_cloud/cloudflare/lessons/01_basic/01_cdn-dns-and-ssl.md",
       "issues": {
         "header_to_code": [
           {
@@ -5975,7 +5975,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/cloudflare/lessons/01_basic/04_security-zero-trust-and-waf.md",
+      "file": "11_cloud/cloudflare/lessons/01_basic/04_security-zero-trust-and-waf.md",
       "issues": {
         "header_to_code": [
           {
@@ -6034,7 +6034,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/multi-cloud-strategies/lessons/01_basic/02_multi-cloud-network-and-identity.md",
+      "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/02_multi-cloud-network-and-identity.md",
       "issues": {
         "header_to_code": [
           {
@@ -6097,7 +6097,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/multi-cloud-strategies/lessons/01_basic/03_kubernetes-multi-cloud-and-anthos-arc.md",
+      "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/03_kubernetes-multi-cloud-and-anthos-arc.md",
       "issues": {
         "header_to_code": [
           {
@@ -6157,7 +6157,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/serverless/lessons/01_basic/03_serverless-patterns-and-anti-patterns.md",
+      "file": "11_cloud/serverless/lessons/01_basic/03_serverless-patterns-and-anti-patterns.md",
       "issues": {
         "header_to_code": [
           {
@@ -6217,7 +6217,7 @@
       "total_issues": 10
     },
     {
-      "file": "11_Cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+      "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
       "issues": {
         "header_to_code": [
           {
@@ -6276,7 +6276,7 @@
       "total_issues": 10
     },
     {
-      "file": "12_Security/authentication/lessons/01_basic/02_oauth-and-oidc.md",
+      "file": "12_security/authentication/lessons/01_basic/02_oauth-and-oidc.md",
       "issues": {
         "header_to_code": [
           {
@@ -6338,7 +6338,7 @@
       "total_issues": 10
     },
     {
-      "file": "12_Security/owasp-top-10/lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md",
+      "file": "12_security/owasp-top-10/lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md",
       "issues": {
         "header_to_code": [
           {
@@ -6397,7 +6397,7 @@
       "total_issues": 10
     },
     {
-      "file": "04_OS/linux/lessons/02_intermediate/02_ssh-deep-dive.md",
+      "file": "04_os/linux/lessons/02_intermediate/02_ssh-deep-dive.md",
       "issues": {
         "header_to_code": [
           {
@@ -6450,7 +6450,7 @@
       "total_issues": 9
     },
     {
-      "file": "04_OS/linux/lessons/02_intermediate/03_package-management.md",
+      "file": "04_os/linux/lessons/02_intermediate/03_package-management.md",
       "issues": {
         "header_to_code": [
           {
@@ -6503,7 +6503,7 @@
       "total_issues": 9
     },
     {
-      "file": "05_Networking/dns/lessons/01_basic/03_dns-tools.md",
+      "file": "05_networking/dns/lessons/01_basic/03_dns-tools.md",
       "issues": {
         "header_to_code": [
           {
@@ -6556,7 +6556,7 @@
       "total_issues": 9
     },
     {
-      "file": "06_Databases/postgresql/lessons/01_basic/00_what-is-postgresql.md",
+      "file": "06_databases/postgresql/lessons/01_basic/00_what-is-postgresql.md",
       "issues": {
         "header_to_code": [
           {
@@ -6609,7 +6609,7 @@
       "total_issues": 9
     },
     {
-      "file": "06_Databases/postgresql/lessons/01_basic/01_psql-and-meta-commands.md",
+      "file": "06_databases/postgresql/lessons/01_basic/01_psql-and-meta-commands.md",
       "issues": {
         "header_to_code": [
           {
@@ -6665,7 +6665,7 @@
       "total_issues": 9
     },
     {
-      "file": "06_Databases/postgresql/lessons/01_basic/02_indexes-and-performance.md",
+      "file": "06_databases/postgresql/lessons/01_basic/02_indexes-and-performance.md",
       "issues": {
         "header_to_code": [
           {
@@ -6718,7 +6718,7 @@
       "total_issues": 9
     },
     {
-      "file": "06_Databases/postgresql/lessons/01_basic/03_jsonb-and-arrays.md",
+      "file": "06_databases/postgresql/lessons/01_basic/03_jsonb-and-arrays.md",
       "issues": {
         "header_to_code": [
           {
@@ -6771,7 +6771,7 @@
       "total_issues": 9
     },
     {
-      "file": "07_Web/backend/python-fastapi/lessons/01_basic/03_database-with-sqlmodel.md",
+      "file": "07_web/backend/python-fastapi/lessons/01_basic/03_database-with-sqlmodel.md",
       "issues": {
         "header_to_code": [
           {
@@ -6827,7 +6827,7 @@
       "total_issues": 9
     },
     {
-      "file": "07_Web/frontend/html-css/lessons/01_basic/03_css-fundamentals.md",
+      "file": "07_web/frontend/html-css/lessons/01_basic/03_css-fundamentals.md",
       "issues": {
         "header_to_code": [
           {
@@ -6880,7 +6880,7 @@
       "total_issues": 9
     },
     {
-      "file": "07_Web/frontend/javascript-dom/lessons/01_basic/01_variables-functions-types.md",
+      "file": "07_web/frontend/javascript-dom/lessons/01_basic/01_variables-functions-types.md",
       "issues": {
         "header_to_code": [
           {
@@ -6936,7 +6936,7 @@
       "total_issues": 9
     },
     {
-      "file": "07_Web/frontend/javascript-dom/lessons/01_basic/04_fetch-and-modules.md",
+      "file": "07_web/frontend/javascript-dom/lessons/01_basic/04_fetch-and-modules.md",
       "issues": {
         "header_to_code": [
           {
@@ -6989,7 +6989,7 @@
       "total_issues": 9
     },
     {
-      "file": "07_Web/frontend/react/lessons/01_basic/04_routing-and-context.md",
+      "file": "07_web/frontend/react/lessons/01_basic/04_routing-and-context.md",
       "issues": {
         "header_to_code": [
           {
@@ -7042,7 +7042,7 @@
       "total_issues": 9
     },
     {
-      "file": "10_DevOps/docker/lessons/02_intermediate/00_intermediate-overview.md",
+      "file": "10_devops/docker/lessons/02_intermediate/00_intermediate-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -7097,7 +7097,7 @@
       "total_issues": 9
     },
     {
-      "file": "10_DevOps/docker/lessons/02_intermediate/01_buildkit-and-multistage-advanced.md",
+      "file": "10_devops/docker/lessons/02_intermediate/01_buildkit-and-multistage-advanced.md",
       "issues": {
         "header_to_code": [
           {
@@ -7154,7 +7154,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+      "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -7208,7 +7208,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/cloudflare/lessons/01_basic/00_what-is-cloudflare-overview.md",
+      "file": "11_cloud/cloudflare/lessons/01_basic/00_what-is-cloudflare-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -7266,7 +7266,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+      "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -7319,7 +7319,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/digitalocean/lessons/01_basic/03_managed-databases.md",
+      "file": "11_cloud/digitalocean/lessons/01_basic/03_managed-databases.md",
       "issues": {
         "header_to_code": [
           {
@@ -7373,7 +7373,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+      "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
       "issues": {
         "header_to_code": [
           {
@@ -7427,7 +7427,7 @@
       "total_issues": 9
     },
     {
-      "file": "11_Cloud/multi-cloud-strategies/lessons/01_basic/01_vendor-lock-in-and-portability.md",
+      "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/01_vendor-lock-in-and-portability.md",
       "issues": {
         "header_to_code": [
           {
@@ -7482,7 +7482,7 @@
       "total_issues": 9
     },
     {
-      "file": "01_Foundations/version-control/git/lessons/01_basic/03_remote-and-github.md",
+      "file": "01_foundations/version-control/git/lessons/01_basic/03_remote-and-github.md",
       "issues": {
         "header_to_code": [
           {
@@ -7531,7 +7531,7 @@
       "total_issues": 8
     },
     {
-      "file": "04_OS/linux/lessons/01_basic/01_navigation.md",
+      "file": "04_os/linux/lessons/01_basic/01_navigation.md",
       "issues": {
         "header_to_code": [
           {
@@ -7580,7 +7580,7 @@
       "total_issues": 8
     },
     {
-      "file": "04_OS/linux/lessons/02_intermediate/01_systemd-services.md",
+      "file": "04_os/linux/lessons/02_intermediate/01_systemd-services.md",
       "issues": {
         "header_to_code": [
           {
@@ -7628,7 +7628,7 @@
       "total_issues": 8
     },
     {
-      "file": "04_OS/linux/lessons/02_intermediate/04_text-processing-advanced.md",
+      "file": "04_os/linux/lessons/02_intermediate/04_text-processing-advanced.md",
       "issues": {
         "header_to_code": [
           {
@@ -7676,7 +7676,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/dns/lessons/01_basic/00_what-is-dns.md",
+      "file": "05_networking/dns/lessons/01_basic/00_what-is-dns.md",
       "issues": {
         "header_to_code": [
           {
@@ -7724,7 +7724,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/dns/lessons/01_basic/01_dns-records.md",
+      "file": "05_networking/dns/lessons/01_basic/01_dns-records.md",
       "issues": {
         "header_to_code": [
           {
@@ -7772,7 +7772,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/dns/lessons/01_basic/02_dns-resolution.md",
+      "file": "05_networking/dns/lessons/01_basic/02_dns-resolution.md",
       "issues": {
         "header_to_code": [
           {
@@ -7820,7 +7820,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/00_what-is-http.md",
+      "file": "05_networking/http-https/lessons/01_basic/00_what-is-http.md",
       "issues": {
         "header_to_code": [
           {
@@ -7869,7 +7869,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/04_https-tls.md",
+      "file": "05_networking/http-https/lessons/01_basic/04_https-tls.md",
       "issues": {
         "header_to_code": [
           {
@@ -7917,7 +7917,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/tcp-ip-fundamentals/lessons/01_basic/01_ip-addressing.md",
+      "file": "05_networking/tcp-ip-fundamentals/lessons/01_basic/01_ip-addressing.md",
       "issues": {
         "header_to_code": [
           {
@@ -7965,7 +7965,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/tcp-ip-fundamentals/lessons/01_basic/02_tcp-vs-udp.md",
+      "file": "05_networking/tcp-ip-fundamentals/lessons/01_basic/02_tcp-vs-udp.md",
       "issues": {
         "header_to_code": [
           {
@@ -8013,7 +8013,7 @@
       "total_issues": 8
     },
     {
-      "file": "05_Networking/tcp-ip-fundamentals/lessons/01_basic/04_network-tools.md",
+      "file": "05_networking/tcp-ip-fundamentals/lessons/01_basic/04_network-tools.md",
       "issues": {
         "header_to_code": [
           {
@@ -8061,7 +8061,7 @@
       "total_issues": 8
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/00_what-is-sql.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/00_what-is-sql.md",
       "issues": {
         "header_to_code": [
           {
@@ -8109,7 +8109,7 @@
       "total_issues": 8
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/02_aggregations.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/02_aggregations.md",
       "issues": {
         "header_to_code": [
           {
@@ -8157,7 +8157,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/backend/python-fastapi/lessons/01_basic/00_what-is-fastapi.md",
+      "file": "07_web/backend/python-fastapi/lessons/01_basic/00_what-is-fastapi.md",
       "issues": {
         "header_to_code": [
           {
@@ -8205,7 +8205,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/backend/python-fastapi/lessons/01_basic/02_pydantic-models.md",
+      "file": "07_web/backend/python-fastapi/lessons/01_basic/02_pydantic-models.md",
       "issues": {
         "header_to_code": [
           {
@@ -8253,7 +8253,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md",
+      "file": "07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md",
       "issues": {
         "header_to_code": [
           {
@@ -8301,7 +8301,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/html-css/lessons/01_basic/01_html-essentials.md",
+      "file": "07_web/frontend/html-css/lessons/01_basic/01_html-essentials.md",
       "issues": {
         "header_to_code": [
           {
@@ -8349,7 +8349,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/html-css/lessons/01_basic/04_layout-flexbox-grid-responsive.md",
+      "file": "07_web/frontend/html-css/lessons/01_basic/04_layout-flexbox-grid-responsive.md",
       "issues": {
         "header_to_code": [
           {
@@ -8397,7 +8397,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/javascript-dom/lessons/01_basic/00_what-is-javascript.md",
+      "file": "07_web/frontend/javascript-dom/lessons/01_basic/00_what-is-javascript.md",
       "issues": {
         "header_to_code": [
           {
@@ -8445,7 +8445,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/javascript-dom/lessons/01_basic/02_dom-manipulation.md",
+      "file": "07_web/frontend/javascript-dom/lessons/01_basic/02_dom-manipulation.md",
       "issues": {
         "header_to_code": [
           {
@@ -8493,7 +8493,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/javascript-dom/lessons/01_basic/03_events-and-async.md",
+      "file": "07_web/frontend/javascript-dom/lessons/01_basic/03_events-and-async.md",
       "issues": {
         "header_to_code": [
           {
@@ -8541,7 +8541,7 @@
       "total_issues": 8
     },
     {
-      "file": "07_Web/frontend/react/lessons/01_basic/01_components-and-props.md",
+      "file": "07_web/frontend/react/lessons/01_basic/01_components-and-props.md",
       "issues": {
         "header_to_code": [
           {
@@ -8589,7 +8589,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/cloud-cost-management/lessons/01_basic/03_optimization-tactics-compute-storage-network.md",
+      "file": "11_cloud/cloud-cost-management/lessons/01_basic/03_optimization-tactics-compute-storage-network.md",
       "issues": {
         "header_to_code": [
           {
@@ -8642,7 +8642,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/digitalocean/lessons/01_basic/02_spaces-object-storage-and-cdn.md",
+      "file": "11_cloud/digitalocean/lessons/01_basic/02_spaces-object-storage-and-cdn.md",
       "issues": {
         "header_to_code": [
           {
@@ -8694,7 +8694,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/digitalocean/lessons/01_basic/04_app-platform-and-functions.md",
+      "file": "11_cloud/digitalocean/lessons/01_basic/04_app-platform-and-functions.md",
       "issues": {
         "header_to_code": [
           {
@@ -8746,7 +8746,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+      "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -8798,7 +8798,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+      "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
       "issues": {
         "header_to_code": [
           {
@@ -8847,7 +8847,7 @@
       "total_issues": 8
     },
     {
-      "file": "11_Cloud/serverless/lessons/01_basic/01_function-as-a-service-deep.md",
+      "file": "11_cloud/serverless/lessons/01_basic/01_function-as-a-service-deep.md",
       "issues": {
         "header_to_code": [
           {
@@ -8897,7 +8897,7 @@
       "total_issues": 8
     },
     {
-      "file": "12_Security/owasp-top-10/lessons/01_basic/01_injection-and-access-control.md",
+      "file": "12_security/owasp-top-10/lessons/01_basic/01_injection-and-access-control.md",
       "issues": {
         "header_to_code": [
           {
@@ -8946,7 +8946,7 @@
       "total_issues": 8
     },
     {
-      "file": "01_Foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md",
+      "file": "01_foundations/version-control/git/lessons/01_basic/01_init-and-first-commit.md",
       "issues": {
         "header_to_code": [
           {
@@ -8990,7 +8990,7 @@
       "total_issues": 7
     },
     {
-      "file": "03_Languages/python/lessons/01_basic/01_variables-and-types.md",
+      "file": "03_languages/python/lessons/01_basic/01_variables-and-types.md",
       "issues": {
         "header_to_code": [
           {
@@ -9034,7 +9034,7 @@
       "total_issues": 7
     },
     {
-      "file": "03_Languages/python/lessons/01_basic/02_control-flow.md",
+      "file": "03_languages/python/lessons/01_basic/02_control-flow.md",
       "issues": {
         "header_to_code": [
           {
@@ -9078,7 +9078,7 @@
       "total_issues": 7
     },
     {
-      "file": "03_Languages/python/lessons/01_basic/03_functions.md",
+      "file": "03_languages/python/lessons/01_basic/03_functions.md",
       "issues": {
         "header_to_code": [
           {
@@ -9122,7 +9122,7 @@
       "total_issues": 7
     },
     {
-      "file": "04_OS/linux/lessons/02_intermediate/00_users-and-permissions.md",
+      "file": "04_os/linux/lessons/02_intermediate/00_users-and-permissions.md",
       "issues": {
         "header_to_code": [
           {
@@ -9166,7 +9166,7 @@
       "total_issues": 7
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/02_http-status-codes.md",
+      "file": "05_networking/http-https/lessons/01_basic/02_http-status-codes.md",
       "issues": {
         "header_to_code": [
           {
@@ -9210,7 +9210,7 @@
       "total_issues": 7
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/03_http-headers.md",
+      "file": "05_networking/http-https/lessons/01_basic/03_http-headers.md",
       "issues": {
         "header_to_code": [
           {
@@ -9251,7 +9251,7 @@
       "total_issues": 7
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/05_rest-api-concepts.md",
+      "file": "05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md",
       "issues": {
         "header_to_code": [
           {
@@ -9295,7 +9295,7 @@
       "total_issues": 7
     },
     {
-      "file": "05_Networking/tcp-ip-fundamentals/lessons/01_basic/00_what-is-tcp-ip.md",
+      "file": "05_networking/tcp-ip-fundamentals/lessons/01_basic/00_what-is-tcp-ip.md",
       "issues": {
         "header_to_code": [
           {
@@ -9336,7 +9336,7 @@
       "total_issues": 7
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/01_select-and-filter.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/01_select-and-filter.md",
       "issues": {
         "header_to_code": [
           {
@@ -9380,7 +9380,7 @@
       "total_issues": 7
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/03_joins.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/03_joins.md",
       "issues": {
         "header_to_code": [
           {
@@ -9424,7 +9424,7 @@
       "total_issues": 7
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md",
       "issues": {
         "header_to_code": [
           {
@@ -9468,7 +9468,7 @@
       "total_issues": 7
     },
     {
-      "file": "07_Web/frontend/html-css/lessons/01_basic/00_what-is-html-and-css.md",
+      "file": "07_web/frontend/html-css/lessons/01_basic/00_what-is-html-and-css.md",
       "issues": {
         "header_to_code": [
           {
@@ -9509,7 +9509,7 @@
       "total_issues": 7
     },
     {
-      "file": "07_Web/frontend/react/lessons/01_basic/02_state-and-events.md",
+      "file": "07_web/frontend/react/lessons/01_basic/02_state-and-events.md",
       "issues": {
         "header_to_code": [
           {
@@ -9553,7 +9553,7 @@
       "total_issues": 7
     },
     {
-      "file": "10_DevOps/ci-cd/lessons/02_intermediate/00_intermediate-overview.md",
+      "file": "10_devops/ci-cd/lessons/02_intermediate/00_intermediate-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -9598,7 +9598,7 @@
       "total_issues": 7
     },
     {
-      "file": "10_DevOps/docker/lessons/01_basic/03_docker-compose.md",
+      "file": "10_devops/docker/lessons/01_basic/03_docker-compose.md",
       "issues": {
         "header_to_code": [
           {
@@ -9642,7 +9642,7 @@
       "total_issues": 7
     },
     {
-      "file": "11_Cloud/cloud-cost-management/lessons/01_basic/01_pricing-models-deep.md",
+      "file": "11_cloud/cloud-cost-management/lessons/01_basic/01_pricing-models-deep.md",
       "issues": {
         "header_to_code": [
           {
@@ -9687,7 +9687,7 @@
       "total_issues": 7
     },
     {
-      "file": "11_Cloud/gcp/lessons/01_basic/02_cloud-storage-and-iam.md",
+      "file": "11_cloud/gcp/lessons/01_basic/02_cloud-storage-and-iam.md",
       "issues": {
         "header_to_code": [
           {
@@ -9731,7 +9731,7 @@
       "total_issues": 7
     },
     {
-      "file": "11_Cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+      "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
       "issues": {
         "header_to_code": [
           {
@@ -9775,7 +9775,7 @@
       "total_issues": 7
     },
     {
-      "file": "11_Cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
+      "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -9820,7 +9820,7 @@
       "total_issues": 7
     },
     {
-      "file": "_Blueprint/examples/sample_kubernetes-pod/lessons/01_basic/01_pod.md",
+      "file": "_blueprint/examples/sample_kubernetes-pod/lessons/01_basic/01_pod.md",
       "issues": {
         "situation_open": "line 22: '1️⃣ Pod là gì' — mở bằng định nghĩa khô",
         "header_to_code": [
@@ -9858,7 +9858,7 @@
       "total_issues": 7
     },
     {
-      "file": "01_Foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md",
+      "file": "01_foundations/version-control/git/lessons/01_basic/02_branching-and-merging.md",
       "issues": {
         "header_to_code": [
           {
@@ -9895,7 +9895,7 @@
       "total_issues": 6
     },
     {
-      "file": "01_Foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md",
+      "file": "01_foundations/version-control/git/lessons/01_basic/04_undo-and-recovery.md",
       "issues": {
         "header_to_code": [
           {
@@ -9932,7 +9932,7 @@
       "total_issues": 6
     },
     {
-      "file": "04_OS/linux/lessons/01_basic/02_file-operations.md",
+      "file": "04_os/linux/lessons/01_basic/02_file-operations.md",
       "issues": {
         "header_to_code": [
           {
@@ -9969,7 +9969,7 @@
       "total_issues": 6
     },
     {
-      "file": "04_OS/linux/lessons/01_basic/03_view-file-content.md",
+      "file": "04_os/linux/lessons/01_basic/03_view-file-content.md",
       "issues": {
         "header_to_code": [
           {
@@ -10006,7 +10006,7 @@
       "total_issues": 6
     },
     {
-      "file": "06_Databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md",
+      "file": "06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md",
       "issues": {
         "header_to_code": [
           {
@@ -10043,7 +10043,7 @@
       "total_issues": 6
     },
     {
-      "file": "10_DevOps/docker/lessons/01_basic/01_images-and-containers.md",
+      "file": "10_devops/docker/lessons/01_basic/01_images-and-containers.md",
       "issues": {
         "header_to_code": [
           {
@@ -10080,7 +10080,7 @@
       "total_issues": 6
     },
     {
-      "file": "10_DevOps/docker/lessons/01_basic/02_dockerfile-basics.md",
+      "file": "10_devops/docker/lessons/01_basic/02_dockerfile-basics.md",
       "issues": {
         "header_to_code": [
           {
@@ -10117,7 +10117,7 @@
       "total_issues": 6
     },
     {
-      "file": "11_Cloud/cloud-cost-management/lessons/01_basic/00_what-is-finops-overview.md",
+      "file": "11_cloud/cloud-cost-management/lessons/01_basic/00_what-is-finops-overview.md",
       "issues": {
         "header_to_code": [
           {
@@ -10157,7 +10157,7 @@
       "total_issues": 6
     },
     {
-      "file": "12_Security/authentication/lessons/01_basic/01_password-and-mfa.md",
+      "file": "12_security/authentication/lessons/01_basic/01_password-and-mfa.md",
       "issues": {
         "header_to_code": [
           {
@@ -10194,7 +10194,7 @@
       "total_issues": 6
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/02_filesystem-concept.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/02_filesystem-concept.md",
       "issues": {
         "header_to_code": [
           {
@@ -10227,7 +10227,7 @@
       "total_issues": 5
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/03_process-and-pid.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/03_process-and-pid.md",
       "issues": {
         "header_to_code": [
           {
@@ -10260,7 +10260,7 @@
       "total_issues": 5
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/04_env-variables.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/04_env-variables.md",
       "issues": {
         "header_to_code": [
           {
@@ -10293,7 +10293,7 @@
       "total_issues": 5
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/05_io-redirection.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md",
       "issues": {
         "header_to_code": [
           {
@@ -10326,7 +10326,7 @@
       "total_issues": 5
     },
     {
-      "file": "01_Foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md",
+      "file": "01_foundations/industry-landscape/lessons/01_basic/00_what-is-it-industry.md",
       "issues": {
         "header_to_code": [
           {
@@ -10359,7 +10359,7 @@
       "total_issues": 5
     },
     {
-      "file": "03_Languages/python/lessons/01_basic/00_what-is-python.md",
+      "file": "03_languages/python/lessons/01_basic/00_what-is-python.md",
       "issues": {
         "header_to_code": [
           {
@@ -10394,7 +10394,7 @@
       "total_issues": 5
     },
     {
-      "file": "05_Networking/http-https/lessons/01_basic/01_http-methods.md",
+      "file": "05_networking/http-https/lessons/01_basic/01_http-methods.md",
       "issues": {
         "header_to_code": [
           {
@@ -10427,7 +10427,7 @@
       "total_issues": 5
     },
     {
-      "file": "01_Foundations/version-control/git/lessons/01_basic/00_what-is-git.md",
+      "file": "01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md",
       "issues": {
         "header_to_code": [
           {
@@ -10450,7 +10450,7 @@
       "total_issues": 3
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/01_what-is-shell.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/01_what-is-shell.md",
       "issues": {
         "header_to_code": [
           {
@@ -10468,7 +10468,7 @@
       "total_issues": 2
     },
     {
-      "file": "01_Foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md",
+      "file": "01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md",
       "issues": {
         "header_to_code": [
           {

@@ -11,9 +11,9 @@ Final cleanup of "long" residue from old fictional character bulk-fix:
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
-SKIP = ("__Ref__", "_Blueprint", "_workspace", "MASTER-CATALOG", "language/vietnamese", "WIP-TRACKER")
+SKIP = ("__Ref__", "_blueprint", "_workspace", "MASTER-CATALOG", "language/vietnamese", "WIP-TRACKER")
 
 PATTERNS = [
     # ── Email patterns ──

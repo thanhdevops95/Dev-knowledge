@@ -21,7 +21,7 @@ import json
 from pathlib import Path
 from collections import defaultdict
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 # Common English words that are OK to have un-translated (technical or proper nouns)
 EN_OK = set("""
@@ -43,7 +43,7 @@ def find_lesson_files():
     for p in ROOT.rglob("*.md"):
         if "__Ref__" in p.parts:
             continue
-        if "lessons" in p.parts or "Skills-for-me" in p.parts:
+        if "lessons" in p.parts or "skills-for-me" in p.parts:
             # Only lessons folder
             if "/lessons/" in str(p):
                 lessons.append(p)

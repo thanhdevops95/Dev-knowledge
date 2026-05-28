@@ -54,7 +54,7 @@ Một file/bài học phải phục vụ **4 nhóm cùng lúc**:
 
 ```mermaid
 graph TD
-    R[🗺️ 00_Roadmaps<br/>các lộ trình học]
+    R[🗺️ 00_roadmaps<br/>các lộ trình học]
 
     R --> B[Nền tảng]
     R --> C[Ngôn ngữ lập trình]
@@ -64,28 +64,28 @@ graph TD
     R --> G[Chuyên sâu]
     R --> H[Nghề nghiệp]
 
-    B --> B1[01_Foundations<br/>DS&A, OS theory, CS basics]
-    B --> B2[02_Tools<br/>Git, Shell, Editor, Productivity]
+    B --> B1[01_foundations<br/>DS&A, OS theory, CS basics]
+    B --> B2[02_tools<br/>Git, Shell, Editor, Productivity]
 
-    C --> C1[03_Languages<br/>Python, Go, JS/TS, Rust, ...]
+    C --> C1[03_languages<br/>Python, Go, JS/TS, Rust, ...]
 
-    D --> D1[04_OS<br/>Linux, MacOS, Windows]
-    D --> D2[05_Networking<br/>TCP/IP, HTTP, DNS, ...]
-    D --> D3[06_Databases<br/>SQL, NoSQL, Vector DB]
+    D --> D1[04_os<br/>Linux, MacOS, Windows]
+    D --> D2[05_networking<br/>TCP/IP, HTTP, DNS, ...]
+    D --> D3[06_databases<br/>SQL, NoSQL, Vector DB]
 
-    E --> E1[07_Web<br/>Frontend + Backend + API]
-    E --> E2[08_Mobile<br/>iOS, Android, Cross-platform]
-    E --> E3[09_Architecture<br/>Design patterns, System design]
+    E --> E1[07_web<br/>Frontend + Backend + API]
+    E --> E2[08_mobile<br/>iOS, Android, Cross-platform]
+    E --> E3[09_architecture<br/>Design patterns, System design]
 
-    F --> F1[10_DevOps<br/>Docker, K8s, CI/CD, IaC, Observability]
-    F --> F2[11_Cloud<br/>AWS, GCP, Azure]
-    F --> F3[12_Security<br/>Cybersec, Crypto, Auth]
+    F --> F1[10_devops<br/>Docker, K8s, CI/CD, IaC, Observability]
+    F --> F2[11_cloud<br/>AWS, GCP, Azure]
+    F --> F3[12_security<br/>Cybersec, Crypto, Auth]
 
-    G --> G1[13_AI-ML<br/>ML, DL, LLM, GenAI]
-    G --> G2[14_Data-Engineering<br/>ETL, Warehouse, Streaming]
-    G --> G3[15_Specialized<br/>Game, Embedded, Blockchain, IoT, ...]
+    G --> G1[13_ai-ml<br/>ML, DL, LLM, GenAI]
+    G --> G2[14_data-engineering<br/>ETL, Warehouse, Streaming]
+    G --> G3[15_specialized<br/>Game, Embedded, Blockchain, IoT, ...]
 
-    H --> H1[16_Career-Soft-skills<br/>Communication, Agile, Career path]
+    H --> H1[16_career-soft-skills<br/>Communication, Agile, Career path]
 ```
 
 #### Danh sách chi tiết
@@ -128,10 +128,10 @@ graph TD
 
 ### 🗺️ Cơ chế Roadmap
 
-`00_Roadmaps/` **không chứa kiến thức** — chỉ chứa **lộ trình học**, mỗi file dẫn người đọc đi xuyên qua các chủ đề L1 theo thứ tự đã thiết kế.
+`00_roadmaps/` **không chứa kiến thức** — chỉ chứa **lộ trình học**, mỗi file dẫn người đọc đi xuyên qua các chủ đề L1 theo thứ tự đã thiết kế.
 
 ```
-00_Roadmaps/
+00_roadmaps/
 ├── README.md                            ← danh sách tất cả roadmap
 ├── zero-to-coder_roadmap.md             ← bắt đầu từ con số 0
 ├── backend-developer_roadmap.md
@@ -154,12 +154,12 @@ graph TD
 - ...
 
 ## Bước 1 — Nền tảng (1-2 tháng)
-- [ ] [Linux cơ bản](../04_OS/Linux/01_basic/)
-- [ ] [Git](../02_Tools/git/)
-- [ ] [Python cơ bản](../03_Languages/python/01_basic/)
+- [ ] [Linux cơ bản](../04_os/Linux/01_basic/)
+- [ ] [Git](../02_tools/git/)
+- [ ] [Python cơ bản](../03_languages/python/01_basic/)
 
 ## Bước 2 — Database (1 tháng)
-- [ ] [SQL cơ bản](../06_Databases/postgresql/01_basic/)
+- [ ] [SQL cơ bản](../06_databases/postgresql/01_basic/)
 ...
 ```
 
@@ -219,7 +219,7 @@ graph TD
 ## 🌱 Chiến lược phát triển
 
 ### Phase 0 — Đặt nền móng (1-2 tuần)
-1. Tạo skeleton folder cho 16 chủ đề L1 + 00_Roadmaps (folder rỗng + README placeholder)
+1. Tạo skeleton folder cho 16 chủ đề L1 + 00_roadmaps (folder rỗng + README placeholder)
 2. Viết `_TEMPLATE_lesson.md` — template chuẩn cho mọi bài học
 3. Viết `README.md` gốc — giới thiệu kho, hướng dẫn dùng
 4. Soạn ít nhất **1 roadmap** đầu tiên (gợi ý: `zero-to-coder` hoặc roadmap của mảng bạn đang mạnh)

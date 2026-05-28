@@ -10,13 +10,13 @@ import os
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge")
 
 def find_md_files():
     md_files = []
     for p in ROOT.rglob("*.md"):
-        # Bỏ qua thư mục .git, __Ref__, _Blueprint, và các file trong _workspace
-        if any(part in p.parts for part in [".git", "__Ref__", "_workspace", "_Blueprint"]):
+        # Bỏ qua thư mục .git, __Ref__, _blueprint, và các file trong _workspace
+        if any(part in p.parts for part in [".git", "__Ref__", "_workspace", "_blueprint"]):
             continue
         md_files.append(p)
     return sorted(md_files)

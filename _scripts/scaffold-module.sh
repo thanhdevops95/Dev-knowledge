@@ -7,21 +7,21 @@
 # Mô tả: Tự động khởi tạo cấu trúc thư mục L2 chuẩn 7 lõi linh hoạt theo Blueprint
 #        và sao chép các tệp mẫu (templates) với metadata điền sẵn.
 # Sử dụng: ./_scripts/scaffold-module.sh <L1_Folder> <L2_Name>
-# Ví dụ: ./_scripts/scaffold-module.sh 02_Tools docker
+# Ví dụ: ./_scripts/scaffold-module.sh 02_tools docker
 # ==============================================================================
 
 set -euo pipefail
 
 # 1. Đường dẫn gốc dự án (Repository Root)
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TEMPLATE_DIR="${REPO_ROOT}/_Blueprint/templates"
+TEMPLATE_DIR="${REPO_ROOT}/_blueprint/templates"
 
 # 2. Hướng dẫn sử dụng
 usage() {
     echo -e "❌ Sử dụng chưa đúng!"
     echo -e "👉 Cú pháp: $0 <L1_Folder> <L2_Name>"
-    echo -e "👉 Ví dụ:   $0 02_Tools docker"
-    echo -e "👉 Ví dụ:   $0 10_DevOps kubernetes"
+    echo -e "👉 Ví dụ:   $0 02_tools docker"
+    echo -e "👉 Ví dụ:   $0 10_devops kubernetes"
     exit 1
 }
 
@@ -39,7 +39,7 @@ L2_PATH="${L1_PATH}/${L2_NAME}"
 # 3. Kiểm tra tính hợp lệ của L1
 if [ ! -d "${L1_PATH}" ]; then
     echo -e "❌ Lỗi: Thư mục L1 '${L1_DIR}' không tồn tại tại gốc kho!"
-    echo -e "Vui lòng kiểm tra lại tên thư mục (ví dụ: 02_Tools, 10_DevOps...)"
+    echo -e "Vui lòng kiểm tra lại tên thư mục (ví dụ: 02_tools, 10_devops...)"
     exit 1
 fi
 
@@ -173,4 +173,4 @@ fi
 echo -e "\n🎉 \033[1;32mHoàn thành cấu trúc mô-đun '${L2_NAME}' thành công!\033[0m"
 echo -e "👉 Đường dẫn mô-đun mới: ${L2_PATH}"
 echo -e "👉 Bạn có thể bắt đầu chỉnh sửa nội dung bài học tại: ${dest_lesson}"
-echo -e "👉 Hãy làm theo các quy tắc viết của Mr.Rom tại _Blueprint/03_writing-style.md!"
+echo -e "👉 Hãy làm theo các quy tắc viết của Mr.Rom tại _blueprint/03_writing-style.md!"

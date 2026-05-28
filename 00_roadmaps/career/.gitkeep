@@ -1,0 +1,7 @@
+# Career roadmap placeholder
+
+Thư mục chứa career roadmap files (1 nghề = 1 file).
+
+Khi tạo roadmap: copy `../../_blueprint/templates/roadmap_template.md`, đổi tên `<role>_career-roadmap.md`.
+
+Xem `../../_blueprint/06_roadmap-design.md` §3 cho cấu trúc chuẩn.

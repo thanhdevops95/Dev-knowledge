@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Aggressive replace of remaining "Rom" instances in Python lessons.
-Only affects 03_Languages/python/lessons/ where Rom is used as code sample data.
+Only affects 03_languages/python/lessons/ where Rom is used as code sample data.
 
 Per Blueprint v0.5.5 §3.5: KHÔNG tên riêng. Use Alice/Bob/Charlie standard.
 """
@@ -9,7 +9,7 @@ Per Blueprint v0.5.5 §3.5: KHÔNG tên riêng. Use Alice/Bob/Charlie standard.
 import re
 from pathlib import Path
 
-ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/Dev-knowledge/03_Languages/python/lessons")
+ROOT = Path("/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/03_languages/python/lessons")
 
 # Whole-word "Rom" → "Alice" — context-aware
 # But we must NOT touch "Mr.Rom" (author signature)
