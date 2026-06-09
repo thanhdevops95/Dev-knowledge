@@ -5,7 +5,6 @@
 > **Tạo lúc:** 26/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
-> **Thời lượng đọc:** ~15 phút\
 > **Status:** 🚧 Placeholder — nội dung chi tiết sẽ được bổ sung sau
 
 > 🎯 *JavaScript là ngôn ngữ lập trình web phổ biến nhất thế giới, chạy trên cả browser và server. TypeScript là phiên bản có kiểu dữ liệu tĩnh của JavaScript.*
@@ -14,24 +13,21 @@
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu JavaScript & TypeScript là gì? là gì và tại sao nó quan trọng
+- [ ] Hiểu JavaScript & TypeScript là gì và tại sao chúng quan trọng
 - [ ] Biết các khái niệm cốt lõi và thuật ngữ chính
-- [ ] Hiểu khi nào nên sử dụng JavaScript & TypeScript là gì?
+- [ ] Hiểu khi nào nên dùng JavaScript & TypeScript
 - [ ] Sẵn sàng cho các bài thực hành tiếp theo
 
 ---
 
 ## 🚧 Nội dung đang được xây dựng
 
-> Bài học này đang trong giai đoạn phát triển. Nội dung chi tiết sẽ được bổ sung theo chuẩn
-> [Writing Style Guide](../../../../_blueprint/03_writing-style.md) của dự án.
+> Bài học này mới có phần giới thiệu ngắn. Nội dung chi tiết sẽ được bổ sung dần.
 >
-> Trong thời gian chờ, bạn có thể tham khảo:
-> - 📐 [Sitemap Detail](../../../../_blueprint/01_sitemap-detail.md) — xem cấu trúc dự kiến
-> - 📚 Tài liệu chính thức của JavaScript & TypeScript là gì?
+> Trong thời gian chờ, bạn có thể tham khảo tài liệu chính thức của [JavaScript (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) và [TypeScript](https://www.typescriptlang.org/docs/).
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.1.0 (26/05/2026)** — Placeholder — khung bài học được tạo tự động.
+- **v0.1.0 (26/05/2026)** — Bản giới thiệu ngắn về JavaScript & TypeScript.

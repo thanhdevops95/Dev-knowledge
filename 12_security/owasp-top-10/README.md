@@ -22,21 +22,20 @@
 
 ## 📖 Lessons — Basic cluster (5 bài)
 
-| # | Bài | OWASP coverage | Thời lượng |
-|---|---|---|---|
-| 00 | [OWASP + AppSec](lessons/01_basic/00_what-is-owasp-and-application-security.md) | Foundation + STRIDE/DREAD + defense-in-depth | ~18p |
-| 01 | [Injection + Access Control](lessons/01_basic/01_injection-and-access-control.md) | A01 + A03 | ~22p |
-| 02 | [Crypto + Secure Design](lessons/01_basic/02_crypto-failures-and-secure-design.md) | A02 + A04 | ~22p |
-| 03 | [Misconfig + Components + Supply chain](lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md) | A05 + A06 + A08 | ~22p |
-| 04 | [Auth + Logging + SSRF](lessons/01_basic/04_auth-failures-logging-and-ssrf.md) | A07 + A09 + A10 | ~22p |
+| # | Bài | OWASP coverage |
+| --- | --- | --- |
+| 00 | [OWASP + AppSec](lessons/01_basic/00_what-is-owasp-and-application-security.md) | Foundation + STRIDE/DREAD + defense-in-depth |
+| 01 | [Injection + Access Control](lessons/01_basic/01_injection-and-access-control.md) | A01 + A03 |
+| 02 | [Crypto + Secure Design](lessons/01_basic/02_crypto-failures-and-secure-design.md) | A02 + A04 |
+| 03 | [Misconfig + Components + Supply chain](lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md) | A05 + A06 + A08 |
+| 04 | [Auth + Logging + SSRF](lessons/01_basic/04_auth-failures-logging-and-ssrf.md) | A07 + A09 + A10 |
 
-→ **Tổng ~106 phút đọc + 10-15h hands-on**.
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- ↑ [12_security README](../README.md)
+- ↑ **Về cụm:** [12_security README](../README.md)
 - 🔐 [authentication](../authentication/) — deep A07
 - 🐳 [Docker security](../../10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md)
 - 🔁 [CI/CD supply chain](../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md)
@@ -51,7 +50,7 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. OWASP Top 10 (2021 release) full coverage A01-A10.
 - **v0.1.0 (20/05/2026)** — Skeleton ban đầu.
+- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. OWASP Top 10 (2021 release) full coverage A01-A10.

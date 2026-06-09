@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 16/05/2026\
 > **OS hỗ trợ:** macOS / Linux / Windows\
-> **Thời lượng cài:** ~10-15 phút\
 > **Khó:** ⭐ Easy
 
 > 🎯 *Git là hệ thống version control được dùng bởi 90%+ developer trên thế giới. Bài này hướng dẫn cài + cấu hình ban đầu trên 3 OS.*
@@ -252,7 +251,7 @@ remote: Support for password authentication was removed
 - **Nguyên nhân**: GitHub không cho dùng password để push từ 2021
 - **Fix**: dùng 1 trong 2 cách:
   - **HTTPS + Personal Access Token (PAT)**: GitHub Settings → Developer settings → Personal access tokens → tạo token → dùng thay password
-  - **SSH key**: setup trong bài [`ssh-key-github.md`](./ssh-key-github.md) (chưa có)
+  - **SSH key**: setup trong bài `ssh-key-github.md` (chưa có)
 
 ---
 
@@ -294,25 +293,25 @@ remote: Support for password authentication was removed
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
 ### Bài học dùng Git
 
-- [What is Git (intro)](../lessons/01_basic/00_what-is-git.md) — sau khi cài xong, đọc bài này tiếp
+- ➡️ **Bài tiếp theo:** [Git là gì? — Máy thời gian cho code của bạn](../lessons/01_basic/00_what-is-git.md) — sau khi cài xong, đọc bài này tiếp
 - [Git init + first commit](../lessons/01_basic/01_init-and-first-commit.md)
 
 ### Setup liên quan
 
-- [SSH key cho GitHub](./ssh-key-github.md) (chưa có) — sau khi cài xong Git
-- [GitHub Desktop](./github-desktop.md) (chưa có) — GUI client
+- SSH key cho GitHub (`ssh-key-github.md`) — chưa có, sau khi cài xong Git
+- [GitHub Desktop](../../git-clients/github-desktop.md) — GUI client
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Pro Git Book (free)](https://git-scm.com/book/vi/v2) — tiếng Việt!
 - [GitHub Skills](https://skills.github.com/) — interactive courses
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — setup Git đầy đủ 9 section theo `setup_template.md`.

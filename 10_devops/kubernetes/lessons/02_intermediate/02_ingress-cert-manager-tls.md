@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** [01_helm-package-manager.md](01_helm-package-manager.md), [basic Ingress](../01_basic/02_services-and-networking.md)
 
 > 🎯 *Basic Ingress chỉ route traffic. Production cần TLS auto Let's Encrypt + DNS auto-record + rate limiting + WAF + multi-host. Bài này dạy: setup ingress-nginx production-grade, cert-manager auto TLS, external-dns auto DNS, Gateway API (successor 2026), NetworkPolicy với Cilium/Calico CNI.*
@@ -703,7 +702,7 @@ spec:
 
 ## 7️⃣ NetworkPolicy thực sự (cần CNI hỗ trợ)
 
-### Pitfall lặp lại — CNI default
+### Cạm bẫy lặp lại — CNI default
 
 Nhớ war story ở bài 00: Minikube default CNI **không enforce** NetworkPolicy. Bài này dạy enable Calico/Cilium.
 
@@ -830,9 +829,9 @@ hubble observe --pod production/fastapi
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Certificate stuck `Pending`
+### ❌ Cạm bẫy: Certificate stuck `Pending`
 
 ```
 kubectl describe certificate fastapi-tls
@@ -852,7 +851,7 @@ kubectl logs -n cert-manager deploy/cert-manager
 kubectl logs -n ingress-nginx deploy/ingress-nginx-controller | grep "challenge"
 ```
 
-### ❌ Pitfall: external-dns delete records không mong muốn
+### ❌ Cạm bẫy: external-dns delete records không mong muốn
 
 ```yaml
 policy: sync   # delete records if Ingress removed
@@ -862,7 +861,7 @@ policy: sync   # delete records if Ingress removed
 
 → **Fix safer**: `policy: upsert-only` (chỉ tạo + update, không delete).
 
-### ❌ Pitfall: NetworkPolicy apply nhưng không enforce
+### ❌ Cạm bẫy: NetworkPolicy apply nhưng không enforce
 
 → CNI không hỗ trợ. Check:
 ```bash
@@ -876,7 +875,7 @@ kubectl exec -n production debug -- curl fastapi.production.svc.cluster.local:80
 
 → **Fix**: Verify CNI support. Re-install với Calico/Cilium.
 
-### ❌ Pitfall: Cert-manager + ingress-nginx race condition
+### ❌ Cạm bẫy: Cert-manager + ingress-nginx race condition
 
 Khi deploy chart Helm có cả Ingress + Certificate resource cùng lúc, cert-manager có thể tạo HTTP-01 challenge Ingress conflict với main Ingress.
 
@@ -889,13 +888,13 @@ metadata:
 
 Hoặc dùng DNS-01 challenge (không cần Ingress).
 
-### ❌ Pitfall: NLB pre-warm cho traffic burst
+### ❌ Cạm bẫy: NLB pre-warm cho traffic burst
 
 AWS NLB cần "pre-warm" cho traffic > 25k req/sec (case launch product, sale). Không pre-warm = 503.
 
 → **Fix**: AWS support ticket request pre-warm trước event. Or use ALB (auto-scale faster).
 
-### ❌ Pitfall: `proxy-body-size` default 1MB → upload >1MB fail
+### ❌ Cạm bẫy: `proxy-body-size` default 1MB → upload >1MB fail
 
 ```yaml
 annotations:
@@ -936,7 +935,7 @@ controller:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** HTTP-01 vs DNS-01 challenge — khi dùng cái nào?
 
@@ -1079,7 +1078,7 @@ Bonus: Cilium service mesh không cần Envoy sidecar — uses eBPF directly. Li
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === ingress-nginx ===
@@ -1154,7 +1153,7 @@ nginx.ingress.kubernetes.io/enable-owasp-modsecurity-crs: "true"
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1183,17 +1182,17 @@ nginx.ingress.kubernetes.io/enable-owasp-modsecurity-crs: "true"
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_helm-package-manager.md](01_helm-package-manager.md)
-- → Tiếp: [03_statefulset-and-storage.md](03_statefulset-and-storage.md) *(sắp viết)*
-- ↑ Cluster: [Kubernetes README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Helm — Package manager cho K8s, deploy 50 service không copy-paste](01_helm-package-manager.md)
+- ➡️ **Bài tiếp theo:** [StatefulSet & Storage — Postgres trong K8s, không mất data](03_statefulset-and-storage.md) *(sắp viết)*
+- ↑ **Về cụm:** [Kubernetes README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☸️ [K8s Basic Services & Networking](../01_basic/02_services-and-networking.md)
 - 🌐 [HTTP/HTTPS basic](../../../../05_networking/http-https/) — TLS handshake
 - 🔁 [CI/CD basic](../../../ci-cd/) — Ingress deploy trong pipeline
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [ingress-nginx docs](https://kubernetes.github.io/ingress-nginx/)
 - 📖 [cert-manager docs](https://cert-manager.io/docs/)
 - 📖 [external-dns docs](https://kubernetes-sigs.github.io/external-dns/)
@@ -1206,7 +1205,7 @@ nginx.ingress.kubernetes.io/enable-owasp-modsecurity-crs: "true"
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install qua Helm + Verify + ingress-nginx vs Traefik vs HAProxy + cert-manager Install + Add annotation cert tự generate.
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 của intermediate cluster. ingress-nginx production setup + cert-manager + Let's Encrypt + external-dns + Gateway API intro + NetworkPolicy + Cilium CNI replacement. Apply insight từ `__Ref__/`: CNI default Minikube không enforce NetworkPolicy → demo enable Cilium kind cluster. 6 pitfall + 4 best practice + 5 self-check + cheatsheet với 15+ common annotations.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install qua Helm + Verify + ingress-nginx vs Traefik vs HAProxy + cert-manager Install + Add annotation cert tự generate.

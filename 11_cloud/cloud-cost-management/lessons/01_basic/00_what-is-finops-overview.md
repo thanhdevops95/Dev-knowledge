@@ -1,13 +1,12 @@
 # 🎓 FinOps — Văn hóa quản lý chi phí Cloud
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** [Cloud fundamentals overview](../../../cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md)
+> **Yêu cầu trước:** [Cloud fundamentals overview](../../../cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md)
 
 > 🎯 *Trước khi học tactic cụ thể (RI, Spot, tag, optimization), bạn cần hiểu **FinOps là gì** và **vì sao** nó là 1 nghề riêng. Sau bài này bạn sẽ biết FinOps Foundation định nghĩa thế nào, 3 phases vận hành (Inform/Optimize/Operate), team structure 3-bên (engineer + finance + FinOps practitioner), và 2 model phân bổ chi phí showback vs chargeback.*
 
@@ -300,21 +299,21 @@ Công cụ + framework chỉ là 20%. 80% là **văn hóa**. Bạn có thể có
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Coi FinOps là job của 1 mình DevOps
+### ❌ Cạm bẫy: Coi FinOps là job của 1 mình DevOps
 
 - **Triệu chứng**: DevOps team Slack call lúc 11h đêm tìm cách giảm bill, engineer ai cũng phớt.
 - **Nguyên nhân**: Lãnh đạo không ép ownership xuống dev team.
 - **Cách tránh**: Cost OKR cho mọi engineer team, không chỉ DevOps. FinOps practitioner là **enabler**, không phải single point of accountability.
 
-### ❌ Pitfall: Cắt cost mù, hy sinh reliability
+### ❌ Cạm bẫy: Cắt cost mù, hy sinh reliability
 
 - **Triệu chứng**: Cắt Multi-AZ RDS → tiết kiệm $400/tháng → 1 tháng sau outage 4h → mất $200k revenue.
 - **Nguyên nhân**: Áp dụng FinOps mà bỏ qua nguyên tắc 5 — *business value*.
 - **Cách tránh**: Mọi cost-cut quyết định phải có **risk assessment**. SLA mission-critical → không touch.
 
-### ❌ Pitfall: Mua RI/CUD quá nhiều rồi không dùng hết
+### ❌ Cạm bẫy: Mua RI/CUD quá nhiều rồi không dùng hết
 
 - **Triệu chứng**: Mua $20k Reserved Instance 3-year, sau 6 tháng team migrate sang Lambda → RI thừa.
 - **Nguyên nhân**: Quá hào hứng discount, không forecast usage cẩn thận.
@@ -332,7 +331,7 @@ Công cụ + framework chỉ là 20%. 80% là **văn hóa**. Bạn có thể có
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** FinOps khác gì so với Finance team truyền thống?
 
@@ -403,7 +402,7 @@ Khắc phục:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Khái niệm | Tóm tắt 1 dòng |
 |---|---|
@@ -419,9 +418,9 @@ Khắc phục:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | **FinOps** | (giữ nguyên) | Cloud Financial Operations |
 | **FinOps Foundation** | Quỹ FinOps | Tổ chức chuẩn hóa thuộc Linux Foundation |
@@ -440,16 +439,19 @@ Khắc phục:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_pricing-models-deep.md](01_pricing-models-deep.md) — On-demand/RI/Spot/CUD/Hybrid Benefit
-- ↑ Cluster: [Cloud Cost Management README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [Cloud fundamentals overview](../../../cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md) — Cloud economics primer
-- ☁️ [AWS pricing in EC2 lesson](../../../aws/lessons/01_basic/01_ec2-and-ebs-compute.md) — Reference pricing pattern
-- ☁️ [GCP CUD in Compute Engine lesson](../../../gcp/lessons/01_basic/01_compute-engine-and-disks.md)
+- ➡️ **Bài tiếp theo:** [Pricing Models — On-demand / Reserved / Spot / Savings Plans](01_pricing-models-deep.md)
+- ↑ **Về cụm:** [Cloud Cost Management (FinOps)](../../README.md)
 
-### Tài nguyên ngoài 2026
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [Cloud computing là gì? — IaaS / PaaS / SaaS + landscape 2026](../../../cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md) — nền tảng cloud economics
+- ☁️ [EC2 + EBS — Compute foundation](../../../aws/lessons/01_basic/01_ec2-and-ebs-compute.md) — tham chiếu pricing pattern trên AWS
+- ☁️ [GCP Compute Engine + Persistent Disks](../../../gcp/lessons/01_basic/01_compute-engine-and-disks.md) — CUD discount trên GCP
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [FinOps Foundation — What is FinOps](https://www.finops.org/introduction/what-is-finops/) — định nghĩa gốc
 - 📖 [FinOps Framework](https://www.finops.org/framework/) — 6 principles + capabilities + maturity
 - 📖 [FinOps Open Cost & Usage Spec (FOCUS)](https://focus.finops.org/) — chuẩn hóa billing data đa cloud
@@ -459,6 +461,7 @@ Khắc phục:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster cloud-cost-management. Định nghĩa FinOps + FinOps Foundation 6 principles + 3 phases Inform/Optimize/Operate + maturity Crawl/Walk/Run + team structure 4 vai trò + anti-pattern "tắt finance khi chốt arch" + showback vs chargeback model + cost-aware culture + 5 pitfalls + 5 self-check. Tình huống Acme Shop $50k/tháng tăng 30% YoY làm xương sống cluster.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi QA: đổi field metadata `Prerequisites` → `Yêu cầu trước`; chuẩn hoá 3 sub-heading mục Liên kết về canonical (🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác) kèm marker ➡️/↑ và link-text dùng tiêu đề H1 thực của bài đích; đổi header Glossary sang 3 cột `Thuật ngữ | Tiếng Việt | Giải thích`.

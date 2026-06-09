@@ -1,50 +1,41 @@
 # 🌐 05_networking
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 25/05/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> ✅ **Status:** Đang có content — 3 chủ đề con đã có bài hoàn chỉnh (tcp-ip, http-https, dns), 5 chủ đề còn lại đang chờ viết.
 
 ## 🎯 Chủ đề này có gì
 
-TCP/IP, HTTP, DNS, load balancing, proxy, VPN, CDN, security
+Nền tảng networking cho dev/devops: TCP/IP, HTTP/HTTPS, DNS, load balancing, proxy, VPN, CDN, network security.
 
-## 📂 L2 dự kiến (chủ đề con)
+## 📂 Chủ đề con (L2)
 
--tcp-ip-fundamentals
-- http-https
-- dns
-- load-balancing
-- proxy-and-reverse-proxy
-- vpn
-- cdn
-- network-security
+| Chủ đề | Status | Vào đọc |
+|---|---|---|
+| [tcp-ip-fundamentals](tcp-ip-fundamentals/README.md) | ✅ 5 bài | `tcp-ip-fundamentals/lessons/01_basic/` |
+| [http-https](http-https/README.md) | ✅ 6 bài | `http-https/lessons/01_basic/` |
+| [dns](dns/README.md) | ✅ 5 bài | `dns/lessons/01_basic/` |
+| [load-balancing](load-balancing/README.md) | 🚧 chưa có | — |
+| [proxy-and-reverse-proxy](proxy-and-reverse-proxy/README.md) | 🚧 chưa có | — |
+| [vpn](vpn/README.md) | 🚧 chưa có | — |
+| [cdn](cdn/README.md) | 🚧 chưa có | — |
+| [network-security](network-security/README.md) | 🚧 chưa có | — |
 
-> Chi tiết sitemap mở rộng → xem [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
+## 🚀 Lộ trình đọc đề xuất
 
-## 🚀 Khi nào đọc folder này
+1. **[tcp-ip-fundamentals](tcp-ip-fundamentals/README.md)** — nền tảng: layer model, IP, TCP/UDP, port, tool debug.
+2. **[dns](dns/README.md)** — danh bạ Internet: domain → IP, records, resolution.
+3. **[http-https](http-https/README.md)** — giao thức Web: methods, status, headers, HTTPS, REST.
 
-| Bạn là... | Đọc gì khi có content |
+→ 3 cụm trên đủ cho nền tảng networking của 1 backend/devops. Các cụm còn lại (load-balancing, proxy, vpn, cdn, network-security) bổ sung sau khi có content.
+
+## 🧭 Đọc theo nhu cầu
+
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
-
-## 🤝 Muốn viết bài cho chủ đề này?
-
-1. Đọc [`../_blueprint/README.md`](../_blueprint/README.md)
-2. Copy template từ [`../_blueprint/templates/`](../_blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_blueprint/03_writing-style.md`](../_blueprint/03_writing-style.md)
-4. Soát qua [`../_blueprint/07_quality-checklist.md`](../_blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
-
----
-
-## 📌 Changelog
-
-- **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+| Mới bắt đầu | `tcp-ip-fundamentals/lessons/01_basic/00_what-is-tcp-ip.md` |
+| Tra nhanh | cheatsheet cuối mỗi bài lesson |
+| Theo nghề | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua networking |

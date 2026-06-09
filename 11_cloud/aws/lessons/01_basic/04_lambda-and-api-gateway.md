@@ -1,65 +1,63 @@
-# 🎓 Lambda + API Gateway — Serverless intro
+# 🎓 Lambda + API Gateway — Nhập môn Serverless
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [03_rds-and-dynamodb.md](03_rds-and-dynamodb.md)
+> **Yêu cầu trước:** [RDS & DynamoDB](03_rds-and-dynamodb.md)
 
-> 🎯 *Bài cuối AWS basic. **Lambda** = serverless functions, pay per execution. **API Gateway** = managed HTTP entry. Together = serverless API. Bài này: first Lambda, triggers, API Gateway HTTP API, cold start, cost model, when serverless vs EC2.*
+> 🎯 *Đây là bài cuối của cụm AWS basic. **Lambda** là *serverless function* — bạn chỉ viết code, AWS lo phần chạy, và bạn trả tiền theo từng lần gọi. **API Gateway** là cổng HTTP được quản lý sẵn, đứng trước Lambda để nhận request từ ngoài. Ghép hai thứ lại là có ngay một API *serverless* hoàn chỉnh. Bài này đi qua: function Lambda đầu tiên, các *trigger* (nguồn sự kiện kích hoạt), HTTP API của API Gateway, *cold start* (độ trễ lần gọi nguội), mô hình chi phí, và khi nào nên chọn serverless thay vì EC2.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **Lambda** model: stateless, event-driven, autoscale
-- [ ] Deploy first Lambda function (Console + CLI + SAM)
-- [ ] **Triggers**: S3, DynamoDB Streams, EventBridge, API Gateway
-- [ ] **Cold start** + mitigation (provisioned concurrency, SnapStart)
-- [ ] **API Gateway** HTTP API vs REST API
-- [ ] **Lambda + API Gateway** serverless web API
-- [ ] **Pricing**: $/request + $/GB-second
-- [ ] **When serverless vs EC2** — decision matrix
-- [ ] **Common limits**: 15-min timeout, 10GB memory
+- [ ] Hiểu mô hình của **Lambda**: stateless, event-driven, tự co giãn.
+- [ ] Deploy được function Lambda đầu tiên (Console + CLI + SAM).
+- [ ] Nắm các **trigger** thông dụng: S3, DynamoDB Streams, EventBridge, API Gateway.
+- [ ] Hiểu **cold start** và cách giảm thiểu (provisioned concurrency, SnapStart).
+- [ ] Phân biệt **API Gateway** HTTP API và REST API.
+- [ ] Dựng được một web API serverless với **Lambda + API Gateway**.
+- [ ] Tính được **chi phí**: $/request + $/GB-second.
+- [ ] Quyết định được **khi nào serverless, khi nào EC2** qua bảng so sánh.
+- [ ] Biết các **giới hạn thường gặp**: timeout 15 phút, RAM tối đa 10 GB.
 
 ---
 
-## Tình huống — User upload image, auto-resize?
+## Tình huống — User upload ảnh, tự động resize bằng cách nào?
 
-User uploads image to S3:
-- 5MB original → need 200KB thumbnail.
+Hãy bắt đầu từ một yêu cầu rất đời thường trong mọi web app có upload. Người dùng đẩy một tấm ảnh lên S3 — bản gốc nặng 5 MB, nhưng bạn cần một bản *thumbnail* chỉ khoảng 200 KB để hiển thị cho nhanh. Câu hỏi: ai sẽ làm việc resize đó, và làm lúc nào?
 
-Options:
-1. **EC2 background worker**:
-   - Always running, polls S3.
-   - Costs $30/month for low traffic.
-2. **Lambda triggered by S3 upload**:
-   - Only runs when needed.
-   - Costs $0.50/month for 1000 images.
-3. **Build server-side in app**:
-   - Couples to main app.
-   - Doesn't scale separately.
+Có ba hướng tiếp cận, mỗi hướng đánh đổi khác nhau:
 
-Sếp: *"Lambda + S3 trigger. Modern pattern. Pay-per-execution. Bài này dạy."*
+1. **EC2 background worker**: một máy chủ luôn bật, liên tục *poll* (hỏi thăm) S3 xem có ảnh mới chưa. Vấn đề: máy chạy 24/7 dù chẳng mấy khi có ảnh, tốn khoảng $30/tháng cho lưu lượng thấp.
+2. **Lambda kích hoạt bởi S3 upload**: chỉ chạy đúng lúc có ảnh được upload, xong là tắt. Chi phí gần như bằng không — khoảng $0.50/tháng cho 1000 ảnh.
+3. **Làm thẳng trong app**: nhúng logic resize vào ứng dụng chính. Vấn đề: dính chặt vào app, không co giãn riêng được, và làm app chính nặng thêm.
 
-→ Bài này: serverless deep + when to use.
+Sếp liếc qua rồi chốt: *"Lambda + S3 trigger. Đây là pattern hiện đại, trả tiền theo lần chạy. Bài này dạy đúng cái đó."*
+
+→ Vậy bài này sẽ đào sâu serverless và quan trọng nhất là biết *khi nào* nên dùng nó.
 
 ---
 
-## 1️⃣ Lambda fundamentals
+## 1️⃣ Nền tảng về Lambda
+
+Trước khi gõ dòng lệnh nào, cần hình dung đúng bản chất của Lambda. Một ẩn dụ giúp bạn ghim ngay mô hình này vào đầu.
 
 🪞 **Ẩn dụ**: *Lambda như **taxi công nghệ** — gọi mới chạy, hết chuyến tự tắt máy, trả tiền theo cuốc; không phải nuôi tài xế thường trực (EC2 luôn bật). API Gateway là **tổng đài điều phối** — nhận yêu cầu khách, gọi đúng taxi (function) và trả kết quả về cho khách.*
 
-### What is Lambda
+### Lambda là gì
 
-**Lambda** = serverless function execution:
-- **No servers to manage**.
-- **Auto-scale** from 0 to 1000s concurrent.
-- **Pay per invocation** + compute time.
-- **Stateless** (no persistent storage in function).
+**Lambda** là dịch vụ chạy function theo kiểu *serverless* (không cần tự quản máy chủ). Bốn đặc tính cốt lõi phân biệt nó với mô hình máy chủ truyền thống:
 
-### Programming model
+- **Không có server để quản** — AWS lo toàn bộ hạ tầng bên dưới.
+- **Tự co giãn** từ 0 lên hàng nghìn lần chạy đồng thời.
+- **Trả tiền theo lần gọi** cộng với thời gian compute thực tế.
+- **Stateless** (không trạng thái) — function không giữ dữ liệu lâu dài giữa các lần chạy.
+
+### Mô hình lập trình
+
+Function Lambda đơn giản đến bất ngờ: bạn chỉ cần một hàm `handler` nhận hai tham số `event` (dữ liệu vào) và `context` (thông tin runtime). AWS gọi đúng hàm này mỗi khi có sự kiện:
 
 ```python
 def lambda_handler(event, context):
@@ -74,24 +72,28 @@ def lambda_handler(event, context):
     }
 ```
 
-→ Function = code + handler. AWS runs code when invoked.
+→ Function = code + handler. AWS chạy code mỗi khi function được gọi (*invoke*).
 
-### Supported runtimes (2026)
+### Các runtime được hỗ trợ (2026)
 
-| Runtime | Latest |
+Lambda hỗ trợ phần lớn ngôn ngữ phổ biến. Bảng dưới liệt kê phiên bản mới nhất tính tới 2026 để bạn biết runtime nào còn được nhận support chính thức:
+
+| Runtime | Phiên bản mới nhất |
 |---|---|
-| **Python** | 3.13 (3.10-3.13 supported) |
-| **Node.js** | 22 (18, 20, 22 supported) |
+| **Python** | 3.13 (hỗ trợ 3.10–3.13) |
+| **Node.js** | 22 (hỗ trợ 18, 20, 22) |
 | **Java** | 21 |
-| **Go** | 1.21 (custom runtime) |
+| **Go** | 1.21 (qua custom runtime) |
 | **Ruby** | 3.3 |
 | **.NET** | 8 |
 | **Rust** | Custom runtime |
-| **Custom (bootstrap)** | Any language via custom runtime |
+| **Custom (bootstrap)** | Mọi ngôn ngữ qua custom runtime |
 
-→ **Python + Node.js** most popular. **Rust + Go** for performance-critical.
+→ **Python và Node.js** phổ biến nhất. **Rust và Go** dành cho các tác vụ cần hiệu năng cao.
 
-### Lambda function structure
+### Cấu trúc một function Lambda
+
+Một function chỉ là một thư mục code có file chứa handler cộng với phần khai báo thư viện phụ thuộc. Với Python:
 
 ```
 my-function/
@@ -100,7 +102,8 @@ my-function/
 └── ...                  # other code
 ```
 
-For Node.js:
+Với Node.js cũng tương tự, chỉ khác tên file và nơi để thư viện:
+
 ```
 my-function/
 ├── index.js
@@ -109,7 +112,9 @@ my-function/
 └── ...
 ```
 
-### Configuration
+### Cấu hình
+
+Khi tạo function, bạn khai báo một loạt thông số quyết định nó chạy thế nào — runtime, handler, RAM, timeout, kiến trúc CPU, biến môi trường và IAM role. Đây là cấu hình mẫu:
 
 ```yaml
 # Lambda function config
@@ -125,34 +130,41 @@ Environment:
 Role: arn:aws:iam::ACCOUNT:role/lambda-role
 ```
 
-### Memory affects CPU
+### RAM quyết định luôn CPU
 
-**Lambda CPU is proportional to memory**:
-- 128 MB: ~0.07 vCPU equivalent.
-- 1769 MB: 1 full vCPU.
-- 10240 MB: 6 vCPUs.
+Một điểm dễ bị bỏ qua: với Lambda, **CPU tỉ lệ thuận với RAM bạn cấp**. Bạn không chỉnh CPU riêng được — muốn nhiều CPU thì tăng RAM:
 
-→ Increasing memory often makes function **faster** + cheaper (faster = less duration).
+- 128 MB: tương đương khoảng 0.07 vCPU.
+- 1769 MB: đúng 1 vCPU đầy đủ.
+- 10240 MB: 6 vCPU.
 
-### Architecture: ARM (Graviton) vs x86
+→ Tăng RAM thường khiến function chạy **nhanh hơn** mà lại **rẻ hơn** — vì chạy nhanh nghĩa là ít thời gian compute hơn, mà tiền tính theo GB-giây.
 
-- **arm64** (Graviton2): 20% cheaper, 19% better performance.
-- **x86_64**: legacy compatibility.
+### Kiến trúc: ARM (Graviton) vs x86
 
-→ **Default arm64** 2026 unless dependency requires x86.
+Lambda cho chọn giữa hai kiến trúc CPU, và lựa chọn mặc định đã đổi trong vài năm gần đây:
+
+- **arm64** (Graviton2): rẻ hơn 20%, hiệu năng tốt hơn 19%.
+- **x86_64**: dành cho tương thích ngược với các thư viện cũ.
+
+→ Mặc định nên chọn **arm64** cho năm 2026, trừ khi có thư viện bắt buộc x86.
 
 ---
 
-## 2️⃣ Hello Lambda — deploy first function
+## 2️⃣ Hello Lambda — deploy function đầu tiên
 
-### Method 1: AWS Console
+Lý thuyết đủ rồi, giờ tạo một function thật. Có nhiều cách deploy, đi từ thủ công (Console) tới tự động hoàn toàn (SAM, Terraform). Ta đi lần lượt từ dễ tới chuyên nghiệp.
 
-1. Lambda Console → Create function.
+### Cách 1: AWS Console
+
+Đây là cách trực quan nhất để làm quen, click chuột từng bước:
+
+1. Vào Lambda Console → Create function.
 2. Runtime: Python 3.13.
 3. Architecture: arm64.
 4. Permissions: Create role (basic Lambda execution).
 5. Save.
-6. Edit code:
+6. Sửa code:
    ```python
    def lambda_handler(event, context):
        return {
@@ -160,9 +172,11 @@ Role: arn:aws:iam::ACCOUNT:role/lambda-role
            'body': 'Hello from Lambda'
        }
    ```
-7. Test: deploy + invoke with test event.
+7. Test: deploy + invoke với một test event.
 
-### Method 2: AWS CLI
+### Cách 2: AWS CLI
+
+Khi đã hiểu các bước, làm bằng CLI sẽ nhanh và lặp lại được. Lưu ý một function cần một IAM role để có quyền chạy, nên ta tạo role trước, rồi mới đóng gói code và tạo function:
 
 ```bash
 # 1. Create execution role
@@ -210,7 +224,9 @@ cat response.json
 # {"statusCode": 200, "body": "Hello from Lambda"}
 ```
 
-### Method 3: AWS SAM (Serverless Application Model)
+### Cách 3: AWS SAM (Serverless Application Model)
+
+SAM là một lớp mở rộng của CloudFormation, viết riêng cho serverless. Thay vì gõ một loạt lệnh CLI, bạn khai báo toàn bộ tài nguyên trong một file `template.yaml` rồi để SAM dựng tất cả:
 
 ```yaml
 # template.yaml
@@ -241,9 +257,11 @@ sam deploy --guided
 # Creates Lambda + API Gateway + IAM role
 ```
 
-→ Most modern way to deploy Lambda.
+→ Chỉ một template, SAM tự dựng Lambda + API Gateway + IAM role. Đây là cách hiện đại và gọn nhất để deploy Lambda.
 
-### Method 4: Terraform
+### Cách 4: Terraform
+
+Nếu hạ tầng của bạn đã quản lý bằng Terraform, bạn khai báo function ngay trong đó để đồng bộ với phần còn lại của hệ thống:
 
 ```hcl
 resource "aws_lambda_function" "hello" {
@@ -269,26 +287,32 @@ resource "aws_lambda_function" "hello" {
 
 ---
 
-## 3️⃣ Lambda triggers (event sources)
+## 3️⃣ Lambda triggers (nguồn sự kiện)
 
-### Common triggers
+Function chỉ chạy khi có thứ gì đó "gọi" nó. Cái gọi đó chính là *trigger* (nguồn sự kiện). Sức mạnh thật sự của Lambda nằm ở chỗ nó cắm được vào gần như mọi dịch vụ AWS — upload S3, thay đổi DynamoDB, lịch cron, message trong hàng đợi... Mỗi sự kiện đó đều có thể kích hoạt một function.
 
-| Trigger | Use case |
+### Các trigger thông dụng
+
+Bảng dưới gom các nguồn sự kiện hay gặp nhất cùng tình huống dùng tương ứng:
+
+| Trigger | Tình huống dùng |
 |---|---|
-| **API Gateway** | HTTP API endpoint |
-| **S3** | Object upload/delete |
-| **DynamoDB Streams** | DDB item change |
-| **EventBridge** | Cron schedule, custom events |
-| **SQS** | Process queue messages |
-| **SNS** | Pub-sub topic |
-| **Kinesis** | Streaming data |
-| **CloudWatch Logs** | Log subscription filter |
-| **Cognito** | Auth flow customization |
-| **Step Functions** | Workflow step |
-| **MSK** (Kafka) | Process Kafka topic |
-| **Application Load Balancer** | Custom HTTP endpoint |
+| **API Gateway** | Endpoint HTTP API |
+| **S3** | Upload/xoá object |
+| **DynamoDB Streams** | Item trong DDB thay đổi |
+| **EventBridge** | Lịch cron, sự kiện tùy chỉnh |
+| **SQS** | Xử lý message trong hàng đợi |
+| **SNS** | Pub-sub theo topic |
+| **Kinesis** | Dữ liệu streaming |
+| **CloudWatch Logs** | Lọc theo log subscription |
+| **Cognito** | Tùy biến luồng xác thực |
+| **Step Functions** | Một bước trong workflow |
+| **MSK** (Kafka) | Xử lý topic Kafka |
+| **Application Load Balancer** | Endpoint HTTP tùy chỉnh |
 
-### Example: S3 trigger (image resize)
+### Ví dụ: S3 trigger (resize ảnh)
+
+Quay lại đúng tình huống mở đầu bài. Function dưới đây nhận sự kiện S3, đọc ảnh gốc, tạo thumbnail rồi ghi ngược lại S3 — toàn bộ chỉ chạy khi có ảnh được upload:
 
 ```python
 # resize_image.py
@@ -322,7 +346,8 @@ def lambda_handler(event, context):
         print(f"Resized {key} → {thumb_key}")
 ```
 
-Configure S3 trigger:
+Có code rồi, vẫn cần khai báo cho S3 biết "khi có object mới ở thư mục `uploads/` thì gọi function này". Hai lệnh dưới làm đúng việc đó — cấp quyền cho S3 gọi Lambda, rồi gắn notification vào bucket:
+
 ```bash
 aws lambda add-permission \
   --function-name resize-image \
@@ -346,9 +371,11 @@ aws s3api put-bucket-notification-configuration \
   }'
 ```
 
-→ User uploads to `uploads/` → Lambda triggered → creates thumbnail in `thumbnails/`.
+→ User upload vào `uploads/` → Lambda được kích hoạt → tạo thumbnail trong `thumbnails/`. Hoàn toàn tự động, không cần máy chủ nào trực sẵn.
 
 ### EventBridge cron
+
+Một nhu cầu kinh điển khác là chạy việc theo lịch — dọn dẹp định kỳ, gửi báo cáo, poll một nguồn dữ liệu. EventBridge cho bạn đặt lịch kiểu `rate()` hoặc `cron()` rồi trỏ vào function:
 
 ```hcl
 resource "aws_cloudwatch_event_rule" "every_5_min" {
@@ -362,9 +389,11 @@ resource "aws_cloudwatch_event_target" "lambda" {
 }
 ```
 
-→ Lambda triggered every 5 minutes. Use for: scheduled tasks, cleanup, polling.
+→ Function chạy mỗi 5 phút. Dùng cho: tác vụ theo lịch, dọn dẹp, polling.
 
 ### SQS trigger
+
+Khi muốn xử lý message theo hàng đợi (để tách rời các thành phần và chịu tải tốt hơn), Lambda đọc theo *batch* từ SQS — mỗi lần kéo về một nhóm message:
 
 ```yaml
 # SAM template
@@ -376,42 +405,48 @@ Events:
       BatchSize: 10
 ```
 
-→ Messages in queue → Lambda processes batch.
+→ Có message trong hàng đợi → Lambda xử lý theo batch (ở đây 10 message một lần).
 
 ---
 
 ## 4️⃣ Cold start
 
-### What is cold start
+Đây là khái niệm khiến nhiều người e ngại serverless — nhưng hiểu đúng thì sẽ thấy nó không phải vấn đề toàn cục. Cốt lõi nằm ở chỗ: Lambda không phải lúc nào cũng sẵn sàng tức thì.
 
-**Cold start** = first invocation after idle:
-- AWS provisions container.
-- Loads runtime.
-- Loads function code.
-- **~100-1000ms overhead**.
+### Cold start là gì
 
-**Warm invocation**:
-- Container already running.
-- ~1-10ms overhead.
+**Cold start** (khởi động nguội) là lần gọi đầu tiên sau một quãng nghỉ. Lúc đó AWS phải chuẩn bị một loạt việc trước khi code của bạn chạy:
 
-### Cold start by runtime
+- AWS cấp phát container.
+- Nạp runtime.
+- Nạp code của function.
+- **Tốn thêm khoảng 100–1000 ms** so với bình thường.
+
+Ngược lại là **warm invocation** (gọi nóng) — khi container đã sẵn sàng từ lần trước:
+
+- Container đã chạy sẵn.
+- Chỉ tốn thêm khoảng 1–10 ms.
+
+### Cold start theo từng runtime
+
+Độ trễ cold start phụ thuộc nhiều vào ngôn ngữ — runtime càng "nặng" lúc khởi động thì càng chậm:
 
 | Runtime | Cold start |
 |---|---|
-| Node.js | ~200-500ms |
-| Python | ~250-500ms |
-| Go | ~100-300ms |
-| Rust | ~50-200ms |
-| Java | ~500-2000ms (JVM heavy) |
-| .NET | ~400-1500ms |
+| Node.js | ~200–500 ms |
+| Python | ~250–500 ms |
+| Go | ~100–300 ms |
+| Rust | ~50–200 ms |
+| Java | ~500–2000 ms (JVM nặng) |
+| .NET | ~400–1500 ms |
 
-→ **Java/.NET slowest**. **Rust fastest**.
+→ **Java/.NET chậm nhất**, **Rust nhanh nhất**.
 
-### Mitigations
+### Các cách giảm thiểu
 
-**1. Provisioned Concurrency**:
-- Keep N containers warm.
-- Charged for provisioned capacity ($0.00001/GB-sec).
+Tin tốt là có nhiều cách trị cold start, từ trả tiền giữ container nóng cho tới tối ưu code. Đi từ cách "chắc ăn" tới cách "mẹo":
+
+**1. Provisioned Concurrency**: giữ sẵn N container luôn nóng, đổi lại bạn trả tiền cho phần dung lượng giữ sẵn đó ($0.00001/GB-sec).
 
 ```bash
 aws lambda put-provisioned-concurrency-config \
@@ -420,70 +455,62 @@ aws lambda put-provisioned-concurrency-config \
   --provisioned-concurrent-executions 5
 ```
 
-→ 5 warm containers always ready. No cold start for first 5 concurrent.
+→ 5 container luôn sẵn sàng. Không có cold start cho 5 request đồng thời đầu tiên.
 
-**2. SnapStart** (Java specific):
-- Snapshot JVM state.
-- Restore in milliseconds.
-- 10x faster cold start.
+**2. SnapStart** (riêng cho Java): chụp lại trạng thái JVM thành snapshot, lần sau khôi phục trong vài mili-giây — nhanh hơn cold start tới 10 lần.
 
 ```yaml
 SnapStart:
   ApplyOn: PublishedVersions
 ```
 
-**3. Smaller deployment package**:
-- Less code = faster load.
-- Remove unused dependencies.
+**3. Package nhỏ hơn**: ít code thì nạp nhanh hơn. Gỡ bớt thư viện không dùng.
 
-**4. Lambda Layers** (shared deps):
-- Common deps in layer.
-- Lambda package smaller.
+**4. Lambda Layers** (thư viện dùng chung): đẩy các thư viện chung vào layer, package của function gọn lại.
 
-**5. Async invocation**:
-- Don't make user wait for cold start.
-- Lambda response queued for async work.
+**5. Async invocation** (gọi bất đồng bộ): đừng bắt người dùng chờ cold start — đẩy việc vào hàng đợi xử lý sau.
 
-**6. EventBridge "warm" pings** (anti-pattern, but common):
-- CRON every 5 min: invoke Lambda to keep warm.
-- Free-ish if low invocations.
-- ⚠️ Hacky. Provisioned Concurrency cleaner.
+**6. EventBridge "warm" pings** (anti-pattern, nhưng hay gặp): đặt cron mỗi 5 phút gọi Lambda để giữ nóng. Gần như miễn phí nếu lưu lượng thấp, nhưng ⚠️ đây là cách chắp vá — Provisioned Concurrency sạch sẽ hơn.
 
-### When cold start matters
+### Khi nào cold start là vấn đề
 
-- **User-facing APIs**: latency-sensitive.
-- **Real-time systems**.
+- **API hướng người dùng**: nhạy cảm với độ trễ, người dùng đang chờ phản hồi.
+- **Hệ thống real-time**: ngân sách độ trễ cực thấp.
 
-### When cold start OK
+### Khi nào cold start không sao
 
-- **Background jobs**: async, queue-driven.
-- **Scheduled tasks**: cron, no user waiting.
-- **Async event processing**.
+- **Background job**: bất đồng bộ, chạy theo hàng đợi.
+- **Tác vụ theo lịch**: cron, không ai ngồi chờ.
+- **Xử lý sự kiện bất đồng bộ**.
 
-→ Lambda great for non-latency-critical workloads. Use provisioned concurrency for user-facing.
+→ Lambda rất hợp với các tải không nhạy độ trễ. Còn với API hướng người dùng thì dùng provisioned concurrency để dập cold start.
 
 ---
 
 ## 5️⃣ API Gateway
 
+Function Lambda tự nó không có URL công khai cho thế giới gọi vào. API Gateway chính là cánh cổng đó — nhận request HTTP từ ngoài, chuyển vào Lambda, rồi trả kết quả về. Bước đầu tiên là chọn đúng loại API Gateway.
+
 ### HTTP API vs REST API
 
-AWS has 2 API Gateway types:
+AWS có hai loại API Gateway, và việc chọn sai có thể khiến bạn trả gấp 3 lần tiền cho cùng một việc:
 
-**HTTP API** (newer 2019+):
-- Cheaper ($1/M requests).
-- Faster.
-- Simpler features (JWT auth, CORS).
-- **Recommend 2026** for most.
+**HTTP API** (mới hơn, ra mắt 2019+):
+- Rẻ hơn ($1/triệu request).
+- Nhanh hơn.
+- Tính năng đơn giản hơn (JWT auth, CORS).
+- **Khuyến nghị 2026** cho đa số trường hợp.
 
-**REST API** (older):
-- More expensive ($3.50/M).
-- More features (request validation, transformation, API keys, usage plans).
-- Use when need specific REST features.
+**REST API** (cũ hơn):
+- Đắt hơn ($3.50/triệu request).
+- Nhiều tính năng hơn (request validation, transformation, API key, usage plan).
+- Dùng khi cần đúng những tính năng REST chuyên sâu đó.
 
-→ Default 2026: HTTP API. REST API for legacy / specific needs.
+→ Mặc định 2026: HTTP API. REST API dành cho hệ thống cũ hoặc nhu cầu đặc thù.
 
-### Setup HTTP API with Lambda
+### Dựng HTTP API với Lambda
+
+Cách thủ công bằng CLI giúp bạn thấy rõ từng mảnh ghép: tạo API, cấp quyền cho API Gateway gọi Lambda, rồi lấy URL endpoint:
 
 ```bash
 # 1. Create Lambda function (above)
@@ -510,7 +537,9 @@ curl https://$API_ID.execute-api.us-east-1.amazonaws.com/
 # {"statusCode": 200, "body": "Hello from Lambda"}
 ```
 
-### SAM template (cleaner)
+### Template SAM (gọn hơn)
+
+Làm bằng tay vài lần cho hiểu, sau đó nên chuyển sang SAM. Cùng một việc nhưng khai báo trong template ngắn hơn nhiều, và mỗi route chỉ tốn vài dòng:
 
 ```yaml
 # template.yaml
@@ -549,9 +578,11 @@ Resources:
 sam deploy
 ```
 
-→ Lambda + API Gateway + routes. 5 lines per route.
+→ Lambda + API Gateway + routes, mỗi route chỉ 5 dòng khai báo.
 
 ### Routes
+
+Khi một function phục vụ nhiều route, bạn đọc thông tin route từ `event` rồi tự rẽ nhánh trong code. Đây là cách lấy path, method, path parameter và query string:
 
 ```python
 def lambda_handler(event, context):
@@ -572,6 +603,8 @@ def lambda_handler(event, context):
 
 ### CORS
 
+Nếu frontend gọi API từ một domain khác, trình duyệt sẽ chặn nếu thiếu khai báo CORS. Cái hay là API Gateway tự lo CORS, bạn không phải viết một dòng code nào trong Lambda:
+
 ```yaml
 CorsConfiguration:
   AllowOrigins: ["https://acmeshop.vn"]
@@ -580,9 +613,11 @@ CorsConfiguration:
   MaxAge: 3600
 ```
 
-→ API Gateway handles CORS automatically. No code in Lambda.
+→ API Gateway xử lý CORS tự động. Lambda không cần đụng tới.
 
 ### Custom domain + HTTPS
+
+URL `execute-api` mặc định vừa dài vừa khó nhớ. Để dùng domain riêng như `api.acmeshop.vn`, bạn cần một chứng chỉ ACM và một bản ghi DNS:
 
 ```bash
 # 1. Issue ACM cert
@@ -599,11 +634,14 @@ aws apigatewayv2 create-domain-name \
 # 4. Route 53 alias → API Gateway domain
 ```
 
-→ `https://api.acmeshop.vn` instead of long execute-api URL.
+→ Dùng `https://api.acmeshop.vn` thay cho URL execute-api dài ngoằng.
 
-### Authentication
+### Xác thực (Authentication)
 
-**JWT (Cognito or custom)**:
+Một API thật gần như luôn cần xác thực. Điểm mạnh của API Gateway là nó kiểm tra danh tính *trước khi* request chạm tới Lambda — function chỉ thấy request hợp lệ.
+
+Cách phổ biến là **JWT (Cognito hoặc custom)**:
+
 ```yaml
 HelloApi:
   Type: AWS::Serverless::HttpApi
@@ -618,9 +656,10 @@ HelloApi:
       DefaultAuthorizer: JwtAuth
 ```
 
-→ API Gateway validates JWT before invoking Lambda. Lambda doesn't see invalid requests.
+→ API Gateway kiểm tra JWT trước khi gọi Lambda. Function không bao giờ thấy request không hợp lệ.
 
-**IAM authorization**:
+Khi gọi nội bộ giữa các dịch vụ AWS, dùng **IAM authorization** (request được ký theo SigV4) thay vì JWT:
+
 ```yaml
 Auth:
   Authorizers:
@@ -628,9 +667,11 @@ Auth:
   DefaultAuthorizer: AWS_IAM
 ```
 
-→ Internal AWS-to-AWS calls. SigV4 signed requests.
+→ Dùng cho các cuộc gọi AWS-tới-AWS nội bộ với request ký SigV4.
 
-### Throttling + quotas
+### Throttling + quota
+
+Để Lambda phía sau không bị "ngợp" khi lưu lượng tăng đột biến, API Gateway cho bạn giới hạn tốc độ ngay tại cổng:
 
 ```yaml
 HelloApi:
@@ -641,80 +682,92 @@ HelloApi:
       ThrottlingRateLimit: 50
 ```
 
-→ 50 req/sec sustained, 100 burst. Protect Lambda from overwhelming.
+→ 50 request/giây duy trì, cho phép bùng lên 100. Bảo vệ Lambda khỏi bị quá tải.
 
 ---
 
-## 6️⃣ Pricing
+## 6️⃣ Chi phí
+
+Một trong những lý do lớn nhất chọn serverless là tiền — nhưng "rẻ" chỉ đúng trong một khoảng lưu lượng nhất định. Phần này bóc tách công thức tính để bạn biết chính xác mình trả cho cái gì, và ở đâu thì Lambda bắt đầu đắt.
 
 ### Lambda
 
-**Pricing components**:
-1. **Requests**: $0.20 per 1M requests.
-2. **Compute time**: $0.0000166667 per GB-second.
+Chi phí Lambda gồm đúng hai thành phần:
 
-**Calculation example**:
-- 1M invocations/month.
-- Each runs 200ms with 256 MB memory.
+1. **Số request**: $0.20 cho mỗi 1 triệu request.
+2. **Thời gian compute**: $0.0000166667 cho mỗi GB-giây.
+
+Cùng tính một ví dụ cụ thể để thấy con số thực tế nhỏ tới mức nào:
+
+- 1 triệu lần gọi/tháng.
+- Mỗi lần chạy 200 ms với 256 MB RAM.
 - Compute: 1M × 0.2s × (256/1024 GB) = 50,000 GB-s.
-- Cost: 1M × $0.20 + 50,000 × $0.0000166667 = $0.20 + $0.83 = **$1.03/month**.
+- Chi phí: 1M × $0.20 + 50,000 × $0.0000166667 = $0.20 + $0.83 = **$1.03/tháng**.
 
-→ Very cheap for moderate workloads.
+→ Rất rẻ cho mức tải vừa phải.
 
-### Free tier (always)
+### Free tier (luôn có)
 
-- **1M requests/month** free.
-- **400,000 GB-seconds/month** free.
+Đáng chú ý là Lambda có free tier vĩnh viễn (không hết hạn sau 12 tháng như nhiều dịch vụ khác):
 
-→ Most personal projects fit free tier.
+- **1 triệu request/tháng** miễn phí.
+- **400,000 GB-giây/tháng** miễn phí.
+
+→ Phần lớn dự án cá nhân nằm gọn trong free tier.
 
 ### API Gateway HTTP API
 
-- **$1.00 per million requests**.
+- **$1.00 cho mỗi triệu request**.
 
-### Combined cost
+### Chi phí gộp
 
-Lambda + API Gateway, 1M requests/month, 200ms × 256MB:
+Ghép Lambda + API Gateway lại, với 1 triệu request/tháng, mỗi request 200 ms × 256 MB:
+
 - Lambda: ~$1.
 - API Gateway HTTP: $1.
-- **Total: $2/month**.
+- **Tổng: $2/tháng**.
 
-→ Cheap vs EC2 ($30+/month minimum).
+→ Rẻ hơn hẳn so với EC2 (tối thiểu $30+/tháng).
 
-### When Lambda gets expensive
+### Khi nào Lambda trở nên đắt
 
-- **High traffic**: 1B req/month = $200 Lambda + $1000 API Gateway.
-- **bạn compute**: 60s × 10GB memory × 1M = $1000/month.
-- **Cold start mitigation**: provisioned concurrency = $$.
+"Rẻ" không phải mãi mãi. Có ba kịch bản khiến hóa đơn serverless phình to:
 
-→ At scale, EC2 cheaper. Lambda for unpredictable / low-mid traffic.
+- **Lưu lượng cao**: 1 tỉ request/tháng = $200 Lambda + $1000 API Gateway.
+- **Compute nặng**: 60s × 10GB RAM × 1M = $1000/tháng.
+- **Giảm thiểu cold start**: provisioned concurrency tốn thêm tiền.
+
+→ Ở quy mô lớn, EC2 rẻ hơn. Lambda mạnh ở lưu lượng khó đoán hoặc thấp-tới-trung bình.
 
 ---
 
-## 7️⃣ Lambda limits
+## 7️⃣ Giới hạn của Lambda
 
-| Limit | Value |
+Serverless không phải "vô hạn". Lambda có một loạt giới hạn cứng mà nếu không biết trước, bạn sẽ đụng tường ngay khi đưa lên production. Bảng dưới gom các con số quan trọng nhất:
+
+| Giới hạn | Giá trị |
 |---|---|
-| Max execution time | 900 seconds (15 min) |
-| Memory | 128 MB - 10,240 MB |
-| Ephemeral storage (/tmp) | 512 MB - 10,240 MB |
-| Concurrent executions | 1000 (default, can raise) |
-| Function package (zipped) | 50 MB |
-| Function package (unzipped) | 250 MB |
+| Thời gian chạy tối đa | 900 giây (15 phút) |
+| RAM | 128 MB – 10,240 MB |
+| Lưu trữ tạm (/tmp) | 512 MB – 10,240 MB |
+| Số lần chạy đồng thời | 1000 (mặc định, có thể nâng) |
+| Package (đã nén) | 50 MB |
+| Package (chưa nén) | 250 MB |
 | Container image | 10 GB |
-| Layers per function | 5 |
-| Environment variables | 4 KB total |
+| Số layer mỗi function | 5 |
+| Biến môi trường | tổng 4 KB |
 | Payload (sync) | 6 MB |
 | Payload (async) | 256 KB |
 
-**Common pitfalls**:
-- 15-min timeout: long jobs → use Step Functions or ECS.
-- 50 MB package: large deps → Lambda Layers or container image.
-- 10 GB memory max: heavier needs → EC2.
+Ba giới hạn hay khiến người mới vấp nhất, kèm cách xử lý:
 
-### Lambda container images
+- Timeout 15 phút: việc chạy lâu hơn → dùng Step Functions hoặc ECS.
+- Package 50 MB: thư viện lớn → dùng Lambda Layers hoặc container image.
+- RAM tối đa 10 GB: nhu cầu nặng hơn → chuyển sang EC2.
 
-Bypass 50 MB limit:
+### Lambda container image
+
+Khi package vượt 50 MB (hay gặp với model ML hoặc thư viện khoa học nặng), giải pháp là đóng gói function thành container image — nâng trần lên 10 GB:
 
 ```dockerfile
 # Dockerfile.lambda
@@ -728,14 +781,16 @@ COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 CMD ["lambda_function.lambda_handler"]
 ```
 
-Build + push:
+Build và push image lên ECR như một image Docker bình thường:
+
 ```bash
 docker build -t my-fn .
 docker tag my-fn ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/my-fn:v1
 docker push ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/my-fn:v1
 ```
 
-Create Lambda:
+Rồi tạo function trỏ vào image đó thay vì file zip:
+
 ```bash
 aws lambda create-function \
   --function-name my-fn \
@@ -744,11 +799,13 @@ aws lambda create-function \
   --role ...
 ```
 
-→ Up to 10 GB image. Useful for ML models, large dependencies.
+→ Lên tới 10 GB cho mỗi image. Hữu ích cho model ML và các thư viện phụ thuộc cồng kềnh.
 
 ---
 
-## 8️⃣ Decision: Lambda vs EC2 vs Fargate vs App Runner
+## 8️⃣ Quyết định: Lambda vs EC2 vs Fargate vs App Runner
+
+Đến đây bạn đã hiểu Lambda làm được gì. Câu hỏi quan trọng nhất còn lại: *khi nào* chọn nó thay vì các lựa chọn khác? Sơ đồ dưới đây là cây quyết định nhanh dựa trên các yếu tố then chốt — thời gian chạy, mức kiểm soát OS, và mô hình kích hoạt:
 
 ```mermaid
 graph TD
@@ -764,44 +821,46 @@ graph TD
     Q4 -->|Just deploy code| AppRunner[App Runner]
 ```
 
-### Comparison
+### Bảng so sánh
 
-| Aspect | Lambda | Fargate | ECS on EC2 | EC2 |
+Sơ đồ cho cái nhìn nhanh; bảng dưới đặt bốn lựa chọn cạnh nhau theo từng tiêu chí để bạn cân nhắc kỹ hơn:
+
+| Tiêu chí | Lambda | Fargate | ECS on EC2 | EC2 |
 |---|---|---|---|---|
-| Server mgmt | None | None | Some | All |
-| Scale to zero | Yes | No (idle cost) | No | No |
-| Cold start | Yes (~500ms) | ~30s | None | None |
-| Max execution | 15 min | Unlimited | Unlimited | Unlimited |
-| Pricing | Per request | Per second | Per second | Per hour |
-| Best for | Event-driven, sporadic | Containers, predictable | Custom orchestration | Specific needs |
+| Quản máy chủ | Không | Không | Một phần | Toàn bộ |
+| Scale về 0 | Có | Không (tốn tiền lúc idle) | Không | Không |
+| Cold start | Có (~500ms) | ~30s | Không | Không |
+| Thời gian chạy tối đa | 15 phút | Không giới hạn | Không giới hạn | Không giới hạn |
+| Mô hình giá | Theo request | Theo giây | Theo giây | Theo giờ |
+| Hợp nhất cho | Event-driven, lẻ tẻ | Container, đoán được | Tự điều phối tùy biến | Nhu cầu đặc thù |
 
-### Use Lambda when
+### Chọn Lambda khi
 
-- **Event-driven**: S3 upload, DDB change, scheduled.
-- **Low/sporadic traffic**: < 1M req/month.
-- **No persistent state**.
-- **Short tasks**: < 15 min.
-- **Quick prototyping**.
+- **Event-driven**: upload S3, thay đổi DDB, theo lịch.
+- **Lưu lượng thấp/lẻ tẻ**: < 1 triệu request/tháng.
+- **Không cần giữ trạng thái**.
+- **Tác vụ ngắn**: < 15 phút.
+- **Làm prototype nhanh**.
 
-### Use EC2/Fargate when
+### Chọn EC2/Fargate khi
 
-- **High constant traffic**: cheaper at scale.
-- **Long-running**: > 15 min.
-- **Specific OS / kernel needs**.
-- **Container ecosystem**.
+- **Lưu lượng cao và đều**: rẻ hơn ở quy mô lớn.
+- **Chạy lâu**: > 15 phút.
+- **Cần OS/kernel đặc thù**.
+- **Hệ sinh thái container**.
 
-### Use App Runner when
+### Chọn App Runner khi
 
-- **Want simple PaaS**.
-- **Source code or container deploy**.
-- **Auto-scale + HTTPS + LB built-in**.
-- **Avoid configuring Fargate manually**.
+- **Muốn một PaaS đơn giản**.
+- **Deploy từ source code hoặc container**.
+- **Auto-scale + HTTPS + load balancer có sẵn**.
+- **Tránh phải tự cấu hình Fargate thủ công**.
 
 ---
 
-## 9️⃣ Hands-on: Image resize Lambda + S3
+## 9️⃣ Hands-on: Lambda resize ảnh + S3
 
-### Architecture
+Giờ ráp tất cả lại thành một thứ chạy thật. Mục tiêu: dựng đúng cái pipeline resize ảnh ở tình huống mở đầu — user upload, S3 kích hoạt, Lambda resize, ghi thumbnail ngược lại. Đây là kiến trúc tổng thể:
 
 ```
 User → presigned URL (FastAPI) → S3 (uploads/)
@@ -811,7 +870,9 @@ User → presigned URL (FastAPI) → S3 (uploads/)
                                   S3 (thumbnails/)
 ```
 
-### Lambda code
+### Code Lambda
+
+So với ví dụ ở phần 3, bản này hoàn chỉnh hơn — có bỏ qua chính file thumbnail (tránh vòng lặp vô hạn), chuyển sang RGB trước khi lưu JPEG, và set CacheControl cho CDN:
 
 ```python
 # resize_lambda.py
@@ -865,7 +926,9 @@ def lambda_handler(event, context):
     return {'statusCode': 200, 'body': 'Done'}
 ```
 
-### SAM template
+### Template SAM
+
+Template dưới khai báo cả function lẫn bucket S3, gắn trigger với bộ lọc (chỉ kích hoạt với file `.jpg` trong `uploads/`), và khóa bucket khỏi truy cập công khai:
 
 ```yaml
 # template.yaml
@@ -922,7 +985,7 @@ Resources:
               SSEAlgorithm: AES256
 ```
 
-### Dependencies
+### Thư viện phụ thuộc
 
 ```bash
 # requirements.txt
@@ -938,6 +1001,8 @@ sam deploy --guided
 ```
 
 ### Test
+
+Sau khi deploy, kiểm chứng bằng cách upload một ảnh rồi xác nhận thumbnail xuất hiện đúng kích thước:
 
 ```bash
 # Upload image
@@ -956,52 +1021,54 @@ identify /tmp/thumb.jpg
 # /tmp/thumb.jpg JPEG 300x200 (or whatever fits in 300×300)
 ```
 
-### Cost estimate
+### Ước tính chi phí
 
-- 1000 images/month uploaded.
-- Each resize: 500ms × 512 MB.
+Và đây là phần thưởng — toàn bộ pipeline này gần như miễn phí ở mức dùng vừa phải:
+
+- 1000 ảnh/tháng được upload.
+- Mỗi lần resize: 500 ms × 512 MB.
 - Lambda compute: 1000 × 0.5s × 0.5GB = 250 GB-s.
 - Lambda requests: 1000 × $0.20/M = $0.0002.
 - Lambda compute: 250 × $0.0000166 = $0.004.
-- **Total: ~$0.005/month**.
+- **Tổng: ~$0.005/tháng**.
 
-→ Effectively free for moderate use.
+→ Coi như miễn phí cho mức dùng vừa phải.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Lambda timeout 3 seconds default
+### ❌ Cạm bẫy: Lambda timeout mặc định 3 giây
 
-→ Function times out at 3s, but task needs 10s.
+→ Function timeout ở giây thứ 3, nhưng tác vụ cần tới 10 giây.
 
-→ **Fix**: set `Timeout: 60` in template. Increase as needed (max 900).
+→ **Fix**: đặt `Timeout: 60` trong template. Tăng theo nhu cầu (tối đa 900).
 
-### ❌ Pitfall: Lambda memory too low
+### ❌ Cạm bẫy: Lambda RAM quá thấp
 
-→ Function slow because not enough CPU (CPU scales with memory).
+→ Function chạy chậm vì thiếu CPU (CPU co giãn theo RAM).
 
-→ **Fix**: Increase memory. Often makes function **faster + cheaper** (less duration × more memory).
+→ **Fix**: tăng RAM. Thường khiến function **nhanh hơn và rẻ hơn** (ít thời gian chạy × nhiều RAM hơn).
 
-### ❌ Pitfall: Cold start ruins UX
+### ❌ Cạm bẫy: Cold start phá trải nghiệm
 
-→ User-facing API has 500ms cold start on first request.
+→ API hướng người dùng bị cold start 500 ms ngay ở request đầu tiên.
 
 → **Fix**:
 - Provisioned Concurrency.
-- Smaller deployment package.
-- Choose faster runtime (Rust, Go).
+- Package deploy nhỏ hơn.
+- Chọn runtime nhanh hơn (Rust, Go).
 
-### ❌ Pitfall: Lambda in VPC slow
+### ❌ Cạm bẫy: Lambda trong VPC chạy chậm
 
-→ Lambda in VPC needs ENI provisioning → cold start +5s.
+→ Lambda đặt trong VPC cần cấp phát ENI → cold start tăng thêm ~5 giây.
 
 → **Fix**: 
-- Don't put Lambda in VPC unless required (DB in private subnet).
-- AWS auto-improved 2019+, but still slower.
-- Alternative: VPC endpoints, IAM auth instead of password.
+- Đừng đặt Lambda vào VPC trừ khi bắt buộc (DB nằm trong private subnet).
+- AWS đã cải thiện từ 2019+, nhưng vẫn chậm hơn.
+- Phương án thay thế: VPC endpoint, dùng IAM auth thay cho mật khẩu.
 
-### ❌ Pitfall: No error handling
+### ❌ Cạm bẫy: Không xử lý lỗi
 
 ```python
 def lambda_handler(event, context):
@@ -1009,42 +1076,42 @@ def lambda_handler(event, context):
     return response
 ```
 
-→ Failure = Lambda retries (3 times by default for async invocations) → 3x cost + side effects.
+→ Lỗi xảy ra = Lambda retry (mặc định 3 lần với async invocation) → tốn gấp 3 chi phí và sinh tác dụng phụ.
 
 → **Fix**: 
 - Try/except.
-- Dead Letter Queue (DLQ) for failed messages.
-- Idempotent functions (safe to retry).
+- Dead Letter Queue (DLQ) cho các message thất bại.
+- Function idempotent (an toàn khi retry).
 
-### ❌ Pitfall: Reading 1GB file in Lambda
+### ❌ Cạm bẫy: Đọc file 1 GB trong Lambda
 
-→ Lambda memory limit. OOM.
-
-→ **Fix**:
-- Stream processing (don't load all in memory).
-- Use larger memory (up to 10 GB).
-- Or use EC2 for big batches.
-
-### ❌ Pitfall: Lambda + Aurora connection storm
-
-→ 1000 concurrent Lambda → 1000 DB connections → Postgres max_connections exceeded.
+→ Vượt giới hạn RAM. OOM (hết bộ nhớ).
 
 → **Fix**:
-- RDS Proxy (connection pooling).
-- Aurora Serverless v2 with connection pooling.
-- Or use DynamoDB (no connection limit).
+- Xử lý theo luồng (đừng nạp toàn bộ vào RAM).
+- Dùng RAM lớn hơn (tới 10 GB).
+- Hoặc dùng EC2 cho các batch lớn.
 
-### ❌ Pitfall: Logging sensitive data
+### ❌ Cạm bẫy: Lambda + Aurora bùng nổ kết nối
+
+→ 1000 Lambda chạy đồng thời → 1000 kết nối DB → vượt `max_connections` của Postgres.
+
+→ **Fix**:
+- RDS Proxy (gộp kết nối — connection pooling).
+- Aurora Serverless v2 với connection pooling.
+- Hoặc dùng DynamoDB (không có giới hạn kết nối).
+
+### ❌ Cạm bẫy: Ghi log dữ liệu nhạy cảm
 
 ```python
 logger.info(f"User {email} login with password {password}")
 ```
 
-→ Password in CloudWatch logs forever.
+→ Mật khẩu nằm trong CloudWatch logs mãi mãi.
 
-→ **Fix**: Sanitize logs. Never log secrets.
+→ **Fix**: làm sạch log. Không bao giờ ghi secret ra log.
 
-### ✅ Best practice: Lambda + DLQ + retries
+### ✅ Best practice: Lambda + DLQ + retry
 
 ```yaml
 Events:
@@ -1058,15 +1125,15 @@ Events:
       TargetArn: !GetAtt DLQ.Arn
 ```
 
-→ Failed messages → DLQ. Investigate + reprocess.
+→ Message thất bại → đẩy vào DLQ. Điều tra và xử lý lại sau.
 
-### ✅ Best practice: Layered tests
+### ✅ Best practice: Kiểm thử theo tầng
 
-- **Unit tests**: function logic, mocked AWS.
-- **Integration tests**: deploy to staging, run via API Gateway.
-- **Local testing**: `sam local invoke`.
+- **Unit test**: logic của function, mock các dịch vụ AWS.
+- **Integration test**: deploy lên staging, chạy qua API Gateway.
+- **Test cục bộ**: `sam local invoke`.
 
-### ✅ Best practice: Observability
+### ✅ Best practice: Observability (khả năng quan sát)
 
 ```python
 import os
@@ -1091,7 +1158,7 @@ def lambda_handler(event, context):
     }))
 ```
 
-→ Structured JSON logs. CloudWatch Logs Insights query.
+→ Log JSON có cấu trúc. Query được bằng CloudWatch Logs Insights.
 
 ### ✅ Best practice: AWS X-Ray tracing
 
@@ -1111,125 +1178,131 @@ def my_function():
     pass
 ```
 
-→ Visualize Lambda → S3 → DynamoDB call tree.
+→ Trực quan hóa cây gọi Lambda → S3 → DynamoDB.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** When Lambda vs EC2 / Fargate?
+Năm câu hỏi dưới đụng vào đúng những quyết định quan trọng nhất khi làm việc với Lambda. Thử tự trả lời trước khi mở đáp án — đó là cách nhanh nhất để biết mình thật sự hiểu hay chỉ mới thấy quen.
+
+**Q1.** Khi nào chọn Lambda thay vì EC2 / Fargate?
 
 <details>
 <summary>💡 Đáp án</summary>
+
+Mỗi lựa chọn có "vùng đất" riêng của nó. Tóm gọn:
 
 **Lambda**:
-- **Event-driven**: S3 upload, DDB stream, EventBridge cron.
-- **Sporadic / unpredictable** workload.
-- **Stateless** functions.
-- **< 15 min** execution.
-- Pay-per-request (cheap at low scale).
+- **Event-driven**: upload S3, DDB stream, EventBridge cron.
+- Tải **lẻ tẻ / khó đoán**.
+- Function **stateless**.
+- Chạy **< 15 phút**.
+- Trả tiền theo request (rẻ ở quy mô thấp).
 
 **EC2**:
-- **Specific OS / kernel needs**.
-- **Long-running** processes.
-- **Predictable, high traffic**.
-- **Stateful** services (cache server, custom DB).
-- Pay-per-hour (cheap at high constant load).
+- Cần **OS / kernel đặc thù**.
+- Tiến trình **chạy lâu**.
+- Lưu lượng **cao và đều, đoán được**.
+- Dịch vụ **có trạng thái** (cache server, DB tự dựng).
+- Trả tiền theo giờ (rẻ khi tải cao và đều).
 
-**Fargate (containers)**:
-- **Container-based** (Docker).
-- **Predictable traffic**.
-- **Need container orchestration** without managing nodes.
-- Mid-ground: more control than Lambda, less than EC2.
+**Fargate (container)**:
+- Dựa trên **container** (Docker).
+- Lưu lượng **đoán được**.
+- Cần **điều phối container** mà không phải quản lý node.
+- Ở giữa: kiểm soát nhiều hơn Lambda, ít hơn EC2.
 
 **App Runner**:
-- **Simple web app deploy** from source/container.
-- **Auto HTTPS + LB**.
-- **PaaS-like**.
+- Deploy web app đơn giản từ source/container.
+- Tự lo HTTPS + LB.
+- Kiểu PaaS.
 
-**Decision criteria**:
+**Các tiêu chí quyết định**:
 
-1. **Traffic pattern**:
-   - Sporadic (< 100 req/day): Lambda.
-   - Variable (peaks + valleys): Lambda or Fargate.
-   - Constant high (10K req/sec): EC2 or Fargate.
+1. **Mô hình lưu lượng**:
+   - Lẻ tẻ (< 100 request/ngày): Lambda.
+   - Biến động (lúc đỉnh lúc đáy): Lambda hoặc Fargate.
+   - Cao và đều (10K request/giây): EC2 hoặc Fargate.
 
-2. **Execution time**:
-   - < 15 min: Lambda OK.
-   - 15 min - 1 hour: Fargate task.
-   - Hours: EC2 or ECS persistent task.
+2. **Thời gian chạy**:
+   - < 15 phút: Lambda OK.
+   - 15 phút – 1 giờ: Fargate task.
+   - Nhiều giờ: EC2 hoặc ECS task chạy thường trực.
 
-3. **State**:
-   - Stateless: any (Lambda easiest).
-   - Stateful: EC2 (with persistent storage).
+3. **Trạng thái**:
+   - Stateless: cái nào cũng được (Lambda dễ nhất).
+   - Stateful: EC2 (có lưu trữ thường trực).
 
-4. **Cost at scale**:
-   - 100 req/day: Lambda (free tier).
-   - 1M req/month: Lambda ($1/mo).
-   - 100M req/month: Lambda $200+, Fargate may be cheaper.
-   - 1B req/month: EC2 wins.
+4. **Chi phí ở quy mô**:
+   - 100 request/ngày: Lambda (free tier).
+   - 1 triệu request/tháng: Lambda (~$1/tháng).
+   - 100 triệu request/tháng: Lambda $200+, Fargate có thể rẻ hơn.
+   - 1 tỉ request/tháng: EC2 thắng.
 
-5. **Cold start tolerance**:
-   - Tolerate cold start: Lambda.
-   - Strict latency: EC2 / provisioned Lambda.
+5. **Độ chịu đựng cold start**:
+   - Chịu được cold start: Lambda.
+   - Độ trễ khắt khe: EC2 / Lambda có provisioned.
 
-**Real example**:
+**Ví dụ thực tế**:
 
-- **Image resize on upload**: Lambda (event-driven, sporadic).
-- **Background worker queue**: Lambda (SQS trigger) OR EC2 ASG (constant queue).
-- **REST API < 1M req/month**: Lambda + API Gateway.
-- **REST API 100M req/month**: EC2 ASG + ALB (cheaper).
-- **WebSocket chat**: EC2 / Fargate (Lambda WebSocket exists but limited).
-- **ML inference**: Fargate or EC2 (Lambda OK for small models).
-- **Cron jobs**: Lambda + EventBridge.
-- **Scheduled report generation**: Lambda (< 15 min) or ECS task (longer).
+- **Resize ảnh khi upload**: Lambda (event-driven, lẻ tẻ).
+- **Background worker theo hàng đợi**: Lambda (SQS trigger) HOẶC EC2 ASG (hàng đợi đều).
+- **REST API < 1 triệu request/tháng**: Lambda + API Gateway.
+- **REST API 100 triệu request/tháng**: EC2 ASG + ALB (rẻ hơn).
+- **Chat WebSocket**: EC2 / Fargate (Lambda có WebSocket nhưng hạn chế).
+- **ML inference**: Fargate hoặc EC2 (Lambda OK cho model nhỏ).
+- **Cron job**: Lambda + EventBridge.
+- **Sinh báo cáo theo lịch**: Lambda (< 15 phút) hoặc ECS task (lâu hơn).
 
-→ Most modern apps **mix all three**: Lambda for event-driven, EC2/Fargate for steady, App Runner for simple web.
+→ Phần lớn app hiện đại **trộn cả ba**: Lambda cho event-driven, EC2/Fargate cho tải đều, App Runner cho web đơn giản.
 </details>
 
-**Q2.** Lambda cold start — when matters, when not?
+**Q2.** Cold start của Lambda — khi nào quan trọng, khi nào không?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Cold start matters**:
+Mấu chốt: cold start chỉ là vấn đề khi *có người đang chờ*.
 
-1. **User-facing synchronous APIs**:
-   - User waits for response.
-   - 500ms cold start = visible UX delay.
-   - Especially on first request after deploy.
+**Cold start quan trọng**:
 
-2. **Real-time systems**:
+1. **API đồng bộ hướng người dùng**:
+   - Người dùng chờ phản hồi.
+   - 500 ms cold start = độ trễ thấy rõ.
+   - Đặc biệt ở request đầu sau khi deploy.
+
+2. **Hệ thống real-time**:
    - Trading, gaming, IoT.
-   - Latency budget < 100ms.
+   - Ngân sách độ trễ < 100 ms.
 
-3. **Tight SLA**:
-   - 99.9% latency P99 < 200ms.
+3. **SLA chặt**:
+   - 99.9% latency P99 < 200 ms.
 
-**Cold start doesn't matter**:
+**Cold start không quan trọng**:
 
-1. **Async events**:
+1. **Sự kiện bất đồng bộ**:
    - S3 trigger, DDB stream, SQS.
-   - User doesn't wait.
+   - Người dùng không chờ.
 
-2. **Scheduled tasks**:
-   - Cron jobs.
-   - Backoffice processing.
+2. **Tác vụ theo lịch**:
+   - Cron job.
+   - Xử lý hậu trường.
 
-3. **Background workers**:
-   - Image resize, video transcode.
-   - Eventual completion OK.
+3. **Background worker**:
+   - Resize ảnh, transcode video.
+   - Xong lúc nào cũng được.
 
-4. **Low traffic**:
-   - 100 req/day. Most are cold start.
-   - But: each invocation is rare.
+4. **Lưu lượng thấp**:
+   - 100 request/ngày, phần lớn là cold start.
+   - Nhưng: mỗi lần gọi vốn đã hiếm.
 
-**Mitigations** (when cold start matters):
+**Cách giảm thiểu** (khi cold start quan trọng):
 
 1. **Provisioned Concurrency**:
-   - Keep N containers warm.
-   - $0.000004/GB-s for provisioned.
-   - Set min concurrency to expected baseline.
+   - Giữ sẵn N container nóng.
+   - $0.000004/GB-s cho phần provisioned.
+   - Đặt mức tối thiểu bằng baseline kỳ vọng.
    ```bash
    aws lambda put-provisioned-concurrency-config \
      --function-name fn --qualifier '$LATEST' \
@@ -1237,14 +1310,14 @@ def my_function():
    ```
 
 2. **SnapStart** (Java):
-   - 10x faster Java cold start.
-   - Snapshots JVM state.
+   - Cold start Java nhanh hơn 10 lần.
+   - Chụp snapshot trạng thái JVM.
 
-3. **Smaller package**:
-   - Remove unused dependencies.
-   - Tree-shake imports.
+3. **Package nhỏ hơn**:
+   - Gỡ thư viện không dùng.
+   - Tree-shake import.
 
-4. **Init outside handler**:
+4. **Khởi tạo bên ngoài handler**:
    ```python
    # Bad — init each invocation
    def lambda_handler(event, context):
@@ -1258,149 +1331,141 @@ def my_function():
    ```
 
 5. **ARM (Graviton2)**:
-   - Faster startup.
-   - 20% cheaper.
+   - Khởi động nhanh hơn.
+   - Rẻ hơn 20%.
 
-6. **Faster runtime**:
+6. **Runtime nhanh hơn**:
    - Rust < Go < Python < Node.js < Java.
 
-**Cost trade-off**:
+**Đánh đổi chi phí**:
 
-Provisioned Concurrency (10 instances, 256 MB, 24/7):
-- $0.000004 × 0.25 GB × 86400s × 30 days × 10 = $26/month.
-- For consistent low latency.
+Provisioned Concurrency (10 instance, 256 MB, 24/7):
+- $0.000004 × 0.25 GB × 86400s × 30 ngày × 10 = $26/tháng.
+- Đổi lấy độ trễ thấp ổn định.
 
-vs. accepting cold start:
-- Free (no extra cost).
-- ~500ms occasional latency hit.
+so với chấp nhận cold start:
+- Miễn phí (không tốn thêm).
+- Thỉnh thoảng có cú ~500 ms.
 
-**Decision**:
+**Quyết định**:
 
-- **User-facing API + < 1s latency budget**: Provisioned Concurrency.
-- **Event-driven async**: ignore cold start.
-- **High-frequency invocations**: containers stay warm anyway (rarely cold).
+- **API hướng người dùng + ngân sách độ trễ < 1s**: Provisioned Concurrency.
+- **Event-driven bất đồng bộ**: bỏ qua cold start.
+- **Gọi tần suất cao**: container vốn đã nóng sẵn (hiếm khi nguội).
 
-**Reality**:
-- Lambda invoked > 1/min: usually warm (container reused).
-- Cold start only on **scale-out** events.
+**Thực tế**:
+- Lambda được gọi > 1 lần/phút: thường luôn nóng (container tái dùng).
+- Cold start chỉ xảy ra khi **scale-out** (mở rộng đột biến).
 
-→ Cold start ≠ universal problem. Architect around it OR pay for provisioned. Don't fight it for async workloads.
+→ Cold start không phải vấn đề toàn cục. Kiến trúc để tránh nó HOẶC trả tiền cho provisioned. Đừng cố diệt nó cho tải bất đồng bộ.
 </details>
 
-**Q3.** API Gateway HTTP vs REST — Which choose?
+**Q3.** API Gateway HTTP vs REST — chọn cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**HTTP API** (recommend 2026):
-- $1/M requests.
-- Latency 5-10x faster.
-- Simpler config.
-- Native JWT auth.
-- Built-in CORS.
+Mặc định nên chọn HTTP API, chỉ nhảy sang REST API khi cần đúng một tính năng mà HTTP API không có.
 
-**Pros**:
-- Cheap.
-- Fast.
-- Modern.
-- 2026 default.
+**HTTP API** (khuyến nghị 2026):
+- $1/triệu request.
+- Độ trễ nhanh hơn 5–10 lần.
+- Cấu hình đơn giản.
+- JWT auth gốc.
+- CORS có sẵn.
 
-**Cons**:
-- Fewer features.
-- No usage plans / API keys (use IAM/JWT instead).
-- No request validation (use Lambda).
-- No request/response transformation.
+Điểm mạnh: rẻ, nhanh, hiện đại, là mặc định 2026.
+Điểm yếu: ít tính năng hơn — không có usage plan/API key (dùng IAM/JWT thay), không validate request (đẩy vào Lambda), không transform request/response.
 
-**REST API** (older):
-- $3.50/M requests.
-- Higher latency.
-- More features.
+**REST API** (cũ hơn):
+- $3.50/triệu request.
+- Độ trễ cao hơn.
+- Nhiều tính năng hơn.
 
-**Pros**:
-- **Usage plans** (rate limit per API key).
-- **API keys** for third-party access.
-- **Request validation** at API Gateway.
-- **Request/response transformation** (rename fields, add headers).
-- **Stage variables**.
-- **Resource policies** (IP restriction).
-- **AWS WAF integration**.
-- **Private API** (VPC endpoint).
+Điểm mạnh:
+- **Usage plan** (giới hạn tốc độ theo từng API key).
+- **API key** cho bên thứ ba.
+- **Request validation** ngay tại API Gateway.
+- **Request/response transformation** (đổi tên field, thêm header).
+- **Stage variable**.
+- **Resource policy** (giới hạn theo IP).
+- Tích hợp **AWS WAF**.
+- **Private API** (qua VPC endpoint).
 - **mTLS**.
 
-**Cons**:
-- 3.5x more expensive.
-- More setup.
-- Older patterns.
+Điểm yếu: đắt gấp 3.5 lần, cấu hình nhiều hơn, theo pattern cũ.
 
-**Decision matrix**:
+**Bảng quyết định**:
 
-| Need | HTTP API | REST API |
+| Nhu cầu | HTTP API | REST API |
 |---|---|---|
-| Simple REST endpoint | ✅ | ✅ |
+| Endpoint REST đơn giản | ✅ | ✅ |
 | JWT auth | ✅ | ✅ |
 | IAM auth | ✅ | ✅ |
-| **API keys for third party** | ❌ | ✅ |
-| **Usage plans (rate per key)** | ❌ | ✅ |
+| **API key cho bên thứ ba** | ❌ | ✅ |
+| **Usage plan (giới hạn theo key)** | ❌ | ✅ |
 | **Request validation** | ❌ | ✅ |
 | **Request transformation** | ❌ | ✅ |
-| **Private API in VPC** | ❌ | ✅ |
-| WebSocket | ✅ (separate WebSocket API) | ❌ |
-| **Lowest cost** | ✅ | ❌ |
-| **Lowest latency** | ✅ | ❌ |
+| **Private API trong VPC** | ❌ | ✅ |
+| WebSocket | ✅ (WebSocket API riêng) | ❌ |
+| **Chi phí thấp nhất** | ✅ | ❌ |
+| **Độ trễ thấp nhất** | ✅ | ❌ |
 
-**Choose HTTP API when**:
-- Internal API.
-- Simple authenticated endpoints.
+**Chọn HTTP API khi**:
+- API nội bộ.
+- Endpoint có xác thực đơn giản.
 - Microservices.
-- Cost-sensitive.
-- 90% of use cases 2026.
+- Nhạy cảm chi phí.
+- 90% trường hợp năm 2026.
 
-**Choose REST API when**:
-- Third-party API with usage plans.
-- Need request/response transformation.
-- Private API in VPC.
-- Migrating from older REST API.
-- Compliance requires WAF + private.
+**Chọn REST API khi**:
+- API cho bên thứ ba có usage plan.
+- Cần transform request/response.
+- Private API trong VPC.
+- Đang migrate từ REST API cũ.
+- Compliance yêu cầu WAF + private.
 
-**Migration path**:
-- Start HTTP API.
-- Migrate to REST API only if specific feature needed.
+**Lộ trình migrate**:
+- Bắt đầu với HTTP API.
+- Chỉ chuyển sang REST API khi thật sự cần một tính năng cụ thể.
 
-**Cost example** (10M requests/month):
+**Ví dụ chi phí** (10 triệu request/tháng):
 - HTTP API: $10.
 - REST API: $35.
-- Difference: $25/month or $300/year.
+- Chênh lệch: $25/tháng hay $300/năm.
 
-**Reality 2026**:
-- New projects: HTTP API.
-- Legacy / specific features: REST API.
-- AWS keeps both, no deprecation.
+**Thực tế 2026**:
+- Dự án mới: HTTP API.
+- Hệ thống cũ / tính năng đặc thù: REST API.
+- AWS giữ cả hai, không khai tử.
 
-→ Default: **HTTP API**. Upgrade to REST API only if specific feature needed.
+→ Mặc định: **HTTP API**. Chỉ nâng lên REST API khi cần một tính năng cụ thể.
 </details>
 
-**Q4.** Lambda + RDS — handle connection limits?
+**Q4.** Lambda + RDS — xử lý giới hạn kết nối thế nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Problem**: 
+Đây là cái bẫy kinh điển khi ghép serverless với database truyền thống.
 
-- Postgres `max_connections` default 100.
-- Lambda scales to 1000+ concurrent.
-- Each Lambda → new connection → DB exhausted.
+**Vấn đề**: 
 
-**Symptoms**:
+- Postgres `max_connections` mặc định 100.
+- Lambda co giãn lên 1000+ đồng thời.
+- Mỗi Lambda → một kết nối mới → DB cạn slot.
+
+**Triệu chứng**:
 - `FATAL: too many connections`.
-- App errors.
-- DB CPU spike (connection management overhead).
+- App lỗi.
+- CPU của DB tăng vọt (chi phí quản lý kết nối).
 
-**Solutions**:
+**Giải pháp**:
 
-**1. RDS Proxy** (recommended):
-- Managed connection pool.
-- Lambda → RDS Proxy → reuses DB connections.
-- Reduces 1000 client connections → 100 backend.
+**1. RDS Proxy** (khuyến nghị):
+- Pool kết nối được quản lý sẵn.
+- Lambda → RDS Proxy → tái dùng kết nối DB.
+- Giảm 1000 kết nối client → 100 kết nối backend.
 
 ```yaml
 ProxyConfig:
@@ -1420,10 +1485,10 @@ conn = psycopg2.connect(
 )
 ```
 
-**Pros**: managed, auto-failover faster, supports IAM auth.
-**Cons**: cost ($26+/month), slight latency overhead.
+Ưu: được quản lý sẵn, failover nhanh hơn, hỗ trợ IAM auth.
+Nhược: tốn tiền ($26+/tháng), thêm chút độ trễ.
 
-**2. Connection pooling in Lambda**:
+**2. Connection pool trong Lambda**:
 
 ```python
 # Module-level pool
@@ -1443,13 +1508,13 @@ def lambda_handler(event, context):
         conn_pool.putconn(conn)
 ```
 
-**Pros**: no extra service.
-**Cons**: per-Lambda pool, still scales with concurrent.
+Ưu: không cần dịch vụ thêm.
+Nhược: pool theo từng Lambda, vẫn phình theo số lần chạy đồng thời.
 
 **3. Aurora Serverless v2 + Data API**:
 
-- Aurora Serverless v2 has built-in pooling.
-- **Data API**: HTTP API to Aurora, no persistent connection.
+- Aurora Serverless v2 có pool sẵn bên trong.
+- **Data API**: gọi Aurora qua HTTP, không giữ kết nối thường trực.
 
 ```python
 import boto3
@@ -1464,43 +1529,43 @@ response = rds_data.execute_statement(
 )
 ```
 
-**Pros**: no connection management.
-**Cons**: latency higher than direct connection. Aurora Serverless only.
+Ưu: không phải quản lý kết nối.
+Nhược: độ trễ cao hơn kết nối trực tiếp. Lưu ý tính tới 2026, Data API hỗ trợ cả **Aurora Serverless v2 và Aurora provisioned (PostgreSQL/MySQL)** — không còn giới hạn riêng cho Serverless như trước.
 
-**4. DynamoDB instead**:
+**4. Dùng DynamoDB thay thế**:
 
-- DDB no connection limit.
-- Each request independent.
-- If your data model fits.
+- DDB không có giới hạn kết nối.
+- Mỗi request độc lập.
+- Nếu mô hình dữ liệu của bạn phù hợp.
 
-**5. Connection limit increase**:
+**5. Tăng giới hạn kết nối**:
 
-- Tune `max_connections` parameter.
-- 100 → 500 (depends on DB size).
-- Each connection costs memory ~5-10 MB.
+- Chỉnh tham số `max_connections`.
+- 100 → 500 (tùy kích thước DB).
+- Mỗi kết nối tốn ~5–10 MB RAM.
 
 **6. Reserved concurrency** (Lambda):
 
-- Limit Lambda max concurrent.
+- Giới hạn số Lambda chạy đồng thời tối đa.
 
 ```yaml
 ReservedConcurrentExecutions: 50
 ```
 
-→ Cap at 50 concurrent Lambdas = max 50 DB connections.
+→ Chặn ở 50 Lambda đồng thời = tối đa 50 kết nối DB.
 
-**Decision matrix**:
+**Bảng quyết định**:
 
-| Workload | Recommend |
+| Tải | Khuyến nghị |
 |---|---|
-| Low traffic Lambda + Postgres | Connection pool in Lambda |
-| Medium traffic Lambda + Postgres | RDS Proxy |
-| High traffic Lambda + Aurora | Aurora Data API |
-| Sporadic Lambda | Reserved concurrency cap |
-| Variable Lambda | RDS Proxy + Aurora Serverless v2 |
-| Pure key-value access | Use DynamoDB instead |
+| Lambda + Postgres lưu lượng thấp | Connection pool trong Lambda |
+| Lambda + Postgres lưu lượng trung bình | RDS Proxy |
+| Lambda + Aurora lưu lượng cao | Aurora Data API |
+| Lambda lẻ tẻ | Chặn bằng reserved concurrency |
+| Lambda biến động | RDS Proxy + Aurora Serverless v2 |
+| Truy cập key-value thuần | Dùng DynamoDB |
 
-**Hybrid pattern**:
+**Pattern lai**:
 
 ```
 Hot path (queries) → Aurora Data API
@@ -1508,51 +1573,53 @@ Background writes → RDS Proxy
 Bulk operations → Direct Aurora connection
 ```
 
-**Cost**:
-- RDS Proxy: $26/month minimum (2 vCPU × $13).
-- Worth for any production Lambda + RDS.
+**Chi phí**:
+- RDS Proxy: tối thiểu $26/tháng (2 vCPU × $13).
+- Đáng cho mọi Lambda + RDS chạy production.
 
-→ Default 2026: **RDS Proxy** for Lambda + RDS production.
+→ Mặc định 2026: **RDS Proxy** cho Lambda + RDS production.
 </details>
 
-**Q5.** Lambda function size — when worry?
+**Q5.** Kích thước function Lambda — khi nào cần lo?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Size matters for**:
+Phần lớn function không cần lo về kích thước — chỉ tối ưu khi cold start trở nên quan trọng hoặc đụng giới hạn.
+
+**Kích thước ảnh hưởng tới**:
 
 1. **Cold start**:
-   - Larger function = slower cold start.
-   - 1 MB package: ~200 ms cold start.
-   - 50 MB package: ~500 ms cold start.
+   - Package lớn = cold start chậm hơn.
+   - Package 1 MB: cold start ~200 ms.
+   - Package 50 MB: cold start ~500 ms.
 
-2. **Deploy time**:
-   - Larger package = longer upload + processing.
-   - 50 MB: ~30 sec deploy.
+2. **Thời gian deploy**:
+   - Package lớn = upload + xử lý lâu hơn.
+   - 50 MB: deploy ~30 giây.
 
-3. **Limits**:
-   - 50 MB zip uploaded direct.
-   - 250 MB unzipped total.
-   - 10 GB container image (alternative).
+3. **Giới hạn**:
+   - 50 MB zip upload trực tiếp.
+   - 250 MB tổng khi đã giải nén.
+   - 10 GB container image (phương án thay thế).
 
-**Common bloat sources**:
+**Các nguồn làm phình package**:
 
-1. **Unused dependencies**:
-   - Installed `boto3` (already in Lambda runtime).
-   - Installed dev deps (`pytest`, `black`).
+1. **Thư viện không dùng**:
+   - Cài `boto3` (đã có sẵn trong runtime Lambda).
+   - Cài dev deps (`pytest`, `black`).
 
-2. **Build artifacts**:
-   - `.git`, `__pycache__`, `node_modules` debris.
-   - `.pyc` files.
+2. **Artifact build**:
+   - Rác `.git`, `__pycache__`, `node_modules`.
+   - File `.pyc`.
 
-3. **Heavy ML models**:
+3. **Model ML nặng**:
    - 100 MB TensorFlow.
-   - 500 MB transformer model.
+   - 500 MB model transformer.
 
-**Solutions**:
+**Giải pháp**:
 
-**1. Lambda Layers** (shared deps):
+**1. Lambda Layers** (thư viện dùng chung):
 
 ```yaml
 Resources:
@@ -1570,8 +1637,8 @@ Resources:
         - !Ref CommonLayer
 ```
 
-- Up to 5 layers per function.
-- Layer max 50 MB unzipped.
+- Tối đa 5 layer mỗi function.
+- Mỗi layer tối đa 50 MB khi giải nén.
 
 **2. Tree-shake / minify**:
 
@@ -1607,51 +1674,53 @@ COPY function.py ${LAMBDA_TASK_ROOT}
 CMD ["function.lambda_handler"]
 ```
 
-- Build + push to ECR.
-- Lambda uses image as code source.
-- Cold start ~100ms slower than zip.
+- Build + push lên ECR.
+- Lambda dùng image làm nguồn code.
+- Cold start chậm hơn zip khoảng 100 ms.
 
-**5. Lambda Function URL** (small bonus):
+**5. Lambda Function URL** (mẹo nhỏ):
 
-- Direct HTTP URL without API Gateway.
-- Free.
-- For internal endpoints.
+- URL HTTP trực tiếp, không cần API Gateway.
+- Miễn phí.
+- Cho các endpoint nội bộ.
 
-**Size monitoring**:
+**Theo dõi kích thước**:
 
 ```bash
 aws lambda get-function --function-name fn --query 'Code.CodeSize'
 # Returns bytes
 ```
 
-CloudWatch metric: monitor code size over time.
+CloudWatch metric: theo dõi kích thước code theo thời gian.
 
-**Best practices**:
+**Best practice**:
 
-1. **Audit deps quarterly**: remove unused.
-2. **Layer for shared**: SDK customizations, common libs.
-3. **Container for heavy**: ML models, scientific libs.
-4. **Compress wisely**: gzip JSON resources.
+1. **Audit thư viện hằng quý**: gỡ cái không dùng.
+2. **Layer cho phần dùng chung**: tùy chỉnh SDK, thư viện chung.
+3. **Container cho phần nặng**: model ML, thư viện khoa học.
+4. **Nén khôn ngoan**: gzip các tài nguyên JSON.
 
-**Anti-patterns**:
+**Anti-pattern**:
 
-- Include entire `pandas` for trivial CSV parsing.
-- 200 MB function for "hello world".
-- Bundle Webpack output without tree-shaking.
-- Include `tests/` folder in production deploy.
+- Nhét cả `pandas` chỉ để parse một file CSV tầm thường.
+- Function 200 MB cho "hello world".
+- Bundle output Webpack mà không tree-shake.
+- Đưa cả thư mục `tests/` vào bản deploy production.
 
-**Reality check**:
+**Kiểm chứng thực tế**:
 
-- Typical Lambda: 5-30 MB.
-- Heavy with ML: 100 MB + container.
+- Lambda điển hình: 5–30 MB.
+- Nặng với ML: 100 MB + container.
 - Microservice: < 10 MB.
 
-→ Most Lambdas don't need to worry. Optimize when cold start critical or hit limits.
+→ Phần lớn Lambda không cần lo. Chỉ tối ưu khi cold start tối quan trọng hoặc đụng giới hạn.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: lệnh Lambda, API Gateway, SAM, các trigger, và một template SAM mẫu đầy đủ.
 
 ```bash
 # === Lambda ===
@@ -1739,69 +1808,73 @@ Outputs:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Lambda** | AWS serverless function service |
-| **Function** | Single Lambda unit |
-| **Handler** | Entry point function `file.method` |
-| **Runtime** | Language environment (python3.13, nodejs22, etc.) |
-| **Cold start** | First invocation after idle (provisioning overhead) |
-| **Warm invocation** | Container reused (fast) |
-| **Provisioned Concurrency** | Pre-warmed function instances |
-| **SnapStart** | Java-specific cold start optimization |
-| **Lambda Layer** | Shared dependencies package |
-| **Container image** | Alternative to zip, up to 10 GB |
-| **Execution role** | IAM role Lambda assumes |
-| **DLQ** | Dead Letter Queue (failed invocations) |
-| **Reserved concurrency** | Max concurrent invocations cap |
-| **Event source** | Lambda trigger (S3, SQS, EventBridge, etc.) |
-| **Async invocation** | Fire-and-forget (S3, SNS) |
-| **Sync invocation** | Wait for response (API Gateway, direct) |
-| **API Gateway** | Managed HTTP API service |
-| **HTTP API** | Newer, cheaper, simpler API Gateway |
-| **REST API** | Older, more features (usage plans, validation) |
-| **WebSocket API** | Bidirectional Lambda + API Gateway |
-| **CORS** | Cross-Origin Resource Sharing |
-| **JWT authorizer** | API Gateway validate JWT tokens |
-| **IAM authorizer** | API Gateway use IAM SigV4 |
-| **Custom domain** | API at api.acmeshop.vn instead of execute-api |
-| **SAM** | Serverless Application Model (CloudFormation extension) |
-| **EventBridge** | AWS event bus (cron + SaaS events) |
-| **Step Functions** | Workflow orchestration (alternative to long Lambda) |
-| **App Runner** | AWS PaaS for containers |
-| **Fargate** | Serverless containers (ECS/EKS) |
-| **X-Ray** | Distributed tracing |
-| **CloudWatch Logs Insights** | Query Lambda logs with SQL |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Lambda** | Dịch vụ function serverless | Dịch vụ chạy function serverless của AWS |
+| **Function** | Đơn vị function | Một đơn vị Lambda đơn lẻ |
+| **Handler** | Điểm vào | Hàm điểm vào, dạng `file.method` |
+| **Runtime** | Môi trường chạy | Môi trường ngôn ngữ (python3.13, nodejs22...) |
+| **Cold start** | Khởi động nguội | Lần gọi đầu sau khi nghỉ (tốn thời gian cấp phát) |
+| **Warm invocation** | Gọi nóng | Container được tái dùng (nhanh) |
+| **Provisioned Concurrency** | Giữ sẵn instance nóng | Các instance function được làm nóng trước |
+| **SnapStart** | Tối ưu cold start cho Java | Tối ưu cold start riêng cho Java |
+| **Lambda Layer** | Gói thư viện dùng chung | Package thư viện phụ thuộc dùng chung |
+| **Container image** | Image container | Thay cho zip, tối đa 10 GB |
+| **Execution role** | IAM role thực thi | IAM role mà Lambda đảm nhận |
+| **DLQ** | Hàng đợi thư chết | Dead Letter Queue (chứa lần gọi thất bại) |
+| **Reserved concurrency** | Trần đồng thời | Giới hạn số lần chạy đồng thời tối đa |
+| **Event source** | Nguồn sự kiện | Trigger của Lambda (S3, SQS, EventBridge...) |
+| **Async invocation** | Gọi bất đồng bộ | Bắn-và-quên (S3, SNS) |
+| **Sync invocation** | Gọi đồng bộ | Chờ phản hồi (API Gateway, gọi trực tiếp) |
+| **API Gateway** | Cổng API được quản lý | Dịch vụ HTTP API được quản lý sẵn |
+| **HTTP API** | API Gateway loại mới | Mới hơn, rẻ hơn, đơn giản hơn |
+| **REST API** | API Gateway loại cũ | Cũ hơn, nhiều tính năng hơn (usage plan, validation) |
+| **WebSocket API** | API hai chiều | Lambda + API Gateway hai chiều |
+| **CORS** | Chia sẻ tài nguyên chéo nguồn | Cross-Origin Resource Sharing |
+| **JWT authorizer** | Bộ xác thực JWT | API Gateway kiểm tra token JWT |
+| **IAM authorizer** | Bộ xác thực IAM | API Gateway dùng IAM SigV4 |
+| **Custom domain** | Tên miền riêng | API ở api.acmeshop.vn thay cho execute-api |
+| **SAM** | Mô hình ứng dụng serverless | Serverless Application Model (mở rộng CloudFormation) |
+| **EventBridge** | Bus sự kiện AWS | Bus sự kiện AWS (cron + sự kiện SaaS) |
+| **Step Functions** | Điều phối workflow | Điều phối workflow (thay cho Lambda chạy dài) |
+| **App Runner** | PaaS container của AWS | Dịch vụ PaaS cho container của AWS |
+| **Fargate** | Container serverless | Container serverless (ECS/EKS) |
+| **X-Ray** | Truy vết phân tán | Distributed tracing |
+| **CloudWatch Logs Insights** | Query log bằng SQL | Truy vấn log Lambda bằng cú pháp SQL |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_rds-and-dynamodb.md](03_rds-and-dynamodb.md)
-- ↑ Cluster: [AWS README](../../README.md)
+### 🧭 Định hướng lộ trình học
+
+- ⬅️ **Bài trước:** [RDS + DynamoDB — Managed databases](03_rds-and-dynamodb.md)
+- ↑ **Về cụm:** [AWS](../../README.md)
 - 🎯 Hoàn thành AWS basic 5/5!
 
-### Cross-reference
-- ☁️ [Cloud Fundamentals](../../../cloud-fundamentals/) — vendor-neutral cloud
-- 🐍 [FastAPI basic](../../../../07_web/backend/python-fastapi/) — vs Lambda
-- 🐍 [Serverless cluster](../../../serverless/) — serverless deep (future)
+### 🧩 Các chủ đề có thể bạn quan tâm
 
-### Tài nguyên ngoài
+- ☁️ [Cloud Fundamentals](../../../cloud-fundamentals/) — kiến thức đám mây không phụ thuộc nhà cung cấp.
+- 🐍 [FastAPI basic](../../../../07_web/backend/python-fastapi/) — backend Python, so sánh với Lambda.
+- ↑ **Về cụm:** [Serverless cluster](../../../serverless/) — đào sâu serverless.
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Lambda docs](https://docs.aws.amazon.com/lambda/)
 - 📖 [API Gateway docs](https://docs.aws.amazon.com/apigateway/)
 - 📖 [SAM docs](https://docs.aws.amazon.com/serverless-application-model/)
 - 📖 [Lambda best practices](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
 - 📖 [Lambda pricing](https://aws.amazon.com/lambda/pricing/)
 - 📖 [API Gateway pricing](https://aws.amazon.com/api-gateway/pricing/)
-- 📖 [Serverless Framework](https://www.serverless.com/) — alternative to SAM
-- 📖 [Lambda Power Tuning](https://github.com/alexcasalboni/aws-lambda-power-tuning) — find optimal memory
+- 📖 [Serverless Framework](https://www.serverless.com/) — phương án thay thế cho SAM.
+- 📖 [Lambda Power Tuning](https://github.com/alexcasalboni/aws-lambda-power-tuning) — tìm mức RAM tối ưu.
 - 📖 [Awesome Serverless](https://github.com/anaibol/awesome-serverless)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 04 — cuối AWS basic cluster. Lambda fundamentals + runtimes + memory/CPU model + triggers (S3/DDB/EventBridge/SQS) + cold start + mitigations + API Gateway (HTTP vs REST) + pricing + limits + decision matrix Lambda vs EC2/Fargate + hands-on image resize Lambda. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ "điện tín tiếng Anh" sang tiếng Việt narrative (lời dẫn trước mỗi code/bảng/list, câu phân tích sau, câu bắc cầu giữa section, mạch WHY→WHAT→HOW); Việt hoá toàn bộ đáp án self-check; giữ nguyên 100% code/lệnh/số liệu/diagram. Sửa QA: residue "**bạn compute**" → "**Compute nặng**" (dòng chi phí Lambda); sửa factual RDS Data API "Aurora Serverless only" → hỗ trợ cả Aurora Serverless v2 và provisioned (đúng 2026). Chuẩn hoá: metadata "Prerequisites" → "Yêu cầu trước"; Glossary 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); nav theo gold-standard (⬅️/↑ + link-text = tiêu đề H1 thực).

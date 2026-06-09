@@ -1,22 +1,24 @@
 # csharp
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v0.2.0\
 > **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Status:** 🚧 Có bài giới thiệu — đang xây dựng thêm
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🚧 *Đã có bài [C# là gì?](./lessons/01_basic/00_what-is-csharp.md). Các phần còn lại theo cấu trúc dự kiến bên dưới.*
+
+## 📖 Bài đã có
+
+| # | Bài | Loại | Trạng thái |
+|---|---|---|---|
+| 00 | [C# là gì?](./lessons/01_basic/00_what-is-csharp.md) | 🌱 Intro | ✅ |
 
 ## 📂 Cấu trúc dự kiến (theo menu 7 loại)
 
 ```
 csharp/
 ├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"csharp là gì\" — intro chung
+├── 00_overview.md     ← "csharp là gì" — intro chung
 ├── lessons/           ← 📖 bài học lý thuyết
 │   ├── 01_basic/
 │   ├── 02_intermediate/

@@ -1,12 +1,12 @@
 # Pod — Đơn vị deploy nhỏ nhất của Kubernetes
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
-> **Thời lượng đọc:** ~15 phút\
-> **Prerequisites:** Đã biết Docker container cơ bản
+> **Tags:** [MUST-KNOW]\
+> **Yêu cầu trước:** Đã biết Docker container cơ bản
 
 > 🎯 *Trước khi học Pod cần hiểu Container (xem Docker basics). Sau bài này bạn sẽ tự tạo, kiểm tra, debug được 1 Pod trong K8s — kiến thức gốc cho mọi resource cấp cao hơn.*
 
@@ -53,7 +53,7 @@ graph TB
 
 ## 2️⃣ Hands-on — Tạo Pod đầu tiên
 
-> ⚙️ **Yêu cầu**: đã có cluster K8s chạy (Minikube/Kind/Docker Desktop). Chưa có → xem [setup K8s].
+> ⚙️ **Yêu cầu**: đã có cluster K8s chạy (Minikube/Kind/Docker Desktop). Chưa có → xem [K8s local — Chọn cluster để học/dev trên máy mình](../../../sample_tool-category_k8s-local.md).
 
 ### 🛠️ Bước 1: Tạo Pod bằng imperative
 
@@ -197,15 +197,15 @@ stateDiagram-v2
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: tạo Pod trực tiếp trong production
+### ❌ Cạm bẫy: tạo Pod trực tiếp trong production
 
 - **Triệu chứng**: Pod chết → K8s không tự tạo lại Pod mới
 - **Nguyên nhân**: Pod đơn lẻ không có controller (ReplicaSet/Deployment) quản lý
 - **Cách tránh**: Production luôn dùng **Deployment** thay vì Pod trực tiếp. Pod thủ công chỉ cho debug/test.
 
-### ❌ Pitfall: `CrashLoopBackOff`
+### ❌ Cạm bẫy: `CrashLoopBackOff`
 
 - **Triệu chứng**: STATUS hiển thị `CrashLoopBackOff`, RESTARTS tăng liên tục
 - **Nguyên nhân**: Container exit ngay khi start (sai command, thiếu config, lỗi code)
@@ -232,7 +232,7 @@ stateDiagram-v2
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Pod khác Container như thế nào?
 
@@ -271,7 +271,7 @@ Không dùng khi: 2 service độc lập, hoặc app + DB (DB nên StatefulSet r
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -289,7 +289,7 @@ Không dùng khi: 2 service độc lập, hoặc app + DB (DB nên StatefulSet r
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -308,22 +308,25 @@ Không dùng khi: 2 service độc lập, hoặc app + DB (DB nên StatefulSet r
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Bài liên quan trong kho
+### 🧭 Định hướng lộ trình học
 
-| Hướng | Bài |
-|---|---|
-| ⬅️ Bài trước | (chưa có — đây là bài đầu) |
-| ➡️ Bài tiếp | (sẽ có — Deployment) |
-| 🔗 Liên quan | (sẽ có — Service, ReplicaSet) |
-| ⬆️ Index L2 | [Pod overview](../../00_overview.md) |
+- ⬅️ **Bài trước:** (chưa có — đây là bài đầu của chủ đề Pod)
+- ➡️ **Bài tiếp theo:** [Deployment — Quản lý nhóm Pod thay bạn](../../../sample_lesson_k8s-deployment.md)
+- ↑ **Về cụm:** [Overview — Kubernetes Pod](../../00_overview.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- Service — expose Pod ra ngoài (chưa có)
+- ReplicaSet — đảm bảo đủ N Pod (chưa có)
+
+### 🌐 Tài nguyên tham khảo khác
 
 - [Official K8s docs — Pod](https://kubernetes.io/docs/concepts/workloads/pods/) — spec đầy đủ
 - [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) — build cluster from scratch để hiểu sâu
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — bài mẫu cho Blueprint, đầy đủ 8 phần.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — bài Pod (định nghĩa + hands-on + lifecycle + Pitfall + Self-check + Cheatsheet + Glossary).
+- **v1.1.0 (01/06/2026)** — Gỡ meta-leak "bài mẫu cho Blueprint, đầy đủ 8 phần"; sửa link rỗng placeholder "[setup K8s]" trỏ về tool category; Việt hoá heading Pitfall/Self-check/Cheatsheet/Glossary; chuẩn hoá section Liên kết sang 3-sub + nav bullet (link text = tiêu đề thật); đổi "Prerequisites" → "Yêu cầu trước" + thêm Tags; heading changelog chuẩn + tăng dần. Lý do: bài mẫu giống file học phải sạch meta-leak + đồng bộ 3 quyết định governance.

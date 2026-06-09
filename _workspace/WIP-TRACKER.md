@@ -1,9 +1,9 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.62.0\
+> **Phiên bản:** v0.63.0\
 > **Tạo lúc:** 20/05/2026\
-> **Cập nhật:** 25/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *Lịch sử các việc đang dở, chưa xong, hoặc đang chờ làm rõ — để khi user/Claude switch task vẫn nhớ quay lại.*
 
@@ -33,7 +33,19 @@
 
 ## 🔥 Đang làm (current)
 
-_(none — session 24/05 cumulative: **11_cloud full 9/9 basic** + **12_security/owasp-top-10** + **12_security/authentication** + **13_ai-ml/llm** = **60 lessons mới ~54,500 dòng**. Next options: sibling 12_security (authorization/cryptography/tls-ssl/compliance), sibling 13_ai-ml (rag-and-ai-agent), intermediate clusters, hoặc cluster mới (14_data-engineering).)_
+- [ ] **PHASE: Review sâu từng bài (per-cluster QA) + góp ý blueprint**
+  - 📅 Started: 01/06/2026
+  - 📍 Last update: 01/06/2026
+  - ✅ Đã xong (chuẩn bị): blueprint review + áp 3 quyết định (changelog tăng dần / heading Việt-hoá canonical / bỏ ước tính thời gian) lên 34 file blueprint + **sweep cơ học toàn kho** (257 heading Changelog/Glossary + 111 changelog đảo tăng dần + **521 H2 framework + 410 H3 Pitfall → canonical**, 0 trùng, 0 mất nội dung) + **docker re-align xong** (bản tham chiếu sạch).
+  - ✅ **11_cloud DONE 56/56 (01/06)** — audit 145 findings → rewrite Việt-hoá (cụm agent-written bị "điện tín EN") + fix code/factual + heading/nav/Glossary canonical. **0 telegraphic-EN, 0 artifact, 0 cụt, 56/56 changelog 01/06.** Bài học: workflow rewrite có schema phức tạp → agent kiệt budget không trả StructuredOutput; dùng **workflow schema-free + verify cơ học (grep)** ổn định hơn. Artifact tool-call lọt file → phải grep dọn sau mỗi batch (verify-agent bỏ sót).
+  - ✅ **PHIÊN 07/06 — "1 lược" review toàn kho DONE phần agent-written + convention-sync:**
+    - **Convention-sync toàn kho** (mechanical, verified, 0 file hỏng): de-meta gỡ 342 link `_blueprint`/101 file; nav canonical (🧭/🧩/🌐 + ⬅️/➡️/↑ + link-text=H1) ~170 file, 0 nav cũ; bỏ ước-tính-thời-gian lessons + 18 roadmap; broken-link 70→~0 thật (11 false-positive checker đọc code trong fence — **checker cần fix fence-blind**).
+    - **iac + observability**: rewrite "điện tín EN"→tiếng Việt (8 file).
+    - **README** html-css + javascript-dom (cụm đã xong nhưng còn skeleton) → v1.0.0.
+    - **12_security + 13_ai-ml audit+fix** (46 findings): **owasp-top-10 restructure sang OWASP Top 10:2025** (verified web, final release — A02 lên #2, A03 Supply Chain mới, A10 Mishandling mới, SSRF gộp A01) + fix code/factual (JWT PUBLIC_KEYS→jwks_client, argon2 verify try/except, IBM $4.88M, PBKDF2 OWASP-not-NIST, SLSA L4, qdrant query_points, json imports) + dọn artifact "là gì? là gì" ở stub.
+  - 🎯 Next step: **content-audit cụm VIẾT TAY** (foundations/languages/os/networking/06_db/rest-10_devops/mobile/arch/14_data/15/16) — đã review nội dung trước + conventions synced + telegraphic=0, nhưng chưa audit code/factual phiên này. Tuỳ user: audit kỹ hay chấp nhận prior-review.
+  - 📁 Scripts tái dùng: `_workspace/_rewrite-generic.js`, `_fix-secai.js`, `/tmp/nav_canonical.py`, `/tmp/strip_time.py`, `/tmp/strip_roadmap_time.py`
+  - ⚠️ Quyết định chốt: heading **canonical nghiêm ngặt 1:1**; **bỏ HẾT ước tính thời gian kể cả roadmap stage-duration**; rewrite dùng **schema-free workflow + grep verify cơ học** (schema phức tạp → agent kiệt budget, lỗi StructuredOutput). Verify-agent KHÔNG đáng tin bắt artifact → luôn grep cơ học sau batch.
 
 ---
 
@@ -127,6 +139,17 @@ _(none — session 24/05 cumulative: **11_cloud full 9/9 basic** + **12_security
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 01/06/2026 (phiên review — blueprint + sweep cơ học + docker re-align)
+
+- ✅ **Blueprint review + áp 3 quyết định** (changelog tăng dần / heading Việt-hoá canonical / bỏ mọi ước tính thời gian) lên 34 file `_blueprint/` + templates + examples. Sync README §5 version table. `_CONCEPT-MAP.md` v1.1.0 (+ concept #31–34). Move `_DOGFOOD-FINDINGS.md` → `_blueprint/_internal/`.
+- ✅ **Sweep cơ học toàn kho (in-scope lessons)** — an toàn, verified:
+  - 257 file: heading `## 📌 Changelog` → `## 📌 Nhật ký thay đổi (Changelog)`; `## 📚 Glossary` → `## 📚 Từ Điển Thuật Ngữ (Glossary)`.
+  - 111 file: changelog đảo **tăng dần** (guard chỉ xử lý changelog thuần entry/note, skip multi-line — an toàn).
+  - **521 H2 framework heading** (Self-check/Cheatsheet/Pitfall, mọi biến thể emoji + EN) → **canonical nghiêm ngặt 1:1**. **410 H3 `Pitfall` → `Cạm bẫy`**. Fence-aware. **0 heading trùng, 0 mất nội dung.**
+  - KHÔNG đụng heading content đánh số (`## 10. Concurrency Bugs Cheatsheet`, `## 5. Pitfall: Label Design`) — đó là section nội dung, không phải framework.
+- ✅ **Docker re-align xong** — 9 heading creative ở basic 01/02/03 + 12 bare EN ở intermediate → canonical. Docker = bản tham chiếu sạch cho phần review còn lại. (00_what-is-docker + 00_intermediate-overview giữ nguyên: intro, dùng FAQ/Tool-stack section, không bắt buộc đủ 8 phần.)
+- ⚠️ **Còn lại cho review sâu**: ~10 heading creative free-text (python/k8s) + 78 broken link + content/code/factual QA per-cluster.
 
 ### 25/05/2026 (phiên đêm — 11_cloud start)
 

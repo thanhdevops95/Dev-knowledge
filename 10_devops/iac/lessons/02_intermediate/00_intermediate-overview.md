@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~13 phút\
 > **Prerequisites:** [IaC basic](../01_basic/), [CI/CD intermediate GitOps](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md)
 
 > 🎯 *Bài INTRO cuối DevOps intermediate sprint. Basic dạy Terraform basics + state + modules + best practices. Production scale cần: **Terragrunt DRY**, **Atlantis GitOps workflow**, **drift detection automation**, **multi-language alternatives** (Pulumi/CDK/Crossplane). Bài này map landscape.*
@@ -290,16 +289,14 @@ graph TB
 
 ## 7️⃣ Lộ trình 4 bài kế tiếp
 
-Cluster IaC intermediate 4 bài đi theo thứ tự **DRY pattern → GitOps automation → safe state ops → ecosystem alternatives**. Tổng ~94 phút đọc + 8-10h hands-on:
 
-| Bài | Nội dung | Thời lượng | Output |
-|---|---|---|---|
-| **01** Terragrunt | DRY pattern + env isolation + dependency graph + module versioning + remote state | ~22p | Refactor 75-folder repo → DRY Terragrunt |
-| **02** Atlantis GitOps | Setup Atlantis + PR workflow + RBAC + locks + integration GitHub | ~25p | PR-based apply workflow, no local credentials |
-| **03** State advanced + drift detection | State migration + import + backup/restore + driftctl + cron drift alert + recovery | ~22p | Drift detection daily + alert + safe state ops |
-| **04** Alternatives | Pulumi (real languages) + CDKTF + Crossplane (K8s-native) + decision matrix + multi-cloud | ~25p | Choose right IaC tool per use case |
+| Bài | Nội dung | Output |
+| --- | --- | --- |
+| **01** Terragrunt | DRY pattern + env isolation + dependency graph + module versioning + remote state | Refactor 75-folder repo → DRY Terragrunt |
+| **02** Atlantis GitOps | Setup Atlantis + PR workflow + RBAC + locks + integration GitHub | PR-based apply workflow, no local credentials |
+| **03** State advanced + drift detection | State migration + import + backup/restore + driftctl + cron drift alert + recovery | Drift detection daily + alert + safe state ops |
+| **04** Alternatives | Pulumi (real languages) + CDKTF + Crossplane (K8s-native) + decision matrix + multi-cloud | Choose right IaC tool per use case |
 
-→ **Tổng ~94 phút đọc + 8-10h hands-on**. Sau cluster: **DevOps intermediate sprint complete (5/5 clusters = 25 intermediate lessons)**.
 
 ---
 
@@ -369,7 +366,7 @@ Sau intermediate có **7 chủ đề advanced** thuộc enterprise scale — mul
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -396,12 +393,12 @@ Sau intermediate có **7 chủ đề advanced** thuộc enterprise scale — mul
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_terragrunt-dry-multi-env.md](01_terragrunt-dry-multi-env.md) *(sắp viết)*
-- ↑ IaC README: [README](../../README.md)
-- ↶ Trước (basic): [04_best-practices-and-alternatives.md](../01_basic/04_best-practices-and-alternatives.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Terragrunt — DRY Terraform cho multi-env multi-region](01_terragrunt-dry-multi-env.md) *(sắp viết)*
+- ↑ **Về cụm:** [README](../../README.md)
+- ⬅️ **Bài trước:** [IaC Best Practices & Alternatives](../01_basic/04_best-practices-and-alternatives.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🔁 [CI/CD intermediate GitOps](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md) — same pattern for apps
 - 🔁 [CI/CD intermediate Secret mgmt](../../../ci-cd/lessons/02_intermediate/03_secret-management.md) — Vault for Terraform credentials
 - 📊 [Observability intermediate SRE](../../../observability/lessons/02_intermediate/04_sre-practices.md) — alert on drift
@@ -419,8 +416,7 @@ Sau intermediate có **7 chủ đề advanced** thuộc enterprise scale — mul
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §5 DevOps stack diagram + §7 Lộ trình 4 bài + advanced topics roadmap.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO cuối DevOps intermediate sprint. Map 4 mảng (Terragrunt/Atlantis/State+Drift/Alternatives) + tool stack 2026 + IaC at scale scenario + roadmap 4 bài kế tiếp + cross-link complete DevOps stack. Apply insight `__Ref__/` (GitOps "Git as enforcement gate" cho IaC).
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §5 DevOps stack diagram + §7 Lộ trình 4 bài + advanced topics roadmap.

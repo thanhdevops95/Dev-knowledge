@@ -1,4 +1,4 @@
-# 🎓 Đồng nghiệp vào team — bạn học push/pull/PR
+# 🎓 Đồng nghiệp vào team — push / pull / Pull Request
 
 > **Tác giả:** Mr.Rom\
 > **Phiên bản:** v2.2.0\
@@ -6,10 +6,9 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [02_branching-and-merging.md](./02_branching-and-merging.md), đã có account [GitHub](https://github.com)
+> **Prerequisites:** [00_branching-and-merging.md](./00_branching-and-merging.md), đã có account [GitHub](https://github.com)
 
-> 🎯 *Tiếp tục story: project chạy ngon, sếp gửi thêm 1 đồng nghiệp junior vào team. Bạn phải share code với họ. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.*
+> 🎯 *Nối tiếp bài trước: project chạy ngon, sếp gửi thêm 1 đồng nghiệp junior vào team. Bạn phải share code với họ. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -76,7 +75,7 @@ Bạn có thể đặt tên khác (vd `upstream`, `production`) nhưng `origin` 
 
 ---
 
-## 2️⃣ bạn đẩy code lên GitHub lần đầu
+## 2️⃣ Đẩy code lên GitHub lần đầu
 
 ### Setup: tạo repo trên GitHub
 
@@ -373,9 +372,9 @@ gh pr merge 123 --squash
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `git push --force` xóa nhầm commit của team
+### ❌ Cạm bẫy: `git push --force` xóa nhầm commit của team
 
 ```bash
 git push --force    # ⚠️ OVERWRITE remote history
@@ -387,7 +386,7 @@ git push --force    # ⚠️ OVERWRITE remote history
   - Nếu cần overwrite, dùng `--force-with-lease` (an toàn hơn — fail nếu remote có thay đổi mới)
   - Setup branch protection trên GitHub → cấm force push
 
-### ❌ Pitfall: Push code có credentials
+### ❌ Cạm bẫy: Push code có credentials
 
 - **Triệu chứng**: `.env` chứa API key → `git add .` → push lên public repo → leak
 - **Cách tránh**:
@@ -395,14 +394,14 @@ git push --force    # ⚠️ OVERWRITE remote history
   - Pre-commit hook check file nhạy cảm
   - Nếu lỡ leak: **rotate key NGAY** + force-remove khỏi history (`git filter-repo`)
 
-### ❌ Pitfall: Pull khi đang có thay đổi local chưa commit
+### ❌ Cạm bẫy: Pull khi đang có thay đổi local chưa commit
 
 - **Triệu chứng**: `git pull` báo lỗi `Your local changes would be overwritten`
 - **Fix**: 
   - Cách 1: commit local trước → pull
   - Cách 2: `git stash` (lưu tạm thay đổi) → `git pull` → `git stash pop`
 
-### ❌ Pitfall: Push wrong branch
+### ❌ Cạm bẫy: Push wrong branch
 
 ```bash
 git push origin local-branch:wrong-branch
@@ -451,7 +450,7 @@ GitHub repo → Settings → Branches → Add rule cho `main`:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Sự khác nhau giữa `git fetch` và `git pull`?
 
@@ -492,7 +491,7 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -527,7 +526,7 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -558,7 +557,7 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 | 🧪 Thực hành | [lab_team-pull-request.md](../../exercises/02_intermediate/lab_team-pull-request.md) — Thực hành làm việc nhóm PR |
 | 🗺️ Sitemap Git | [Lộ trình chinh phục Git (README)](../../README.md) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [GitHub Docs](https://docs.github.com/en) — official
 - [GitHub Skills](https://skills.github.com/) — interactive courses (PR, fork, ...)
@@ -567,16 +566,16 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.5 §3.5. Thay tên riêng fictional "Mai" → generic role "đồng nghiệp". Title đổi từ "Mai join project" → "Đồng nghiệp vào team". Section headers, narrative đều dùng generic. Nội dung kỹ thuật giữ nguyên 100%.
+- **v2.2.0 (24/05/2026)** — Thay tên riêng tự bịa bằng vai trò chung ("đồng nghiệp"). Tiêu đề đổi thành "Đồng nghiệp vào team". Tiêu đề mục và phần dẫn dắt đều dùng cách gọi chung. Nội dung kỹ thuật giữ nguyên 100%.
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "Long" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 
-- **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi theo story arc (gắn vào tình huống thực)
+- **v2.0.0 (19/05/2026)** — Viết lại bố cục:
+  - Tiêu đề gắn vào tình huống thực
   - Mở bằng **tình huống sếp gửi đồng nghiệp mới vào team**, bạn phải share code — so sánh 4 cách (ZIP / USB / Drive / GitHub)
-  - Headers đổi: `1️⃣ Vì sao cần remote (WHY)` / `2️⃣ Remote là gì (WHAT)` / `3️⃣ Hands-on` / `4️⃣ Clone` / `5️⃣ Pull` / `6️⃣ PR` → câu hỏi tự nhiên
-  - Thống nhất giữ Git ở `02_tools/git/` làm Central Setup Hub và cross-cutting tool
-  - Fix relative path depth
+  - Đổi tiêu đề mục sang câu hỏi tự nhiên
+  - Thống nhất giữ Git ở `02_tools/git/`
+  - Sửa lại độ sâu đường dẫn tương đối
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — push/clone/pull/PR workflow + authentication (PAT/SSH/CLI) + 6 pitfall/best-practice.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md)
 
 > 🎯 *Học 4 lệnh CLI để query/debug DNS thật. Sau bài này bạn debug được "vì sao DNS sai" trong 2 phút thay vì 2 giờ.*
@@ -35,7 +34,7 @@ Bạn ngơ:
 - Cloudflare **đã serve record này chưa**?
 - Authoritative NS đúng không?
 
-→ Cách duy nhất biết: **query DNS thẳng** từ terminal. Bài này dạy bạn (và bạn) 4 tool CLI thuần để vạch ra "DNS sai ở layer nào".
+→ Cách duy nhất biết: **query DNS thẳng** từ terminal. Bài này dạy bạn 4 tool CLI thuần để vạch ra "DNS sai ở layer nào".
 
 ---
 
@@ -456,7 +455,7 @@ dig -x 198.51.100.42 +short
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`dig google.com` không bypass cache** → vẫn dùng resolver ISP. Phải `dig @1.1.1.1` hoặc `+trace`.
 2. **Tin `dig` 100%** → resolver ISP có thể cache stale. Luôn so sánh ít nhất 2 resolver.
@@ -466,7 +465,7 @@ dig -x 198.51.100.42 +short
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Lệnh nhanh nhất để chỉ lấy IP của 1 domain?
 2. Cách hỏi authoritative NS trực tiếp (bypass cache resolver)?
@@ -490,7 +489,7 @@ dig -x 198.51.100.42 +short
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### `dig` essentials
 
@@ -550,14 +549,14 @@ whois 8.8.8.8                         # WHOIS IP (ai sở hữu IP)
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [DNS Resolution](02_dns-resolution.md)
-- → Tiếp: [DNS Setup & Security](04_dns-setup-and-security.md)
-- ↑ Cluster: [dns README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [DNS Resolution — Hành trình từ `google.com` đến IP](02_dns-resolution.md)
+- ➡️ **Bài tiếp theo:** [DNS Setup & Security — Đăng ký domain, propagation, DNSSEC, DoH/DoT](04_dns-setup-and-security.md)
+- ↑ **Về cụm:** [dns README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [DigitalOcean: dig tutorial](https://www.digitalocean.com/community/tutorials/an-introduction-to-dns-terminology-components-and-concepts)
 - 📖 [Julia Evans: How DNS works (zine)](https://wizardzines.com/zines/dns/)
 - 📖 [Cloudflare: DNS troubleshooting](https://developers.cloudflare.com/dns/troubleshooting/)
@@ -569,8 +568,7 @@ whois 8.8.8.8                         # WHOIS IP (ai sở hữu IP)
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 dig "Syntax cơ bản" + "Ví dụ tiêu chuẩn" + "Đọc output 5 section" bảng + "Tham số +" flag list + "Query loại record" examples. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 4/5. Cover: 4 tool (`dig` deep + `nslookup` basic + `host` quick + `whois` registrar info) + decision tree khi dùng tool nào + 5 use case debug DNS + DoH/DoT modern (DNS over HTTPS/TLS).
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 dig (syntax, ví dụ tiêu chuẩn, đọc output 5 section, tham số +, query loại record). Thêm Changelog section.

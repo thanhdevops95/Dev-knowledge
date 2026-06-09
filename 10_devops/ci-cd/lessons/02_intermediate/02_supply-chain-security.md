@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** [01_gitops-with-argocd.md](01_gitops-with-argocd.md), [Docker intermediate Security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md)
 
 > 🎯 *Docker intermediate bài 02 đã dạy Trivy + cosign + SBOM ở mức image. Bài này dạy **CI/CD pipeline-level**: SLSA Level 3 implementation, provenance attestation cho **build chain**, in-toto, Kyverno admission verify production, vulnerability lifecycle management, signed Helm chart.*
@@ -234,7 +233,7 @@ Image (đã làm Docker bài 02). Đây thêm sign **artifacts khác**:
 
 ### Sign image
 
-Cosign sign image bằng keyless (OIDC) — 1 lệnh đơn giản, không cần manage key file. Cert ngắn hạn (10 phút) ký theo identity GitHub Actions, ghi vào Rekor public log:
+Cosign sign image bằng keyless (OIDC) — 1 lệnh đơn giản, không cần manage key file. Cert ngắn hạn ký theo identity GitHub Actions, ghi vào Rekor public log:
 
 ```bash
 cosign sign --yes ghcr.io/acme/fastapi@sha256:abc...
@@ -761,21 +760,21 @@ cosign verify-attestation \
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: SLSA provenance generated but not verified
+### ❌ Cạm bẫy: SLSA provenance generated but not verified
 
 → CI generates beautiful provenance, but nothing verifies it before deploy. False sense of security.
 
 → **Fix**: Kyverno admission policy require provenance verification. Cluster reject unsigned/no-provenance image.
 
-### ❌ Pitfall: Cosign keyless with wide regex `subject: ".*"`
+### ❌ Cạm bẫy: Cosign keyless with wide regex `subject: ".*"`
 
 → Any GitHub OIDC identity accepted = attacker create own repo, build image, sign with their identity, pass verify.
 
 → **Fix**: Strict regex `https://github.com/acme/.*` (your org only).
 
-### ❌ Pitfall: `.trivyignore` accumulate without expiry
+### ❌ Cạm bẫy: `.trivyignore` accumulate without expiry
 
 → 2-year-old ignore entry — CVE may have exploit now.
 
@@ -784,7 +783,7 @@ cosign verify-attestation \
 - Monthly audit, force re-review.
 - CI alert if entry expires soon.
 
-### ❌ Pitfall: Daily scan but no remediation process
+### ❌ Cạm bẫy: Daily scan but no remediation process
 
 → Pipeline fails daily, alerts pile up, on-call ignores.
 
@@ -793,7 +792,7 @@ cosign verify-attestation \
 - SLA defined per severity (CRITICAL fix in 24h).
 - Vulnerability lead role rotation.
 
-### ❌ Pitfall: Self-hosted GitHub runner without isolation
+### ❌ Cạm bẫy: Self-hosted GitHub runner without isolation
 
 → Build steps run on shared runner with other build's leftovers → not SLSA L2 (not isolated).
 
@@ -801,7 +800,7 @@ cosign verify-attestation \
 - Use GitHub-hosted ubuntu-latest (ephemeral VM).
 - Self-hosted with ARC (Actions Runner Controller) — pod-per-job in K8s, ephemeral.
 
-### ❌ Pitfall: Mix signed + unsigned image
+### ❌ Cạm bẫy: Mix signed + unsigned image
 
 ```yaml
 # Image 1 signed, image 2 not
@@ -815,7 +814,7 @@ spec:
 
 → **Fix**: Kyverno policy cover ALL containers (`spec.containers[*]`, `spec.initContainers[*]`, `spec.ephemeralContainers[*]`).
 
-### ❌ Pitfall: Rekor log private = not audit-able
+### ❌ Cạm bẫy: Rekor log private = not audit-able
 
 → Self-host Rekor without public access = no transparency, not real SLSA spirit.
 
@@ -857,7 +856,7 @@ Pros public:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** What's difference between **signature** and **provenance attestation**?
 
@@ -1011,7 +1010,7 @@ attestors:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === Cosign basics ===
@@ -1051,7 +1050,7 @@ kubectl get policyreport -A   # results
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1080,16 +1079,16 @@ kubectl get policyreport -A   # results
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_gitops-with-argocd.md](01_gitops-with-argocd.md)
-- → Tiếp: [03_secret-management.md](03_secret-management.md) *(sắp viết)*
-- ↑ Cluster: [CI/CD README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [GitOps với ArgoCD — Git = Single Source of Truth](01_gitops-with-argocd.md)
+- ➡️ **Bài tiếp theo:** [Secret management — Vault + External Secrets Operator + 12-factor](03_secret-management.md) *(sắp viết)*
+- ↑ **Về cụm:** [CI/CD README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🐳 [Docker intermediate Image security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md) — image layer
 - ☸️ [K8s intermediate Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — sign chart
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SLSA framework](https://slsa.dev/)
 - 📖 [SLSA GitHub generators](https://github.com/slsa-framework/slsa-github-generator)
 - 📖 [Sigstore](https://docs.sigstore.dev/)
@@ -1103,8 +1102,7 @@ kubectl get policyreport -A   # results
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước SLSA Levels + Production reality + What's in provenance + Inspect + Sign image.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. SLSA framework deep (4 levels) + provenance attestation in-toto + cosign sign full chain (image/chart/SBOM/vuln) + Rekor transparency log + Kyverno admission verify chain + vulnerability lifecycle workflow + signed Helm chart + full SLSA L3 pipeline. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước SLSA Levels + Production reality + What's in provenance + Inspect + Sign image.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [TCP/IP là gì](00_what-is-tcp-ip.md)
 
 > 🎯 *Hiểu **IP address** là gì, **IPv4 vs IPv6**, đọc được **subnet mask + CIDR notation**, phân biệt **public/private/loopback**, biết **NAT** vì sao quan trọng, và đọc được output `ip a` / `ipconfig`.*
@@ -46,7 +45,7 @@ Bạn ngơ:
 - Sao có cả **IPv4 và IPv6**?
 - "**Default gateway**" nghĩa là gì?
 
-→ Bài này dạy bạn (và bạn) **đọc IP address** thành thạo, **subnet + CIDR**, **NAT**, **đọc output network tool** cơ bản.
+→ Bài này dạy bạn **đọc IP address** thành thạo, **subnet + CIDR**, **NAT**, **đọc output network tool** cơ bản.
 
 ---
 
@@ -388,7 +387,7 @@ netstat -rn                         # Cross-platform
 
 ---
 
-## 8️⃣ Bạn debug — "Default gateway" là gì?
+## 8️⃣ "Default gateway" là gì?
 
 ```
 Default gateway: 192.168.1.1
@@ -407,7 +406,7 @@ Default gateway: 192.168.1.1
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tính số host quên trừ 2** → `/24` không phải 256 host mà 254 (trừ network + broadcast).
 2. **Tưởng private IP "secure"** → NAT chỉ giấu IP, **không phải firewall**. Vẫn cần security thật (Layer 7, auth).
@@ -417,7 +416,7 @@ Default gateway: 192.168.1.1
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. CIDR `203.0.113.0/27` chứa bao nhiêu host khả dụng?
 2. Phân biệt 3 block private IP (RFC 1918). Block nào hay dùng cho home Wi-Fi?
@@ -441,7 +440,7 @@ Default gateway: 192.168.1.1
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### IPv4 quick
 
@@ -514,17 +513,17 @@ ping 8.8.8.8               # Test connectivity
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [TCP/IP là gì](00_what-is-tcp-ip.md)
-- → Tiếp: [TCP vs UDP](02_tcp-vs-udp.md)
-- ↑ Cluster: [tcp-ip-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [TCP/IP là gì? — Bộ giao thức nền của Internet](00_what-is-tcp-ip.md)
+- ➡️ **Bài tiếp theo:** [TCP vs UDP — 2 giao thức Layer 4 quan trọng nhất](02_tcp-vs-udp.md)
+- ↑ **Về cụm:** [tcp-ip-fundamentals README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [DNS Setup](../../../dns/lessons/01_basic/04_dns-setup-and-security.md) — A record trỏ về IP
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [RFC 1918 — Private IP](https://datatracker.ietf.org/doc/html/rfc1918)
 - 📖 [Subnet Mask Cheat Sheet](https://www.aelius.com/njh/subnet_sheet.html)
 - 📖 [IPv6 explained — Cloudflare](https://www.cloudflare.com/learning/network-layer/what-is-ipv6/)
@@ -537,8 +536,7 @@ ping 8.8.8.8               # Test connectivity
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Range bảng + §1 "Loại IPv4 đặc biệt" bảng + §2 Subnet mask cổ điển diagram + §2 Công thức số host + §2 "Đọc CIDR" bảng. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 2/5. Cover: IPv4 32-bit + 4 octet → range + private/public → subnet mask cổ điển + CIDR notation → subnetting (chia /16 thành 4 /18) → NAT (Network Address Translation) + private vs public IP → IPv6 128-bit + format compress + dual-stack. 5 pitfall + 4 self-check.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §1 (Range, "Loại IPv4 đặc biệt") và §2 (subnet mask diagram, công thức số host, "Đọc CIDR"). Thêm Changelog section.

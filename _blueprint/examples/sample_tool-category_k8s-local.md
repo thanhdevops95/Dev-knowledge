@@ -1,11 +1,11 @@
 # 🛠️ K8s local — Chọn cluster để học/dev trên máy mình
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 19/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Loại:** Tool category — tham khảo + so sánh\
-> **Đọc trước:** [K8s là gì](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
+> **Đọc trước:** [K8s là gì? — Đơn vị điều phối container](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
 
 > 🎯 *Production K8s chạy hàng chục server. Để học/dev trên 1 laptop, ta cần "K8s thu nhỏ" gói gọn trong máy mình. File này giúp bạn so sánh 3 lựa chọn phổ biến và pick đúng cho nhu cầu.*
 
@@ -165,14 +165,25 @@ Dù pick tool nào, các utility sau gần như bắt buộc:
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- 📚 Bài lesson K8s → [10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
-- 🗺️ Lab series → [docker-to-k8s lab](../../00_roadmaps/lab-series/docker-to-k8s_lab-series.md) (chưa có)
-- 🛠️ Cluster GUI → [Lens](../k8s-gui/lens.md) (chưa có)
+### 🧭 Định hướng lộ trình học
+
+- ↑ **Về cụm:** [K8s local — README cụm tool](./README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 📚 [K8s là gì? — Đơn vị điều phối container](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
+- 🗺️ [Lab series — Từ Docker tới Kubernetes](../../00_roadmaps/lab-series/docker-to-k8s_lab-series.md) (chưa có)
+- 🛠️ [Lens — GUI quản lý cluster](../k8s-gui/lens.md) (chưa có)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [awesome-kubernetes](https://github.com/ramitsurana/awesome-kubernetes) — bộ sưu tập tool + tài liệu học K8s
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (19/05/2026)** — Bản đầu tiên. So sánh 3 tool chính (Minikube/Kind/k3d) + alternative + utility kèm theo.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá section Liên kết sang 3-sub + nav bullet (link text = tiêu đề thật); heading changelog chuẩn + tăng dần. Lý do: đồng bộ 3 quyết định governance + quy ước nền.

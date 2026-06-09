@@ -1,16 +1,14 @@
----
-title: Ghép Cặp Đa Dịch Vụ Với Docker Compose
-author: Mr.Rom
-version: v3.0.0
-date: 2026-05-26
-level: Basic
-tags: [MUST-KNOW, DEVOPS, DOCKER]
----
+# 🎓 Ghép cặp đa dịch vụ với Docker Compose
 
-# 🎓 Ghép Cặp Đa Dịch Vụ Với Docker Compose
+> **Tác giả:** Mr.Rom  
+> **Phiên bản:** v3.1.1  
+> **Tạo lúc:** 16/05/2026  
+> **Cập nhật:** 01/06/2026  
+> **Level:** Basic  
+> **Tags:** [MUST-KNOW]  
+> **Yêu cầu trước:** Đã học [Dockerfile basics](./02_dockerfile-basics.md) và [Image và Container](./01_images-and-containers.md).
 
-> 🎯 **Lời dẫn của Mr.Rom:** 
-> Tiếp tục hành trình chinh phục Docker của chúng ta: Giờ đây bạn đã tự build thành công image `myapp:v1` cho ứng dụng của mình. Nhưng một ứng dụng thực tế trên Production hiếm khi đứng độc lập. Nó cần kết nối tới PostgreSQL để lưu trữ dữ liệu, Redis để lưu cache và chạy các tác vụ nền. Gõ 5-6 dòng lệnh `docker run` thủ công rồi tạo mạng kết nối từng cái là một cực hình vô cùng tẻ nhạt. Bài học này sẽ khai phóng cho bạn sức mạnh của **Docker Compose** — giúp bạn quản lý toàn bộ dàn nhạc container chỉ với **một tệp YAML duy nhất**!
+> 🎯 *Bạn đã build thành công image `myapp:v1`. Nhưng một ứng dụng thật hiếm khi đứng một mình — nó cần PostgreSQL để lưu dữ liệu, Redis để cache, hàng đợi cho tác vụ nền. Gõ 5-6 lệnh `docker run` thủ công rồi nối mạng từng cái rất mệt. Bài này dạy bạn dùng **Docker Compose** để quản lý cả cụm container chỉ với một tệp YAML duy nhất.*
 
 ## 🎯 Sau bài học này, bạn sẽ làm chủ:
 
@@ -146,7 +144,7 @@ Không còn phải gõ hàng chục lệnh rườm rà. Hệ thống của bạn
 **Định nghĩa chuẩn xác:** Docker Compose là một công cụ giúp định nghĩa và khởi chạy các ứng dụng Docker sử dụng **nhiều container cùng lúc**. Toàn bộ cấu hình hệ thống được khai báo thông qua một tệp tin định dạng YAML mang tên `docker-compose.yml`.
 
 > [!NOTE]
-> **Ẩn dụ sư phạm từ Mr.Rom:** 
+> **Ẩn dụ sư phạm:** 
 > Hãy tưởng tượng Docker Compose giống như một **vị nhạc trưởng tài ba** đứng trước dàn nhạc giao hưởng. Mỗi container là một nhạc công chơi một loại nhạc cụ riêng (Violin, Kèn, Trống). Tệp `docker-compose.yml` chính là bản phổ nhạc ghi rõ ai chơi nhạc cụ gì, kết nối với ai và khi nào bắt đầu. Khi vị nhạc trưởng vung gậy điều khiển (`docker compose up`), cả dàn nhạc sẽ cất tiếng hát nhịp nhàng, đồng bộ và hoàn hảo!
 
 ### Cấu trúc cơ bản của tệp `docker-compose.yml`
@@ -442,7 +440,7 @@ services:
 ```
 
 > [!TIP]
-> **Mẹo tăng tốc lập trình của Mr.Rom:** 
+> **Mẹo tăng tốc:**
 > Khi sử dụng Bind Mount, bất kỳ thay đổi nào bạn thực hiện trên file `app.py` ở máy host bằng VS Code sẽ lập tức xuất hiện bên trong container ngay lập tức mà không cần bạn phải mất thời gian chạy lại lệnh `docker build` hay khởi động lại container!
 
 ---
@@ -520,7 +518,7 @@ services:
 
 ---
 
-## 8️⃣ Sử Dụng Profiles Để Phân Lập Môi Môi Trường Phát Triển Và Debug
+## 8️⃣ Sử Dụng Profiles Để Phân Lập Môi Trường Phát Triển Và Debug
 
 Trong thực tế, bạn có thể cần chạy một số dịch vụ bổ sung phục vụ cho quá trình gỡ lỗi (như Adminer hay pgAdmin để xem cơ sở dữ liệu trực quan), nhưng không muốn chúng tự động khởi chạy làm tốn tài nguyên RAM của hệ thống khi chạy bình thường.
 
@@ -556,7 +554,7 @@ docker compose --profile tools up -d
 
 ---
 
-## 💡 Những Cạm Bẫy Phổ Biến Và Cẩm Nang Vận Hành Compose Tối Ưu
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### ❌ Cạm bẫy 1: Cố tình sử dụng tên host là `localhost` trong mã nguồn ứng dụng
 Rất nhiều bạn mới chuyển đổi dự án lên Docker vẫn giữ thói quen cấu hình chuỗi kết nối là `postgresql://admin:secret@localhost:5432/myapp`. Khi chạy trong Docker, từ khóa `localhost` bên trong container `app` sẽ trỏ về chính bản thân container `app` chứ không phải máy chủ vật lý bên ngoài hay container database, dẫn đến lỗi mất kết nối.
@@ -608,7 +606,7 @@ services:
     ports:
       - "${CHAT_APP_PORT}:3000"       # Đọc cổng ra từ tệp cấu hình động .env
     environment:
-      MONGO_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@chat-db:27117/chatdb?authSource=admin
+      MONGO_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@chat-db:27017/chatdb?authSource=admin
       REDIS_HOST: chat-cache
     # Đợi database chat-db vượt qua bài kiểm tra sức khỏe thành công mới start app
     depends_on:
@@ -650,12 +648,12 @@ Mẫu thiết kế trên chính là kiến trúc baseline kinh điển được 
 
 ---
 
-## 🧠 Thử Thách Tư Duy: Củng Cố Kiến Thức Cốt Lõi
+## 🧠 Tự kiểm tra (Self-check)
 
 **Câu hỏi 1:** Khi bạn chạy lệnh `docker compose down`, các dữ liệu được ghi trong Named Volume (ví dụ: `pg-data`) có bị xóa mất hay không? Làm sao để xóa sạch hoàn toàn hệ thống để test fresh từ đầu?
 
 <details>
-<summary><b>💡 Bấm để xem đáp án giải mã của Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem đáp án</b></summary>
 
 Khi bạn chạy lệnh `docker compose down` thông thường, Docker chỉ tiến hành dừng và xóa bỏ các container cùng hệ thống mạng ảo được tạo ra. **Toàn bộ dữ liệu lưu trữ bên trong Named Volume vẫn được giữ lại nguyên vẹn và an toàn tuyệt đối.**
 
@@ -670,7 +668,7 @@ docker compose down -v
 **Câu hỏi 2:** Cơ chế Service Discovery của Docker Compose hoạt động dựa vào đâu để chuyển đổi tên dịch vụ (ví dụ: `host=db`) thành địa chỉ IP ảo chính xác?
 
 <details>
-<summary><b>💡 Bấm để xem đáp án giải mã của Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem đáp án</b></summary>
 
 Docker Compose tự động tích hợp sẵn một **Embedded DNS Server** (máy chủ phân giải tên miền nhúng) chạy ngầm bên trong mỗi container. 
 
@@ -680,7 +678,7 @@ Khi container `app` gửi một yêu cầu kết nối tới tên miền `db`, E
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Và Cấu Trúc YAML
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cú pháp điều khiển hệ thống Compose nhanh chóng:
 ```bash
@@ -695,8 +693,7 @@ docker compose exec app sh            # Mở terminal tương tác trực tiếp
 
 ---
 
-## 📚 Từ Điển Thuật Ngữ (Glossary) Chuyên Ngành
-
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 - **Service discovery (Khám phá dịch vụ):** Cơ chế tự động phát hiện và kết nối giữa các container dựa vào tên dịch vụ mà không cần biết trước địa chỉ IP.
 - **Detached Mode (Chế độ chạy ngầm - cờ `-d`):** Lựa chọn yêu cầu Docker chạy container dưới nền và trả lại quyền điều khiển terminal cho người dùng lập tức.
 - **Named Volume (Volume có tên):** Vùng lưu trữ dữ liệu an toàn do Docker quản lý hoàn toàn độc lập với vòng đời của container.
@@ -704,28 +701,26 @@ docker compose exec app sh            # Mở terminal tương tác trực tiếp
 
 ---
 
-## 🔗 Liên Kết & Tài Nguyên Học Tập Bổ Sung
+## 🔗 Liên kết & Tài nguyên
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Tự đóng gói ứng dụng với Dockerfile](./02_dockerfile-basics.md)
+- ➡️ **Bài tiếp theo:** [Thử thách Docker thực chiến — Cấp độ cơ bản](../../exercises/01_basic/01_docker-challenges.md) hoặc [cụm Intermediate](../02_intermediate/00_intermediate-overview.md)
 
-### Các bài học liên quan trực tiếp:
-- [⬅️ Bài học trước: Tự đóng gói bản thiết kế với Dockerfile Custom](./02_dockerfile-basics.md)
-- [🛠️ Công cụ hỗ trợ: Hướng dẫn cấu hình môi trường lập trình tối ưu trên VS Code](../../../../02_tools/ide/vs-code.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- 🛠️ **Công cụ hỗ trợ:** [Hướng dẫn cấu hình môi trường lập trình tối ưu trên VS Code](../../../../02_tools/ide/vs-code.md)
+- 🧭 **Tấm bản đồ sự nghiệp:** [DevOps Engineer Career Roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
 
-### Tài liệu chính hãng tham khảo thêm:
-- [Tài liệu đặc tả cấu hình tệp tin Compose chính thức từ hãng Docker](https://docs.docker.com/compose/compose-file/)
+### 🌐 Tài nguyên tham khảo khác
+- [Tài liệu đặc tả cấu hình tệp Compose chính thức từ hãng Docker](https://docs.docker.com/compose/compose-file/)
 - [Awesome Compose — Kho lưu trữ hơn 50+ dự án mẫu thực tế chất lượng cao](https://github.com/docker/awesome-compose)
 
 ---
 
-## 📌 Lịch Sử Thay Đổi (Changelog)
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v3.0.0 (26/05/2026)** — **Mr.Rom nâng cấp Premium chuẩn 5 sao:**
-  - Nâng cấp toàn diện bài viết đạt chuẩn Blueprint Premium mới nhất.
-  - Cấu trúc lại tiêu đề H1 và metadata block YAML chuẩn chỉnh chuyên nghiệp.
-  - Chuyển đổi 100% tiêu đề H2 thành câu hỏi mở kích thích tư duy sâu sắc.
-  - Sửa đổi toàn bộ các Alerts cũ sang định dạng GitHub Alerts chuẩn chỉnh.
-  - Việt hóa 100% các dòng ghi chú giải thích bên trong các block code Python, YAML, và Bash.
-  - Bổ sung chương thực hành thực chiến Lab cao cấp: Live Chat Nodejs + MongoDB + Redis kết hợp Healthcheck chuyên sâu.
-  - Cập nhật liên kết tuyệt đối trỏ chính xác về cẩm nang VS Code Guide.
-- **v2.2.0 (25/05/2026)** — Bổ sung các chú dẫn mở đầu trước các phần Hands-on.
-- **v2.0.0 (20/05/2026)** — Tái cơ cấu bài học theo triết lý story-driven thực tế của dự án.
-- **v1.0.0 (16/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên.
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên.
+- **v2.0.0 (20/05/2026)** — Tái cấu trúc bài theo lối kể tình huống thực tế.
+- **v2.2.0 (25/05/2026)** — Bổ sung lời dẫn trước các phần thực hành.
+- **v3.0.0 (26/05/2026)** — Chuẩn hoá Alert Box GitHub; Việt hoá comment code (Python/YAML/Bash); bổ sung Lab thực hành Live Chat (Node.js + MongoDB + Redis) có Healthcheck.
+- **v3.1.0 (01/06/2026)** — Đổi metadata YAML sang khối block-quote tiêu chuẩn; bỏ các cụm cá nhân hoá trong nội dung.
+- **v3.1.1 (01/06/2026)** — Sửa lỗi QA: sửa port MongoDB trong `MONGO_URI` của Lab (27117 → 27017 cho khớp healthcheck và ports mapping); sửa lỗi gõ lặp từ trong tiêu đề mục 8 ("Môi Môi Trường" → "Môi Trường").

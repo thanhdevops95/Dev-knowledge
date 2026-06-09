@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** Đã xong [K8s basic cluster](../01_basic/) ✅, deploy được Pod/Deployment/Service/Ingress trên kind/minikube
 
 > 🎯 *Bài INTRO. Bạn deploy được first Pod, expose Service, hardcode ConfigMap, share cluster RBAC ở basic. Production thật cần gì khác? Bài này map 4 mảng intermediate (Helm + Ingress production + StatefulSet + Autoscaling+Operator) — chuẩn bị tâm thế cho 4 bài kế tiếp.*
@@ -214,7 +213,7 @@ graph TB
 - Route traffic Pod-to-Pod, Pod-to-Service, Pod-to-Internet.
 - **Enforce NetworkPolicy** (nếu CNI hỗ trợ).
 
-### Pitfall thực tế (war story từ `__Ref__/`)
+### Cạm bẫy thực tế (war story từ `__Ref__/`)
 
 **Tình huống**: Team enforce NetworkPolicy default-deny trong namespace `production`. Apply xong → mọi pod không communicate được, Istio sidecar injection cũng fail (webhook bị block) → toàn bộ deploy fail.
 
@@ -237,16 +236,14 @@ graph TB
 
 ## 5️⃣ Lộ trình 4 bài kế tiếp
 
-4 bài tiếp cluster đi theo thứ tự **packaging → networking → state → scaling** — mỗi bài solve 1 mảng intermediate, tổng ~94 phút đọc + 6-8h hands-on để hoàn tất:
 
-| Bài | Nội dung | Thời lượng | Output sau bài |
-|---|---|---|---|
-| **01** Helm | Chart anatomy + template + values + hooks + release lifecycle + public chart + chart museum | ~25p | Viết được Helm chart cho FastAPI; deploy với `helm install` |
-| **02** Ingress production | cert-manager Let's Encrypt + external-dns + ingress-nginx advanced + Gateway API + WAF/rate limit | ~22p | Production endpoint `api.acmeshop.vn` TLS auto + DNS auto |
-| **03** StatefulSet + Storage | StatefulSet vs Deployment + PV/PVC + StorageClass + dynamic provisioning + Postgres example + backup/restore | ~22p | Deploy Postgres 3 replicas với data persistent + backup |
-| **04** Autoscaling + Operators | HPA + VPA + CA + KEDA + Operator pattern (CRD + Controller) + write simple operator + use Postgres Operator | ~25p | Cluster auto-scale + dùng Operator cho Postgres production |
+| Bài | Nội dung | Output sau bài |
+| --- | --- | --- |
+| **01** Helm | Chart anatomy + template + values + hooks + release lifecycle + public chart + chart museum | Viết được Helm chart cho FastAPI; deploy với `helm install` |
+| **02** Ingress production | cert-manager Let's Encrypt + external-dns + ingress-nginx advanced + Gateway API + WAF/rate limit | Production endpoint `api.acmeshop.vn` TLS auto + DNS auto |
+| **03** StatefulSet + Storage | StatefulSet vs Deployment + PV/PVC + StorageClass + dynamic provisioning + Postgres example + backup/restore | Deploy Postgres 3 replicas với data persistent + backup |
+| **04** Autoscaling + Operators | HPA + VPA + CA + KEDA + Operator pattern (CRD + Controller) + write simple operator + use Postgres Operator | Cluster auto-scale + dùng Operator cho Postgres production |
 
-→ **Tổng ~94 phút đọc + 6-8h hands-on**. Sau cluster: bạn vận hành K8s production-grade.
 
 ---
 
@@ -382,7 +379,7 @@ Sau cluster này, nếu bạn cần đi sâu thêm:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -416,14 +413,14 @@ Sau cluster này, nếu bạn cần đi sâu thêm:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_helm-package-manager.md](01_helm-package-manager.md) *(sắp viết)*
-- ↑ Cluster K8s: [Kubernetes README](../../README.md)
-- ↶ Trước (basic): [04_namespaces-and-rbac.md](../01_basic/04_namespaces-and-rbac.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Helm — Package manager cho K8s, deploy 50 service không copy-paste](01_helm-package-manager.md) *(sắp viết)*
+- ↑ **Về cụm:** [Kubernetes README](../../README.md)
+- ⬅️ **Bài trước:** [Namespaces Và RBAC: Thiết Lập Biên Giới An Ninh Và Phân Quyền Hạn Chế Tối Đa](../01_basic/04_namespaces-and-rbac.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🐳 [Docker intermediate](../../../docker/lessons/02_intermediate/) — image production-grade
-- 🔁 [CI/CD basic](../../../ci-cd/) — pipeline → K8s deploy
+- ➡️ **Bài tiếp theo:** [CI/CD basic](../../../ci-cd/) — pipeline → K8s deploy
 - 📊 [Observability basic](../../../observability/) — Prometheus + Grafana
 - 🏗️ [IaC basic](../../../iac/) — Terraform EKS provision
 
@@ -441,9 +438,8 @@ Sau cluster này, nếu bạn cần đi sâu thêm:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Real-world incidents + §2 DevOps stack + §5 Lộ trình 4 bài + §6 ROI table + §7 Learning timeline.
-
-- **v1.1.0 (24/05/2026)** — Bổ sung: §"Real-world incidents" (Tesla mining, Postgres emptyDir data loss, Acme Black Friday, Let's Encrypt cert expire, Postgres operator failover), §6 ROI table 9 metric trước/sau, §7 Learning timeline Day 1 → 90, §8 Anti-patterns 10 mục K8s-specific, +3 câu hỏi beginner (DB in K8s, large values.yaml, K8s upgrade cadence). Lý do: user feedback yêu cầu mở rộng chiều sâu cho overview, đặc biệt anti-patterns vì K8s footgun nhiều.
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO của intermediate cluster. Map 4 mảng (Helm/Ingress/StatefulSet/Autoscaling+Operator) + tool stack 2026 + roadmap 4 bài kế tiếp + cross-link DevOps stack. Apply insight quan trọng từ `__Ref__/`: CNI default Minikube không enforce NetworkPolicy → war story team enforce policy bị break Istio sidecar webhook.
+- **v1.1.0 (24/05/2026)** — Bổ sung: §"Real-world incidents" (Tesla mining, Postgres emptyDir data loss, Acme Black Friday, Let's Encrypt cert expire, Postgres operator failover), §6 ROI table 9 metric trước/sau, §7 Learning timeline Day 1 → 90, §8 Anti-patterns 10 mục K8s-specific, +3 câu hỏi beginner (DB in K8s, large values.yaml, K8s upgrade cadence). Lý do: user feedback yêu cầu mở rộng chiều sâu cho overview, đặc biệt anti-patterns vì K8s footgun nhiều.
+- **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Real-world incidents + §2 DevOps stack + §5 Lộ trình 4 bài + §6 ROI table + §7 Learning timeline.

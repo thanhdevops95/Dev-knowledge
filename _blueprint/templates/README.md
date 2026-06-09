@@ -1,9 +1,9 @@
 # 📋 Templates — Copy-paste khi viết bài
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.3.0\
+> **Phiên bản:** v0.4.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 01/06/2026
 
 Bộ **9 template** để bắt đầu viết bài mới. Copy file phù hợp, đổi tên + nội dung theo bài thực tế. Mỗi template tuân theo chuẩn ở `_blueprint/03_writing-style.md`.
 
@@ -37,4 +37,14 @@ Bộ **9 template** để bắt đầu viết bài mới. Copy file phù hợp, 
 - **OPTIONAL có thể bỏ** nếu bài không phù hợp
 - **REQUIRED không bỏ** — bài lỗi structure
 - **Xóa comment `<!-- OPTIONAL -->` và `<!-- REQUIRED nếu... -->` sau khi viết xong** — comment chỉ là chú thích cho template, không phải nội dung. Để lại sẽ làm source rối khi đọc.
-- **Xóa các placeholder `<...>` chưa điền** — không để `<Tên bài học>` hay `<X-Y giờ>` trong file đã publish.
+- **Xóa các placeholder `<...>` chưa điền** — không để `<Tên bài học>` hay `<tag1>` trong file đã publish.
+- **Không chèn ước tính thời gian** — repo bỏ hết ước tính (giờ/tuần/tháng/phút) ở mọi cấp (bài, stage, roadmap, lab, exercise).
+- **Heading kỹ thuật Việt hoá + giữ EN trong ngoặc** — vd "🧠 Tự kiểm tra (Self-check)", "⚡ Tra cứu nhanh (Cheatsheet)", "📚 Từ Điển Thuật Ngữ (Glossary)".
+- **Changelog tăng dần** — repo này override global skill (global = reverse-chronological); ở đây dòng cũ nhất (v1.0.0) nằm trên cùng, dòng mới nhất ở dưới cùng, heading "## 📌 Nhật ký thay đổi (Changelog)".
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v0.3.0 (16/05/2026)** — Bộ 9 template ban đầu.
+- **v0.4.0 (01/06/2026)** — Đồng bộ cả bộ template với 3 quyết định governance đã duyệt: changelog tăng dần + heading "Nhật ký thay đổi (Changelog)", Việt hoá heading kỹ thuật (Self-check/Cheatsheet/Pitfall/Glossary), bỏ hết ước tính thời gian; cùng các quy ước nền (section Liên kết 3-sub + nav bullet, "Prerequisites" → "Yêu cầu trước" + Tags, bullet "-", de-meta-leak); sửa 2 file template hỏng (exercise/lab dính prefix số dòng). Lý do: giữ template làm nguồn chuẩn cho mọi bài mới.

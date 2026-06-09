@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Components & Props](01_components-and-props.md)
 
 > 🎯 *Master **`useState`** — state lifecycle, **event handlers**, **controlled inputs** (form with state), **lifting state up** (share between siblings), **immutable update** (đừng mutate). Sau bài này build cart/form/counter — interactive React app.*
@@ -24,7 +23,7 @@
 
 ---
 
-## Tình huống — bạn thêm cart logic
+## Tình huống — Thêm cart logic
 
 Bài 01 bạn có ProductList. Giờ muốn:
 - Click "Add" → product vào cart.
@@ -160,7 +159,7 @@ function App() {
 }
 ```
 
-### ⚠️ Pitfall — Call vs Pass
+### ⚠️ Cạm bẫy — Call vs Pass
 
 ```jsx
 // ❌ Gọi function ngay khi render
@@ -217,7 +216,7 @@ setCount(count + 1);
 setCount(0);
 
 const [name, setName] = useState('');
-setName('bạn');
+setName('Nguyen Van A');
 
 const [open, setOpen] = useState(false);
 setOpen(!open);
@@ -262,11 +261,11 @@ setItems([...items].sort((a, b) => a.name.localeCompare(b.name)));
 const [user, setUser] = useState({ name: '', email: '', age: 0 });
 
 // ❌ Mutate
-user.name = 'bạn';
+user.name = 'Nguyen Van A';
 
 // ✅ Tạo object mới (spread)
-setUser({ ...user, name: 'bạn' });
-setUser(prev => ({ ...prev, name: 'bạn' }));
+setUser({ ...user, name: 'Nguyen Van A' });
+setUser(prev => ({ ...prev, name: 'Nguyen Van A' }));
 
 // Update nested
 setUser({
@@ -407,7 +406,7 @@ function NameInput() {
 
   return (
     <>
-      <input ref={inputRef} defaultValue="bạn" />
+      <input ref={inputRef} defaultValue="Nguyen Van A" />
       <button onClick={handleSubmit}>Submit</button>
     </>
   );
@@ -537,7 +536,7 @@ const [form, setForm] = useState({
   isSubmitting: false
 });
 
-setForm(prev => ({ ...prev, name: 'bạn' }));
+setForm(prev => ({ ...prev, name: 'Nguyen Van A' }));
 ```
 
 → Pros: 1 reset, batch update related fields.
@@ -625,7 +624,7 @@ function App() {
   return (
     <div>
       <header>
-        <h1>bạn Shop</h1>
+        <h1>Acme Shop</h1>
         <p>🛒 Cart: {cart.length} items — Tổng: {total.toLocaleString()}đ</p>
       </header>
 
@@ -672,7 +671,7 @@ export default App;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Mutate state** → `arr.push(x)` không trigger re-render. **Always tạo new value**.
 2. **`onClick={fn()}`** thay `onClick={fn}` → call ngay render thay vì on click.
@@ -682,7 +681,7 @@ export default App;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. `useState(0)` returns gì?
 2. Update array state — 2 methods chính (add, remove by ID)?
@@ -782,14 +781,14 @@ dispatch({ type: 'ACTION', payload });
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Components & Props](01_components-and-props.md)
-- → Tiếp: [useEffect & Fetch](03_useeffect-and-fetch.md)
-- ↑ Cluster: [react README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Components & Props — Building block của React](01_components-and-props.md)
+- ➡️ **Bài tiếp theo:** [useEffect & Fetch — Side effects + Real data](03_useeffect-and-fetch.md)
+- ↑ **Về cụm:** [react README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React docs — State: A Component's Memory](https://react.dev/learn/state-a-components-memory)
 - 📖 [React docs — Updating Arrays in State](https://react.dev/learn/updating-arrays-in-state)
 - 📖 [React docs — Sharing State Between Components](https://react.dev/learn/sharing-state-between-components)
@@ -803,6 +802,6 @@ dispatch({ type: 'ACTION', payload });
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 useState Cú pháp + Quy tắc Hooks + Multiple state + Initial lazy + §2 onClick handler. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục useState cú pháp, Quy tắc Hooks, Multiple state, Initial lazy, onClick handler. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 3/5. Cover: useState hook (cú pháp + 2 rules + multiple + lazy init) + event handlers (onClick/onChange/onSubmit/onKeyDown) + controlled vs uncontrolled inputs + form pattern + synthetic events.

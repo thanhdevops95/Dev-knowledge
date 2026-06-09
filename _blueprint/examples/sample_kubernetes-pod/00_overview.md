@@ -1,9 +1,9 @@
 # 📋 Overview — Kubernetes Pod
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *Pod là đơn vị deploy nhỏ nhất của Kubernetes — chứa 1 hoặc nhiều container chia sẻ network và storage. Tất cả resource cấp cao hơn (Deployment, StatefulSet, Job) đều quản lý Pod.*
 
@@ -75,14 +75,24 @@ A: `localhost:<port>` vì chia sẻ network namespace. Không cần Service.
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- [README chủ đề](./README.md)
-- [Glossary](./_glossary.md)
+### 🧭 Định hướng lộ trình học
+
+- ➡️ **Bài tiếp theo:** [Pod — Đơn vị deploy nhỏ nhất của Kubernetes](./lessons/01_basic/01_pod.md)
+- ↑ **Về cụm:** [Kubernetes Pod — README cụm](./README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [Glossary — Kubernetes Pod](./_glossary.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
 - [Official K8s Pod docs](https://kubernetes.io/docs/concepts/workloads/pods/) — chi tiết spec
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — mẫu cho Blueprint.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — overview chủ đề Kubernetes Pod.
+- **v1.1.0 (01/06/2026)** — Gỡ meta-leak "mẫu cho Blueprint"; chuẩn hoá section Liên kết sang 3-sub + nav bullet (link text = tiêu đề thật); heading changelog chuẩn + tăng dần. Lý do: file overview giống file học, phải sạch meta-leak + đồng bộ quy ước nền.

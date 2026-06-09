@@ -1,13 +1,12 @@
 # 🎓 Vendor Lock-in & Portability — 4 chiều khoá, abstraction layer, exit cost
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** Đã đọc [00_what-is-multi-cloud-overview](00_what-is-multi-cloud-overview.md) ✅
+> **Yêu cầu trước:** Đã đọc [Multi-cloud Overview — Định nghĩa, lý do, khi nên/không nên 2026](00_what-is-multi-cloud-overview.md) ✅
 
 > 🎯 *Bài 01 cluster Multi-cloud. Bài trước nói "vì sao multi-cloud"; bài này deep dive **vendor lock-in** — 4 dimension lock-in (data, API, skill, contract), tier service theo mức lock (low/medium/high), strategies giảm lock-in (abstraction layer Terraform/Crossplane/Pulumi/OpenTofu), reality của egress fee, framework tính exit cost. Acme Shop tier 100+ service hiện đang dùng để biết "muốn rời AWS thì tốn bao tiền".*
 
@@ -236,12 +235,12 @@ resource "google_storage_bucket" "data" {
 }
 ```
 
-**Pros**:
+**Ưu điểm**:
 - Tool đồng nhất → 1 team biết Terraform là làm được mọi cloud.
 - State management portable.
 - Workflow (plan/apply/destroy) giống nhau.
 
-**Cons**:
+**Nhược điểm**:
 - Code resource KHÔNG portable — viết riêng cho mỗi cloud.
 - Switching cost vẫn là rewrite Terraform code.
 
@@ -307,12 +306,12 @@ spec:
   cloud: aws  # Đổi sang gcp → Crossplane tạo Cloud SQL
 ```
 
-**Pros**:
+**Ưu điểm**:
 - Developer KHÔNG cần biết cloud — chỉ cần biết schema XPostgresDatabase.
 - Switching cloud = change 1 field.
 - Self-service platform engineering.
 
-**Cons**:
+**Nhược điểm**:
 - Heavy upfront cost: 3-6 tháng setup Crossplane + define XRD.
 - Yêu cầu team Platform engineering chuyên trách (3-5 engineer).
 - Abstraction leak: feature đặc biệt của 1 cloud không expose ra được.
@@ -341,12 +340,12 @@ if (cloud === "aws") {
 export const bucketName = bucket.name;
 ```
 
-**Pros**:
+**Ưu điểm**:
 - Code thật bằng Python/TS, không phải HCL.
 - Abstraction custom theo nhu cầu.
 - Test được như application code.
 
-**Cons**:
+**Nhược điểm**:
 - Vẫn phải viết logic if/else per cloud.
 - Bugs hiding behind abstraction.
 - Maintenance burden tăng theo cloud count.
@@ -704,27 +703,27 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall 1: Đếm chỉ cost compute khi exit, bỏ qua opportunity cost
+### ❌ Cạm bẫy 1: Đếm chỉ cost compute khi exit, bỏ qua opportunity cost
 
 - **Triệu chứng**: Pitch "rời AWS save $200K/năm cloud bill".
 - **Nguyên nhân**: Quên đếm 6 tháng team chậm tiến → mất $500K opportunity (feature ship trễ).
 - **Cách tránh**: Exit cost = (engineering time × opportunity cost) + (extra cloud bill during transition) + training + tooling.
 
-### ❌ Pitfall 2: "Standard SQL" không thật sự portable
+### ❌ Cạm bẫy 2: "Standard SQL" không thật sự portable
 
 - **Triệu chứng**: Code Postgres với JSONB query advanced → move sang Cloud SQL Postgres "tương thích" nhưng version 13 thay vì 15 → khác behavior.
 - **Nguyên nhân**: Cloud cung cấp Postgres nhưng giới hạn version + extension list.
 - **Cách tránh**: Stick to standard SQL features; document version + extension dependencies; test với target cloud version.
 
-### ❌ Pitfall 3: Build "MyCompany Cloud SDK"
+### ❌ Cạm bẫy 3: Build "MyCompany Cloud SDK"
 
 - **Triệu chứng**: 3 engineer ngồi xây "internal cloud abstraction" 9 tháng.
 - **Nguyên nhân**: NIH syndrome (Not Invented Here).
 - **Cách tránh**: Dùng Crossplane / Pulumi đã có. Nếu thật sự cần custom, build incrementally khi có nhu cầu cụ thể.
 
-### ❌ Pitfall 4: Lock-in giả vì lười tận dụng
+### ❌ Cạm bẫy 4: Lock-in giả vì lười tận dụng
 
 - **Triệu chứng**: "Đã trên AWS rồi nên dùng SES luôn" → 6 tháng sau khó switch.
 - **Nguyên nhân**: Lười evaluate alternative.
@@ -749,7 +748,7 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Cloud-portable và cloud-native có mâu thuẫn không?
 
@@ -837,7 +836,7 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Tier nhanh
 
@@ -878,9 +877,9 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Vendor lock-in | Khóa nhà cung cấp | Khó rời vendor vì phụ thuộc |
 | Data lock-in | Khóa data | Data lưu vendor format/volume khó move |
@@ -906,19 +905,22 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [00_what-is-multi-cloud-overview.md](00_what-is-multi-cloud-overview.md)
-- → Tiếp: [02_multi-cloud-network-and-identity.md](02_multi-cloud-network-and-identity.md)
-- ↑ Cluster: [Multi-cloud-strategies README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Multi-cloud Overview — Định nghĩa, lý do, khi nên/không nên 2026](00_what-is-multi-cloud-overview.md)
+- ➡️ **Bài tiếp theo:** [Cross-cloud Network & Identity — Transit, VPN, Federation, Vault sync](02_multi-cloud-network-and-identity.md)
+- ↑ **Về cụm:** [Multi-cloud Strategies](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
 - 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Terraform multi-provider
 - ☸️ [Kubernetes](../../../../10_devops/kubernetes/) — portable runtime
 - ☁️ [Cloud Cost Management](../../../cloud-cost-management/) — exit cost trong FinOps
-- 🗄️ [PostgreSQL](../../../../05_Database/postgres/) — portable SQL
+- 🗄️ [PostgreSQL](../../../../06_databases/postgresql/) — portable SQL
 - 📦 [S3 deep + IAM](../../../aws/lessons/01_basic/02_s3-deep-and-iam.md) — S3 specifics
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [HashiCorp Terraform Multi-cloud guide](https://www.terraform.io/use-cases/multi-cloud-deployment)
 - 📖 [Crossplane.io docs](https://docs.crossplane.io/)
 - 📖 [Pulumi multi-cloud](https://www.pulumi.com/docs/concepts/cloud/)
@@ -931,6 +933,7 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 01 cluster Multi-cloud basic. 4 dimension lock-in (data/API/skill/contract) + tier service (low/medium/high/ultra) + 3 level abstraction (Terraform/Crossplane/Pulumi) + egress fee reality 2026 + framework tính exit cost + hands-on Terraform module portable S3/GCS + 5 principles giảm lock-in từ ngày 0. Acme Shop $464K exit cost analysis làm trục chính.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text dùng tiêu đề thật); chuẩn hoá header Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, link-text khớp tiêu đề H1 thực, 3 sub 🧭/🧩/🌐). Giữ nguyên nội dung kỹ thuật, số liệu, code.

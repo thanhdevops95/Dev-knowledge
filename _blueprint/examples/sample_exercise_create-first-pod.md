@@ -1,12 +1,11 @@
 # Exercise 01: Tạo Pod đầu tiên
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Độ khó:** ⭐ Easy\
-> **Thời gian ước tính:** ~10 phút\
-> **Prerequisites:** [Pod basic](../sample_kubernetes-pod/lessons/01_basic/01_pod.md)
+> **Yêu cầu trước:** [Pod — Đơn vị deploy nhỏ nhất của Kubernetes](../sample_kubernetes-pod/lessons/01_basic/01_pod.md)
 
 > 🎯 *Luyện kỹ năng tạo Pod cơ bản bằng cả 2 cách imperative và declarative. Bài tập đầu tiên cho người mới học K8s.*
 
@@ -144,14 +143,21 @@ kubectl run my-web-pod --image=nginx:1.25 \
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- ⬅️ Bài tập trước: (chưa có — đây là bài đầu)
-- ➡️ Bài tập tiếp: Exercise 02 — Scale Deployment (chưa có)
-- 📖 Bài học liên quan: [Pod basic](../sample_kubernetes-pod/lessons/01_basic/01_pod.md)
+### 🧭 Định hướng lộ trình học
+
+- ⬅️ **Bài trước:** (chưa có — đây là bài tập đầu tiên)
+- ➡️ **Bài tiếp theo:** Scale Deployment (chưa có)
+- ↑ **Về cụm:** [Kubernetes Pod — README cụm](../sample_kubernetes-pod/README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [Pod — Đơn vị deploy nhỏ nhất của Kubernetes](../sample_kubernetes-pod/lessons/01_basic/01_pod.md)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — sample dogfood exercise template.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — bài tập tạo Pod (imperative + declarative).
+- **v1.1.0 (01/06/2026)** — Bỏ field "Thời gian ước tính"; đổi "Prerequisites" → "Yêu cầu trước" + link text = tiêu đề thật; chuẩn hoá section Liên kết sang 3-sub + nav bullet; heading changelog chuẩn + tăng dần. Lý do: đồng bộ 3 quyết định governance + quy ước nền.

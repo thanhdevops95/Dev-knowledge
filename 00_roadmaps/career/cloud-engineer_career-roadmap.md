@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã có kiến thức cơ bản về Linux và Mạng máy tính, muốn trở thành kỹ sư thiết kế kiến trúc hạ tầng đám mây chuyên nghiệp\
-> **Thời gian ước tính:** ~10 tháng học tập tích cực (full-time) hoặc ~20 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và làm việc thực tế)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone & Cert]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Linux & Mạng máy tính** | 2 tháng | Nắm vững mô hình OSI, cách chia Subnet, CIDR và định tuyến IP |
-| **Stage 2: AWS Core Services** | 2-3 tháng | Thiết kế hệ thống mạng VPC, EC2, S3, RDS chạy thực tế trên AWS |
-| **Stage 3: Infrastructure as Code** | 2 tháng | Khai tử việc click chuột, định nghĩa toàn bộ hạ tầng AWS bằng Terraform |
-| **Stage 4: Bảo mật & Chi phí** | 1-2 tháng | Hardening IAM, cấu hình mã hóa KMS và tối ưu hóa chi phí AWS |
-| **Stage 5: Capstone & Chứng chỉ** | 2 tháng | Dựng kiến trúc 3-tier tự động co giãn và thi đỗ chứng chỉ AWS SAA |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Linux & Mạng máy tính** | Nắm vững mô hình OSI, cách chia Subnet, CIDR và định tuyến IP |
+| **Stage 2: AWS Core Services** | Thiết kế hệ thống mạng VPC, EC2, S3, RDS chạy thực tế trên AWS |
+| **Stage 3: Infrastructure as Code** | Khai tử việc click chuột, định nghĩa toàn bộ hạ tầng AWS bằng Terraform |
+| **Stage 4: Bảo mật & Chi phí** | Hardening IAM, cấu hình mã hóa KMS và tối ưu hóa chi phí AWS |
+| **Stage 5: Capstone & Chứng chỉ** | Dựng kiến trúc 3-tier tự động co giãn và thi đỗ chứng chỉ AWS SAA |
 
 ---
 
-## ⚙️ Stage 1 — Linux & Mạng máy tính (2 tháng)
+## ⚙️ Stage 1 — Linux & Mạng máy tính
 
 > 🎯 *Mạng máy tính là linh hồn của đám mây. Bạn không thể thiết kế mạng ảo VPC nếu không hiểu Subnetting và CIDR.*
 
@@ -64,7 +63,7 @@ graph LR
 
 ---
 
-## ☁️ Stage 2 — Làm chủ dịch vụ cốt lõi AWS (2-3 tháng)
+## ☁️ Stage 2 — Làm chủ dịch vụ cốt lõi AWS
 
 > 🎯 *Master một nhà cung cấp đám mây phổ biến nhất thế giới trước khi chuyển sang mô hình Multi-cloud.*
 
@@ -79,7 +78,7 @@ AWS chiếm thị phần lớn nhất thế giới và là tiêu chuẩn tuyển
 - **DNS & CDN:** Route 53 (quản lý DNS tên miền), CloudFront (mạng phân phối nội dung CDN).
 
 ### 🛠️ Setup công cụ
-- Tạo tài khoản AWS (sử dụng gói Free Tier 12 tháng).
+- Tạo tài khoản AWS (sử dụng gói Free Tier.
 - **MANDATORY:** Thiết lập ngay **AWS Budget Alert** cảnh báo khi chi phí vượt quá $5.
 - Cài đặt AWS CLI trên máy tính cá nhân để ra lệnh cho AWS qua terminal.
 
@@ -91,7 +90,7 @@ AWS chiếm thị phần lớn nhất thế giới và là tiêu chuẩn tuyển
 
 ---
 
-## 📜 Stage 3 — Hạ tầng dưới dạng Code (IaC) (2 tháng)
+## 📜 Stage 3 — Hạ tầng dưới dạng Code (IaC)
 
 > 🎯 *Khai tử hoàn toàn việc click chuột thủ công trên Web Console. Định nghĩa 100% tài nguyên đám mây bằng mã nguồn.*
 
@@ -111,7 +110,7 @@ AWS chiếm thị phần lớn nhất thế giới và là tiêu chuẩn tuyển
 
 ---
 
-## 🛡️ Stage 4 — Bảo mật & Tối ưu hóa chi phí (1-2 tháng)
+## 🛡️ Stage 4 — Bảo mật & Tối ưu hóa chi phí
 
 > 🎯 *Bảo vệ tài nguyên đám mây trước hacker và tối ưu hóa từng xu chi phí vận hành.*
 
@@ -132,7 +131,7 @@ Làm việc trên mây có thể biến thành một cơn ác mộng nếu bạn
 
 ---
 
-## 🚀 Stage 5 — Capstone Project & AWS SAA Cert (2 tháng)
+## 🚀 Stage 5 — Capstone Project & AWS SAA Cert
 
 > 🎯 *Xây dựng kiến trúc đám mây chịu tải tốt, chống chịu thiên tai và thi đỗ chứng chỉ AWS Solutions Architect Associate.*
 
@@ -161,11 +160,11 @@ Sau khi đạt cấp độ Cloud Engineer, bạn có thể đi tiếp theo các 
 ## 🔄 Hướng dẫn điều chỉnh lộ trình
 
 - **Nếu không muốn chi nhiều tiền cho AWS:** Hãy tận dụng tối đa gói Free Tier. Luôn nhớ chạy lệnh `terraform destroy` ngay sau khi thực hành xong để xóa sạch các tài nguyên Cloud tránh bị phát sinh chi phí ngoài ý muốn.
-- **Có cần học GCP hay Azure không?** Đối với người mới bắt đầu, hãy tập trung học thật sâu 1 đám mây (AWS). Tư duy thiết kế mạng ảo, chia subnet, cấu hình quyền và load balancer ở mọi đám mây đều tương đồng 90%. Khi đã giỏi AWS, bạn chỉ mất 2-3 tuần để làm quen với GCP hay Azure.
+- **Có cần học GCP hay Azure không?** Đối với người mới bắt đầu, hãy tập trung học thật sâu 1 đám mây (AWS). Tư duy thiết kế mạng ảo, chia subnet, cấu hình quyền và load balancer ở mọi đám mây đều tương đồng 90%. Khi đã giỏi AWS, bạn chỉ mấtđể làm quen với GCP hay Azure.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

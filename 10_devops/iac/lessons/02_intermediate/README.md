@@ -1,12 +1,12 @@
 # 🏗️ IaC — Intermediate cluster
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Status:** ✅ Intermediate cluster hoàn thành (5/5 bài)
 
-> 🎯 *Từ "terraform apply local" → "GitOps infra production". Cluster intermediate cuối của DevOps sprint. Build trên IaC basic. Apply 4+ insight từ `__Ref__/` (GitOps as enforcement gate, drift detection workflow, Sealed Secrets pattern, state migration). 🎉 **Bài 04 = DevOps intermediate sprint complete (25 lessons)**.*
+> 🎯 *Từ "terraform apply local" → "GitOps infra production". Xây tiếp trên IaC basic. Bốn trụ cột: GitOps as enforcement gate, drift detection workflow, Sealed Secrets pattern, state migration. Output: IaC vận hành theo GitOps, an toàn refactor state và biết chọn đúng tool đa nền tảng.*
 
 ---
 
@@ -36,15 +36,14 @@
 
 ## 📖 Lessons — Intermediate cluster (5 bài)
 
-| # | Bài | Trọng tâm | Tag | Thời lượng |
-|---|---|---|---|---|
-| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + IaC at scale + tool stack 2026 | MUST-KNOW | ~13p |
-| 01 | [Terragrunt DRY multi-env](01_terragrunt-dry-multi-env.md) | DRY pattern + `live/`+`modules/` + dependency + run-all + module versioning + multi-account | MUST-KNOW | ~22p |
-| 02 | [Atlantis GitOps for IaC](02_atlantis-gitops-for-iac.md) | Architecture + Helm install + atlantis.yaml + RBAC + state lock + Terragrunt integration | MUST-KNOW | ~25p |
-| 03 | [State advanced + Drift detection](03_state-advanced-and-drift.md) | State commands deep + import + moved block + driftctl + backup/recovery + state surgery | MUST-KNOW | ~22p |
-| 04 | [Pulumi/CDK/Crossplane](04_pulumi-cdk-crossplane.md) | Pulumi real langs + AWS CDK + CDKTF + Crossplane CRDs + decision matrix + multi-cloud abstraction | MUST-KNOW | ~25p |
+| # | Bài | Trọng tâm | Tag |
+| --- | --- | --- | --- |
+| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + IaC at scale + tool stack 2026 | MUST-KNOW |
+| 01 | [Terragrunt DRY multi-env](01_terragrunt-dry-multi-env.md) | DRY pattern + `live/`+`modules/` + dependency + run-all + module versioning + multi-account | MUST-KNOW |
+| 02 | [Atlantis GitOps for IaC](02_atlantis-gitops-for-iac.md) | Architecture + Helm install + atlantis.yaml + RBAC + state lock + Terragrunt integration | MUST-KNOW |
+| 03 | [State advanced + Drift detection](03_state-advanced-and-drift.md) | State commands deep + import + moved block + driftctl + backup/recovery + state surgery | MUST-KNOW |
+| 04 | [Pulumi/CDK/Crossplane](04_pulumi-cdk-crossplane.md) | Pulumi real langs + AWS CDK + CDKTF + Crossplane CRDs + decision matrix + multi-cloud abstraction | MUST-KNOW |
 
-→ **Tổng ~107 phút đọc + 8-10h hands-on**. Sau cluster: IaC production-grade + know when to use each tool.
 
 ---
 
@@ -61,11 +60,11 @@
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
-- ↑ [IaC README](../../README.md)
-- ↶ [Basic cluster](../01_basic/) — 5 bài foundation
+### 🧭 Định hướng lộ trình học
+- ↑ **Về cụm:** [IaC README](../../README.md)
+- ⬅️ **Bài trước:** [Basic cluster](../01_basic/) — 5 bài foundation
 - 🐳 [Docker intermediate](../../../docker/lessons/02_intermediate/)
 - ☸️ [Kubernetes intermediate](../../../kubernetes/lessons/02_intermediate/)
 - 🔁 [CI/CD intermediate](../../../ci-cd/lessons/02_intermediate/)
@@ -85,6 +84,7 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Cluster intermediate thứ 5 (cuối) của `10_devops/`. 5 bài hoàn thành: overview + Terragrunt + Atlantis + State advanced + Pulumi/CDK/Crossplane. Apply 4+ insight từ `__Ref__/` (GitOps Git as enforcement gate, drift detection workflow, state migration patterns, multi-cloud abstraction). 🎉 **DEVOPS INTERMEDIATE SPRINT 100% COMPLETE (5/5 clusters, 25 lessons)**.
+- **v1.0.0 (24/05/2026)** — 5 bài hoàn thành: overview + Terragrunt + Atlantis + State advanced + Pulumi/CDK/Crossplane. Bao quát 4 mảng: GitOps (Git as enforcement gate), drift detection workflow, state migration patterns, multi-cloud abstraction.
+- **v1.0.1 (01/06/2026)** — Sửa lỗi QA: chuẩn hoá heading changelog về "Nhật ký thay đổi (Changelog)"; gỡ tham chiếu nội bộ `__Ref__/` và meta theo dõi sprint ("cluster cuối", "SPRINT 100% COMPLETE") khỏi phần intro và changelog (nội dung audience-facing).

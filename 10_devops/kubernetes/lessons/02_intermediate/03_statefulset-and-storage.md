@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md), [K8s basic ConfigMap+Secret](../01_basic/03_configmaps-and-secrets.md)
 
 > 🎯 *Deployment design cho **stateless** — Postgres/Redis/Kafka cần stable identity + persistent storage + ordered start = **StatefulSet**. Bài này dạy StatefulSet vs Deployment, PV/PVC/StorageClass, dynamic provisioning EBS/Longhorn, deploy Postgres 3-replica, backup/restore với VolumeSnapshot.*
@@ -807,9 +806,9 @@ spec:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Multi-AZ cluster + StorageClass `volumeBindingMode: Immediate`
+### ❌ Cạm bẫy: Multi-AZ cluster + StorageClass `volumeBindingMode: Immediate`
 
 → PVC bind PV ở AZ-a, pod scheduled AZ-b → mount fail `volume node affinity conflict`.
 
@@ -819,7 +818,7 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 PV chỉ create sau khi pod schedule, ở same AZ.
 
-### ❌ Pitfall: Delete StatefulSet → PVC gone (K8s <1.27)
+### ❌ Cạm bẫy: Delete StatefulSet → PVC gone (K8s <1.27)
 
 K8s pre-1.27 default policy: delete StatefulSet → PVC orphan (vẫn ở) NHƯNG nếu user xoá PVC cũng = mất data.
 
@@ -832,7 +831,7 @@ persistentVolumeClaimRetentionPolicy:
 
 Cộng thêm `reclaimPolicy: Retain` ở StorageClass.
 
-### ❌ Pitfall: Scale up StatefulSet bị stuck
+### ❌ Cạm bẫy: Scale up StatefulSet bị stuck
 
 → `postgres-1` waiting `postgres-0` Ready, nhưng `postgres-0` không Ready (vì init script lỗi, healthcheck fail).
 
@@ -844,7 +843,7 @@ kubectl describe pod postgres-0 -n production
 
 Fix root cause → pod 0 Ready → pod 1, 2 sẽ start.
 
-### ❌ Pitfall: `reclaimPolicy: Delete` + PVC accidentally deleted
+### ❌ Cạm bẫy: `reclaimPolicy: Delete` + PVC accidentally deleted
 
 ```bash
 kubectl delete pvc data-postgres-0 -n production
@@ -857,7 +856,7 @@ kubectl delete pvc data-postgres-0 -n production
 2. RBAC: deny `delete pvc` cho non-admin.
 3. Audit log + alert if PVC deleted.
 
-### ❌ Pitfall: Resize PVC nhưng filesystem không expand
+### ❌ Cạm bẫy: Resize PVC nhưng filesystem không expand
 
 → Online filesystem resize có thể không trigger trên 1 số FS type. Fix: pod restart trigger filesystem expand:
 ```bash
@@ -865,7 +864,7 @@ kubectl delete pod postgres-0 -n production
 # Recreated, filesystem expanded
 ```
 
-### ❌ Pitfall: VolumeSnapshot không restore đúng timing
+### ❌ Cạm bẫy: VolumeSnapshot không restore đúng timing
 
 → Snapshot trong khi DB write → consistency issue. Postgres recovery sau restore (WAL replay).
 
@@ -912,7 +911,7 @@ spec:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng `Deployment + PVC RWO` thay vì `StatefulSet`?
 
@@ -1038,7 +1037,7 @@ Bài 04 sẽ dạy Operator pattern + viết simple one + use CloudNativePG.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === StatefulSet ===
@@ -1103,7 +1102,7 @@ parameters: { numberOfReplicas: "3" }
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1128,17 +1127,17 @@ parameters: { numberOfReplicas: "3" }
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md)
-- → Tiếp: [04_autoscaling-and-operators.md](04_autoscaling-and-operators.md) *(sắp viết)*
-- ↑ Cluster: [Kubernetes README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Ingress Production — cert-manager + external-dns + Gateway API](02_ingress-cert-manager-tls.md)
+- ➡️ **Bài tiếp theo:** [Autoscaling & Operators — HPA, VPA, KEDA, CRD + Controller](04_autoscaling-and-operators.md) *(sắp viết)*
+- ↑ **Về cụm:** [Kubernetes README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🗄️ [PostgreSQL basic](../../../../06_databases/postgresql/) — Postgres concepts
 - 🏗️ [IaC Terraform](../../../iac/lessons/01_basic/01_terraform-basics.md) — provision EBS/PD via Terraform
 - 📊 [Observability Prometheus](../../../observability/lessons/01_basic/01_metrics-prometheus.md) — monitor PV usage
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [StatefulSet docs](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
 - 📖 [PV/PVC docs](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
 - 📖 [CSI docs](https://kubernetes-csi.github.io/docs/)
@@ -1147,11 +1146,11 @@ parameters: { numberOfReplicas: "3" }
 - 📖 [CloudNativePG docs](https://cloudnative-pg.io/documentation/)
 - 📖 [Postgres Operator comparison](https://k8spgrun.com/) — Zalando vs CNPG vs Crunchy
 - 📖 [VolumeSnapshot docs](https://kubernetes.io/docs/concepts/storage/volume-snapshots/)
-- 📖 [Velero](https://velero.io/) — cluster-wide backup/restore tool
+- ↑ **Về cụm:** [Velero](https://velero.io/) — cluster-wide backup/restore tool
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Deployment design + StatefulSet design + Bảng so sánh + Headless Service + Concepts (PV/PVC/StorageClass).
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 của intermediate. StatefulSet vs Deployment + PV/PVC/StorageClass + dynamic provisioning (EBS/PD/Longhorn) + headless Service + Postgres 3-replica hands-on + VolumeSnapshot backup + resize PVC + Operator pattern preview (CloudNativePG). 6 pitfall + 2 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Deployment design + StatefulSet design + Bảng so sánh + Headless Service + Concepts (PV/PVC/StorageClass).

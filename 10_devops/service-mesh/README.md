@@ -20,7 +20,7 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.2.0 (26/05/2026)** — Cải tiến cấu trúc mô tả dự kiến lộ trình xây dựng Service Mesh.
 - **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).
+- **v0.2.0 (26/05/2026)** — Cải tiến cấu trúc mô tả dự kiến lộ trình xây dựng Service Mesh.

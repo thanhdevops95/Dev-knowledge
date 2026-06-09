@@ -1,15 +1,16 @@
-# 🔑📜🌐 A07 Auth Failures + A09 Logging Failures + A10 SSRF
+# 🔑📜🌐 A07 Authentication Failures + A09 Logging & Alerting Failures + SSRF (gộp A01)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) ✅
 
-> 🎯 *Bài 04 (cuối basic). **A07 Identification and Authentication Failures** (password policy, MFA, session, OAuth2/OIDC) + **A09 Security Logging and Monitoring Failures** (audit log, SIEM, alerting) + **A10 Server-Side Request Forgery** (Capital One 2019 case, mitigation). Hands-on Acme Shop add MFA + audit log + SSRF protection. Đóng cluster OWASP basic.*
+> 🎯 *Bài 04 (cuối basic), chuẩn **OWASP Top 10:2025** (bản hiện hành). **A07:2025 Authentication Failures** (password policy, MFA, session, OAuth2/OIDC) + **A09:2025 Security Logging and Alerting Failures** (audit log, SIEM, alerting) + **Server-Side Request Forgery (SSRF)** — ở bản 2025, SSRF không còn là category riêng mà **gộp vào A01:2025 Broken Access Control** (Capital One 2019 case, mitigation). Hands-on Acme Shop add MFA + audit log + SSRF protection. Đóng cluster OWASP basic.*
+
+> ℹ️ **Lưu ý chuẩn 2025:** bài này theo OWASP Top 10:2025 (bản final, đợt thứ 8). So với 2021: **A05 Security Misconfiguration → A02:2025**, **A06 Vulnerable & Outdated Components → mở rộng thành A03:2025 Software Supply Chain Failures (mới)**, **Injection → A05:2025**, **Insecure Design → A06:2025**, và xuất hiện category mới **A10:2025 Mishandling of Exceptional Conditions**. Riêng **SSRF (A10:2021) đã bị gộp vào A01:2025 Broken Access Control** — không còn category độc lập. Trong bài, mình vẫn dạy SSRF như một kỹ thuật tấn công riêng biệt vì kiến thức kỹ thuật không đổi; chỉ vị trí trong bảng xếp hạng thay đổi.
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -29,25 +30,27 @@
 
 Sếp tổng kết pentest:
 
-**A07 Auth**:
+**A07:2025 Authentication Failures**:
 1. Password policy: minimum 6 chars, no MFA.
 2. JWT no `exp` — token vĩnh viễn.
 3. Session không rotation khi privilege change.
 4. Account lockout: 5 attempts → lock 24h → attacker brute-force email = DoS.
 
-**A09 Logging**:
+**A09:2025 Security Logging and Alerting Failures**:
 5. No audit log cho admin action.
 6. Log có nhưng không alert — pentest test 3 ngày trước, ops không phát hiện.
 7. Login fail không log → brute force im lặng.
 
-**A10 SSRF**:
+**SSRF (thuộc A01:2025 Broken Access Control)**:
 8. `POST /api/import-from-url` — nhập URL → server fetch → có thể hit `http://169.254.169.254` (AWS metadata) → steal credential.
 
 Bài này map fix từng cái. Cuối bài đóng cluster basic.
 
 ---
 
-## 1️⃣ A07 — Identification and Authentication Failures
+## 1️⃣ A07:2025 — Authentication Failures
+
+> 📝 *Bản 2021 gọi là "Identification and Authentication Failures"; bản 2025 rút gọn tên thành "Authentication Failures", vị trí vẫn ở A07.*
 
 🪞 **Ẩn dụ**: *Authentication như **kiểm tra giấy tờ ở sân bay** — không chỉ check passport (password) mà cần boarding pass (token), check-in (session), security gate (MFA). Mỗi điểm yếu là 1 lỗ hổng.*
 
@@ -232,7 +235,9 @@ user_id = claims["sub"]
 
 ---
 
-## 2️⃣ A09 — Security Logging and Monitoring Failures
+## 2️⃣ A09:2025 — Security Logging and Alerting Failures
+
+> 📝 *Bản 2021 gọi là "Security Logging and Monitoring Failures"; bản 2025 đổi "Monitoring" → "Alerting" để nhấn mạnh: có log + có theo dõi vẫn chưa đủ, phải **trigger cảnh báo (alert)** kịp thời. Vị trí vẫn ở A09.*
 
 🪞 **Ẩn dụ**: *Logging + monitoring như **camera an ninh** — không có camera = không biết ai vào ra; có camera nhưng không xem = vô dụng; xem nhưng không trigger alarm khi có bất thường = chậm.*
 
@@ -333,17 +338,20 @@ def audit(actor, action, resource, outcome, prev_hash=""):
 | **Open-source SIEM** | Wazuh, Security Onion | Free |
 | **Alerting** | PagerDuty, Opsgenie, Slack | On-call rotation |
 
-### Time to detect — IBM Cost of Breach 2024
+### Time to detect — IBM Cost of a Data Breach 2024
 
-- **Average time to detect**: 204 days
-- **Average time to contain**: 73 days
-- **Cost reduction with breach < 200 days**: 23% less
+- **Average time to identify**: 194 days
+- **Average time to contain**: 64 days
+- **Tổng breach lifecycle**: 258 days (mức thấp nhất trong 7 năm)
+- **Chi phí**: breach có lifecycle **< 200 ngày** rẻ hơn trung bình **~$1.39M** so với breach kéo dài hơn
 
-→ Better logging + alert = faster detect = less damage.
+→ Better logging + alert = faster detect = less damage. Nguồn: IBM Cost of a Data Breach Report 2024.
 
 ---
 
-## 3️⃣ A10 — Server-Side Request Forgery (SSRF)
+## 3️⃣ SSRF — Server-Side Request Forgery (thuộc A01:2025 Broken Access Control)
+
+> 📝 *Ở bản 2021, SSRF là một category độc lập (A10:2021). Bản **2025 đã gộp SSRF vào A01:2025 Broken Access Control** — vì bản chất SSRF là server bị ép truy cập tài nguyên ngoài phạm vi cho phép (một dạng broken access control). Kiến thức kỹ thuật và cách phòng thủ dưới đây không thay đổi; chỉ vị trí trong Top 10 thay đổi.*
 
 🪞 **Ẩn dụ**: *SSRF như **lừa người gác cổng tự đi gọi điện thay bạn** — bạn không vào được nội bộ (intranet), nhưng nhờ server gọi giúp → server có access nội bộ → leak.*
 
@@ -366,7 +374,7 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
 
 ### Capital One 2019 case study
 
-- WAF misconfigured (A05) + SSRF (A10) → attacker:
+- WAF misconfigured (A02:2025 Security Misconfiguration) + SSRF (thuộc A01:2025 Broken Access Control) → attacker:
   1. SSRF qua WAF endpoint.
   2. Hit EC2 metadata → steal IAM role credential.
   3. Use credential → access S3 → 106M records.
@@ -529,10 +537,21 @@ async def audit_middleware(request, call_next):
     return response
 
 # 7 — Login fail explicit log
+from argon2.exceptions import VerifyMismatchError, InvalidHashError
+
 @app.post("/api/login")
 def login(data):
     user = db.query(User).filter(User.email == data.email).first()
-    if not user or not ph.verify(user.password_hash, data.password):
+    # argon2-cffi: ph.verify() trả True khi đúng, RAISE VerifyMismatchError khi sai
+    # (không trả False) → phải bọc try/except, không dùng `not ph.verify(...)`
+    login_ok = False
+    if user:
+        try:
+            ph.verify(user.password_hash, data.password)
+            login_ok = True
+        except (VerifyMismatchError, InvalidHashError):
+            login_ok = False
+    if not login_ok:
         log.warning(json.dumps({
             "event": "login.fail",
             "email": data.email,  # email OK to log (not secret)
@@ -584,19 +603,21 @@ def import_url(data: ImportIn, user: User = Depends(require_role("editor"))):
 
 ---
 
-## 🏆 Cluster wrap-up — OWASP Top 10 basic ĐÓNG
+## 🏆 Cluster wrap-up — OWASP Top 10:2025 basic ĐÓNG
 
-Bạn đã đi qua:
+Bạn đã đi qua (numbering theo **OWASP Top 10:2025**):
 
-| Bài | Coverage | Key takeaway |
+| Bài | Coverage (2025) | Key takeaway |
 |---|---|---|
 | 00 | OWASP intro + STRIDE + DREAD + defense-in-depth | Security mindset shift-left |
-| 01 | A01 + A03 | Parameterize query, RBAC/ABAC, CSP, SameSite |
-| 02 | A02 + A04 | Argon2id, TLS 1.3, JWT pitfalls, abuse case |
-| 03 | A05 + A06 + A08 | Security headers, dependency scan, cosign + SLSA |
-| 04 | A07 + A09 + A10 | MFA WebAuthn/TOTP, audit log + SIEM, SSRF mitigation |
+| 01 | A01:2025 Broken Access Control (gồm SSRF) + A05:2025 Injection | Parameterize query, RBAC/ABAC, CSP, SameSite |
+| 02 | A04:2025 Cryptographic Failures + A02:2025 Security Misconfiguration | Argon2id, TLS 1.3, JWT pitfalls, abuse case |
+| 03 | A03:2025 Software Supply Chain Failures (mới) + A06:2025 Insecure Design + A08:2025 Software or Data Integrity Failures | Security headers, dependency scan, cosign + SLSA |
+| 04 | A07:2025 Authentication Failures + A09:2025 Logging & Alerting Failures + SSRF (A01) | MFA WebAuthn/TOTP, audit log + SIEM, SSRF mitigation |
 
-→ **5 bài, ~110p đọc, ~10-15h hands-on**. Output: app theo OWASP Top 10 best practice.
+> ℹ️ **2 category mới ở bản 2025** mà cluster có chạm tới: **A03:2025 Software Supply Chain Failures** (mở rộng từ "Vulnerable & Outdated Components" 2021 — bài 03) và **A10:2025 Mishandling of Exceptional Conditions** (xử lý lỗi/điều kiện ngoại lệ sai cách — sẽ đào sâu ở cluster intermediate). Ngoài ra **SSRF không còn là category riêng**, đã gộp vào A01:2025.
+
+→ **5 bài, ~110p đọc, ~10-15h hands-on**. Output: app theo OWASP Top 10:2025 best practice.
 
 Next options:
 - **Intermediate cluster**: hardening deep (CSP nonce SHA, OAuth2 advanced, Zero Trust deep).
@@ -605,7 +626,7 @@ Next options:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Account lockout = DoS amplifier
 
@@ -641,7 +662,7 @@ Next options:
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Password policy NIST 2024 — 5 thay đổi vs cũ?
 - [ ] TOTP setup + verify code Python?
@@ -654,7 +675,7 @@ Next options:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -685,22 +706,23 @@ Next options:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md)
-- ↑ Cluster OWASP: [OWASP README](../../README.md)
-- ↑ Cluster 12_security: [12_security README](../../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [A03:2025 Software Supply Chain Failures + A06:2025 Insecure Design + A08:2025 Software or Data Integrity Failures](03_misconfig-vulnerable-components-supply-chain.md)
+- ↑ **Về cụm:** [OWASP README](../../README.md)
+- ↑ **Về cụm:** [12_security README](../../../README.md)
 
-### Cross-reference
-- 🔐 [Authentication cluster](../../../authentication/) — deep on OAuth/OIDC/MFA
-- 🔑 [Authorization cluster](../../../authorization/) — RBAC/ABAC deep
+### 🧩 Các chủ đề có thể bạn quan tâm
+- ↑ **Về cụm:** [Authentication cluster](../../../authentication/) — deep on OAuth/OIDC/MFA
+- ↑ **Về cụm:** [Authorization cluster](../../../authorization/) — RBAC/ABAC deep
 - 🐍 [FastAPI auth JWT](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
 - 📊 [Observability SRE](../../../../10_devops/observability/lessons/02_intermediate/04_sre-practices.md)
 - 🔒 [Secrets Management](../../../secrets-management/)
 
 ### Tài nguyên ngoài (2026)
-- 📖 [OWASP A07](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
-- 📖 [OWASP A09](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
-- 📖 [OWASP A10](https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_(SSRF)/)
+- 📖 [OWASP Top 10:2025 (bản hiện hành)](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A07:2025 — Authentication Failures](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A09:2025 — Security Logging and Alerting Failures](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A01:2025 — Broken Access Control (gồm SSRF)](https://owasp.org/Top10/2025/)
 - 📖 [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 - 📖 [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 - 📖 [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
@@ -715,6 +737,7 @@ Next options:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) OWASP. A07 (NIST 2024 password, TOTP/WebAuthn MFA, session mgmt, OAuth2+PKCE+OIDC) + A09 (audit log, WORM, SIEM, alert, MTTD) + A10 SSRF (Capital One 2019, 5 mitigation layer) + hands-on final hardening Acme Shop 8 findings + 8 pitfalls. **Đóng OWASP Top 10 basic cluster 5/5.**
+- **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, final release). A07 đổi tên "Identification and Authentication Failures" → "Authentication Failures"; A09 đổi "Monitoring" → "Alerting"; SSRF (A10:2021) **gộp vào A01:2025 Broken Access Control** — không còn category riêng. Cluster wrap-up + tham chiếu chéo cập nhật theo numbering 2025, nêu rõ 2 category mới (A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions). Sửa lỗi: số liệu IBM Cost of a Data Breach 2024 (identify 194 ngày, contain 64 ngày, lifecycle 258 ngày, breach <200 ngày rẻ hơn ~$1.39M) thay cho 204/73 ngày + "23% less"; bọc `ph.verify()` của argon2-cffi trong try/except bắt `VerifyMismatchError` (verify RAISE chứ không trả False). Map Capital One case sang A02:2025 + A01:2025. Link OWASP trỏ về bản 2025.

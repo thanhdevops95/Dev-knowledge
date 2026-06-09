@@ -155,7 +155,7 @@ Chi tiết workflow → [`_blueprint/07_quality-checklist.md`](_blueprint/07_qua
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.1 (26/05/2026)** — Cập nhật quy tắc đặt tên sitemap và các đường dẫn tương ứng với đợt tái cấu trúc Git về 02_tools.
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên. Quy trình 7 bước + 11 anti-patterns + Reference workflow (cherry-pick từ `_Ref/`).
+- **v1.0.1 (26/05/2026)** — Cập nhật quy tắc đặt tên sitemap và các đường dẫn tương ứng với đợt tái cấu trúc Git về 02_tools.

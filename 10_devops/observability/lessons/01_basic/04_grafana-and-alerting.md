@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Traces OTel](03_traces-opentelemetry.md)
 
 > 🎯 *Master **Grafana**: dashboards (panels, variables, templating), **data sources** (Prometheus + Loki + Tempo), **Grafana Alerting** (rules + Alertmanager routing), **on-call workflows** (PagerDuty, OpsGenie), **SLO-based alerts**, **incident response** patterns.*
@@ -592,7 +591,7 @@ GitHub (post-mortems repo)
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Too many alerts** → ignored. Audit quarterly, delete unused, tune thresholds.
 2. **Alert on causes** (CPU) → noisy. Alert on **symptoms** (latency P99, error rate).
@@ -602,7 +601,7 @@ GitHub (post-mortems repo)
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Dashboard variables** — vai trò?
 2. Khác **alert on cause** vs **alert on symptom**? Ví dụ.
@@ -626,7 +625,7 @@ GitHub (post-mortems repo)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Install Grafana
 
@@ -706,17 +705,17 @@ Info     → Slack info channel
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Traces OTel](03_traces-opentelemetry.md)
-- ↑ Cluster: [observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Traces & OpenTelemetry — Distributed tracing](03_traces-opentelemetry.md)
+- ↑ **Về cụm:** [observability README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [DORA + DevOps](../../../ci-cd/lessons/01_basic/00_what-is-cicd.md) — DevOps metrics include MTTR
 - [Linux journalctl](../../../../04_os/linux/lessons/02_intermediate/01_systemd-services.md) — local logs
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Grafana docs](https://grafana.com/docs/)
 - 📖 [Google SRE Workbook — Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)
 - 📖 [PagerDuty Incident Response](https://response.pagerduty.com/)

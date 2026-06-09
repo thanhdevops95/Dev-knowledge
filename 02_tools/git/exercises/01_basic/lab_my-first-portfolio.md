@@ -237,5 +237,5 @@ rm -rf my-first-portfolio
 
 ---
 
-## 🔗 Liên kết & Điều hướng
+## 🔗 Liên kết & Tài nguyên
 *   ➡️ Thử thách tiếp theo (Cấp độ Trung cấp): [00_branching-and-merging.md](../../lessons/02_intermediate/00_branching-and-merging.md) — Phân tách các nhánh tính năng song song an toàn.

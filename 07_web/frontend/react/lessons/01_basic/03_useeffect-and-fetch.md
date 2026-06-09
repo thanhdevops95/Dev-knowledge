@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [State & Events](02_state-and-events.md), [Fetch API](../../../javascript-dom/lessons/01_basic/04_fetch-and-modules.md)
 
 > 🎯 *Master **`useEffect`** — side effect lifecycle, **dependency array**, **cleanup**, **fetch data** từ FastAPI, **loading + error** states, **AbortController** cleanup, **custom hooks** intro. Sau bài này React app dùng data thật từ backend.*
@@ -544,7 +543,7 @@ function ProductList() {
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Fetch trong render body** → infinite loop. Always trong `useEffect`.
 2. **Missing dependency** → stale value. Trust ESLint warning. Fix với `[deps]` đúng.
@@ -554,7 +553,7 @@ function ProductList() {
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. 3 pattern dependency array — khi nào dùng cái nào?
 2. Tại sao fetch trong render body gây infinite loop?
@@ -578,7 +577,7 @@ function ProductList() {
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### useEffect patterns
 
@@ -661,18 +660,18 @@ function useThing(arg) {
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [State & Events](02_state-and-events.md)
-- → Tiếp: [Routing & Context](04_routing-and-context.md)
-- ↑ Cluster: [react README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [State & Events — useState, event handlers, controlled forms](02_state-and-events.md)
+- ➡️ **Bài tiếp theo:** [Routing & Context — Multi-page SPA + Global state](04_routing-and-context.md)
+- ↑ **Về cụm:** [react README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [Fetch API](../../../javascript-dom/lessons/01_basic/04_fetch-and-modules.md)
-- [FastAPI](../../../backend/python-fastapi/) — backend Bạn gọi
+- [FastAPI](../../../../backend/python-fastapi/) — backend Bạn gọi
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React docs — Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects)
 - 📖 [React docs — You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
 - 📖 [TanStack Query docs](https://tanstack.com/query) — recommended for fetch
@@ -684,8 +683,7 @@ function useThing(arg) {
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 useEffect cú pháp + 3 patterns + Khi nào dùng + §3 Pattern đầy đủ + 3 states. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 4/5. Cover: useEffect hook (3 patterns dependency array) + side effects + fetch data pattern (loading/error/success) + cleanup function + race condition + abort controller + custom hooks intro.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 useEffect cú pháp + 3 patterns + Khi nào dùng + §3 Pattern đầy đủ + 3 states. Thêm Changelog section.

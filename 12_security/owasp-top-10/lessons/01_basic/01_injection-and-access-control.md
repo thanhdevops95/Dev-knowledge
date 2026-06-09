@@ -1,15 +1,14 @@
-# 💉🚪 A01 Broken Access Control + A03 Injection
+# 💉🚪 A01 Broken Access Control + A05 Injection
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md) ✅, biết SQL cơ bản + HTTP
 
-> 🎯 *Bài 01. **A01 Broken Access Control** = #1 OWASP 2021 — vuln phổ biến nhất. **A03 Injection** = #3 — kinh điển. Cả 2 chiếm > 40% sự cố thật. Bài này dạy: IDOR, RBAC/ABAC implementation, SQL Injection + prepared statement, XSS (Stored/Reflected/DOM) + CSP, CSRF + SameSite, NoSQL/OS/LDAP injection. Hands-on fix 5 vuln thật trong Acme Shop.*
+> 🎯 *Bài 01. **A01 Broken Access Control** = #1 OWASP 2025 — vuln phổ biến nhất (bản 2025 còn gộp luôn **SSRF**, vốn là category riêng A10 ở bản 2021). **A05 Injection** = #5 ở bản 2025 (tụt từ #3 năm 2021) — vẫn là lỗi kinh điển. Cả 2 chiếm phần lớn sự cố thật. Bài này dạy: IDOR, RBAC/ABAC implementation, SQL Injection + prepared statement, XSS (Stored/Reflected/DOM) + CSP, CSRF + SameSite, NoSQL/OS/LDAP injection. Hands-on fix 5 vuln thật trong Acme Shop.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -20,7 +19,7 @@
 - [ ] Setup **Content Security Policy (CSP)** anti-XSS
 - [ ] Hiểu **CSRF** + chống bằng SameSite cookie + CSRF token
 - [ ] Chống **NoSQL injection** (MongoDB), **OS command injection**, **LDAP injection**
-- [ ] Audit code review checklist cho A01 + A03
+- [ ] Audit code review checklist cho A01 + A05
 
 ---
 
@@ -42,6 +41,8 @@ Bạn nhận report:
 ## 1️⃣ A01 — Broken Access Control
 
 🪞 **Ẩn dụ**: *Access Control như **thẻ ra vào tòa nhà** — mỗi thẻ ghi rõ ai (user), được vào phòng nào (resource), làm gì (read/write). Broken Access Control = **thẻ photocopy được**, hoặc **cửa phòng không kiểm thẻ**, hoặc **admin office quên khóa**.*
+
+> 📌 **Thay đổi 2025:** OWASP Top 10:2025 đã **gộp SSRF** (*Server-Side Request Forgery* — vốn là category riêng **A10:2021**) vào chung **A01 Broken Access Control**, vì SSRF bản chất là server truy cập tài nguyên mà nó không được phép. SSRF được dạy chi tiết ở bài 04 của cụm này.
 
 ### Loại 1 — IDOR (Insecure Direct Object Reference)
 
@@ -182,11 +183,11 @@ def update_profile(data: ProfileUpdate, user: User = Depends(current_user)):
 
 ---
 
-## 2️⃣ A03 — Injection (SQL/NoSQL/OS/LDAP)
+## 2️⃣ A05 — Injection (SQL/NoSQL/OS/LDAP)
 
 🪞 **Ẩn dụ**: *Injection như **đút thư hối lộ vào hồ sơ pháp lý** — quan tòa tưởng đó là yêu cầu của bạn, thực ra là lệnh attacker chèn vào. Mọi data từ user phải qua "máy soi" (parameterize/escape) trước khi chuyển vào "phòng xử" (DB/OS/LDAP query).*
 
-### SQL Injection — Vẫn #3 OWASP 2021
+### SQL Injection — A05 OWASP 2025 (tụt từ #3 năm 2021)
 
 **Vuln**:
 ```python
@@ -315,7 +316,7 @@ filter = f"(&(uid={escape_filter_chars(user)})(password={escape_filter_chars(pw)
 
 ---
 
-## 3️⃣ XSS — Cross-Site Scripting (subset of A03)
+## 3️⃣ XSS — Cross-Site Scripting (subset of A05)
 
 🪞 **Ẩn dụ**: *XSS như **kẻ giả trang chen vào kịch của bạn** — họ đọc lời thoại trên sân khấu (browser), khán giả tưởng là diễn viên thật. Encode output = **dán băng dính vào miệng** không cho phát biểu kịch bản lạ.*
 
@@ -577,7 +578,7 @@ response.set_cookie(
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Trust client-side validation
 
@@ -629,7 +630,7 @@ response.set_cookie(
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Mô tả IDOR + cách fix với ownership check?
 - [ ] RBAC vs ABAC — khi nào dùng cái nào?
@@ -638,11 +639,11 @@ response.set_cookie(
 - [ ] CSP header tối thiểu cho web app?
 - [ ] CSRF với SameSite + token + Origin check?
 - [ ] Phân biệt SQL Injection vs NoSQL Injection?
-- [ ] Code review checklist 5 mục cho A01 + A03?
+- [ ] Code review checklist 5 mục cho A01 + A05?
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -671,21 +672,22 @@ response.set_cookie(
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md)
-- → Tiếp: [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md) *(sắp viết)*
-- ↑ Cluster OWASP: [OWASP README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [OWASP Top 10 + Application Security cơ bản](00_what-is-owasp-and-application-security.md)
+- ➡️ **Bài tiếp theo:** [A02 Cryptographic Failures + A04 Insecure Design](02_crypto-failures-and-secure-design.md) *(sắp viết)*
+- ↑ **Về cụm:** [OWASP README](../../README.md)
 
-### Cross-reference
-- 🔐 [Authentication cluster](../../../authentication/)
-- 🔑 [Authorization cluster](../../../authorization/)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- ↑ **Về cụm:** [Authentication cluster](../../../authentication/)
+- ↑ **Về cụm:** [Authorization cluster](../../../authorization/)
 - 🐍 [FastAPI auth](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
 - 🐘 [SQL injection prevention](../../../../06_databases/sql-fundamentals/) — DB layer
-- 🌐 [HTTP cluster](../../../../05_networking/http-https/)
+- ↑ **Về cụm:** [HTTP cluster](../../../../05_networking/http-https/)
 
 ### Tài nguyên ngoài (2026)
-- 📖 [OWASP A01](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
-- 📖 [OWASP A03](https://owasp.org/Top10/A03_2021-Injection/)
+- 📖 [OWASP Top 10:2025 (bản hiện hành)](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A01:2025 — Broken Access Control (gồm cả SSRF)](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/)
+- 📖 [OWASP A05:2025 — Injection](https://owasp.org/Top10/2025/A05_2025-Injection/)
 - 📖 [OWASP XSS Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 - 📖 [OWASP CSRF Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 - 📖 [OWASP Access Control Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
@@ -699,6 +701,7 @@ response.set_cookie(
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 OWASP basic. A01 Broken Access Control (IDOR/RBAC/ABAC/Mass Assignment) + A03 Injection (SQLi/NoSQLi/OS/LDAP/XSS/CSRF) + CSP + Nonce + SameSite + hands-on fix 5 vuln Acme Shop + 8 pitfalls. Pattern theo lesson 00.
+- **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, thay bản 2021). Injection đổi numbering **A03 → A05** (tiêu đề bài, section header, các tham chiếu trong thân bài + self-check). Broken Access Control giữ **A01**, bổ sung ghi chú **SSRF gộp vào A01** (vốn là A10:2021). Cập nhật link tài nguyên OWASP sang URL 2025. Giữ nguyên toàn bộ nội dung kỹ thuật + code mẫu.

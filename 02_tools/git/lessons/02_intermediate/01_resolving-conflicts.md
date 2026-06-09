@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [00_branching-and-merging.md](./00_branching-and-merging.md) ✅
 
 > 🎯 *Bài học sống còn trong làm việc nhóm — Trang bị tư duy thép và kỹ thuật gỡ rối cực kỳ khoa học để giải quyết các "cuộc xung đột" (Merge Conflicts) của dòng code. Sau bài học này, bạn sẽ không bao giờ còn cảm thấy sợ hãi hay ngợp trước thông báo lỗi đỏ choét của Terminal nữa!*
@@ -198,7 +197,7 @@ Output thực tế:
 
 ---
 
-## 🧠 Câu hỏi ôn tập (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1: Có thể xảy ra Merge Conflict khi tôi chỉ làm việc một mình (Solo Developer) không?**
 <details>
@@ -218,7 +217,7 @@ Khi bạn đang ở giữa quá trình merge bị conflict và chạy lệnh `gi
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa kỹ thuật | Ẩn dụ thực tế |
 |---|---|---|
@@ -242,5 +241,5 @@ Khi bạn đang ở giữa quá trình merge bị conflict và chạy lệnh `gi
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 - **v2.0.0 (26/05/2026)** — Mr.Rom biên soạn hoàn chỉnh bài học trung cấp về Merge Conflict, hướng dẫn giải mã mật thư Git, các bước resolve thủ công/VS Code và cơ chế rút lui an toàn theo chuẩn Blueprint v0.2.0.

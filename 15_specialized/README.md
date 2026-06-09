@@ -20,7 +20,6 @@ Game dev, Embedded/IoT, Blockchain, Quantum, AR/VR, Robotics
 - ar-vr
 - robotics
 
-> Chi tiết sitemap mở rộng → xem [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
 
 ## 🚀 Khi nào đọc folder này
 
@@ -34,15 +33,10 @@ Game dev, Embedded/IoT, Blockchain, Quantum, AR/VR, Robotics
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
-1. Đọc [`../_blueprint/README.md`](../_blueprint/README.md)
-2. Copy template từ [`../_blueprint/templates/`](../_blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_blueprint/03_writing-style.md`](../_blueprint/03_writing-style.md)
-4. Soát qua [`../_blueprint/07_quality-checklist.md`](../_blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
 6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.

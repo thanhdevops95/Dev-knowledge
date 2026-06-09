@@ -1,9 +1,9 @@
 # <Tên chủ đề>
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *<Câu dẫn 1-2 dòng giới thiệu chủ đề. Vì sao chủ đề này quan trọng, học để làm gì.>*
 
@@ -39,10 +39,10 @@
 
 → [`projects/`](./projects/) — tình huống lớn nhiều bước
 
-| Project | Mục tiêu | Thời gian |
-|---|---|---|
-| [01_<name>/](./projects/01_<name>/) | <output> | <X-Y giờ> |
-| [02_<name>/](./projects/02_<name>/) | <output> | <X-Y giờ> |
+| Project | Mục tiêu |
+|---|---|
+| [01_<name>/](./projects/01_<name>/) | <output> |
+| [02_<name>/](./projects/02_<name>/) | <output> |
 
 ### 📚 Recipes <!-- OPT -->
 
@@ -83,6 +83,7 @@ Muốn viết bài / sửa lỗi / thêm exercise cho chủ đề này?
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Tạo skeleton.
+- **v1.1.0 (01/06/2026)** — Bỏ cột "Thời gian" trong bảng Project; dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

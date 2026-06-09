@@ -1,0 +1,1307 @@
+[
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Toàn bài, vd dòng 25-40 'Tình huống', 61 'Half-truth. Yes... NHƯNG', 75-99 'You manage / Vendor manages', 142-151 'Bonus models', 196-262 các block Pros/Cons",
+    "description": "Văn phong 'điện tín' EN nặng — phần lớn nội dung là tiếng Anh trộn vài từ Việt (chunk 'You manage: OS, runtime, middleware, application, data', 'Half-truth. Yes, AWS data centers = computers', 'Pros/Cons/Best for' nguyên khối EN). Vi phạm rule A (Việt hoá đoạn điện tín, lời dẫn 2-3 câu) — khác xa gold standard 00_what-is-docker.md vốn 100% narrative tiếng Việt.",
+    "suggestedFix": "Việt hoá toàn bộ prose: 'You manage' → 'Bạn quản lý', 'Vendor manages' → 'Vendor lo', 'Pros/Cons/Best for' → 'Ưu/Nhược/Hợp khi'; giữ thuật ngữ EN trong ngoặc lần đầu; thêm lời dẫn trước mỗi bảng/list/diagram và 1-2 câu phân tích sau.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/01_regions-availability-zones-edge.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Dòng 25-39 'Tình huống', 47-104 Region, 130-179 AZ, các block Pros/Cons §6",
+    "description": "Cùng lỗi văn phong điện tín EN như bài 00: 'Startup deploy FastAPI on AWS', 'Customers Vietnam complain', 'Failure isolation', danh sách bullet thuần EN. Vi phạm rule A.",
+    "suggestedFix": "Việt hoá narrative + thêm câu bắc cầu giữa section; giữ tên dịch vụ/thuật ngữ EN, dịch phần diễn giải sang tiếng Việt.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/02_cloud-networking.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Dòng 27-47 'Tình huống', 53-96 VPC, 103-157 Subnet, 305-363 SG, các Q&A self-check",
+    "description": "Văn phong điện tín EN nặng tương tự ('Dev deploy Postgres trên EC2', 'Has route to Internet Gateway', toàn bộ self-check answer bằng EN). Vi phạm rule A.",
+    "suggestedFix": "Việt hoá prose + diễn giải; giữ lệnh/HCL/JSON nguyên trong code fence.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Dòng 26-41 'Tình huống', 45-104 storage categories, 294-362 RDS/Aurora, self-check Q1-Q5",
+    "description": "Văn phong điện tín EN nặng ('Photo upload app', 'Block storage = raw disk attached to 1 server', danh sách Use cases/Strengths thuần EN, self-check answer EN). Vi phạm rule A.",
+    "suggestedFix": "Việt hoá narrative + lời dẫn trước bảng decision matrix/storage class; giữ thuật ngữ EN trong ngoặc.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Dòng 51-104 Shared Responsibility, 110-285 IAM, 290-364 Encryption, self-check Q1-Q5 (dòng 866-1290)",
+    "description": "Văn phong điện tín EN nặng; phần lớn diễn giải + self-check answer bằng tiếng Anh. Vi phạm rule A. (Lưu ý: nội dung kỹ thuật chính xác, chỉ là chưa Việt hoá.)",
+    "suggestedFix": "Việt hoá prose + answer block; giữ JSON policy/lệnh AWS nguyên trong fence.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "Dòng 9 (lặp ở cả 5 bài: 00 d9, 01 d9, 02 d9, 03 d9, 04 d9)",
+    "description": "Field metadata dùng EN '**Prerequisites:**' thay vì tiếng Việt. Vi phạm rule B (tên field phải tiếng Việt, đồng nhất toàn cụm — gold standard dùng '**Yêu cầu trước:**').",
+    "suggestedFix": "Đổi '**Prerequisites:**' → '**Yêu cầu trước:**' ở cả 5 file.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "Glossary header '| Term | Vietnamese / Explanation |' — 00 d610, 01 d1083, 02 d1324, 03 d1158, 04 d1364",
+    "description": "Header bảng Glossary dùng '| Term | Vietnamese / Explanation |' (2 cột, EN) — không khớp dạng chuẩn checklist '| EN | VN | Giải thích |' hoặc '| Thuật ngữ | Tiếng Việt | Giải thích |' (3 cột). Đồng thời cột 2 thực chất chứa giải thích EN chứ không phải 'Tiếng Việt'. Vi phạm rule C/J (nhất quán Glossary header). Lưu ý: checklist có note 'CẦN QUYẾT Ở BLUEPRINT' cho việc Việt hoá heading kỹ thuật → đề xuất chốt rồi áp đồng loạt.",
+    "suggestedFix": "Đổi header sang 3 cột '| Thuật ngữ | Tiếng Việt | Giải thích |' và tách nội dung; hoặc tối thiểu đổi tiêu đề cột cho khớp chuẩn cụm. Áp đồng loạt 5 bài.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "broken-link",
+    "severity": "high",
+    "locator": "Dòng 641: '→ Tiếp: [01_regions-availability-zones-edge.md](...) *(sắp viết)*'",
+    "description": "Nhãn '(sắp viết)' gắn cho bài 01 ĐÃ TỒN TẠI. Vi phạm rule G (KHÔNG nhãn sắp viết cho bài đã có). Cũng xuất hiện tại: 01 d1122 (cho 02), 02 d1359 (cho 03), 03 d1192 (cho 04) — tất cả file đích đều tồn tại.",
+    "suggestedFix": "Xoá '*(sắp viết)*' ở cả 4 chỗ; đồng thời sửa link text = tiêu đề H1 thực của bài đích thay vì tên file (vd 'Regions, Availability Zones, Edge — Geographic distribution').",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/01_regions-availability-zones-edge.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "Mục '🔗 Liên kết & Tài nguyên': nav markers — 01 d1120-1123, 02 d1357-1360, 03 d1190-1193, 04 d1406-1409",
+    "description": "Nav dùng marker '↶ Trước / → Tiếp / ↑ Cluster' + link text = tên file (vd '00_what-is-cloud-computing.md'), không phải tiêu đề thực. Khác gold standard (⬅️ Bài trước / ➡️ Bài tiếp theo / ↑ Về cụm + link text = tiêu đề H1). Cũng dùng sub-heading EN-flavored 'Trong cluster / Cross-reference / Tài nguyên ngoài' thay vì 3 sub chuẩn '🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác'. Vi phạm rule C/J.",
+    "suggestedFix": "Đồng bộ marker (⬅️/➡️/↑), đặt link text = tiêu đề H1 thực, và đổi 3 sub-heading sang dạng chuẩn cụm. Áp 5 bài.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "other",
+    "severity": "medium",
+    "locator": "Changelog: 00 d665, 01 d1144, 02 d1380, 03 d1215, 04 d1435",
+    "description": "Residue meta trong changelog: 'Apply Blueprint v0.5.4+ §3.6: ...' — tham chiếu nội bộ blueprint trong file học. Vi phạm rule H (de-meta) + rule D (changelog mô tả theo nội dung, trung tính, KHÔNG 'Apply Blueprint §').",
+    "suggestedFix": "Viết lại dòng changelog v1.1.0 theo nội dung trung tính, vd: 'Thêm lời dẫn trước các bảng/diagram (Stack diagram, Timeline, Market share, Decision matrix).' Bỏ cụm 'Apply Blueprint §'.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/README.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "Dòng 4-6: 'Phiên bản: v0.1.0 (skeleton)', 'Status: ❌ Skeleton — chưa có content'; dòng 8 '🚧 Folder này chưa có content'",
+    "description": "Marker trạng thái README sai/lỗi thời: ghi 'Skeleton — chưa có content' nhưng cụm đã có ĐỦ 5 bài basic (00-04) hoàn chỉnh. Vi phạm rule J (marker trạng thái phải khớp file thực). README còn thiếu bảng catalog bài + mô tả audience-facing cho người đọc.",
+    "suggestedFix": "Cập nhật Status → '✅ Basic 5/5 hoàn thành'; bump version; thay block '🚧 chưa có content' bằng tổng quan cụm + bảng liệt kê 5 bài (tiêu đề + mô tả ngắn) hướng người đọc; cập nhật MASTER-CATALOG tương ứng.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/README.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "Dòng 9-12 (block 🚧) trỏ '_blueprint/' và 'MASTER-CATALOG.md'",
+    "description": "README (file audience-facing) chứa link tới '_blueprint/01_sitemap-detail.md', '03_writing-style.md', 'templates/', 'MASTER-CATALOG.md' — thuộc tài liệu CONTRIBUTING/nội bộ, không nên xuất hiện trong file đọc cho người học (rule G). Hiện chấp nhận được vì là skeleton, nhưng khi viết lại README cần gỡ.",
+    "suggestedFix": "Khi chuyển README sang dạng audience-facing, bỏ toàn bộ block link _blueprint/templates/sitemap/MASTER-CATALOG; chỉ giữ tổng quan + danh mục bài.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/README.md",
+    "category": "other",
+    "severity": "low",
+    "locator": "Dòng 19 (trong code fence cây thư mục): '← \\\"cloud-fundamentals là gì\\\" — intro chung'",
+    "description": "Artifact escaping: dấu nháy bị escape thành '\\\"...\\\"' (backslash-quote) trong code fence — sót lại từ lần sửa trước. Vi phạm rule E (không tag/ký tự rác lọt vào).",
+    "suggestedFix": "Sửa '\\\"cloud-fundamentals là gì\\\"' → '\"cloud-fundamentals là gì\"' (nháy thẳng bình thường).",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "content-gap",
+    "severity": "high",
+    "locator": "H2 list: bài chỉ có '## 💡 Câu hỏi beginner hay hỏi' (d539) + '## 🗺️ Lộ trình học tiếp theo' (d595); KHÔNG có Pitfall / Self-check (<details>) / Cheatsheet",
+    "description": "Bài 00 THIẾU 3 framework section bắt buộc theo cụm: Pitfall ('## 💡 Cạm bẫy thường gặp & Best practice'), Self-check ('## 🧠 Tự kiểm tra (Self-check)' dạng <details>), Cheatsheet ('## ⚡ Tra cứu nhanh (Cheatsheet)'). 4 bài còn lại (01-04) đều có đủ → bài 00 lệch chuẩn cụm. '## 💡 Câu hỏi beginner hay hỏi' là section nội dung FAQ, KHÔNG thay thế được Self-check. Vi phạm rule C (khung 8 phần).",
+    "suggestedFix": "Bổ sung 3 section chuẩn cho bài 00: Pitfall (❌ Cạm bẫy/✅ Best practice), Self-check (5 câu dạng <details>), Cheatsheet. Giữ FAQ hiện có hoặc gộp ý vào Self-check.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Dòng 545-546: 'GCP free tier: $300 credit + always-free tier (e2-micro VM, 5GB S3)'",
+    "description": "Sai tên dịch vụ: GCP không có 'S3' (đó là AWS). GCP object storage là GCS/Cloud Storage; always-free của GCP là 5GB Cloud Storage (regional, US) + e2-micro. Dùng 'S3' cho GCP gây hiểu nhầm.",
+    "suggestedFix": "Đổi '5GB S3' (dòng GCP) → '5GB Cloud Storage (GCS)'. Kiểm lại con số always-free GCP theo trang pricing hiện hành.",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/cloud-fundamentals/lessons/01_basic/01_regions-availability-zones-edge.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "Dòng 1143-1144 (changelog) + toàn cụm",
+    "description": "Pattern lặp toàn cụm cloud-fundamentals: nội dung kỹ thuật tốt + cập nhật 2026 chính xác (egress $0.09/GB nhất quán, market share, SLA tiers) NHƯNG văn phong dừng ở mức 'điện tín EN' + metadata/heading chưa Việt hoá đồng bộ với gold standard. Đáng đưa vào blueprint: khi 'port' nội dung EN-heavy vào kho, cần pass Việt-hoá narrative + chuẩn-hoá metadata/nav/Glossary trước khi coi là done (tránh tình trạng v1.1.0 'Apply Blueprint' chỉ thêm lead-in mà bỏ qua Việt hoá thân bài).",
+    "suggestedFix": "Bổ sung mục blueprint/checklist: 'Bài port từ nguồn EN phải qua bước Việt-hoá toàn prose + chuẩn-hoá metadata (Yêu cầu trước), nav (⬅️/➡️ + tiêu đề thực), Glossary header, bỏ residue Apply Blueprint — trước khi đánh ✅.'",
+    "subcluster": "11_cloud/cloud-fundamentals/"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Toàn bài, rõ nhất §1 dòng 28-36, 39-129; §2-§7 các bullet kiểu 'Headache.', 'Email + credit card.', 'Don't use root for daily ops.'",
+    "description": "Văn phong KHÔNG đạt chuẩn gold-standard: viết kiểu điện tín/ghi chú tiếng Anh, gần như không có lời dẫn trước code/bảng, không có câu phân tích sau, không bắc cầu giữa section. Phần lớn nội dung là English thuần (mô tả service, bullet, đáp án) trộn vài câu tiếng Việt. Khác hẳn bài mẫu 00_what-is-docker.md (mở bằng tình huống, dẫn dắt từng bảng, ẩn dụ giải thích). Đây là bài Basic mở màn cụm nên ảnh hưởng nặng nhất.",
+    "suggestedFix": "Viết lại theo WHY→WHAT→HOW: mỗi bảng/code block có 2-3 câu lời dẫn + 1-2 câu phân tích sau, Việt hoá các đoạn điện tín, giữ thuật ngữ EN có giải thích trong ngoặc lần đầu. Tham chiếu nhịp văn của bài Docker basic.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/01_ec2-and-ebs-compute.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Toàn bài; ví dụ §1.4 dòng 106-124, các Self-check đáp án dòng 1062-1421 (English thuần), Tình huống dòng 30-37",
+    "description": "Cùng vấn đề văn phong như bài 00: nội dung chủ yếu English (bullet kỹ thuật, toàn bộ đáp án self-check), thiếu lời dẫn/câu bắc cầu tiếng Việt. Phần hands-on tốt về cấu trúc nhưng prose vẫn cụt. Không đạt chuẩn narrative của gold-standard.",
+    "suggestedFix": "Việt hoá phần dẫn dắt + đáp án self-check, thêm lời dẫn trước mỗi code/bảng, giữ lệnh AWS CLI nguyên vẹn.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/02_s3-deep-and-iam.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "dòng 393 '\"Days\": 2555    // 7 years for compliance' và dòng 721 '\"Effect\": \"Allow\",    // or \"Deny\"' (cả hai trong fence ```json)",
+    "description": "JSON KHÔNG cho phép comment `//`. Hai block fence ```json chứa comment dòng → copy chạy `json.loads`/`aws ... file://` sẽ lỗi parse. Vi phạm checklist 🅵 (code chạy được).",
+    "suggestedFix": "Bỏ comment `//` khỏi JSON: chuyển chú thích ra ngoài fence (câu dẫn) hoặc đổi fence sang `jsonc`/`text` nếu muốn giữ chú thích minh hoạ. Khuyến nghị tách chú thích ra prose để JSON còn valid.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/03_rds-and-dynamodb.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "dòng 375 '// Table: Users' và dòng 377 '\"user_id\": \"u-12345\",       // Partition Key (PK)' trong fence ```json",
+    "description": "Block fence ```json chứa comment `//` (dòng 375, 377) → JSON không hợp lệ, không parse được. Vi phạm checklist 🅵.",
+    "suggestedFix": "Bỏ `// Table: Users` (đưa lên câu dẫn trước block) và `// Partition Key (PK)`; hoặc đổi fence sang `text`/`jsonc`. Ưu tiên giữ JSON valid.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/03_rds-and-dynamodb.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 170: 'Bucket-level encryption setting on creation. Can't enable later (snapshot + restore needed).'",
+    "description": "Sai thuật ngữ + ngữ cảnh: đây là RDS, không có khái niệm 'bucket' (bucket là của S3). Ý đúng là 'encryption-at-rest của RDS chỉ bật được lúc tạo instance, muốn bật sau phải snapshot + restore'. Dùng từ 'bucket' gây nhầm dịch vụ.",
+    "suggestedFix": "Sửa thành: 'Mã hoá at-rest đặt lúc tạo instance. Không bật được sau (phải tạo snapshot rồi restore sang instance mới đã mã hoá).'",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/04_lambda-and-api-gateway.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "dòng 686: '- **bạn compute**: 60s × 10GB memory × 1M = $1000/month.'",
+    "description": "Residue/typo: '**bạn compute**' là chữ 'bạn' lọt vào sai chỗ (lẽ ra là 'Heavy compute'/'Long compute'/'Compute nặng'). Đây là mục 'When Lambda gets expensive' nên ngữ cảnh là tác vụ compute lớn. Vi phạm 🅵 (residue 'bạn' trong nội dung kỹ thuật) + 🅴.",
+    "suggestedFix": "Đổi '**bạn compute**' → '**Compute nặng**' (hoặc 'Tác vụ chạy lâu'): '60s × 10GB memory × 1M = $1000/tháng'.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/04_lambda-and-api-gateway.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "Toàn bài; đáp án self-check dòng 1119-1649 English thuần, các bullet kỹ thuật, decision matrix",
+    "description": "Cùng vấn đề văn phong English/điện tín như bài 00-03; phần đáp án self-check rất dài nhưng hoàn toàn English, thiếu dẫn dắt tiếng Việt. Không đạt chuẩn narrative gold-standard.",
+    "suggestedFix": "Việt hoá dẫn dắt + đáp án, thêm lời dẫn/câu bắc cầu; giữ code SAM/CLI nguyên.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+    "category": "broken-link",
+    "severity": "medium",
+    "locator": "dòng 664: '- → Tiếp: [01_ec2-and-ebs-compute.md](...) *(sắp viết)*'",
+    "description": "Nhãn '(sắp viết)' gắn vào bài 01 trong khi file đã tồn tại (đã đọc, hoàn chỉnh). Vi phạm 🅶 (không gắn nhãn sắp viết cho bài đã có). Lỗi này lặp ở cả 4 bài 00-03.",
+    "suggestedFix": "Xoá '*(sắp viết)*' ở dòng 664 (bài 00) và các dòng tương ứng: 01 dòng 1565, 02 dòng 1722, 03 dòng 1438.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/01_ec2-and-ebs-compute.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "Nav block dòng 1564-1566: '↶ Trước', '→ Tiếp', '↑ Cluster'; link text = tên file (vd '[02_s3-deep-and-iam.md]')",
+    "description": "Nav không đồng bộ gold-standard: dùng marker '↶/→/↑' thay vì '⬅️ Bài trước/➡️ Bài tiếp theo'; link text là tên file thô (02_s3-deep-and-iam.md) thay vì tiêu đề H1 thật ('S3 deep + IAM fundamentals'). Vi phạm 🅹 (nav đồng bộ kiểu + link text = tiêu đề thực). Lỗi lặp ở cả 4 bài lessons.",
+    "suggestedFix": "Đổi marker sang '⬅️/➡️/↑' và thay link text bằng tiêu đề H1 thật của bài đích, đồng bộ toàn cụm (sửa ở 00 dòng 664-665, 01 1564-1566, 02 1721-1723, 03 1437-1439, 04 1782-1784).",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 9: '> **Prerequisites:** ...' (lặp ở cả 5 bài lessons dòng 9)",
+    "description": "Field metadata dùng tên EN 'Prerequisites' thay vì 'Yêu cầu trước' như chuẩn block-quote metadata gold-standard. Vi phạm 🅱 (tên field tiếng Việt, đồng nhất toàn cụm). Lặp ở cả 5 bài.",
+    "suggestedFix": "Đổi '**Prerequisites:**' → '**Yêu cầu trước:**' ở dòng 9 của cả 5 bài.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/README.md",
+    "category": "content-gap",
+    "severity": "medium",
+    "locator": "Bảng Lessons dòng 25-31 (cột 'Thời lượng' + giá trị '~17p/~22p...'), dòng 33 '→ Tổng ~103 phút đọc...', và header bài dòng 27-31",
+    "description": "README còn cột 'Thời lượng' và tổng '~103 phút đọc' — field 'Thời lượng đọc' đã bị bỏ toàn kho ngày 01/06 (ước tính không chuẩn). Vi phạm 🅱 + nhật ký lỗi checklist. Status dòng 7 cũng ghi 'Status:' (EN) lẫn metadata.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng + cụm '~103 phút đọc' (giữ '6-8h hands-on'); đổi field 'Status' → tiếng Việt nếu giữ (vd 'Trạng thái').",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/README.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "dòng 9 (block 🎯) + dòng 26-31",
+    "description": "Block 🎯 và bảng viết kiểu điện tín English ('vendor #1 (~32% Q1 2026)', '5 services tier 1 ... cho 95% workloads', 'Sau cluster: deploy small production app on AWS'). README là audience-facing nên cần mô tả tiếng Việt mượt.",
+    "suggestedFix": "Việt hoá block 🎯 và mô tả bảng cho mượt, giữ con số/tên service.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "Glossary header dòng 621: '| Term | Vietnamese / Explanation |' (lặp ở cả 4 bài lessons 01-04)",
+    "description": "Header bảng Glossary dùng EN 'Term | Vietnamese / Explanation' thay vì chuẩn '| EN | VN | Giải thích |' hoặc '| Thuật ngữ | Tiếng Việt | Giải thích |'. Lưu ý: checklist ghi đây là điểm 'CẦN QUYẾT Ở BLUEPRINT' (Việt hoá đồng loạt hay chấp nhận EN) — nhất quán nội cụm nhưng khác gold-standard.",
+    "suggestedFix": "Chờ quyết định blueprint; nếu chốt Việt hoá thì đổi header sang '| Thuật ngữ | Tiếng Việt | Giải thích |' và bổ sung cột giải thích VN cho các thuật ngữ (hiện nhiều dòng chỉ là tên EN, chưa có VN).",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/04_lambda-and-api-gateway.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 1448-1467: 'Aurora Serverless v2 + Data API' / 'Aurora Serverless only.'",
+    "description": "Chú thích RDS Data API 'Aurora Serverless only' không còn đúng 2026: Data API đã hỗ trợ cả Aurora PostgreSQL/MySQL provisioned (mở rộng từ 2023-2024), không chỉ Serverless. Có thể gây hiểu sai giới hạn dịch vụ.",
+    "suggestedFix": "Sửa thành 'Data API hỗ trợ Aurora Serverless v2 và Aurora provisioned (PostgreSQL/MySQL)'; kiểm tra lại trên docs AWS RDS Data API trước khi chốt.",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/aws/lessons/01_basic/00_what-is-aws-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "Mục tiêu đầu bài dòng 15 ('Biết 20 AWS services') vs nội dung §1 liệt kê ~45 services (Top 20 chỉ ở dòng 129)",
+    "description": "Khung cứng con số '20 services' không khớp nội dung thực (bảng liệt kê ~45 service rồi mới chốt 'Top 20'). Lặp pattern khung cứng con số mà blueprint đã cảnh báo (mục I checklist). Đề xuất ghi vào nhật ký lỗi blueprint: lesson vendor (AWS) dễ rơi vào liệt kê service kiểu catalog English — cần guideline riêng cho bài 'landscape/overview' về cách gom nhóm + Việt hoá + tránh đóng khung con số.",
+    "suggestedFix": "Bổ sung vào _blueprint/ ghi chú: bài overview vendor nên gom service theo nhóm chức năng + dẫn dắt tại sao chọn, tránh khung 'N services' cứng; và quy ước văn phong cho bảng catalog (mô tả VN, không bê English thuần).",
+    "subcluster": "11_cloud/aws"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "broken-link",
+    "severity": "medium",
+    "locator": "dòng 597: `- → Tiếp: [01_compute-engine-and-disks.md](...) *(sắp viết)*`",
+    "description": "Nhãn `(sắp viết)` gắn vào bài 01 nhưng bài 01 ĐÃ tồn tại. Vi phạm checklist mục G ('KHÔNG nhãn (sắp viết)/(chưa có) cho bài đã tồn tại'). Lặp lại ở bài 01->02, 02->03, 03->04 (tổng 4 chỗ).",
+    "suggestedFix": "Xoá hậu tố ` *(sắp viết)*` ở cả 4 link 'Tiếp' (bài 00,01,02,03). Đồng thời cân nhắc chuẩn hoá marker nav về kiểu gold-standard (⬅️/➡️/↑) thay cho ↶/→/↑.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "other",
+    "severity": "low",
+    "locator": "dòng 597-599 + 575-577 (bài 01) + tương tự các bài",
+    "description": "Nav marker dùng ↶ (Trước) / → (Tiếp) / ↑ (Cluster) + link text = tên file/slug, khác gold-standard basic (⬅️ Bài trước / ➡️ Bài tiếp theo + link text = tiêu đề thực). Đây là lỗi đã ghi trong Nhật ký checklist (nav không nhất quán cross-file).",
+    "suggestedFix": "Đồng bộ marker (⬅️/➡️/↑ Về cụm) và đổi link text từ slug ('01_compute-engine-and-disks') sang tiêu đề thực ('GCP Compute Engine + Persistent Disks') cho khớp gold-standard và mục J checklist.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 9 (và bài 01,02,03,04 dòng 9): `> **Prerequisites:**`",
+    "description": "Field metadata dùng tên EN `Prerequisites:` thay vì Việt hoá `Yêu cầu trước:` (gold-standard + checklist mục B). 5/5 bài đều mắc. KHÔNG tự sửa vì là metadata prose theo yêu cầu task.",
+    "suggestedFix": "Đổi `> **Prerequisites:**` -> `> **Yêu cầu trước:**` ở cả 5 bài.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 16 (mục tiêu) + dòng 87: 'Biết 20 services tier 1' / 'Tier 1 ... ~20 services chiếm 90% workload'",
+    "description": "Bất nhất con số: mục tiêu nói '20 services tier 1' và '90% workload'; README cụm (dòng 9) nói '5 services tier 1 ... cho 95% workloads'; section 2 nói '~20 services chiếm 90% workload'. Ba con số mâu thuẫn (5 vs 20 services, 90% vs 95%).",
+    "suggestedFix": "Thống nhất 1 con số xuyên suốt README + bài 00. Đề xuất: '~20 services tier 1' trong bài 00 (vì liệt kê đúng ~20), và README sửa '5 services tier 1' -> mô tả 5 services CỐT LÕI mà cluster dạy sâu (GCE/GCS/Cloud SQL/Firestore/Cloud Run) để tránh đụng con số 20.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 66: 'Ít service hơn AWS (~150 vs 250+)' và dòng 49/87 '~11% Q1 2026', 'top-3'",
+    "description": "Market share '~11% Q1 2026 (sau AWS ~32%, Azure ~24%)' là số ước cần đối chiếu nguồn — sai số dễ lệch theo quý. Đồng thời số service '~150 vs 250+' không có nguồn và dễ lỗi thời. Không sai nghiêm trọng nhưng cần verify/ghi nguồn để nhất quán cross-cluster (AWS/Azure lesson).",
+    "suggestedFix": "Đối chiếu số liệu thị phần với nguồn (Synergy/Canalys Q1 2026) và đồng bộ con số AWS/Azure market share giữa 3 cluster aws/azure/gcp. Nếu không verify được, diễn đạt mềm ('khoảng' + năm) thay con số cứng.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 331: `gcloud cloud-shell scp --help` dưới comment '# Open Console URL trong browser'",
+    "description": "Lệnh không khớp mục đích: comment nói 'mở Console URL trong browser' nhưng lệnh `gcloud cloud-shell scp --help` chỉ in help của lệnh scp Cloud Shell, không mở Console. Lệnh ví dụ vô nghĩa trong ngữ cảnh 'Common commands'.",
+    "suggestedFix": "Thay bằng lệnh thật hữu ích, ví dụ `gcloud compute instances describe <vm> --format='value(...)'` hoặc bỏ dòng này. Nếu muốn mở Console, GCP không có lệnh gcloud mở browser tới Console — nên xoá comment gây hiểu nhầm.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 251-255: cài gcloud Linux `sudo apt install google-cloud-cli`",
+    "description": "Lệnh `sudo apt install google-cloud-cli` chỉ chạy được SAU khi đã thêm Google Cloud apt repo + GPG key. Trình bày như lệnh một dòng dễ khiến người học gặp lỗi 'package not found' trên Debian/Ubuntu sạch.",
+    "suggestedFix": "Thêm bước add repo trước (theo doc chính thức: tạo /etc/apt/sources.list.d/google-cloud-sdk.list + import key), hoặc ghi chú 'cần thêm Google Cloud apt repo trước' kèm link, hoặc dùng cách cài qua script `curl ... | bash` của Google.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 200, 340: '$300 trial credit + 90 ngày'",
+    "description": "Free trial GCP 2026 cần đối chiếu: Google đã đổi sang '$300 trong 90 ngày' nhưng số/credit hay thay đổi theo region/thời điểm. Cần verify với cloud.google.com/free trước khi chốt là số cứng cho năm 2026.",
+    "suggestedFix": "Đối chiếu cloud.google.com/free; nếu đúng giữ nguyên, nếu không thì cập nhật. Cân nhắc diễn đạt 'thường $300/90 ngày, kiểm tra trang Free Tier để chắc'.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "dòng 78-85: custom machine type dùng `--custom-vm-type=n2`",
+    "description": "Flag `--custom-vm-type` KHÔNG tồn tại trong gcloud. Custom machine type khai báo qua `--custom-cpu`, `--custom-memory` và (tuỳ chọn) `--custom-vm-type` không phải cách chính tắc; cách đúng là `--machine-type=n2-custom-6-12288` hoặc combo `--custom-cpu/--custom-memory` + `--custom-extensions`/family qua `--machine-type=custom`. Người học copy lệnh này sẽ lỗi 'unrecognized arguments'.",
+    "suggestedFix": "Sửa thành cách chuẩn: `gcloud compute instances create custom-vm --machine-type=n2-custom-6-12288 --zone=...` (6 vCPU, 12 GB = 12288 MB). Hoặc dùng `--custom-cpu=6 --custom-memory=12GB` KÈM `--custom-vm-type` chỉ khi gcloud thực sự hỗ trợ — cần verify lại với `gcloud compute instances create --help`.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 448: `sudo systemctl enable fastapi  # systemd unit`",
+    "description": "Lệnh `systemctl enable fastapi` tham chiếu một systemd unit 'fastapi' chưa hề được tạo ở bước trước (chỉ pip install + comment 'copy code'). Người học chạy sẽ gặp 'Unit fastapi.service not found'. Hands-on bị thiếu bước tạo unit file.",
+    "suggestedFix": "Hoặc thêm bước tạo /etc/systemd/system/fastapi.service trước khi enable, hoặc ghi rõ comment '(giả định đã tạo unit file fastapi.service)'. Tránh để lệnh chạy lỗi giữa hands-on.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 110: pd-extreme 'Up to 120k IOPS' và dòng 112 Hyperdisk 'Up to 4800 MB/s'",
+    "description": "Số IOPS/throughput đĩa cần đối chiếu doc 2026: pd-extreme tối đa ~120k IOPS là hợp lý, nhưng Hyperdisk Extreme thực tế đạt tới ~350k IOPS / throughput cao hơn 4800 MB/s tuỳ cấu hình. Bảng dễ gây hiểu Hyperdisk yếu hơn pd-ssd về throughput (1200 vs 4800 ok) nhưng con số cần verify.",
+    "suggestedFix": "Đối chiếu cloud.google.com/compute/docs/disks (Hyperdisk performance) cập nhật IOPS/throughput max cho năm 2026; ghi rõ 'tunable, tối đa' để tránh chốt số dễ lỗi thời.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 251-257: MIG tạo với `--zones=...` nhưng autoscaling set bằng `--region=asia-southeast1`",
+    "description": "MIG tạo với `--zones=a,b,c` (zonal multi-zone? thực ra cờ --zones tạo regional MIG) rồi set-autoscaling lại dùng `--region`. Nếu MIG tạo bằng `--zones` mà không có `--region`, lệnh set-autoscaling `--region` có thể không tìm thấy group. Cần nhất quán: regional MIG dùng `--region` + `--zones` (distribution), zonal MIG dùng `--zone`.",
+    "suggestedFix": "Làm rõ đây là REGIONAL MIG: thêm `--region=asia-southeast1` vào lệnh `instance-groups managed create` (kèm `--zones` để chỉ định distribution). Verify lại flag combo với `gcloud compute instance-groups managed create --help`.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "dòng 461-463: 'Bước 2 — Template + MIG + Health Check + LB' chỉ ghi '(Xem code section 4.)'",
+    "description": "Bước hands-on then chốt (tạo template + MIG + LB) bị thay bằng tham chiếu ngược '(Xem code section 4.)'. Vi phạm nguyên tắc 'mỗi phase tự đủ, KHÔNG nhảy qua lại' (memory feedback_analysis_self_contained_walkthrough). Hands-on không liền mạch.",
+    "suggestedFix": "Inline lại các lệnh tạo template/MIG/health-check/LB trong hands-on (hoặc ít nhất lệnh tóm tắt), thay vì bắt người học cuộn ngược lên section 4.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "dòng 162: `│   ├── name: \"Mr.Rom\"` và dòng 196: `\"name\": \"Mr.Rom\",`",
+    "description": "Chèn 'Mr.Rom' làm dữ liệu mẫu trong sơ đồ Firestore và code Python (set document). Vi phạm vùng cấm de-meta + quy ước placeholder (checklist mục F/H: KHÔNG để Mr.Rom trong code/output; placeholder dùng 'Nguyen Van A'...). Cũng mâu thuẫn email 'thien.le@acmeshop.vn' cùng name 'Mr.Rom'.",
+    "suggestedFix": "Thay 'Mr.Rom' bằng placeholder trung tính nhất quán, ví dụ name: \"Nguyen Van A\" với email tương ứng (an.nguyen@acmeshop.vn). Áp cho cả sơ đồ (dòng 162) và code (dòng 196).",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 211: `db.collection(\"users\").where(\"email\", \">=\", \"thien\").limit(10).stream()`",
+    "description": "Cú pháp `.where(field, op, value)` positional của google-cloud-firestore đã DEPRECATED (cảnh báo UserWarning từ SDK), thay bằng `.where(filter=FieldFilter(...))`. Tài liệu 2026 nên dùng FieldFilter để không dạy pattern deprecated.",
+    "suggestedFix": "Đổi sang: `from google.cloud.firestore_v1.base_query import FieldFilter` rồi `.where(filter=FieldFilter(\"email\", \">=\", \"thien\"))`. Áp tương tự nếu có .where() khác trong bài.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 68, 333: `--database-version=POSTGRES_15`",
+    "description": "Dùng Postgres 15 cho ví dụ 'năm 2026'. Cloud SQL đã GA Postgres 16 (và 17) — bài cùng cluster (bài 00 dòng không nhắc, nhưng gold-standard yêu cầu version hiện hành). Không sai cú pháp nhưng nên cập nhật để khớp 2026.",
+    "suggestedFix": "Cập nhật `POSTGRES_16` (hoặc 17 nếu đã GA trên Cloud SQL 2026). Verify với cloud.google.com/sql/docs/postgres/db-versions.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 343: `gcloud sql users create app_user --instance=acmeshop-db --password=secure-pw`",
+    "description": "Password thật ('secure-pw') đặt thẳng trên dòng lệnh → lộ trong shell history + process list. Dạy thói quen xấu trong bài có cả mục bảo mật (IAM auth). Mâu thuẫn thông điệp 'không leak credential' của chính cluster.",
+    "suggestedFix": "Dùng `--password=$(openssl rand -base64 20)` hoặc nhắc dùng prompt/Secret Manager, hoặc thêm cảnh báo 'không đặt password literal trên CLI ở production'.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/03_cloud-sql-and-firestore.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 101: `cloud-sql-proxy ... v2.10.0`",
+    "description": "Pin phiên bản cloud-sql-proxy v2.10.0 — version cụ thể dễ lỗi thời (2026 đã có bản mới hơn). Hardcode URL version trong tài liệu sống lâu sẽ thành stale.",
+    "suggestedFix": "Dùng latest release URL hoặc ghi chú 'kiểm tra release mới nhất tại github.com/GoogleCloudPlatform/cloud-sql-proxy/releases'. Nếu giữ version, thêm '(hoặc bản mới hơn)'.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 50: bảng — Cloud Functions 'Max duration | 540s (Gen2 = 60 min)' và dòng 469 pitfall 'Function process file > 540s (Gen1)'",
+    "description": "Số liệu timeout cần làm rõ/đối chiếu: Cloud Functions Gen1 HTTP max 540s (9 phút); Gen2 dựa trên Cloud Run, HTTP function tối đa 60 phút (event-driven trước đây giới hạn ~9-60 phút). Trình bày '540s (Gen2 = 60 min)' trong 1 ô gây mơ hồ Gen1 vs Gen2. Pitfall #3 lại nói '> 540s (Gen1)' đúng nhưng không nói rõ Gen2 limit khác.",
+    "suggestedFix": "Tách rõ trong bảng: 'Gen1: 540s (9 phút) / Gen2: tới 60 phút'. Đồng bộ với pitfall #3. Verify với cloud.google.com/functions/docs/configuring/timeout (2026).",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 207-213: vòng lặp resize gọi `img.thumbnail((dim,dim))` lặp lại trên cùng object `img`",
+    "description": "Trong block §3 (dòng 207), `img.thumbnail()` được gọi liên tiếp trên CÙNG một `img` qua các size giảm dần (1200->600->150 theo thứ tự thumb=150,medium=600,full=1200). thumbnail() thu nhỏ in-place và KHÔNG phóng to lại → 'full' (1200) chạy sau 'thumb' (150) sẽ KHÔNG to lại 1200 nếu ảnh đã bị thu xuống 150. Thứ tự list là thumb(150)->medium(600)->full(1200): sau thumbnail(150) ảnh chỉ còn <=150px, các size sau vô nghĩa. (Block hands-on §dòng 370 đã FIX đúng bằng `img.copy()` — hai block mâu thuẫn nhau).",
+    "suggestedFix": "Sửa block §3 (dòng 207) dùng `copy = img.copy(); copy.thumbnail(...)` giống block hands-on (dòng 371), để hai ví dụ nhất quán và đúng logic resize. Đây là bug thực sự ở block đầu.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 320-324: `gcloud services configure-quotas --service=acmeshop-api.endpoints --quotas=read-quota=1000`",
+    "description": "Lệnh `gcloud services configure-quotas` không phải lệnh gcloud chuẩn cho rate limit của API Gateway. Rate limit/quota API Gateway 2026 cấu hình qua x-google-quota trong OpenAPI + Service Management, không qua một lệnh `configure-quotas` như vậy. Lệnh có thể không tồn tại/sai cú pháp → người học chạy lỗi.",
+    "suggestedFix": "Verify lệnh thật để set quota cho managed service (thường qua Cloud Console Quotas hoặc Service Management API). Nếu không có lệnh gcloud một dòng, thay bằng mô tả 'cấu hình quota qua x-google-management/metrics trong OpenAPI + Console' thay vì lệnh sai.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 266: OpenAPI spec dùng `swagger: \"2.0\"` trong khi mục tiêu/heading nói 'OpenAPI 3'",
+    "description": "Mục tiêu (dòng 22) và Glossary ghi 'OpenAPI 3 (Swagger)' nhưng spec ví dụ + API Gateway thực tế dùng Swagger 2.0 (`swagger: \"2.0\"`). GCP API Gateway CHỈ hỗ trợ OpenAPI 2.0 (Swagger), không phải OpenAPI 3 — nên spec đúng nhưng nhãn 'OpenAPI 3' ở mục tiêu/glossary SAI.",
+    "suggestedFix": "Sửa mục tiêu (dòng 22) và Glossary 'OpenAPI 3 (Swagger)' -> 'OpenAPI 2.0 (Swagger)' để khớp thực tế GCP API Gateway và đúng spec ví dụ. Ghi rõ API Gateway chỉ nhận Swagger 2.0.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 413-419: Dockerfile hands-on `RUN pip install fastapi uvicorn google-cloud-storage` (không pin version, dùng $PORT trong CMD)",
+    "description": "Dockerfile hands-on cài package không pin version (khác bài 02/04 ở chỗ khác có pin). Không lỗi chạy nhưng kém reproducible. Đồng thời `CMD exec uvicorn ... --port $PORT` cần $PORT được set; Cloud Run tự set PORT=8080 nên OK, nhưng local chạy sẽ thiếu PORT.",
+    "suggestedFix": "Cân nhắc pin version hoặc dùng requirements.txt như block §2 (dòng 89) để nhất quán. Tùy chọn: thêm `ENV PORT=8080` mặc định cho chạy local.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/README.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "dòng 25-33: bảng Lessons có cột 'Thời lượng' (~17p/~22p...) + dòng 33 'Tổng ~103 phút đọc'",
+    "description": "Field/cột 'Thời lượng đọc' đã bị BỎ TOÀN KHO ngày 01/06 (checklist mục B + Nhật ký lỗi: 'bỏ hẳn field Thời lượng đọc khỏi metadata + bảng README/overview'). README cụm GCP vẫn còn cột Thời lượng + tổng phút đọc.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng (dòng 25-31) và dòng 33 '→ Tổng ~103 phút đọc + 6-8h hands-on' (giữ phần hands-on nếu muốn, bỏ phần phút đọc).",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/README.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 7: `> **Status:** ✅ Basic cluster hoàn chỉnh (5/5 bài)`",
+    "description": "README cụm dùng field metadata `Status:` (EN) — không thuộc bộ field chuẩn block-quote (Tác giả/Phiên bản/Tạo lúc/Cập nhật/Level/Tags/Yêu cầu trước). Field EN lẫn metadata, checklist mục B yêu cầu tên field tiếng Việt nhất quán.",
+    "suggestedFix": "Việt hoá thành `> **Trạng thái:**` hoặc bỏ (vì marker trạng thái đã thể hiện trong bảng). Đồng bộ với README các cụm khác (aws/azure).",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/02_cloud-storage-and-iam.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 185-188: `gcloud storage sign-url ... --private-key-file=sa-key.json`",
+    "description": "`gcloud storage sign-url` với `--private-key-file` cần SA key JSON file (đi ngược thông điệp 'không dùng JSON key' của bài 00). Hơn nữa flag chuẩn 2026 nên là dùng IAM credentials (gcloud sign-url có thể impersonate SA bằng --impersonate-service-account thay vì key file).",
+    "suggestedFix": "Cân nhắc dùng `gcloud storage sign-url ... --impersonate-service-account=<sa>@...` thay cho `--private-key-file`, nhất quán best-practice 'tránh JSON key' đã dạy ở bài 00.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/00_what-is-gcp-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "Toàn cụm: 5/5 bài Glossary header `| Term | Vietnamese / Explanation |`",
+    "description": "Glossary toàn cụm dùng header EN 'Term | Vietnamese / Explanation' (2 cột gộp), khác gold-standard basic (Docker 00 dùng bullet list; checklist gợi ý `| EN | VN | Giải thích |` hoặc `| Thuật ngữ | Tiếng Việt | Giải thích |`). Đây là điểm 'CẦN QUYẾT Ở BLUEPRINT' đã ghi trong Nhật ký checklist (Việt hoá đồng loạt header hay chấp nhận EN).",
+    "suggestedFix": "Chốt ở blueprint: dùng header `| Thuật ngữ | Tiếng Việt | Giải thích |` (3 cột) và áp đồng loạt cụm gcp + aws + azure. Hiện tại GCP gộp VN/giải thích vào 1 cột — nên tách 3 cột cho nhất quán.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/gcp/lessons/01_basic/01_compute-engine-and-disks.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "Toàn cụm: heading Pitfall dùng numbered '### 1. ... ### 8.' thay vì '### ❌ Cạm bẫy: / ### ✅ Best practice:'",
+    "description": "Section '💡 Cạm bẫy thường gặp & Best practice' của 5/5 bài dùng sub-item đánh số (### 1..8) với format **Bẫy/Hậu quả/Fix**, khác gold-standard intermediate (### ❌ Cạm bẫy: <tên> / ### ✅ Best practice: <tên>). Nhất quán nội cụm nhưng lệch chuẩn vàng.",
+    "suggestedFix": "Cân nhắc chuẩn hoá sub-heading về dạng `### ❌ Cạm bẫy: <mô tả>` + `### ✅ Best practice: <mô tả>` như checklist mục C, hoặc chốt ở blueprint chấp nhận format numbered cho cluster cloud.",
+    "subcluster": "11_cloud/gcp (Basic cluster — README + 5 lessons)"
+  },
+  {
+    "file": "11_cloud/azure/README.md",
+    "category": "content-gap",
+    "severity": "high",
+    "locator": "dòng 25-33: cột '| Thời lượng |' + '~17p..~22p' + dòng 33 'Tổng ~103 phút đọc + 6-8h hands-on'",
+    "description": "README còn field/cột 'Thời lượng đọc' (~17p, ~22p, tổng ~103 phút). Checklist §B + Nhật ký lỗi (01/06) ghi rõ: ĐÃ BỎ HẲN field 'Thời lượng đọc' toàn kho (README/overview/metadata) vì ước tính không chuẩn. Cụm Azure chưa được quét lần này.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng Lessons (giữ '# / Bài / Trọng tâm') và xoá/đổi dòng 'Tổng ~103 phút đọc + 6-8h hands-on' thành '6-8h hands-on' (bỏ phần phút đọc).",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md, 01_virtual-machines-and-disks.md, 02_blob-storage-and-rbac.md, 03_azure-sql-and-cosmosdb.md, 04_functions-and-app-service.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "metadata block-quote dòng 9 mỗi bài: '> **Prerequisites:** ...'",
+    "description": "Cả 5 bài dùng field metadata tiếng Anh 'Prerequisites:' thay vì 'Yêu cầu trước:'. Checklist §B + Nhật ký lỗi (01/06) yêu cầu tên field tiếng Việt đồng nhất toàn cụm; gold-standard Docker dùng '**Yêu cầu trước:**'. KHÔNG tự sửa vì là vùng metadata/prose ranh giới — báo cáo để Mr.Rom quyết đồng loạt.",
+    "suggestedFix": "Đổi '**Prerequisites:**' → '**Yêu cầu trước:**' ở cả 5 bài (chỉ field metadata, giữ nguyên nội dung sau dấu hai chấm).",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 883-884 Glossary header '| Term | Vietnamese / Explanation |'; tương tự ở bài 01 (710), 02 (811), 03 (793), 04 (907)",
+    "description": "Header bảng Glossary dùng 'Term | Vietnamese / Explanation' (EN). Checklist §C chốt header chuẩn '| EN | VN | Giải thích |' hoặc '| Thuật ngữ | Tiếng Việt | Giải thích |'. Đây là điểm còn treo trong Nhật ký lỗi (01/06) 'CẦN QUYẾT Ở BLUEPRINT' — báo cáo, chưa tự sửa.",
+    "suggestedFix": "Khi blueprint chốt: đổi header sang dạng 2 cột Việt hoá '| Thuật ngữ | Tiếng Việt | Giải thích |' hoặc 3 cột; đồng bộ cả 5 bài + 2 bài Docker gold-standard cũng đang dùng EN.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md, 01, 02, 03, 04",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "00: dòng 920-923 (mục 'Trong cluster' với marker ↶/→/↑); 01: 739-742; 02: 841-844; 03: 823-826; 04: 939-942",
+    "description": "Section '🔗 Liên kết & Tài nguyên' dùng marker nav riêng (↶ Trước / → Tiếp / ↑ Cluster) + sub-heading 'Trong cluster / Cross-reference / Tài nguyên ngoài', khác canonical. Checklist §C + Nhật ký lỗi (01/06) chốt: nav phải đồng bộ '⬅️ Bài trước / ➡️ Bài tiếp theo / ↑ Về cụm' + 3 sub-heading chuẩn '🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác'. Gold-standard Docker dùng đúng bộ này.",
+    "suggestedFix": "Đổi marker ↶→ thành ⬅️➡️; đổi 3 sub-heading sang bộ canonical (🧭/🧩/🌐). Không tự sửa hàng loạt vì cần Mr.Rom xác nhận áp đồng loạt cho cả AWS/GCP để consistency.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+    "category": "other",
+    "severity": "low",
+    "locator": "dòng 947 changelog: 'Pattern mirror AWS lesson 00.'; 01 dòng 764 'Mirror AWS EC2+EBS lesson.'; 02 dòng 868; 03 dòng 851; 04 dòng 967 'Hoàn thành Azure basic cluster 5/5.'",
+    "description": "Changelog của cả 5 bài chứa tham chiếu nội bộ quy trình tác giả ('Pattern mirror AWS lesson', 'Mirror AWS ... lesson') — lộ meta về cách dựng bài (mirror cụm khác). Theo memory feedback de-meta + changelog trung tính 'theo nội dung'. Mức nhẹ vì nằm trong changelog (không phải thân bài).",
+    "suggestedFix": "Bỏ cụm 'Pattern mirror AWS lesson 00' / 'Mirror AWS ... lesson' khỏi dòng changelog, giữ phần mô tả nội dung thực.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 158: bảng 'Data, messaging, AI' — '| **Azure OpenAI** | GPT-4 / Claude / DALL-E enterprise | Bedrock / Vertex AI Gemini |'",
+    "description": "Azure OpenAI Service KHÔNG cung cấp model Claude. Claude (Anthropic) phục vụ qua AWS Bedrock và Google Vertex AI, không qua Azure OpenAI. Azure OpenAI chỉ có model OpenAI (GPT-4/4o, o-series, DALL-E, embeddings). Đây là sai dịch vụ.",
+    "suggestedFix": "Sửa mô tả Azure OpenAI thành 'GPT-4o / o-series / DALL-E enterprise' (bỏ Claude). Nếu muốn nhắc Claude thì để ở cột Bedrock (AWS).",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 78: '- Suffix `p`: Ampere ARM (Cobalt 100) — rẻ hơn 30%, cần ARM-compatible binary.'",
+    "description": "Lẫn lộn vendor chip ARM của Azure. 'Cobalt 100' là CPU ARM do Microsoft tự thiết kế (Azure Cobalt), KHÔNG phải Ampere. Dòng VM ARM hiện hành tới 2026 là Dpsv5/Epsv5 chạy chip Ampere Altra, còn Cobalt 100 (Dpsv6/Epsv6) là chip Microsoft. Gộp 'Ampere ARM (Cobalt 100)' là sai — hai vendor khác nhau.",
+    "suggestedFix": "Tách rõ: 'Suffix `p`: ARM-based VM — Ampere Altra (Dpsv5/Epsv5) hoặc Microsoft Cobalt 100 (Dpsv6/Epsv6), rẻ hơn ~30-50%, cần ARM-compatible binary.' Bỏ cách viết 'Ampere ARM (Cobalt 100)'.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/01_virtual-machines-and-disks.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 91: 'E4s_v5  = 4 vCPU, 32 GB RAM (more RAM/vCPU ratio)' và dòng 97 'E có ratio 1 : 8'",
+    "description": "Ratio E-series không nhất quán: E4s_v5 ghi 4 vCPU / 32 GB = ratio 1:8 (đúng theo dòng 97). Nhưng thực tế E4s_v5 là 4 vCPU / 32 GiB → đúng. Cần đối chiếu: con số OK nhưng kiểm lại E-series Azure thực tế là 1 vCPU : 8 GiB — chính xác. (Đánh dấu để double-check, không phải lỗi cứng.) Ngược lại cần xác nhận B-series free tier: dòng 85 'B1s = 1 vCPU, 1 GB RAM, free tier' đúng.",
+    "suggestedFix": "Xác nhận lại bằng 'az vm list-sizes'/docs Azure VM sizes; nếu khớp thì giữ. Đây là cảnh báo nhẹ, ưu tiên thấp.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/03_azure-sql-and-cosmosdb.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 503-504: 'az sql server create ... --enable-public-network false  # Public disable, dùng Private Endpoint sau'",
+    "description": "Flag 'az sql server create' KHÔNG có '--enable-public-network'. Tham số đúng là '--enable-public-network true|false' chỉ tồn tại ở 'az sql server update'; khi create dùng '--enable-public-network' (bool) — nhưng giá trị truyền phải là 'false' rời (đúng), tuy nhiên comment inline tiếng Việt nằm cùng dòng lệnh nối tiếp có thể gây lỗi parse nếu copy. Quan trọng hơn: comment '# Public disable...' đặt trên cùng dòng có dấu '\\' ngầm — cần kiểm chứng cú pháp create chấp nhận flag này.",
+    "suggestedFix": "Đối chiếu 'az sql server create --help' (CLI 2.66+): xác nhận flag là '--enable-public-network {true,false}'. Bỏ comment inline tiếng Việt trên cùng dòng tham số (đưa xuống dòng riêng) để tránh hiểu nhầm/lỗi copy-paste.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/03_azure-sql-and-cosmosdb.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 522-523: 'az sql db create ... --backup-storage-redundancy Zone' rồi dòng 533-534 'az sql db update ... --backup-storage-redundancy Geo'",
+    "description": "backup-storage-redundancy đặt lúc create là 'Zone', sau đó update sang 'Geo'. Hành vi Azure: backup-storage-redundancy thường chỉ set được lúc create, đổi sau (Zone→Geo) qua 'az sql db update' bị hạn chế/không hỗ trợ với một số chuyển đổi. Mâu thuẫn nội dung: Bước 1 set Zone, Bước 2 lại update Geo cho cùng DB — gây nhầm hành vi thực.",
+    "suggestedFix": "Thống nhất: set 'Geo' ngay lúc create (Bước 1) hoặc giải thích rõ giới hạn chuyển đổi redundancy sau create. Đối chiếu docs az sql db update backup-storage-redundancy.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/03_azure-sql-and-cosmosdb.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 816: Glossary '**Autoscale** | RU/s scale 0.1x-1x max theo load |'",
+    "description": "Cosmos DB autoscale scale trong dải 10%-100% của max RU/s (0.1x → 1x). Ghi '0.1x-1x' đúng về mặt số, nhưng dòng 380 trong thân bài ghi 'Scale 400-4000 RU/s' (đúng 10x range). Cần đảm bảo nhất quán cách diễn đạt 10%–100%; '0.1x-1x' dễ gây hiểu là chỉ tới 1x ban đầu. Nhẹ.",
+    "suggestedFix": "Đổi Glossary thành 'Autoscale | RU/s tự scale trong dải 10%–100% của max (vd max 4000 → 400-4000 RU/s) |' cho rõ.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 781-783: 'SUB_KEY=$(az apim subscription show ... --query primaryKey -o tsv)' (có dấu '...' giữa lệnh)",
+    "description": "Lệnh lấy subscription key của APIM bị cắt bằng '...' — không chạy được như viết (thiếu --resource-group, --service-name, --subscription-id/--sid). Checklist §F cấm bỏ bước / dùng '...' trong lệnh hands-on. Người học copy sẽ fail.",
+    "suggestedFix": "Viết đủ lệnh thật, vd: 'az apim subscription show --resource-group rg-prod-pipeline --service-name apim-acmeshop-prod --sid <subscription-id> --query primaryKey -o tsv'; hoặc hướng dẫn lấy --sid từ 'az apim subscription list'.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 632: 'func init --python --worker-runtime python -m V2'",
+    "description": "Cú pháp 'func init' sai flag. Azure Functions Core Tools dùng '--model V2' (hoặc '-m V2') để chọn Python v2 programming model, KHÔNG có flag '--python' đứng riêng; runtime chọn bằng '--worker-runtime python'. Viết '--python --worker-runtime python' là thừa/sai. '-m V2' đúng nhưng đặt cạnh '--python' gây nhiễu.",
+    "suggestedFix": "Sửa thành 'func init --worker-runtime python --model V2' (bỏ '--python'). Đối chiếu 'func init --help' (Core Tools v4).",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 52: bảng decision — 'Max duration | 10 phút (Consumption) ...'",
+    "description": "Azure Functions Consumption plan max execution duration mặc định là 5 phút, cấu hình tối đa 10 phút (functionTimeout). Ghi '10 phút (Consumption)' là giá trị max cấu hình được, không phải default — dễ gây hiểu nhầm. Pitfall dòng 812 lại ghi 'Consumption max 10 phút' (nhất quán nội bộ nhưng vẫn là max, không phải default 5p).",
+    "suggestedFix": "Ghi rõ 'Consumption: default 5 phút, max 10 phút (functionTimeout)'. Đối chiếu docs Azure Functions scale-and-hosting.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/04_functions-and-app-service.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "dòng 942: '🔜 Intermediate (sắp viết): AKS, Bicep, ARM, Service Bus deep, Front Door + WAF, Cost optimization'",
+    "description": "Nhãn '(sắp viết)' cho cụm intermediate — chấp nhận được NẾU thực sự chưa có; cần xác nhận chưa tồn tại thư mục lessons/02_intermediate. Checklist §G cấm nhãn '(sắp viết)' cho bài ĐÃ tồn tại. Đã kiểm: azure chỉ có 01_basic, nên nhãn này hợp lệ. Báo cáo để theo dõi khi intermediate ra đời thì gỡ nhãn.",
+    "suggestedFix": "Giữ nguyên hiện tại (hợp lệ). Khi viết xong intermediate, gỡ '(sắp viết)' và thay bằng link thật.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/02_blob-storage-and-rbac.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 89-92: GRS/GZRS durability '99.99999999999999% (16 nines)' và ZRS '12 nines'",
+    "description": "Số 'nines' durability cần đối chiếu: Azure công bố LRS = 11 nines (đúng, dòng 87), ZRS = 12 nines (đúng), GRS/GZRS = 16 nines (đúng theo Microsoft). Tuy nhiên cột header ghi 'SLA durability' — đây là durability annual, không phải SLA (SLA availability khác). Dùng từ 'SLA durability' dễ nhầm với SLA uptime.",
+    "suggestedFix": "Đổi tên cột 'SLA durability' → 'Durability (năm)' để tách khỏi SLA availability. Số nines giữ nguyên (khớp Microsoft docs).",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/02_blob-storage-and-rbac.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 234-238: 'az storage blob generate-sas ... --expiry \"2026-05-24T15:00:00Z\"' (giá trị expiry quá khứ/cứng)",
+    "description": "expiry hard-code '2026-05-24T15:00:00Z' — ngày tạo bài. Người học chạy sau ngày này → SAS hết hạn ngay, curl fail. Nên dùng giá trị động (date +offset) thay vì timestamp cứng đã qua.",
+    "suggestedFix": "Dùng động: '--expiry \"$(date -u -v+1H +%Y-%m-%dT%H:%MZ)\"' (macOS) hoặc '--expiry \"$(date -u -d \"+1 hour\" +%Y-%m-%dT%H:%MZ)\"' (Linux), giống cách bài đã dùng MY_IP động.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/azure/lessons/01_basic/00_what-is-azure-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "Toàn bài: H2 dùng '1️⃣..8️⃣' + section đặc thù '🗺️ Beyond basic — Career paths' (dòng 865) và '💡 Câu hỏi beginner hay hỏi' (dòng 819) song song với '🧠 Tự kiểm tra'",
+    "description": "Bài 00 có 2 section dạng Q&A ('Câu hỏi beginner hay hỏi') tách rời '🧠 Tự kiểm tra (Self-check)', cộng section 'Beyond basic — Career paths'. Cấu trúc này hợp lý cho bài overview nhưng KHÁC khung 8 phần chuẩn (lessons khác trong cụm không có 'Câu hỏi beginner'). Đáng cân nhắc đưa vào blueprint: bài 00_overview của mỗi cụm cloud được phép có biến thể khung (Q&A + career paths) — để consistency cross-vendor (AWS/GCP bài 00 nên cùng kiểu).",
+    "suggestedFix": "Ghi vào blueprint: định nghĩa rõ khung cho bài '00_what-is-X-overview' (cho phép thêm 'Câu hỏi beginner' + 'Beyond basic') và áp đồng nhất cho AWS/GCP/Azure bài 00.",
+    "subcluster": "11_cloud/azure"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/02_spaces-object-storage-and-cdn.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 90: | Region | 4 region: `nyc3`, `sfo3`, `ams3`, `sgp1`, `fra1`, `syd1` |",
+    "description": "Tự mâu thuẫn: ghi '4 region' nhưng liệt kê 6 region (nyc3, sfo3, ams3, sgp1, fra1, syd1). Số đếm không khớp danh sách.",
+    "suggestedFix": "Sửa thành '6 region' cho khớp danh sách, hoặc rà lại danh sách region Spaces hiện hành 2026 trên docs.digitalocean.com rồi thống nhất số đếm với danh sách.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/04_app-platform-and-functions.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 73: | Region | 3 region (`nyc`, `ams`, `fra`, `sgp`, `sfo`, `blr`, `syd`) |",
+    "description": "Tự mâu thuẫn: ghi '3 region' nhưng liệt kê 7 region (nyc, ams, fra, sgp, sfo, blr, syd). Số đếm sai hoàn toàn so với danh sách.",
+    "suggestedFix": "Sửa số đếm cho khớp danh sách (7), hoặc đối chiếu danh sách region App Platform 2026 rồi đồng bộ số + danh sách.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/04_app-platform-and-functions.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 224: | **Max duration** | 15 phút (lâu hơn Lambda 15 phút cùng mức) |",
+    "description": "Câu chú thích vô nghĩa/tự mâu thuẫn: '15 phút (lâu hơn Lambda 15 phút cùng mức)'. Lambda và DO Functions đều ~15 phút thì không thể vừa 'lâu hơn' vừa 'cùng mức'.",
+    "suggestedFix": "Bỏ chú thích hoặc viết lại rõ: 'Tối đa 15 phút (tương đương AWS Lambda).' Kiểm tra lại giới hạn timeout Functions DO hiện hành (OpenWhisk action timeout) trước khi chốt con số.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 9: > **Prerequisites:** Đã xong [Cloud Fundamentals]...",
+    "description": "Field metadata lẫn tiếng Anh 'Prerequisites:' thay vì 'Yêu cầu trước:'. Toàn bộ 4 bài lessons (00-04) đều dùng 'Prerequisites:' — không đồng nhất với gold-standard và checklist mục B (tên field phải tiếng Việt). Gold-standard Docker dùng 'Yêu cầu trước:'.",
+    "suggestedFix": "Đổi 'Prerequisites:' -> 'Yêu cầu trước:' ở cả 4 bài (00,01,02,03,04). Đây là sửa cơ học nhưng nằm trong metadata header nên báo cáo để chốt 1 lượt.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 257 (Linux binary install): wget .../v1.104.0/doctl-1.104.0-linux-amd64.tar.gz",
+    "description": "doctl v1.104.0 là bản cũ (khoảng cuối 2023). Với mốc kiến thức 2026, version pinned trong lệnh install Linux binary lỗi thời; bài 01_buildkit gold-standard cũng nhắc nguyên tắc dùng version hiện hành.",
+    "suggestedFix": "Cập nhật sang bản doctl ổn định mới nhất 2026 (kiểm tra github.com/digitalocean/doctl/releases), hoặc dùng pattern lấy latest tự động thay vì pin số cứng dễ lỗi thời. Tối thiểu thêm chú thích 'thay bằng version mới nhất'.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 81: | K8s học tập | DOKS rẻ ($12 control plane free) |",
+    "description": "Câu '$12 control plane free' tối nghĩa/mâu thuẫn — control plane DOKS là FREE (xác nhận lại ở bài 04 dòng 295 'Control plane | Free'). '$12' có thể là nhầm với Load Balancer. Người đọc dễ hiểu sai control plane mất $12.",
+    "suggestedFix": "Sửa thành 'DOKS rẻ (control plane free, chỉ trả tiền worker node)'. Bỏ '$12' gây hiểu nhầm.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/04_app-platform-and-functions.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 357: So với EKS: $73 control plane chỉ tính tiền. DOKS rẻ hơn rõ.",
+    "description": "AWS EKS control plane là $0.10/giờ ≈ $73/tháng — con số đúng, nhưng câu 'chỉ tính tiền' cụt nghĩa (thiếu chữ, lỗi diễn đạt). Cần đối chiếu giá EKS 2026 (có thể đã đổi) và viết lại câu cho rõ.",
+    "suggestedFix": "Viết lại: 'So với EKS: riêng control plane đã ~$73/tháng (0.10 USD/giờ). DOKS miễn phí control plane nên rẻ hơn rõ.' Xác nhận lại giá EKS hiện hành.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 65: ...không có Lambda equivalent đầy đủ",
+    "description": "Mâu thuẫn nội bộ cluster: bài 00 (dòng 65) nói DO 'không có Lambda equivalent đầy đủ' và bảng dòng 102 ghi Functions analog Lambda; nhưng bài 04 (§3) dạy chi tiết DO Functions là serverless tương đương Lambda. Câu phủ định ở bài 00 dễ gây hiểu DO thiếu serverless, không nhất quán với bài 04.",
+    "suggestedFix": "Sửa câu bài 00 cho nhất quán: DO CÓ Functions (serverless, OpenWhisk) nhưng hệ sinh thái event-source/trigger kém phong phú hơn Lambda; bỏ ý 'không có equivalent đầy đủ' vì gây mâu thuẫn với bài 04.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/01_droplets-and-volumes.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 11 (lời dẫn) + 70 (§2 tiêu đề) + 15 (mục tiêu): '8 loại CPU'",
+    "description": "Đóng khung con số cứng '8 loại CPU' (checklist mục C cấm khung cứng số lượng). Liệt kê thực tế trong §2 là 6 nhóm A-F (Basic, General Purpose, CPU-Optimized, Memory-Optimized, Storage-Optimized, GPU); '8' đến từ việc tách Basic thành 3 sub-tier. Số 8 không khớp 6 mục đánh A-F.",
+    "suggestedFix": "Bỏ con số cứng: 'các nhóm Droplet CPU' hoặc 'họ Droplet (Shared vs Dedicated)'. Nếu giữ số thì phải khớp số mục thực liệt kê.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/01_droplets-and-volumes.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 138: | FastAPI staging | Basic Premium Intel | `s-2vcpu-2gb-intel` ($21) |",
+    "description": "Giá $21 cho s-2vcpu-2gb-intel không khớp cross-file: bài 00 bảng pricing (dòng 353) ghi s-2vcpu-2gb = $18, Premium +~20% => ~$21.6. Con số $21 là ước lượng tròn không có nguồn rõ; nên đối chiếu pricing thực 2026.",
+    "suggestedFix": "Đồng bộ với bảng pricing bài 00 (Basic $18 -> Premium ~$21-22) và ghi rõ '~$21' (ước lượng) hoặc tra giá thực. Đảm bảo nhất quán cross-file.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/03_managed-databases.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 561: ...Postgres max_connections=22 (Basic 1GB)...",
+    "description": "Con số max_connections=22 cho Basic 1GB rất cụ thể nhưng không có nguồn và dễ sai (DO thường cấp ~25 cho tier nhỏ, trừ vài connection reserve). Nếu sai sẽ gây hiểu nhầm khi tính pool size.",
+    "suggestedFix": "Xác minh max_connections thực của tier Basic 1GB trên docs DO Managed Postgres; ghi con số đúng hoặc dùng '~25 (trừ reserved)'.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "content-gap",
+    "severity": "medium",
+    "locator": "dòng 9 (header tất cả 4 bài lessons + bài 00)",
+    "description": "Header metadata thiếu cấu trúc gold-standard: bài 00 lời dẫn 🎯 nằm ngay sau header nhưng dùng block 🎯 italic thay vì alert box [!NOTE] Mục tiêu như gold-standard; mặt khác toàn bộ 5 bài đều v1.0.0 'Tạo' = 'Cập nhật' = 24/05/2026 (chưa qua vòng QA polish nào như Docker). Đây là dấu hiệu cluster chưa được polish QA — chưa có changelog entry sửa lỗi nào.",
+    "suggestedFix": "Sau khi áp các fix factual ở trên, bump version (v1.0.1+) và thêm dòng changelog cho mỗi bài. Cân nhắc thống nhất format lời dẫn mục tiêu với gold-standard (không bắt buộc nhưng tăng đồng nhất).",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "dòng 652-655 (mọi bài: section 'Trong cluster')",
+    "description": "Nav cross-file dùng marker '↶ Trước / → Tiếp / ↑ Cluster' và link text = slug filename ('01_droplets-and-volumes'), khác gold-standard basic dùng '⬅️ Bài trước / ➡️ Bài tiếp theo' + link text = tiêu đề thực ('Bài 01: ...'). Checklist mục J (Nhật ký lỗi 01/06) đã ghi nhận đúng vấn đề này cho cụm cloud.",
+    "suggestedFix": "Chuẩn hoá nav toàn cụm cloud: marker ⬅️/➡️/↑, link text = tiêu đề H1 thực của bài đích (vd 'Droplet + Block Storage Volumes — Compute cơ bản DO'). Áp cho README Quick start luôn (đang dùng slug). Đề xuất chốt 1 chuẩn nav trong _blueprint để mọi cụm theo.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/README.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 25-33: cột 'Thời lượng' (~15p..~22p) + dòng 33 'Tổng ~101 phút đọc'",
+    "description": "README còn field/cột 'Thời lượng' và tổng '~101 phút đọc'. Theo checklist mục B + Nhật ký lỗi 01/06, field 'Thời lượng đọc' đã bị bỏ TRIỆT ĐỂ toàn kho (kể cả bảng README/overview) do ước tính không chuẩn. Đây là residue chưa dọn.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng Lessons và bỏ dòng 'Tổng ~101 phút đọc + 6-8h hands-on' (hoặc giữ riêng phần hands-on nếu muốn, bỏ phần 'phút đọc'). Bump version README + changelog.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/README.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "dòng 15-19 (Quick start) + 27-31 (bảng Lessons)",
+    "description": "Link text trong README = slug filename ('00_what-is-digitalocean-overview') thay vì tiêu đề thực của bài. Checklist mục G yêu cầu link text/description khớp tiêu đề thực bài đích.",
+    "suggestedFix": "Đổi link text Quick start sang tiêu đề thực (vd 'DigitalOcean — Tổng quan + Team/Project + doctl CLI'). Bảng Lessons cột 'Bài' đã có tên ngắn ('DO overview') OK, nhưng Quick start nên dùng tiêu đề thực.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "11_cloud/digitalocean/lessons/01_basic/00_what-is-digitalocean-overview.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 200: Nhận **$200 free credit** trong 60 ngày (referral 2026).",
+    "description": "Ưu đãi free credit DO ($200/60 ngày) là thông tin marketing thay đổi liên tục theo thời điểm/khu vực; ghi cứng '$200 trong 60 ngày (referral 2026)' dễ lỗi thời và không phải ai cũng nhận đúng mức này.",
+    "suggestedFix": "Làm mềm: 'thường có free credit (mức + thời hạn thay đổi theo chương trình, xem trang signup)'. Tránh khẳng định con số cố định.",
+    "subcluster": "11_cloud/digitalocean"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-cloudflare-overview.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 130 + 355: \"5 GB storage, 5M row read/ngày\" / \"5 GB D1 + 5M reads/ngày\" — mâu thuẫn với 03_r2-and-d1-and-queues.md dòng 242 \"Database size | 500 MB\"",
+    "description": "D1 free-tier database size khai báo lệch giữa 2 bài: bài 00 ghi 5 GB, bài 03 ghi 500 MB. Theo Cloudflare docs 2026, free plan giới hạn 500 MB/database (5 GB là tổng dung lượng toàn account, không phải per-DB). Bài 00 nhầm lẫn per-DB với tổng account → con số 5 GB gây hiểu sai và phá vỡ tính nhất quán cross-file (checklist J).",
+    "suggestedFix": "Sửa bài 00 (dòng 130 + 355) thành \"500 MB/DB (5 GB tổng account), 5M row read/ngày\" để khớp bài 03; hoặc thống nhất 1 cách diễn đạt rõ per-DB vs total ở cả 2 bài. Đối chiếu lại với developers.cloudflare.com/d1/platform/pricing/ bản 2026.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/03_r2-and-d1-and-queues.md",
+    "category": "other",
+    "severity": "medium",
+    "locator": "dòng 854: \"**Triệu chextual**: Query 10k rows...\"",
+    "description": "Typo trong heading pitfall: \"Triệu chextual\" — sai chính tả, đúng phải là \"Triệu chứng\" (mọi pitfall khác trong cụm đều dùng \"Triệu chứng\"). Lỗi prose nên chỉ báo cáo, không tự sửa.",
+    "suggestedFix": "Đổi \"**Triệu chextual**:\" → \"**Triệu chứng**:\" tại dòng 854.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/02_workers-and-pages.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 52: bảng Workers vs Lambda, cột \"CPU limit\" | AWS Lambda \"15 phút (configurable)\"",
+    "description": "Mislabel: 15 phút của Lambda là wall-clock execution timeout (thời gian chạy tối đa), KHÔNG phải CPU-time limit. Đặt nó cùng hàng \"CPU limit\" với \"30s\" của Workers (vốn là CPU-time thật) là so sánh sai bản chất — Lambda không giới hạn CPU-time riêng, chỉ giới hạn tổng thời gian chạy.",
+    "suggestedFix": "Tách thành 2 hàng: \"Execution timeout\" (Lambda 15 phút / Workers — wall-clock) và \"CPU time limit\" (Lambda: không giới hạn riêng / Workers: 30s paid). Hoặc đổi nhãn hàng thành \"Thời gian chạy tối đa\" và chú thích Workers tính theo CPU-time.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/02_workers-and-pages.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 21, 31, 52, 154-162 (bảng limits), 725-734; và 00 dòng 81/126/635",
+    "description": "Claim \"Workers free tier = 10ms CPU/request\" lặp nhất quán toàn cụm. Cần đối chiếu bản 2026: Cloudflare đã nâng/bỏ giới hạn 10ms cho free tier (thay đổi 2024) và CPU limit paid có thể cấu hình lên tới 5 phút (300s), không cố định 30s. Vì sát knowledge cutoff nên flag để verify, không khẳng định chắc.",
+    "suggestedFix": "Kiểm tra developers.cloudflare.com/workers/platform/limits/ (CPU time) bản 2026. Nếu free tier đã bỏ mốc 10ms hoặc paid đã lên 5 phút → cập nhật đồng loạt cột limits ở bài 00 + 02 + pitfall \"Vượt 10ms CPU\". Giữ nhất quán cross-file sau khi sửa.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "README.md",
+    "category": "content-gap",
+    "severity": "medium",
+    "locator": "dòng 25-33: cột \"Thời lượng\" + \"~17p..~22p\" + \"→ Tổng ~103 phút đọc\"",
+    "description": "README còn giữ field \"Thời lượng đọc\" (cột + dòng tổng 103 phút) — field này đã bị bỏ toàn kho ngày 01/06 theo checklist (ước tính không chuẩn, chỉ thêm lỗi). Các bài lesson đã bỏ đúng, nhưng README chưa đồng bộ → bất nhất với policy + với metadata bài.",
+    "suggestedFix": "Xoá cột \"Thời lượng\" trong bảng Lessons và dòng \"→ Tổng ~103 phút đọc + 6-8h hands-on\" (giữ phần hands-on nếu muốn: \"→ ~6-8h hands-on\"). Bump version README + thêm dòng changelog.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-cloudflare-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 9 (và 01/02/03/04 cùng dòng 9): \"> **Prerequisites:** ...\"",
+    "description": "Field metadata dùng tên tiếng Anh \"Prerequisites\" thay vì canonical \"Yêu cầu trước\" (checklist B + đã ghi trong Nhật ký lỗi mới 01/06). Cả 5 bài đều mắc — không đồng nhất với gold standard Docker (\"Yêu cầu trước\").",
+    "suggestedFix": "Đổi \"**Prerequisites:**\" → \"**Yêu cầu trước:**\" ở cả 5 bài (dòng 9 mỗi bài). Là field metadata trong block-quote, không phải code → an toàn đổi nhưng thuộc prose nên báo cáo để Mr.Rom duyệt batch.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-cloudflare-overview.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "nhiều fence: vd dòng 154, 183, 247, 305, 376, 386, 415 (bài 00) và tương tự bài 01/02/04 — block hierarchy tree / output / config dạng plaintext",
+    "description": "Hàng loạt code fence mở dạng bare ``` không gắn ngôn ngữ (MD040) cho block sơ đồ cây thư mục, output, config — checklist E yêu cầu mọi fence có ngôn ngữ (dùng `text` cho output/diagram). Pattern lặp toàn cụm.",
+    "suggestedFix": "Gắn ngôn ngữ cho các fence bare: `text` cho cây thư mục/diagram/output, `toml`/`yaml`/`bash` cho config/lệnh tương ứng. Soát từng bare-fence (đã liệt kê line numbers qua awk scan).",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-cloudflare-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "toàn cụm — phần \"🔗 Liên kết & Tài nguyên\" và nav markers (vd 00 dòng 697-706, 01 dòng 711-714, 02 dòng 893-896)",
+    "description": "Nav dùng marker riêng (↶/→/↑) + link text = tên file slug (vd [01_cdn-dns-and-ssl]) khác gold standard basic (⬅️/➡️ + tiêu đề thật của bài). Sub-heading dưới 🔗 cũng không theo chuẩn 3-sub (🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác) — cụm dùng \"Trong cluster / Cross-reference / Tài nguyên ngoài\". Đây là deviation cluster-wide đã ghi trong checklist; nên chốt ở blueprint rồi đồng bộ.",
+    "suggestedFix": "Chuẩn hoá nav theo gold standard: ⬅️/➡️ + link text = H1 thật của bài đích (vd \"Cloudflare CDN + DNS + SSL — Foundation của edge\" thay vì \"01_cdn-dns-and-ssl\"); đổi 3 sub-heading 🔗 sang bộ canonical. Cập nhật Blueprint nav-spec nếu muốn giữ kiểu hiện tại làm chuẩn mới (cần quyết định ở _blueprint).",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "README.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "dòng 50-53: changelog README",
+    "description": "Changelog README dùng \"v0.1.0 → v1.0.0\" (thứ tự tăng dần OK) nhưng metadata header README ghi Phiên bản v1.0.0 — đồng bộ. Tuy nhiên README thiếu sub-heading 🔗 chuẩn 3-phần và dùng \"## 🚀 Quick start\" + \"## 📖 Lessons\" (OK cho README cụm). Không phải lỗi nặng, chỉ lưu ý README dùng emoji marker khác bộ canonical lesson — chấp nhận được cho README.",
+    "suggestedFix": "Không bắt buộc sửa; nếu muốn nhất quán emoji marker toàn kho, cân nhắc map \"🚀 Quick start\" theo chuẩn README cụm của kho. Ưu tiên thấp.",
+    "subcluster": "11_cloud/cloudflare"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/02_event-driven-and-triggers.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "dòng 620-627 (Cách 2: Stateful natural key, ddb.update_item)",
+    "description": "Lời gọi ddb.update_item truyền kwarg ExpressionAttributeValues HAI LẦN (dòng 624 {':s':'PAID'} và dòng 626 {':paid':'PAID'}). Python chỉ giữ kwarg cuối → ':s' bị mất → UpdateExpression='SET status = :s' tham chiếu placeholder không tồn tại → boto3 raise ValidationException ngay. Ngoài ra 'status' là reserved word của DynamoDB nên dùng trực tiếp trong UpdateExpression/ConditionExpression cũng lỗi (cần ExpressionAttributeNames).",
+    "suggestedFix": "Gộp thành 1 dict: ExpressionAttributeValues={':s':'PAID', ':paid':'PAID'}; đổi tên field reserved: UpdateExpression='SET #st = :s', ConditionExpression='#st <> :paid', thêm ExpressionAttributeNames={'#st':'status'}.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 49 (bảng pricing): GCP Cloud Functions Gen2 ... $0.0000024/vCPU-s",
+    "description": "Giá vCPU-s của Cloud Functions Gen2 ghi $0.0000024 trong khi dòng 50 (Cloud Run) ghi $0.000024 — lệch 10x. Note cùng dòng nói 'Gen2 tính như Cloud Run' nên hai con số phải bằng nhau. Giá đúng (request-based, 2026) là ~$0.000024/vCPU-s. Đây là lỗi thiếu 1 số 0.",
+    "suggestedFix": "Sửa Gen2 thành $0.000024/vCPU-s cho khớp Cloud Run (và khớp với note 'tính như Cloud Run').",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 42, 52, 71, 74 vs file 00 dòng 223 vs file 01 dòng 348/758/912",
+    "description": "Giới hạn CPU của Cloudflare Workers KHÔNG nhất quán cross-file: file 04 dùng '50ms CPU limit standard' (dòng 42/52/71/74); file 00 dòng 223 dùng '10ms free, 30s paid'; file 00 dòng 463/472/528 và file 01 dòng 348/758/912 dùng '30s CPU'. Một bài bảo 50ms, bài khác bảo 30s — người học không biết tin số nào. Thực tế hiện hành: Paid plan (Standard) mặc định ~30s CPU/request (cấu hình được tới 5 phút), free plan từng là 10ms rồi được nâng. Con '50ms' ở file 04 là lỗi/cũ.",
+    "suggestedFix": "Chốt 1 con số canonical cho toàn cụm: paid/Standard = 'tới 30s CPU/request' (free ~10ms lịch sử). Sửa file 04 (dòng 42/52/71/74) bỏ '50ms', thay bằng '30s CPU (Standard)'. Đồng bộ cả 3 bài.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/README.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 25-33: cột 'Thời lượng' (~17p/20p/22p) + dòng 33 'Tổng ~103 phút đọc'",
+    "description": "README còn cột 'Thời lượng' + tổng '~103 phút đọc' — field 'Thời lượng đọc' đã bị bỏ toàn kho ngày 01/06 (ước tính không chuẩn, chỉ thêm lỗi) theo checklist mục B và Nhật ký lỗi 01/06.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng Lessons và xoá vế '~103 phút đọc' ở dòng tổng (giữ lại '6-8h hands-on' nếu muốn).",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+    "category": "other",
+    "severity": "high",
+    "locator": "dòng 11 (block 🎯): 'Bài mở màn cluster Serverless vendor-neutral'; dòng 46 'vendor-neutral, không bias'; dòng 9 field 'Prerequisites'",
+    "description": "Lộ meta nội bộ trong thân bài: 'vendor-neutral concept cluster', 'không bias' là ngôn ngữ mô tả thiết kế cụm (cho người viết kho), thuộc vùng cấm de-meta của file học (checklist mục H). README (dòng 9) cũng nhắc 'vendor-neutral concept cluster'.",
+    "suggestedFix": "Viết lại block dẫn theo hướng nói trực tiếp với người học (vd 'Bài mở màn về serverless. Sau bài này bạn...'), bỏ cụm 'vendor-neutral cluster/không bias' khỏi thân bài và README.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+    "category": "content-gap",
+    "severity": "medium",
+    "locator": "dòng 7 metadata: 'Level: Basic (bài 04/5)'",
+    "description": "Field Level nhồi thêm '(bài 04/5)' — không đúng quy ước metadata (Level chỉ chứa cấp độ Basic/Intermediate/Advanced). Vị trí trong chuỗi đã thể hiện qua số thứ tự file + nav. Các bài 00-03 không có hậu tố này → bất nhất nội cụm.",
+    "suggestedFix": "Sửa 'Level: Basic (bài 04/5)' → 'Level: Basic' cho khớp 4 bài còn lại.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/README.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 31: cột Trọng tâm bài 04 '... + 6-layer guardrail + 30-item checklist'",
+    "description": "Mô tả bài 04 trong README sai so với nội dung thực: file 04 KHÔNG có '6-layer guardrail' và KHÔNG có '30-item checklist' (Self-check chỉ 8 mục, Pitfall 8 mục). Marker/desc README phải khớp file thực (checklist mục J).",
+    "suggestedFix": "Sửa trọng tâm bài 04 thành đúng nội dung: 'Pricing 4 vendor + break-even + hidden cost (NAT/egress/log) + cold start mitigation + 3 pillars observability + hands-on audit bill'.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/03_serverless-patterns-and-anti-patterns.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 26: 'Acme Shop có 5 feature cần build:' rồi liệt kê 1-8",
+    "description": "Câu mở nói '5 feature' nhưng danh sách ngay dưới có 8 mục (1-8), và bảng map cuối bài (dòng 443-452) cũng map đủ 8. Con số '5' sai.",
+    "suggestedFix": "Sửa 'có 5 feature' → 'có 8 feature' (hoặc bỏ con số: 'có loạt feature cần build').",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 434/440/446/452/458/464/470/476: '### 1.' ... '### 8.'",
+    "description": "Trong section '## 💡 Cạm bẫy thường gặp & Best practice', 8 cạm bẫy dùng H3 đánh số '### 1. ...' thay vì convention '### ❌ Cạm bẫy: ...' / '### ✅ Best practice: ...' như gold standard (Docker) và các bài 00-02 cùng cụm. Bất nhất nội cụm. (Không tự sửa vì là đổi cấu trúc nội dung, không phải rename 1:1 heading framework.)",
+    "suggestedFix": "Đổi 8 H3 thành '### ❌ Cạm bẫy: <tên>' cho thống nhất; nếu có best practice thì tách '### ✅ Best practice: ...'.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/04_serverless-cost-cold-start-and-observability.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 499-516: bảng Glossary header '| Term | Vietnamese / Explanation |'",
+    "description": "Header bảng Glossary dùng 'Term | Vietnamese / Explanation' (2 cột, EN) trong khi bài 00/01/02 dùng '| EN | VN | Giải thích |' (3 cột). Bất nhất cross-file (checklist mục C/J). Lưu ý đây là điểm 'CẦN QUYẾT Ở BLUEPRINT' đã ghi trong Nhật ký lỗi 01/06.",
+    "suggestedFix": "Đồng bộ header Glossary toàn cụm thành '| EN | VN | Giải thích |' (3 cột) như bài 00-02; tách cột VN và Giải thích cho file 04.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 9 các bài 00-03: '**Prerequisites:**'",
+    "description": "Field metadata dùng 'Prerequisites' (EN) thay vì 'Yêu cầu trước' (VN) — checklist mục B yêu cầu tên field tiếng Việt, đồng nhất toàn cụm (gold standard Docker dùng 'Yêu cầu trước'). Bị ở cả 5 bài (00 dòng 9, 01 dòng 9, 02 dòng 9, 03 dòng 9, 04 dòng 9).",
+    "suggestedFix": "Đổi '**Prerequisites:**' → '**Yêu cầu trước:**' ở cả 5 bài.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/README.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 7: '**Status:** ✅ Basic cluster hoàn chỉnh (5/5 bài)'",
+    "description": "File README cluster dùng field metadata 'Status' (EN) — không thuộc bộ field chuẩn (Tác giả/Phiên bản/Tạo lúc/Cập nhật/Level/Tags/Yêu cầu trước). README cluster vốn không cần field Status; nếu muốn thể hiện tiến độ nên đưa vào bảng Lessons (marker ✅/🚧).",
+    "suggestedFix": "Bỏ field 'Status' khỏi metadata README, hoặc Việt hoá thành '**Trạng thái:**' nếu blueprint cho phép; trạng thái 5/5 đã thể hiện ở tiêu đề mục Lessons.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "nhiều block ```text thiếu: file 00 (4 bare fence), 01 (7), 02 (7), 03 (6), 04 (2)",
+    "description": "Tổng ~26 code fence cho ASCII diagram / decision tree / timeline lịch sử / log output đang để fence trần (``` không kèm ngôn ngữ) → vi phạm MD040 (checklist mục E, Nhật ký lỗi 01/06: mọi fence phải có ngôn ngữ, dùng `text` cho output/diagram).",
+    "suggestedFix": "Thêm 'text' sau ``` mở cho các block diagram/timeline/log/decision-tree (vd dòng 76, 317 file 00; các block 'Cold path/Warm path', execution model... ở 01/02/03/04).",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "toàn cụm: line-break metadata dùng '\\' ; gold basic 00_what-is-docker.md dùng 2-space",
+    "description": "Cụm serverless dùng backslash '\\' cuối dòng metadata (nhất quán nội cụm, giống gold intermediate buildkit) trong khi gold basic 00_what-is-docker.md dùng 2-space trailing. Checklist mục B cho phép cả hai miễn 'cả file đồng nhất' — cụm này ĐÃ đồng nhất nên KHÔNG phải lỗi, chỉ nêu để blueprint chốt 1 kiểu chung toàn kho tránh tranh cãi về sau.",
+    "suggestedFix": "Không bắt buộc sửa. Đề xuất blueprint chốt dùng '\\' (rõ ràng hơn, không bị editor trim) làm chuẩn line-break metadata toàn kho.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/serverless/lessons/01_basic/00_what-is-serverless-overview.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "dòng 544 Glossary: 'V8 isolate ... nhẹ hơn 1000x'",
+    "description": "Con số 'nhẹ hơn 1000x' so với container không có nguồn xác định, là khẳng định định lượng tuyệt đối dễ sai. Footprint isolate (~vài MB) vs container (~chục-trăm MB) chênh khoảng 1-2 bậc tuỳ workload, không phải hằng số 1000x.",
+    "suggestedFix": "Mềm hoá: 'nhẹ hơn nhiều (footprint chỉ vài MB/isolate so với hàng chục-trăm MB của container)' thay vì con số '1000x' cứng.",
+    "subcluster": "11_cloud/serverless"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/README.md",
+    "category": "content-gap",
+    "severity": "high",
+    "locator": "dòng 25-33: cột '| ... | Thời lượng |' với ~17p/~20p/~22p và dòng 33 'Tổng ~103 phút đọc + 6-8h hands-on'",
+    "description": "Field/cột 'Thời lượng đọc' đã bị bỏ toàn kho ngày 01/06 (theo checklist mục B và Nhật ký lỗi mới: ước tính không chuẩn → loại bỏ khỏi metadata + bảng README/overview). README cụm này vẫn còn cột Thời lượng + tổng phút đọc.",
+    "suggestedFix": "Xoá cột 'Thời lượng' khỏi bảng Lessons và xoá dòng 'Tổng ~103 phút đọc'; giữ '6-8h hands-on' nếu muốn (hoặc bỏ luôn cho nhất quán). Bump version README + thêm changelog.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "dòng 113-114 (bài 00) vs 04_disaster-recovery...md dòng 173-174",
+    "description": "Cross-file số liệu mâu thuẫn về nguồn: bài 00 gán '89% enterprise đang multi-cloud' cho 'Flexera 2026 State of Cloud Report'; bài 04 gán cùng con số '89% enterprise multi-cloud' cho 'Gartner 2025 survey'. Cùng 1 số liệu nhưng 2 nguồn khác nhau → sai attribution, vi phạm cross-file consistency. Ngoài ra 'Gartner Magic Quadrant' (dòng 114) là báo cáo đánh giá vendor, KHÔNG phải report dự báo thị phần multi-cloud — trích 'By 2027 75% will use 2+ public cloud' gán cho Magic Quadrant là sai loại report (số liệu này thường thuộc Gartner Predicts/forecast).",
+    "suggestedFix": "Thống nhất 1 nguồn cho con số 89% (chọn Flexera HOẶC Gartner, dùng nhất quán cả 2 bài). Sửa 'Gartner Magic Quadrant 2026' → tên report dự báo đúng (vd 'Gartner Predicts' / forecast) hoặc bỏ trích dẫn cụ thể nếu không verify được. Đối chiếu lại với nguồn gốc trước khi chốt số.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 9: '> **Prerequisites:**' (và 4 bài còn lại đều dùng Prerequisites)",
+    "description": "Field metadata dùng tiếng Anh 'Prerequisites' thay vì 'Yêu cầu trước' (checklist mục B yêu cầu tên field tiếng Việt, đồng nhất toàn cụm; gold standard 00_what-is-docker.md dùng 'Yêu cầu trước'). Lỗi xuất hiện ở cả 5 bài (00,01,02,03,04 — dòng 9 mỗi bài).",
+    "suggestedFix": "Đổi '**Prerequisites:**' → '**Yêu cầu trước:**' ở metadata block của cả 5 bài. (Không tự sửa vì là 5 file đồng loạt + cần bump version từng bài — để Mr.Rom xử lý nhất quán.)",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/02_multi-cloud-network-and-identity.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "dòng 748: '→ Rule of thumb: TGV cost-benefit cross at ~5 TB/tháng'",
+    "description": "Typo factual: 'TGV' (tàu cao tốc Pháp Train à Grande Vitesse) không liên quan ngữ cảnh. Ý định là so sánh Megaport (dedicated interconnect) vs Site-to-site VPN. 'TGV' nhiều khả năng là gõ nhầm.",
+    "suggestedFix": "Sửa 'TGV cost-benefit cross at ~5 TB/tháng — trên đó Megaport rẻ hơn' → 'Điểm hoà vốn Megaport vs VPN ở ~5 TB/tháng — trên ngưỡng này Megaport rẻ hơn dù setup phí cao'.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/03_kubernetes-multi-cloud-and-anthos-arc.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 213: '- Mature (graduated CNCF 2024).' (mục Cluster API)",
+    "description": "Cluster API (CAPI) là sub-project của Kubernetes SIG Cluster Lifecycle, KHÔNG phải dự án CNCF và không có trạng thái 'graduated' theo CNCF maturity model (Sandbox/Incubating/Graduated). Câu này gây hiểu sai về tư cách dự án. (Lưu ý nhất quán nội cụm: bài cũng gọi CAPI/Karmada là 'CNCF' ở Glossary — Karmada đúng là CNCF Sandbox/Incubating, nhưng CAPI thì thuộc K8s SIG.)",
+    "suggestedFix": "Sửa thành 'Mature (Kubernetes SIG Cluster Lifecycle project, ổn định/production-ready từ v1beta1)'. Bỏ cụm 'graduated CNCF 2024'. Rà lại nhãn '(CNCF)' cho CAPI ở Glossary dòng 937.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 343 'dig api.acmeshop.vn'; dòng 423 'name = \"api.acmeshop.vn\"'; dòng 448 'curl ... https://api.acmeshop.vn/healthz'",
+    "description": "Domain không nhất quán cross-file: bài 00-03 dùng 'acmeshop.io' xuyên suốt (23 lần); bài 04 trộn 'acmeshop.vn' (3 lần) trong runbook + Terraform Cloudflare LB + curl test. Cùng 1 công ty fictional Acme Shop nhưng 2 domain khác nhau gây rối khi đọc liên tục.",
+    "suggestedFix": "Đổi 3 chỗ 'acmeshop.vn' → 'acmeshop.io' để khớp 4 bài còn lại (hoặc ngược lại, miễn nhất quán toàn cụm).",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+    "category": "content-gap",
+    "severity": "medium",
+    "locator": "dòng 505-515: '## 🧠 Tự kiểm tra (Self-check)' theo sau là 8 dòng '- [ ] ...'",
+    "description": "Self-check bài 04 chỉ là checklist câu hỏi trống, KHÔNG có đáp án <details>. Ba bài 00/01/02/03 đều dùng định dạng Q&A có đáp án (Q1..Q5 + <details>💡 Đáp án). Bài 04 lệch định dạng → người học không tự đối chiếu được, cụt so với phần còn lại của cụm.",
+    "suggestedFix": "Viết lại Self-check bài 04 thành 5 câu Q&A có <details>💡 Đáp án (RTO/RPO, chọn DR pattern cho Tier 1, multi-cloud DR vs multi-region, kịch bản team 5 dev chọn architecture pattern, đọc replication lag → RPO thực tế) — đồng bộ với 4 bài kia.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 520: '| Term | Vietnamese / Explanation |' (Glossary 2 cột)",
+    "description": "Header bảng Glossary bài 04 dùng 2 cột tiếng Anh 'Term | Vietnamese / Explanation', lệch chuẩn 3 cột '| EN | VN | Giải thích |' mà bài 00/01/02/03 đều dùng (checklist mục C + J). KHÔNG sửa header bảng tự động vì cần tái cấu trúc dữ liệu (tách cột VN và Giải thích).",
+    "suggestedFix": "Đổi sang 3 cột '| EN | VN | Giải thích |' và tách dữ liệu mỗi dòng cho khớp 3 bài đầu (vd RTO | Mục tiêu thời gian khôi phục | bao lâu online lại). Bump version + changelog.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 455-501: '### 1. DR site không bao giờ test' ... '### 8. Forget backup test restore' với '**Bẫy**:' / '**Fix**:'",
+    "description": "Phần Pitfall bài 04 dùng H3 đánh số '### 1...### 8' + nhãn '**Bẫy**/**Fix**', lệch chuẩn cụm '### ❌ Cạm bẫy N: ...' / '### ✅ Best practice N: ...' với bullet 'Triệu chứng/Nguyên nhân/Cách tránh' mà bài 00/01/02/03 dùng. Đây là phần nội dung (không phải heading framework H2) nên không tự sửa.",
+    "suggestedFix": "Chuyển sang định dạng '### ❌ Cạm bẫy N: <tên>' (Triệu chứng/Nguyên nhân/Cách tránh) + tách 2-3 '### ✅ Best practice N:' cho đồng bộ 4 bài còn lại.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/02_multi-cloud-network-and-identity.md",
+    "category": "broken-link",
+    "severity": "medium",
+    "locator": "dòng 873: '🔐 [Identity & Access](../../../../09_Security/iam/) — federated identity deep'",
+    "description": "Link gãy: top-level đúng là '12_security' (không phải '09_Security' — 09 là 09_architecture), và KHÔNG có subfolder 'iam'. Các thư mục security thực tế: 12_security/cloud-security, 12_security/container-security. Không có target tên 'iam' chắc chắn → không tự đoán/sửa.",
+    "suggestedFix": "Trỏ về target tồn tại phù hợp: '../../../../12_security/cloud-security/' (identity/access cross-cloud) hoặc bỏ link nếu chưa có bài IAM. Cần Mr.Rom xác nhận đích.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/README.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 7 '> **Status:** ✅ Basic cluster hoàn chỉnh (5/5 bài)'; dòng 9 mô tả '🎯 *Multi-cloud — strategic + architectural cluster...*'; lessons dòng 7 'Level: Basic (bài NN/5)'",
+    "description": "Metadata lộ ngôn ngữ nội bộ/tiến độ build: 'Status: Basic cluster hoàn chỉnh (5/5 bài)', mô tả README chứa câu telegraphic EN '*strategic + architectural cluster. Vendor lock-in, portability...*' (kiểu ghi chú cho chính mình), và Level '(bài NN/5)' trong lessons. Đây là dấu vết meta tiến độ/sản xuất, không phải audience-facing.",
+    "suggestedFix": "README: bỏ field 'Status' (hoặc đổi sang mô tả audience-facing), viết lại dòng mô tả 🎯 thành câu tiếng Việt giới thiệu chủ đề cho người đọc. Lessons: cân nhắc rút '(bài NN/5)' khỏi Level (số thứ tự đã có trong nav/tên file).",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/README.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 39 '- ↑ [11_cloud README](../README.md)' (mục 🔗 Liên kết)",
+    "description": "Nav marker README dùng '↑' + link text là tên file/slug, lệch chuẩn nav gold standard ('⬅️ Bài trước / ➡️ Bài tiếp' + link text = tiêu đề thực). Trong lessons cũng dùng marker riêng '↶/→/↑' (bài 00 dòng 535-537, bài 04 dòng 544-545) thay vì '⬅️/➡️' — xem finding riêng bên dưới.",
+    "suggestedFix": "Chuẩn hoá marker nav toàn cụm về '⬅️/➡️' và link text = tiêu đề thực của bài đích (theo checklist mục J).",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "bài 00 dòng 535-537 '→ Tiếp / ↑ Cluster / ↶ Foundation'; bài 01 dòng 909-911; bài 04 dòng 544-545 '↶ Trước / ↑ Cluster'",
+    "description": "Nav marker không nhất quán với gold standard: cụm dùng '→ / ↑ / ↶' thay vì '⬅️ Bài trước / ➡️ Bài tiếp theo'. Đồng thời link text dùng tên file (vd '01_vendor-lock-in-and-portability.md') thay vì tiêu đề thực của bài đích (checklist mục G/J: link text = tiêu đề thực).",
+    "suggestedFix": "Đổi toàn bộ nav trong cluster sang '⬅️ **Bài trước:** [<tiêu đề thực>](...)' và '➡️ **Bài tiếp theo:** [<tiêu đề thực>](...)'; thay link text từ tên file sang H1 thực của bài đích.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/04_disaster-recovery-and-architecture-patterns.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "21 fence mở thiếu ngôn ngữ: bài 01 (dòng 76,205,428,639,870), bài 02 (155,179,625), bài 03 (52,586,781,908,919), bài 04 (72,87,103,118,184,196,210,225)",
+    "description": "Nhiều code fence mở bằng ``` trần (không có ngôn ngữ) cho block ASCII diagram / cây thư mục / output mẫu (MD040). Checklist mục E yêu cầu mọi fence có ngôn ngữ ('text' cho output/diagram). Bài 00 sạch (0), bài 04 nhiều nhất (8).",
+    "suggestedFix": "Thêm 'text' (hoặc 'console' cho output lệnh) vào fence mở của các block ASCII/diagram/tree/output đã liệt kê. Đây là fix cơ học nhưng nằm trong code block nên để Mr.Rom rà từng block cho đúng ngữ cảnh.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "11_cloud/multi-cloud-strategies/lessons/01_basic/00_what-is-multi-cloud-overview.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "toàn cụm: các bảng/ẩn dụ chèn cụm EN telegraphic ('best-of-breed', 'lift and shift mindset', 'multi-cloud for multi-cloud sake', 'data gravity') chưa Việt hoá/giải thích lần đầu",
+    "description": "Cụm dùng rất nhiều chuỗi thuật ngữ EN liên tiếp (mục A 'điện tín') chưa giải thích trong ngoặc lần đầu trong thân bài (vd 'best-of-breed', 'accidental multi-cloud', 'data gravity', 'pilot light' xuất hiện trước khi định nghĩa). Phần lớn có trong Glossary cuối bài nhưng không giải thích inline lần đầu dùng. Mật độ EN cao hơn gold standard Docker.",
+    "suggestedFix": "Blueprint: bổ sung guideline 'giải thích EN trong ngoặc ngay lần đầu trong thân bài, không chỉ dồn xuống Glossary' cho cụm cloud/devops nhiều thuật ngữ. Với cụm này: rà các thuật ngữ đắt (best-of-breed, data gravity, pilot light, warm standby) thêm 1 cụm Việt hoá lần đầu.",
+    "subcluster": "11_cloud/multi-cloud-strategies (01_basic, 5 lessons + README)"
+  },
+  {
+    "file": "lessons/01_basic/02_tagging-allocation-and-showback.md",
+    "category": "content-gap",
+    "severity": "high",
+    "locator": "dòng 600: <parameter name=\"content_continue\">",
+    "description": "Tag rác artifact của lần sửa trước lọt vào giữa Self-check Q3 (giữa câu hỏi và block <details> đáp án). Là HTML/tag thừa không hợp lệ, làm vỡ render và phá cấu trúc Q3. Đúng loại lỗi checklist mục E đã ghi nhận (<parameter…> artifact).",
+    "suggestedFix": "Xóa nguyên dòng 600 `<parameter name=\"content_continue\">` (và dòng trống dư nếu có) để Q3 nối liền câu hỏi → block <details>.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-finops-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "dòng 9: **Prerequisites:**",
+    "description": "Field metadata dùng tên tiếng Anh `**Prerequisites:**` thay vì tiếng Việt chuẩn `**Yêu cầu trước:**` (gold-standard Docker dùng 'Yêu cầu trước'). Lỗi lặp lại ở cả 5 bài lesson (00,01,02,03,04 đều dòng 9). Checklist mục B yêu cầu field metadata tiếng Việt đồng nhất toàn cụm.",
+    "suggestedFix": "Đổi `**Prerequisites:**` → `**Yêu cầu trước:**` ở dòng 9 của cả 5 file lesson (00/01/02/03/04).",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-finops-overview.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "dòng 442 '### Trong cluster', 446 '### Cross-reference', 451 '### Tài nguyên ngoài 2026'",
+    "description": "Sub-heading trong '## 🔗 Liên kết & Tài nguyên' KHÔNG khớp 3 sub canonical của blueprint (`### 🧭 Định hướng lộ trình học` / `### 🧩 Các chủ đề có thể bạn quan tâm` / `### 🌐 Tài nguyên tham khảo khác`). Lỗi lặp lại ở cả 5 bài lesson (00: 442/446/451; 01: 606/611/615; 02: 700/705/709; 03: 719/724/729; 04: 940/944/948). Không tự sửa vì không thuộc 3 loại heading mechanical-fix được phép.",
+    "suggestedFix": "Chuẩn hóa 3 sub-heading về canonical: gộp 'Trong cluster' (nav bài trước/tiếp/về cụm) vào `### 🧭 Định hướng lộ trình học`, 'Cross-reference' vào `### 🧩 Các chủ đề có thể bạn quan tâm`, 'Tài nguyên ngoài 2026' → `### 🌐 Tài nguyên tham khảo khác`. Áp đồng loạt 5 file.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/01_pricing-models-deep.md",
+    "category": "non-canonical-heading",
+    "severity": "medium",
+    "locator": "dòng 607 '↶ Trước', 608 '→ Tiếp', 609 '↑ Cluster'; link text = tên file .md",
+    "description": "Nav marker không đồng bộ gold-standard: dùng `↶/→/↑` thay vì `⬅️ Bài trước / ➡️ Bài tiếp theo / ↑ Về cụm`, và link text là tên file `.md` thô (vd `[00_what-is-finops-overview.md]`) thay vì tiêu đề thật của bài đích. Checklist mục J: nav phải đồng bộ kiểu marker + link text = tiêu đề thực. Lặp ở bài 01 (607-609), 02 (701-703), 03 (720-722), 04 (941-942). Bài 00 dùng `→ Tiếp / ↑ Cluster` (dòng 443-444) cũng lệch.",
+    "suggestedFix": "Đổi marker về `⬅️ **Bài trước:** / ➡️ **Bài tiếp theo:** / ↑ **Về cụm:**` và thay link text bằng tiêu đề H1 thật của bài đích (vd '[FinOps — Văn hóa quản lý chi phí Cloud]' thay '[00_what-is-finops-overview.md]').",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "README.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 25 cột 'Thời lượng', dòng 27-31 '~17p..~22p', dòng 33 'Tổng ~103 phút đọc'",
+    "description": "README còn field 'Thời lượng đọc' (cột Thời lượng + các ô ~17p/~20p/~22p + dòng tổng '~103 phút đọc') — field này đã bị bỏ TRIỆT ĐỂ toàn kho (01/06, theo checklist mục B và Nhật ký lỗi: ước tính không chuẩn → loại bỏ khỏi metadata + bảng README/overview).",
+    "suggestedFix": "Bỏ cột 'Thời lượng' khỏi bảng Lessons (dòng 25 + ô ~Np mỗi hàng), và sửa dòng 33 thành '→ **Tổng 5 bài + 6-8h hands-on**' (bỏ phần '~103 phút đọc').",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/00_what-is-finops-overview.md",
+    "category": "other",
+    "severity": "low",
+    "locator": "dòng 11 mục tiêu '~17p' không có; nhưng metadata thiếu — đối chiếu",
+    "description": "Tất cả 5 bài lesson thiếu line-break consistency nhỏ: header block-quote dùng `\\` cuối dòng (đúng), nhưng cần xác nhận đồng nhất. Không phải lỗi nội dung. (Ghi nhận để tham chiếu — không cần sửa nếu cả file đồng nhất.)",
+    "suggestedFix": "Không bắt buộc sửa; chỉ kiểm khi rà soát toàn cụm — header đã dùng `\\` đồng nhất nên đạt.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/02_tagging-allocation-and-showback.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "nhiều fence; tổng 16 dòng ``` bare (no lang); ví dụ block showback report dòng ~399, allocation report 245",
+    "description": "Nhiều code fence thiếu khai báo ngôn ngữ (MD040): block output/report/diagram dùng ``` trần. Bài 02: 16 bare-fence; bài 03: 18; bài 04: 21; bài 01: 7; bài 00: 4. Checklist mục E yêu cầu mọi fence có ngôn ngữ (`text`/`markdown` cho output/report). Không tự sửa vì chạm boundary code-block.",
+    "suggestedFix": "Bổ sung ngôn ngữ cho mọi fence trần: dùng `text` cho output CLI/report/ASCII flow, `markdown` cho block showback report (dòng ~399-429 bài 02), `text` cho block break-even pseudo-formula (bài 01 dòng 289-296) và coverage strategy (332-340).",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/01_pricing-models-deep.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "dòng 179: GCP | Spot VM | ... | Max duration: 24h (legacy \"Preemptible\")",
+    "description": "Sai về Max duration của GCP Spot VM. Spot VM (kế thừa Preemptible) KHÔNG có giới hạn 24h — chính Preemptible cũ mới bị cap 24h. Spot VM hiện tại chạy không giới hạn thời gian, có thể bị preempt bất kỳ lúc nào. Ghi '24h' cho cột Max duration của Spot VM là sai (đang lẫn đặc tính Preemptible legacy vào Spot VM).",
+    "suggestedFix": "Sửa ô Max duration của GCP Spot VM thành 'Không giới hạn (Preemptible legacy: cap 24h)'. Tách rõ Spot VM (no limit) vs Preemptible cũ (24h).",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/01_pricing-models-deep.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Self-check Q3 dòng 508-510 vs thân bài dòng 306-317",
+    "description": "Bất nhất/dễ gây nhầm về 'break-even'. Q3 (dòng 508-510) trả lời 'Tháng 22' dựa $1,512/$70.08=21.6 (chi phí on-demand tích lũy ngang tiền đã trả), nhưng thân bài §6 (dòng 306-317) lại bác bỏ cách tính theo upfront/hourly và kết luận saving thật trải đều cả 36 tháng (saving ảo $28/tháng → nếu tính $1,512/$28 = 54 tháng, mà tác giả ghi 'không đúng'). Hai cách diễn giải break-even cùng tồn tại gây rối cho người học.",
+    "suggestedFix": "Thống nhất định nghĩa break-even trong cả thân bài lẫn Q3: với All Upfront, 'điểm hoà' so với on-demand cùng kỳ đạt ở ~22 tháng (khi on-demand tích lũy = $1,512 đã trả), và mọi tháng sau là saving thuần. Bỏ/giải thích lại con số '54 tháng' để không mâu thuẫn với 'Tháng 22'.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/02_tagging-allocation-and-showback.md",
+    "category": "blueprint-improvement",
+    "severity": "low",
+    "locator": "dòng 54 owner=thien.le; dòng 561 owner=thien.le@acmeshop.vn",
+    "description": "Placeholder owner dùng 'thien.le' / 'thien.le@acmeshop.vn' (trùng email thật của chủ kho). Lộ định danh cá nhân vào nội dung học, không theo quy ước placeholder trung tính (vd 'an.nguyen' / 'team-backend'). Checklist mục F: placeholder đúng quy ước, không residue cá nhân.",
+    "suggestedFix": "Đổi placeholder owner sang dạng trung tính nhất quán toàn kho (vd `an.nguyen` hoặc `nguyen-van-a`, email `an.nguyen@acmeshop.vn`). Cân nhắc thêm quy ước placeholder owner vào blueprint.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/04_finops-tools-and-automation.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 533: end = datetime.datetime.utcnow()",
+    "description": "Dùng `datetime.datetime.utcnow()` — đã bị deprecate từ Python 3.12 (cảnh báo DeprecationWarning, sẽ gỡ tương lai). Khuyến nghị hiện hành là `datetime.datetime.now(datetime.timezone.utc)`. Lưu ý: cùng file dòng 462 đã dùng đúng `datetime.datetime.now(datetime.timezone.utc)` → bất nhất nội bộ.",
+    "suggestedFix": "Đổi dòng 533 `datetime.datetime.utcnow()` → `datetime.datetime.now(datetime.timezone.utc)` cho nhất quán với dòng 462 và tránh deprecation.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "lessons/01_basic/04_finops-tools-and-automation.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "dòng 79: \"CostFilters\": {\"TagKeyValue\": [\"user:team$backend\"]}",
+    "description": "Cú pháp CostFilters của AWS Budgets không chính xác. AWS Budgets dùng key 'CostFilters' với dạng {\"TagKeyValue\": [\"user:team$backend\"]} — định dạng tag filter của Budgets thực tế là 'user:<TagKey>$<TagValue>' nhưng cần đặt trong cấu trúc đúng (CostFilters là map of filter-name → list, và tag filter dùng dạng `TagKeyValue` không phải tên chuẩn — API dùng `CostFilters` với key như 'TagKeyValue' chỉ đúng một phần). Nên kiểm chứng lại với create-budget hiện hành (thường dùng `--budget` JSON với CostFilters: {\"TagKeyValue\": [...]}).",
+    "suggestedFix": "Đối chiếu lại với `aws budgets create-budget` doc hiện hành; xác nhận dạng tag filter đúng (vd CostFilters {\"TagKeyValue\": [\"user:team$backend\"]} có hợp lệ không hay cần `\"TagKeyValue\"` thay bằng cấu trúc khác). Nếu sai, sửa cho khớp API hiện hành.",
+    "subcluster": "11_cloud/cloud-cost-management"
+  },
+  {
+    "file": "README.md",
+    "category": "non-canonical-heading",
+    "severity": "low",
+    "locator": "dòng 37: ## 🔗 Liên kết",
+    "description": "Heading '## 🔗 Liên kết' ở README cụm rút gọn so với canonical '## 🔗 Liên kết & Tài nguyên' dùng trong lessons. Nhỏ, nhưng nên đồng nhất tên heading cross-file (checklist mục J).",
+    "suggestedFix": "Cân nhắc đổi '## 🔗 Liên kết' → '## 🔗 Liên kết & Tài nguyên' cho đồng nhất, hoặc giữ nguyên nếu blueprint cho phép README dùng heading rút gọn (cần chốt ở blueprint).",
+    "subcluster": "11_cloud/cloud-cost-management"
+  }
+]

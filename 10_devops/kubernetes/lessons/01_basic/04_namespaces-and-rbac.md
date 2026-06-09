@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW, DEVOPS, SECURITY]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [ConfigMaps & Secrets](03_configmaps-and-secrets.md)
 
 > 🎯 **Mục tiêu cốt lõi:** Làm chủ **Namespaces** (mô hình multi-tenancy), **ResourceQuota** + **LimitRange** để quản lý tài nguyên, và hệ thống phân quyền **RBAC** (ClusterRole, Role, RoleBinding, ClusterRoleBinding, ServiceAccount). Bạn sẽ biết cách sử dụng `kubectl auth can-i` để gỡ lỗi phân quyền và thiết lập môi trường multi-team an toàn tuyệt đối trên Production.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Đã đọc [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (để biết Internet làm gì ở layer 7)
 
 > 🎯 *Bài INTRO. Hiểu **TCP/IP là gì**, **4 layer model**, **OSI 7 layer** so sánh, **encapsulation** (gói bên trong gói), tại sao 1 HTTP request thực sự đi qua nhiều layer mới đến server. KHÔNG dạy IP addressing chi tiết hay TCP handshake (sẽ học bài 01/02).*
@@ -43,7 +42,7 @@ Bạn ngơ:
 - **"Connection refused"** là lỗi ở **layer nào**?
 - Có phải firewall? port? TCP? IP?
 
-→ Khi gặp lỗi mạng, biết **layer nào báo lỗi** = giải được 50% bài toán. HTTP debug ở [bài 02 status codes](../../../http-https/lessons/01_basic/02_http-status-codes.md). Connection layer thấp hơn debug ở đâu? Bài này dạy bạn (và bạn) **mô hình TCP/IP** — bản đồ giúp biết "đi đâu mà tìm".
+→ Khi gặp lỗi mạng, biết **layer nào báo lỗi** = giải được 50% bài toán. HTTP debug ở [bài 02 status codes](../../../http-https/lessons/01_basic/02_http-status-codes.md). Connection layer thấp hơn debug ở đâu? Bài này dạy bạn **mô hình TCP/IP** — bản đồ giúp biết "đi đâu mà tìm".
 
 ---
 
@@ -53,7 +52,7 @@ Bạn ngơ:
 
 Lịch sử nhanh:
 - **1969** — ARPANET (DoD Mỹ) — mạng đầu tiên, dùng NCP.
-- **1974** — Vint Cerf + Le Van B Kahn công bố TCP (paper "A Protocol for Packet Network Intercommunication").
+- **1974** — Vint Cerf + Bob Kahn công bố TCP (paper "A Protocol for Packet Network Intercommunication").
 - **1983** — ARPANET chuyển sang TCP/IP — coi là "ngày Internet ra đời".
 - **2026** — Mọi thiết bị Internet (kể cả điện thoại) đều nói TCP/IP.
 
@@ -133,8 +132,9 @@ Link                    2. Data Link         ← Ethernet, MAC
 
 Trong giao tiếp với devops/network engineer, **gọi layer bằng số** (L2, L3, L4, L7) là phổ biến hơn gọi tên. Đặc biệt khi bàn về **load balancer** ("L4 LB" vs "L7 LB" khác nhau căn bản về cách routing). Bảng mapping nhanh:
 
-| "Layer 2" | Switch, MAC address, VLAN |
+| Cách gọi | Ý nghĩa |
 |---|---|
+| **"Layer 2"** | Switch, MAC address, VLAN |
 | **"Layer 3"** | Router, IP address, subnet, ACL |
 | **"Layer 4"** | TCP/UDP, load balancer L4 (NAT-based) |
 | **"Layer 7"** | HTTP, application, **load balancer L7** (content-aware), WAF |
@@ -288,7 +288,7 @@ sequenceDiagram
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **"TCP/IP" tưởng = "TCP và IP"** → Đúng 2 giao thức gốc, nhưng tên gọi cả **bộ ~30 giao thức** (HTTP, DNS, ICMP, ARP, ...).
 2. **Nhầm Layer 7 với Layer 4** → L7 = HTTP/app. L4 = TCP/port. Load balancer L4 chỉ thấy port, L7 thấy URL path. Khi giao tiếp devops, dùng đúng số.
@@ -298,7 +298,7 @@ sequenceDiagram
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. TCP/IP có mấy layer? Liệt kê + 1 giao thức ví dụ mỗi layer.
 2. OSI có mấy layer? Mapping `Application` của TCP/IP với layer nào trong OSI?
@@ -322,7 +322,7 @@ sequenceDiagram
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 4 layer + giao thức
 
@@ -374,17 +374,17 @@ sequenceDiagram
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [IP Addressing](01_ip-addressing.md)
-- ↑ Cluster: [tcp-ip-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [IP Addressing — IPv4, IPv6, Subnet, CIDR, NAT](01_ip-addressing.md)
+- ↑ **Về cụm:** [tcp-ip-fundamentals README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) — L7 application, ngồi trên TCP/IP
-- [DNS là gì](../../../dns/lessons/01_basic/00_what-is-dns.md) — L7 application, dịch domain trước khi TCP connect
+- ⬅️ **Bài trước:** [DNS là gì? — Danh bạ điện thoại của Internet](../../../dns/lessons/01_basic/00_what-is-dns.md) — L7 application, dịch domain trước khi TCP connect
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Cloudflare Learning: What is TCP/IP?](https://www.cloudflare.com/learning/ddos/glossary/tcp-ip/)
 - 📖 [How the Internet Works in 5 Minutes — Aaron Titus](https://www.youtube.com/watch?v=7_LPdttKXPc)
 - 📖 [RFC 793 — TCP](https://datatracker.ietf.org/doc/html/rfc793) (specification gốc, đọc khó)
@@ -397,8 +397,7 @@ sequenceDiagram
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §2 Mô hình 4-layer diagram + bảng "Nhiệm vụ từng layer" + §3 "Khi nào nói Layer X" + bảng TCP/IP vs OSI + §4 "Mỗi layer thêm header" bảng. Nội dung kỹ thuật giữ nguyên 100%.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 1/5. Cover: tình huống Connection refused → §1 TCP/IP là gì → §2 mô hình 4-layer + nhiệm vụ → §3 OSI 7-layer compare → §4 Encapsulation (frame trong packet trong segment) → §5 vì sao split layer (decoupling, debug, reuse) → §6 hiểu khác biệt qua ví dụ → §7 mô hình thực tế trace GET request từ Hà Nội đến Sing. 5 pitfall + 4 self-check.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §2 (4-layer + "Nhiệm vụ từng layer"), §3 ("Khi nào nói Layer X" + TCP/IP vs OSI), §4 ("Mỗi layer thêm header"). Sửa bảng "Khi nào nói Layer X" thiếu dòng tiêu đề. Nội dung kỹ thuật giữ nguyên.

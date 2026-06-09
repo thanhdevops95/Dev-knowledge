@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md) ✅
 
 > 🎯 *Bài học thực chiến — hướng dẫn cách thoát khỏi vùng an toàn "local" để kết nối với đám mây GitHub. Bạn sẽ học cách thiết lập Remote, đẩy (push) dự án đầu tay lên Internet an toàn, giải quyết bài toán xác thực (Authentication) và phòng ngừa cạm bẫy rò rỉ dữ liệu bí mật.*
@@ -265,7 +264,7 @@ Hacker sử dụng các chương trình quét tự động (bots) chạy liên t
 
 ---
 
-## 🧠 Câu hỏi ôn tập (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1: Nếu tôi sửa đổi code ở máy local nhưng không chạy lệnh `git commit` mà chạy thẳng lệnh `git push` thì code trên GitHub có thay đổi không?**
 <details>
@@ -285,7 +284,7 @@ Bạn hoàn toàn có thể đặt bất kỳ tên gì bạn thích (ví dụ: `
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa kỹ thuật | Ẩn dụ thực tế |
 |---|---|---|
@@ -310,5 +309,5 @@ Bạn hoàn toàn có thể đặt bất kỳ tên gì bạn thích (ví dụ: `
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 - **v2.0.0 (26/05/2026)** — Mr.Rom biên soạn chi tiết toàn bộ bài học lý thuyết về Remote, origin, xác thực an toàn (CLI, SSH) và cạm bẫy rò rỉ dữ liệu nhạy cảm theo chuẩn Blueprint v0.2.0.

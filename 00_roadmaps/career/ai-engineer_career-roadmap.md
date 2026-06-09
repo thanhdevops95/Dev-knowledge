@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã code Python cơ bản, muốn xây dựng ứng dụng AI thực tế (LLM, RAG, AI Agent)\
-> **Thời gian ước tính:** ~9 tháng học tập tích cực (full-time) hoặc ~18 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và làm việc thực tế)
 
 ---
@@ -38,17 +37,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone & Deploy]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Python & Backend Foundation** | 2 tháng | Làm chủ Python nâng cao, xây dựng được REST API với FastAPI |
-| **Stage 2: LLM Basics & Prompting** | 2 tháng | Chat app thông minh gọi API OpenAI/Claude, hỗ trợ streaming |
-| **Stage 3: RAG (Retrieval-Augmented)** | 2 tháng | Hệ thống Q&A thông minh truy vấn trên kho tài liệu PDF/Docs riêng biệt |
-| **Stage 4: AI Agents** | 1-2 tháng | Tác tử AI tự biết dùng tools (web search, DB) để giải quyết task phức tạp |
-| **Stage 5: Capstone & Deploy** | 1-2 tháng | 1 sản phẩm AI SaaS hoàn chỉnh, quản lý chi phí, deploy lên đám mây |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Python & Backend Foundation** | Làm chủ Python nâng cao, xây dựng được REST API với FastAPI |
+| **Stage 2: LLM Basics & Prompting** | Chat app thông minh gọi API OpenAI/Claude, hỗ trợ streaming |
+| **Stage 3: RAG (Retrieval-Augmented)** | Hệ thống Q&A thông minh truy vấn trên kho tài liệu PDF/Docs riêng biệt |
+| **Stage 4: AI Agents** | Tác tử AI tự biết dùng tools (web search, DB) để giải quyết task phức tạp |
+| **Stage 5: Capstone & Deploy** | 1 sản phẩm AI SaaS hoàn chỉnh, quản lý chi phí, deploy lên đám mây |
 
 ---
 
-## 💻 Stage 1 — Python & Backend Foundation (2 tháng)
+## 💻 Stage 1 — Python & Backend Foundation
 
 > 🎯 *Kỹ sư AI trước hết phải là một Kỹ sư Backend tốt. Bạn cần vững ngôn ngữ Python và biết cách thiết kế API để làm bệ đỡ cho các tích hợp AI sau này.*
 
@@ -73,7 +72,7 @@ Xây dựng một **REST API quản lý công việc (Todo app)** bằng FastAPI
 
 ---
 
-## 🧠 Stage 2 — LLM Basics & Prompting (2 tháng)
+## 🧠 Stage 2 — LLM Basics & Prompting
 
 > 🎯 *Làm chủ kỹ thuật tương tác với Mô hình Ngôn ngữ Lớn (LLM) qua API SDK, định hình cách phản hồi của AI và tối ưu hóa chi phí.*
 
@@ -99,7 +98,7 @@ Xây dựng một **REST API quản lý công việc (Todo app)** bằng FastAPI
 
 ---
 
-## 📚 Stage 3 — Hệ thống RAG (Retrieval-Augmented Generation) (2 tháng)
+## 📚 Stage 3 — Hệ thống RAG (Retrieval-Augmented Generation)
 
 > 🎯 *Dạy LLM biết cách 'đọc và tìm kiếm' thông tin trên kho dữ liệu riêng biệt của bạn trước khi đưa ra câu trả lời.*
 
@@ -125,7 +124,7 @@ Mô hình AI dù thông minh đến mấy cũng có thể bị "ảo giác" (hal
 
 ---
 
-## 🤖 Stage 4 — AI Agents (Tác tử tự động) (1-2 tháng)
+## 🤖 Stage 4 — AI Agents (Tác tử tự động)
 
 > 🎯 *Xây dựng hệ thống AI tự trị, có khả năng lập kế hoạch, phản hồi, tự sửa sai và tương tác trực tiếp với các hệ thống bên ngoài.*
 
@@ -151,7 +150,7 @@ Mô hình AI dù thông minh đến mấy cũng có thể bị "ảo giác" (hal
 
 ---
 
-## 🚀 Stage 5 — Capstone Project & Deploy (1-2 tháng)
+## 🚀 Stage 5 — Capstone Project & Deploy
 
 > 🎯 *Phát triển một dự án AI SaaS hoàn chỉnh, quản lý chi phí tốt, chịu lỗi tốt và deploy lên môi trường đám mây thực tế.*
 
@@ -182,7 +181,7 @@ Khi đã là một AI Engineer thực chiến, bạn có thể cân nhắc các 
 
 ## 🔄 Hướng dẫn điều chỉnh lộ trình
 
-- **Nếu bạn chưa biết lập trình Python:** Hãy dừng lại ở đây và dành 1-2 tháng học qua Stage 2 của lộ trình [Zero to Coder](./zero-to-coder_career-roadmap.md) trước khi quay lại.
+- **Nếu bạn chưa biết lập trình Python:** Hãy dừng lại ở đây và dànhhọc qua Stage 2 của lộ trình [Zero to Coder](./zero-to-coder_career-roadmap.md) trước khi quay lại.
 - **Lo ngại chi phí API quá đắt đỏ:** Sử dụng các model giá rẻ chất lượng cao như `gpt-4o-mini` hoặc `claude-3-haiku` cho việc phát triển và thử nghiệm (chi phí rẻ hơn 50 lần so với các model cao cấp).
 - **Học host model local:** Khi đã vững Stage 4, hãy cài đặt Ollama trên máy tính cá nhân để chạy các mô hình open-source như Llama 3 hoặc Mistral hoàn toàn miễn phí không cần internet.
 
@@ -196,7 +195,7 @@ Khi đã là một AI Engineer thực chiến, bạn có thể cân nhắc các 
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung dưới dạng câu chuyện định hướng và truyền cảm hứng.

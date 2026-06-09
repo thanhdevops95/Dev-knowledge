@@ -118,23 +118,6 @@ Git là VCS tool phối hợp mã nguồn → thuộc Tools. Xem mục 02_tools 
 Rename theo tool category naming chuẩn.
 
 #### git/
-- ✅ [`exercises/01_basic/lab_my-first-portfolio.md`](02_tools/git/exercises/01_basic/lab_my-first-portfolio.md)
-- ✅ [`exercises/01_basic/quiz_basic-concepts.md`](02_tools/git/exercises/01_basic/quiz_basic-concepts.md)
-- ✅ [`exercises/02_intermediate/lab_conflict-hero.md`](02_tools/git/exercises/02_intermediate/lab_conflict-hero.md)
-- ✅ [`exercises/02_intermediate/lab_team-pull-request.md`](02_tools/git/exercises/02_intermediate/lab_team-pull-request.md)
-- ✅ [`exercises/02_intermediate/quiz_branching-and-conflicts.md`](02_tools/git/exercises/02_intermediate/quiz_branching-and-conflicts.md)
-- ✅ [`exercises/03_advanced/lab_emergency-reflog-rescue.md`](02_tools/git/exercises/03_advanced/lab_emergency-reflog-rescue.md)
-- ✅ [`exercises/03_advanced/lab_git-time-traveler.md`](02_tools/git/exercises/03_advanced/lab_git-time-traveler.md)
-- ✅ 🌟 [`lessons/01_basic/00_what-is-git.md`](02_tools/git/lessons/01_basic/00_what-is-git.md) — Bài INTRO — hiểu **Git là gì**, **vì sao mọi coder cần biết**, **mô hình tinh thần** trước khi học lệnh. KHÔNG dạy lệnh chi tiết (sẽ học ở [bài 01](02_tools/git/lessons/01_basic/01_init-and-first-commit.md) trở đi).
-- ✅ 🌟 [`lessons/01_basic/01_init-and-first-commit.md`](02_tools/git/lessons/01_basic/01_init-and-first-commit.md) — Tiếp nối bài intro — bạn đọc xong, mở terminal lần đầu. Bài này dạy 4 lệnh cốt lõi (`init`, `add`, `commit`, `log`) qua project thực tế của bạn. Cuối bài bạn có repo local đầu tiên với 2-3 commit lịch sử.
-- ✅ 🌟 [`lessons/01_basic/02_remote-and-github-basic.md`](02_tools/git/lessons/01_basic/02_remote-and-github-basic.md) — Bài học thực chiến — hướng dẫn cách thoát khỏi vùng an toàn "local" để kết nối với đám mây GitHub. Bạn sẽ học cách thiết lập Remote, đẩy (push) dự án đầu tay lên Internet an toàn, giải quyết bài toán xác thực (Authentication) và phòng ngừa cạm bẫy rò rỉ dữ liệu bí mật.
-- ✅ 🌟 [`lessons/02_intermediate/00_branching-and-merging.md`](02_tools/git/lessons/02_intermediate/00_branching-and-merging.md) — Tiếp bạn story: bạn đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này bạn không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.
-- ✅ 🌟 [`lessons/02_intermediate/01_resolving-conflicts.md`](02_tools/git/lessons/02_intermediate/01_resolving-conflicts.md) — Bài học sống còn trong làm việc nhóm — Trang bị tư duy thép và kỹ thuật gỡ rối cực kỳ khoa học để giải quyết các "cuộc xung đột" (Merge Conflicts) của dòng code. Sau bài học này, bạn sẽ không bao giờ còn cảm thấy sợ hãi hay ngợp trước thông báo lỗi đỏ choét của Terminal nữa!
-- ✅ 🌟 [`lessons/02_intermediate/02_collaborative-workflows.md`](02_tools/git/lessons/02_intermediate/02_collaborative-workflows.md) — Tiếp tục story: project chạy ngon, sếp gửi thêm 1 đồng nghiệp junior vào team. Bạn phải share code với họ. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.
-- ✅ 🌟 [`lessons/03_advanced/00_undo-and-recovery.md`](02_tools/git/lessons/03_advanced/00_undo-and-recovery.md) — Tiếp bạn story: 2h sáng, bạn gõ nhầm `git reset --hard`, mất 3 commit của 1 đêm code. Hoảng. Anh senior chỉ nói "đừng panic, Git rất khó mất data thật". Bài này dạy mọi cách "quay lại" — restore/amend/reset/revert/reflog/stash.
-- ✅ 🌟 [`lessons/03_advanced/01_advanced-recovery-reflog.md`](02_tools/git/lessons/03_advanced/01_advanced-recovery-reflog.md) — Bài học "hồi sinh" tối thượng — Khám phá sức mạnh của chiếc hộp đen ghi lại mọi vết tích hoạt động của HEAD trong Git. Sau bài học này, bạn sẽ nắm giữ trong tay tấm bùa hộ mệnh tối cao để cứu vãn mọi thảm họa mất code tồi tệ nhất, ngay cả khi bạn nghĩ rằng dữ liệu đã bị xóa vĩnh viễn khỏi ổ cứng!
-- ✅ 🌟 [`lessons/03_advanced/02_rebase-and-cherry-pick.md`](02_tools/git/lessons/03_advanced/02_rebase-and-cherry-pick.md) — Bài học nghệ thuật lịch sử Git — Khám phá hai công cụ quyền lực tối thượng giúp tái định vị nền tảng nhánh và chọn lọc chính xác các mảnh ghép thay đổi. Bạn sẽ học cách "phẫu thuật thẩm mỹ" cho lịch sử Git bừa bộn trở nên thẳng thớm, đẹp đẽ như một tác phẩm nghệ thuật.
-- ✅ [`setup/git.md`](02_tools/git/setup/git.md) — Git là hệ thống version control được dùng bởi 90%+ developer trên thế giới. Bài này hướng dẫn cài + cấu hình ban đầu trên 3 OS.
 
 - **Setup & Cấu hình:**
 - ✅ [`setup/git.md`](02_tools/git/setup/git.md) — Git là hệ thống version control được dùng bởi 90%+ developer trên thế giới. Bài này hướng dẫn cài + cấu hình ban đầu trên 3 OS.
@@ -344,17 +327,17 @@ Rename theo tool category naming chuẩn.
 - ✅ 🆕 [`setup/install-docker.md`](10_devops/docker/setup/install-docker.md)
 - ✅ 🌟 🆕 [`lessons/01_basic/00_what-is-docker.md`](10_devops/docker/lessons/01_basic/00_what-is-docker.md)
 - ✅ 🌟 🆕 [`lessons/01_basic/01_images-and-containers.md`](10_devops/docker/lessons/01_basic/01_images-and-containers.md)
-- ✅ 🆕 [`lessons/01_basic/02_dockerfile-basics.md`](10_devops/docker/lessons/01_basic/02_dockerfile-basics.md) — *Lời dẫn của Mr.Rom:*
-- ✅ 🆕 [`lessons/01_basic/03_docker-compose.md`](10_devops/docker/lessons/01_basic/03_docker-compose.md) — *Lời dẫn của Mr.Rom:*
-- ✅ 🆕 [`exercises/01_basic/01_docker-challenges.md`](10_devops/docker/exercises/01_basic/01_docker-challenges.md) — *Lời dẫn của Mr.Rom:*
+- ✅ 🆕 [`lessons/01_basic/02_dockerfile-basics.md`](10_devops/docker/lessons/01_basic/02_dockerfile-basics.md)
+- ✅ 🆕 [`lessons/01_basic/03_docker-compose.md`](10_devops/docker/lessons/01_basic/03_docker-compose.md)
+- ✅ 🆕 [`exercises/01_basic/01_docker-challenges.md`](10_devops/docker/exercises/01_basic/01_docker-challenges.md)
 - ❌ `lessons/01_basic/04_volumes-and-networking.md`, `05_multi-stage-builds.md`, `06_registry.md`
 
 #### kubernetes/ ✅ **Basic cluster 5/5 done + 1 exercise done**
 - ✅ 🌟 🆕 [`README.md`](10_devops/kubernetes/README.md) — Cluster overview, basic 5/5 done v1.0.0
-- ✅ 🆕 [`lessons/01_basic/00_what-is-kubernetes.md`](10_devops/kubernetes/lessons/01_basic/00_what-is-kubernetes.md) — *Lời dẫn của Mr.Rom:*
-- ✅ 🆕 [`lessons/01_basic/01_pods-and-deployments.md`](10_devops/kubernetes/lessons/01_basic/01_pods-and-deployments.md) — *Lời dẫn của Mr.Rom:*
-- ✅ 🆕 [`lessons/01_basic/02_services-and-networking.md`](10_devops/kubernetes/lessons/01_basic/02_services-and-networking.md) — *Lời dẫn của Mr.Rom:*
-- ✅ 🆕 [`lessons/01_basic/03_configmaps-and-secrets.md`](10_devops/kubernetes/lessons/01_basic/03_configmaps-and-secrets.md) — *Lời dẫn của Mr.Rom:*
+- ✅ 🆕 [`lessons/01_basic/00_what-is-kubernetes.md`](10_devops/kubernetes/lessons/01_basic/00_what-is-kubernetes.md)
+- ✅ 🆕 [`lessons/01_basic/01_pods-and-deployments.md`](10_devops/kubernetes/lessons/01_basic/01_pods-and-deployments.md)
+- ✅ 🆕 [`lessons/01_basic/02_services-and-networking.md`](10_devops/kubernetes/lessons/01_basic/02_services-and-networking.md)
+- ✅ 🆕 [`lessons/01_basic/03_configmaps-and-secrets.md`](10_devops/kubernetes/lessons/01_basic/03_configmaps-and-secrets.md)
 - ✅ 🌟 🆕 [`lessons/01_basic/04_namespaces-and-rbac.md`](10_devops/kubernetes/lessons/01_basic/04_namespaces-and-rbac.md) — **Mục tiêu cốt lõi:** Làm chủ **Namespaces** (mô hình multi-tenancy), **ResourceQuota** + **LimitRange** để quản lý tài nguyên, và hệ thống phân quyền **RBAC** (ClusterRole, Role, RoleBinding, ClusterRoleBinding, ServiceAccount). Bạn sẽ biết cách sử dụng `kubectl auth can-i` để gỡ lỗi phân quyền và thiết lập môi trường multi-team an toàn tuyệt đối trên Production.
 - ✅ [`exercises/01_basic/01_kubernetes-challenges.md`](10_devops/kubernetes/exercises/01_basic/01_kubernetes-challenges.md) — **Mục tiêu cốt lõi:** Chuyển hóa toàn bộ lý thuyết về Pod, Deployment, Service, ConfigMap, Secret, Namespace và RBAC thành kỹ năng thực tế. Bạn sẽ được rèn luyện tư duy thông qua 5 câu hỏi trắc nghiệm phản biện sâu sắc, và trực tiếp bắt tay vào xây dựng 3 dự án Lab thực chiến hoàn chỉnh, có khả năng chạy ngay trên các Cluster local như `kind` hay `minikube`.
 - ❌ `lessons/02_intermediate/`, `lessons/03_advanced/`
@@ -390,35 +373,35 @@ Rename theo tool category naming chuẩn.
 #### service-mesh/
 ❌ Chưa có content.
 
-
+#### iac/ — 02_intermediate (5 bài)
 - ✅ 🌟 [`10_devops/iac/lessons/02_intermediate/00_intermediate-overview.md`](10_devops/iac/lessons/02_intermediate/00_intermediate-overview.md) — Bài INTRO cuối DevOps intermediate sprint. Basic dạy Terraform basics + state + modules + best practices. Production scale cần: **Terragrunt DRY**, **Atlantis GitOps workflow**, **drift detection automation**, **multi-language alternatives** (Pulumi/CDK/Crossplane). Bài này map landscape.
 - ✅ 🌟 [`10_devops/iac/lessons/02_intermediate/01_terragrunt-dry-multi-env.md`](10_devops/iac/lessons/02_intermediate/01_terragrunt-dry-multi-env.md) — 3 envs × 5 regions × 5 modules = 75 folder, 50K dòng duplicate. Terragrunt DRY: 1 module Terraform + 1 config per env (~10 dòng). Bài này dạy Terragrunt fundamentals + dependency graph + module versioning + run-all + advanced patterns.
 - ✅ 🌟 [`10_devops/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md`](10_devops/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md) — Local `terraform apply` = no audit trail + credentials in laptop + state conflict. **Atlantis** = PR-based GitOps workflow: open PR → auto plan → review → comment `atlantis apply` → audit trail in Git. Bài này dạy setup + workflows + RBAC + Terragrunt integration.
 - ✅ 🌟 [`10_devops/iac/lessons/02_intermediate/03_state-advanced-and-drift.md`](10_devops/iac/lessons/02_intermediate/03_state-advanced-and-drift.md) — Basic dạy state + backend S3/DynamoDB. Production gặp: drift (manual changes), refactor (rename module), import (existing resource), state corruption recovery. Bài này dạy advanced state ops + automated drift detection workflow + safe recovery.
 - ✅ 🌟 [`10_devops/iac/lessons/02_intermediate/04_pulumi-cdk-crossplane.md`](10_devops/iac/lessons/02_intermediate/04_pulumi-cdk-crossplane.md) — Bài cuối DevOps intermediate sprint. Terraform/HCL dominant nhưng có alternatives mạnh: **Pulumi** (Python/TS/Go), **AWS CDK** (TypeScript synthesize CloudFormation), **CDKTF** (CDK → Terraform), **Crossplane** (K8s-native CRD cho cloud). Bài này dạy mỗi tool + decision matrix.
 
-#### docker/
+#### docker/ — 02_intermediate (5 bài)
 - ✅ 🌟 [`lessons/02_intermediate/00_intermediate-overview.md`](10_devops/docker/lessons/02_intermediate/00_intermediate-overview.md) — Bài INTRO của intermediate. Bạn đã build được image, ghép Compose, deploy lên 1 VPS chạy ngon. Giờ là lúc hỏi: **production thật sự cần gì?** Bài này giới thiệu 4 mảng intermediate (BuildKit + Security + Optimization + Registry), KHÔNG hands-on chi tiết (sẽ học ở bài 01-04).
 - ✅ 🌟 [`lessons/02_intermediate/01_buildkit-and-multistage-advanced.md`](10_devops/docker/lessons/02_intermediate/01_buildkit-and-multistage-advanced.md) — Bạn build image FastAPI mất 5 phút mỗi lần — `pip install` chạy lại từ đầu dù chỉ sửa 1 dòng code. Bài này dạy bạn dùng **BuildKit** (engine default 2026) đúng cách: cache mount, secret mount, parallelism, buildx, multi-platform, advanced multi-stage. Mục tiêu: build < 1 phút, image multi-arch.
 - ✅ 🌟 [`lessons/02_intermediate/02_image-security-supply-chain.md`](10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md) — Bạn build image nhanh rồi, nhưng image có CVE chưa biết? Build từ source nào? Đã ai tampered chưa? Production 2026 phải có **Trivy scan + SBOM + cosign sign + admission control**. Bài này dạy supply chain security baseline.
 - ✅ 🌟 [`lessons/02_intermediate/03_optimization-and-distroless.md`](10_devops/docker/lessons/02_intermediate/03_optimization-and-distroless.md) — Image FastAPI 1.2 GB → 30 MB là thật được, không "marketing". Bài này dạy: dùng **dive** phân tích layer, chọn đúng **base image** (alpine vs slim vs distroless vs scratch), **multi-stage advanced**, **layer order** tối ưu. Production benefits: pull nhanh, attack surface nhỏ, cold start nhanh.
 - ✅ 🌟 [`lessons/02_intermediate/04_registry-production-patterns.md`](10_devops/docker/lessons/02_intermediate/04_registry-production-patterns.md) — Bạn build + scan + sign image rồi — giờ lưu ở đâu? Docker Hub free rate-limit 100 pull/6h, scale 100 pod = block sau 1 giờ. Bài này dạy: chọn **private registry** (Harbor/ECR/GHCR), setup **pull-through cache**, **tag policy** immutable, **garbage collection**, **replication** cross-region. Bài cuối cluster intermediate.
 
-#### observability/
+#### observability/ — 02_intermediate (5 bài)
 - ✅ 🌟 [`lessons/02_intermediate/00_intermediate-overview.md`](10_devops/observability/lessons/02_intermediate/00_intermediate-overview.md) — Bài INTRO. Basic đã setup Prometheus + Grafana + Loki + Tempo. Production cần đi sâu: **PromQL fluent + recording rules + alerting strategy**, **LogQL + cardinality management**, **OTel instrumentation thật**, **SRE practices** (SLO, error budget, postmortem, on-call). Bài cuối DevOps intermediate sprint, prep cho IaC intermediate.
 - ✅ 🌟 [`lessons/02_intermediate/01_promql-deep-and-alerting.md`](10_devops/observability/lessons/02_intermediate/01_promql-deep-and-alerting.md) — Basic: `rate(http_requests_total[5m])`. Production: histogram quantile + recording rules + multi-window burn rate alerts + Alertmanager routing tree + Mimir long-term. Bài này dạy PromQL fluent + alerting strategy thực tế.
 - ✅ 🌟 [`lessons/02_intermediate/02_loki-logql-deep.md`](10_devops/observability/lessons/02_intermediate/02_loki-logql-deep.md) — Basic: ship log với Promtail, query `{namespace="prod"}`. Production: **LogQL deep** (regex parse, aggregate, alert), **structured JSON logging** với `trace_id`, **cardinality management** (high-card label = Loki slow + expensive), **shipping pipeline** (Promtail vs Vector vs Fluent Bit), **retention strategy** hot/warm/cold.
 - ✅ 🌟 [`lessons/02_intermediate/03_opentelemetry-instrumentation.md`](10_devops/observability/lessons/02_intermediate/03_opentelemetry-instrumentation.md) — Basic: introduce OTel concept, auto-instrumentation 1 service. Production: **manual spans** cho business logic + **context propagation** cross-service (HTTP/gRPC/queue) + **sampling strategies** (head vs tail) + **OTel Collector pipeline** + **correlation** logs ↔ metrics ↔ traces.
 - ✅ 🌟 [`lessons/02_intermediate/04_sre-practices.md`](10_devops/observability/lessons/02_intermediate/04_sre-practices.md) — Bài cuối Observability intermediate + cuối DevOps intermediate sprint. Tools alone không reliable production — cần **process**: SLI/SLO numerical commitment, error budget trade reliability vs velocity, blameless postmortem learn from incidents, sustainable on-call rotation. Apply Google SRE book principles.
 
-#### ci-cd/
+#### ci-cd/ — 02_intermediate (5 bài)
 - ✅ 🌟 [`lessons/02_intermediate/00_intermediate-overview.md`](10_devops/ci-cd/lessons/02_intermediate/00_intermediate-overview.md) — Bài INTRO của intermediate. Bạn đã setup GitHub Actions / GitLab CI ở basic. Production scale cần: **GitOps** (Git = source of truth), **supply chain security** (SLSA + provenance), **secret management** (Vault + ESO), **progressive delivery** (canary + feature flags). Bài này map 4 mảng + chuẩn bị 4 bài kế tiếp.
 - ✅ 🌟 [`lessons/02_intermediate/01_gitops-with-argocd.md`](10_devops/ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md) — Push model (GitHub Actions kubectl apply) không scale — drift + audit khó + multi-cluster ám ảnh. **GitOps pull model**: ArgoCD chạy trong cluster, watch Git, sync. Bài này dạy ArgoCD architecture, Application, ApplicationSet, multi-cluster, drift detection, sync waves, RBAC. So sánh Flux. Real war story.
 - ✅ 🌟 [`lessons/02_intermediate/02_supply-chain-security.md`](10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) — Docker intermediate bài 02 đã dạy Trivy + cosign + SBOM ở mức image. Bài này dạy **CI/CD pipeline-level**: SLSA Level 3 implementation, provenance attestation cho **build chain**, in-toto, Kyverno admission verify production, vulnerability lifecycle management, signed Helm chart.
 - ✅ 🌟 [`lessons/02_intermediate/03_secret-management.md`](10_devops/ci-cd/lessons/02_intermediate/03_secret-management.md) — Secret trong K8s default base64 (không phải encryption). Production cần: external store (Vault/AWS SM), auto sync vào cluster, rotation, audit. Bài này dạy stack: **HashiCorp Vault + External Secrets Operator + Sealed Secrets + SOPS**. Apply 12-factor App principle #3.
 - ✅ 🌟 [`lessons/02_intermediate/04_progressive-delivery.md`](10_devops/ci-cd/lessons/02_intermediate/04_progressive-delivery.md) — Basic deploy = all-or-nothing risk (bài 04 basic). Production cần **progressive**: 5% → 25% → 50% → 100% với metric analysis + auto-rollback. **Argo Rollouts** + **Prometheus** analysis + **feature flags** runtime. Bài cuối CI/CD intermediate.
 
-#### kubernetes/
+#### kubernetes/ — 02_intermediate (5 bài) + complete-guide
 - ✅ [`00_kubernetes-complete-guide.md`](10_devops/kubernetes/00_kubernetes-complete-guide.md)
 - ✅ 🌟 [`lessons/02_intermediate/00_intermediate-overview.md`](10_devops/kubernetes/lessons/02_intermediate/00_intermediate-overview.md) — Bài INTRO. Bạn deploy được first Pod, expose Service, hardcode ConfigMap, share cluster RBAC ở basic. Production thật cần gì khác? Bài này map 4 mảng intermediate (Helm + Ingress production + StatefulSet + Autoscaling+Operator) — chuẩn bị tâm thế cho 4 bài kế tiếp.
 - ✅ 🌟 [`lessons/02_intermediate/01_helm-package-manager.md`](10_devops/kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — Bạn có 5 service FastAPI tương tự nhau, mỗi cái 8 file YAML — copy-paste 40 file, sửa tag image phải sửa 5 chỗ. Helm giải quyết: 1 chart template, 5 values.yaml. Bài này dạy chart anatomy, templating, hooks, release lifecycle, sub-chart, Helm vs Kustomize.
@@ -829,7 +812,7 @@ Tích hợp pre-commit hook hoặc CI job để giữ catalog luôn fresh.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.46.0 (26/05/2026)** — 🎉 **NÂNG CẤP PREMIUM KUBERNETES BASIC CLUSTER & HOÀN THÀNH BỘ BÀI TẬP THỰC CHIẾN (6 bài)**:
   - 🆕 `exercises/01_basic/01_kubernetes-challenges.md` (~480 dòng) — Bộ bài tập thực hành Kubernetes thực chiến cơ bản: Quiz tư duy sâu (Pod vs Container, Liveness vs Readiness, Service selector, Secret base64, RBAC) và 3 bài LAB thực tế hoàn chỉnh (Lab 1: Deployment FastAPI + Probes tự phục hồi + HPA auto-scaling; Lab 2: Multi-Service routing Ingress (React Frontend + FastAPI Backend) + SSL/TLS tự ký HTTPS; Lab 3: Phân quyền RBAC cô lập môi trường staging và ServiceAccount).

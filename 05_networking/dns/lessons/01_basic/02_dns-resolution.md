@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [DNS là gì](00_what-is-dns.md), [DNS Records](01_dns-records.md)
 
 > 🎯 *Đi sâu vào **flow query**: từng layer cache, recursive vs iterative, root → TLD → authoritative, negative caching, TTL propagation. Sau bài này bạn debug được "vì sao site vẫn vào IP cũ" khi đã đổi DNS.*
@@ -42,7 +41,7 @@ Bạn ngơ:
 - Làm sao **flush cache** mọi nơi?
 - Có cách nào **bypass cache** test ngay không?
 
-→ Bài này dạy bạn (và bạn) **mọi layer cache**, **2 kiểu query** (recursive vs iterative), và **cách flush** + **cách dùng `+trace` để xem đường đi thật**.
+→ Bài này dạy bạn **mọi layer cache**, **2 kiểu query** (recursive vs iterative), và **cách flush** + **cách dùng `+trace` để xem đường đi thật**.
 
 ---
 
@@ -189,7 +188,7 @@ Không chỉ cache "có IP gì" — DNS còn cache **"không có record"** (NXDO
 - ❌ Without: mỗi lần user vào `typo.domain.com` → query đập auth → spam.
 - ✅ With: cache "không có" trong vài phút → đỡ tải.
 
-### Pitfall
+### Cạm bẫy
 
 Bạn vừa **tạo subdomain mới** (`new.acmeshop.vn`) → vào không thấy. Hỏi: "đổi DNS chưa propagate?"
 
@@ -297,7 +296,7 @@ Trước khi DNS query, OS check file `hosts`:
 
 → Sau khi edit, **OS cache cần flush** (xem §2). `hosts` ưu tiên cao nhất, bypass mọi DNS.
 
-### Pitfall
+### Cạm bẫy
 
 - ❌ Quên xóa entry sau khi test → ngày sau "site die" trên máy bạn.
 - ❌ Sai cú pháp (thiếu tab, dùng comma) → entry bị skip.
@@ -341,7 +340,7 @@ PING localhost (127.0.0.1)
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Đợi propagate quá lâu** → 90% case do TTL cũ cao (không hạ trước). Hạ TTL trước 24h luôn cứu.
 2. **Browser cache không hết** → Chrome `chrome://net-internals/#dns` clear thủ công. Hoặc `Ctrl+Shift+R` (hard reload).
@@ -351,7 +350,7 @@ PING localhost (127.0.0.1)
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khi bạn query `google.com` lần thứ 2 trong 10 phút, request có đến `8.8.8.8` không?
 2. Phân biệt **recursive** và **iterative** query.
@@ -375,7 +374,7 @@ PING localhost (127.0.0.1)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Flush cache theo layer
 
@@ -429,14 +428,14 @@ T+1h:  nâng TTL lại 3600 (giảm tải auth)
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [DNS Records](01_dns-records.md)
-- → Tiếp: [DNS Tools (`dig`, `nslookup`)](03_dns-tools.md)
-- ↑ Cluster: [dns README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [DNS Records — A, CNAME, MX, TXT, NS và bạn bè](01_dns-records.md)
+- ➡️ **Bài tiếp theo:** [DNS Tools — `dig`, `nslookup`, `host`, `whois` & cách debug](03_dns-tools.md)
+- ↑ **Về cụm:** [dns README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Cloudflare: What is recursive DNS?](https://www.cloudflare.com/learning/dns/what-is-recursive-dns/)
 - 📖 [DNS Resolution Process — Verisign](https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml)
 - 📖 [DNSchecker.org](https://dnschecker.org) — propagation test 30+ resolver
@@ -448,8 +447,7 @@ T+1h:  nâng TTL lại 3600 (giảm tải auth)
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 "Tổng kết" recursive vs iterative + §2 Flow 5-layer cache diagram + §2 Layer 1 browser cache + Layer 2 OS cache table + §3 negative cache importance. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 3/5. Cover: recursive vs iterative + flow đầy đủ qua 5 layer cache + flush per layer + negative cache (NXDOMAIN) + DNS propagation (TTL-based, không phải global sync) + best practice giảm TTL trước migrate.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §1 (recursive vs iterative), §2 (flow 5-layer cache + browser cache + OS cache table), §3 (negative cache). Thêm Changelog section.

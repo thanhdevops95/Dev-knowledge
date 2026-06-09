@@ -14,7 +14,7 @@
 | `graphql/` | GraphQL schema + resolver | ❌ Skeleton |
 | `websocket/` | Real-time với WebSocket / Socket.io | ❌ Skeleton |
 | `nodejs-express/` | Node.js + Express framework | ❌ Skeleton |
-| `python-fastapi/` | Python + FastAPI (modern async) | ❌ Skeleton |
+| `python-fastapi/` | Python + FastAPI (modern async) | ✅ Có bài (Basic 5/5) |
 | `python-django/` | Python + Django framework | ❌ Skeleton |
 | `go-gin/` | Go + Gin framework | ❌ Skeleton |
 | `java-spring/` | Java + Spring Boot | ❌ Skeleton |

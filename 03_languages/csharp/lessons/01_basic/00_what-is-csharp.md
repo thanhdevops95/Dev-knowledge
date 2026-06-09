@@ -5,7 +5,6 @@
 > **Tạo lúc:** 26/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
-> **Thời lượng đọc:** ~15 phút\
 > **Status:** 🚧 Placeholder — nội dung chi tiết sẽ được bổ sung sau
 
 > 🎯 *C# (C-Sharp) là ngôn ngữ lập trình hướng đối tượng do Microsoft phát triển, sử dụng rộng rãi trong game dev (Unity), desktop app (.NET) và web backend.*
@@ -14,24 +13,21 @@
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu C# là gì? là gì và tại sao nó quan trọng
+- [ ] Hiểu C# là gì và tại sao nó quan trọng
 - [ ] Biết các khái niệm cốt lõi và thuật ngữ chính
-- [ ] Hiểu khi nào nên sử dụng C# là gì?
+- [ ] Hiểu khi nào nên dùng C#
 - [ ] Sẵn sàng cho các bài thực hành tiếp theo
 
 ---
 
 ## 🚧 Nội dung đang được xây dựng
 
-> Bài học này đang trong giai đoạn phát triển. Nội dung chi tiết sẽ được bổ sung theo chuẩn
-> [Writing Style Guide](../../../../_blueprint/03_writing-style.md) của dự án.
+> Bài học này mới có phần giới thiệu ngắn. Nội dung chi tiết sẽ được bổ sung dần.
 >
-> Trong thời gian chờ, bạn có thể tham khảo:
-> - 📐 [Sitemap Detail](../../../../_blueprint/01_sitemap-detail.md) — xem cấu trúc dự kiến
-> - 📚 Tài liệu chính thức của C# là gì?
+> Trong thời gian chờ, bạn có thể tham khảo [tài liệu chính thức của C#](https://learn.microsoft.com/en-us/dotnet/csharp/).
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.1.0 (26/05/2026)** — Placeholder — khung bài học được tạo tự động.
+- **v0.1.0 (26/05/2026)** — Bản giới thiệu ngắn về C#.

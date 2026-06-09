@@ -1,13 +1,13 @@
 # 🌿 Git & GitHub — Hệ Thống Quản Lý Phiên Bản Thực Chiến
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v3.1.0 (Cô lập mô-đun độc lập — Roadmap-agnostic)\
+> **Phiên bản:** v3.1.0\
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026
 
 > 🎯 *Git là **hệ thống quản lý phiên bản phân tán (Distributed Version Control System)** được sử dụng bởi hơn 90% lập trình viên trên toàn thế giới. Thư mục này chứa lộ trình chinh phục Git từ con số 0 đến chuyên nghiệp, được chia làm 3 phân tầng kỹ năng độc lập, đi kèm hệ thống bài tập trắc nghiệm và thực hành thực chiến.*
 >
-> 🧭 **Chỉ dẫn cho người học:** Mô-đun kiến thức Git này được thiết kế độc lập và có tính mô-đun cao (Modular Isolation). Nếu bạn đang đi theo một Lộ trình sự nghiệp cụ thể (Career Roadmap) tại thư mục `00_roadmaps/`, hãy tập trung chinh phục chặng kỹ năng (Cấp độ) được chỉ định trong Roadmap của bạn, sau đó quay trở lại trang lộ trình đó để tiếp tục cuộc hành trình cá nhân!
+> 🧭 **Chỉ dẫn cho người học:** Mô-đun kiến thức Git này được thiết kế độc lập. Nếu bạn đang đi theo một Lộ trình sự nghiệp cụ thể (Career Roadmap) tại thư mục `00_roadmaps/`, hãy tập trung chinh phục chặng kỹ năng (Cấp độ) được chỉ định trong Roadmap của bạn, sau đó quay trở lại trang lộ trình đó để tiếp tục cuộc hành trình cá nhân!
 
 ---
 
@@ -74,10 +74,10 @@ Trước khi bắt đầu, bạn cần cài đặt và cấu hình Git trên má
 
 ---
 
-## 📌 Changelog
-- **v3.1.0 (26/05/2026) — Tối ưu hóa tính độc lập (Roadmap-agnostic) theo phản hồi của bạn:**
-  - Gỡ bỏ hoàn toàn node Python và mọi câu chữ liên quan đến lộ trình "Zero-to-Coder" ra khỏi Git README.
-  - Trả module Git về trạng thái cô lập, sạch sẽ, chỉ tập trung dạy Git từ đầu đến cuối cho mọi đối tượng.
+## 📌 Nhật ký thay đổi (Changelog)
+- **v3.1.0 (26/05/2026)** — Module Git tập trung dạy Git độc lập từ đầu đến cuối:
+  - Gỡ bỏ node Python và các câu chữ liên quan đến lộ trình "Zero-to-Coder" khỏi Git README.
+  - Đưa nội dung Git về trạng thái gọn gàng, chỉ tập trung dạy Git cho mọi đối tượng.
 - **v3.0.0 (26/05/2026)** — Tái cấu trúc phân tầng Git (Basic / Intermediate / Advanced) và tích hợp bài tập.
-- **v2.0.0 (19/05/2026)** — Dịch chuyển Git từ Tools về Foundations và refactor văn phong dẫn truyện v2.0.
+- **v2.0.0 (19/05/2026)** — Đưa Git về nhóm nền tảng và chuẩn hoá văn phong.
 - **v1.0.0 (16/05/2026)** — Tạo bộ Git cơ bản đầu tiên.

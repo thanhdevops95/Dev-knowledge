@@ -1,22 +1,32 @@
 # 📋 Overview — 05_networking
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 25/05/2026
 
-> 🚧 *Skeleton — chưa có content. Khi viết, dùng template [`../_blueprint/templates/overview_template.md`](../_blueprint/templates/overview_template.md).*
+## 05_networking là gì
 
-## Dự kiến nội dung
+Nhóm chủ đề về **networking** — cách máy tính giao tiếp qua mạng: từ tầng vận chuyển (TCP/IP) đến tầng ứng dụng (HTTP), danh bạ Internet (DNS), và các thành phần hạ tầng (load balancing, proxy, VPN, CDN, network security).
 
-- 05_networking là gì (định nghĩa + ẩn dụ)
-- Vì sao có 05_networking (vấn đề giải quyết)
-- Khi nào dùng / khi nào KHÔNG dùng
-- Các khái niệm cốt lõi (3-5 concept)
-- Hệ sinh thái + công cụ liên quan
-- Lộ trình học đề xuất (Beginner → Advanced)
-- Câu hỏi thường gặp
+## Nội dung hiện có
 
-## 📌 Changelog
+| Chủ đề | Trạng thái |
+|---|---|
+| [tcp-ip-fundamentals](tcp-ip-fundamentals/README.md) | ✅ 5 bài — layer model, IP, TCP/UDP, port, network tools |
+| [http-https](http-https/README.md) | ✅ 6 bài — methods, status, headers, HTTPS/TLS, REST |
+| [dns](dns/README.md) | ✅ 5 bài — records, resolution, tools, setup + security |
+| load-balancing, proxy-and-reverse-proxy, vpn, cdn, network-security | 🚧 chưa có bài |
 
-- **v0.1.0 (16/05/2026)** — Skeleton.
+## Các khái niệm cốt lõi
+
+- **TCP/IP** — bộ giao thức nền: 4 layer, encapsulation, IP addressing, TCP vs UDP.
+- **HTTP/HTTPS** — giao thức Web: request/response, stateless, TLS encryption.
+- **DNS** — dịch domain → IP, cache + TTL, propagation.
+- **Hạ tầng** — load balancer, proxy, VPN, CDN, firewall (phần sau).
+
+## Lộ trình học đề xuất
+
+1. `tcp-ip-fundamentals` → 2. `dns` → 3. `http-https`.
+
+→ Chi tiết từng cụm xem [README.md](README.md).

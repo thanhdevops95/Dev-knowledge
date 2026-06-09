@@ -1,12 +1,11 @@
 # 🤖 LLM là gì + Tokenization + Models 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** Biết Python cơ bản + HTTP API; không cần học ML trước
 
 > 🎯 *Bài đầu tiên của LLM cluster. Bạn nghe nhiều về ChatGPT/Claude/Gemini nhưng chưa hiểu **trong** nó hoạt động sao. Bài này dạy: LLM là gì + transformer cơ bản + tokenization + context window + temperature + top-p + models 2026 (Claude 4 / GPT-5 / Gemini 2 / Llama 4) + so sánh khi nào dùng cái nào. Không deep architecture (đó là deep-learning cluster).*
@@ -101,7 +100,7 @@ Bài này map foundation — bài 01-04 sẽ dạy app patterns.
 - **GPT-3**: 175B params.
 - **GPT-4**: ~1.7T (rumored, mixture of experts).
 - **Claude 4 Opus**: ~unknown (proprietary).
-- **Llama 4**: 8B-70B-400B (open).
+- **Llama 4**: kiến trúc MoE — Scout ~109B, Maverick ~400B total / 17B active (open).
 
 Params = "memory" của model. Nhiều params = capable hơn (general) + đắt + chậm hơn.
 
@@ -131,7 +130,7 @@ Common pattern:
 ### Tại sao token quan trọng
 
 1. **Pricing**: API charge per token (input + output separate).
-2. **Context window limit**: model có max token (e.g., 200k Claude 4, 128k GPT-4o, 1M Gemini 1.5/2).
+2. **Context window limit**: model có max token (e.g., 1M Claude Opus/Sonnet 4.6+, 128k GPT-4o, 1M Gemini 1.5/2).
 3. **Latency**: nhiều token = chậm hơn.
 
 ### Token counting
@@ -168,14 +167,14 @@ enc.encode("Chào bạn, hôm nay khỏe không?")
 
 | Model | Context window | Input limit | Output limit |
 |---|---|---|---|
-| Claude 4 Opus | 200k tokens | 200k | 8k |
-| Claude 4 Sonnet | 200k | 200k | 8k |
-| Claude 4 Haiku | 200k | 200k | 8k |
+| Claude Opus (4.6/4.7/4.8) | 1M tokens | 1M | 128k (cần streaming) |
+| Claude Sonnet 4.6 | 1M | 1M | 64k |
+| Claude Haiku 4.5 | 200k | 200k | 64k |
 | GPT-5 | 256k | 256k | 16k |
 | GPT-4o | 128k | 128k | 16k |
 | Gemini 2 Pro | 2M | 2M | 8k |
 | Gemini 2 Flash | 1M | 1M | 8k |
-| Llama 4 405B | 256k | 256k | — |
+| Llama 4 (Maverick) | ~1M | ~1M | — |
 
 ### "Lost in the middle" problem
 
@@ -189,9 +188,9 @@ Model có 1M context không = retrieve đều khắp. Research shows:
 
 | Model | Input ($/1M token) | Output ($/1M token) | Notes |
 |---|---|---|---|
-| Claude 4 Opus | $15 | $75 | Smartest, đắt nhất |
-| Claude 4 Sonnet | $3 | $15 | Default workhorse |
-| Claude 4 Haiku | $0.80 | $4 | Fast, cheap |
+| Claude Opus (4.6+) | $5 | $25 | Smartest, đắt nhất |
+| Claude Sonnet 4.6 | $3 | $15 | Default workhorse |
+| Claude Haiku 4.5 | $1 | $5 | Fast, cheap |
 | GPT-5 | $5 | $15 | (giả định) |
 | GPT-4o | $2.50 | $10 | |
 | Gemini 2 Pro | $3.50 | $10.50 | |
@@ -203,8 +202,8 @@ App Acme Shop chatbot:
 - 1000 user/ngày × 10 message/user = 10k message.
 - Mỗi message: 500 token input (history + context) + 200 token output.
 - Tổng: 5M input + 2M output / ngày.
-- Claude 4 Sonnet: 5M × $3 + 2M × $15 = $15 + $30 = **$45/ngày** = $1,350/tháng.
-- Claude 4 Haiku: 5M × $0.80 + 2M × $4 = $4 + $8 = **$12/ngày** = $360/tháng.
+- Claude Sonnet 4.6: 5M × $3 + 2M × $15 = $15 + $30 = **$45/ngày** = $1,350/tháng.
+- Claude Haiku 4.5: 5M × $1 + 2M × $5 = $5 + $10 = **$15/ngày** = $450/tháng.
 
 → Chọn model theo task: simple Q&A dùng Haiku/Flash; complex reasoning dùng Sonnet/GPT-5.
 
@@ -212,12 +211,14 @@ App Acme Shop chatbot:
 
 ## 5️⃣ Generation parameters — Control output
 
-### Temperature (0-2, default 1.0)
+### Temperature (default 1.0)
 
 Control **randomness**:
 - `0` = deterministic (most likely token).
 - `1` = balanced (recommended for chat).
-- `2` = creative, có khi vô lý.
+- cao hơn = creative, có khi vô lý.
+
+> ⚠️ **Range khác nhau theo provider**: Claude dùng `0-1`, OpenAI dùng `0-2` (truyền >1 vào Claude sẽ lỗi). Các model Claude đời mới (Opus 4.7+) còn **gỡ hẳn** `temperature/top_p/top_k` (truyền vào → 400 error) — điều khiển output bằng prompt + tham số `effort` thay thế.
 
 ```python
 # Code generation: temperature=0 (consistent)
@@ -291,7 +292,7 @@ for chunk in client.messages.stream(...):
 
 | Model | Size | Strength | When |
 |---|---|---|---|
-| **Llama 4** (Meta) | 8B/70B/405B | Quality close to proprietary, open weights | Self-host, fine-tune, data privacy |
+| **Llama 4** (Meta) | MoE: Scout ~109B / Maverick ~400B | Quality close to proprietary, open weights | Self-host, fine-tune, data privacy |
 | **Mistral Large 2** | 123B | Multilingual tốt | EU compliance, RAG |
 | **Qwen 3** (Alibaba) | 7B/72B | Chinese + English | China market |
 | **DeepSeek V3** | 671B MoE | Math + code | Code task, cheap (cùng FP) |
@@ -416,10 +417,16 @@ with client.messages.stream(
 import asyncio
 async_client = anthropic.AsyncAnthropic()
 async def main():
-    r = await async_client.messages.create(...)
+    r = await async_client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=512,
+        messages=[{"role": "user", "content": "Hello"}],
+    )
     print(r.content[0].text)
 asyncio.run(main())
 ```
+
+> ⚠️ **Lưu ý SDK**: với Anthropic SDK, `max_tokens` là tham số **bắt buộc** trong mọi `messages.create` (khác OpenAI — vốn cho phép bỏ trống).
 
 ---
 
@@ -484,7 +491,7 @@ python explain.py sample.py
 
 ---
 
-## ⚠️ Pitfalls — Bẫy người mới
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Token = char
 
@@ -500,7 +507,7 @@ python explain.py sample.py
 
 ### 3. Use Opus cho mọi task
 
-**Sai**: Default model max ($75/M output).
+**Sai**: Default model max ($25/M output).
 
 **Đúng**: Sonnet/Haiku cho 80% task; Opus cho hard reasoning thật sự.
 
@@ -536,7 +543,7 @@ python explain.py sample.py
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] LLM khác classic NLP 5 điểm?
 - [ ] Token vs character vs word — phân biệt?
@@ -549,7 +556,7 @@ python explain.py sample.py
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -563,7 +570,7 @@ python explain.py sample.py
 | **Encoder-only** | Architecture BERT — classify/embed |
 | **Embedding** | Vector representation của token |
 | **Attention** | Mechanism cross-token interaction |
-| **Temperature** | Control randomness (0-2) |
+| **Temperature** | Control randomness (Claude 0-1, OpenAI 0-2) |
 | **Top-p** | Nucleus sampling cutoff |
 | **System prompt** | Instruction toàn cuộc chat |
 | **Multi-turn** | Conversation với history |
@@ -579,12 +586,12 @@ python explain.py sample.py
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md) *(sắp viết)*
-- ↑ Cluster LLM: [LLM README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Prompt Engineering + Context Strategies](01_prompt-engineering-and-context.md) *(sắp viết)*
+- ↑ **Về cụm:** [LLM README](../../README.md)
 
-### Cross-reference
-- 🧠 [RAG + AI Agent](../../../rag-and-ai-agent/) — sibling cluster
+### 🧩 Các chủ đề có thể bạn quan tâm
+- ↑ **Về cụm:** [RAG + AI Agent](../../../rag-and-ai-agent/) — sibling cluster
 - 🔢 [Vector search + Embeddings](../../../vector-search-and-embeddings/) — sibling
 - 🐍 [Python](../../../../03_languages/python/) — language for LLM apps
 - 🌐 [HTTP API](../../../../05_networking/http-https/) — API calls
@@ -605,6 +612,7 @@ python explain.py sample.py
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 LLM basic cluster. LLM định nghĩa + transformer cơ bản + tokenization (token vs char) + context window 2026 (200k-2M) + parameters (temperature/top-p/seed/streaming) + models 2026 compare (Claude 4 / GPT-5 / Gemini 2 / Llama 4) + decision matrix + first API call Anthropic + OpenAI + hands-on "explain code" CLI + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Sửa số liệu Claude 2026: context window Opus/Sonnet 4.6+ lên 1M (output 128k/64k); giá Opus $5/$25, Sonnet $3/$15, Haiku $1/$5; tính lại cost Haiku $15/ngày; pitfall #3 sửa $25/M output; temperature range Claude 0-1 vs OpenAI 0-2 + lưu ý Opus 4.7+ gỡ temperature/top_p/top_k; Llama 4 sửa sang kiến trúc MoE (Scout/Maverick); hoàn thiện ví dụ async + ghi chú max_tokens bắt buộc.

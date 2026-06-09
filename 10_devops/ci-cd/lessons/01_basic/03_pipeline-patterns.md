@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [GitHub Actions](01_github-actions.md), [GitLab CI](02_gitlab-ci.md)
 
 > 🎯 *Tool-agnostic patterns: **PR validation**, **monorepo**, **release tagging**, **scheduled jobs**, **manual approval gates**, **secret scanning**, **dependency updates**, **container vulnerability scan**, **flaky test handling**, **fast feedback** optimization. Sau bài này design pipeline production-grade.*
@@ -723,7 +722,7 @@ jobs:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **CI 30+ min** → devs skip CI, push and pray. Optimize: parallel + cache + matrix shard.
 2. **No required checks** → bad code merge to main. Always require lint + test.
@@ -733,7 +732,7 @@ jobs:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Cách make **PR validation** mandatory before merge?
 2. Monorepo — cách build only affected?
@@ -757,7 +756,7 @@ jobs:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Pattern checklist
 
@@ -816,14 +815,14 @@ Pants       Polyglot — Twitter
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [GitLab CI](02_gitlab-ci.md)
-- → Tiếp: [Deploy Strategies](04_deploy-strategies.md)
-- ↑ Cluster: [ci-cd README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [GitLab CI — Pipeline cho GitLab + self-host](02_gitlab-ci.md)
+- ➡️ **Bài tiếp theo:** [Deploy Strategies — Rolling, Blue-Green, Canary, Feature flags](04_deploy-strategies.md)
+- ↑ **Về cụm:** [ci-cd README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [GitHub Actions security hardening](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 - 📖 [Renovate docs](https://docs.renovatebot.com/)
 - 📖 [Nx docs](https://nx.dev/)
@@ -837,8 +836,7 @@ Pants       Polyglot — Twitter
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước CODEOWNERS + Auto-label + Monorepo Simple path + Pattern paths + Path-filter action.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 4/5. Cover: branch protection + CODEOWNERS + monorepo path filter (3 cấp) + matrix build + reusable workflow + caching (deps + Docker layer) + secrets + OIDC + custom action.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước CODEOWNERS + Auto-label + Monorepo Simple path + Pattern paths + Path-filter action.

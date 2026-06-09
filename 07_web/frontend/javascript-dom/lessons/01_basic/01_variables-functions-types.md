@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [What is JavaScript](00_what-is-javascript.md)
 
 > 🎯 *Master core JS: **`let`/`const`/`var`** (chọn cái nào), **function** (regular vs arrow), **object** + **array** + **string** methods, **template literal**, **destructure + spread + rest**, **truthy/falsy**, **optional chaining `?.`** + **nullish `??`**. Sau bài này code JS hiện đại đúng chuẩn.*
@@ -46,7 +45,7 @@ Bạn ngơ:
 - **Hoisting** là gì?
 
 Senior bảo:
-> *"Anh dính 3 bug đời JS cũ. Modern JS chỉ `let`/`const`, không bao giờ `var`. Plus chục technique nữa (destructure, arrow, optional chaining...) tăng productivity 10x."*
+> *"Bạn dính 3 bug đời JS cũ. Modern JS chỉ `let`/`const`, không bao giờ `var`. Plus chục technique nữa (destructure, arrow, optional chaining...) tăng productivity 10x."*
 
 → Bài này dạy đầy đủ core JS modern.
 
@@ -136,7 +135,7 @@ let y = 5;
 ### Const với object — vẫn mutable!
 
 ```javascript
-const obj = { name: "bạn" };
+const obj = { name: "Nguyen Van A" };
 obj.name = "Le Van B";    // OK — chỉ binding immutable, không phải value
 obj.age = 28;        // OK
 
@@ -203,7 +202,7 @@ const make = (name, age) => ({ name, age });
 
 ```javascript
 const user = {
-  name: "bạn",
+  name: "Nguyen Van A",
   greet() {
     return `Hi, ${this.name}`;
   }
@@ -224,10 +223,10 @@ const user = {
 
 ```javascript
 const user = {
-  name: "bạn",
+  name: "Nguyen Van A",
 
   greetRegular: function() {
-    console.log(this.name);    // "bạn" — this = user
+    console.log(this.name);    // "Nguyen Van A" — this = user
   },
 
   greetArrow: () => {
@@ -270,7 +269,7 @@ function greet(name = "World", greeting = "Hello") {
   return `${greeting}, ${name}!`;
 }
 greet();              // "Hello, World!"
-greet("bạn");        // "Hello, bạn!"
+greet("Nguyen Van A");        // "Hello, Nguyen Van A!"
 
 // Rest parameter
 function sum(...nums) {
@@ -286,14 +285,14 @@ sum(1, 2, 3, 4);      // 10
 ### Concat cũ
 
 ```javascript
-const name = "bạn";
+const name = "Nguyen Van A";
 const greeting = "Hello, " + name + "!";
 ```
 
 ### Template literal (ES6) — backtick `` ` ``
 
 ```javascript
-const name = "bạn";
+const name = "Nguyen Van A";
 const greeting = `Hello, ${name}!`;            // Interpolation
 
 const html = `
@@ -430,13 +429,13 @@ nums.forEach((x, i) => console.log(i, x));
 
 ```javascript
 const user = {
-  name: "bạn",
+  name: "An",
   age: 28,
-  "full name": "Lê bạn",
+  "full name": "Nguyen Van A",
 };
 
-user.name              // "bạn" — dot notation
-user["full name"]      // "Lê bạn" — bracket (key có space)
+user.name              // "An" — dot notation
+user["full name"]      // "Nguyen Van A" — bracket (key có space)
 user.email              // undefined (chưa có)
 ```
 
@@ -452,7 +451,7 @@ delete user.city;       // Remove
 
 ```javascript
 const obj = {
-  name: "bạn",
+  name: "Nguyen Van A",
   greet() {              // ← shorthand for greet: function() {...}
     return `Hi ${this.name}`;
   }
@@ -464,15 +463,15 @@ const obj = {
 ```javascript
 const key = "age";
 const obj = {
-  name: "bạn",
-  [key]: 28,              // → { name: "bạn", age: 28 }
+  name: "Nguyen Van A",
+  [key]: 28,              // → { name: "Nguyen Van A", age: 28 }
 };
 ```
 
 ### Shorthand property
 
 ```javascript
-const name = "bạn";
+const name = "Nguyen Van A";
 const age = 28;
 const user = { name, age };    // ← Same as { name: name, age: age }
 ```
@@ -480,11 +479,11 @@ const user = { name, age };    // ← Same as { name: name, age: age }
 ### Iterate
 
 ```javascript
-const user = { name: "bạn", age: 28 };
+const user = { name: "Nguyen Van A", age: 28 };
 
 Object.keys(user)              // ["name", "age"]
-Object.values(user)             // ["bạn", 28]
-Object.entries(user)            // [["name","bạn"], ["age",28]]
+Object.values(user)             // ["Nguyen Van A", 28]
+Object.entries(user)            // [["name","Nguyen Van A"], ["age",28]]
 
 for (const [key, value] of Object.entries(user)) {
   console.log(key, value);
@@ -528,14 +527,14 @@ let m = 1, n = 2;
 ### Object destructure
 
 ```javascript
-const user = { name: "bạn", age: 28, city: "Hanoi" };
+const user = { name: "Nguyen Van A", age: 28, city: "Hanoi" };
 
 const { name, age } = user;
-// name="bạn", age=28
+// name="Nguyen Van A", age=28
 
 // Rename
 const { name: userName } = user;
-// userName="bạn"
+// userName="Nguyen Van A"
 
 // Default
 const { email = "no@email.com" } = user;
@@ -543,13 +542,13 @@ const { email = "no@email.com" } = user;
 
 // Rest
 const { name, ...rest } = user;
-// name="bạn", rest={age: 28, city: "Hanoi"}
+// name="Nguyen Van A", rest={age: 28, city: "Hanoi"}
 
 // Function param destructure (very common)
 function greet({ name, age = 0 }) {
   return `Hi ${name}, ${age}`;
 }
-greet({ name: "bạn" });          // "Hi bạn, 0"
+greet({ name: "Nguyen Van A" });          // "Hi Nguyen Van A, 0"
 ```
 
 ### Spread operator
@@ -628,7 +627,7 @@ const count = userCount ?? 0;     // 0 OK, "" OK, chỉ null/undefined fallback
 ### `?.` Optional chaining (ES2020)
 
 ```javascript
-const user = { name: "bạn", address: null };
+const user = { name: "Nguyen Van A", address: null };
 
 user.address.city           // ❌ TypeError
 user.address?.city          // ✅ undefined (safe access)
@@ -690,7 +689,7 @@ console.log(`Total: ${total.toLocaleString()}đ`);
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`var`** — function-scoped + hoist = bug. Modern: `const` default, `let` khi cần.
 2. **Arrow trong method object** — `this` không phải object. Method dùng `function`/shorthand.
@@ -700,7 +699,7 @@ console.log(`Total: ${total.toLocaleString()}đ`);
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác `const` và `let`? Khi nào dùng cái nào?
 2. Method object dùng arrow vs regular — chọn cái nào, vì sao?
@@ -811,14 +810,14 @@ Truthy: everything else (including [], {}, "0")
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is JavaScript](00_what-is-javascript.md)
-- → Tiếp: [DOM Manipulation](02_dom-manipulation.md)
-- ↑ Cluster: [javascript-dom README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [JavaScript là gì? — Ngôn ngữ chính của browser](00_what-is-javascript.md)
+- ➡️ **Bài tiếp theo:** [DOM Manipulation — JS điều khiển HTML](02_dom-manipulation.md)
+- ↑ **Về cụm:** [javascript-dom README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — Grammar and types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types)
 - 📖 [javascript.info — Variables](https://javascript.info/variables)
 - 📖 [Array methods chart](https://doesitmutate.xyz/) — mutate vs not
@@ -833,6 +832,6 @@ Truthy: everything else (including [], {}, "0")
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Modern let/const + var legacy + So sánh + Block scope + Hoisting. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Modern let/const, var legacy, So sánh, Block scope, Hoisting. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 2/5. Cover: var vs let vs const + scope (function vs block) + hoisting + TDZ + functions (declaration vs expression vs arrow) + parameters (default/rest/destructure) + types (primitive vs reference) + closure intro.

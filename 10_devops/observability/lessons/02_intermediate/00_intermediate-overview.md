@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~13 phút\
 > **Prerequisites:** [Observability basic](../01_basic/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
 
 > 🎯 *Bài INTRO. Basic đã setup Prometheus + Grafana + Loki + Tempo. Production cần đi sâu: **PromQL fluent + recording rules + alerting strategy**, **LogQL + cardinality management**, **OTel instrumentation thật**, **SRE practices** (SLO, error budget, postmortem, on-call). Bài cuối DevOps intermediate sprint, prep cho IaC intermediate.*
@@ -299,14 +298,13 @@ graph TB
 
 ## 8️⃣ Lộ trình 4 bài kế tiếp
 
-| Bài | Nội dung | Thời lượng | Output |
-|---|---|---|---|
-| **01** PromQL deep | Functions deep + recording rules + multi-window burn rate alerts + Alertmanager routing + Mimir cho long-term | ~25p | Production-grade alert + dashboard |
-| **02** Logs deep | LogQL deep + structured logging + cardinality management + Promtail/Vector pipeline + retention | ~22p | Loki production setup + 5 LogQL patterns |
-| **03** OTel instrumentation | Manual span + context propagation + sampling (head/tail) + Collector pipeline + correlation logs/metrics/traces | ~22p | FastAPI + frontend OTel instrumented end-to-end |
-| **04** SRE practices | SLI/SLO definition + error budget burn rate + blameless postmortem template + on-call rotation + toil reduction | ~25p | Production-grade SRE process |
+| Bài | Nội dung | Output |
+| --- | --- | --- |
+| **01** PromQL deep | Functions deep + recording rules + multi-window burn rate alerts + Alertmanager routing + Mimir cho long-term | Production-grade alert + dashboard |
+| **02** Logs deep | LogQL deep + structured logging + cardinality management + Promtail/Vector pipeline + retention | Loki production setup + 5 LogQL patterns |
+| **03** OTel instrumentation | Manual span + context propagation + sampling (head/tail) + Collector pipeline + correlation logs/metrics/traces | FastAPI + frontend OTel instrumented end-to-end |
+| **04** SRE practices | SLI/SLO definition + error budget burn rate + blameless postmortem template + on-call rotation + toil reduction | Production-grade SRE process |
 
-→ **Tổng ~107 phút đọc + 8-10h hands-on**. Sau cluster: Observability tier-1 + SRE practice.
 
 ---
 
@@ -349,7 +347,7 @@ graph TB
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -384,12 +382,12 @@ graph TB
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_promql-deep-and-alerting.md](01_promql-deep-and-alerting.md) *(sắp viết)*
-- ↑ Observability README: [README](../../README.md)
-- ↶ Trước (basic): [04_grafana-and-alerting.md](../01_basic/04_grafana-and-alerting.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [PromQL chuyên sâu + Recording rules + Chiến lược Alerting](01_promql-deep-and-alerting.md) *(sắp viết)*
+- ↑ **Về cụm:** [README](../../README.md)
+- ⬅️ **Bài trước:** [Grafana & Alerting — Unified dashboard + alert routing](../01_basic/04_grafana-and-alerting.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☸️ [K8s intermediate Autoscaling](../../../kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md) — HPA custom metric
 - 🔁 [CI/CD intermediate Progressive delivery](../../../ci-cd/lessons/02_intermediate/04_progressive-delivery.md) — canary metric analysis
 - 🏗️ [IaC basic](../../../iac/) — Terraform provisions observability stack
@@ -408,8 +406,7 @@ graph TB
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Monitoring/Observability/SRE definitions + LogQL example + Manual span example.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO. Map 4 mảng (PromQL deep / Logs deep / OTel / SRE practices) + tool stack 2026 + 3am incident scenario + roadmap 4 bài kế tiếp + cross-link DevOps stack. Apply 4 insight `__Ref__/` đã capture (SRE practices, postmortem, on-call patterns, alert saturation).
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Monitoring/Observability/SRE definitions + LogQL example + Manual span example.

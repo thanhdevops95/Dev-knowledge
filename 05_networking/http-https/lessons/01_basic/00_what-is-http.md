@@ -6,8 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
-> **Prerequisites:** Đã biết terminal cơ bản ([what-is-terminal](../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md))
+> **Prerequisites:** Đã biết terminal cơ bản ([what-is-terminal](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md))
 
 > 🎯 *Bài INTRO — hiểu **HTTP là gì**, **mô hình request/response**, **stateless** protocol, các version (1.0/1.1/2/3). KHÔNG dạy methods/status/headers chi tiết (sẽ học từ bài 01 trở đi). Sau bài này bạn đọc được Network tab của Chrome DevTools.*
 
@@ -50,7 +49,7 @@ Bạn ngơ:
 
 → Tất cả là **HTTP** — giao thức cốt lõi mọi web app. Khi không hiểu HTTP, mỗi bug network feel như magic. Khi hiểu, bug self-explain trong 30 giây.
 
-Bài này dạy bạn (và bạn) **mô hình HTTP** + **anatomy request/response** + **statelessness** + **versions**. Sau bài này bạn đọc Network tab như đọc sách.
+Bài này dạy bạn **mô hình HTTP** + **anatomy request/response** + **statelessness** + **versions**. Sau bài này bạn đọc Network tab như đọc sách.
 
 ---
 
@@ -112,7 +111,7 @@ sequenceDiagram
 
     C->>+S: GET /users HTTP/1.1<br/>Host: api.example.com<br/>Authorization: Bearer xyz
     Note over S: Server xử lý:<br/>1. Auth check<br/>2. Query DB<br/>3. Format JSON
-    S->>-C: HTTP/1.1 200 OK<br/>Content-Type: application/json<br/><br/>[{"id":1,"name":"bạn"}, ...]
+    S->>-C: HTTP/1.1 200 OK<br/>Content-Type: application/json<br/><br/>[{"id":1,"name":"Nguyen Van A"}, ...]
 
     Note over C,S: Connection có thể đóng hoặc giữ (keep-alive)
 ```
@@ -157,7 +156,7 @@ Content-Type: application/json                     │
 | **Request line** | ✅ | `GET /users HTTP/1.1` | Method + Path + Version |
 | **Headers** | ✅ ít nhất `Host:` | `Authorization: Bearer ...` | Metadata (auth, content type, cache, ...) |
 | **Blank line** | ✅ | (empty line) | Phân tách headers/body |
-| **Body** | Tuỳ method | `{"name": "bạn"}` | Data gửi server (POST/PUT/PATCH) |
+| **Body** | Tuỳ method | `{"name": "Nguyen Van A"}` | Data gửi server (POST/PUT/PATCH) |
 
 ### Request line phân rã
 
@@ -177,7 +176,7 @@ GET    /api/users?role=admin    HTTP/1.1
 | `PATCH` | ✅ | ❌ | Update 1 phần |
 | `DELETE` | Tuỳ | ✅ | Xoá |
 
-> 💡 Chi tiết methods → [01_http-methods.md](./01_http-methods.md) (chưa có)
+> 💡 Chi tiết methods → [01_http-methods.md](./01_http-methods.md)
 
 ### Common request headers
 
@@ -190,7 +189,7 @@ GET    /api/users?role=admin    HTTP/1.1
 | `User-Agent` | `Mozilla/5.0...` | Client identify |
 | `Cookie` | `session=xyz` | Session cookie |
 
-> 💡 Chi tiết headers → [03_http-headers.md](./03_http-headers.md) (chưa có)
+> 💡 Chi tiết headers → [03_http-headers.md](./03_http-headers.md)
 
 ---
 
@@ -234,9 +233,9 @@ Server: nginx/1.24                                 │
 - **4xx** = "Lỗi của bạn (client)" ⚠️
 - **5xx** = "Lỗi của tôi (server)" 🔥
 
-> 💡 Chi tiết → [02_http-status-codes.md](./02_http-status-codes.md) (chưa có)
+> 💡 Chi tiết → [02_http-status-codes.md](./02_http-status-codes.md)
 
-### Trả lời tình huống Bạn mở bài
+### Trả lời tình huống ở đầu bài
 
 ```
 Status: 401      ← 4xx = lỗi CLIENT
@@ -386,7 +385,7 @@ curl -H "Authorization: Bearer xyz" https://api.example.com/users
 # POST với JSON body
 curl -X POST https://api.example.com/users \
   -H "Content-Type: application/json" \
-  -d '{"name": "bạn", "email": "nguyenvana@example.com"}'
+  -d '{"name": "Nguyen Van A", "email": "nguyenvana@example.com"}'
 
 # Hiển thị verbose (headers full)
 curl -v https://api.example.com
@@ -413,9 +412,9 @@ GUI để build + save + share request collection:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: "API không chạy" mà không mở DevTools
+### ❌ Cạm bẫy: "API không chạy" mà không mở DevTools
 
 ```javascript
 fetch('/api/users').then(r => r.json())
@@ -427,7 +426,7 @@ fetch('/api/users').then(r => r.json())
 - Xem status code → biết lỗi client (4xx) hay server (5xx)
 - Xem response body → biết error message backend trả
 
-### ❌ Pitfall: Nhầm `301` vs `302`
+### ❌ Cạm bẫy: Nhầm `301` vs `302`
 
 ```
 301 Moved Permanently  → browser CACHE redirect, lần sau không hỏi server cũ
@@ -438,7 +437,7 @@ fetch('/api/users').then(r => r.json())
 
 **Cách tránh**: default dùng **302** trừ khi chắc chắn redirect vĩnh viễn.
 
-### ❌ Pitfall: GET có body
+### ❌ Cạm bẫy: GET có body
 
 ```bash
 curl -X GET https://api.example.com/users -d '{"filter": "active"}'
@@ -454,7 +453,7 @@ curl https://api.example.com/users?filter=active
 curl -X POST https://api.example.com/users/search -d '{"filter": "..."}'
 ```
 
-### ❌ Pitfall: Bỏ qua HTTPS
+### ❌ Cạm bẫy: Bỏ qua HTTPS
 
 ```javascript
 fetch('http://api.example.com/login', {body: password})    // ❌ Plain text
@@ -464,7 +463,7 @@ fetch('http://api.example.com/login', {body: password})    // ❌ Plain text
 
 **Cách tránh**: **MỌI** API production dùng HTTPS. Browser modern block HTTP cho cookie/credentials.
 
-### ❌ Pitfall: CORS error tưởng là backend bug
+### ❌ Cạm bẫy: CORS error tưởng là backend bug
 
 ```
 Access to fetch at 'https://api.example.com' from origin 'http://localhost:3000'
@@ -473,11 +472,11 @@ has been blocked by CORS policy.
 
 **Lý do**: trình duyệt block cross-origin request mặc định. KHÔNG phải backend "bug" — backend cần config `Access-Control-Allow-Origin` header.
 
-**Cách tránh**: đọc CORS chi tiết ở [03_http-headers.md](./03_http-headers.md) §CORS (chưa có).
+**Cách tránh**: đọc CORS chi tiết ở [03_http-headers.md](./03_http-headers.md) §5 CORS.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** HTTP có phải chỉ dùng cho browser load web page?
 
@@ -558,7 +557,7 @@ has been blocked by CORS policy.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### HTTP request structure
 
@@ -615,7 +614,7 @@ curl -w "%{http_code}" -o /dev/null <URL>    # Chỉ status code
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -646,20 +645,20 @@ curl -w "%{http_code}" -o /dev/null <URL>    # Chỉ status code
 
 | Bài | Nội dung |
 |---|---|
-| [01_http-methods.md](./01_http-methods.md) (chưa có) | GET/POST/PUT/PATCH/DELETE + idempotent + safe |
-| [02_http-status-codes.md](./02_http-status-codes.md) (chưa có) | 5 nhóm + 15 mã phổ biến + use case |
-| [03_http-headers.md](./03_http-headers.md) (chưa có) | Content-Type / Auth / Cache / CORS chi tiết |
-| [04_https-tls.md](./04_https-tls.md) (chưa có) | HTTPS, certificates, handshake |
-| [05_rest-api-concepts.md](./05_rest-api-concepts.md) (chưa có) | REST principles, resource design |
+| [01_http-methods.md](./01_http-methods.md) | GET/POST/PUT/PATCH/DELETE + idempotent + safe |
+| [02_http-status-codes.md](./02_http-status-codes.md) | 5 nhóm + 15 mã phổ biến + use case |
+| [03_http-headers.md](./03_http-headers.md) | Content-Type / Auth / Cache / CORS chi tiết |
+| [04_https-tls.md](./04_https-tls.md) | HTTPS, certificates, handshake |
+| [05_rest-api-concepts.md](./05_rest-api-concepts.md) | REST principles, resource design |
 
 ### Trong kho
 
-- 🧭 [Backend Developer Roadmap](../../../00_roadmaps/career/backend-developer_career-roadmap.md) — link tới HTTP basics
-- 🧭 [Frontend Developer Roadmap](../../../00_roadmaps/career/frontend-developer_career-roadmap.md) — link
+- 🧭 [Backend Developer Roadmap](../../../../00_roadmaps/career/backend-developer_career-roadmap.md) — link tới HTTP basics
+- 🧭 [Frontend Developer Roadmap](../../../../00_roadmaps/career/frontend-developer_career-roadmap.md) — link
 - 🛠️ `02_tools/api-clients/` (chưa có) — Postman/Insomnia/Bruno detail
-- 🎓 [Terminal/Shell basics](../../../01_foundations/computing-environment/lessons/01_basic/) — để dùng curl
+- 🎓 [Terminal/Shell basics](../../../../01_foundations/computing-environment/lessons/01_basic/) — để dùng curl
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [MDN HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP) — chính thức, đầy đủ nhất (tiếng Anh)
 - [HTTP RFC 9110](https://www.rfc-editor.org/rfc/rfc9110) — spec chính thức HTTP/1.1
@@ -671,8 +670,7 @@ curl -w "%{http_code}" -o /dev/null <URL>    # Chỉ status code
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §1 "Bản chất" bullet list + §1 "Vì sao thống trị" bảng versions + §1 "Use cases" bảng + §2 "Luôn theo cặp" bảng + §3 Anatomy request structure. Nội dung kỹ thuật giữ nguyên 100%.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Mở cluster `05_networking/http-https/`. Cover: tình huống Bạn debug API 401 → §1 HTTP là gì + 5 lịch sử versions + 6 use cases → §2 Request-response mermaid + ẩn dụ "gọi điện thoại" → §3 Anatomy request 4 phần + bảng 5 methods + 6 common headers → §4 Anatomy response + status code 5 groups + trả lời tình huống bạn → §5 Stateless + 3 fake-state mechanisms → §6 HTTP/1.1 vs 2 vs 3 + diagram → §7 3 tool (DevTools/curl/Postman). 5 pitfall + 4 self-check + cheatsheet curl + status table + glossary 18 thuật ngữ.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/bullet ở §1 ("Bản chất", "Vì sao thống trị" bảng versions, "Use cases"), §2 ("Luôn theo cặp"), §3 (Anatomy request structure). Chuẩn hoá ví dụ placeholder `"name": "Nguyen Van A"`. Nội dung kỹ thuật giữ nguyên.

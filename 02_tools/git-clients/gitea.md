@@ -395,9 +395,9 @@ sudo systemctl start gitea
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: SSH port conflict với system SSH
+### ❌ Cạm bẫy: SSH port conflict với system SSH
 
 ```bash
 docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
@@ -406,7 +406,7 @@ docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
 - **Hậu quả**: container không start hoặc host SSH bị block
 - **Cách tránh**: dùng port khác (vd `222`), URL clone: `ssh://git@host:222/...`
 
-### ❌ Pitfall: Không setup HTTPS — credentials leak
+### ❌ Cạm bẫy: Không setup HTTPS — credentials leak
 
 - HTTP plain → password git push qua mạng plain text → mạng public capture được
 - **Cách fix**: setup HTTPS với:
@@ -414,7 +414,7 @@ docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
   - Hoặc Caddy auto-HTTPS
   - Hoặc Cloudflare Tunnel
 
-### ❌ Pitfall: Quên backup → mất data
+### ❌ Cạm bẫy: Quên backup → mất data
 
 - Self-host = bạn chịu trách nhiệm 100%. Disk fail = mất repo nếu không backup.
 - **Cách tránh**:
@@ -422,7 +422,7 @@ docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
   - Test restore định kỳ (3 tháng/lần)
   - Setup git remote mirror sang GitHub backup
 
-### ❌ Pitfall: Không update version → security vuln
+### ❌ Cạm bẫy: Không update version → security vuln
 
 - Self-host = bạn maintain. Gitea có CVE → bạn phải update
 - **Cách tránh**:
@@ -442,7 +442,7 @@ docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Gitea vs Forgejo vs Codeberg — phân biệt?
 
@@ -503,7 +503,7 @@ docker run -p 22:22 gitea/gitea     # ❌ Conflict với host SSH
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cài Docker (1 lệnh)
 
@@ -545,7 +545,7 @@ docker exec gitea-db pg_dump -U gitea gitea > backup.sql
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -570,7 +570,7 @@ docker exec gitea-db pg_dump -U gitea gitea > backup.sql
 - 🛠️ [gitlab.md](./gitlab.md) — Alternative self-host nặng hơn
 - 🐳 [Docker basics](../../10_devops/docker/lessons/01_basic/) — cần biết Docker để self-host
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [gitea.com](https://gitea.com/) — chính thức (lưu ý: gitea.io đã thành gitea.com sau Lonn acquisition)
 - [Gitea Docs](https://docs.gitea.com/) — chính thức
@@ -578,10 +578,10 @@ docker exec gitea-db pg_dump -U gitea gitea > backup.sql
 - [act_runner GitHub](https://gitea.com/gitea/act_runner) — CI runner
 - [Awesome Gitea](https://gitea.com/gitea/awesome-gitea) — community resources
 - [Gitea Docker Hub](https://hub.docker.com/r/gitea/gitea) — official image
-- [Migration Gitea → Forgejo](https://forgejo.org/docs/latest/admin/upgrade-from-gitea/)
+- ➡️ **Bài tiếp theo:** [Migration Gitea → Forgejo](https://forgejo.org/docs/latest/admin/upgrade-from-gitea/)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #6 trong git-clients/ — **đóng cluster**. Cover: tình huống homelab K8s lab → §1 Gitea + 3-way split (Gogs/Gitea/Forgejo) → §2 vs GitLab CE (RAM 100MB vs 8GB) → §3 Cài 4 cách (Docker/Compose/Binary/APT) → §4 First-run wizard → §5 User workflow → §6 Gitea Actions + runner setup → §7 Backup + maintain + update. 5 pitfall + 3 self-check.

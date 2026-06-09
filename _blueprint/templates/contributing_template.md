@@ -63,7 +63,7 @@ PR body nên có:
 | Bài thiếu câu dẫn — section nhảy ngang | Người đọc vấp khi đọc, mất flow |
 | Code mẫu chưa test | Người đọc gặp lỗi, mất niềm tin vào kho |
 | Heading tiếng Anh trong bài VN | Vi phạm ngôn ngữ chính của kho |
-| Ước tính thời gian thiếu căn cứ ("học X trong 1 ngày") | Tạo expectation sai |
+| Chèn ước tính thời gian (giờ/tuần/tháng/phút) vào bài | Repo bỏ hết ước tính thời gian — tạo expectation sai, khó bảo trì |
 | Copy-paste từ nguồn khác không thêm value | Vi phạm Evergreen + DRY |
 | Outdated content (vd: API version cũ) | Người đọc làm theo sẽ lỗi |
 | Hardcode credential thật (password, API key) | Bảo mật |

@@ -1,13 +1,12 @@
 # 🛡️ Cloudflare Security — WAF, Zero Trust, DDoS, Bot, Turnstile
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) đến [03_r2-and-d1-and-queues](03_r2-and-d1-and-queues.md), hiểu HTTP request anatomy, biết SQL injection / XSS cơ bản
+> **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) đến [03_r2-and-d1-and-queues](03_r2-and-d1-and-queues.md), hiểu HTTP request anatomy, biết SQL injection / XSS cơ bản
 
 > 🎯 *Trụ cột "Security" của Cloudflare — thứ làm Cloudflare nổi tiếng từ 2009. Bài này dạy: WAF custom rules + managed rulesets, Rate Limiting, Bot Management, DDoS protection (free unmetered), Zero Trust suite (Access + Gateway + Tunnel/cloudflared), mTLS, Turnstile (CAPTCHA-free). Cuối bài làm hands-on bảo vệ FastAPI backend của Acme Shop sau Cloudflare — chặn SQL injection, rate limit login, expose qua Tunnel không cần mở port public.*
 
@@ -46,7 +45,7 @@ Bài này dạy cách bao bọc toàn bộ Acme Shop qua Cloudflare security sta
 
 ### Layered defense
 
-```
+```text
 Internet
    ↓
 [DDoS L3/L4] ← Free unmetered (Anycast network absorbing)
@@ -96,7 +95,7 @@ Origin (FastAPI, S3, ...)
 
 `Security → WAF → Custom rules → Create rule`:
 
-```
+```text
 Field          Operator          Value                Action
 ─────────────────────────────────────────────────────────
 http.request.uri.path  matches  ^/admin/      →  Block
@@ -108,7 +107,7 @@ http.user_agent        contains "curl"              →  JS Challenge
 
 Expression compound:
 
-```
+```text
 (http.request.uri.path matches "^/api/") and 
 (http.request.method eq "POST") and 
 (not http.request.headers["x-api-key"][0] eq "secret123")
@@ -187,7 +186,7 @@ Mỗi ruleset có:
 
 `Security → WAF → Rate limiting rules`:
 
-```
+```text
 Name: Limit login attempts
 If incoming requests match:
   (http.request.uri.path eq "/api/login") and
@@ -202,7 +201,7 @@ Then:
 
 ### Advanced Rate Limit (Pro+)
 
-```
+```text
 Name: API key abuse
 Match: (http.request.uri.path matches "^/api/")
 Characteristics: 
@@ -253,7 +252,7 @@ Mỗi request có `cf.bot_management.score` 1-99:
 - 1-29: Bot
 - 30-99: Human
 
-```
+```text
 (http.request.uri.path matches "^/api/checkout/") and 
 (cf.bot_management.score lt 30)
 → Block
@@ -263,7 +262,7 @@ Mỗi request có `cf.bot_management.score` 1-99:
 
 Cloudflare maintain **list of good bots** (Google, Bing, Slack preview, AhrefsBot, ...). Cho phép qua dù score thấp:
 
-```
+```text
 cf.verified_bot eq true
 → Skip rule
 ```
@@ -317,7 +316,7 @@ Nếu bị false positive (vd ứng dụng legitimate có pattern giống DDoS):
 
 Thay thế VPN cho internal app. Pattern:
 
-```
+```text
 User → app.acmeshop.vn → Cloudflare Access
                           ↓ verify (Google SSO, Okta, GitHub, ...)
                           ↓ check policy (device, country, group)
@@ -390,7 +389,7 @@ cloudflared service install
 
 ### Combine: Tunnel + Access
 
-```
+```text
 External user → api.acmeshop.vn 
    → Cloudflare edge (DDoS, WAF, Rate limit)
    → Cloudflare Access (verify SSO)
@@ -411,7 +410,7 @@ External user → api.acmeshop.vn
 1. Zone → SSL/TLS → Client Certificates → Create CA.
 2. Issue cert cho client.
 3. Tạo WAF rule: 
-   ```
+   ```text
    not cf.tls_client_auth.cert_verified
    → Block
    ```
@@ -571,7 +570,7 @@ curl "https://api.acmeshop.vn/api/products?id=1' OR '1'='1"
 
 `Security → WAF → Custom rules → Create rule`:
 
-```
+```text
 Name: Block non-VN admin access
 Expression:
   (http.request.uri.path matches "^/admin/") and 
@@ -585,7 +584,7 @@ Action: Block
 
 `Security → WAF → Rate limiting rules → Create rule`:
 
-```
+```text
 Name: Login throttle
 Expression:
   (http.request.uri.path eq "/api/login") and 
@@ -647,9 +646,9 @@ Backend verify như §8.
 
 ---
 
-## 💡 Pitfalls — Bẫy phổ biến
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: WAF rule action Block ngay khi deploy
+### ❌ Cạm bẫy: WAF rule action Block ngay khi deploy
 
 **Triệu chứng**: Bật managed ruleset → 30% legitimate traffic bị block → khách than phiền.
 
@@ -661,7 +660,7 @@ Backend verify như §8.
 - Add exception (skip rule cho path/IP cụ thể).
 - Đổi sang Block sau khi confident.
 
-### ❌ Pitfall: Rate Limit theo IP fail với mobile carrier NAT
+### ❌ Cạm bẫy: Rate Limit theo IP fail với mobile carrier NAT
 
 **Triệu chứng**: Block 5 login/60s → nhiều user mobile dùng cùng IP carrier (CGNAT) → block oan.
 
@@ -672,7 +671,7 @@ Backend verify như §8.
 - Hoặc theo `cf-ipcountry + ASN + path` thay vì pure IP.
 - Threshold cao hơn cho mobile UA.
 
-### ❌ Pitfall: Block country quá rộng
+### ❌ Cạm bẫy: Block country quá rộng
 
 **Triệu chứng**: Block country X để chặn attack → user thực ở X complain.
 
@@ -682,7 +681,7 @@ Backend verify như §8.
 - Geo-block chỉ cho admin/sensitive path, không toàn site.
 - Combine với threat score thay vì pure country.
 
-### ❌ Pitfall: Cloudflare Tunnel route mất chứng chỉ
+### ❌ Cạm bẫy: Cloudflare Tunnel route mất chứng chỉ
 
 **Triệu chứng**: `cloudflared` đột nhiên không connect — "credentials not found".
 
@@ -692,7 +691,7 @@ Backend verify như §8.
 - Backup folder `~/.cloudflared/` lên password manager / encrypted vault.
 - Hoặc dùng Tunnel API token thay credentials file.
 
-### ❌ Pitfall: Zero Trust Access policy quên Require
+### ❌ Cạm bẫy: Zero Trust Access policy quên Require
 
 **Triệu chứng**: Policy chỉ có Include `@acmeshop.vn` → ai có alias forward về `@acmeshop.vn` vẫn pass.
 
@@ -702,7 +701,7 @@ Backend verify như §8.
 - Combine Include + Require + Exclude.
 - Test với multiple identity scenario trước go-live.
 
-### ❌ Pitfall: Bot Fight Mode block Google Search Console / SEO crawler
+### ❌ Cạm bẫy: Bot Fight Mode block Google Search Console / SEO crawler
 
 **Triệu chứng**: Sau bật Bot Fight, GSC báo "can't crawl". SEO traffic giảm.
 
@@ -712,7 +711,7 @@ Backend verify như §8.
 - Bật **Verified Bots** = Allow.
 - WAF skip rule cho `cf.verified_bot eq true`.
 
-### ❌ Pitfall: SSL Always-On với origin chưa SSL → infinite redirect
+### ❌ Cạm bẫy: SSL Always-On với origin chưa SSL → infinite redirect
 
 **Triệu chứng**: Trang load infinite loop.
 
@@ -722,7 +721,7 @@ Backend verify như §8.
 - Dùng **Full (Strict)** + Origin CA cert.
 - Origin không redirect HTTP→HTTPS (Cloudflare đã làm).
 
-### ❌ Pitfall: Tunnel không restart sau reboot
+### ❌ Cạm bẫy: Tunnel không restart sau reboot
 
 **Triệu chứng**: Sau reboot laptop, `api.acmeshop.vn` 502.
 
@@ -734,7 +733,7 @@ Backend verify như §8.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** WAF Managed Rule vs Custom Rule — khác gì? Khi nào dùng cái nào?
 
@@ -785,7 +784,7 @@ Mobile carrier dùng CGNAT — hàng nghìn user share 1 IP công cộng. Rate l
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Cách |
 |---|---|
@@ -808,45 +807,47 @@ Mobile carrier dùng CGNAT — hàng nghìn user share 1 IP công cộng. Rate l
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN / Giải thích |
-|---|---|
-| **WAF** | Web Application Firewall |
-| **Managed Ruleset** | Bộ rule Cloudflare maintain |
-| **Custom Rule** | Rule do bạn viết theo expression |
-| **Rate Limiting** | Throttle request theo ngưỡng |
-| **Bot Score** | Số 1-99 đánh giá khả năng request là bot |
-| **Verified Bot** | Bot good được Cloudflare verify (Google, Bing, ...) |
-| **DDoS** | Distributed Denial of Service |
-| **Anycast** | Network architecture nhiều POP cùng IP, user đi nearest |
-| **Zero Trust** | Security model "never trust, always verify" |
-| **Access** | Cloudflare SSO + per-app authorization |
-| **Gateway** | DNS/HTTP filter outbound cho user company |
-| **Tunnel / cloudflared** | Reverse tunnel từ origin đến Cloudflare |
-| **mTLS** | Mutual TLS — client cũng phải có cert |
-| **Turnstile** | CAPTCHA alternative dùng AI + browser signal |
-| **Managed Challenge** | Cloudflare tự chọn challenge phù hợp |
-| **JS Challenge** | Yêu cầu browser run JS để verify |
-| **Threat Score** | Số 0-100 đánh giá risk request |
-| **Bot Fight Mode** | Bật bảo vệ bot mức cơ bản (Free) |
-| **CGNAT** | Carrier-Grade NAT — mobile share IP |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **WAF** | Tường lửa ứng dụng web | Web Application Firewall — chặn HTTP request độc hại trước khi đến origin |
+| **Managed Ruleset** | Bộ rule quản lý sẵn | Bộ rule do Cloudflare maintain (OWASP, log4j, exposed creds, ...) |
+| **Custom Rule** | Rule tự định nghĩa | Rule do bạn viết theo cú pháp expression cho business logic riêng |
+| **Rate Limiting** | Giới hạn tần suất | Throttle request khi vượt ngưỡng trong một khoảng thời gian |
+| **Bot Score** | Điểm bot | Số 1-99 đánh giá khả năng request là bot (thấp = bot, cao = human) |
+| **Verified Bot** | Bot đã xác thực | Bot tốt được Cloudflare verify (Google, Bing, ...) |
+| **DDoS** | Tấn công từ chối dịch vụ phân tán | Distributed Denial of Service — làm quá tải origin bằng lưu lượng giả |
+| **Anycast** | Định tuyến anycast | Kiến trúc mạng nhiều POP cùng chia sẻ 1 IP, user đi POP gần nhất |
+| **Zero Trust** | Không tin mặc định | Mô hình bảo mật "never trust, always verify" — xác thực mọi lần truy cập |
+| **Access** | Cổng xác thực app | Cloudflare SSO + phân quyền theo từng ứng dụng, thay thế VPN |
+| **Gateway** | Bộ lọc DNS/HTTP outbound | Lọc traffic đi ra cho thiết bị nhân viên (malware, phishing, content) |
+| **Tunnel / cloudflared** | Đường hầm ngược | Reverse tunnel từ origin ra Cloudflare, origin không cần public IP |
+| **mTLS** | TLS hai chiều | Mutual TLS — cả client cũng phải xuất trình certificate |
+| **Turnstile** | CAPTCHA ẩn | Giải pháp thay reCAPTCHA dùng AI + browser signal, không track PII |
+| **Managed Challenge** | Thử thách tự chọn | Cloudflare tự chọn loại challenge phù hợp với request |
+| **JS Challenge** | Thử thách JavaScript | Yêu cầu browser thực thi JS để verify (chặn bot không headless) |
+| **Threat Score** | Điểm rủi ro | Số 0-100 đánh giá mức độ rủi ro của request |
+| **Bot Fight Mode** | Chế độ chống bot cơ bản | Bật bảo vệ chống bot mức cơ bản (có trên Free plan) |
+| **CGNAT** | NAT cấp nhà mạng | Carrier-Grade NAT — hàng nghìn thiết bị mobile share chung 1 IP công cộng |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_r2-and-d1-and-queues](03_r2-and-d1-and-queues.md)
-- ↑ Cluster: [Cloudflare README](../../README.md) (bài cuối cluster basic)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — so sánh API Gateway WAF integration
-- 🐍 [FastAPI](../../../../07_web/backend/python-fastapi/) — backend tutorial
-- 🧭 [DevOps roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
-- 🧭 [Security Engineer roadmap](../../../../00_roadmaps/career/security-engineer_career-roadmap.md)
+- ⬅️ **Bài trước:** [Cloudflare R2 + D1 + Queues — Storage & data layer ở edge](03_r2-and-d1-and-queues.md)
+- ➡️ **Bài tiếp theo:** (bài cuối cụm Cloudflare basic)
+- ↑ **Về cụm:** [Cloudflare — Tổng quan cụm](../../README.md)
 
-### Tài nguyên ngoài (2026)
+### 🧩 Các chủ đề liên quan
+- ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — so sánh cách tích hợp WAF với API Gateway
+- 🐍 [FastAPI](../../../../07_web/backend/python-fastapi/) — backend dùng trong phần hands-on
+- 🧭 [DevOps Engineer Career Roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
+- 🧭 [Security Engineer Career Roadmap](../../../../00_roadmaps/career/security-engineer_career-roadmap.md)
+
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [WAF docs](https://developers.cloudflare.com/waf/)
 - 📖 [Rate Limiting docs](https://developers.cloudflare.com/waf/rate-limiting-rules/)
 - 📖 [Bot Management docs](https://developers.cloudflare.com/bots/)
@@ -860,6 +861,7 @@ Mobile carrier dùng CGNAT — hàng nghìn user share 1 IP công cộng. Rate l
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 cluster Cloudflare basic — bài cuối. WAF custom + managed rulesets + expression syntax + Rate Limiting per IP/cookie + Bot Management + Bot Score + DDoS Layer 3/4/7 unmetered free explanation (anycast) + Zero Trust suite (Access + Gateway + Tunnel/cloudflared) + mTLS + Turnstile vs reCAPTCHA + hands-on FastAPI Acme Shop full security stack + 8 pitfalls. Đóng cluster Cloudflare basic 5 bài.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; gắn ngôn ngữ `text` cho các code fence diagram/expression/config còn để trống; chuyển Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (⬅️ Bài trước/➡️ Bài tiếp theo/↑ Về cụm + link-text = tiêu đề H1 thực + 3 sub-heading canonical).

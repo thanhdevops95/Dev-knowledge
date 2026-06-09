@@ -1,13 +1,12 @@
 # 💾 Cloudflare R2 + D1 + Queues — Storage & data layer ở edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~21 phút\
-> **Prerequisites:** Xong [02_workers-and-pages](02_workers-and-pages.md), biết SQL cơ bản, đã từng dùng S3 (hoặc bất kỳ object storage)
+> **Yêu cầu trước:** Xong [02_workers-and-pages](02_workers-and-pages.md), biết SQL cơ bản, đã từng dùng S3 (hoặc bất kỳ object storage)
 
 > 🎯 *Stack Cloudflare developer chưa hoàn chỉnh nếu thiếu storage layer. Bài này dạy 4 service: **R2** (object storage S3-compatible zero egress), **D1** (SQLite edge-replicated), **Queues** (message queue), **Hyperdrive** (Postgres connection pool từ edge). Cuối bài làm hands-on Acme Shop image upload (R2) + product catalog (D1) + order processing (Queues). So sánh R2 vs S3 cost — minh hoạ vì sao Cloudflare thắng cuộc.*
 
@@ -826,9 +825,9 @@ wrangler tail acmeshop-fullstack
 
 ---
 
-## 💡 Pitfalls — Bẫy phổ biến
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: R2 public access mở hết bucket
+### ❌ Cạm bẫy: R2 public access mở hết bucket
 
 **Triệu chứng**: Bật Public access → 1 attacker scan list bucket → tải hết 5TB ảnh → bandwidth chính bạn vẫn $0 (R2 zero egress) nhưng compute / processing tăng.
 
@@ -839,7 +838,7 @@ wrangler tail acmeshop-fullstack
 - Production: Worker làm proxy + WAF rate limit.
 - Hoặc presigned URL với TTL ngắn.
 
-### ❌ Pitfall: D1 schema migration nhầm — drop production
+### ❌ Cạm bẫy: D1 schema migration nhầm — drop production
 
 **Triệu chứng**: Chạy migration `DROP TABLE products` ở production thay vì local.
 
@@ -850,9 +849,9 @@ wrangler tail acmeshop-fullstack
 - CI/CD áp dụng remote chỉ sau review.
 - Backup D1 thường xuyên: `wrangler d1 export acmeshop-db --output=backup.sql`.
 
-### ❌ Pitfall: D1 SELECT \* khi > 6 MB
+### ❌ Cạm bẫy: D1 SELECT \* khi > 6 MB
 
-**Triệu chextual**: Query 10k rows trả result quá 6MB → error 7500.
+**Triệu chứng**: Query 10k rows trả result quá 6MB → error 7500.
 
 **Nguyên nhân**: D1 limit response 6MB.
 
@@ -860,7 +859,7 @@ wrangler tail acmeshop-fullstack
 - Pagination `LIMIT ... OFFSET ...`.
 - Chỉ select columns cần.
 
-### ❌ Pitfall: Queue consumer infinite retry
+### ❌ Cạm bẫy: Queue consumer infinite retry
 
 **Triệu chứng**: Bug consumer → retry mãi → quota cạn → cost tăng.
 
@@ -870,7 +869,7 @@ wrangler tail acmeshop-fullstack
 - Luôn set `max_retries = 3` + `dead_letter_queue`.
 - Monitor DLQ size — alert khi > N.
 
-### ❌ Pitfall: Quên ack/retry message
+### ❌ Cạm bẫy: Quên ack/retry message
 
 **Triệu chứng**: Message đứng yên trong queue, không xử lý lại.
 
@@ -879,7 +878,7 @@ wrangler tail acmeshop-fullstack
 **Cách tránh**:
 - Wrap try/catch, gọi `msg.ack()` khi thành công, `msg.retry()` khi fail.
 
-### ❌ Pitfall: Hyperdrive cache SELECT có user-specific data
+### ❌ Cạm bẫy: Hyperdrive cache SELECT có user-specific data
 
 **Triệu chứng**: User A query `SELECT * FROM orders WHERE user_id = 1` → cached → user B query cùng SQL string với param khác → có thể trả cache của A.
 
@@ -889,7 +888,7 @@ wrangler tail acmeshop-fullstack
 - Disable cache cho query user-specific.
 - Hoặc dùng SQL khác nhau per user.
 
-### ❌ Pitfall: R2 + S3 SDK timeout config
+### ❌ Cạm bẫy: R2 + S3 SDK timeout config
 
 **Triệu chứng**: AWS SDK kết nối R2 timeout 30s default → Worker bị kill 30s limit.
 
@@ -899,7 +898,7 @@ wrangler tail acmeshop-fullstack
 - Cấu hình SDK timeout 5-10s.
 - Hoặc dùng R2 binding (`env.UPLOADS`) thay vì AWS SDK — nhanh + tích hợp.
 
-### ❌ Pitfall: D1 transaction nhầm — không atomic
+### ❌ Cạm bẫy: D1 transaction nhầm — không atomic
 
 **Triệu chứng**: Insert order + decrease stock → 2 lệnh riêng → 1 fail còn 1 thành công → data inconsistent.
 
@@ -911,7 +910,7 @@ wrangler tail acmeshop-fullstack
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Vì sao R2 zero egress nhưng S3 thì không?
 
@@ -960,7 +959,7 @@ Dùng **Sessions API** (`db.withSession('first-primary')`). Session sticky 1 rep
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh / cách |
 |---|---|
@@ -980,42 +979,44 @@ Dùng **Sessions API** (`db.withSession('first-primary')`). Session sticky 1 rep
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN / Giải thích |
-|---|---|
-| **R2** | Object storage Cloudflare, S3-compatible, zero egress |
-| **D1** | Managed SQLite edge-replicated |
-| **Queues** | Message queue Cloudflare |
-| **Hyperdrive** | Connection pool + cache cho Postgres origin |
-| **Egress** | Data ra khỏi cloud (download bandwidth) |
-| **Class A op** | Write/list operation (PUT/POST/COPY/LIST) |
-| **Class B op** | Read operation (GET/HEAD) |
-| **Presigned URL** | URL ngắn hạn cho upload/download direct |
-| **Multipart upload** | Upload file lớn theo chunk, resumable |
-| **DLQ** | Dead Letter Queue — chứa message fail nhiều lần |
-| **Batch** | Group messages 1 lần consumer xử lý |
-| **Sessions API** | D1 API đảm bảo read-your-write consistency |
-| **Bookmark** | Token mô tả "tôi đã thấy write này" cho Sessions |
-| **Hyperdrive cache** | Cache SELECT ở Cloudflare proxy |
-| **Bandwidth Alliance** | Liên minh giảm egress fee |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **R2** | Object storage edge | Object storage của Cloudflare, S3-compatible, zero egress |
+| **D1** | SQLite phân tán | Managed SQLite edge-replicated (primary 1 region, read replica khắp POP) |
+| **Queues** | Hàng đợi message | Message queue của Cloudflare cho background work |
+| **Hyperdrive** | Pool kết nối Postgres | Connection pool + cache cho Postgres origin từ Workers |
+| **Egress** | Dữ liệu ra | Data ra khỏi cloud (download bandwidth) — chỗ S3 tính phí, R2 thì miễn phí |
+| **Class A op** | Thao tác ghi/liệt kê | Operation kiểu PUT/POST/COPY/LIST trên R2 |
+| **Class B op** | Thao tác đọc | Operation kiểu GET/HEAD trên R2 |
+| **Presigned URL** | URL ký sẵn | URL ngắn hạn cho client upload/download trực tiếp R2 |
+| **Multipart upload** | Upload nhiều phần | Upload file lớn theo chunk, hỗ trợ resumable |
+| **DLQ** | Hàng đợi chết | Dead Letter Queue — chứa message fail quá số lần retry |
+| **Batch** | Lô message | Nhóm message giao cho consumer xử lý 1 lần (1–100 message) |
+| **Sessions API** | API phiên D1 | API của D1 đảm bảo read-your-write consistency trên read replica |
+| **Bookmark** | Dấu mốc đọc | Token mô tả "đã thấy write này" để Sessions API dùng cho request sau |
+| **Hyperdrive cache** | Cache truy vấn | Cache câu SELECT ngay tại Cloudflare proxy |
+| **Bandwidth Alliance** | Liên minh băng thông | Liên minh nhà mạng giảm/miễn phí egress khi truyền giữa các thành viên |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_workers-and-pages](02_workers-and-pages.md)
-- → Tiếp: [04_security-zero-trust-and-waf](04_security-zero-trust-and-waf.md)
-- ↑ Cluster: [Cloudflare README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS S3 deep + IAM](../../../aws/lessons/01_basic/02_s3-deep-and-iam.md)
-- ☁️ [AWS RDS + DynamoDB](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md)
-- ☁️ [GCP Cloud Storage](../../../gcp/lessons/01_basic/02_cloud-storage-and-iam.md)
-- ☁️ [GCP Cloud SQL + Firestore](../../../gcp/lessons/01_basic/03_cloud-sql-and-firestore.md)
+- ⬅️ **Bài trước:** [Cloudflare Workers + Pages — Edge compute & static + dynamic](02_workers-and-pages.md)
+- ➡️ **Bài tiếp theo:** [Cloudflare Security — WAF, Zero Trust, DDoS, Bot, Turnstile](04_security-zero-trust-and-waf.md)
+- ↑ **Về cụm:** [Cloudflare](../../README.md)
 
-### Tài nguyên ngoài (2026)
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [S3 chuyên sâu + Nền tảng IAM](../../../aws/lessons/01_basic/02_s3-deep-and-iam.md) — đối chiếu R2 với object storage gốc của AWS.
+- ☁️ [RDS + DynamoDB — Managed databases](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md) — so sánh D1/Hyperdrive với managed DB của AWS.
+- ☁️ [GCP Cloud Storage + IAM](../../../gcp/lessons/01_basic/02_cloud-storage-and-iam.md) — object storage tương đương bên GCP.
+- ☁️ [GCP Cloud SQL + Firestore](../../../gcp/lessons/01_basic/03_cloud-sql-and-firestore.md) — managed SQL + NoSQL bên GCP.
+
+### 🌐 Tài nguyên tham khảo khác (2026)
 - 📖 [R2 docs](https://developers.cloudflare.com/r2/)
 - 📖 [D1 docs](https://developers.cloudflare.com/d1/)
 - 📖 [Queues docs](https://developers.cloudflare.com/queues/)
@@ -1027,6 +1028,7 @@ Dùng **Sessions API** (`db.withSession('first-primary')`). Session sticky 1 rep
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 cluster Cloudflare basic. R2 S3-compatible + zero egress + cost comparison + presigned URL + multipart + D1 SQLite edge replica + migrations + Sessions API + Queues producer/consumer + DLQ + Hyperdrive Postgres pool + hands-on Acme Shop upload pipeline (R2 + D1 + Queue) + 8 pitfalls. Pattern theo AWS lesson 02-03.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa typo "Triệu chextual" → "Triệu chứng" ở pitfall D1 SELECT 6MB; Glossary chuyển sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; đồng bộ nav (⬅️/➡️/↑) với link-text là tiêu đề thật của bài đích và 3 sub-heading chuẩn (🧭 Định hướng / 🧩 Chủ đề liên quan / 🌐 Tài nguyên).

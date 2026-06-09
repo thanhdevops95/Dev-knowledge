@@ -1,32 +1,38 @@
-# industry-landscape
+# 🗺️ Industry Landscape — Bản đồ ngành IT
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v1.0.0\
+> **Cập nhật:** 26/05/2026\
+> **Status:** ✅ 1 bài basic
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 *Folder này dạy **bản đồ tổng quan ngành IT** — có những nghề gì, mỗi nghề làm gì, lương ra sao, học gì để vào. Là điểm xuất phát cho người mới trước khi pick career roadmap chuyên sâu.*
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+## 📂 Cấu trúc + Status
 
-```
-industry-landscape/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"industry-landscape là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
-```
+### lessons/01_basic/
 
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.
+| # | Bài | Status |
+|---|---|---|
+| 00 | [Ngành IT là gì? Bản đồ các nhánh](./lessons/01_basic/00_what-is-it-industry.md) | ✅ 🌟 — 8 nhánh chính + 4 nhánh phụ, so sánh 4 nghề hot, lộ trình 5 stage, 7 hiểu lầm phổ biến |
+
+### lessons/02_intermediate/, 03_advanced/, exercises/, recipes/
+
+❌ Chưa có.
+
+## 🚀 Lộ trình đề xuất
+
+| Nhu cầu | Đọc gì |
+|---|---|
+| **Mới bắt đầu** (chưa biết IT) | [00_what-is-it-industry](./lessons/01_basic/00_what-is-it-industry.md) — 20 phút, hiểu cả bức tranh |
+| **Đã pick được nhánh** | Sang [`00_roadmaps/career/`](../../00_roadmaps/career/) chọn roadmap chuyên sâu |
+
+## 🔗 Liên kết & Tài nguyên
+
+- 🧭 [Zero to Coder roadmap](../../00_roadmaps/career/zero-to-coder_career-roadmap.md) — Stage 0 dùng bài này
+- 💻 [computer-architecture-theory](../computer-architecture-theory/lessons/01_basic/00_how-computer-works.md) — máy tính hoạt động thế nào
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v1.0.0 (26/05/2026)** — Có bài đầu tiên "Ngành IT là gì? Bản đồ các nhánh".

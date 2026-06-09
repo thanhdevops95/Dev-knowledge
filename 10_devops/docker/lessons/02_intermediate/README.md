@@ -36,15 +36,15 @@
 
 ## 📖 Lessons — Intermediate cluster (5 bài)
 
-| # | Bài | Trọng tâm | Tag | Thời lượng |
-|---|---|---|---|---|
-| 00 | [Intermediate overview](00_intermediate-overview.md) | 4 mảng intermediate + tool stack 2026 + roadmap | MUST-KNOW | ~12p |
-| 01 | [BuildKit & Multi-stage advanced](01_buildkit-and-multistage-advanced.md) | Cache/secret mount + buildx multi-platform + bake monorepo + CI cache strategies | MUST-KNOW | ~25p |
-| 02 | [Image Security & Supply chain](02_image-security-supply-chain.md) | Trivy + SBOM (Syft) + cosign keyless signing + Kyverno admission + SLSA | MUST-KNOW | ~22p |
-| 03 | [Optimization & Distroless](03_optimization-and-distroless.md) | dive analyze + alpine/slim/distroless/scratch + layer order + 1.2GB→30MB | MUST-KNOW | ~20p |
-| 04 | [Registry & Production patterns](04_registry-production-patterns.md) | Harbor + ECR + pull-through cache + immutable tag + GC + replication + IRSA | MUST-KNOW | ~22p |
+| # | Bài | Trọng tâm | Tag |
+|---|---|---|---|
+| 00 | [Intermediate overview](00_intermediate-overview.md) | 4 mảng intermediate + tool stack 2026 + roadmap | MUST-KNOW |
+| 01 | [BuildKit & Multi-stage advanced](01_buildkit-and-multistage-advanced.md) | Cache/secret mount + buildx multi-platform + bake monorepo + CI cache strategies | MUST-KNOW |
+| 02 | [Image Security & Supply chain](02_image-security-supply-chain.md) | Trivy + SBOM (Syft) + cosign keyless signing + Kyverno admission + SLSA | MUST-KNOW |
+| 03 | [Optimization & Distroless](03_optimization-and-distroless.md) | dive analyze + alpine/slim/distroless/scratch + layer order + 1.2GB→85MB | MUST-KNOW |
+| 04 | [Registry & Production patterns](04_registry-production-patterns.md) | Harbor + ECR + pull-through cache + immutable tag + GC + replication + IRSA | MUST-KNOW |
 
-→ **Tổng ~101 phút đọc + 4-6h hands-on**. Sau cluster: Docker production-grade tier-1.
+→ Sau cluster: Docker production-grade tier-1 (dự kiến 4-6h hands-on).
 
 ---
 
@@ -61,11 +61,11 @@
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
-- ↑ [Docker README](../../README.md)
-- ↶ [Basic cluster](../01_basic/) — 4 bài foundation
+### 🧭 Định hướng lộ trình học
+- ↑ **Về cụm:** [Docker README](../../README.md)
+- ⬅️ **Bài trước:** [Basic cluster](../01_basic/) — 4 bài foundation
 - ☸️ [Kubernetes basic](../../../kubernetes/) — apply image vào K8s
 - 🔁 [CI/CD basic](../../../ci-cd/) — pipeline integration
 - 📊 [Observability basic](../../../observability/) — monitor container
@@ -85,6 +85,5 @@
 
 ---
 
-## 📌 Changelog
-
+## 📌 Nhật ký thay đổi (Changelog)
 - **v1.0.0 (24/05/2026)** — Cluster intermediate đầu tiên. 5 bài hoàn thành: overview + BuildKit + security + optimization + registry. Cherry-pick từ `__Ref__/legacy-archive/04_Advanced/` + insights từ DevOps audit. Apply rule mới Blueprint v0.5.2 (no fictional character, brand `Acme Shop` thống nhất).

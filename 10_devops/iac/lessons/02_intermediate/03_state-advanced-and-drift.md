@@ -1,38 +1,39 @@
-# 🎓 State management advanced + Drift detection
+# 🎓 State management nâng cao + Drift detection — Cứu hạ tầng khỏi 200 resource bị xoá nhầm
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [02_atlantis-gitops-for-iac.md](02_atlantis-gitops-for-iac.md), Terraform state basics
+> **Yêu cầu trước:** [Atlantis — GitOps cho Terraform/Terragrunt](02_atlantis-gitops-for-iac.md), nắm cơ bản về Terraform state.
 
-> 🎯 *Basic dạy state + backend S3/DynamoDB. Production gặp: drift (manual changes), refactor (rename module), import (existing resource), state corruption recovery. Bài này dạy advanced state ops + automated drift detection workflow + safe recovery.*
+> 🎯 *Bài basic đã dạy state là gì và cách dùng backend S3/DynamoDB. Nhưng production luôn ném ra những tình huống mà bài cơ bản không chạm tới: hạ tầng *drift* (có người sửa tay ngoài Terraform), refactor đổi tên module mà không muốn recreate, import resource đã tồn tại vào Terraform, hay state hỏng phải khôi phục khẩn cấp. Bài này đi sâu vào các thao tác state nâng cao, dựng workflow tự động phát hiện drift bằng driftctl, và quy trình khôi phục an toàn khi mọi thứ vỡ.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] **State commands deep**: `mv`, `rm`, `pull`, `push`, `replace-provider`
-- [ ] **Import existing** resources (`terraform import` + config generation)
-- [ ] **Refactor without recreate**: `moved` block + `state mv`
-- [ ] **Drift detection automation**: driftctl + cron + alert
-- [ ] **State backup + recovery** procedure
-- [ ] **State surgery** for emergencies
-- [ ] **Module deprecation** workflow (state migration to new module)
-- [ ] Avoid **6 dangerous state operations**
+- [ ] Nắm chắc nhóm **lệnh state**: `mv`, `rm`, `pull`, `push`, `replace-provider` — đâu là lệnh an toàn, đâu là lệnh nguy hiểm.
+- [ ] **Import** resource đã tồn tại vào Terraform (`terraform import` + sinh config tự động).
+- [ ] **Refactor không recreate**: dùng `moved` block và `state mv`.
+- [ ] Dựng **drift detection tự động**: driftctl + cron + alert.
+- [ ] Biết quy trình **backup + khôi phục** state.
+- [ ] Thực hiện **state surgery** (mổ state) cho tình huống khẩn cấp.
+- [ ] Nắm workflow **gỡ bỏ module cũ** (migrate state sang module mới).
+- [ ] Tránh được những thao tác state nguy hiểm nhất.
 
 ---
 
-## Tình huống — `terraform plan` shows 200 changes
+## Tình huống — `terraform plan` báo 200 thay đổi
 
-Friday afternoon, Sarah opens PR for small VPC tag update:
+Một chiều thứ Sáu, đồng nghiệp của bạn mở PR cho một thay đổi nhỏ xíu: thêm tag cho VPC. Lệnh chạy quen thuộc:
+
 ```bash
 terragrunt plan
 ```
 
-Output:
-```
+Nhưng kết quả thì không hề nhỏ:
+
+```text
 Plan: 12 to add, 5 to change, 200 to destroy.
 
 # aws_instance.legacy[0] will be destroyed
@@ -40,40 +41,38 @@ Plan: 12 to add, 5 to change, 200 to destroy.
 # ... (200 resources)
 ```
 
-Heart attack. 200 resources Terraform thinks should be destroyed.
+200 resource mà Terraform cho rằng phải bị xoá. Đủ để tim ai cũng hẫng một nhịp. Lần theo dấu vết thì lộ ra cả một chuỗi thay đổi diễn ra âm thầm suốt nửa năm qua, không ai cập nhật lại Terraform:
 
-Investigation:
-- 6 months ago, ops team added EC2 instances manually for emergency.
-- Auto-added security groups by AWS for ELB.
-- IAM roles auto-rotated by AWS.
-- Terraform state never updated.
+- Sáu tháng trước, đội ops thêm tay vài EC2 instance để chữa cháy một sự cố.
+- AWS tự thêm security group cho ELB.
+- IAM role bị AWS tự xoay vòng (*rotate*) theo lịch.
+- State của Terraform thì chưa từng được cập nhật theo những thay đổi đó.
 
-→ **Drift**: actual cloud state has 200 extra resources Terraform doesn't know about.
+Đây chính là *drift*: trạng thái thực tế trên cloud đã có 200 resource mà Terraform không hề biết tới. Và nếu cứ thế bấm `apply`, Terraform sẽ xoá sạch 200 resource đó — đồng nghĩa một cú *outage* (sập dịch vụ) ngay trong giờ làm việc.
 
-If apply, Terraform destroy 200 resources → **outage**.
-
-Sarah escalate: SRE on-call investigate 4 hours. Decide: import resources to Terraform, then proceed.
-
-Sếp: *"How did we let drift accumulate 6 months? Setup driftctl daily cron. Bài này dạy."*
+Tình huống được leo thang lên đội SRE trực, mất nhiều giờ điều tra trước khi quyết định: import toàn bộ resource vào Terraform rồi mới tiếp tục. Bài học rút ra rất rõ ràng — phải có driftctl chạy cron mỗi ngày để drift không bao giờ tích tụ được tới mức nguy hiểm như vậy nữa. Đó chính là những gì bài này sẽ dựng cho bạn.
 
 ---
 
-## 1️⃣ Terraform state — Quick refresher
+## 1️⃣ Ôn nhanh — Terraform state là gì
 
-🪞 **Ẩn dụ**: *Terraform state như **bản đồ kho hàng** — code là "danh sách tài sản phải có", state là "bản đồ thực tế ai ở đâu". Drift = bản đồ lệch thực tế (ai đó dời hàng không báo). State surgery = chỉnh bản đồ cho khớp thực tế. driftctl = nhân viên đi kiểm kho định kỳ.*
+Trước khi mổ xẻ state, cần một mô hình tư duy đủ chắc để mọi thao tác phía sau không còn đáng sợ.
 
-### State concept
+🪞 **Ẩn dụ**: *Terraform state giống như **bản đồ kho hàng**. Code là "danh sách tài sản đáng lẽ phải có", còn state là "bản đồ thực tế ai đang nằm ở đâu". Drift là khi bản đồ lệch khỏi thực tế — có người dời hàng mà không báo. State surgery là việc bạn ngồi chỉnh lại bản đồ cho khớp thực tế. Còn driftctl chính là anh nhân viên đi kiểm kho định kỳ để phát hiện chỗ lệch sớm.*
 
-Terraform state (`terraform.tfstate`) maps:
-- **Resources in code** (Terraform `aws_instance.web`) ↔ **Actual cloud resources** (AWS instance ID `i-abc123`).
-- Stores attribute values.
-- Tracks dependencies.
+### Khái niệm state
 
-Without state, Terraform can't tell: "Is this VPC the one I created, or someone else's?"
+State (`terraform.tfstate`) là cầu nối ánh xạ giữa hai thế giới:
 
-### State files
+- **Resource trong code** (ví dụ `aws_instance.web` của Terraform) ↔ **resource thực trên cloud** (instance AWS với ID `i-abc123`).
+- Lưu lại giá trị các thuộc tính (*attributes*).
+- Theo dõi quan hệ phụ thuộc giữa các resource.
 
-State file là **JSON snapshot** chứa metadata mọi resource Terraform manage — id, attributes, dependencies, module hierarchy. Mỗi `apply` tăng `serial` counter:
+Không có state, Terraform không thể phân biệt nổi: "VPC này là cái mình tạo ra, hay của người khác?". Đó là lý do state là trái tim của mọi thứ.
+
+### File state trông như thế nào
+
+State là một **snapshot dạng JSON** chứa metadata của mọi resource mà Terraform quản lý — id, attributes, dependencies, cây phân cấp module. Mỗi lần `apply` thành công, bộ đếm `serial` tăng thêm một. Dưới đây là một mảnh state điển hình để bạn hình dung cấu trúc:
 
 ```json
 {
@@ -101,12 +100,14 @@ State file là **JSON snapshot** chứa metadata mọi resource Terraform manage
 }
 ```
 
-### State backend
+Nhìn vào đây bạn sẽ thấy mỗi resource lưu trọn id thật trên cloud cùng các attribute — chính là cái "bản đồ" mà ẩn dụ nhắc tới.
 
-Pick backend đúng quyết định team có collab được hay không. Local file (default) chỉ OK cho dev solo. Production = S3 + DynamoDB lock (HashiCorp recommended):
+### Backend lưu state
 
-- **Local** (`terraform.tfstate` file): bad for team.
-- **Remote** (S3 + DynamoDB lock): standard production.
+Việc chọn backend đúng quyết định trực tiếp chuyện cả team có làm việc chung được hay không. File local (mặc định) chỉ ổn cho dev làm một mình; còn production thì gần như mặc định là S3 + DynamoDB lock — đúng khuyến nghị của HashiCorp:
+
+- **Local** (file `terraform.tfstate`): tệ cho làm việc nhóm vì không ai khoá được state, dễ ghi đè lẫn nhau.
+- **Remote** (S3 + DynamoDB lock): chuẩn của production.
 
 ```hcl
 terraform {
@@ -122,11 +123,13 @@ terraform {
 
 ---
 
-## 2️⃣ State commands
+## 2️⃣ Nhóm lệnh state
 
-### Read commands (safe)
+Các lệnh `terraform state` chia làm hai nhóm rạch ròi: nhóm chỉ đọc (an toàn) và nhóm sửa state trực tiếp (nguy hiểm). Phân biệt được hai nhóm này là điều kiện tiên quyết trước khi đụng tới state thật.
 
-4 lệnh **read-only**, an toàn dùng — list (xem resource nào trong state), show (detail), pull (download). Đây là tool điều tra khi debug state issues:
+### Lệnh đọc (an toàn)
+
+Bốn lệnh dưới đây đều **read-only** — chỉ đọc, không đổi gì, nên dùng thoải mái. Đây là bộ công cụ điều tra đầu tiên khi bạn cần debug vấn đề về state:
 
 ```bash
 # List resources in state
@@ -144,9 +147,9 @@ terragrunt state list
 terragrunt state show <resource>
 ```
 
-### Modify commands (DANGEROUS)
+### Lệnh sửa state (NGUY HIỂM)
 
-3 lệnh **modify state** — `mv` (rename), `rm` (remove from tracking), `push` (overwrite). ⚠️ **DANGEROUS** — backup state trước, test ở non-prod. Sai = mất tracking infrastructure:
+Ngược lại, ba lệnh sau **ghi thẳng vào state**: `mv` (đổi tên), `rm` (gỡ khỏi tracking), `push` (ghi đè). Mỗi lệnh là một con dao hai lưỡi — chạy sai một cái là mất luôn khả năng theo dõi hạ tầng:
 
 ```bash
 # Rename resource in state (no AWS change)
@@ -163,16 +166,18 @@ terraform state replace-provider <old> <new>
 terraform state push <file>
 ```
 
-⚠️ **Modify commands change state directly**. Wrong = corruption.
+⚠️ **Nhóm lệnh này sửa state trực tiếp. Sai một bước là state hỏng (*corruption*).** Vì vậy, mỗi khi đụng vào, luôn theo đúng ba bước phòng thân:
 
-**Always**:
-1. Backup first: `terraform state pull > backup-$(date +%s).tfstate`.
-2. Try in non-prod env first.
-3. `terraform plan` after to verify.
+1. Backup trước: `terraform state pull > backup-$(date +%s).tfstate`.
+2. Thử ở môi trường non-prod trước.
+3. Chạy `terraform plan` sau đó để xác nhận state vẫn khớp code.
 
-### `terraform state mv` use cases
+### Các tình huống dùng `terraform state mv`
 
-**Case 1**: Rename resource in code without recreate:
+`state mv` toả sáng nhất khi bạn muốn đổi cách Terraform "gọi tên" một resource mà không hề muốn tạo lại nó. Ba tình huống điển hình:
+
+**Tình huống 1** — Đổi tên resource trong code mà không recreate:
+
 ```hcl
 # Before: aws_vpc.old
 # After: aws_vpc.new
@@ -184,19 +189,26 @@ terraform state mv aws_vpc.old aws_vpc.new
 # Now plan: no changes
 ```
 
-**Case 2**: Move resource into module:
+Nếu chỉ đổi tên trong code rồi `apply`, Terraform sẽ hiểu là "xoá cái cũ, tạo cái mới" — tức downtime. `state mv` chỉ đổi nhãn trong bản đồ, không đụng tới resource thật.
+
+**Tình huống 2** — Đưa resource vào trong một module:
+
 ```bash
 terraform state mv aws_vpc.main module.vpc.aws_vpc.main
 ```
 
-**Case 3**: Move resource between modules:
+**Tình huống 3** — Chuyển resource giữa hai module:
+
 ```bash
 terraform state mv module.old.aws_vpc.main module.new.aws_vpc.main
 ```
 
-### `terraform state rm` use cases
+### Các tình huống dùng `terraform state rm`
 
-**Case 1**: Resource manually deleted in AWS, Terraform doesn't know:
+`state rm` dùng khi bạn muốn Terraform "quên" một resource đi mà không xoá nó khỏi cloud. Hai tình huống hay gặp:
+
+**Tình huống 1** — Resource bị xoá tay trên AWS, Terraform chưa biết:
+
 ```bash
 # Resource gone in AWS, Terraform state still has it
 # Plan would try to "destroy" non-existent resource = error
@@ -204,20 +216,21 @@ terraform state rm aws_vpc.deleted
 # Now plan: clean
 ```
 
-**Case 2**: Transfer ownership to another team's Terraform:
+**Tình huống 2** — Chuyển quyền quản lý sang Terraform của team khác:
+
 ```bash
 # This team's state forgets resource
 terraform state rm aws_vpc.shared
 # Other team imports same resource into their state
 ```
 
-⚠️ `state rm` doesn't delete from cloud. Just Terraform forgets.
+⚠️ Nhớ kỹ: `state rm` **không xoá resource khỏi cloud** — nó chỉ làm Terraform quên đi sự tồn tại của resource đó.
 
 ---
 
-## 3️⃣ `moved` block — Modern refactor
+## 3️⃣ `moved` block — refactor kiểu hiện đại
 
-Terraform 1.1+: declarative refactoring without `state mv`.
+Từ Terraform 1.1, có một cách refactor khai báo (*declarative*) gọn hơn hẳn `state mv`: thay vì gõ lệnh CLI riêng, bạn ghi luôn ý định "đổi tên" vào trong file `.tf`, và Terraform tự hiểu khi `plan`.
 
 ```hcl
 # old.tf
@@ -236,9 +249,9 @@ moved {
 }
 ```
 
-→ `terraform plan` automatically detects rename, no `state mv` needed.
+→ Khi chạy `terraform plan`, Terraform tự phát hiện đây là đổi tên, không cần chạy `state mv` tay.
 
-### Move into module
+Cũng cùng cú pháp đó, bạn có thể dời resource vào trong một module:
 
 ```hcl
 moved {
@@ -247,31 +260,36 @@ moved {
 }
 ```
 
-### Benefits over `state mv`
+### So sánh với `state mv`
 
-| Aspect | `state mv` | `moved` block |
+Vậy khi nào nên dùng cái nào? Bảng dưới đặt hai cách cạnh nhau theo những tiêu chí thực sự quan trọng khi làm việc nhóm và chạy qua Atlantis:
+
+| Khía cạnh | `state mv` | `moved` block |
 |---|---|---|
-| Imperative or declarative | Imperative | Declarative |
-| In code or CLI | CLI (separate command) | In `.tf` file (PR-reviewable) |
-| Atlantis-friendly | No (manual CLI) | Yes (just commit code) |
-| State backup before | Manual | Auto via plan |
-| Cleanup | Manual (can keep) | Can remove block after applied |
+| Imperative hay declarative | Imperative | Declarative |
+| Nằm trong code hay CLI | CLI (lệnh riêng) | Trong file `.tf` (review được qua PR) |
+| Thân thiện với Atlantis | Không (phải gõ CLI tay) | Có (chỉ cần commit code) |
+| Backup state trước khi chạy | Tự làm tay | Tự động qua plan |
+| Dọn dẹp sau khi xong | Tay (có thể giữ lại) | Xoá block được sau khi đã apply |
 
-**Recommend 2026**: Use `moved` blocks. Reserve `state mv` for emergencies.
+**Khuyến nghị 2026**: ưu tiên `moved` block cho mọi refactor thông thường. Chỉ để dành `state mv` cho tình huống khẩn cấp hoặc khi dời resource giữa các state khác nhau.
 
 ---
 
-## 4️⃣ Import existing resources
+## 4️⃣ Import resource đã tồn tại
 
 ### Vấn đề
 
-Someone manually created EC2 instance via Console. Now want Terraform manage it.
+Ai đó tạo tay một EC2 instance qua Console, giờ bạn muốn đưa nó vào cho Terraform quản lý. Có hai lựa chọn, và chúng chênh lệch nhau một trời một vực về rủi ro:
 
-Options:
-- **Destroy + recreate** via Terraform: downtime, data loss.
-- **Import** existing into Terraform state: no recreate.
+- **Destroy rồi recreate** qua Terraform: dính downtime, có thể mất data.
+- **Import** resource có sẵn vào state: không phải tạo lại gì cả.
 
-### Classic import workflow
+Production gần như luôn chọn import.
+
+### Workflow import cổ điển
+
+Cách cổ điển gồm bốn bước: viết code khớp với resource thật, import vào state, rồi `plan` để dò xem còn lệch không, và chỉnh code tới khi `plan` sạch:
 
 ```bash
 # 1. Write Terraform code for the resource (no `id` field)
@@ -293,11 +311,11 @@ terraform plan
 # 4. Adjust code until plan shows no changes
 ```
 
-⚠️ **Tedious**: write code by hand, hope it matches AWS reality.
+⚠️ Điểm đau của cách này: bạn phải viết code bằng tay rồi *hy vọng* nó khớp đúng thực tế trên AWS. Với resource nhiều thuộc tính, đây là việc mò mẫm tốn công.
 
-### Modern import (Terraform 1.5+)
+### Import hiện đại (Terraform 1.5+)
 
-`import` block in code:
+Từ Terraform 1.5, có `import` block khai báo ngay trong code, để Terraform tự đọc resource và sinh config giúp bạn:
 
 ```hcl
 import {
@@ -310,21 +328,22 @@ resource "aws_instance" "legacy" {
 }
 ```
 
-Run:
+Chạy lệnh sau để Terraform đọc resource trên AWS và sinh ra `generated.tf` với đầy đủ thuộc tính:
+
 ```bash
 terraform plan -generate-config-out=generated.tf
 ```
 
-→ Terraform reads AWS resource, generates `generated.tf` with all attributes. **Copy + clean up** the generated config.
+→ Việc của bạn chỉ còn là **copy lại và dọn dẹp** đoạn config sinh tự động, thay vì mò từng attribute. Sau đó apply để hoàn tất import vào state:
 
 ```bash
 terraform apply
 # Resource imported into state
 ```
 
-### Bulk import workflow
+### Workflow import hàng loạt
 
-For 200 drift resources:
+Quay lại tình huống 200 resource drift ở đầu bài. Import từng cái bằng tay là bất khả thi, nên ta script hoá: dùng driftctl để liệt kê resource chưa được quản lý, sinh `import` block hàng loạt, rồi để Terraform tự sinh config:
 
 ```bash
 # 1. List resources in AWS not in Terraform state
@@ -350,24 +369,26 @@ terraform plan -generate-config-out=generated.tf
 terraform apply
 ```
 
-→ Bulk import 200 resources in 30 min via scripting.
+→ Nhờ script, việc import 200 resource từ chỗ bất khả thi trở thành làm được trong một buổi.
 
 ---
 
-## 5️⃣ Drift detection automation
+## 5️⃣ Tự động phát hiện drift
 
-### Manual drift check
+### Kiểm tra drift thủ công
+
+Cách thủ công nhất là dùng chính Terraform để refresh state khỏi thực tế:
 
 ```bash
 terraform plan -refresh-only
 # Output: "X changes detected by refresh"
 ```
 
-→ Drift detected. But manual = no one runs daily.
+→ Cách này phát hiện được drift, nhưng có một điểm yếu chí mạng: thủ công nghĩa là **không ai chạy nó mỗi ngày**. Drift cứ thế tích tụ — đúng như câu chuyện 200 resource ở đầu bài.
 
-### driftctl — Automated drift scanner
+### driftctl — quét drift tự động
 
-[driftctl (Snyk)](https://github.com/snyk/driftctl) — OSS tool comparing IaC vs cloud.
+Đây là lúc cần một công cụ chuyên dụng chạy tự động thay con người. [driftctl (Snyk)](https://github.com/snyk/driftctl) là công cụ mã nguồn mở chuyên so sánh IaC với trạng thái thật trên cloud:
 
 ```bash
 # Install
@@ -386,7 +407,11 @@ driftctl scan --from tfstate+s3://acme-tfstate/dev/us-east-1/vpc/terraform.tfsta
 #   - 3 modified resources (attributes drift)
 ```
 
-### Daily cron drift check
+Output của driftctl tách drift làm ba loại rất rõ: resource thừa trên cloud (chưa được quản lý), resource thiếu (có trong IaC nhưng đã bị xoá tay), và resource bị sửa thuộc tính. Mỗi loại tương ứng một hướng xử lý khác nhau.
+
+### Quét drift hằng ngày bằng cron
+
+Sức mạnh thật của driftctl đến khi bạn để nó chạy tự động mỗi ngày qua một workflow CI. Workflow dưới đây quét drift theo ma trận môi trường × region, alert qua Slack nếu phát hiện drift, và lưu lại báo cáo:
 
 ```yaml
 # .github/workflows/drift-detection.yml
@@ -428,9 +453,11 @@ jobs:
           path: drift.json
 ```
 
-→ Daily scan, Slack alert if drift, archive reports.
+→ Cứ mỗi sáng, hệ thống tự quét, bắn alert lên Slack nếu có drift, và lưu báo cáo lại. Drift không còn cơ hội âm thầm tích tụ.
 
-### Drift remediation workflow
+### Workflow xử lý drift
+
+Phát hiện ra drift mới chỉ là một nửa câu chuyện; nửa còn lại là quyết định làm gì với nó. Sơ đồ dưới đây vẽ lại luồng xử lý từ lúc cron quét tới lúc verify:
 
 ```mermaid
 graph TB
@@ -447,26 +474,35 @@ graph TB
     Whitelist --> Done
 ```
 
-### `.driftignore` — Accept known drift
+Ba nhánh quyết định ở đây tương ứng ba thái độ: kéo resource về cho Terraform quản (import), dọn nó đi (delete), hoặc chấp nhận drift này là bình thường (whitelist). Nhánh cuối dẫn ta tới `.driftignore`.
 
-Some resources expected to drift:
-- IAM session credentials (rotated by AWS).
-- CloudWatch log retention (sometimes auto-set).
-- ECR repository policy (manual ops sometimes).
+### `.driftignore` — chấp nhận drift đã biết
 
-```
+Một số resource vốn dĩ *sẽ* drift một cách hợp lệ, alert về chúng chỉ tổ gây nhiễu. Vài ví dụ điển hình:
+
+- IAM session credentials (bị AWS xoay vòng tự động).
+- CloudWatch log retention (đôi khi bị tự đặt).
+- ECR repository policy (đôi khi ops chỉnh tay).
+
+Với những trường hợp này, ta khai báo chúng vào `.driftignore` để driftctl bỏ qua:
+
+```text
 # .driftignore
 *aws_iam_role.eks_node_*           # IAM auto-rotation
 *aws_cloudwatch_log_group.lambda_* # CloudWatch auto-managed
 ```
 
-→ driftctl ignores these. Document why.
+→ driftctl sẽ lờ những resource này đi. Nhớ ghi chú lý do cho mỗi dòng để người sau hiểu vì sao nó được bỏ qua.
 
 ---
 
-## 6️⃣ State backup + recovery
+## 6️⃣ Backup + khôi phục state
 
-### S3 versioning for state backup
+State là tài sản quý nhất, nên phải có lưới an toàn cho nó. May mắn là S3 versioning lo gần hết phần này.
+
+### Dùng S3 versioning để backup state
+
+Chỉ cần bật versioning trên bucket chứa state, mỗi lần state đổi sẽ tự sinh một phiên bản cũ được giữ lại:
 
 ```hcl
 resource "aws_s3_bucket_versioning" "tfstate" {
@@ -477,11 +513,11 @@ resource "aws_s3_bucket_versioning" "tfstate" {
 }
 ```
 
-→ Every state change creates new version. Old versions retained 90+ days.
+→ Mỗi thay đổi state đẻ ra một version mới; các version cũ được giữ lại từ 90 ngày trở lên (cấu hình lifecycle ở phần best practice).
 
-### Recover from accidental destroy
+### Khôi phục sau khi lỡ destroy
 
-**Scenario**: someone runs `terragrunt destroy` on wrong env. State now empty. Want to rollback.
+**Kịch bản**: có người chạy nhầm `terragrunt destroy` lên môi trường sai. State giờ rỗng, và bạn cần rollback. Quy trình là tìm lại version trước cú destroy, tải về, kiểm tra rồi đẩy lại làm state hiện hành:
 
 ```bash
 # List state versions in S3
@@ -509,16 +545,18 @@ terraform show -json restored.tfstate | jq '.values.root_module.resources | leng
 aws s3 cp restored.tfstate s3://acme-tfstate/dev/us-east-1/vpc/terraform.tfstate
 ```
 
-→ State restored. But **cloud resources still destroyed** — need recreate.
+→ State đã được khôi phục. Nhưng đây là điểm cực kỳ quan trọng: **resource thật trên cloud vẫn đã bị xoá** — bạn cần tạo lại chúng:
 
 ```bash
 terraform apply
 # Plan: 20 to add (recreate destroyed resources)
 ```
 
-→ Resources recreated based on state. **Data may be lost** (RDS, etc.) — depends on backup separately.
+→ Resource được dựng lại dựa trên state. Lưu ý: **data có thể đã mất** (RDS, v.v.) — chuyện đó phụ thuộc vào backup riêng của từng dịch vụ, không phải state lo.
 
-### State backup script
+### Script backup state
+
+Ngoài versioning của S3, một script backup chạy cron mỗi ngày sang một bucket riêng cho bạn thêm một lớp an toàn nữa:
 
 ```bash
 #!/bin/bash
@@ -541,44 +579,50 @@ aws s3 ls s3://$BACKUP_BUCKET/ | awk '$1 < "'$(date -d '-90 days' +%Y%m%d)'"' \
   | xargs -I {} aws s3 rm s3://$BACKUP_BUCKET/{} --recursive
 ```
 
-→ Daily backup, 90-day retention.
+→ Backup mỗi ngày, giữ lại 90 ngày.
 
 ---
 
-## 7️⃣ State surgery — Emergency operations
+## 7️⃣ State surgery — thao tác khẩn cấp
 
-### Case: 2 PRs modified same resource, state inconsistent
+Đôi khi state rơi vào tình trạng không khớp code và không lệnh thông thường nào chữa được. Lúc đó cần "mổ" state. Đây luôn là phương án cuối cùng, và mỗi ca dưới đây minh hoạ một dạng hỏng hay gặp.
+
+### Ca 1: Hai PR sửa cùng một resource, state không nhất quán
 
 ```bash
 terraform plan
 # Error: state file has resource that doesn't exist in code
 ```
 
-**Step 1**: Pull state, inspect:
+**Bước 1** — Pull state ra để soi:
+
 ```bash
 terraform state pull > current.tfstate
 jq '.resources[] | .type + "." + .name' current.tfstate
 ```
 
-**Step 2**: Identify orphan:
-```
+**Bước 2** — Xác định resource mồ côi (*orphan*):
+
+```text
 aws_instance.legacy   <- not in code anymore
 ```
 
-**Step 3**: Decide:
-- Resource still exists in AWS? → keep, add to code.
-- Resource deleted? → remove from state: `terraform state rm aws_instance.legacy`.
+**Bước 3** — Quyết định hướng xử lý:
 
-### Case: Provider version conflict
+- Resource vẫn còn trên AWS? → giữ lại, thêm nó vào code.
+- Resource đã bị xoá? → gỡ khỏi state: `terraform state rm aws_instance.legacy`.
+
+### Ca 2: Xung đột version của provider
 
 ```bash
 terraform plan
 # Error: provider hashicorp/aws version mismatch
 ```
 
-**Cause**: state was created with provider v5.x, now using v4.x.
+**Nguyên nhân**: state được tạo bằng provider v5.x, giờ lại đang dùng v4.x.
 
-**Fix**:
+**Cách chữa**: nâng provider hoặc ghim version trong code:
+
 ```bash
 terraform init -upgrade
 # OR pin in code:
@@ -587,40 +631,42 @@ required_providers {
 }
 ```
 
-If provider truly different (e.g., switched from `hashicorp/aws` to community fork):
+Nếu provider thực sự khác hẳn (ví dụ đổi từ `hashicorp/aws` sang một bản fork của cộng đồng), dùng:
+
 ```bash
 terraform state replace-provider \
   hashicorp/aws \
   community/aws
 ```
 
-### Case: Corrupted state JSON
+### Ca 3: State JSON bị hỏng
 
-State file lost newline / mangled by editor:
+State bị mất newline hoặc bị editor làm hỏng định dạng:
+
 ```bash
 terraform state pull > current.tfstate
 # Error: state file corrupted
 ```
 
-**Fix**:
-1. Restore from S3 versioning (previous version).
-2. Or recreate state via `import` (if affordable).
+**Cách chữa**:
 
-⚠️ NEVER edit state JSON by hand. Use `state mv/rm` commands.
+1. Khôi phục từ S3 versioning (phiên bản trước).
+2. Hoặc dựng lại state bằng `import` (nếu chi phí chấp nhận được).
+
+⚠️ TUYỆT ĐỐI không sửa state JSON bằng tay. Luôn dùng lệnh `state mv/rm` vì chúng có kiểm tra hợp lệ.
 
 ---
 
-## 8️⃣ Module deprecation workflow
+## 8️⃣ Workflow gỡ bỏ module cũ
 
-### Scenario
+### Kịch bản
 
-Old module `vpc-old` deprecated. New module `vpc-new` with different structure.
+Module cũ `vpc-old` đã bị khai tử (*deprecated*). Module mới `vpc-new` có cấu trúc khác. **Mục tiêu**: migrate toàn bộ môi trường từ `vpc-old` sang `vpc-new` mà không phải tạo lại VPC. Đây là kiểu việc đòi hỏi đi từng bước cẩn thận, và thứ tự dưới đây là an toàn nhất.
 
-**Goal**: migrate all envs from `vpc-old` to `vpc-new` without recreating VPC.
+### Bước 1: Chạy module `vpc-new` + import resource có sẵn
 
-### Step 1: Run `vpc-new` module + import existing
+Làm ở dev trước:
 
-In dev:
 ```hcl
 # Old: module.vpc_old
 module "vpc_new" {
@@ -640,38 +686,40 @@ terragrunt plan
 terragrunt apply
 ```
 
-### Step 2: Remove old module from state
+### Bước 2: Gỡ module cũ khỏi state
 
 ```bash
 # After new module manages VPC
 terragrunt state rm module.vpc_old
 ```
 
-→ Now `vpc-old` no longer in state. Only `vpc-new` manages VPC.
+→ Giờ `vpc-old` không còn trong state nữa. Chỉ còn `vpc-new` quản lý VPC.
 
-### Step 3: Delete old module code
+### Bước 3: Xoá code của module cũ
 
 ```bash
 git rm -rf modules/vpc-old/
 git commit -m "Remove deprecated vpc-old module"
 ```
 
-### Step 4: Repeat per env
+### Bước 4: Lặp lại cho từng môi trường
 
-dev → staging → prod.
+Theo thứ tự rủi ro tăng dần: dev → staging → prod.
 
-### Step 5: Document
+### Bước 5: Ghi tài liệu
 
-CHANGELOG:
-```
+Ghi rõ vào CHANGELOG để cả team biết đây là thay đổi breaking và có hướng dẫn migrate:
+
+```text
 ## v2.0.0
 - BREAKING: Deprecated `vpc-old` module. Migrate to `vpc-new`.
 - Migration guide: docs/migrations/vpc-old-to-new.md
 ```
 
-### Migration with `moved` blocks (advanced)
+### Migrate bằng `moved` block (nâng cao)
 
-For semantic-equivalent refactor:
+Nếu việc refactor mang tính tương đương về ngữ nghĩa (tên attribute khớp nhau), `moved` block là cách sạch hơn cả — khỏi cần import:
+
 ```hcl
 moved {
   from = module.vpc_old.aws_vpc.main
@@ -679,13 +727,13 @@ moved {
 }
 ```
 
-→ Cleaner, no import needed if attribute names match.
+→ Gọn hơn, không phải import nếu tên attribute đã khớp.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `terraform state rm` then forget to import
+### ❌ Cạm bẫy: `state rm` xong rồi quên import lại
 
 ```bash
 terraform state rm aws_vpc.main
@@ -693,59 +741,62 @@ terraform state rm aws_vpc.main
 # Next apply: tries to create new VPC → already exists → fail
 ```
 
-→ **Fix**: After `state rm`, either:
-- Import to new location: `terraform import <new> <id>`.
-- Or delete from cloud: AWS Console.
-- Don't leave in limbo.
+→ **Fix**: Sau `state rm`, phải chọn một trong hai hướng, đừng để resource lửng lơ:
 
-### ❌ Pitfall: Edit state JSON by hand
+- Import sang vị trí mới: `terraform import <new> <id>`.
+- Hoặc xoá hẳn khỏi cloud qua AWS Console.
 
-→ Easy to corrupt JSON. Lock breaks.
+### ❌ Cạm bẫy: Sửa state JSON bằng tay
 
-→ **Fix**: Always use `terraform state` commands. They validate.
+→ Rất dễ làm hỏng JSON, và lock có thể vỡ theo.
 
-### ❌ Pitfall: Force-unlock during apply
+→ **Fix**: Luôn dùng lệnh `terraform state` — chúng có kiểm tra hợp lệ trước khi ghi.
+
+### ❌ Cạm bẫy: Force-unlock trong lúc đang apply
 
 ```bash
 terraform force-unlock <lock-id>
 # Other apply running → conflict → state corruption
 ```
 
-→ **Fix**: Only unlock if certain no apply running. Check Atlantis UI / DynamoDB.
+→ **Fix**: Chỉ unlock khi *chắc chắn* không có apply nào đang chạy. Kiểm tra UI của Atlantis hoặc bảng DynamoDB trước.
 
-### ❌ Pitfall: No state backup before destructive ops
+### ❌ Cạm bẫy: Không backup state trước thao tác phá huỷ
 
 ```bash
 terraform state rm module.legacy
 # Oops, removed wrong thing
 ```
 
-→ **Fix**:
+→ **Fix**: backup trước, rồi mới làm việc rủi ro:
+
 ```bash
 terraform state pull > backup-$(date +%s).tfstate
 # Then risky op
 # If wrong: aws s3 cp backup.tfstate s3://bucket/state.tfstate
 ```
 
-### ❌ Pitfall: driftctl scan too broad
+### ❌ Cạm bẫy: driftctl scan quá rộng
 
-→ Scan entire AWS account: 1000s resources. Output overwhelming.
-
-→ **Fix**:
-- Filter by tag: `driftctl scan --filter "Tags['Environment'] == 'dev'"`.
-- Per-state: scan each state file separately.
-- `.driftignore` for known noise.
-
-### ❌ Pitfall: Drift ignored too long
-
-→ Daily Slack alert "drift detected" — team ignores.
+→ Quét cả AWS account: hàng nghìn resource, output ngợp không đọc nổi.
 
 → **Fix**:
-- Drift = first-class issue. Ticket every alert.
-- Weekly drift review meeting.
-- Drift in prod = SEV-2 incident.
 
-### ✅ Best practice: State backup retention 90+ days
+- Lọc theo tag: `driftctl scan --filter "Tags['Environment'] == 'dev'"`.
+- Quét theo từng state file riêng.
+- Dùng `.driftignore` cho nhiễu đã biết.
+
+### ❌ Cạm bẫy: Để drift quá lâu không xử lý
+
+→ Slack alert "drift detected" mỗi ngày — riết rồi cả team ngó lơ.
+
+→ **Fix**:
+
+- Coi drift là vấn đề hạng nhất (*first-class issue*). Mỗi alert tạo một ticket.
+- Họp review drift định kỳ.
+- Drift ở prod = sự cố mức SEV-2.
+
+### ✅ Best practice: Giữ backup state từ 90 ngày trở lên
 
 ```hcl
 resource "aws_s3_bucket_lifecycle_configuration" "tfstate" {
@@ -761,23 +812,24 @@ resource "aws_s3_bucket_lifecycle_configuration" "tfstate" {
 }
 ```
 
-### ✅ Best practice: Use `moved` blocks for refactor
+### ✅ Best practice: Dùng `moved` block để refactor
 
-Declarative > imperative. PR-reviewable.
+Declarative tốt hơn imperative, và review được qua PR.
 
-### ✅ Best practice: Document state operations
+### ✅ Best practice: Ghi tài liệu cho thao tác state
 
-Wiki: "How to safely run `state mv`":
+Viết hẳn vào wiki quy trình "Làm sao chạy `state mv` an toàn":
+
 1. Backup state.
-2. Notify team in Slack.
-3. Lock manually.
-4. Run command.
-5. Verify with plan.
-6. Document in runbook.
+2. Báo cho team trên Slack.
+3. Khoá thủ công.
+4. Chạy lệnh.
+5. Verify bằng plan.
+6. Ghi vào runbook.
 
-→ Train new SREs.
+→ Để SRE mới vào còn theo được.
 
-### ✅ Best practice: Automated import for known drift patterns
+### ✅ Best practice: Tự động import cho các pattern drift đã biết
 
 ```python
 # auto-import.py — runs after driftctl
@@ -791,38 +843,40 @@ for resource in drift['unmanaged']:
             f.write(f'import {{ to = aws_instance.imp_{resource["id"]}; id = "{resource["id"]}" }}\n')
 ```
 
-→ Some drift expected, automate import.
+→ Với loại drift đã biết là sẽ xảy ra, tự động hoá luôn việc import.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** `state mv` vs `moved` block — when which?
+Năm câu dưới chạm đúng những chỗ dễ nhầm nhất khi làm việc với state nâng cao. Thử tự trả lời trước khi mở đáp án — đó là cách nhanh nhất để biết mình hiểu thật hay chỉ thấy quen.
+
+**Q1.** `state mv` và `moved` block — khi nào dùng cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **`state mv`**:
-- CLI command, imperative.
-- Affects state file directly.
-- Run manually, separate step.
+- Lệnh CLI, imperative.
+- Tác động thẳng vào file state.
+- Chạy tay, là một bước riêng.
 
 ```bash
 terraform state mv aws_vpc.old aws_vpc.new
 ```
 
-**Pros**:
-- Quick for one-off operations.
-- Works with old Terraform versions.
+**Ưu điểm**:
+- Nhanh cho thao tác lẻ một lần.
+- Chạy được với cả Terraform đời cũ.
 
-**Cons**:
-- Not in code, not PR-reviewable.
-- Atlantis doesn't run it automatically.
-- Easy to forget if multiple envs.
+**Nhược điểm**:
+- Không nằm trong code, không review được qua PR.
+- Atlantis không tự chạy giúp.
+- Dễ quên nếu có nhiều môi trường.
 
 **`moved` block** (Terraform 1.1+):
-- In `.tf` code, declarative.
-- `terraform plan` detects automatically.
+- Nằm trong code `.tf`, declarative.
+- `terraform plan` tự phát hiện.
 
 ```hcl
 moved {
@@ -831,63 +885,63 @@ moved {
 }
 ```
 
-**Pros**:
-- PR-reviewable (other devs see refactor intent).
-- Atlantis applies automatically.
-- Idempotent across envs (commit + apply each env).
-- Can keep in code as history, or remove after applied everywhere.
+**Ưu điểm**:
+- Review được qua PR (dev khác thấy được ý định refactor).
+- Atlantis tự apply.
+- Idempotent qua các môi trường (commit + apply từng env).
+- Giữ trong code làm lịch sử, hoặc xoá sau khi đã apply khắp nơi.
 
-**Cons**:
-- Newer Terraform required.
-- Some edge cases not supported (e.g., cross-state moves).
+**Nhược điểm**:
+- Cần Terraform đời mới.
+- Một số trường hợp đặc biệt không hỗ trợ (ví dụ dời giữa các state).
 
-**Recommend 2026**:
-- **`moved` block** for code refactoring (rename, move into/out of module).
-- **`state mv`** for emergencies, cross-state operations, ad-hoc fixes.
+**Khuyến nghị 2026**:
+- **`moved` block** cho refactor code (đổi tên, dời vào/ra module).
+- **`state mv`** cho khẩn cấp, thao tác giữa các state, sửa lẻ.
 
 **Best practice**:
-- Add `moved` block in same PR as refactor.
-- Apply per env (Atlantis handles each).
-- Remove `moved` block after applied everywhere (cleanup).
+- Thêm `moved` block trong cùng PR với refactor.
+- Apply từng env (Atlantis lo từng cái).
+- Xoá `moved` block sau khi đã apply khắp nơi (dọn dẹp).
 </details>
 
-**Q2.** Why state backup retention 90+ days?
+**Q2.** Vì sao backup state nên giữ từ 90 ngày trở lên?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Common state issues** + recovery window:
+Vì các sự cố state có khoảng thời gian phát hiện rất khác nhau, và backup phải đủ dài để phủ trường hợp tệ nhất:
 
-1. **Accidental destroy** (5 minutes):
-   - Immediate panic. Restore previous version (1 hour ago).
-   - Need: 1+ hour retention.
+1. **Lỡ tay destroy** (phát hiện trong vài phút):
+   - Hoảng ngay lập tức. Khôi phục version trước đó (cách đây 1 giờ).
+   - Cần: giữ lại 1 giờ trở lên.
 
-2. **Drift discovered weeks later**:
-   - Want to compare current vs "before drift started".
-   - Need: weeks of retention.
+2. **Drift bị phát hiện sau nhiều tuần**:
+   - Muốn so sánh hiện tại với "lúc trước khi drift bắt đầu".
+   - Cần: giữ lại nhiều tuần.
 
-3. **Compliance audit**:
-   - Auditor asks: "Show state on date X".
-   - Need: months of retention.
+3. **Audit tuân thủ (compliance)**:
+   - Auditor hỏi: "Cho xem state vào ngày X".
+   - Cần: giữ lại nhiều tháng.
 
-4. **Forensic investigation**:
-   - Incident 60 days ago, want to verify Terraform changes.
-   - Need: 90+ days.
+4. **Điều tra sự cố (forensic)**:
+   - Sự cố cách đây 60 ngày, muốn xác minh các thay đổi Terraform.
+   - Cần: từ 90 ngày trở lên.
 
-5. **Slow corruption**:
-   - State subtly wrong for weeks before noticed.
-   - Need: long retention to find good baseline.
+5. **Hỏng âm thầm**:
+   - State sai lệch tinh vi suốt nhiều tuần trước khi bị phát hiện.
+   - Cần: giữ lâu để tìm được mốc baseline lành lặn.
 
-**Cost**:
-- State file ~100KB - 5MB typical.
-- S3 versioning: $0.023/GB/month.
-- 100 state files × 1MB × 100 versions × 90 days = ~10GB = $0.23/month.
+**Chi phí**:
+- File state điển hình khoảng 100KB - 5MB.
+- S3 versioning: $0.023/GB/tháng.
+- 100 state files × 1MB × 100 versions × 90 ngày = ~10GB = $0.23/tháng.
 
-→ **Negligible cost, huge insurance**.
+→ **Chi phí không đáng kể, đổi lại lớp bảo hiểm cực lớn.**
 
-**Recommend**:
-- **S3 versioning enabled** on state bucket.
-- **Lifecycle rule**: noncurrent versions kept 90 days, then move to Glacier 1 year, then delete.
+**Khuyến nghị**:
+- Bật **S3 versioning** trên bucket state.
+- Đặt **lifecycle rule**: version cũ giữ 90 ngày, sau đó chuyển sang Glacier 1 năm, rồi xoá.
 
 ```hcl
 resource "aws_s3_bucket_lifecycle_configuration" "tfstate" {
@@ -903,139 +957,140 @@ resource "aws_s3_bucket_lifecycle_configuration" "tfstate" {
 }
 ```
 
-→ 90 days hot, 1 year cold, then delete. Cheap.
+→ 90 ngày nóng, 1 năm lạnh, rồi xoá. Rẻ.
 
-**Bonus**: Versioning protects against:
-- Accidental `terraform destroy`.
-- Bug in Terraform corrupting state.
-- Malicious actor modifying state.
+**Bonus**: Versioning còn chống được:
+- Lỡ tay `terraform destroy`.
+- Bug trong Terraform làm hỏng state.
+- Kẻ xấu sửa state.
 
-→ Combined with state file encryption (KMS) = strong protection.
+→ Kết hợp với mã hoá state file (KMS) = bảo vệ vững chắc.
 </details>
 
-**Q3.** When use `import` vs `state rm + recreate`?
+**Q3.** Khi nào dùng `import` thay vì `state rm + recreate`?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Scenario**: existing AWS resource not in Terraform. Want Terraform manage.
+**Bối cảnh**: có resource AWS đã tồn tại nhưng chưa nằm trong Terraform. Bạn muốn Terraform quản lý nó.
 
-**Option A: Import**
-- Pros:
-  - **No downtime** — resource stays running.
-  - **No data loss** (RDS, S3, etc.).
-  - Production-safe.
-- Cons:
-  - Tedious: write code matching reality.
-  - Risk: code drift from actual.
+**Phương án A: Import**
 
-**Option B: State rm + recreate**
+- Ưu điểm:
+  - **Không downtime** — resource vẫn chạy.
+  - **Không mất data** (RDS, S3, v.v.).
+  - An toàn cho production.
+- Nhược điểm:
+  - Tốn công: phải viết code khớp với thực tế.
+  - Rủi ro code lệch khỏi thực tế.
 
-(Only makes sense if resource lifecycle OK to recreate)
+**Phương án B: State rm + recreate**
 
-- Pros:
-  - Clean code (no manual matching).
-  - Terraform fully owns.
-- Cons:
-  - Downtime during recreate.
-  - Data loss for stateful resources.
-  - IP/ID changes — downstream dependencies break.
+(Chỉ hợp lý nếu vòng đời resource cho phép tạo lại)
 
-**Decision matrix**:
+- Ưu điểm:
+  - Code sạch (không phải khớp tay).
+  - Terraform sở hữu hoàn toàn.
+- Nhược điểm:
+  - Downtime trong lúc recreate.
+  - Mất data với resource có trạng thái.
+  - IP/ID đổi → các phụ thuộc downstream vỡ.
 
-| Resource | Recommend |
+**Ma trận quyết định**:
+
+| Resource | Khuyến nghị |
 |---|---|
-| VPC, subnet, route table | Import (avoid IP renumbering) |
-| RDS, DynamoDB | Import (data loss otherwise) |
-| S3 bucket | Import (data + bucket name) |
-| EC2 instance | Import (uptime), OR recreate if stateless app |
-| Security group | Import or recreate (easy to recreate) |
-| Lambda function | Recreate OK (no data) |
-| IAM role | Import (avoid breaking integrations) |
+| VPC, subnet, route table | Import (tránh đánh lại số IP) |
+| RDS, DynamoDB | Import (không thì mất data) |
+| S3 bucket | Import (data + tên bucket) |
+| EC2 instance | Import (giữ uptime), HOẶC recreate nếu app stateless |
+| Security group | Import hoặc recreate (tạo lại dễ) |
+| Lambda function | Recreate được (không có data) |
+| IAM role | Import (tránh làm vỡ các integration) |
 
-**Production rule**: **default to import**. Recreate only for stateless + low-stakes.
+**Nguyên tắc cho production**: **mặc định là import**. Chỉ recreate cho resource stateless và ít rủi ro.
 
-**Bulk import** (200 drift resources):
-- Use `import` block + `terraform plan -generate-config-out=generated.tf`.
-- Review generated code, clean up.
-- Test in dev first.
+**Import hàng loạt** (200 resource drift):
+- Dùng `import` block + `terraform plan -generate-config-out=generated.tf`.
+- Review code sinh ra, dọn dẹp.
+- Test ở dev trước.
 
 **Anti-pattern**:
-- "Just destroy + recreate everything" — fast in test, **catastrophic in prod**.
-- ALWAYS audit before destroy.
+- "Cứ destroy + recreate hết cho xong" — nhanh trong môi trường test, nhưng **thảm hoạ ở prod**.
+- LUÔN kiểm tra kỹ trước khi destroy.
 </details>
 
-**Q4.** Drift detection — daily cron vs realtime?
+**Q4.** Phát hiện drift — cron hằng ngày hay realtime?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Daily cron**:
-- driftctl scan once / day.
-- Slack alert if drift.
-- Review next business day.
+**Cron hằng ngày**:
+- driftctl scan một lần mỗi ngày.
+- Slack alert nếu có drift.
+- Review vào ngày làm việc kế tiếp.
 
-**Pros**:
-- Cheap (one scan/day).
-- Sufficient for slow drift.
+**Ưu điểm**:
+- Rẻ (một lần scan/ngày).
+- Đủ dùng cho drift chậm.
 
-**Cons**:
-- Drift may go 24 hours before detected.
-- Manual creation right after scan → 23h undetected.
+**Nhược điểm**:
+- Drift có thể tồn tại tới 24 giờ trước khi bị bắt.
+- Thay đổi tay ngay sau lần scan → tồn tại 23 giờ không bị phát hiện.
 
-**Realtime detection (advanced)**:
-- CloudTrail / AWS Config monitor changes.
-- Webhook to verify if change matches Terraform.
-- Alert within minutes.
+**Phát hiện realtime (nâng cao)**:
+- CloudTrail / AWS Config theo dõi mọi thay đổi.
+- Webhook kiểm tra xem thay đổi có khớp Terraform không.
+- Alert trong vài phút.
 
-**Pros**:
-- Catch drift immediately.
-- Audit "who manually changed what".
+**Ưu điểm**:
+- Bắt drift ngay lập tức.
+- Audit được "ai đã sửa tay cái gì".
 
-**Cons**:
-- Cost: CloudTrail + Config.
-- Complex setup.
-- High false positive (any change = alert).
+**Nhược điểm**:
+- Tốn chi phí: CloudTrail + Config.
+- Setup phức tạp.
+- Nhiều false positive (mọi thay đổi đều bắn alert).
 
-**Hybrid (recommended 2026)**:
-1. **AWS Config rules**: detect specific compliance violations (S3 public, IAM admin).
-2. **Daily driftctl cron**: catch Terraform drift.
-3. **Weekly review meeting**: triage accumulated drift.
-4. **Per-resource criticality**: `prevent_destroy` on critical resources.
+**Hybrid (khuyến nghị 2026)**:
+1. **AWS Config rules**: phát hiện vi phạm compliance cụ thể (S3 public, IAM admin).
+2. **driftctl cron hằng ngày**: bắt drift của Terraform.
+3. **Họp review hằng tuần**: phân loại drift tích tụ.
+4. **Theo mức độ quan trọng từng resource**: bật `prevent_destroy` cho resource trọng yếu.
 
-**Tool stack**:
-- driftctl daily.
-- AWS Config Conformance Packs (built-in compliance rules).
-- Custom Lambda + CloudTrail for specific patterns (e.g., "alert if anyone runs `terraform apply` outside Atlantis").
+**Bộ công cụ**:
+- driftctl chạy hằng ngày.
+- AWS Config Conformance Packs (bộ rule compliance có sẵn).
+- Lambda + CloudTrail tuỳ biến cho pattern cụ thể (ví dụ "alert nếu ai đó chạy `terraform apply` ngoài Atlantis").
 
-**Anti-pattern**: realtime alert on every CloudTrail event = noise. Filter to **resource creation/deletion only**.
+**Anti-pattern**: alert realtime trên mọi sự kiện CloudTrail = ngập trong nhiễu. Lọc chỉ còn **tạo/xoá resource**.
 
-→ Daily cron is good baseline. Add realtime selectively for critical resources.
+→ Cron hằng ngày là baseline tốt. Thêm realtime chọn lọc cho resource trọng yếu.
 </details>
 
-**Q5.** State file size growing — what to do?
+**Q5.** State file ngày càng phình to — làm gì?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Typical sizes**:
-- Single module: 10KB - 500KB.
-- Large prod (100+ resources): 5MB - 50MB.
+**Kích thước điển hình**:
+- Một module: 10KB - 500KB.
+- Prod lớn (100+ resource): 5MB - 50MB.
 
-**Problems with large state**:
-1. **Slow plan/apply**: parsing + diff takes long.
-2. **DynamoDB lock latency**: writes slower.
-3. **Memory**: Terraform/Atlantis load state to RAM.
-4. **Refresh slow**: each refresh = API calls per resource.
+**Vấn đề khi state quá lớn**:
+1. **Plan/apply chậm**: parse + diff lâu.
+2. **Lock DynamoDB chậm**: ghi chậm hơn.
+3. **Tốn RAM**: Terraform/Atlantis load state vào bộ nhớ.
+4. **Refresh chậm**: mỗi lần refresh = gọi API cho từng resource.
 
-**Triggers for split**:
+**Dấu hiệu cần tách (split)**:
 - State > 50MB.
-- Plan > 5 minutes.
-- 1000+ resources in single state.
+- Plan > 5 phút.
+- 1000+ resource trong một state.
 
-**Refactor**: split into multiple states (one per logical group).
+**Cách refactor**: tách thành nhiều state (mỗi nhóm logic một state).
 
-```
+```text
 Before:
   infrastructure/terraform.tfstate (50MB, all resources)
 
@@ -1047,30 +1102,32 @@ After:
     iam/terraform.tfstate (2MB)
 ```
 
-→ Each state smaller, faster plan, isolated risk.
+→ Mỗi state nhỏ hơn, plan nhanh hơn, rủi ro được cô lập.
 
-**Cross-state references**: `data "terraform_remote_state"` OR Terragrunt `dependency`.
+**Tham chiếu giữa các state**: `data "terraform_remote_state"` HOẶC `dependency` của Terragrunt.
 
-**Migration steps**:
+**Các bước migrate**:
 1. Backup state.
-2. Create new state file for sub-group.
-3. `terraform state mv` resources to new state.
-4. Update code to reference cross-state.
-5. Verify with plan.
+2. Tạo state file mới cho nhóm con.
+3. `terraform state mv` resource sang state mới.
+4. Cập nhật code để tham chiếu chéo state.
+5. Verify bằng plan.
 
-⚠️ Tedious. Plan migration weekend, test thoroughly in staging.
+⚠️ Tốn công. Lên kế hoạch migrate vào lúc rảnh, test kỹ ở staging.
 
-**Prevention**:
-- Design states by domain (network, compute, etc.) from start.
-- Terragrunt naturally encourages many small states.
-- Avoid "monolithic state" anti-pattern.
+**Phòng ngừa**:
+- Thiết kế state theo domain (network, compute, v.v.) ngay từ đầu.
+- Terragrunt tự nhiên khuyến khích nhiều state nhỏ.
+- Tránh anti-pattern "monolithic state".
 
-**Bonus**: split state = parallel apply possible (no global lock).
+**Bonus**: tách state = apply song song được (không còn lock toàn cục).
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: đọc state, sửa state, import, driftctl, S3 versioning, backup, force-unlock, và các block khai báo trong `.tf`.
 
 ```bash
 # === Read state ===
@@ -1130,55 +1187,58 @@ resource "aws_db_instance" "prod" {
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **State** | Mapping Terraform code ↔ cloud resources |
-| **State file** | `terraform.tfstate` JSON file |
-| **Remote backend** | State stored in S3/GCS/Azure (vs local) |
-| **State lock** | DynamoDB/blob lock preventing concurrent modify |
-| **Drift** | Cloud state ≠ Terraform state |
-| **driftctl** | OSS tool detecting drift |
-| **State import** | Bring existing cloud resource into Terraform state |
-| **State migration** | Refactor state structure without recreating |
-| **`moved` block** | Declarative state move (Terraform 1.1+) |
-| **`import` block** | Declarative import (Terraform 1.5+) |
-| **State versioning** | S3 versioning preserves old state files |
-| **State surgery** | Manual state editing (last resort) |
-| **`prevent_destroy`** | Lifecycle setting preventing resource delete |
-| **`create_before_destroy`** | Lifecycle ensuring new resource before old destroyed |
-| **`replace-provider`** | Migrate state from one provider to another |
-| **Refresh** | Update state from actual cloud (read-only) |
-| **`terraform import`** | Classic CLI import command |
-| **`.driftignore`** | driftctl file listing expected drift to ignore |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **State** | Trạng thái | Ánh xạ code Terraform ↔ resource trên cloud |
+| **State file** | File trạng thái | File JSON `terraform.tfstate` |
+| **Remote backend** | Backend từ xa | State lưu trên S3/GCS/Azure (thay vì local) |
+| **State lock** | Khoá state | Lock qua DynamoDB/blob để chặn sửa đồng thời |
+| **Drift** | Lệch trạng thái | Trạng thái cloud ≠ trạng thái Terraform |
+| **driftctl** | — | Công cụ mã nguồn mở phát hiện drift |
+| **State import** | Nhập resource | Đưa resource cloud đã có vào Terraform state |
+| **State migration** | Di trú state | Refactor cấu trúc state mà không tạo lại resource |
+| **`moved` block** | — | Khai báo dời state (Terraform 1.1+) |
+| **`import` block** | — | Khai báo import (Terraform 1.5+) |
+| **State versioning** | Phiên bản hoá state | S3 versioning giữ lại các file state cũ |
+| **State surgery** | Mổ state | Sửa state thủ công (phương án cuối) |
+| **`prevent_destroy`** | — | Cài đặt lifecycle chặn xoá resource |
+| **`create_before_destroy`** | — | Lifecycle đảm bảo tạo resource mới trước khi xoá cái cũ |
+| **`replace-provider`** | — | Di trú state từ provider này sang provider khác |
+| **Refresh** | Làm tươi | Cập nhật state từ trạng thái cloud thật (chỉ đọc) |
+| **`terraform import`** | — | Lệnh import cổ điển qua CLI |
+| **`.driftignore`** | — | File liệt kê drift dự kiến để driftctl bỏ qua |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_atlantis-gitops-for-iac.md](02_atlantis-gitops-for-iac.md)
-- → Tiếp: [04_pulumi-cdk-crossplane.md](04_pulumi-cdk-crossplane.md) *(sắp viết)*
-- ↑ Cluster: [IaC README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🏗️ [Basic state + backend](../01_basic/02_state-and-backend.md) — foundation
-- 📊 [Observability SRE](../../../observability/lessons/02_intermediate/04_sre-practices.md) — alert on drift
+- ⬅️ **Bài trước:** [Atlantis — GitOps cho Terraform/Terragrunt](02_atlantis-gitops-for-iac.md)
+- ➡️ **Bài tiếp theo:** [IaC Alternatives — Pulumi vs CDK vs Crossplane](04_pulumi-cdk-crossplane.md)
+- ↑ **Về cụm:** [IaC — Infrastructure as Code](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🏗️ [State & Backend — Production essentials](../01_basic/02_state-and-backend.md) — nền tảng state
+- 📊 [SRE practices — SLO + Error budget + Postmortem + On-call](../../../observability/lessons/02_intermediate/04_sre-practices.md) — alert khi có drift
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Terraform state docs](https://developer.hashicorp.com/terraform/language/state)
 - 📖 [State commands](https://developer.hashicorp.com/terraform/cli/state)
 - 📖 [Import block](https://developer.hashicorp.com/terraform/language/import)
 - 📖 [moved block](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring)
 - 📖 [driftctl](https://github.com/snyk/driftctl)
 - 📖 [AWS Config](https://docs.aws.amazon.com/config/)
-- 📖 [Terraform state migration patterns](https://developer.hashicorp.com/terraform/language/state/sensitive-data)
+- 📖 [Terraform state — sensitive data](https://developer.hashicorp.com/terraform/language/state/sensitive-data)
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước State files JSON + State backend + Read commands + Modify commands warnings.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 intermediate. State commands deep (mv/rm/pull/push/replace-provider) + import (classic + modern block) + moved block + driftctl automation + daily cron drift detection + S3 versioning backup/recovery + state surgery + module deprecation workflow. 6 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước State files JSON + State backend + Read commands + Modify commands warnings.
+- **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thay tình huống bịa nhân vật bằng văn kể trung tính, Việt hoá các đoạn "điện tín" EN ở §1–§8 + thêm lời dẫn trước mỗi code/bảng/list và câu bắc cầu giữa section, Việt hoá Pros/Cons → Ưu điểm/Nhược điểm trong self-check. Áp fix QA: `Prerequisites:` → `Yêu cầu trước:`, Glossary 3 cột, nav chuẩn (⬅️/➡️/↑ + link text = tiêu đề H1 thực, bỏ nhãn "sắp viết" cho bài 04 đã tồn tại), bổ sung ngôn ngữ `text` cho fence output. Giữ nguyên 100% code/lệnh/config/số liệu và cấu trúc 8 phần + diagram.

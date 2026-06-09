@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Routes & Parameters](01_routes-and-parameters.md)
 
 > 🎯 *Sâu vào **Pydantic v2** — viết model đúng cách: **separate Request vs Response model**, **nested model**, **validator custom**, **`response_model` exclude/include**, **Field()** validation, **alias**. Sau bài này bạn type-safe toàn API.*
@@ -239,7 +238,7 @@ Request JSON:
 ```json
 {
   "id": 1,
-  "name": "bạn",
+  "name": "Nguyen Van A",
   "address": {"street": "Đ Trần Phú", "city": "Hà Nội"},
   "secondary_addresses": [
     {"street": "Đ Lê Lợi", "city": "Sài Gòn"}
@@ -315,7 +314,7 @@ class User(BaseModel):
 Request JSON:
 
 ```json
-{"userId": 1, "fullName": "bạn", "createdAt": "2025-01-15"}
+{"userId": 1, "fullName": "Nguyen Van A", "createdAt": "2025-01-15"}
 ```
 
 → Pydantic accept cả `user_id` lẫn `userId`. Response trả `userId` (alias).
@@ -377,16 +376,16 @@ class A(BaseModel):
 ### Object → dict
 
 ```python
-user = UserRead(id=1, name="bạn", email="nguyenvana@ex.com")
+user = UserRead(id=1, name="Nguyen Van A", email="nguyenvana@ex.com")
 
 user.model_dump()
-# {"id": 1, "name": "bạn", "email": "nguyenvana@ex.com"}
+# {"id": 1, "name": "Nguyen Van A", "email": "nguyenvana@ex.com"}
 
 user.model_dump(exclude={"email"})
-# {"id": 1, "name": "bạn"}
+# {"id": 1, "name": "Nguyen Van A"}
 
 user.model_dump_json()              # JSON string
-# '{"id":1,"name":"bạn","email":"nguyenvana@ex.com"}'
+# '{"id":1,"name":"Nguyen Van A","email":"nguyenvana@ex.com"}'
 
 user.model_dump(by_alias=True)     # Dùng alias names
 ```
@@ -394,11 +393,11 @@ user.model_dump(by_alias=True)     # Dùng alias names
 ### dict → object
 
 ```python
-data = {"id": 1, "name": "bạn", "email": "nguyenvana@ex.com"}
+data = {"id": 1, "name": "Nguyen Van A", "email": "nguyenvana@ex.com"}
 user = UserRead.model_validate(data)
 
 # JSON string
-user = UserRead.model_validate_json('{"id":1,"name":"bạn","email":"nguyenvana@ex.com"}')
+user = UserRead.model_validate_json('{"id":1,"name":"Nguyen Van A","email":"nguyenvana@ex.com"}')
 ```
 
 > 💡 **Pydantic v1 vs v2**: cũ là `.dict()`, `.parse_obj()`. Mới là `.model_dump()`, `.model_validate()`. 2026 mọi project mới dùng v2.
@@ -472,7 +471,7 @@ def hash_password(p: str) -> str:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Dùng 1 model cho cả Request và Response** → leak password, cho client gửi field không nên. Pattern 3 model: Base / Create / Read.
 2. **Quên `response_model`** → return object có thể leak field. Mọi endpoint nên có.
@@ -482,7 +481,7 @@ def hash_password(p: str) -> str:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Tại sao phải **tách 3 model** (Base/Create/Read)?
 2. `str | None` vs `str | None = None` — khác sao?
@@ -596,17 +595,17 @@ UserRead.model_validate(data)  # dict → object
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Routes & Parameters](01_routes-and-parameters.md)
-- → Tiếp: [Database với SQLModel](03_database-with-sqlmodel.md)
-- ↑ Cluster: [python-fastapi README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Routes & Parameters — Path, Query, Body trong FastAPI](01_routes-and-parameters.md)
+- ➡️ **Bài tiếp theo:** [Database với SQLModel — CRUD thực tế](03_database-with-sqlmodel.md)
+- ↑ **Về cụm:** [python-fastapi README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [FastAPI tutorial — Body](https://fastapi.tiangolo.com/tutorial/body/)
 - 📖 [Pydantic v2 docs](https://docs.pydantic.dev/latest/)
-- 📖 [Pydantic v1 → v2 migration](https://docs.pydantic.dev/latest/migration/)
+- ➡️ **Bài tiếp theo:** [Pydantic v1 → v2 migration](https://docs.pydantic.dev/latest/migration/)
 - 📖 [FastAPI — Response Model](https://fastapi.tiangolo.com/tutorial/response-model/)
 
 ---
@@ -617,6 +616,6 @@ UserRead.model_validate(data)  # dict → object
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng + §2 Field() validate + §3 Validate 1 field. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 3/5. Cover: Anti-pattern 1 model + Pattern tách `Base/Create/Update/Read` + `Field()` constraint + metadata + `@field_validator` + `@model_validator` cross-field + `response_model` strip pattern.

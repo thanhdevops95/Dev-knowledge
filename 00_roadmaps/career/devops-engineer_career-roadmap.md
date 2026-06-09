@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã biết lập trình cơ bản (ưu tiên Python/Bash), muốn theo đuổi hướng quản lý hạ tầng, tự động hóa và tối ưu hóa chu kỳ phát hành phần mềm\
-> **Thời gian ước tính:** ~10 tháng học tập tích cực (full-time) hoặc ~20 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và đảm nhận công việc thực tế)
 
 ---
@@ -38,18 +37,18 @@ graph LR
     S5 --> S6[☁️ Stage 6<br/>Cloud & Capstone]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Linux & Mạng máy tính** | 2 tháng | Làm chủ VPS Linux, cấu hình SSH bảo mật và Firewall an toàn |
-| **Stage 2: Scripting & Git** | 1-2 tháng | Viết được bash/python script tự động hóa backup, quản lý code qua Git |
-| **Stage 3: Docker** | 1-2 tháng | Đóng gói ứng dụng đa thành phần chạy độc lập trên Docker Compose |
-| **Stage 4: Kubernetes** | 2-3 tháng | Deploy và vận hành ứng dụng có khả năng auto-scale trên K8s |
-| **Stage 5: CI/CD & IaC** | 2 tháng | Viết pipeline tự động hóa GitHub Actions, định nghĩa infra qua Terraform |
-| **Stage 6: Cloud & Capstone** | 1-2 tháng | Thiết lập hệ thống giám sát, deploy dự án live trên AWS đám mây |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Linux & Mạng máy tính** | Làm chủ VPS Linux, cấu hình SSH bảo mật và Firewall an toàn |
+| **Stage 2: Scripting & Git** | Viết được bash/python script tự động hóa backup, quản lý code qua Git |
+| **Stage 3: Docker** | Đóng gói ứng dụng đa thành phần chạy độc lập trên Docker Compose |
+| **Stage 4: Kubernetes** | Deploy và vận hành ứng dụng có khả năng auto-scale trên K8s |
+| **Stage 5: CI/CD & IaC** | Viết pipeline tự động hóa GitHub Actions, định nghĩa infra qua Terraform |
+| **Stage 6: Cloud & Capstone** | Thiết lập hệ thống giám sát, deploy dự án live trên AWS đám mây |
 
 ---
 
-## 🐧 Stage 1 — Hệ điều hành Linux & Mạng máy tính (2 tháng)
+## 🐧 Stage 1 — Hệ điều hành Linux & Mạng máy tính
 
 > 🎯 *Linux là hệ điều hành thống trị máy chủ. Bạn phải làm chủ nó và hiểu cách các máy tính giao tiếp qua mạng.*
 
@@ -75,7 +74,7 @@ graph LR
 
 ---
 
-## 📜 Stage 2 — Scripting & Git Automation (1-2 tháng)
+## 📜 Stage 2 — Scripting & Git Automation
 
 > 🎯 *Tự động hóa các tác vụ lặp đi lặp lại bằng script và kiểm soát mọi cấu hình hệ thống bằng Git.*
 
@@ -100,7 +99,7 @@ Một kỹ sư DevOps lười biếng một cách thông minh sẽ không bao gi
 
 ---
 
-## 🐳 Stage 3 — Đóng gói ứng dụng với Docker (1-2 tháng)
+## 🐳 Stage 3 — Đóng gói ứng dụng với Docker
 
 > 🎯 *Làm chủ công nghệ ảo hóa container, đóng gói ứng dụng và cấu hình môi trường chạy độc lập.*
 
@@ -126,7 +125,7 @@ Một kỹ sư DevOps lười biếng một cách thông minh sẽ không bao gi
 
 ---
 
-## ☸️ Stage 4 — Điều phối Container với Kubernetes (2-3 tháng)
+## ☸️ Stage 4 — Điều phối Container với Kubernetes
 
 > 🎯 *Làm chủ công cụ điều phối container tiêu chuẩn công nghiệp và thiết kế ứng dụng chạy tin cậy ở quy mô lớn.*
 
@@ -151,7 +150,7 @@ Kubernetes (K8s) chính là "hệ điều hành của hạ tầng đám mây". K
 
 ---
 
-## 🔄 Stage 5 — CI/CD Pipelines & Infrastructure as Code (IaC) (2 tháng)
+## 🔄 Stage 5 — CI/CD Pipelines & Infrastructure as Code (IaC)
 
 > 🎯 *Xây dựng đường ống tích hợp/triển khai tự động 100% và quản lý tài nguyên máy chủ bằng code.*
 
@@ -177,7 +176,7 @@ Kubernetes (K8s) chính là "hệ điều hành của hạ tầng đám mây". K
 
 ---
 
-## ☁️ Stage 6 — Làm chủ Đám mây AWS & Capstone Project (1-2 tháng)
+## ☁️ Stage 6 — Làm chủ Đám mây AWS & Capstone Project
 
 > 🎯 *Triển khai hạ tầng thực chiến trên AWS đám mây và hoàn thành dự án Capstone vận hành hệ thống.*
 
@@ -210,7 +209,7 @@ Sau khi làm chủ DevOps, bạn có các nhánh phát triển nâng cao:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng, rành mạch và logic.

@@ -39,32 +39,30 @@ react/
 
 ## 📖 Lessons — Basic cluster (5 bài)
 
-| # | Bài | Nội dung chính | Tag | Thời lượng |
-|---|---|---|---|---|
-| 00 | [React là gì?](lessons/01_basic/00_what-is-react.md) | JSX + Virtual DOM + component philosophy + React vs Vue/Svelte + Vite setup | MUST-KNOW | ~16p |
-| 01 | [Components & Props](lessons/01_basic/01_components-and-props.md) | Function component + JSX rules + props + children + list/key + composition | MUST-KNOW | ~16p |
-| 02 | [State & Events](lessons/01_basic/02_state-and-events.md) | `useState` + immutable update + event handlers + controlled inputs + lifting state | MUST-KNOW | ~17p |
-| 03 | [useEffect & Fetch](lessons/01_basic/03_useeffect-and-fetch.md) | `useEffect` lifecycle + cleanup + fetch FastAPI + loading/error + custom hooks | MUST-KNOW | ~17p |
-| 04 | [Routing & Context](lessons/01_basic/04_routing-and-context.md) | React Router v6 + protected route + Context API + Zustand intro | MUST-KNOW | ~17p |
+| # | Bài | Nội dung chính | Tag |
+| --- | --- | --- | --- |
+| 00 | [React là gì?](lessons/01_basic/00_what-is-react.md) | JSX + Virtual DOM + component philosophy + React vs Vue/Svelte + Vite setup | MUST-KNOW |
+| 01 | [Components & Props](lessons/01_basic/01_components-and-props.md) | Function component + JSX rules + props + children + list/key + composition | MUST-KNOW |
+| 02 | [State & Events](lessons/01_basic/02_state-and-events.md) | `useState` + immutable update + event handlers + controlled inputs + lifting state | MUST-KNOW |
+| 03 | [useEffect & Fetch](lessons/01_basic/03_useeffect-and-fetch.md) | `useEffect` lifecycle + cleanup + fetch FastAPI + loading/error + custom hooks | MUST-KNOW |
+| 04 | [Routing & Context](lessons/01_basic/04_routing-and-context.md) | React Router v6 + protected route + Context API + Zustand intro | MUST-KNOW |
 
-→ **Tổng ~83 phút đọc**. Sau cluster build SPA fullstack với React + FastAPI.
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
-- ↑ [frontend grouping](../README.md)
-- ↑↑ [07_web README](../../README.md)
-- 🎨 [html-css cluster](../html-css/) — HTML/CSS foundation
-- 🟨 [javascript-dom cluster](../javascript-dom/) — JS foundation
+### 🧭 Định hướng lộ trình học
+- ↑ **Về cụm:** [frontend grouping](../README.md)
+- ↑ **Về cụm:** [07_web README](../../README.md)
+- ↑ **Về cụm:** [html-css cluster](../html-css/) — HTML/CSS foundation
+- ↑ **Về cụm:** [javascript-dom cluster](../javascript-dom/) — JS foundation
 - 🐍 [FastAPI backend](../../backend/python-fastapi/) — backend Bạn gọi
 - 🌐 [HTTP, REST, CORS](../../../05_networking/http-https/) — protocol foundation
-- 🧭 [Frontend Developer roadmap](../../../00_roadmaps/career-guides/frontend-developer_roadmap.md)
-- 🧭 [Full-stack Developer roadmap](../../../00_roadmaps/career-guides/fullstack-developer_roadmap.md)
-- 📐 [Blueprint sitemap](../../../_blueprint/01_sitemap-detail.md)
+- 🧭 [Frontend Developer roadmap](../../../00_roadmaps/career/frontend-developer_career-roadmap.md)
+- 🧭 [Full-stack Developer roadmap](../../../00_roadmaps/career/fullstack-developer_career-roadmap.md)
 
-### External resources
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React docs (new)](https://react.dev/) — official, redesigned 2023
 - 📖 [React Router docs](https://reactrouter.com/)
 - 📖 [Vite docs](https://vitejs.dev/)
@@ -74,7 +72,7 @@ react/
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (23/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Cluster thứ 3 frontend, synthesis FastAPI fullstack.
 - **v0.1.0 (20/05/2026)** — Skeleton ban đầu.
+- **v1.0.0 (23/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Cluster thứ 3 frontend, synthesis FastAPI fullstack.

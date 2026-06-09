@@ -107,11 +107,9 @@ A: Đó là các bài học đang trong quá trình biên soạn nội dung chi 
 
 ### Trong kho
 - [README chính của Roadmaps](./README.md)
-- [Bản đồ Sitemap chi tiết của toàn bộ kho](../_blueprint/01_sitemap-detail.md)
-- [Quy chuẩn biên soạn nội dung](../_blueprint/03_writing-style.md)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (26/05/2026)** — Khởi tạo nội dung hoàn chỉnh cho Overview theo cấu trúc chuẩn.

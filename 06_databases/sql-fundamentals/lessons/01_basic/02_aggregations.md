@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [SELECT & Filter](01_select-and-filter.md)
 
 > 🎯 *Học **5 hàm aggregation** (COUNT/SUM/AVG/MIN/MAX), **GROUP BY** chia nhóm, **HAVING** filter sau GROUP, và phân biệt **WHERE vs HAVING** (lỗi #1 của beginner). Sau bài này bạn trả lời được mọi câu hỏi thống kê data.*
@@ -51,7 +50,7 @@ Bạn ngơ:
 - Sao có `WHERE` lại còn `HAVING`?
 - Sort sao theo "số user" mà cột đó không có tên?
 
-→ Bài này dạy bạn (và bạn) **aggregation** đầy đủ.
+→ Bài này dạy bạn **aggregation** đầy đủ.
 
 ---
 
@@ -192,7 +191,7 @@ city  | cnt
 Hanoi |   2
 ```
 
-→ Giải bạn bài toán của sếp.
+→ Giải đúng bài toán của sếp.
 
 ### Thứ tự thực thi (cập nhật từ [bài 01](01_select-and-filter.md))
 
@@ -395,7 +394,7 @@ LIMIT 3;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Select cột không trong GROUP BY và không aggregate** → SQL chuẩn cấm. MySQL từ 5.7 cũng cấm. Phải thêm vào GROUP BY hoặc aggregate.
 2. **Dùng `WHERE COUNT(*) > 5`** → Sai. `WHERE` chạy trước GROUP, không biết COUNT. Dùng `HAVING`.
@@ -405,7 +404,7 @@ LIMIT 3;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Phân biệt `COUNT(*)`, `COUNT(col)`, `COUNT(DISTINCT col)`. Khi nào dùng cái nào?
 2. Vì sao `WHERE COUNT(*) > 5` báo lỗi? Cách fix?
@@ -506,14 +505,14 @@ FROM orders;
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [SELECT & Filter](01_select-and-filter.md)
-- → Tiếp: [JOINs](03_joins.md)
-- ↑ Cluster: [sql-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [SELECT & WHERE — Câu lệnh SQL bạn dùng 90% thời gian](01_select-and-filter.md)
+- ➡️ **Bài tiếp theo:** [JOINs — Ghép bảng để query data đầy đủ](03_joins.md)
+- ↑ **Về cụm:** [sql-fundamentals README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SQLBolt — Lesson 9-10 (GROUP BY)](https://sqlbolt.com/lesson/select_queries_with_aggregates)
 - 📖 [PostgreSQL aggregate functions](https://www.postgresql.org/docs/current/functions-aggregate.html)
 - 📖 [Mode SQL — Group BY tutorial](https://mode.com/sql-tutorial/sql-group-by/)
@@ -526,6 +525,6 @@ FROM orders;
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Fix residue `bạn` (Long character) → `Nguyen Van A` trong output table. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 3/6. Cover: 6 aggregation function (COUNT/SUM/AVG/MIN/MAX/COUNT DISTINCT) + NULL handling + COUNT(*) vs COUNT(col) + GROUP BY single + multi-col + HAVING (filter sau aggregate) + WHERE vs HAVING distinction + execution order.

@@ -1,81 +1,103 @@
 # 🧪 Bài thực hành: <Tên bài thực hành>
-2: 
-3: > **Tác giả:** Mr.Rom\
-4: > **Phiên bản:** v1.0.0\
-5: > **Tạo lúc:** DD/MM/YYYY\
-6: > **Cập nhật:** DD/MM/YYYY\
-7: > **Độ khó:** ⭐ | ⭐⭐ | ⭐⭐⭐\
-8: > **Thời gian ước tính:** ~X phút làm bài\
-9: > **Prerequisites:** [<Tên bài học liên quan>](../../lessons/01_basic/<file>.md) ✅
-10: 
-11: ---
-12: 
-13: ## 🎯 Mục tiêu của bài Lab
-14: <Mô tả ngắn gọn, sinh động về sản phẩm/tính năng mà người học sẽ tự tay xây dựng hoặc gỡ lỗi thành công sau bài Lab này.>
-15: 
-16: ---
-17: 
-18: ## 🔍 Kiểm tra môi trường (Environment Check)
-19: Trước khi bắt tay vào gõ lệnh, hãy đảm bảo môi trường máy tính của bạn đã sẵn sàng bằng cách chạy các lệnh kiểm tra sau:
-20: 
-21: | Công cụ / Cấu hình | Lệnh kiểm tra | Kết quả mong đợi |
-22: |---|---|---|
-23: | **<Công cụ 1>** | `<cú pháp lệnh>` | `<output mong đợi>` |
-24: | **<Công cụ 2>** | `<cú pháp lệnh>` | `<output>` |
-25: 
-26: > ⚠️ **Lưu ý/Cảnh báo:** <Hướng dẫn khắc phục nhanh nếu kiểm tra môi trường thất bại.>
-27: 
-28: ---
-29: 
-30: ## 🗺️ Sơ đồ quy trình thực hiện
-31: ```
-32: [Bước 1: ...] ──> [Bước 2: ...] ──> [Bước 3: ...]
-33:                                         │
-34: [Dọn dẹp] <── [Verify kết quả] <── [Bước 4: ...] <──┘
-35: ```
-36: 
-37: ---
-38: 
-39: ## 🛠️ Từng bước thực hành chi tiết
-40: 
-41: ### 📂 Bước 1: <Tiêu đề bước 1>
-42: <Dẫn dắt ngữ cảnh bước 1>
-43: 
-44: ```bash
-45: <lệnh gõ của học viên>
-46: ```
-47: Output thực tế hiển thị:
-48: ```
-49: <output mẫu Terminal>
-50: ```
-51: *   **Giải thích output:**
-52:     *   <2-3 câu phân tích ý nghĩa các thông số hoặc mã màu quan trọng trong output.>
-53: 
-54: ---
-55: 
-56: ### 📂 Bước 2: <Tiêu đề bước 2>
-57: <...>
-58: 
-59: ---
-60: 
-61: ## ✅ Tiêu chí hoàn thành bài Lab (Exit Criteria)
-62: Hãy tự kiểm chứng thành quả của bạn bằng cách kiểm tra:
-63: 
-64: 1.  **<Tiêu chí 1>:** <Mô tả trạng thái file hoặc lệnh kiểm chứng, vd: chạy `git status` báo `working tree clean`>
-65: 2.  **<Tiêu chí 2>:** <...>
-66: 
-67: ---
-68: 
-69: ## 🧹 Dọn dẹp tài nguyên (Cleanup)
-70: Sau khi đã hoàn thành thử thách và kiểm chứng thành công, hãy dọn dẹp sạch sẽ tài nguyên nháp để giữ máy tính luôn gọn gàng và ngăn nắp:
-71: 
-72: ```bash
-73: <lệnh xóa thư mục nháp/container tạm, vd: rm -rf conflict-hero-playground>
-74: ```
-75: *Lưu ý: <Giải thích tại sao việc dọn dẹp này an toàn và cần thiết (Do No Harm)>*
-76: 
-77: ---
-78: 
-79: ## 🔗 Liên kết & Điều hướng
-80: *   ⬅️ Quay lại bài học lý thuyết: [<Tên bài>](../../lessons/01_basic/<file>.md)
-81: *   ➡️ Thử thách tiếp theo: [<Tên bài tiếp>](../02_intermediate/<file>.md)
+
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v1.1.0\
+> **Tạo lúc:** DD/MM/YYYY\
+> **Cập nhật:** 01/06/2026\
+> **Độ khó:** ⭐ | ⭐⭐ | ⭐⭐⭐\
+> **Tags:** <tag1>, <tag2>\
+> **Yêu cầu trước:** [<Tên bài học liên quan>](../../lessons/01_basic/<file>.md) ✅
+
+---
+
+## 🎯 Mục tiêu của bài Lab
+
+<Mô tả ngắn gọn, sinh động về sản phẩm/tính năng mà người học sẽ tự tay xây dựng hoặc gỡ lỗi thành công sau bài Lab này.>
+
+---
+
+## 🔍 Kiểm tra môi trường (Environment Check)
+
+Trước khi bắt tay vào gõ lệnh, hãy đảm bảo môi trường máy tính của bạn đã sẵn sàng bằng cách chạy các lệnh kiểm tra sau:
+
+| Công cụ / Cấu hình | Lệnh kiểm tra | Kết quả mong đợi |
+|---|---|---|
+| **<Công cụ 1>** | `<cú pháp lệnh>` | `<output mong đợi>` |
+| **<Công cụ 2>** | `<cú pháp lệnh>` | `<output>` |
+
+> ⚠️ **Lưu ý/Cảnh báo:** <Hướng dẫn khắc phục nhanh nếu kiểm tra môi trường thất bại.>
+
+---
+
+## 🗺️ Sơ đồ quy trình thực hiện
+
+```
+[Bước 1: ...] ──> [Bước 2: ...] ──> [Bước 3: ...]
+                                        │
+[Dọn dẹp] <── [Verify kết quả] <── [Bước 4: ...] <──┘
+```
+
+---
+
+## 🛠️ Từng bước thực hành chi tiết
+
+### 📂 Bước 1: <Tiêu đề bước 1>
+
+<Dẫn dắt ngữ cảnh bước 1>
+
+```bash
+<lệnh gõ của học viên>
+```
+
+Output thực tế hiển thị:
+
+```
+<output mẫu Terminal>
+```
+
+- **Giải thích output:**
+    - <2-3 câu phân tích ý nghĩa các thông số hoặc mã màu quan trọng trong output.>
+
+---
+
+### 📂 Bước 2: <Tiêu đề bước 2>
+
+<...>
+
+---
+
+## ✅ Tiêu chí hoàn thành bài Lab (Exit Criteria)
+
+Hãy tự kiểm chứng thành quả của bạn bằng cách kiểm tra:
+
+1. **<Tiêu chí 1>:** <Mô tả trạng thái file hoặc lệnh kiểm chứng, vd: chạy `git status` báo `working tree clean`>
+2. **<Tiêu chí 2>:** <...>
+
+---
+
+## 🧹 Dọn dẹp tài nguyên (Cleanup)
+
+Sau khi đã hoàn thành thử thách và kiểm chứng thành công, hãy dọn dẹp sạch sẽ tài nguyên nháp để giữ máy tính luôn gọn gàng và ngăn nắp:
+
+```bash
+<lệnh xóa thư mục nháp/container tạm, vd: rm -rf conflict-hero-playground>
+```
+
+*Lưu ý: <Giải thích tại sao việc dọn dẹp này an toàn và cần thiết>*
+
+---
+
+## 🔗 Liên kết & Tài nguyên
+
+### 🧭 Định hướng lộ trình học
+
+- ⬅️ **Bài trước:** [<tiêu đề thật bài học lý thuyết>](../../lessons/01_basic/<file>.md)
+- ➡️ **Bài tiếp theo:** [<tiêu đề thật bài Lab tiếp>](../02_intermediate/<file>.md)
+- ↑ **Về cụm:** [<Tên cụm> — README cụm](../../README.md)
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi prefix số dòng lẫn trong nội dung; bỏ field "Thời gian ước tính (~X phút làm bài)"; đổi bullet "*" → "-"; bỏ chú thích meta "(Do No Harm)"; đổi "Prerequisites" → "Yêu cầu trước" + thêm Tags; chuẩn hoá section Liên kết sang 3-sub + nav bullet; heading changelog chuẩn tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

@@ -1,13 +1,12 @@
 # ⚡ Cloudflare Workers + Pages — Edge compute & static + dynamic
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) và [01_cdn-dns-and-ssl](01_cdn-dns-and-ssl.md), biết JS/TS cơ bản, đã từng dùng Node.js Express
+> **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) và [01_cdn-dns-and-ssl](01_cdn-dns-and-ssl.md), biết JS/TS cơ bản, đã từng dùng Node.js Express
 
 > 🎯 *Trụ cột "Developer Platform" của Cloudflare bắt đầu ở đây. Bạn học Workers (V8 isolate edge compute), Workers KV (eventual consistent), Durable Objects (strongly consistent stateful), Pages (static + dynamic edge functions), Pages Functions. Cuối bài làm hands-on Hono.js REST API live tại 320+ POPs cho Acme Shop, kèm KV để cache.*
 
@@ -19,7 +18,7 @@
 - [ ] Hiểu **Cloudflare Pages** — static hosting + Pages Functions
 - [ ] Phân biệt **Workers** vs **Pages Functions** — khi nào dùng cái nào
 - [ ] Deploy **Hono.js REST API** cho Acme Shop lên Workers với KV cache
-- [ ] Biết limits 2026: 30s CPU, 128MB RAM, 1MB script size
+- [ ] Biết limits 2026: CPU time mặc định 30s (paid cấu hình lên tới 5 phút), 128MB RAM, 1MB script size
 
 ---
 
@@ -711,9 +710,9 @@ wrangler tail acmeshop-api
 
 ---
 
-## 💡 Pitfalls — Bẫy phổ biến
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Dùng KV như database transactional
+### ❌ Cạm bẫy: Dùng KV như database transactional
 
 **Triệu chứng**: Inventory đếm sai khi nhiều người mua cùng lúc. Counter likes mất số.
 
@@ -723,7 +722,7 @@ wrangler tail acmeshop-api
 - Counter / inventory → **Durable Objects**.
 - KV chỉ cho cache, config, feature flag.
 
-### ❌ Pitfall: Vượt 10ms CPU free tier
+### ❌ Cạm bẫy: Vượt 10ms CPU free tier
 
 **Triệu chứng**: Worker bị kill khi compute nặng (parse JSON lớn, hash, ...). Error 1102.
 
@@ -734,7 +733,7 @@ wrangler tail acmeshop-api
 - Hoặc offload heavy work cho Queues (background).
 - Hoặc dùng `ctx.waitUntil()` để chạy async sau response trả.
 
-### ❌ Pitfall: Quên `compatibility_date`
+### ❌ Cạm bẫy: Quên `compatibility_date`
 
 **Triệu chứng**: Worker chạy local OK, deploy production behavior khác.
 
@@ -742,7 +741,7 @@ wrangler tail acmeshop-api
 
 **Cách tránh**: Luôn set `compatibility_date = "YYYY-MM-DD"` trong `wrangler.toml`. Update khi cần feature mới.
 
-### ❌ Pitfall: Workers Free không có subrequest tới chính domain
+### ❌ Cạm bẫy: Workers Free không có subrequest tới chính domain
 
 **Triệu chứng**: Worker A fetch tới Worker B trên cùng zone → "loop detected".
 
@@ -752,7 +751,7 @@ wrangler tail acmeshop-api
 - Dùng **Service Binding** (kết nối in-process).
 - Hoặc upgrade Paid.
 
-### ❌ Pitfall: Pages Functions vs Workers — config nhầm
+### ❌ Cạm bẫy: Pages Functions vs Workers — config nhầm
 
 **Triệu chứng**: Set binding KV trong Pages Functions nhưng code `env.KV` không thấy.
 
@@ -762,7 +761,7 @@ wrangler tail acmeshop-api
 - Pages → Settings → Functions: setup bindings ở đây.
 - Hoặc dùng `wrangler.toml` cho Pages mới (2024+ support).
 
-### ❌ Pitfall: `ctx.waitUntil` quên
+### ❌ Cạm bẫy: `ctx.waitUntil` quên
 
 **Triệu chứng**: Async logging/analytics không chạy. Worker trả response xong, async task bị cancel.
 
@@ -775,7 +774,7 @@ ctx.waitUntil(logToAnalytics(request));
 return new Response("OK");
 ```
 
-### ❌ Pitfall: Bundle size > 1MB
+### ❌ Cạm bẫy: Bundle size > 1MB
 
 **Triệu chứng**: `wrangler deploy` fail với "script too large".
 
@@ -787,7 +786,7 @@ return new Response("OK");
 - Upgrade Paid (10MB).
 - Hoặc Workers Smart Placement + R2 để serve assets.
 
-### ❌ Pitfall: Workers `Date.now()` không thay đổi trong 1 request
+### ❌ Cạm bẫy: Workers `Date.now()` không thay đổi trong 1 request
 
 **Triệu chứng**: Code dùng `Date.now()` trả cùng giá trị nhiều lần trong 1 request.
 
@@ -799,7 +798,7 @@ return new Response("OK");
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Workers cold start ~0ms — vì sao? Lambda thì 100-500ms.
 
@@ -847,7 +846,7 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh / cách |
 |---|---|
@@ -867,7 +866,7 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN / Giải thích |
 |---|---|
@@ -891,16 +890,16 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_cdn-dns-and-ssl](01_cdn-dns-and-ssl.md)
-- → Tiếp: [03_r2-and-d1-and-queues](03_r2-and-d1-and-queues.md) — Storage layer
-- ↑ Cluster: [Cloudflare README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Cloudflare CDN + DNS + SSL — Foundation của edge](01_cdn-dns-and-ssl.md)
+- ➡️ **Bài tiếp theo:** [Cloudflare R2 + D1 + Queues — Storage & data layer ở edge](03_r2-and-d1-and-queues.md) — Storage layer
+- ↑ **Về cụm:** [Cloudflare README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — so sánh
 - ☁️ [GCP Cloud Functions + Run](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — so sánh
 - 🌐 [Serverless](../../../serverless/) — paradigm chung
-- 🟦 [TypeScript](../../../../05_Languages/typescript/) — code Worker
+- 🟦 [TypeScript](../../../../03_languages/javascript-typescript/) — code Worker
 
 ### Tài nguyên ngoài (2026)
 - 📖 [Workers docs](https://developers.cloudflare.com/workers/)
@@ -915,6 +914,6 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 cluster Cloudflare basic. Workers V8 isolate vs Lambda + KV eventual consistent + Durable Objects strong consistent + Pages static + Pages Functions + Service Bindings + Cron triggers + hands-on Hono.js REST API Acme Shop với KV cache + 8 pitfalls. Pattern theo AWS/GCP lesson 04 (compute).

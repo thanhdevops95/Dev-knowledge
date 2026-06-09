@@ -1,9 +1,9 @@
 # <Tên vấn đề / pattern>
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY\
+> **Cập nhật:** 01/06/2026\
 > **Loại:** Troubleshooting | Pattern | Operation\
 > **Áp dụng cho:** <công nghệ / phiên bản — vd: K8s 1.28+, Docker 24+>
 
@@ -89,14 +89,24 @@ Kết quả mong đợi:
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- 📖 Khái niệm liên quan: [<Bài học>](../../lessons/01_basic/<file>.md)
-- 🐛 Vấn đề liên quan: [<Recipe khác>](./<file>.md)
-- 🌐 Tài nguyên ngoài: [<docs / SO answer>](<URL>)
+### 🧭 Định hướng lộ trình học
+
+- ↑ **Về cụm:** [<Tên cụm> — README cụm](../../README.md)
+- 📖 **Khái niệm liên quan:** [<tiêu đề thật bài học>](../../lessons/01_basic/<file>.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [<tiêu đề thật recipe liên quan>](./<file>.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [<docs / SO answer>](<URL>) — <ngắn gọn lý do recommend>
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá section Liên kết sang 3-sub + nav bullet, dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

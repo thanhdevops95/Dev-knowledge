@@ -1,15 +1,12 @@
 # `git status` — Xem trạng thái working directory
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~5 phút\
-> **Prerequisites:** Đã cài Git, đã `git init` 1 repo (xem `00_setup.md`)
-
-> 🎯 *Bài này test mẫu **short lesson** trong Blueprint — chỉ dùng phần REQUIRED + 1 OPTIONAL (cheatsheet). Bỏ Pitfall, Self-check, Liên kết vì topic đơn giản.*
+> **Yêu cầu trước:** Đã cài Git, đã `git init` 1 repo (xem `00_setup.md`)
 
 > 🎯 *`git status` là lệnh bạn dùng nhiều nhất trong git. Sau bài này bạn sẽ đọc được output của `git status`, biết file nào staged / unstaged / untracked.*
 
@@ -111,7 +108,7 @@ Changes not staged for commit:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Output |
 |---|---|
@@ -135,7 +132,7 @@ MM test.txt        # Modified staged + sửa thêm sau khi stage
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -149,6 +146,7 @@ MM test.txt        # Modified staged + sửa thêm sau khi stage
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên. Dùng làm sample test "short lesson" pattern cho Blueprint.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — bài ngắn về `git status` (WHY/WHAT/HOW + cheatsheet).
+- **v1.1.0 (01/06/2026)** — Việt hoá heading Cheatsheet/Glossary; bỏ câu dẫn meta-leak "Bài này test mẫu short lesson trong Blueprint"; đổi "Prerequisites" → "Yêu cầu trước"; heading changelog chuẩn + tăng dần. Lý do: bài mẫu giống file học phải sạch meta-leak + đồng bộ 3 quyết định governance.

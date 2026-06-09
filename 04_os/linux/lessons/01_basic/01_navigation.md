@@ -6,7 +6,6 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút (chưa tính thực hành)\
 > **Prerequisites:** [Terminal là gì](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md)\
 > **Áp dụng cho:** Linux • macOS (BSD Unix, lệnh giống Linux) • WSL trên Windows • Git Bash trên Windows
 
@@ -147,7 +146,7 @@ drwxr-xr-x  8 user  staff   256 May 15 14:30 Documents
 | `-` | File thường |
 | `l` | Symbolic link |
 
-> 💡 Phần `drwxr-xr-x` là **permissions** — sẽ học chi tiết ở bài [02_file-permissions.md](./02_file-operations.md) (sắp có).
+> 💡 Phần `drwxr-xr-x` là **permissions** — sẽ học chi tiết ở bài [Users & Permissions](../02_intermediate/00_users-and-permissions.md).
 
 #### Show file ẩn — `ls -a`
 
@@ -242,9 +241,9 @@ ls *.py                      # chỉ liệt kê file .py trong src
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Case-sensitive trên Mac/Linux
+### ❌ Cạm bẫy: Case-sensitive trên Mac/Linux
 
 ```bash
 cd desktop   # ❌ KHÔNG vào được (folder tên "Desktop", D viết hoa)
@@ -254,7 +253,7 @@ cd Desktop   # ✅
 - **Lý do**: Linux + Mac (filesystem mặc định) case-sensitive. Windows case-insensitive.
 - **Cách tránh**: dùng **Tab autocomplete** — gõ `cd De<Tab>` shell tự complete đúng case.
 
-### ❌ Pitfall: Path có khoảng trắng
+### ❌ Cạm bẫy: Path có khoảng trắng
 
 ```bash
 cd My Folder/   # ❌ thực ra cd "My" rồi báo lỗi
@@ -267,7 +266,7 @@ cd My Folder/   # ❌ thực ra cd "My" rồi báo lỗi
   ```
 - **Tốt hơn**: đặt tên folder không có space (`my-folder/`).
 
-### ❌ Pitfall: Quên `cd` ra → chạy lệnh sai chỗ
+### ❌ Cạm bẫy: Quên `cd` ra → chạy lệnh sai chỗ
 
 ```bash
 # Tưởng đang ở /Users/user/projects, thực ra ở /
@@ -304,7 +303,7 @@ ls          # luôn ls sau cd để biết folder có gì
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** `cd ../../etc` đi đâu (giả sử đang ở `/Users/user/projects/my-app`)?
 
@@ -372,7 +371,7 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/user/Documents`.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -395,7 +394,7 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/user/Documents`.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -420,24 +419,19 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/user/Documents`.
 |---|---|
 | ⬅️ Bài trước | [What is Terminal](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md) (intro về terminal-as-tool ở 02_tools) |
 | ➡️ Bài tiếp | [02_file-operations.md](./02_file-operations.md) — mkdir, touch, cp, mv, rm |
-| 🔗 Liên quan | (sẽ có) `04_text-search-and-pipes.md` — `find`, `grep` |
+| 🔗 Liên quan | [Text Processing Advanced](../02_intermediate/04_text-processing-advanced.md) — `grep`, `sed`, `awk` |
 | 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Linux Path tutorial](https://www.redhat.com/sysadmin/linux-path-absolute-relative) — RedHat
 - [`ls` man page](https://man7.org/linux/man-pages/man1/ls.1.html) — tất cả flag
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (ls cơ bản, ls -la, ls -lhS).
-
-
-- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Mở bằng **tình huống beginner mở terminal lần đầu** với 3 câu hỏi cụ thể (đang ở đâu, có gì, đi đâu)
-  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Filesystem (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi/mô tả tự nhiên ("Vì sao 3 lệnh này CỰC KỲ quan trọng?", "Trước hết — Filesystem Linux trông như thế nào?", "Bắt tay làm — 3 lệnh cốt lõi")
-  - Content kỹ thuật KHÔNG đổi
-- **v1.1.0 (16/05/2026)** — Move từ `02_tools/shell/lessons/01_basic/` sang `04_os/linux/lessons/01_basic/` theo quy ước Blueprint v0.5 §3.2ter (02_tools KHÔNG chứa lệnh OS). Title đổi "Navigation" → "Linux Navigation". Thêm note cross-OS (Mac/WSL/Git Bash dùng được, Windows native khác).
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson dạy navigation `pwd`/`ls`/`cd`. Tách từ `00_terminal-fundamentals.md` cũ theo quy ước Blueprint v0.4 §3.0 (Intro vs Lesson).
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson dạy navigation `pwd`/`ls`/`cd`.
+- **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/lessons/01_basic/` (lệnh OS). Đổi tiêu đề "Navigation" → "Linux Navigation". Thêm ghi chú cross-OS (Mac/WSL/Git Bash dùng được, Windows native khác).
+- **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống mở terminal lần đầu với 3 câu hỏi cụ thể (đang ở đâu, có gì, đi đâu). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
+- **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (ls cơ bản, ls -la, ls -lhS).

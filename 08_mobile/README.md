@@ -5,44 +5,32 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 16/05/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
-
 ## 🎯 Chủ đề này có gì
 
-iOS Swift, Android Kotlin, React Native, Flutter
+Phát triển ứng dụng *mobile*: iOS với Swift, Android với Kotlin, các framework *cross-platform* (React Native, Flutter) và kiến trúc ứng dụng di động.
 
-## 📂 L2 dự kiến (chủ đề con)
+## 📂 Các chủ đề con (L2)
 
--ios-swift
-- android-kotlin
-- react-native
-- flutter
-- cross-platform-concepts
-- mobile-architecture
-
-> Chi tiết sitemap mở rộng → xem [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
-
-## 🚀 Khi nào đọc folder này
-
-| Bạn là... | Đọc gì khi có content |
+| Chủ đề con | Trạng thái |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
+| [react-native](react-native/) | 🚧 1 bài đang dựng (`lessons/01_basic/`) |
+| [ios-swift](ios-swift/) | 🚧 Chưa có bài |
+| [android-kotlin](android-kotlin/) | 🚧 Chưa có bài |
+| [flutter](flutter/) | 🚧 Chưa có bài |
+| [cross-platform-concepts](cross-platform-concepts/) | 🚧 Chưa có bài |
+| [mobile-architecture](mobile-architecture/) | 🚧 Chưa có bài |
 
-## 🤝 Muốn viết bài cho chủ đề này?
+## 🚀 Đọc gì tùy nhu cầu
 
-1. Đọc [`../_blueprint/README.md`](../_blueprint/README.md)
-2. Copy template từ [`../_blueprint/templates/`](../_blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_blueprint/03_writing-style.md`](../_blueprint/03_writing-style.md)
-4. Soát qua [`../_blueprint/07_quality-checklist.md`](../_blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+| Nhu cầu | Đọc gì |
+|---|---|
+| Mới bắt đầu | `lessons/01_basic/` của chủ đề con bạn chọn |
+| Tìm hiểu tổng quan một chủ đề | `00_overview.md` của chủ đề con đó |
+| Tra cứu nhanh | `recipes/` (khi có content) |
+| Học theo nghề | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn lộ trình nghề đi qua chủ đề này |
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.

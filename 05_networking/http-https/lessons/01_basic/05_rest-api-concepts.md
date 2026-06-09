@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** [HTTP methods](01_http-methods.md), [HTTP status codes](02_http-status-codes.md), [HTTP headers](03_http-headers.md)
 
 > 🎯 *Bài cuối HTTP basic. Học **REST là gì**, **6 ràng buộc Roy Fielding**, **cách design URL theo resource**, **HATEOAS** (sơ lược), **REST vs GraphQL vs gRPC**, **versioning**, và **best practices**. Sau bài này bạn design API không bị sếp phán "không RESTful".*
@@ -50,7 +49,7 @@ Bạn ngơ:
 - Có **chuẩn bắt buộc** không, hay chỉ là khuyên?
 - **GraphQL** với **gRPC** mới hot, sao công ty vẫn xài REST?
 
-→ Bài này dạy bạn (và bạn) **triết lý REST**, **cách design đúng resource**, **so sánh** REST với GraphQL/gRPC, và **versioning**. Sau bài Bạn sẽ viết lại 7 endpoint kia thành **5 endpoint RESTful** ngắn gọn hơn nhiều.
+→ Bài này dạy bạn **triết lý REST**, **cách design đúng resource**, **so sánh** REST với GraphQL/gRPC, và **versioning**. Sau bài bạn sẽ viết lại 7 endpoint kia thành **5 endpoint RESTful** ngắn gọn hơn nhiều.
 
 ---
 
@@ -161,7 +160,7 @@ REST mapping 1-1 giữa **HTTP method** và **CRUD operation** (Create/Read/Upda
 | **PATCH** `/users/42` | Update (1 phần) | `/users/42` | Chỉ đổi 1-2 field |
 | **DELETE** `/users/42` | Delete | `/users/42` | Xóa user 42 |
 
-→ Chi tiết method idempotent/safe xem [bài 01](01_http-methods.md#3️⃣-idempotency--safety--khái-niệm-quan-trọng).
+→ Chi tiết method idempotent/safe xem [bài 01](01_http-methods.md).
 
 ### Quy tắc 4 — Nested resource cho quan hệ
 
@@ -185,14 +184,14 @@ DELETE /users/42/orders/100      ← user 42 hủy order 100
 GET /users?role=admin              ← filter
 GET /users?sort=created_at:desc    ← sort
 GET /users?page=2&limit=20         ← paginate
-GET /users?q=long&fields=id,email  ← search + sparse fieldset
+GET /users?q=nguyen&fields=id,email  ← search + sparse fieldset
 ```
 
 → Query string KHÔNG dùng cho action (`?action=delete` ❌).
 
-### Bạn viết lại 7 endpoint thành RESTful
+### Viết lại 7 endpoint thành RESTful
 
-**Trước (bạn bị sếp chê):**
+**Trước (bị sếp chê):**
 ```
 POST /createUser
 POST /getUserById
@@ -210,7 +209,7 @@ GET    /users/{id}                   ← get one
 PATCH  /users/{id}                   ← update email (partial)
 DELETE /users/{id}                   ← delete
 GET    /users                        ← list all
-GET    /users?q=long                 ← search
+GET    /users?q=nguyen               ← search
 GET    /users/{id}/orders            ← list orders of user
 ```
 
@@ -228,8 +227,8 @@ GET    /users/{id}/orders            ← list orders of user
 // GET /users/42
 {
   "id": 42,
-  "name": "bạn",
-  "email": "nguyenvana@ex.com",
+  "name": "Nguyen Van A",
+  "email": "nguyenvana@example.com",
   "_links": {
     "self":    { "href": "/users/42" },
     "orders":  { "href": "/users/42/orders" },
@@ -360,7 +359,7 @@ GET /users/42?version=2
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tưởng REST = HTTP** → REST là **kiến trúc**, có thể chạy qua non-HTTP (hiếm). HTTP là **protocol**.
 2. **Tưởng "không HATEOAS = không REST"** → 99% công ty xài Level 2 Richardson maturity vẫn gọi REST.
@@ -370,7 +369,7 @@ GET /users/42?version=2
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. URL `POST /deleteUser?id=42` có RESTful không? Sửa lại.
 2. Khác biệt giữa `PUT /users/42` và `PATCH /users/42`?
@@ -390,7 +389,7 @@ GET /users/42?version=2
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Thao tác | URL + Method |
 |---|---|
@@ -436,18 +435,18 @@ GET /users/42?version=2
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [HTTPS & TLS](04_https-tls.md)
-- ↑ Cluster: [http-https README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [HTTPS + TLS — Cert, Handshake, Let's Encrypt](04_https-tls.md)
+- ↑ **Về cụm:** [http-https README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTP methods](01_http-methods.md) — base cho REST CRUD mapping
 - [HTTP status codes](02_http-status-codes.md) — REST dùng status code đúng nghĩa
 - [HTTP headers](03_http-headers.md) — `Content-Type`, `Accept`, versioning header
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Roy Fielding's dissertation (2000)](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) — bản gốc REST
 - 📖 [Richardson Maturity Model — Martin Fowler](https://martinfowler.com/articles/richardsonMaturityModel.html)
 - 📖 [REST API Tutorial — restfulapi.net](https://restfulapi.net/)
@@ -462,8 +461,7 @@ GET /users/42?version=2
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §1 bảng REST vs RPC + bảng RESTful/REST distinction + §3 Quy tắc 1 URL danh từ + §3 Quy tắc 2 plural + §3 Quy tắc 3 method↔CRUD mapping. Thêm Changelog section (trước đây thiếu). Nội dung kỹ thuật giữ nguyên.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 5/6. Cover: REST 6 constraints + Richardson Maturity Model + Resource design (5 quy tắc) + Status code + Versioning (URL/header) + Pagination + Filtering/Sorting + HATEOAS overview + REST vs GraphQL vs gRPC comparison.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (REST vs RPC, phân biệt RESTful/REST) và §3 (Quy tắc 1 URL danh từ, Quy tắc 2 plural, Quy tắc 3 method↔CRUD). Thêm Changelog section. Nội dung kỹ thuật giữ nguyên.

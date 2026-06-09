@@ -479,7 +479,7 @@ Mật khẩu và cấu hình đã được bơm thành công hoàn hảo vào co
 
 ---
 
-## ✅ Thử Thách Tự Đánh Giá (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 Bạn hãy tự kiểm tra kiến thức bằng cách trả lời nhanh 5 câu hỏi cốt lõi sau:
 1. Khi nào nên dùng ConfigMap và khi nào bắt buộc phải dùng Secret?

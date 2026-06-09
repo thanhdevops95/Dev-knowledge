@@ -1,11 +1,11 @@
 # 🛠️ Minikube — User Guide
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 19/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Loại:** Tool individual — focused on Minikube\
-> **Đọc trước:** [So sánh K8s local options](./00_local-k8s-options.md) (nếu chưa chọn xong)
+> **Đọc trước:** [K8s local — Chọn cluster để học/dev trên máy mình](./00_local-k8s-options.md) (nếu chưa chọn xong)
 
 > 🎯 *Bài này CHỈ về Minikube — cài, dùng UI/CLI, addon, cấu hình khuyến nghị, troubleshoot. KHÔNG so sánh với Kind/k3d (đã có ở file category).*
 
@@ -336,15 +336,26 @@ minikube tunnel
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- 🛠️ So sánh với Kind/k3d → [00_local-k8s-options.md](./00_local-k8s-options.md)
-- 📚 Bài lesson K8s → [10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
-- 🛠️ GUI quản lý cluster → [Lens](../k8s-gui/lens.md) (chưa có)
-- 🛠️ TUI quản lý → [k9s](../k8s-cli/k9s.md) (chưa có)
+### 🧭 Định hướng lộ trình học
+
+- ↑ **Về cụm:** [K8s local — Chọn cluster để học/dev trên máy mình](./00_local-k8s-options.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 📚 [K8s là gì? — Đơn vị điều phối container](../../10_devops/kubernetes/lessons/01_basic/00_what-is-k8s.md)
+- 🛠️ [Lens — GUI quản lý cluster](../k8s-gui/lens.md) (chưa có)
+- 🛠️ [k9s — TUI quản lý cluster](../k8s-cli/k9s.md) (chưa có)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [Minikube docs](https://minikube.sigs.k8s.io/docs/) — tài liệu chính chủ
+- [kubernetes/minikube](https://github.com/kubernetes/minikube) — source + issue tracker
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (19/05/2026)** — Bản đầu tiên. Cài + start + UI + addon + workflow + troubleshoot. Mac/Linux/Win.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá section Liên kết sang 3-sub + nav bullet (link text = tiêu đề thật); heading changelog chuẩn + tăng dần. Lý do: đồng bộ 3 quyết định governance + quy ước nền.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [DNS là gì](00_what-is-dns.md)
 
 > 🎯 *Sau bài này bạn config được zone file cho domain mình mua: trỏ root domain về IP, dùng CNAME cho subdomain, thêm MX cho email, TXT cho SPF/DKIM/verification, NS cho subdomain phân quyền.*
@@ -45,7 +44,7 @@ Bạn ngơ:
 - TXT bắt đầu bằng `"v=spf1"` đọc như nào?
 - `Proxied` là gì (cái mây cam của Cloudflare)?
 
-→ Đây là **DNS records** — từng dòng config trong zone file dạy resolver cách trả lời từng loại câu hỏi. Bài này dạy bạn (và bạn) **7 loại record cốt lõi** + **5 use case thực tế**.
+→ Đây là **DNS records** — từng dòng config trong zone file dạy resolver cách trả lời từng loại câu hỏi. Bài này dạy bạn **7 loại record cốt lõi** + **5 use case thực tế**.
 
 ---
 
@@ -74,7 +73,7 @@ acmeshop.vn.   3600   IN   A   203.0.113.10
 
 > 🧠 **Ẩn dụ — Zone file như mục lục thư viện:**
 > - Mỗi sách (domain/subdomain) có **nhiều entry** ở nhiều mục.
-> - Bạn tra "Lê bạn" có thể thấy: ở kệ A203 (record A), email tới `mail@` (record MX), tài khoản Google verify (TXT).
+> - Bạn tra "Nguyễn Văn A" có thể thấy: ở kệ A203 (record A), email tới `mail@` (record MX), tài khoản Google verify (TXT).
 > - 1 domain có thể có **rất nhiều record** cho từng nhu cầu.
 
 ### `@` là gì?
@@ -204,7 +203,7 @@ Khi deploy lên Netlify/Vercel/GitHub Pages, beginner hay set CNAME cho root dom
 | **Zoho Mail** | `10 mx.zoho.com`, `20 mx2.zoho.com` |
 | **Self-host (Postfix)** | `10 mail.acmeshop.vn` (kèm A record `mail`) |
 
-### Pitfall MX
+### Cạm bẫy MX
 
 - ❌ **MX trỏ vào IP** → sai. MX phải trỏ vào **domain**, không phải IP.
 - ❌ **MX trỏ vào CNAME** → spec không cho. Phải trỏ domain có A record thật.
@@ -260,7 +259,7 @@ _dmarc   TXT   "v=DMARC1; p=reject; rua=mailto:postmaster@acmeshop.vn"
 
 → Bạn add record này để **chứng minh domain là của bạn** khi setup Google Workspace / Search Console / GitHub Pages.
 
-### Pitfall TXT
+### Cạm bẫy TXT
 
 - ❌ **Quote sai** — dấu `"..."` phải bao toàn bộ chuỗi.
 - ❌ **2 SPF record cho cùng name** → spec cấm. Phải gộp vào **1 record** với nhiều `include:`.
@@ -330,7 +329,7 @@ dev   NS   ns2.dev-host.com.
 - **SaaS multi-tenant** — `customer1.app.com`, `customer2.app.com`... cùng IP, app phân biệt qua `Host` header.
 - **Catch-all dev** — `*.dev.acmeshop.vn` về staging.
 
-### Pitfall wildcard
+### Cạm bẫy wildcard
 
 - ❌ Subdomain đã có record cụ thể → wildcard không apply (specific thắng wildcard).
 - ❌ Wildcard không có cấp dưới — `*.acmeshop.vn` không match `a.b.acmeshop.vn`.
@@ -358,7 +357,7 @@ Vì spec cấm CNAME ở apex, nhưng nhu cầu trỏ `acmeshop.vn` về Netlify
 
 ---
 
-## 1️⃣1️⃣ bạn config zone đầy đủ cho `acmeshop.vn`
+## 1️⃣1️⃣ Zone file đầy đủ cho `acmeshop.vn`
 
 ```
 ; Apex + www
@@ -394,7 +393,7 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **CNAME apex** → Không được. Dùng A record hoặc ALIAS/flattening của provider.
 2. **2 SPF records** → Spec cấm. Phải gộp `include:` vào 1 record.
@@ -404,7 +403,7 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Bạn mua domain `mysite.io`, muốn:
    a. `mysite.io` trỏ về `198.51.100.10`
@@ -487,17 +486,17 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [DNS là gì](00_what-is-dns.md)
-- → Tiếp: [DNS Resolution Flow](02_dns-resolution.md)
-- ↑ Cluster: [dns README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [DNS là gì? — Danh bạ điện thoại của Internet](00_what-is-dns.md)
+- ➡️ **Bài tiếp theo:** [DNS Resolution — Hành trình từ `google.com` đến IP](02_dns-resolution.md)
+- ↑ **Về cụm:** [dns README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTP headers](../../../http-https/lessons/01_basic/03_http-headers.md) — `Host` header phối hợp wildcard DNS cho SaaS multi-tenant
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Cloudflare DNS records explained](https://www.cloudflare.com/learning/dns/dns-records/)
 - 📖 [SPF/DKIM/DMARC complete guide — dmarcian](https://dmarcian.com/dmarc-vs-spf-vs-dkim/)
 - 📖 [Google Workspace MX setup](https://support.google.com/a/answer/140034)
@@ -511,6 +510,6 @@ docs   CNAME  acmeshop.github.io.
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §2 bảng 7 record types + §3 A multi-record round-robin + §4 CNAME 3 rules + §4 "Lỗi #1 CNAME apex" + §5 MX provider table. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 2/5. Cover: zone file structure + 7 record types (A/AAAA/CNAME/MX/TXT/NS/SOA) + CNAME 3 rules + apex fix + MX với SPF/DKIM/DMARC anti-spam + TXT verification + NS delegation + SOA metadata + record nâng cao (SRV, PTR, CAA, DS, DNSKEY).

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [FastAPI là gì](00_what-is-fastapi.md)
 
 > 🎯 *Làm chủ 3 loại parameter: **path** (`/users/{id}`), **query** (`?page=2`), **body** (JSON POST). Plus **header**, **cookie**. Phân biệt 5 loại + control 200/201/204/400 status code + chia router thành nhiều file (APIRouter).*
@@ -282,7 +281,7 @@ def delete_product(id: int):
 | `PUT/PATCH` | 200 OK |
 | `DELETE` | **204 No Content** (không body) |
 
-→ Status code chi tiết: [bài HTTP status codes](../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md).
+→ Status code chi tiết: [bài HTTP status codes](../../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md).
 
 ### Set dynamic — `Response`
 
@@ -480,7 +479,7 @@ def delete_product(id: int):
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Path order sai** → `/users/{id}` đặt trước `/users/me` → `/users/me` bị match `{id}=me` → 422.
 2. **Return JSON với status 200 cho lỗi** → `{"error": "..."}` HTTP 200. Sai. Phải `raise HTTPException(404, ...)` để status đúng.
@@ -490,7 +489,7 @@ def delete_product(id: int):
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Phân biệt **path** / **query** / **body** parameter — FastAPI nhận biết qua cái gì?
 2. Status code đúng cho POST create + DELETE?
@@ -590,18 +589,18 @@ app.include_router(router)
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [FastAPI là gì](00_what-is-fastapi.md)
-- → Tiếp: [Pydantic Models](02_pydantic-models.md)
-- ↑ Cluster: [python-fastapi README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [FastAPI là gì? — Web framework Python tốc độ + type-safe](00_what-is-fastapi.md)
+- ➡️ **Bài tiếp theo:** [Pydantic Models — Validation + Serialization của FastAPI](02_pydantic-models.md)
+- ↑ **Về cụm:** [python-fastapi README](../../README.md)
 
-### Cross-reference
-- [HTTP methods](../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
-- [HTTP status codes](../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP methods](../../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
+- [HTTP status codes](../../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [FastAPI tutorial — Path Parameters](https://fastapi.tiangolo.com/tutorial/path-params/)
 - 📖 [FastAPI tutorial — Query Parameters](https://fastapi.tiangolo.com/tutorial/query-params/)
 - 📖 [FastAPI tutorial — APIRouter](https://fastapi.tiangolo.com/tutorial/bigger-applications/)
@@ -614,6 +613,6 @@ app.include_router(router)
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Path param + Path validate + Order routing + §2 Query validate + Repeating query. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 2/5. Cover: path/query/body parameters + Path/Query validation + repeating query + status codes + response_model + HTTPException + custom response + headers + cookies.

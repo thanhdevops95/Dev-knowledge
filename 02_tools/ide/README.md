@@ -1,32 +1,28 @@
 # ide
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v1.0.0\
 > **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Status:** ✅ Có bài — category overview + VS Code user guide
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 *Tool category cho **IDE / code editor** — chọn editor phù hợp rồi đi vào hướng dẫn từng tool. Đọc category trước để chọn, sau đó vào tool guide cụ thể.*
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+---
 
-```
-ide/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"ide là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
-```
+## 📂 Bài đã có
 
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.
+| File | Vai trò | Status |
+|---|---|---|
+| [`00_what-is-ide.md`](./00_what-is-ide.md) | **Category overview** — IDE vs Editor, so sánh 7 editor (VS Code, Cursor, Zed, Neovim, JetBrains, Sublime, Xcode), khuyến nghị theo profile | ✅ |
+| [`vs-code.md`](./vs-code.md) | VS Code user guide — cài, UI tour, settings, extensions, workflows, shortcuts | ✅ |
+
+## 🚀 Khi nào đọc folder này
+
+| Nhu cầu | Đọc gì |
+|---|---|
+| Chưa biết chọn editor nào | [`00_what-is-ide.md`](./00_what-is-ide.md) trước |
+| Đã chọn VS Code | [`vs-code.md`](./vs-code.md) |
+
+## 🔜 Dự kiến mở rộng
+
+Các tool guide riêng sẽ bổ sung dần: `cursor.md`, `neovim.md`, `jetbrains.md`, `zed.md`, `sublime.md`, `xcode.md` (so sánh giữa chúng đã có ở `00_what-is-ide.md`).

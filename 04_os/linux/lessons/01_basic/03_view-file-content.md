@@ -6,7 +6,6 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~10 phút\
 > **Prerequisites:** [01_navigation.md](./01_navigation.md), [02_file-operations.md](./02_file-operations.md)\
 > **Áp dụng cho:** Linux • macOS • WSL • Git Bash
 
@@ -266,9 +265,9 @@ tail -n +5 sample.txt
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Dùng `cat` cho file 100MB → terminal đứng hình
+### ❌ Cạm bẫy: Dùng `cat` cho file 100MB → terminal đứng hình
 
 ```bash
 cat huge.log    # 100 MB → terminal stall
@@ -276,12 +275,12 @@ cat huge.log    # 100 MB → terminal stall
 
 - **Cách tránh**: dùng `less huge.log` hoặc `head huge.log` để xem nhanh.
 
-### ❌ Pitfall: Kẹt trong `less` không biết thoát
+### ❌ Cạm bẫy: Kẹt trong `less` không biết thoát
 
 - **Triệu chứng**: vào `less`, không thoát ra terminal bình thường được
 - **Cách thoát**: nhấn `q`. Đừng nhấn `Ctrl + C` (lệnh khác — `less` không bị kill bằng `Ctrl+C` thường).
 
-### ❌ Pitfall: `tail -f` không thấy dòng mới
+### ❌ Cạm bẫy: `tail -f` không thấy dòng mới
 
 - **Nguyên nhân thường**: log file bị rotate (đổi tên), `-f` đang giữ file cũ
 - **Cách fix**: dùng `tail -F` thay vì `-f`
@@ -318,7 +317,7 @@ less +F /var/log/app.log
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng `cat` thay `less`?
 
@@ -359,7 +358,7 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -389,7 +388,7 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -408,25 +407,19 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [02_file-operations.md](./02_file-operations.md) |
-| ➡️ Bài tiếp | (sắp có) `04_text-search-and-pipes.md` — `grep`, `find`, `|`, `>` |
-| 🔗 Liên quan | (sắp có) `06_log-debugging.md` |
+| ➡️ Bài tiếp | [Text Processing Advanced](../02_intermediate/04_text-processing-advanced.md) — `grep`, `sed`, `awk`, pipe |
 | 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [`less` man page](https://man7.org/linux/man-pages/man1/less.1.html) — đầy đủ phím tắt
 - [Linux Logs Tutorial](https://www.loggly.com/ultimate-guide/managing-linux-logs/) — production log management
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (cat cơ bản, -n đánh số dòng, nối file).
-
-
-- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Mở bằng **tình huống debug production log 50,000 dòng** — 3 câu hỏi (lỗi mới nhất / bắt đầu khi nào / realtime)
-  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Mô hình (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi tự nhiên
-  - Content kỹ thuật KHÔNG đổi
-- **v1.1.0 (16/05/2026)** — Move từ `02_tools/shell/` sang `04_os/linux/` theo Blueprint v0.5 §3.2ter.
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson `cat`/`less`/`head`/`tail` với hands-on + setup test file + 5 pitfall/best-practice.
+- **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/`.
+- **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống debug production log 50,000 dòng — 3 câu hỏi (lỗi mới nhất / bắt đầu khi nào / realtime). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
+- **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (cat cơ bản, -n đánh số dòng, nối file).

@@ -6,8 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
-> **Prerequisites:** Python cơ bản (variables, functions, decorators) + [HTTP là gì](../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) + [REST API concepts](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
+> **Prerequisites:** Python cơ bản (variables, functions, decorators) + [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) + [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
 
 > 🎯 *Bài INTRO. Hiểu **FastAPI là gì**, **so sánh Flask/Django/FastAPI**, **vì sao type hints + Pydantic**, **OpenAPI auto-docs**, **sync vs async**, cài + chạy Hello World, mở Swagger UI.*
 
@@ -185,7 +184,7 @@ app = FastAPI()
 
 @app.get("/users/{id}")
 def get_user(id: int):
-    return {"id": id, "name": "bạn"}
+    return {"id": id, "name": "Nguyen Van A"}
 ```
 
 Mở browser **`http://localhost:8000/docs`**:
@@ -213,7 +212,7 @@ Mở browser **`http://localhost:8000/docs`**:
 | `/redoc` | **ReDoc** — đẹp, đọc tài liệu (read-only) |
 | `/openapi.json` | **Raw OpenAPI spec** — feed vào Postman/code generator |
 
-> 💡 OpenAPI = chuẩn ngành mô tả API ([bài REST](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md#7️⃣-best-practices--long-apply)). FastAPI cho free.
+> 💡 OpenAPI = chuẩn ngành mô tả API ([bài REST](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md#7️⃣-best-practices--long-apply)). FastAPI cho free.
 
 ---
 
@@ -290,7 +289,7 @@ from fastapi import FastAPI
 app = FastAPI(
     title="My First API",
     version="1.0.0",
-    description="bạn's first FastAPI server"
+    description="My first FastAPI server"
 )
 
 @app.get("/")
@@ -392,7 +391,7 @@ myproject/
 ```python
 from fastapi import FastAPI
 
-app = FastAPI(title="bạn Shop API", version="0.1.0")
+app = FastAPI(title="Acme Shop API", version="0.1.0")
 
 products = [
     {"id": 1, "name": "iPhone", "price": 25000000},
@@ -417,7 +416,7 @@ def get_product(id: int):
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Quên virtual env** → cài global → conflict versions. Mỗi project 1 venv.
 2. **Đổi code không reload** → quên `--reload` flag hoặc `fastapi dev`. Production dùng `fastapi run` (no reload).
@@ -427,7 +426,7 @@ def get_product(id: int):
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. So sánh **FastAPI** với **Flask** + **Django** trên 3 tiêu chí.
 2. **Type hints** và **Pydantic** giúp gì cho dev FastAPI?
@@ -438,7 +437,7 @@ def get_product(id: int):
 <details>
 <summary>Gợi ý đáp án</summary>
 
-1. **Sync/async**: FastAPI native async, Flask 2+ có, Django 4+ có (kém native hơn). **Auto docs**: FastAPI ✅, Flask/Django ❌ phải thêm extension. **Type hints**: FastAPI built-in, 2 cái còn lại không. **Best for**: FastAPI = REST API, Flask = freeform, Django = full-stack có admin.
+1. **Sync/async**: FastAPI native async, Flask 2+ có, Django 4+ có (kém native hơn). **Auto docs**: FastAPI ✅, Flask/Django ❌ phải thêm extension. **Type hints**: FastAPI built-in, 2 cái còn lại không. **Phù hợp khi**: FastAPI = REST API, Flask = freeform, Django = full-stack có admin.
 
 2. **Type hints** = annotation `x: int`. **Pydantic** = validation runtime từ hint. FastAPI **combine** chúng: declare schema bằng class Pydantic → tự validate request, tự generate OpenAPI, IDE autocomplete đầy đủ. Code ít, đảm bảo nhiều.
 
@@ -451,7 +450,7 @@ def get_product(id: int):
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cài đặt 1 dòng
 
@@ -521,19 +520,19 @@ http://localhost:8000/openapi.json
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [Routes & Parameters](01_routes-and-parameters.md)
-- ↑ Cluster: [python-fastapi README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Routes & Parameters — Path, Query, Body trong FastAPI](01_routes-and-parameters.md)
+- ↑ **Về cụm:** [python-fastapi README](../../README.md)
 
-### Cross-reference
-- [HTTP methods](../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md) — FastAPI decorator dùng đúng method
-- [HTTP status codes](../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md) — return đúng code (201, 204, 400, ...)
-- [REST API concepts](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — FastAPI design RESTful
-- [SQL fundamentals](../../../../06_databases/sql-fundamentals/) — bài 03 sẽ tích hợp DB
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP methods](../../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md) — FastAPI decorator dùng đúng method
+- [HTTP status codes](../../../../../05_networking/http-https/lessons/01_basic/02_http-status-codes.md) — return đúng code (201, 204, 400, ...)
+- [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — FastAPI design RESTful
+- [SQL fundamentals](../../../../../06_databases/sql-fundamentals/) — bài 03 sẽ tích hợp DB
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [FastAPI official docs](https://fastapi.tiangolo.com/) — tutorial dài, chất lượng cao nhất
 - 📖 [FastAPI source code](https://github.com/tiangolo/fastapi)
 - 📖 [Pydantic docs](https://docs.pydantic.dev/)
@@ -547,8 +546,7 @@ http://localhost:8000/openapi.json
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Superpower + §2 So sánh framework + Chọn cái nào + §3 Python type hints + Pydantic. Fix residue `"bạn"` (name placeholder) → `"Nguyen Van A"`. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 1/5. Cover: FastAPI là gì + 6 superpower (type hints, Pydantic, OpenAPI, async, DI, performance) + so sánh FastAPI vs Flask vs Django + Pydantic validation + setup uvicorn + Swagger UI tự động.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Superpower, §2 So sánh framework + Chọn cái nào, §3 Python type hints + Pydantic. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.

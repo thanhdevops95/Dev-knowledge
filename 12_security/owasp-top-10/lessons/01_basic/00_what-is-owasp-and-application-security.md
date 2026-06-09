@@ -1,12 +1,11 @@
 # 🛡️ OWASP Top 10 + Application Security cơ bản
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** Đã viết được app web cơ bản (FastAPI hoặc Node), hiểu HTTP request/response
 
 > 🎯 *Bài đầu tiên của OWASP cluster. Bạn đã build app, đẩy ra production — câu hỏi tiếp theo: app này có bị hack không? Bài này dạy: OWASP là gì, vì sao Top 10, threat modeling cơ bản (STRIDE), defense-in-depth, security mindset. Không deep từng vuln (bài 01-04 sẽ làm).*
@@ -14,7 +13,7 @@
 ## 🎯 Sau bài này bạn sẽ
 
 - [ ] Hiểu **OWASP** là gì, tại sao Top 10 quan trọng
-- [ ] Đọc 1 lượt **A01-A10 (2021 release)** + chuẩn bị 2025 update
+- [ ] Đọc 1 lượt **A01-A10 (OWASP Top 10:2025 — bản hiện hành)** + mapping từ 2021
 - [ ] Biết **threat modeling STRIDE** + **DREAD scoring**
 - [ ] Áp dụng **defense-in-depth** thay vì single-layer security
 - [ ] Phân biệt **OWASP Top 10** (app sec) vs **API Security Top 10** vs **Mobile Top 10**
@@ -66,43 +65,68 @@ Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái ph
 | 2003 | First Top 10 |
 | 2017 | A07 XSS demoted; XXE A4 |
 | 2021 | A04 Insecure Design (new), A08 Software/Data Integrity (new), Injection demoted A1→A3 |
-| **2025** (preview) | Expected: rename A04 → Insecure Software Design; expand A08 supply chain; AI security separate |
+| **2025** (8th installment, final) | A02 Security Misconfiguration lên #2; **A03 Software Supply Chain Failures** (MỚI, mở rộng từ Vulnerable & Outdated Components); Injection rớt xuống A05; Insecure Design xuống A06; **A10 Mishandling of Exceptional Conditions** (MỚI); SSRF (cũ A10) gộp vào A01 |
 
-→ **2026 reality**: dùng **2021 release** (vẫn là current released). Đợi 2025/2026 release final.
+→ **2026 reality**: dùng **OWASP Top 10:2025** — đây là **bản hiện hành (final release)**, công bố cuối 2025 tại Global AppSec DC. Bài 2021 đã lỗi thời. Toàn bộ bài này (và cả cluster) viết theo numbering + tên category 2025.
 
 ---
 
-## 2️⃣ OWASP Top 10 — 2021 release
+## 2️⃣ OWASP Top 10 — 2025 release (bản hiện hành)
 
 ### Một cái nhìn tổng
 
-| Code | Category | Bài học ở |
+| Code | Category (2025) | Bài học ở |
 |---|---|---|
-| **A01** | Broken Access Control | Bài 01 |
-| **A02** | Cryptographic Failures | Bài 02 |
-| **A03** | Injection (SQL, NoSQL, OS, LDAP) | Bài 01 |
-| **A04** | Insecure Design | Bài 02 |
-| **A05** | Security Misconfiguration | Bài 03 |
-| **A06** | Vulnerable and Outdated Components | Bài 03 |
-| **A07** | Identification and Authentication Failures | Bài 04 |
-| **A08** | Software and Data Integrity Failures | Bài 03 |
-| **A09** | Security Logging and Monitoring Failures | Bài 04 |
-| **A10** | Server-Side Request Forgery (SSRF) | Bài 04 |
+| **A01** | Broken Access Control *(SSRF gộp vào đây)* | Bài 01 |
+| **A02** | Security Misconfiguration | Bài 03 |
+| **A03** | Software Supply Chain Failures *(MỚI)* | Bài 03 |
+| **A04** | Cryptographic Failures | Bài 02 |
+| **A05** | Injection (SQL, NoSQL, OS, LDAP) | Bài 01 |
+| **A06** | Insecure Design | Bài 02 |
+| **A07** | Authentication Failures | Bài 04 |
+| **A08** | Software or Data Integrity Failures | Bài 03 |
+| **A09** | Security Logging and Alerting Failures | Bài 04 |
+| **A10** | Mishandling of Exceptional Conditions *(MỚI)* | Bài 04 |
+
+> ⚡ **4 thay đổi then chốt 2025 so với 2021:**
+> 1. **A02 Security Misconfiguration** nhảy lên #2 (2021 ở #5) — phản ánh độ phổ biến của cấu hình sai trên cloud/container.
+> 2. **A03 Software Supply Chain Failures** là category **MỚI**, mở rộng từ "Vulnerable and Outdated Components" (A06:2021) — không chỉ thư viện lỗi thời mà cả build pipeline, registry, dependency confusion, typosquatting.
+> 3. **Injection rớt xuống A05** (2021 ở A03) và **Insecure Design xuống A06** (2021 ở A04) — không phải vì hết nguy hiểm, mà do framework + ORM hiện đại đã chặn phần lớn injection cơ bản.
+> 4. **A10 Mishandling of Exceptional Conditions** là category **MỚI** — xử lý lỗi/điều kiện ngoại lệ sai cách (nuốt exception, fail-open, leak stack trace, logic lỗi khi gặp input bất thường).
+>
+> Ngoài ra **SSRF không còn là category riêng** — nó được **gộp vào A01 Broken Access Control** (SSRF bản chất là server bị ép truy cập tài nguyên ngoài quyền hạn).
+
+### Mapping 2021 ↔ 2025
+
+| 2021 | 2025 | Ghi chú |
+|---|---|---|
+| A01 Broken Access Control | **A01** Broken Access Control | Giữ #1 + nuốt thêm SSRF |
+| A02 Cryptographic Failures | **A04** Cryptographic Failures | Tụt 2 bậc |
+| A03 Injection | **A05** Injection | Tụt 2 bậc |
+| A04 Insecure Design | **A06** Insecure Design | Tụt 2 bậc |
+| A05 Security Misconfiguration | **A02** Security Misconfiguration | Lên #2 |
+| A06 Vulnerable and Outdated Components | **A03** Software Supply Chain Failures | Đổi tên + mở rộng phạm vi |
+| A07 Identification and Authentication Failures | **A07** Authentication Failures | Rút gọn tên |
+| A08 Software and Data Integrity Failures | **A08** Software or Data Integrity Failures | Giữ vị trí |
+| A09 Security Logging and Monitoring Failures | **A09** Security Logging and Alerting Failures | Đổi "Monitoring" → "Alerting" |
+| A10 Server-Side Request Forgery (SSRF) | *(gộp vào A01)* | Không còn category riêng |
+| *(không có)* | **A10** Mishandling of Exceptional Conditions | Category MỚI |
 
 ### Real-world examples
 
-| Vuln | Famous incident |
+| Vuln (2025) | Famous incident |
 |---|---|
 | A01 Broken Access Control | Facebook 2019 — view-as feature exposed 50M tokens |
-| A02 Crypto Failures | Equifax 2017 — patched Apache Struts late, weak encryption |
-| A03 Injection | Magento 2015 — SQL Injection $200M loss e-commerce |
-| A04 Insecure Design | Uber 2016 — password not in MFA design |
-| A05 Misconfiguration | Capital One 2019 — AWS WAF misconfigured → SSRF → 100M records |
-| A06 Vulnerable Components | log4shell 2021 — log4j CVE-2021-44228 |
+| A01 (SSRF) | Capital One 2019 — SSRF qua metadata endpoint → 100M records |
+| A02 Misconfiguration | Capital One 2019 — AWS WAF misconfigured (mở đường cho SSRF ở trên) |
+| A03 Supply Chain | log4shell 2021 (log4j CVE-2021-44228); SolarWinds 2020; 3CX 2023 |
+| A04 Crypto Failures | Equifax 2017 — patched Apache Struts late, weak encryption |
+| A05 Injection | Magento 2015 — SQL Injection $200M loss e-commerce |
+| A06 Insecure Design | Uber 2016 — password reset not in MFA design |
 | A07 Auth Failures | Twitter 2020 — admin tool no MFA → high-profile hijack |
-| A08 Supply chain | SolarWinds 2020, 3CX 2023 |
-| A09 Logging | Target 2013 — alert ignored → 40M card data leaked |
-| A10 SSRF | Capital One 2019 (cùng vụ A05) |
+| A08 Integrity Failures | SolarWinds 2020 — build pipeline bị chèn malware |
+| A09 Logging Failures | Target 2013 — alert bị ignore → 40M card data leaked |
+| A10 Mishandling Exceptions | Nhiều vụ leak stack trace + fail-open trên login/payment |
 
 → Mỗi vuln đã có nạn nhân nổi tiếng. Top 10 không phải "academic" — là **lịch sử thật**.
 
@@ -282,20 +306,19 @@ Plan → Design → Develop → Build → Test → Deploy → Operate
 | Code | 5x |
 | Test | 10x |
 | Production | 100x |
-| Post-breach | 1000x+ (data breach avg $4.45M global) |
+| Post-breach | 1000x+ (data breach avg $4.88M global, IBM 2024) |
 
 ---
 
 ## 7️⃣ Roadmap 4 bài kế tiếp
 
-| Bài | OWASP coverage | Trọng tâm | Thời lượng |
-|---|---|---|---|
-| **01** Injection + Access Control | A01, A03 | SQLi (param query, ORM), XSS, CSRF, IDOR, IDOR, RBAC/ABAC | ~22p |
-| **02** Crypto + Secure Design | A02, A04 | Symmetric vs asymmetric, KDF (Argon2/bcrypt), TLS, JWT signing, secure design pattern | ~22p |
-| **03** Misconfig + Components + Integrity | A05, A06, A08 | Headers (CSP, HSTS, ...), CORS, vulnerable dep (npm/pip audit, Snyk, Dependabot), supply chain (SLSA, cosign) | ~22p |
-| **04** Auth + Logging + SSRF | A07, A09, A10 | Password policy, MFA, session, OAuth2/OIDC, logging best practice, alert, SSRF mitigation | ~22p |
+| Bài | OWASP coverage (2025) | Trọng tâm |
+| --- | --- | --- |
+| **01** Access Control + Injection | A01, A05 | IDOR, RBAC/ABAC, SSRF (nay thuộc A01), SQLi (param query, ORM), XSS, CSRF |
+| **02** Crypto + Secure Design | A04, A06 | Symmetric vs asymmetric, KDF (Argon2/bcrypt), TLS, JWT signing, secure design pattern |
+| **03** Misconfig + Supply Chain + Integrity | A02, A03, A08 | Headers (CSP, HSTS, ...), CORS, vulnerable dep (npm/pip audit, Snyk, Dependabot), software supply chain (SLSA, cosign) |
+| **04** Auth + Logging + Mishandling | A07, A09, A10 | Password policy, MFA, session, OAuth2/OIDC, logging + alerting, xử lý exception an toàn (fail-safe, không leak stack trace) |
 
-→ **Tổng ~88 phút + 6-8h hands-on**. Sau cluster: code app theo OWASP best practices + chống top 10 attack.
 
 ---
 
@@ -303,12 +326,12 @@ Plan → Design → Develop → Build → Test → Deploy → Operate
 
 ```mermaid
 graph LR
-    subgraph Sec[OWASP Top 10]
-        A01[A01 Access Control]
-        A02[A02 Crypto]
-        A05[A05 Misconfig]
-        A06[A06 Components]
-        A08[A08 Supply Chain]
+    subgraph Sec[OWASP Top 10:2025]
+        A01[A01 Access Control + SSRF]
+        A02[A02 Misconfig]
+        A03[A03 Supply Chain]
+        A04[A04 Crypto]
+        A08[A08 Integrity]
     end
 
     subgraph DevOps[DevOps]
@@ -325,18 +348,18 @@ graph LR
 
     A01 --> IAM
     A01 --> K8s
-    A02 --> KMS
-    A05 --> IAC
-    A05 --> WAF
-    A06 --> CI
+    A04 --> KMS
+    A02 --> IAC
+    A02 --> WAF
+    A03 --> CI
     A08 --> CI
 ```
 
-| OWASP | Bài cluster khác đã có |
+| OWASP (2025) | Bài cluster khác đã có |
 |---|---|
-| A02 Crypto | [TLS/HTTPS](../../../../05_networking/http-https/lessons/01_basic/04_https-tls.md) |
-| A05 Misconfig | [Container security](../../../container-security/), [Docker security](../../../../10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md) |
-| A06 Components | [CI/CD supply chain](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) |
+| A04 Crypto | [TLS/HTTPS](../../../../05_networking/http-https/lessons/01_basic/04_https-tls.md) |
+| A02 Misconfig | [Container security](../../../container-security/), [Docker security](../../../../10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md) |
+| A03 Supply Chain | [CI/CD supply chain](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) |
 | A08 Integrity | [Cosign + SLSA](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) |
 | A07 Auth | [FastAPI auth](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) |
 
@@ -411,7 +434,7 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 
 ---
 
-## ⚠️ Pitfalls — Bẫy thường gặp của người mới
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. "OWASP là đủ"
 
@@ -469,9 +492,9 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-- [ ] Liệt kê A01-A10 OWASP Top 10 2021?
+- [ ] Liệt kê A01-A10 OWASP Top 10:2025? (nhớ SSRF nay thuộc A01, A03 Supply Chain + A10 Mishandling là mới)
 - [ ] STRIDE 6 categories + ví dụ mỗi cái?
 - [ ] DREAD scoring cho 1 threat cụ thể?
 - [ ] Defense-in-depth — 5+ lớp cho web app?
@@ -482,12 +505,13 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
 | **OWASP** | Open Worldwide Application Security Project — foundation security community |
-| **Top 10** | Danh sách 10 vuln phổ biến nhất, refresh 3-4 năm |
+| **Top 10** | Danh sách 10 vuln phổ biến nhất, refresh 3-4 năm. Bản hiện hành: **Top 10:2025** |
+| **SSRF** | Server-Side Request Forgery — ép server gọi tài nguyên ngoài quyền hạn; từ 2025 **gộp vào A01** |
 | **STRIDE** | 6 threat categories (Spoof/Tamper/Repudiate/Info/DoS/Elevate) |
 | **DREAD** | 5-dimension scoring (Damage/Repro/Exploit/Affected/Discover) |
 | **Threat modeling** | Process phân tích threat trong design phase |
@@ -508,21 +532,22 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_injection-and-access-control](01_injection-and-access-control.md) *(sắp viết)*
-- ↑ Cluster OWASP: [OWASP README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [A01 Broken Access Control (+ SSRF) + A05 Injection](01_injection-and-access-control.md) *(sắp viết)*
+- ↑ **Về cụm:** [OWASP README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🔐 [Authentication](../../../authentication/) — A07 deep
 - 🔑 [Authorization](../../../authorization/) — A01 deep
-- 🔒 [Cryptography](../../../cryptography/) — A02 deep
-- 📡 [TLS/SSL](../../../tls-ssl/) — A02 transport layer
-- 🐳 [Container security](../../../container-security/) — A05
-- 🔁 [CI/CD Supply chain](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) — A06/A08
+- 🔒 [Cryptography](../../../cryptography/) — A04 deep
+- 📡 [TLS/SSL](../../../tls-ssl/) — A04 transport layer
+- 🐳 [Container security](../../../container-security/) — A02
+- 🔁 [CI/CD Supply chain](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md) — A03/A08
 - 🐍 [FastAPI auth](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
 
 ### Tài nguyên ngoài (2026)
-- 📖 [OWASP Top 10 2021](https://owasp.org/Top10/)
+- 📖 [OWASP Top 10:2025](https://owasp.org/Top10/2025/) — **bản hiện hành**
+- 📖 [OWASP Top 10 2021](https://owasp.org/Top10/2021/) — bản trước (tham chiếu lịch sử)
 - 📖 [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x00-header/)
 - 📖 [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 - 📖 [OWASP Cheat Sheets](https://cheatsheetseries.owasp.org/)
@@ -537,6 +562,7 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster OWASP basic. Foundation: OWASP project + Top 10 2021 release + STRIDE + DREAD + Defense-in-depth + Shift-left + OWASP families (Web/API/Mobile/LLM/Cloud) + threat modeling hands-on Acme Shop + 8 pitfalls. Pattern theo AWS lesson 00.
+- **v2.0.0 (07/06/2026)** — Cập nhật lên **OWASP Top 10:2025** (bản hiện hành, final release). Đổi toàn bộ numbering + tên category 2021→2025: A02 Security Misconfiguration lên #2, A03 Software Supply Chain Failures (mới), Injection→A05, Insecure Design→A06, A04 Cryptographic Failures, A07 Authentication Failures, A09 đổi Monitoring→Alerting, A10 Mishandling of Exceptional Conditions (mới), SSRF gộp vào A01. Thêm bảng mapping 2021↔2025 + box "4 thay đổi then chốt". Cập nhật real-world examples, roadmap 4 bài, mermaid + bảng cross-reference, glossary (thêm SSRF), self-check, tài nguyên ngoài (link 2025). Sửa số liệu IBM: $4.45M (2023) → $4.88M (2024) cho khớp nhãn năm. Bỏ mọi câu coi 2021 là "current"/2025 là "preview".

@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã có kiến thức lập trình cơ bản (ưu tiên JavaScript), muốn phát triển ứng dụng di động chạy trên iOS và Android\
-> **Thời gian ước tính:** ~10 tháng học tập tích cực (full-time) hoặc ~20 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và làm việc thực tế)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone & Deploy]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: JS & React Native Basics** | 2 tháng | Cài đặt giả lập thành công, viết được ứng dụng Hello World bằng Expo |
-| **Stage 2: Giao diện & Điều hướng** | 2 tháng | Dựng được app nhiều màn hình, di chuyển mượt mà qua các Tab/Drawer |
-| **Stage 3: Dữ liệu & Offline Support** | 2 tháng | Gọi API lấy dữ liệu, lưu dữ liệu offline bằng AsyncStorage/SQLite |
-| **Stage 4: Tương tác phần cứng di động**| 1-2 tháng | Tích hợp Camera chụp ảnh, định vị GPS bản đồ và gửi Push Notification |
-| **Stage 5: Capstone & Triển khai** | 1-2 tháng | Đóng gói hoàn chỉnh dự án và phát hành qua TestFlight / Google Play |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: JS & React Native Basics** | Cài đặt giả lập thành công, viết được ứng dụng Hello World bằng Expo |
+| **Stage 2: Giao diện & Điều hướng** | Dựng được app nhiều màn hình, di chuyển mượt mà qua các Tab/Drawer |
+| **Stage 3: Dữ liệu & Offline Support** | Gọi API lấy dữ liệu, lưu dữ liệu offline bằng AsyncStorage/SQLite |
+| **Stage 4: Tương tác phần cứng di động** | Tích hợp Camera chụp ảnh, định vị GPS bản đồ và gửi Push Notification |
+| **Stage 5: Capstone & Triển khai** | Đóng gói hoàn chỉnh dự án và phát hành qua TestFlight / Google Play |
 
 ---
 
-## ⚡ Stage 1 — JS & React Native Basics (2 tháng)
+## ⚡ Stage 1 — JS & React Native Basics
 
 > 🎯 *React Native sử dụng JavaScript và tư duy Component. Hãy làm chủ nền tảng trước khi viết app.*
 
@@ -71,7 +70,7 @@ graph LR
 
 ---
 
-## 📱 Stage 2 — Thiết kế giao diện & Điều hướng (2 tháng)
+## 📱 Stage 2 — Thiết kế giao diện & Điều hướng
 
 > 🎯 *Làm chủ bố cục Flexbox di động, SafeAreaView và thiết kế luồng chuyển trang (Navigation).*
 
@@ -92,7 +91,7 @@ Bố cục Flexbox trong React Native mặc định xếp theo chiều dọc (co
 
 ---
 
-## 🗄️ Stage 3 — Quản lý dữ liệu & Trạng thái ngoại tuyến (2 tháng)
+## 🗄️ Stage 3 — Quản lý dữ liệu & Trạng thái ngoại tuyến
 
 > 🎯 *Gọi API backend mượt mà và lưu trữ dữ liệu dưới máy (AsyncStorage) để hỗ trợ chế độ Offline.*
 
@@ -113,7 +112,7 @@ Bố cục Flexbox trong React Native mặc định xếp theo chiều dọc (co
 
 ---
 
-## 🔌 Stage 4 — Tương tác phần cứng thiết bị (1-2 tháng)
+## 🔌 Stage 4 — Tương tác phần cứng thiết bị
 
 > 🎯 *Tích hợp Camera, GPS định vị bản đồ, gửi Push Notification và sinh trắc học bảo mật.*
 
@@ -135,7 +134,7 @@ Bố cục Flexbox trong React Native mặc định xếp theo chiều dọc (co
 
 ---
 
-## 🚀 Stage 5 — Capstone Project & Phát hành (1-2 tháng)
+## 🚀 Stage 5 — Capstone Project & Phát hành
 
 > 🎯 *Tự phát triển một ứng dụng hoàn chỉnh và đưa lên TestFlight (iOS) / Internal Testing (Android).*
 
@@ -169,7 +168,7 @@ Từ React Native, bạn có thể thăng tiến theo các hướng:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [TCP/IP là gì](00_what-is-tcp-ip.md), [IP Addressing](01_ip-addressing.md)
 
 > 🎯 *Hiểu **TCP** (reliable + ordered) vs **UDP** (fast + lossy), **3-way handshake** TCP, **flow + congestion control**, khi nào dùng cái nào, và **QUIC/HTTP3** mới — vì sao Google chọn UDP làm nền tảng HTTP/3.*
@@ -40,7 +39,7 @@ Bạn ngơ:
 - **3-way handshake** là gì? Mỗi connection mất bao lâu?
 - **QUIC** mới nghe — thay TCP được không?
 
-→ Bài này dạy bạn (và bạn) **TCP vs UDP** đầy đủ, **khi nào dùng cái nào**.
+→ Bài này dạy bạn **TCP vs UDP** đầy đủ, **khi nào dùng cái nào**.
 
 ---
 
@@ -324,7 +323,7 @@ $ tcpdump -i any 'tcp[tcpflags] & tcp-rst != 0'
 
 ---
 
-## 9️⃣ Bạn debug — vì sao video stream lag?
+## 9️⃣ Vì sao video stream lag?
 
 ```
 Client → Server: SYN
@@ -352,11 +351,11 @@ Client: nhận frame Y trước X? OK, hiển thị Y (X bỏ qua, latency hơn 
 
 → Mỗi frame độc lập, mất 1 frame = bỏ qua, frame kế tiếp tiếp tục.
 
-→ Đó là cách **YouTube Live, Twitch, Zoom, Google Meet** stream. Backend Bạn phải đổi sang WebRTC (UDP) hoặc HTTP/3.
+→ Đó là cách **YouTube Live, Twitch, Zoom, Google Meet** stream. Backend của bạn phải đổi sang WebRTC (UDP) hoặc HTTP/3.
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tưởng UDP "thấp cấp", không cao cấp** → UDP là **lựa chọn** — đôi khi tốt hơn TCP. HTTP/3 chứng minh.
 2. **TCP `reliable` = `secure`** → KHÔNG. TCP đảm bảo data đến đủ, **không encrypt**. Cần TLS riêng.
@@ -366,7 +365,7 @@ Client: nhận frame Y trước X? OK, hiển thị Y (X bỏ qua, latency hơn 
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Liệt kê **6 điểm khác** giữa TCP và UDP.
 2. Vẽ flow **3-way handshake** TCP.
@@ -390,7 +389,7 @@ Client: nhận frame Y trước X? OK, hiển thị Y (X bỏ qua, latency hơn 
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Quyết định nhanh
 
@@ -454,17 +453,17 @@ nmap -sU host               # UDP scan ports
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [IP Addressing](01_ip-addressing.md)
-- → Tiếp: [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
-- ↑ Cluster: [tcp-ip-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [IP Addressing — IPv4, IPv6, Subnet, CIDR, NAT](01_ip-addressing.md)
+- ➡️ **Bài tiếp theo:** [Ports, Sockets & Firewall — Layer 4 access control](03_ports-sockets-firewall.md)
+- ↑ **Về cụm:** [tcp-ip-fundamentals README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTPS & TLS](../../../http-https/lessons/01_basic/04_https-tls.md) — TLS chạy trên TCP (HTTP/1-2) hoặc QUIC (HTTP/3)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [RFC 793 — TCP](https://datatracker.ietf.org/doc/html/rfc793)
 - 📖 [RFC 9000 — QUIC](https://datatracker.ietf.org/doc/html/rfc9000)
 - 📖 [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)
@@ -477,10 +476,8 @@ nmap -sU host               # UDP scan ports
 
 ---
 
-## 📌 Changelog
-
-- **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 bảng TCP vs UDP 13 tiêu chí + §2 "Diễn giải 3-way" bảng + §2 "TCP close 4-way" mermaid + §2 "Trạng thái TCP" state chain + §5 AIMD formula. Thêm Changelog section.
-
-- **v1.1.0 (cherry-pick __Ref__)** — Thêm **Nagle's Algorithm + TCP_NODELAY** (interactive app latency).
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 3/5. Cover: TCP vs UDP overview → 3-way handshake mermaid → close 4-way → state machine → sequence + ACK reliability → flow control sliding window → congestion control (slow start, AIMD) → UDP simplicity → use cases real-world (HTTP/SSH/DNS/VoIP/game) → QUIC (HTTP/3) hybrid.
+- **v1.1.0** — Thêm **Nagle's Algorithm + TCP_NODELAY** (interactive app latency).
+- **v1.2.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §1 (TCP vs UDP 13 tiêu chí), §2 ("Diễn giải 3-way" + "TCP close 4-way" + "Trạng thái TCP"), §5 (AIMD formula). Thêm Changelog section.

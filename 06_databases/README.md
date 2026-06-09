@@ -1,51 +1,39 @@
 # 🗄️ 06_databases
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 25/05/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> 🌟 Cơ sở dữ liệu cho developer: SQL (PostgreSQL, MySQL, SQLite), NoSQL (MongoDB, Redis, Elasticsearch), Vector DB, Time-series, và thiết kế schema.
 
-## 🎯 Chủ đề này có gì
+## 📂 Chủ đề con
 
-SQL (Postgres, MySQL), NoSQL (Mongo, Redis), Vector DB, design
+| Chủ đề | Trạng thái | Mô tả |
+|---|---|---|
+| [sql-fundamentals](sql-fundamentals/) | ✅ 6 bài | Nền tảng SQL: SELECT, aggregation, JOIN, DML/transaction, schema design |
+| [postgresql](postgresql/) | ✅ 5 bài | RDBMS mặc định 2026: psql, index, JSONB, backup/replication |
+| [database-design](database-design/) | 🚧 1 bài (placeholder) | Thiết kế schema, quan hệ, ràng buộc |
+| [redis](redis/) | 🚧 1 bài (placeholder) | Kho dữ liệu in-memory: cache, session, message broker |
+| [mysql](mysql/) | 🚧 chưa có | RDBMS phổ biến cho web traditional / Wordpress |
+| [sqlite](sqlite/) | 🚧 chưa có | RDBMS nhúng, file đơn — mobile, desktop, test |
+| [mongodb](mongodb/) | 🚧 chưa có | Document store, schema linh hoạt |
+| [elasticsearch](elasticsearch/) | 🚧 chưa có | Search engine, full-text indexing |
+| [vector-databases](vector-databases/) | 🚧 chưa có | Vector embedding cho AI/ML similarity search |
+| [time-series-databases](time-series-databases/) | 🚧 chưa có | Tối ưu cho dữ liệu `(time, metric, value)` |
 
-## 📂 L2 dự kiến (chủ đề con)
+## 🚀 Bắt đầu từ đâu
 
--sql-fundamentals
-- postgresql
-- mysql
-- sqlite
-- mongodb
-- redis
-- elasticsearch
-- vector-databases
-- database-design
-
-> Chi tiết sitemap mở rộng → xem [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
-
-## 🚀 Khi nào đọc folder này
-
-| Bạn là... | Đọc gì khi có content |
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
-
-## 🤝 Muốn viết bài cho chủ đề này?
-
-1. Đọc [`../_blueprint/README.md`](../_blueprint/README.md)
-2. Copy template từ [`../_blueprint/templates/`](../_blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_blueprint/03_writing-style.md`](../_blueprint/03_writing-style.md)
-4. Soát qua [`../_blueprint/07_quality-checklist.md`](../_blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+| Mới bắt đầu, chưa biết SQL | [sql-fundamentals](sql-fundamentals/) → đọc tuần tự `lessons/01_basic/` |
+| Đã biết SQL, học DB cho backend | [postgresql](postgresql/) — RDBMS mặc định 2026 |
+| Tra cứu nhanh cú pháp | Mỗi bài có section `⚡ Cheatsheet` + `📘 Glossary` ở cuối |
+| Theo lộ trình nghề | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+- **v0.1.0 (16/05/2026)** — Khung folder ban đầu.
+- **v1.0.0 (25/05/2026)** — Cập nhật index: sql-fundamentals (6 bài) + postgresql (5 bài) hoàn chỉnh, database-design + redis có bài placeholder.

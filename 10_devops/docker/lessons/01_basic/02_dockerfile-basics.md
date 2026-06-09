@@ -1,21 +1,19 @@
----
-title: Tự Đóng Gói Bản Thiết Kế Với Dockerfile Custom
-author: Mr.Rom
-version: v3.0.0
-date: 2026-05-26
-level: Basic
-tags: [MUST-KNOW, DEVOPS, DOCKER]
----
+# 🎓 Tự đóng gói ứng dụng với Dockerfile
 
-# 🎓 Tự Đóng Gói Bản Thiết Kế Với Dockerfile Custom
+> **Tác giả:** Mr.Rom  
+> **Phiên bản:** v3.1.1  
+> **Tạo lúc:** 16/05/2026  
+> **Cập nhật:** 01/06/2026  
+> **Level:** Basic  
+> **Tags:** [MUST-KNOW]  
+> **Yêu cầu trước:** Đã học [Image và Container](./01_images-and-containers.md), đã [cài đặt Docker](../../setup/install-docker.md).
 
-> 🎯 **Lời dẫn của Mr.Rom:** 
-> Tiếp tục câu chuyện ở bài trước: bạn đã chạy thử container `nginx` thành công bằng lệnh `docker run`, nhưng khi bạn thử gõ lệnh `docker run myapp` để khởi chạy ứng dụng của riêng mình thì Docker lập tức báo lỗi vì image `myapp` chưa hề tồn tại trên hệ thống lẫn Docker Hub. Bài học thực chiến này sẽ đồng hành cùng bạn tự tay viết một chiếc Dockerfile chuẩn chỉnh để đóng gói và phân phối ứng dụng của chính mình tới bất kỳ môi trường nào!
+> 🎯 *Tiếp nối bài trước: bạn đã chạy mượt các image dựng sẵn như `nginx`, nhưng khi gõ `docker run myapp` cho ứng dụng của riêng mình thì Docker báo lỗi — vì `myapp` chưa hề tồn tại. Bài này dạy bạn tự viết một Dockerfile chuẩn để đóng gói và phân phối ứng dụng của chính mình tới bất kỳ môi trường nào.*
 
 ## 🎯 Sau bài học này, bạn sẽ làm chủ:
 
 - [x] Phương pháp viết Dockerfile chuẩn chỉnh cho ứng dụng Python/Node.js.
-- [x] Hiểu sâu sắc và sử dụng thành thạo 8 chỉ dẫn (instruction) cốt lõi: `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `EXPOSE`, `ENV`, `ARG`.
+- [x] Hiểu sâu và dùng thành thạo 9 chỉ dẫn cốt lõi: `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `ENTRYPOINT`, `EXPOSE`, `ENV`, `ARG`.
 - [x] Quy trình tự động đóng gói (build) thành công image riêng của bạn bằng lệnh `docker build`.
 - [x] Bản chất của cơ chế **Layer Caching** — lý do vì sao chỉ cần thay đổi thứ tự dòng lệnh có thể giúp bạn tiết kiệm hàng giờ chờ đợi.
 - [x] Cách phân biệt rạch ròi giữa hai chỉ dẫn dễ nhầm lẫn: `CMD` và `ENTRYPOINT`.
@@ -71,7 +69,7 @@ Chỉ cần **1 tệp Dockerfile duy nhất**, bạn có thể tạo ra một im
 Nói một cách dễ hiểu nhất: Dockerfile là một **tệp văn bản thuần** (không có phần mở rộng như `.txt`) chứa các **chỉ dẫn** (instructions) được Docker Engine đọc tuần tự từ trên xuống dưới để tự động dựng nên một Docker Image.
 
 > [!NOTE]
-> **Ẩn dụ sư phạm từ Mr.Rom:** 
+> **Ẩn dụ sư phạm:** 
 > Hãy tưởng tượng Dockerfile giống như một **công thức nấu ăn**. Lòng đỏ trứng, bột mì hay sữa chính là các nguyên liệu ban đầu (Base Image). Các bước trộn bột, ủ bột, nướng bánh chính là các hành động cài đặt thư viện và sao chép mã nguồn (Instructions). Thành quả cuối cùng chính là chiếc bánh thơm ngon (Docker Image). Khi bạn giữ nguyên công thức này và mang sang bất kỳ căn bếp nào trên thế giới, bạn đều sẽ nướng ra được chiếc bánh có mùi vị y hệt nhau.
 
 ### Cú pháp viết Dockerfile cơ bản
@@ -86,7 +84,7 @@ FROM <tên-base-image>:<tag>
 INSTRUCTION tham-số-1 tham-số-2
 ```
 
-Dưới đây là bảng tổng hợp 12 chỉ dẫn cốt lõi nhất mà bạn buộc phải ghi nhớ:
+Dưới đây là bảng tra cứu nhanh 12 chỉ dẫn thường gặp (9 chỉ dẫn cốt lõi nêu ở phần Mục tiêu sẽ được dạy sâu ngay bên dưới; `LABEL`/`USER`/`VOLUME` thêm vào đây để bạn tiện tra khi gặp):
 
 | Chỉ dẫn | Vai trò chính | Tác động thực tế |
 | :--- | :--- | :--- |
@@ -105,7 +103,7 @@ Dưới đây là bảng tổng hợp 12 chỉ dẫn cốt lõi nhất mà bạn
 
 ---
 
-## 2️⃣ Cùng Mr.Rom Viết Chiếc Dockerfile Đầu Tiên Cho Ứng Dụng Flask
+## 2️⃣ Viết Dockerfile đầu tiên cho ứng dụng Flask
 
 Để thực sự nắm chắc lý thuyết, chúng ta sẽ cùng xây dựng một ứng dụng Python Flask siêu nhỏ và đóng gói nó bằng Dockerfile.
 
@@ -125,7 +123,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     # Phản hồi đơn giản khi người dùng truy cập trang chủ
-    return "Xin chào từ thế giới Docker! Mr.Rom chúc bạn học vui vẻ!"
+    return "Xin chào từ thế giới Docker!"
 
 if __name__ == "__main__":
     # Lắng nghe trên mọi dải IP cục bộ tại cổng 5000
@@ -210,7 +208,7 @@ docker run -d -p 5000:5000 --name running-flask my-flask-app:v1
 ```bash
 # Gửi yêu cầu HTTP đến ứng dụng Flask đang chạy trong Docker
 curl http://localhost:5000
-# Output mong đợi: Xin chào từ thế giới Docker! Mr.Rom chúc bạn học vui vẻ!
+# Output mong đợi: Xin chào từ thế giới Docker!
 ```
 
 Chúc mừng bạn! Ứng dụng Flask của bạn giờ đã chạy độc lập hoàn hảo bên trong chiếc container biệt lập. Để dọn dẹp hệ thống sau khi thử nghiệm xong, hãy chạy:
@@ -235,8 +233,8 @@ FROM python:3.12-slim
 Dòng này bắt buộc phải nằm ở đầu tiên trong Dockerfile của bạn. Nó định nghĩa nền tảng môi trường mà bạn muốn bắt đầu. 
 
 > [!TIP]
-> **Kinh nghiệm thực chiến từ Mr.Rom:** 
-> Đừng bao giờ sử dụng tag chung chung như `latest` (ví dụ: `FROM python:latest`). Khi nhà phát hành cập nhật phiên bản Python mới nhất, Dockerfile của bạn build lại có thể lập tức bị lỗi cú pháp do xung đột phiên bản. Hãy luôn chỉ định rõ ràng số phiên bản (ví dụ: `3.12-slim`).
+> **Kinh nghiệm thực chiến:** 
+> Đừng bao giờ sử dụng tag chung chung như `latest` (ví dụ: `FROM python:latest`). Khi nhà phát hành đẩy một phiên bản Python mới lên tag `latest`, lần build sau của bạn có thể bất ngờ kéo về một bản khác hẳn — gây lỗi tương thích thư viện hoặc thay đổi hành vi ứng dụng mà bạn không lường trước. Hãy luôn chỉ định rõ ràng số phiên bản (ví dụ: `3.12-slim`) để bản build luôn tái lập được (reproducible).
 
 Dưới đây là cẩm nang lựa chọn Base Image của dòng họ Debian/Alpine:
 
@@ -291,7 +289,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 Mỗi lệnh `RUN` sẽ thực thi trực tiếp các dòng lệnh Linux/Windows trong quá trình build image và lưu lại kết quả (dưới dạng một layer mới).
 
 > [!TIP]
-> **Mẹo tối ưu hóa Layer của Mr.Rom:** 
+> **Mẹo tối ưu hóa Layer:**
 > Đừng viết quá nhiều dòng lệnh `RUN` rời rạc. Mỗi dòng `RUN` sẽ sinh ra 1 layer mới làm tăng kích thước của Image. Hãy sử dụng toán tử kết hợp `&&` và dấu gạch chéo ngược `\` để gộp các lệnh liên quan thành một khối duy nhất, đồng thời nhớ xóa sạch bộ nhớ cache tạm (`apt-get clean`, `rm -rf /var/lib/apt/lists/*`) ngay trong chính dòng `RUN` đó để tối giản dung lượng.
 
 ---
@@ -305,7 +303,7 @@ CMD ["python", "app.py"]
 Đây chính là lệnh mặc định sẽ được chạy tự động khi container được kích hoạt bằng lệnh `docker run`. 
 
 > [!TIP]
-> Luôn luôn ưu tiên sử dụng **exec form** (ví dụ: `["lệnh", "tham-số-1", "tham-số-2"]`). Định dạng này giúp Docker chạy trực tiếp ứng dụng mà không cần thông qua trình biên dịch shell (`/bin/sh -c`), nhờ đó container của bạn nhận được tín hiệu tắt (`SIGTERM`/`SIGKILL`) từ Docker Daemon và dừng lại một cách êm đẹp khi bạn bấm `Ctrl+C`.
+> Luôn luôn ưu tiên sử dụng **exec form** (ví dụ: `["lệnh", "tham-số-1", "tham-số-2"]`). Định dạng này giúp Docker chạy trực tiếp ứng dụng ở tiến trình PID 1 mà không cần bọc qua một lớp shell (`/bin/sh -c`), nhờ đó ứng dụng nhận được tín hiệu dừng (`SIGTERM` khi gọi `docker stop`, `SIGINT` khi bạn bấm `Ctrl+C`) và có cơ hội tắt một cách êm đẹp (graceful shutdown). Ngược lại, với shell form thì `sh` mới là PID 1 và thường không chuyển tiếp tín hiệu cho ứng dụng con, khiến container chỉ tắt khi bị buộc dừng bằng `SIGKILL`.
 
 ---
 
@@ -328,15 +326,15 @@ Sự khác biệt cốt lõi giữa hai biến cấu hình này thường gây b
 ARG APP_VERSION=1.0.0
 
 # ENV tồn tại suốt vòng đời của container
-ENV NODE_ENV=production
+ENV APP_ENV=production
 ```
 
 - **`ARG` (Build-time Variable):** Chỉ tồn tại tạm thời trong quá trình Docker thực thi các dòng lệnh của Dockerfile để build image. Khi image đã được đóng gói xong xuôi, biến `ARG` này sẽ biến mất không tì vết. Bạn có thể thay đổi giá trị này lúc build bằng tham số `--build-arg VERSION=2.0.0`.
-- **`ENV` (Environment Variable):** Tồn tại bền vững bên trong image và có sẵn trong môi trường của container bất cứ khi nào khởi chạy. Bạn hoàn toàn có thể ghi đè (override) biến này lúc chạy container bằng tham số `-e NODE_ENV=development`.
+- **`ENV` (Environment Variable):** Tồn tại bền vững bên trong image và có sẵn trong môi trường của container bất cứ khi nào khởi chạy. Bạn hoàn toàn có thể ghi đè (override) biến này lúc chạy container bằng tham số `-e APP_ENV=development`.
 
 ---
 
-## 4️⃣ Cơ Chế Layer Caching: Tại Sao Thứ Tự Dòng Có Thế Tiết Kiệm Hàng Giờ Chờ Đợi?
+## 4️⃣ Cơ Chế Layer Caching: Tại Sao Thứ Tự Dòng Có Thể Tiết Kiệm Hàng Giờ Chờ Đợi?
 
 Docker Image không phải là một khối nén duy nhất mà được cấu thành từ nhiều **lớp xếp chồng lên nhau (layers)**. Mỗi dòng lệnh chỉ dẫn trong Dockerfile (đặc biệt là `FROM`, `RUN`, `COPY`) sẽ tạo ra chính xác một layer mới.
 
@@ -480,11 +478,11 @@ Trong mô hình này:
 
 Nếu bạn gõ:
 - `docker run my-image-combo` -> Chạy: `echo Chào mừng bạn đến với DevOps!`
-- `docker run my-image-combo Mr.Rom` -> Chạy: `echo Mr.Rom` (Tham số `Mr.Rom` đã ghi đè thành công nội dung của `CMD` nhưng vẫn chạy qua lệnh cố định `ENTRYPOINT`!).
+- `docker run my-image-combo hello` -> Chạy: `echo hello` (Tham số `hello` đã ghi đè thành công nội dung của `CMD` nhưng vẫn chạy qua lệnh cố định `ENTRYPOINT`!).
 
 ---
 
-## 💡 Những "Hố Đen" Thường Gặp Và Cẩm Nang Sống Sót Khi Build Image
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### ❌ Sai lầm 1: Vô tình biến Image thành "quả bom nổ chậm" vì chạy bằng quyền ROOT
 Mặc định, nếu bạn không khai báo người dùng, Docker sẽ khởi chạy container bằng quyền hạn cao nhất (`root`). Nếu ứng dụng của bạn bị tấn công chiếm quyền kiểm soát (RCE), hacker có thể dễ dàng xâm nhập và phá hoại toàn bộ máy chủ vật lý bên dưới.
@@ -508,13 +506,13 @@ Mỗi lần bạn gõ `pip install` hoặc `npm install`, hệ thống sẽ tả
 
 - **Cẩm nang khắc phục:** Hãy luôn đi kèm các cờ dọn dẹp cache tương ứng:
   - Với Python: `pip install --no-cache-dir -r requirements.txt`
-  - Với Node.js: `npm ci --only=production` (Dọn dẹp cache và chỉ cài đặt các package phục vụ chạy thật).
+  - Với Node.js: `npm ci --omit=dev` (Dọn dẹp cache và chỉ cài đặt các package phục vụ chạy thật).
 
 ---
 
 ## 🛠️ Thực Hành Thực Chiến: Tự Tay Tối Ưu Dockerfile Cho Ứng Dụng FastAPI
 
-Để khép lại bài học cơ bản này và bước một chân lên trình độ trung cấp (Intermediate), chúng ta sẽ cùng giải quyết một bài toán thực tế cực kỳ gai góc: **Tối ưu hóa dung lượng một image từ 1.2 GB xuống còn dưới 150 MB!**
+Để khép lại bài học cơ bản này và bước một chân lên trình độ trung cấp (Intermediate), chúng ta sẽ cùng giải quyết một bài toán thực tế cực kỳ gai góc: **giảm dung lượng một image FastAPI từ 1.2 GB xuống khoảng 450 MB** — và xa hơn nữa là dưới 200 MB với kỹ thuật *multi-stage build* (sẽ học ở phần Intermediate).
 
 > [!IMPORTANT]
 > **Yêu cầu bài toán:** 
@@ -536,7 +534,7 @@ RUN pip install -r requirements.txt
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-### Phương án nâng cấp tối ưu của Mr.Rom:
+### Phương án nâng cấp tối ưu
 
 Chúng ta sẽ áp dụng 4 tuyệt chiêu tối ưu hóa cốt lõi:
 1. Chuyển Base Image từ bản Full (`python:3.12`) sang bản rút gọn siêu nhẹ (`python:3.12-slim`).
@@ -547,7 +545,7 @@ Chúng ta sẽ áp dụng 4 tuyệt chiêu tối ưu hóa cốt lõi:
 Hãy viết tệp `Dockerfile` tối ưu hoàn chỉnh sau:
 
 ```dockerfile
-# ✅ DOCKERFILE CHUẨN PREMIUM - CHỈ CÒN ~180 MB & BUILD CHỈ MẤT 2 GIÂY KHI SỬA CODE
+# ✅ DOCKERFILE TỐI ƯU — GIẢM CÒN ~450 MB & BUILD CHỈ MẤT ~2 GIÂY KHI SỬA CODE
 
 # Bước 1: Sử dụng Base Image gọn nhẹ chuẩn an toàn
 FROM python:3.12-slim
@@ -578,14 +576,17 @@ EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
+> [!NOTE]
+> Bốn tuyệt chiêu trên kéo image xuống ~450 MB chủ yếu nhờ đổi sang base `slim`. Muốn xuống dưới 200 MB (loại bỏ cả trình biên dịch khỏi image cuối cùng), bạn cần kỹ thuật *multi-stage build* — tách riêng giai đoạn build nặng và giai đoạn chạy nhẹ — sẽ học chi tiết ở phần Intermediate.
+
 ---
 
-## 🧠 Thử Thách Tư Duy: Trả Lời Các Câu Hỏi Sâu Để Khắc Cốt Ghi Tâm
+## 🧠 Tự kiểm tra (Self-check)
 
 **Câu hỏi 1:** Khi bạn sửa đổi một dòng ghi chú comment trong file code `app.py`, những layer nào trong Dockerfile tối ưu của chúng ta sẽ bị Docker từ chối dùng cache và phải rebuild lại?
 
 <details>
-<summary><b>💡 Bấm để xem đáp án giải mã của Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem đáp án</b></summary>
 
 Trong tệp Dockerfile tối ưu của chúng ta:
 ```dockerfile
@@ -603,7 +604,7 @@ Nhờ cơ chế sắp xếp thông minh này, bạn chỉ mất đúng 1-2 giây
 **Câu hỏi 2:** Tại sao mặc dù đã khai báo dòng lệnh `EXPOSE 5000` trong Dockerfile, bạn vẫn bắt buộc phải truyền thêm tham số `-p 5000:5000` khi khởi chạy lệnh `docker run`?
 
 <details>
-<summary><b>💡 Bấm để xem đáp án giải mã của Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem đáp án</b></summary>
 
 Bởi vì `EXPOSE 5000` chỉ đơn thuần là một **chỉ dẫn mang tính chất viết tài liệu (documentation)** ghi nhận vào metadata của image để thông báo cho lập trình viên biết cổng chạy mặc định của ứng dụng. Nó hoàn toàn không tạo ra bất kỳ quy tắc tường lửa hay ánh xạ cổng mạng vật lý nào từ thế giới bên ngoài vào bên trong container cả. 
 
@@ -613,7 +614,7 @@ Bởi vì `EXPOSE 5000` chỉ đơn thuần là một **chỉ dẫn mang tính c
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Cho Nhà Phát Triển
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cú pháp viết Dockerfile chuẩn cho Python:
 ```dockerfile
@@ -632,7 +633,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 COPY . .
 USER node
 EXPOSE 3000
@@ -656,7 +657,7 @@ docker history my-app:v1.0
 
 ---
 
-## 📚 Từ Điển Thuật Ngữ (Glossary) Chuyên Ngành
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 - **Build Context (Bối cảnh build):** Toàn bộ thư mục cục bộ được gửi tới Docker Daemon khi bắt đầu quá trình build (được chỉ định bằng dấu chấm `.` ở cuối lệnh build).
 - **Layer (Lớp hình ảnh):** Mỗi bước cấu hình trong Dockerfile tạo ra một lớp dữ liệu chỉ đọc. Docker Image được tạo ra bằng cách xếp chồng các layer này lên nhau.
@@ -665,30 +666,31 @@ docker history my-app:v1.0
 
 ---
 
-## 🔗 Hướng Hóa Giải Broken Links & Tài Nguyên Thực Chiến
+## 🔗 Liên kết & Tài nguyên
 
-### Các bài học liên quan trực tiếp:
-- [⬅️ Bài học trước: Làm chủ 8 lệnh CRUD Container cơ bản](./01_images-and-containers.md)
-- [➡️ Bài học tiếp theo: Ghép cặp đa dịch vụ mượt mà với Docker Compose](./03_docker-compose.md)
-- [🛠️ Công cụ hỗ trợ: Hướng dẫn cấu hình môi trường lập trình tối ưu trên VS Code](../../../../02_tools/ide/vs-code.md)
+### 🧭 Định hướng lộ trình học
 
-### Tài liệu chính hãng tham khảo thêm:
-- [Tài liệu hướng dẫn viết Dockerfile chính thức từ hãng Docker](https://docs.docker.com/engine/reference/builder/)
-- [ Hadolint — Công cụ tự động phân tích và kiểm tra lỗi cú pháp Dockerfile chuyên nghiệp](https://github.com/hadolint/hadolint)
-- [ Dive — Công cụ phân tích cấu trúc Layer cực kỳ trực quan giúp tối ưu hóa dung lượng](https://github.com/wagoodman/dive)
+- ⬅️ **Bài trước:** [Các Lệnh Điều Khiển Image & Container Theo Vòng Đời](./01_images-and-containers.md)
+- ➡️ **Bài tiếp theo:** [Ghép cặp đa dịch vụ với Docker Compose](./03_docker-compose.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🛠️ **Công cụ hỗ trợ:** [Hướng dẫn cấu hình môi trường lập trình tối ưu trên VS Code](../../../../02_tools/ide/vs-code.md)
+- 🧭 **Tấm bản đồ sự nghiệp:** [DevOps Engineer Career Roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [Tài liệu hướng dẫn viết Dockerfile chính thức từ hãng Docker](https://docs.docker.com/reference/dockerfile/)
+- [Hadolint — Công cụ tự động phân tích và kiểm tra lỗi cú pháp Dockerfile chuyên nghiệp](https://github.com/hadolint/hadolint)
+- [Dive — Công cụ phân tích cấu trúc Layer cực kỳ trực quan giúp tối ưu hóa dung lượng](https://github.com/wagoodman/dive)
 
 ---
 
-## 📌 Lịch Sử Thay Đổi (Changelog)
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v3.0.0 (26/05/2026)** — **Mr.Rom nâng cấp Premium chuẩn 5 sao:**
-  - Viết lại toàn bộ bài viết đạt chuẩn Blueprint mới.
-  - Cấu trúc lại tiêu đề H1 mới ấn tượng và khối metadata YAML chuẩn chỉnh.
-  - Sửa đổi 100% các tiêu đề H2 sang định dạng câu hỏi mở khơi gợi tư duy sâu.
-  - Loại bỏ hoàn toàn các ký tự icon cảnh báo cũ, chuẩn hóa sang 5 cấp độ Alert Box của GitHub.
-  - Việt hóa 100% chú thích comment bên trong các đoạn code Dockerfile và Bash.
-  - Bổ sung chương thực hành thực chiến: Tự tay tối ưu hóa kích thước image và tốc độ build cho ứng dụng FastAPI từ 1.2 GB xuống 180 MB.
-  - Cập nhật liên kết tuyệt đối trỏ chính xác về cẩm nang VS Code Guide.
-- **v2.3.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4+ §3.6: bổ sung lời dẫn trước các phần Hands-on.
-- **v2.0.0 (20/05/2026)** — Tái cơ cấu cấu trúc bài học theo triết lý story-driven, kể về nỗi đau share code thất bại của bạn.
-- **v1.0.0 (16/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên.
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên.
+- **v2.0.0 (20/05/2026)** — Tái cấu trúc bài theo lối kể tình huống share code thất bại.
+- **v2.3.0 (25/05/2026)** — Bổ sung lời dẫn trước các phần thực hành.
+- **v3.0.0 (26/05/2026)** — Viết lại toàn bộ bài theo cấu trúc chuẩn: mở bài bằng tình huống, H2 dạng câu hỏi, chuẩn hoá Alert Box GitHub, Việt hoá comment code, bổ sung phần thực hành tối ưu Dockerfile cho FastAPI.
+- **v3.1.0 (01/06/2026)** — Chuẩn hoá theo bài mẫu của cụm Docker: đổi metadata YAML sang khối block-quote tiêu chuẩn; bỏ các cụm cá nhân hoá trong nội dung; sửa số chỉ dẫn (9 chỉ dẫn cốt lõi) cho khớp bảng tra cứu; nói đúng thực tế mức tối ưu dung lượng (slim ~450 MB, multi-stage để xuống thấp hơn); đổi ví dụ `ENV` sang dạng không gắn ngôn ngữ; sửa typo và liên kết tài liệu.
+- **v3.1.1 (01/06/2026)** — Sửa lỗi QA: đính chính tín hiệu của exec form (`Ctrl+C` gửi `SIGINT`, `docker stop` gửi `SIGTERM`; bỏ nhầm lẫn `SIGKILL` "dừng êm đẹp"); sửa câu sai về tag `latest` (gây lỗi tương thích/hành vi chứ không phải "lỗi cú pháp"); chèn dòng trống giữa heading và bullet ở Glossary và mục Liên kết để render danh sách đúng chuẩn.

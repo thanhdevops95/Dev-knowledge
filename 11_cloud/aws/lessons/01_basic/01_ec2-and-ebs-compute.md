@@ -1,47 +1,51 @@
 # 🎓 EC2 + EBS — Compute foundation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [00_what-is-aws-overview.md](00_what-is-aws-overview.md), [Cloud networking basics](../../../cloud-fundamentals/lessons/01_basic/02_cloud-networking.md)
+> **Yêu cầu trước:** [AWS Overview — Service landscape + Account setup 2026](00_what-is-aws-overview.md), [kiến thức networking cloud cơ bản](../../../cloud-fundamentals/lessons/01_basic/02_cloud-networking.md)
 
-> 🎯 *EC2 = AWS's flagship compute. Hiểu **instance types** (T/M/C/R/X family), **AMI**, **EBS** volumes, **key pairs**, **user data**, **Auto Scaling Groups** basics. Deploy first EC2 with web server.*
+> 🎯 *EC2 là dịch vụ *compute* (máy tính ảo) chủ lực của AWS — học EC2 là đặt nền cho mọi thứ chạy trên AWS về sau. Bài này đi qua: cách đọc **instance type** (họ T/M/C/R/X), **AMI** (ảnh hệ điều hành để tạo máy), **EBS** (ổ đĩa mạng gắn vào máy), **key pair** để SSH, **user data** để cài đặt tự động lúc máy khởi động lần đầu, và **Auto Scaling Group** để nhân bản máy tự động. Đích đến: bạn tự tay deploy một app FastAPI lên EC2 từ đầu tới cuối.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **EC2 instance types** (T/M/C/R/X family + sizes)
-- [ ] Tạo + launch EC2 instance (Console + CLI)
-- [ ] **AMI** — pick + create custom
-- [ ] **EBS volumes** + types + snapshots
-- [ ] **Key pair** SSH access
-- [ ] **User data** scripts for bootstrap
-- [ ] **Security Group** rules for EC2
-- [ ] **Elastic IP** (EIP) static public IP
-- [ ] **ASG** (Auto Scaling Group) basics
-- [ ] **Spot vs On-demand vs Reserved** pricing
+- [ ] Đọc hiểu **EC2 instance type** (họ T/M/C/R/X và các size).
+- [ ] Tạo và khởi chạy một EC2 instance (cả Console lẫn CLI).
+- [ ] Chọn **AMI** có sẵn và tự tạo AMI riêng.
+- [ ] Phân biệt các loại **EBS volume**, biết cách *snapshot* (sao lưu).
+- [ ] Dùng **key pair** để SSH vào máy.
+- [ ] Viết **user data** để máy tự cài đặt lúc khởi động.
+- [ ] Cấu hình **Security Group** (tường lửa) cho EC2.
+- [ ] Hiểu **Elastic IP** (IP công khai tĩnh) dùng khi nào.
+- [ ] Nắm cơ bản **Auto Scaling Group** (nhóm tự co giãn số máy).
+- [ ] Phân biệt 3 kiểu giá **Spot / On-demand / Reserved**.
 
 ---
 
-## Tình huống — Deploy first FastAPI on EC2
+## Tình huống — Deploy FastAPI đầu tiên lên EC2
 
-Bạn vừa code FastAPI app local. Cần deploy somewhere:
-- Vercel: easy nhưng JS-focused.
-- DigitalOcean: $10/month basic.
-- AWS EC2: industry standard, more control, more learning.
+Bạn vừa code xong một app FastAPI chạy ngon trên máy local. Giờ cần đẩy nó lên một máy chủ ngoài để người khác truy cập được. Trước mắt có vài lựa chọn:
 
-Sếp: *"Try EC2 first. Standard for production. Học EC2 = học AWS compute foundation."*
+- **Vercel**: triển khai dễ, nhưng thiên về hệ JavaScript.
+- **DigitalOcean**: gọn nhẹ, gói cơ bản tầm $10/tháng.
+- **AWS EC2**: chuẩn công nghiệp, kiểm soát sâu, học được nhiều hơn.
 
-→ Bài này dạy deploy FastAPI on EC2 end-to-end.
+Sếp ghé qua gợi ý: *"Thử EC2 trước đi. Đây là chuẩn cho production. Học EC2 coi như nắm được nền tảng compute của AWS."*
+
+Cả bài này xoay quanh đúng một mục tiêu thực chiến: đưa app FastAPI đó lên EC2 chạy thật, từ con số 0 tới lúc `curl` ra kết quả. Mỗi khái niệm phía dưới đều là một mảnh ghép của bức tranh đó.
 
 ---
 
-## 1️⃣ EC2 instance types
+## 1️⃣ EC2 instance type
 
-### Family naming
+Việc đầu tiên khi tạo máy EC2 là chọn *instance type* — tức là chọn "cấu hình máy". AWS đặt tên theo một quy ước rất hệ thống, hiểu được quy ước này là đọc được mọi tên máy mà không cần tra cứu.
+
+### Cách đọc tên họ máy
+
+Tên một instance type chia làm hai phần: phần *họ* (family) nói máy được tối ưu cho việc gì, và phần *size* nói máy to nhỏ ra sao:
 
 ```
 Instance type: t3.medium
@@ -50,27 +54,35 @@ Instance type: t3.medium
                 └─ Family (T3 = burstable general purpose)
 ```
 
-### Families 2026
+### Các họ máy phổ biến 2026
 
-| Family | Optimization | Example | Use case |
+Mỗi họ máy sinh ra để phục vụ một loại workload khác nhau. Bảng dưới gom lại các họ hay gặp nhất kèm trường hợp dùng điển hình — bạn không cần thuộc lòng, chỉ cần biết "việc kiểu này thì nhắm tới họ nào":
+
+| Họ | Tối ưu cho | Ví dụ | Trường hợp dùng |
 |---|---|---|---|
-| **T** (T3, T4g) | Burstable, cheap | t3.medium | Dev, small web app, burst workload |
-| **M** (M5, M6i, M7i) | General purpose | m6i.large | Balanced web/app servers |
-| **C** (C5, C6i, C7i) | Compute-optimized | c6i.xlarge | CPU-heavy: gaming, scientific |
-| **R** (R5, R6i, R7i) | Memory-optimized | r6i.xlarge | DB, in-memory cache |
-| **X** (X1, X2) | High memory | x1.32xlarge | SAP HANA, in-memory DB |
-| **I** (I3, I4i) | High I/O (NVMe SSD) | i4i.xlarge | NoSQL DB, data warehouse |
-| **D** (D3, D3en) | Dense storage HDD | d3.xlarge | Big data, distributed file |
-| **P** (P4, P5) | GPU (training) | p5.xlarge | ML training |
-| **G** (G5, G6) | GPU (inference) | g6.xlarge | ML inference, video |
-| **Inf** (Inf1, Inf2) | AWS Trainium/Inferentia | inf2.xlarge | Custom AI chips, cheaper |
-| **Mac** | macOS | mac1.metal | iOS build |
+| **T** (T3, T4g) | Burstable, rẻ | t3.medium | Dev, web app nhỏ, workload thi thoảng tăng vọt |
+| **M** (M5, M6i, M7i) | Cân bằng (general purpose) | m6i.large | Web/app server tải đều |
+| **C** (C5, C6i, C7i) | Mạnh CPU | c6i.xlarge | Tác vụ nặng CPU: game, tính toán khoa học |
+| **R** (R5, R6i, R7i) | Nhiều RAM | r6i.xlarge | Database, cache trong bộ nhớ |
+| **X** (X1, X2) | RAM cực lớn | x1.32xlarge | SAP HANA, in-memory DB |
+| **I** (I3, I4i) | I/O cao (NVMe SSD) | i4i.xlarge | NoSQL DB, data warehouse |
+| **D** (D3, D3en) | Lưu trữ HDD dày | d3.xlarge | Big data, hệ file phân tán |
+| **P** (P4, P5) | GPU (huấn luyện) | p5.xlarge | Huấn luyện ML |
+| **G** (G5, G6) | GPU (suy luận) | g6.xlarge | Suy luận ML, xử lý video |
+| **Inf** (Inf1, Inf2) | Chip AWS Trainium/Inferentia | inf2.xlarge | Chip AI riêng của AWS, rẻ hơn |
+| **Mac** | macOS | mac1.metal | Build iOS |
 
-### Generation
+Quy tắc ngầm dễ nhớ: chữ cái đầu gợi đúng nhu cầu — **C** = Compute, **R** = RAM, **I** = I/O. Mới học thì 90% trường hợp bạn chỉ dùng tới họ **T** (dev) và **M** (production tải đều).
 
-- Number after family = generation.
-- Newer = better price/performance.
-- 2026 latest: **7th generation** (Intel Sapphire Rapids, AMD Genoa, Graviton4).
+### Thế hệ máy
+
+Con số đứng sau chữ họ cho biết *thế hệ* (generation) của máy. Thế hệ càng mới thì tỷ lệ hiệu năng trên giá càng tốt:
+
+- Con số sau tên họ chính là thế hệ.
+- Thế hệ mới hơn = giá/hiệu năng tốt hơn.
+- Mới nhất tính tới 2026 là **thế hệ thứ 7** (Intel Sapphire Rapids, AMD Genoa, Graviton4).
+
+Hậu tố chữ cái nhỏ phía sau cho biết dòng chip bên trong (Intel, AMD, hay chip ARM Graviton của chính AWS):
 
 ```
 m5    → 2018 (Intel Skylake)
@@ -83,9 +95,11 @@ m7g   → 2022 (Graviton3 ARM)
 m7a   → 2024 (AMD Genoa)
 ```
 
-→ **2026 recommend**: m7i for x86, m7g for ARM (cheaper, similar perf).
+→ Khuyến nghị cho 2026: dùng **m7i** nếu cần x86, dùng **m7g** nếu app chạy được trên ARM (rẻ hơn mà hiệu năng tương đương).
 
-### Sizes
+### Size — kích cỡ máy
+
+Trong cùng một họ, phần size quyết định số vCPU và dung lượng RAM. Điểm hay là các bậc size tăng gần như gấp đôi đều đặn, nên dễ ước lượng:
 
 ```
 nano   = 1 vCPU, 0.5 GB RAM     (very small)
@@ -100,35 +114,43 @@ xlarge = 4 vCPU, 16 GB
 48xlarge = 192 vCPU, 768 GB     (huge)
 ```
 
-→ Each step roughly 2x. Pick smallest that fits + ASG for variability.
+→ Mỗi bậc gấp khoảng 2 lần bậc trước. Nguyên tắc chọn: lấy size nhỏ nhất vừa đủ chạy, rồi để Auto Scaling Group lo phần tải dao động — đừng mua dư từ đầu.
 
-### Burstable (T family) — Caveat
+### Họ burstable (T) — điểm cần lưu ý
 
-**T family** has **CPU credits**:
-- Baseline performance (e.g., 20% of vCPU for t3.medium).
-- Burst above baseline → consume credits.
-- Credits accumulate when idle.
+Họ **T** rẻ hơn hẳn các họ khác, nhưng đổi lại nó hoạt động theo cơ chế *CPU credit* (tín dụng CPU) chứ không cho dùng CPU đầy 100% liên tục. Hiểu cơ chế này để khỏi vỡ trận ở production:
 
-**T3.medium**:
-- 24 credits/hour earn.
-- Baseline 20% (= ~0.4 vCPU full).
-- Can burst to 100% (2 vCPU) for short periods.
+- Mỗi máy có một mức **baseline** (ví dụ t3.medium chạy nền ở khoảng 20% vCPU).
+- Muốn vọt lên trên baseline thì *tiêu* credit.
+- Lúc máy rảnh thì credit lại *tích* dần lên.
 
-**T3 Unlimited mode** (default 2026):
-- If credits exhausted, charged $0.05/vCPU-hour over-baseline.
-- Predictable performance, variable cost.
+Lấy **t3.medium** làm ví dụ cụ thể:
 
-**T3 Standard mode**:
-- If credits exhausted, **throttled** to baseline.
-- Predictable cost, variable performance.
+- Tích 24 credit mỗi giờ.
+- Baseline 20% (tương đương ~0.4 vCPU chạy đầy).
+- Có thể vọt lên 100% (2 vCPU) trong những đợt ngắn.
 
-→ Use T for dev/small workload. Use M/C/R for steady production (consistent CPU).
+Họ T có hai chế độ vận hành, khác nhau ở chỗ "khi cạn credit thì sao":
 
-🪞 **Ẩn dụ**: *T instance như **gói data 4G prepaid** — 20% baseline + accumulate khi không dùng. Burst high-speed khi cần. M instance như **fiber dedicated** — consistent.*
+**Chế độ T3 Unlimited** (mặc định 2026):
 
-### Pricing examples (us-east-1, on-demand, Linux, 2026)
+- Hết credit thì vẫn cho chạy tiếp, nhưng tính thêm $0.05/vCPU-giờ cho phần vượt baseline.
+- Hiệu năng ổn định, đổi lại chi phí biến động.
 
-| Type | Specs | $/hour | $/month |
+**Chế độ T3 Standard**:
+
+- Hết credit thì bị **bóp** (throttle) về đúng baseline.
+- Chi phí cố định, đổi lại hiệu năng biến động.
+
+→ Tóm lại: dùng T cho dev và workload nhỏ. Production cần CPU ổn định thì chọn M/C/R cho chắc.
+
+🪞 **Ẩn dụ**: *Máy T giống **gói data 4G trả trước** — có một mức nền (baseline 20%) tự tích thêm khi bạn không xài, và cho phép "bùng" tốc độ cao trong chốc lát khi cần. Máy M giống **cáp quang riêng** — lúc nào cũng đều một tốc độ, không lo cạn.*
+
+### Vài mức giá tham khảo (us-east-1, on-demand, Linux, 2026)
+
+Để có cảm giác về tiền, đây là giá on-demand một số máy hay dùng. Cột $/tháng quy đổi theo chạy 24/7 cả tháng:
+
+| Type | Cấu hình | $/giờ | $/tháng |
 |---|---|---|---|
 | t3.micro | 2 vCPU, 1 GB | $0.0104 | $7.50 |
 | t3.medium | 2 vCPU, 4 GB | $0.0416 | $30 |
@@ -137,34 +159,41 @@ xlarge = 4 vCPU, 16 GB
 | c7i.xlarge | 4 vCPU, 8 GB | $0.1785 | $129 |
 | r7i.xlarge | 4 vCPU, 32 GB | $0.2646 | $192 |
 
-→ **Reserved 1-year** save ~30%, **3-year** save ~60%. **Spot** save 60-90%.
+→ Đây là giá on-demand "đắt nhất". Nếu cam kết trước: **Reserved 1 năm** rẻ hơn ~30%, **3 năm** rẻ hơn ~60%, còn **Spot** rẻ hơn 60-90% (đổi lại có thể bị thu hồi). Mục §9 đi sâu phần này.
 
 ---
 
 ## 2️⃣ AMI — Amazon Machine Image
 
-### What is AMI
+Chọn xong cấu hình máy, câu hỏi tiếp theo là: máy này khởi động lên thì có sẵn hệ điều hành gì, phần mềm gì? Đó chính là vai trò của AMI.
 
-**AMI** = template for EC2 instance:
-- OS + pre-installed software.
-- Bootable snapshot.
-- Region-bound.
+### AMI là gì
 
-### Standard AMIs
+**AMI** (Amazon Machine Image) là một *template* để tạo EC2 — hiểu nôm na là một ảnh đĩa khởi động được:
 
-| AMI | Provider | Use |
+- Gồm hệ điều hành cộng phần mềm đã cài sẵn.
+- Là một *snapshot* (ảnh chụp) khởi động được.
+- Gắn với từng region (không dùng chéo region trực tiếp).
+
+### Các AMI tiêu chuẩn
+
+AWS và các nhà cung cấp OS đều phát hành sẵn nhiều AMI để bạn chọn. Bảng dưới điểm những lựa chọn phổ biến cùng đặc điểm:
+
+| AMI | Nhà cung cấp | Dùng khi |
 |---|---|---|
-| **Amazon Linux 2023** | AWS | AWS-optimized, free, recommended for AWS-specific |
-| **Ubuntu 22.04 / 24.04** | Canonical | Most popular for app deploy |
-| **Debian 12** | Debian Project | Stable, conservative |
-| **RHEL 9 / 10** | Red Hat | Enterprise, paid |
-| **SUSE** | SUSE | Enterprise |
-| **macOS** | AWS (special) | iOS dev, expensive |
-| **Windows Server 2022/2025** | Microsoft | Windows workloads |
+| **Amazon Linux 2023** | AWS | Tối ưu cho AWS, miễn phí, hợp khi cần tích hợp sâu với AWS |
+| **Ubuntu 22.04 / 24.04** | Canonical | Phổ biến nhất để deploy app |
+| **Debian 12** | Debian Project | Ổn định, bảo thủ |
+| **RHEL 9 / 10** | Red Hat | Doanh nghiệp, có phí |
+| **SUSE** | SUSE | Doanh nghiệp |
+| **macOS** | AWS (đặc thù) | Dev iOS, đắt |
+| **Windows Server 2022/2025** | Microsoft | Workload Windows |
 
-→ **2026 recommend**: Ubuntu 24.04 LTS for general use. Amazon Linux 2023 for tight AWS integration.
+→ Khuyến nghị 2026: dùng Ubuntu 24.04 LTS cho nhu cầu chung; chọn Amazon Linux 2023 khi muốn tích hợp chặt với AWS.
 
-### Find AMI
+### Tìm AMI bằng CLI
+
+Mỗi region có AMI ID khác nhau và AWS phát hành bản mới liên tục, nên thường ta truy vấn bản mới nhất thay vì hardcode ID. Hai lệnh dưới lấy AMI mới nhất cho Amazon Linux 2023 và Ubuntu 24.04:
 
 ```bash
 # Latest Amazon Linux 2023
@@ -182,9 +211,10 @@ aws ec2 describe-images \
   --output text
 ```
 
-### Custom AMI
+### AMI tự tạo
 
-Build your own:
+Khi đã cấu hình một máy đúng ý (cài đủ app, dependency), bạn có thể "đóng băng" nó lại thành AMI riêng để lần sau tạo máy mới giống hệt mà khỏi cài lại từ đầu:
+
 ```bash
 # After configuring EC2:
 aws ec2 create-image \
@@ -195,21 +225,25 @@ aws ec2 create-image \
 # Returns AMI ID, can launch many EC2 from this AMI
 ```
 
-→ Faster than running user data scripts on each launch. Use for golden images.
+→ Cách này nhanh hơn nhiều so với chạy lại user data script mỗi lần tạo máy. Đây chính là kỹ thuật *golden image* (ảnh chuẩn dùng đi dùng lại).
 
-### AMI vs container
+### AMI so với container
 
-| Aspect | AMI | Container (Docker) |
+Cả AMI lẫn container (Docker) đều là cách đóng gói để chạy app, nhưng ở hai mức độ rất khác nhau. Bảng dưới đặt chúng cạnh nhau:
+
+| Khía cạnh | AMI | Container (Docker) |
 |---|---|---|
-| Granularity | Full OS + app | App + minimum deps |
-| Size | GB | MB |
-| Build tool | Packer + AWS | Dockerfile |
-| Boot time | 30-90 seconds | 1-10 seconds |
-| Portability | AMI region-bound | Docker portable any cloud |
+| Mức đóng gói | Cả OS + app | App + tối thiểu dependency |
+| Dung lượng | GB | MB |
+| Công cụ build | Packer + AWS | Dockerfile |
+| Thời gian khởi động | 30-90 giây | 1-10 giây |
+| Tính di động | AMI bó theo region | Docker chạy được mọi cloud |
 
-→ **Containers prefer 2026** (faster, portable). AMI for: legacy apps, specialized OS config, regulatory.
+→ Xu hướng 2026 nghiêng về **container** (khởi động nhanh, di động). AMI vẫn hợp khi: app *legacy* (cũ), cần cấu hình OS đặc thù, hoặc ràng buộc quy định pháp lý. (Phần so sánh sâu hơn nằm ở câu Q2 trong mục Self-check.)
 
-### Packer for AMI building
+### Dùng Packer để build AMI
+
+Cách dựng AMI chuẩn công nghiệp ngày nay là dùng **Packer** (công cụ của HashiCorp) — khai báo bằng file cấu hình thay vì click tay. Ví dụ dưới dựng một AMI Ubuntu 24.04 đã cài sẵn nginx và FastAPI:
 
 ```hcl
 # packer.pkr.hcl
@@ -239,50 +273,61 @@ packer build packer.pkr.hcl
 # Builds AMI, registers
 ```
 
-→ Modern AMI build pipeline.
+→ Đây là pipeline build AMI hiện đại: viết một lần, chạy ra AMI có version, tái lập được.
 
 ---
 
-## 3️⃣ EBS volumes
+## 3️⃣ EBS volume
 
-### What is EBS
+Máy EC2 cần chỗ lưu dữ liệu. Phần lớn trường hợp, ổ đĩa đó là EBS — và hiểu EBS giúp bạn tránh hai cú đau kinh điển: mất dữ liệu khi máy chết, và trả tiền oan cho IOPS không cần tới.
 
-**EBS** = Elastic Block Store. Network-attached disk for EC2.
+### EBS là gì
 
-- Bound to AZ (can't attach to EC2 in different AZ).
-- Persistent (survives instance stop/start, restart).
-- Snapshot to S3 (cross-region copy possible).
-- One EBS = one EC2 typically (Multi-Attach limited).
+**EBS** (Elastic Block Store) là ổ đĩa gắn qua mạng cho EC2. Vài tính chất cốt lõi cần nắm:
 
-### Volume types
+- Bó theo AZ (*Availability Zone*) — không gắn được vào EC2 nằm ở AZ khác.
+- Bền vững (*persistent*) — sống sót qua stop/start, restart máy.
+- Snapshot được lưu lên S3 (có thể copy sang region khác).
+- Thường một EBS gắn một EC2 (Multi-Attach có nhưng giới hạn).
 
-| Type | Use | Cost | IOPS |
+### Các loại volume
+
+EBS có nhiều "hạng" đĩa, khác nhau ở tốc độ (IOPS) và giá. Chọn đúng hạng là cân bằng giữa hiệu năng cần và tiền bỏ ra:
+
+| Loại | Dùng cho | Giá | IOPS |
 |---|---|---|---|
-| **gp3** (general purpose SSD) | Default 2026, predictable | $0.08/GB/mo | 3K-16K |
-| **gp2** (older gp) | Older deploys | $0.10/GB/mo | 3 IOPS/GB up to 16K |
-| **io2 Block Express** | High-perf DB | $0.125/GB/mo + $0.065/IOPS | 256K |
-| **st1** (HDD throughput) | Big sequential read | $0.045/GB/mo | — |
-| **sc1** (HDD cold) | Infrequent | $0.025/GB/mo | — |
+| **gp3** (general purpose SSD) | Mặc định 2026, ổn định | $0.08/GB/tháng | 3K-16K |
+| **gp2** (gp đời cũ) | Deploy cũ | $0.10/GB/tháng | 3 IOPS/GB, tối đa 16K |
+| **io2 Block Express** | DB hiệu năng cao | $0.125/GB/tháng + $0.065/IOPS | 256K |
+| **st1** (HDD throughput) | Đọc tuần tự lớn | $0.045/GB/tháng | — |
+| **sc1** (HDD cold) | Ít truy cập | $0.025/GB/tháng | — |
 
-→ **gp3 default 2026**. io2 cho production DB. st1/sc1 cho cold data.
+→ Năm 2026 mặc định cứ **gp3**. Dùng io2 cho DB production, st1/sc1 cho dữ liệu lạnh ít đụng tới.
 
-### gp3 sizing
+### Cách tính dung lượng gp3
 
-Default 100 GB gp3:
-- 3,000 IOPS included.
-- 125 MB/s throughput included.
-- Cost: $8/month.
+Điểm hay của gp3 là tách IOPS/throughput ra khỏi dung lượng — bạn có một mức nền miễn phí, vượt mức đó mới trả thêm. Lấy một volume 100 GB gp3 làm chuẩn:
 
-Need more IOPS? Pay extra:
-- IOPS above 3,000: $0.005/IOPS-month.
-- Throughput above 125: $0.04/MB/s-month.
+Mặc định 100 GB gp3:
 
-Example: 100GB + 10K IOPS:
+- Kèm sẵn 3,000 IOPS.
+- Kèm sẵn 125 MB/s throughput.
+- Chi phí: $8/tháng.
+
+Cần thêm IOPS thì trả thêm:
+
+- IOPS vượt 3,000: $0.005/IOPS-tháng.
+- Throughput vượt 125: $0.04/MB/s-tháng.
+
+Ví dụ một volume 100GB cần tới 10K IOPS sẽ tính như sau:
+
 - Storage: $8.
 - IOPS: 7000 × $0.005 = $35.
-- Total: $43/month.
+- Tổng: $43/tháng.
 
-### Boot volume + data volume
+### Boot volume và data volume
+
+Một máy EC2 thường có hai loại volume với vai trò khác nhau — đĩa hệ thống để khởi động, và đĩa dữ liệu để chứa app/log:
 
 ```
 EC2 instance has:
@@ -290,7 +335,9 @@ EC2 instance has:
   - 0+ data volumes (app data, logs)  — variable
 ```
 
-### EBS snapshots
+### Snapshot EBS
+
+Snapshot là cách sao lưu EBS. Lệnh dưới tạo snapshot từ một volume, và khôi phục bằng cách tạo volume mới từ snapshot đó:
 
 ```bash
 aws ec2 create-snapshot \
@@ -304,11 +351,13 @@ aws ec2 create-volume \
   --availability-zone us-east-1a
 ```
 
-→ Incremental (only changed blocks). Stored in S3 (managed).
+→ Snapshot là *incremental* (chỉ lưu block thay đổi) nên tiết kiệm, và được AWS lưu trên S3 (bạn không phải quản lý).
 
-**Cost**: $0.05/GB/month for snapshot storage.
+**Chi phí**: $0.05/GB/tháng cho dung lượng snapshot.
 
-### Backup strategy
+### Chiến lược backup
+
+Thay vì tự chạy snapshot tay, AWS có dịch vụ **AWS Backup** lo lịch sao lưu tự động. Ví dụ sau đặt lịch backup hằng ngày lúc 2h sáng, giữ lại 7 ngày:
 
 ```bash
 # Daily, retain 7 days
@@ -326,13 +375,17 @@ aws backup create-backup-plan \
   }'
 ```
 
-→ **AWS Backup** service automate. Cross-region copy for DR.
+→ Dùng **AWS Backup** để tự động hoá, kèm copy chéo region cho mục đích DR (*disaster recovery* — phục hồi sau thảm hoạ).
 
 ---
 
-## 4️⃣ Key pairs + SSH access
+## 4️⃣ Key pair + truy cập SSH
 
-### Create key pair
+Máy đã có rồi, giờ làm sao đăng nhập vào? Cách kinh điển là SSH bằng *key pair* (cặp khoá).
+
+### Tạo key pair
+
+Lệnh dưới tạo một key pair: AWS giữ phần khoá công khai, còn bạn tải về phần khoá riêng (file `.pem`) và phải giữ kín:
 
 ```bash
 # Create key pair
@@ -344,9 +397,11 @@ aws ec2 create-key-pair \
 chmod 400 my-key.pem
 ```
 
-→ Public key stored in AWS. Private key (`.pem`) keep secret.
+→ Khoá công khai nằm trên AWS, khoá riêng (`.pem`) bạn cất kỹ. Mất file `.pem` là mất luôn đường vào máy bằng SSH.
 
-### Launch EC2 with key
+### Khởi chạy EC2 kèm key
+
+Khi tạo máy, gắn tên key pair vào để AWS nạp sẵn khoá công khai cho user mặc định:
 
 ```bash
 aws ec2 run-instances \
@@ -357,7 +412,9 @@ aws ec2 run-instances \
   --subnet-id subnet-pqr
 ```
 
-### SSH into EC2
+### SSH vào EC2
+
+Có khoá rồi thì SSH như bình thường, lưu ý user mặc định khác nhau tuỳ AMI (`ubuntu` cho Ubuntu, `ec2-user` cho Amazon Linux):
 
 ```bash
 ssh -i my-key.pem ubuntu@<public-ip>
@@ -365,16 +422,17 @@ ssh -i my-key.pem ubuntu@<public-ip>
 ssh -i my-key.pem ec2-user@<public-ip>
 ```
 
-### Issue: SSH key management at scale
+### Vấn đề: quản lý SSH key ở quy mô lớn
 
-Problems:
-- Share `.pem` file? Insecure.
-- 50 engineers, 1 key? When someone leaves, rotate for everyone.
-- Lose key = lose EC2 access forever.
+SSH key chạy tốt cho một máy, một người. Nhưng khi đội đông và máy nhiều, nó nhanh chóng thành cơn ác mộng:
 
-### Solution: AWS Systems Manager Session Manager
+- Chia sẻ file `.pem` cho nhau? Không an toàn.
+- 50 kỹ sư dùng chung 1 key? Một người nghỉ việc là phải xoay khoá cho tất cả.
+- Mất khoá là mất luôn quyền vào máy.
 
-**No SSH** at all:
+### Giải pháp: AWS Systems Manager Session Manager
+
+AWS có một cách vào shell mà **không cần SSH** chút nào — Session Manager. Không mở cổng 22, không quản lý khoá, mọi phiên đều xác thực qua IAM và ghi log audit:
 
 ```bash
 # Install SSM Agent (default Amazon Linux 2023, Ubuntu 24.04)
@@ -384,24 +442,28 @@ Problems:
 aws ssm start-session --target i-abc123
 ```
 
-→ Direct shell, IAM-authenticated, audit logged, no SSH port open, no key management.
+→ Vào thẳng shell, xác thực bằng IAM, có log audit, không phải mở cổng SSH, không phải quản lý khoá.
 
 ### Best practice 2026
 
-- **Don't open port 22** to internet.
-- **Use SSM Session Manager** for shell access.
-- **Or AWS Client VPN** + bastion for SSH.
-- **Or Tailscale / WireGuard** mesh VPN.
+Gom lại, hướng đi an toàn cho truy cập máy ngày nay là loại bỏ bề mặt tấn công của SSH:
 
-→ Eliminate SSH attack surface.
+- **Đừng mở cổng 22** ra Internet.
+- **Ưu tiên Session Manager** để vào shell.
+- **Hoặc AWS Client VPN** + máy *bastion* để SSH.
+- **Hoặc VPN mesh** kiểu Tailscale / WireGuard.
+
+→ Càng ít cổng SSH phơi ra ngoài, càng ít cửa cho kẻ tấn công.
 
 ---
 
-## 5️⃣ User data — Bootstrap scripts
+## 5️⃣ User data — script khởi động
 
-### What's user data
+Bạn không muốn mỗi lần tạo máy lại phải SSH vào cài tay từng thứ. *User data* giải quyết đúng việc đó: một script chạy tự động ngay lần đầu máy bật lên.
 
-Shell script that runs on **first boot** of EC2.
+### User data là gì
+
+User data là một shell script chạy đúng **một lần lúc khởi động đầu tiên** của EC2. Ví dụ dưới cài nginx + FastAPI và đăng ký một service systemd để app tự chạy:
 
 ```bash
 #!/bin/bash
@@ -437,7 +499,9 @@ systemctl enable myapp
 systemctl start myapp
 ```
 
-### Launch with user data
+### Khởi chạy kèm user data
+
+Truyền script vào lúc tạo máy qua cờ `--user-data`:
 
 ```bash
 aws ec2 run-instances \
@@ -449,20 +513,21 @@ aws ec2 run-instances \
   --subnet-id subnet-pqr
 ```
 
-→ User data executed once. Logs in `/var/log/cloud-init-output.log` for debug.
+→ User data chỉ chạy một lần. Muốn xem nó chạy ra sao để debug, đọc log ở `/var/log/cloud-init-output.log`.
 
-### Use cases
+### Các tình huống dùng
 
-- **Install software**: Docker, app, dependencies.
-- **Configure**: SSH keys, sysctl, hostname.
-- **Start service**: systemd.
-- **Pull code**: clone repo + `make install`.
+User data hợp với mọi việc cần làm "một lần lúc dựng máy":
+
+- **Cài phần mềm**: Docker, app, dependency.
+- **Cấu hình**: SSH key, sysctl, hostname.
+- **Khởi động service**: systemd.
+- **Kéo code về**: clone repo rồi `make install`.
 
 ### Cloud-init
 
-User data uses **cloud-init** (default Linux EC2).
+Đằng sau user data là **cloud-init** — bộ xử lý script khởi động mặc định trên Linux EC2. Ngoài shell script, cloud-init còn nhận một định dạng khai báo `#cloud-config` gọn hơn:
 
-`#cloud-config` format alternative:
 ```yaml
 #cloud-config
 packages:
@@ -477,26 +542,32 @@ write_files:
       foo=bar
 ```
 
-→ Declarative alternative to shell.
+→ Đây là cách viết khai báo (*declarative*) thay cho shell script.
 
-### Caveats
+### Những điều cần lưu ý
 
-- **Runs once** (first boot). Re-run = re-launch instance.
-- **No secrets in user data** — visible to anyone with EC2 read.
-- **Logs visible**: don't echo passwords.
-- **Time-limited**: 16 KB max user data size.
+User data tiện nhưng có vài cái bẫy cần nhớ trước khi dùng cho production:
 
-### Modern alternative
+- **Chỉ chạy một lần** (lần khởi động đầu). Muốn chạy lại = phải tạo máy mới.
+- **Đừng để secret trong user data** — bất kỳ ai có quyền đọc EC2 đều thấy.
+- **Log nhìn được**: đừng echo mật khẩu ra.
+- **Giới hạn dung lượng**: user data tối đa 16 KB.
 
-**Use AMI with pre-baked software** (Packer) + minimal user data for config-only.
+### Cách làm hiện đại hơn
 
-→ Faster boot (no install delay), reproducible.
+Để máy khởi động nhanh và tái lập tốt hơn, xu hướng là **dùng AMI đã cài sẵn phần mềm** (build bằng Packer), còn user data chỉ giữ phần cấu hình tối thiểu:
+
+→ Khởi động nhanh hơn (khỏi chờ cài đặt), và kết quả tái lập được.
 
 ---
 
-## 6️⃣ Security Group for EC2
+## 6️⃣ Security Group cho EC2
 
-### Default SG for web server
+Máy chạy rồi thì phải kiểm soát ai được kết nối vào. *Security Group* (SG) chính là tường lửa ảo gắn ngay vào từng máy.
+
+### SG mặc định cho web server
+
+Một web server điển hình cần mở HTTP/HTTPS ra Internet, và chỉ mở SSH cho đúng IP văn phòng. Đây là cấu hình Terraform tương ứng:
 
 ```hcl
 resource "aws_security_group" "web" {
@@ -538,9 +609,9 @@ resource "aws_security_group" "web" {
 }
 ```
 
-### Multi-tier SG pattern
+### Mẫu SG nhiều tầng
 
-(Recall cloud-networking bài 02)
+Cách dùng SG đẹp nhất là cho mỗi tầng tham chiếu tới SG của tầng phía trước, thay vì mở theo dải IP. Nhờ vậy luồng dữ liệu bị siết đúng một chiều (đã nói tới ở bài cloud-networking 02):
 
 ```
 Internet → ALB SG (443/80 open) → App SG (8000 from ALB) → DB SG (5432 from App)
@@ -570,15 +641,17 @@ resource "aws_security_group" "db" {
 }
 ```
 
+Cái hay ở đây: tầng app chỉ nhận lưu lượng từ ALB, tầng DB chỉ nhận từ app — không ai từ ngoài chọc thẳng vào DB được, kể cả IP nội bộ.
+
 ---
 
 ## 7️⃣ Elastic IP (EIP)
 
-### Use case
+Mặc định, IP công khai của EC2 sẽ đổi mỗi lần stop/start. Khi nào cần một IP cố định không đổi, đó là lúc cần Elastic IP.
 
-EC2 by default has dynamic public IP — changes on stop/start.
+### Tình huống dùng
 
-**EIP** = static public IP assigned to account.
+EC2 mặc định có IP công khai *động* — cứ stop/start là đổi. **EIP** là một IP công khai *tĩnh* được cấp cho tài khoản, gắn vào máy nào tuỳ bạn:
 
 ```bash
 # Allocate EIP
@@ -590,46 +663,62 @@ aws ec2 associate-address \
   --allocation-id eipalloc-xyz
 ```
 
-### Cost
+### Chi phí
 
-- Allocated + attached to running EC2: **free**.
-- Allocated but NOT attached: **$0.005/hour ($3.60/month)** — penalty for hoarding.
-- 5 EIP per account limit (default).
+Cách AWS tính tiền EIP thể hiện rõ triết lý "đừng giữ tài nguyên rồi bỏ không":
 
-### When use EIP
+- Đã cấp và đang gắn vào EC2 đang chạy: **miễn phí**.
+- Đã cấp nhưng KHÔNG gắn vào đâu: **$0.005/giờ ($3.60/tháng)** — phạt việc giữ khư khư không dùng.
+- Mặc định giới hạn 5 EIP mỗi tài khoản.
 
-- Need static IP for whitelist (3rd party firewall).
-- DNS pointing to fixed IP.
+### Khi nào nên dùng EIP
 
-### Don't need EIP when
+EIP chỉ thật sự cần khi có một bên ngoài đòi hỏi IP cố định:
 
-- App behind ALB (LB has DNS, not IP).
-- Auto Scaling Group (instances ephemeral).
+- Cần IP tĩnh để bên thứ ba *whitelist* (firewall của họ chỉ cho IP này vào).
+- DNS trỏ thẳng tới một IP cố định.
 
-→ Most apps don't need EIP. Use LB + DNS.
+### Khi nào KHÔNG cần EIP
+
+Ngược lại, đa số kiến trúc hiện đại không cần EIP, vì IP máy không còn là điểm truy cập:
+
+- App nằm sau ALB (load balancer có DNS, không phải IP).
+- Auto Scaling Group (các máy là tạm thời, sinh ra rồi mất đi).
+
+→ Phần lớn app không cần EIP. Cứ dùng load balancer + DNS là gọn.
 
 ---
 
-## 8️⃣ Auto Scaling Group (ASG) — Basics
+## 8️⃣ Auto Scaling Group (ASG) — cơ bản
 
-### Why ASG
+Một máy đơn lẻ luôn là điểm yếu: nó chết thì cả dịch vụ chết, tải tăng đột biến thì nó nghẽn. ASG sinh ra để xử lý đúng hai nỗi lo đó bằng cách quản lý cả một *nhóm* máy.
 
-Single EC2:
-- Crashes → downtime.
-- Traffic spike → overload.
+### Vì sao cần ASG
+
+So một máy đơn với một nhóm ASG là thấy ngay khác biệt:
+
+EC2 đơn lẻ:
+
+- Crash → downtime.
+- Tải tăng vọt → quá tải.
 
 ASG:
-- **Multi-AZ**: instances across AZs.
-- **Auto-replace**: dead instance replaced automatically.
-- **Auto-scale**: more instances on high load.
 
-### Components
+- **Trải nhiều AZ**: máy nằm rải ra nhiều AZ.
+- **Tự thay máy**: máy chết được thay tự động.
+- **Tự co giãn**: tải cao thì thêm máy.
 
-1. **Launch Template**: blueprint for EC2 (AMI, type, SG, user data).
-2. **Auto Scaling Group**: min/max/desired count.
-3. **Scaling policies**: trigger rules (CPU > 70% → +2 instances).
+### Các thành phần
 
-### Terraform example
+ASG được ghép từ ba mảnh, mỗi mảnh một vai trò:
+
+1. **Launch Template**: bản thiết kế cho EC2 (AMI, type, SG, user data).
+2. **Auto Scaling Group**: số máy tối thiểu/tối đa/mong muốn.
+3. **Scaling policies**: luật kích hoạt (CPU > 70% → +2 máy).
+
+### Ví dụ Terraform
+
+Đoạn Terraform dưới ráp đủ ba mảnh trên: một launch template, một ASG trải 3 subnet, cộng một chính sách scale-up gắn với cảnh báo CloudWatch khi CPU vượt 70%:
 
 ```hcl
 resource "aws_launch_template" "web" {
@@ -703,38 +792,48 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
 }
 ```
 
-### ASG features
+### Các kiểu scaling của ASG
 
-- **Target tracking**: maintain target metric (e.g., CPU at 50%).
-- **Step scaling**: tiered (CPU > 70% +2, > 90% +5).
-- **Scheduled scaling**: scale based on time (business hours).
-- **Predictive scaling**: ML-based (AWS predicts demand).
+ASG cho nhiều cách quyết định "khi nào thêm/bớt máy", từ đơn giản tới thông minh:
 
-→ Bài K8s intermediate cluster has similar patterns (HPA + Cluster Autoscaler).
+- **Target tracking**: giữ một chỉ số ở mức mục tiêu (ví dụ CPU ở 50%).
+- **Step scaling**: chia bậc (CPU > 70% +2, > 90% +5).
+- **Scheduled scaling**: co giãn theo giờ (ví dụ giờ hành chính).
+- **Predictive scaling**: dựa trên ML (AWS dự đoán nhu cầu).
+
+→ Cụm K8s ở mức intermediate có mô hình tương tự (HPA + Cluster Autoscaler) — nếu sau này học K8s, bạn sẽ thấy quen.
 
 ---
 
-## 9️⃣ EC2 pricing — On-demand vs Reserved vs Spot
+## 9️⃣ Giá EC2 — On-demand vs Reserved vs Spot
+
+Chọn đúng kiểu giá có thể cắt được nửa hoá đơn. AWS bán cùng một máy theo ba kiểu giá, mỗi kiểu đánh đổi giữa cam kết, độ rủi ro và mức tiết kiệm.
 
 ### On-demand
 
-- Pay per second (Linux) or hour (Windows).
-- Highest cost.
-- No commitment.
+Đây là kiểu mặc định, linh hoạt nhất nhưng cũng đắt nhất:
 
-**Use**: dev, unpredictable workload, testing.
+- Trả theo giây (Linux) hoặc theo giờ (Windows).
+- Chi phí cao nhất.
+- Không ràng buộc cam kết.
+
+**Hợp khi**: dev, workload khó đoán, chạy thử.
 
 ### Reserved Instances (RI) / Savings Plans
 
-**Commit 1 or 3 years for discount**:
-- 1-year: 30-40% off.
-- 3-year: 50-72% off.
+Nếu bạn biết chắc sẽ chạy đều một lượng máy nhất định, cam kết trước để được giảm giá sâu:
 
-**Savings Plans** (more flexible than RI):
-- Compute Savings Plans: any region, any family.
-- EC2 Instance Savings Plans: specific family + region.
+**Cam kết 1 hoặc 3 năm để giảm giá**:
 
-**Use**: predictable baseline workload (steady production).
+- 1 năm: giảm 30-40%.
+- 3 năm: giảm 50-72%.
+
+**Savings Plans** (linh hoạt hơn RI):
+
+- Compute Savings Plans: áp cho mọi region, mọi họ máy.
+- EC2 Instance Savings Plans: cố định họ máy + region.
+
+**Hợp khi**: workload nền ổn định, đoán được (production chạy đều).
 
 ```bash
 # View Reserved Instance recommendations
@@ -744,20 +843,25 @@ aws ce get-reservation-purchase-recommendation \
 
 ### Spot Instances
 
-**Use unused AWS capacity**:
-- 60-90% off on-demand price.
-- AWS can interrupt with **2-minute warning**.
+Spot là cách tận dụng năng lực dư của AWS với giá rẻ giật mình, đổi lại có thể bị thu hồi bất cứ lúc nào:
 
-**Use cases**:
-- Stateless workers.
-- Batch jobs.
-- CI/CD runners.
-- Fault-tolerant apps.
+**Dùng năng lực nhàn rỗi của AWS**:
 
-**Avoid for**:
-- Stateful (DB).
-- Long-running single instance.
-- Real-time customer-facing.
+- Rẻ hơn 60-90% so với on-demand.
+- AWS có thể thu hồi với **cảnh báo trước 2 phút**.
+
+**Hợp khi**:
+
+- Worker không giữ trạng thái (*stateless*).
+- Job xử lý theo lô (*batch*).
+- Runner CI/CD.
+- App chịu lỗi tốt.
+
+**Tránh dùng cho**:
+
+- App giữ trạng thái (DB).
+- Một máy đơn chạy dài hạn.
+- Dịch vụ thời gian thực phục vụ khách hàng.
 
 ```bash
 aws ec2 request-spot-instances \
@@ -766,9 +870,11 @@ aws ec2 request-spot-instances \
   --launch-specification file://spec.json
 ```
 
-→ Cheap but risky. Combine with on-demand for HA.
+→ Rẻ nhưng rủi ro. Kết hợp với on-demand để vừa tiết kiệm vừa giữ độ sẵn sàng cao (HA).
 
-### Pricing strategy
+### Chiến lược giá
+
+Cách tối ưu trong thực tế là *trộn* cả ba kiểu giá theo đúng tính chất từng phần workload:
 
 ```
 Production:
@@ -779,19 +885,25 @@ Production:
 Result: ~50% savings vs all on-demand
 ```
 
-→ Mix strategies for optimal cost/reliability.
+→ Trộn chiến lược để cân giữa chi phí và độ tin cậy — đó là tư duy chuẩn cho hoá đơn EC2.
 
 ---
 
-## 🔟 Hands-on: Deploy FastAPI on EC2 end-to-end
+## 🔟 Hands-on: Deploy FastAPI lên EC2 từ đầu tới cuối
 
-### Step 1: Pre-requisites
+Đến lúc ráp mọi mảnh ghép lại thành một thứ chạy thật. Phần này đi từng bước: dựng tường lửa, tạo khoá, viết script khởi động, tìm AMI, bật máy, kiểm tra, rồi dọn dẹp. Làm xong là bạn có một app FastAPI sống trên Internet.
 
-- AWS account.
-- AWS CLI configured.
-- VPC with public subnet (from cloud-fundamentals bài 02).
+### Bước 1: Chuẩn bị
 
-### Step 2: Security group
+Trước khi bắt đầu, cần sẵn vài thứ:
+
+- Tài khoản AWS.
+- AWS CLI đã cấu hình.
+- VPC có public subnet (từ bài cloud-fundamentals 02).
+
+### Bước 2: Security group
+
+Tạo SG cho web và mở cổng HTTP + HTTPS ra Internet:
 
 ```bash
 aws ec2 create-security-group \
@@ -810,7 +922,9 @@ aws ec2 authorize-security-group-ingress \
   --protocol tcp --port 443 --cidr 0.0.0.0/0
 ```
 
-### Step 3: Key pair
+### Bước 3: Key pair
+
+Tạo khoá để lát nữa SSH vào debug:
 
 ```bash
 aws ec2 create-key-pair \
@@ -820,7 +934,9 @@ aws ec2 create-key-pair \
 chmod 400 fastapi-key.pem
 ```
 
-### Step 4: User data script
+### Bước 4: Script user data
+
+Script dưới làm trọn việc cài đặt lúc máy khởi động: cài nginx + FastAPI, chạy app bằng systemd, rồi để nginx *reverse proxy* (chuyển tiếp) về app ở cổng 8000:
 
 `user-data.sh`:
 ```bash
@@ -887,7 +1003,9 @@ systemctl start myapp
 systemctl restart nginx
 ```
 
-### Step 5: Find Ubuntu AMI
+### Bước 5: Tìm AMI Ubuntu
+
+Truy vấn AMI Ubuntu 24.04 mới nhất và lưu vào biến để dùng ở bước sau:
 
 ```bash
 AMI_ID=$(aws ec2 describe-images \
@@ -899,7 +1017,9 @@ AMI_ID=$(aws ec2 describe-images \
 echo $AMI_ID
 ```
 
-### Step 6: Launch EC2
+### Bước 6: Khởi chạy EC2
+
+Bật máy với đầy đủ AMI, key, SG, subnet, user data, kèm gắn IP công khai và tag để dễ nhận diện:
 
 ```bash
 aws ec2 run-instances \
@@ -915,7 +1035,9 @@ aws ec2 run-instances \
   --output text
 ```
 
-### Step 7: Verify
+### Bước 7: Kiểm tra
+
+Chờ máy sẵn sàng rồi lấy IP công khai và gọi thử hai endpoint `/` và `/health`:
 
 ```bash
 INSTANCE_ID=i-abc...   # from previous output
@@ -939,7 +1061,11 @@ curl http://$PUBLIC_IP/health
 # {"status":"ok"}
 ```
 
-### Step 8: SSH (for debug)
+→ Thấy JSON trả về đúng là app đã sống trên EC2 và đi qua nginx ngon lành.
+
+### Bước 8: SSH (để debug)
+
+Nếu có gì trục trặc, SSH vào xem trạng thái service và log:
 
 ```bash
 ssh -i fastapi-key.pem ubuntu@$PUBLIC_IP
@@ -954,7 +1080,9 @@ sudo journalctl -u myapp -f
 exit
 ```
 
-### Step 9: Cleanup (avoid charges!)
+### Bước 9: Dọn dẹp (tránh bị tính tiền!)
+
+Sau khi thử xong, xoá hết tài nguyên để khỏi trả tiền oan:
 
 ```bash
 aws ec2 terminate-instances --instance-ids $INSTANCE_ID
@@ -963,64 +1091,66 @@ aws ec2 delete-key-pair --key-name fastapi-key
 rm fastapi-key.pem
 ```
 
-→ Always cleanup test resources!
+→ Luôn dọn dẹp tài nguyên thử nghiệm! Đây là thói quen quan trọng nhất khi học AWS.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Forget to cleanup → bills
+### ❌ Cạm bẫy: Quên dọn dẹp → cháy hoá đơn
 
-→ Test EC2 running forever. $30+/month silently.
-
-→ **Fix**:
-- Tag test resources clearly.
-- Daily/weekly cleanup audit.
-- Use AWS Budget alerts.
-
-### ❌ Pitfall: Open SSH to 0.0.0.0/0
-
-→ Bots brute force.
+EC2 thử nghiệm để chạy mãi sẽ âm thầm ngốn $30+/tháng mà bạn không hề hay.
 
 → **Fix**:
-- SSM Session Manager (no SSH port).
-- Or SSH from specific IP only.
-- Or VPN/Tailscale.
+- Tag rõ tài nguyên thử nghiệm.
+- Đặt lịch dọn dẹp định kỳ.
+- Bật cảnh báo AWS Budget.
 
-### ❌ Pitfall: T-class instance for production
+### ❌ Cạm bẫy: Mở SSH ra 0.0.0.0/0
 
-→ Burstable, CPU credits exhausted → throttle → app slow.
-
-→ **Fix**: M/C/R for production. T only for dev/burst-tolerant.
-
-### ❌ Pitfall: EBS too small, fill up
-
-→ Volume full → app crash.
+Mở cổng 22 cho cả Internet là mời bot vào dò mật khẩu (*brute force*).
 
 → **Fix**:
-- Monitor EBS usage (CloudWatch).
-- Alert at 80%.
-- Resize live (`modify-volume` for gp3) — no downtime.
+- Dùng SSM Session Manager (không cần mở cổng SSH).
+- Hoặc chỉ SSH từ một IP cụ thể.
+- Hoặc VPN/Tailscale.
 
-### ❌ Pitfall: No backups
+### ❌ Cạm bẫy: Dùng máy họ T cho production
 
-→ EBS volume gone (instance terminated, snapshot deleted) → data lost.
+Họ T là burstable; cạn CPU credit là bị bóp hiệu năng → app chậm rì.
+
+→ **Fix**: Dùng M/C/R cho production. T chỉ hợp dev hoặc workload chịu được dao động.
+
+### ❌ Cạm bẫy: EBS quá nhỏ, đầy ổ
+
+Volume đầy → app crash.
 
 → **Fix**:
-- AWS Backup automated.
-- Snapshot policy.
-- Test restore quarterly.
+- Theo dõi dung lượng EBS qua CloudWatch.
+- Cảnh báo khi đạt 80%.
+- Mở rộng nóng (`modify-volume` cho gp3) — không cần downtime.
 
-### ❌ Pitfall: Hardcode IP in app config
+### ❌ Cạm bẫy: Không có backup
 
-→ EC2 IP changes on restart (unless EIP). App breaks.
+EBS biến mất (máy bị terminate, snapshot bị xoá) → mất sạch dữ liệu.
 
-→ **Fix**: 
-- Use ALB DNS (changes don't propagate).
-- Or Route 53 record.
-- Or EIP if must have IP.
+→ **Fix**:
+- Tự động hoá bằng AWS Backup.
+- Đặt chính sách snapshot.
+- Tập khôi phục (restore) định kỳ mỗi quý.
 
-### ✅ Best practice: Tag everything
+### ❌ Cạm bẫy: Hardcode IP trong config app
+
+IP của EC2 đổi mỗi lần restart (trừ khi dùng EIP) → app gãy.
+
+→ **Fix**:
+- Dùng DNS của ALB (thay đổi không lan ra ngoài).
+- Hoặc record Route 53.
+- Hoặc EIP nếu bắt buộc phải có IP cố định.
+
+### ✅ Best practice: Tag mọi thứ
+
+Gắn tag đầy đủ giúp phân bổ chi phí, tự động hoá và đáp ứng yêu cầu tuân thủ:
 
 ```hcl
 tags = {
@@ -1032,174 +1162,179 @@ tags = {
 }
 ```
 
-→ Cost allocation, automation, compliance.
+→ Phục vụ phân bổ chi phí, tự động hoá, và compliance.
 
-### ✅ Best practice: Use IAM role, not access keys
+### ✅ Best practice: Dùng IAM role, không dùng access key
 
-EC2 needs S3 access:
-- ❌ Hardcode access key in env.
-- ✅ Attach IAM role to EC2. SDK auto-gets credentials.
+EC2 cần truy cập S3:
 
-### ✅ Best practice: Spot for stateless workers
+- ❌ Hardcode access key trong biến môi trường.
+- ✅ Gắn IAM role vào EC2. SDK tự lấy credential.
 
-CI runners, batch jobs:
-- Use spot instances.
-- Save 60-90%.
-- Acceptable interruption.
+### ✅ Best practice: Spot cho worker stateless
+
+Runner CI, job batch:
+
+- Dùng Spot instance.
+- Tiết kiệm 60-90%.
+- Chấp nhận bị gián đoạn.
 
 ### ✅ Best practice: Right-size + RI
 
-After 1 month production:
-- Review CPU/memory usage.
-- Right-size (often smaller).
-- Buy RI for steady baseline.
+Sau một thời gian chạy production:
 
-→ Save 30-60% via discipline.
+- Xem lại mức dùng CPU/RAM thực tế.
+- Chọn lại size cho vừa (thường là nhỏ hơn).
+- Mua RI cho phần nền chạy đều.
+
+→ Kỷ luật này tiết kiệm 30-60% chi phí.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** When use T-class vs M-class instances?
+Năm câu dưới chạm đúng những chỗ dễ chọn sai khi mới dùng EC2 — từ chọn họ máy tới chiến lược giá. Thử tự trả lời trước khi mở đáp án.
+
+**Q1.** Khi nào dùng máy họ T, khi nào dùng họ M?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**T-class** (T3, T4g) — burstable:
-- Baseline CPU performance (e.g., 20% of vCPU).
-- Burst above baseline with CPU credits.
-- Cheap (50-70% less than M).
+**Họ T** (T3, T4g) — burstable:
+- Hiệu năng CPU theo mức nền (ví dụ 20% vCPU).
+- Vọt lên trên baseline bằng CPU credit.
+- Rẻ (ít hơn M tầm 50-70%).
 
-**Use T-class**:
-- **Dev/staging**: low utilization, OK with variability.
-- **Low-traffic apps**: small websites, internal tools.
-- **Bursty workloads**: spike then idle.
-- **Cost-sensitive**: budget tight.
+**Dùng họ T khi**:
+- **Dev/staging**: tải thấp, chấp nhận dao động.
+- **App ít traffic**: web nhỏ, công cụ nội bộ.
+- **Workload bùng phát**: tăng vọt rồi nghỉ.
+- **Nhạy chi phí**: ngân sách hẹp.
 
-**M-class** — general purpose, consistent:
-- Steady CPU all-time.
-- Higher cost, predictable performance.
+**Họ M** — general purpose, ổn định:
+- CPU đều suốt thời gian.
+- Đắt hơn, đổi lại hiệu năng đoán trước được.
 
-**Use M-class**:
-- **Production web/app servers**: consistent traffic.
-- **CPU-bound**: API servers, app logic.
-- **DB**: medium-scale RDS.
+**Dùng họ M khi**:
+- **Web/app server production**: traffic đều.
+- **Tác vụ nặng CPU**: API server, logic app.
+- **DB**: RDS quy mô vừa.
 
-**Avoid T-class when**:
-- Consistent high CPU (credits exhausted → throttled or extra charge).
-- Customer-facing prod (predictable performance critical).
-- High-frequency batch processing.
+**Tránh họ T khi**:
+- CPU cao liên tục (cạn credit → bị bóp hoặc tính thêm tiền).
+- Production phục vụ khách (cần hiệu năng đoán trước).
+- Xử lý batch tần suất cao.
 
-**T3 Unlimited mode**:
-- Default 2026.
-- Burst as much as needed.
-- Charged $0.05/vCPU-hour above baseline.
-- If burst average < baseline, no extra cost.
-- If burst average exceeds baseline, M-class often cheaper.
+**Chế độ T3 Unlimited**:
+- Mặc định 2026.
+- Vọt bao nhiêu cũng được.
+- Tính $0.05/vCPU-giờ cho phần vượt baseline.
+- Nếu trung bình vẫn dưới baseline thì không tốn thêm.
+- Nếu trung bình vượt baseline thì máy họ M thường rẻ hơn.
 
-**Decision**:
-- Predictable workload at ≤ 20% CPU → T3.
-- Variable, low-average CPU → T3 (cheap baseline).
-- Consistent high CPU → M class.
+**Quyết định**:
+- Workload đoán trước được, ≤ 20% CPU → T3.
+- Dao động, CPU trung bình thấp → T3 (rẻ ở mức nền).
+- CPU cao đều → họ M.
 
-**Real example**:
-- Internal dashboard, 10% CPU: t3.medium = $30/month. m6i.large = $73/month. T wins.
-- Production API, 50% CPU: t3.medium charged extra credits ~$50/month. m6i.large = $73, predictable. M better.
+**Ví dụ thực tế**:
+- Dashboard nội bộ, 10% CPU: t3.medium = $30/tháng, m6i.large = $73/tháng. T thắng.
+- API production, 50% CPU: t3.medium bị tính thêm credit ~$50/tháng, m6i.large = $73 nhưng ổn định. M tốt hơn.
 
-→ Check actual CPU usage via CloudWatch metrics. Right-size monthly.
+→ Cứ kiểm CPU thực qua CloudWatch metric, rồi right-size hằng tháng.
 </details>
 
-**Q2.** AMI vs container — when each for AWS?
+**Q2.** AMI hay container — chọn cái nào cho AWS?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Container (Docker on ECS/EKS/Fargate)**:
-- **Lightweight**: MB, not GB.
-- **Fast boot**: 1-10 seconds.
-- **Portable**: same image any cloud.
-- **Layered**: efficient builds + caching.
-- **Modern**: 2026 standard for new apps.
+**Container (Docker trên ECS/EKS/Fargate)**:
+- **Nhẹ**: MB, không phải GB.
+- **Khởi động nhanh**: 1-10 giây.
+- **Di động**: cùng một image chạy mọi cloud.
+- **Phân lớp**: build hiệu quả + cache tốt.
+- **Hiện đại**: chuẩn 2026 cho app mới.
 
-**Use containers when**:
-- Modern app development.
+**Dùng container khi**:
+- Phát triển app hiện đại.
 - Microservices.
-- CI/CD pipeline.
-- K8s ecosystem.
-- Multi-cloud strategy.
+- Pipeline CI/CD.
+- Hệ sinh thái K8s.
+- Chiến lược đa cloud.
 
 **AMI**:
-- **Full OS snapshot**.
-- **Slow boot**: 30-90 seconds.
-- **AWS-bound**: AMI per region.
-- **Includes runtime**: Java, Python, etc. pre-installed.
+- **Snapshot cả OS**.
+- **Khởi động chậm**: 30-90 giây.
+- **Bó theo AWS**: mỗi region một AMI.
+- **Kèm runtime**: cài sẵn Java, Python, v.v.
 
-**Use AMI when**:
-- **Legacy app**: hardcoded to OS-level dependencies.
-- **Specific kernel/OS config**: not containerizable.
-- **Compliance**: gov/regulated where container = new risk.
-- **Long-running stateful**: VMs are fine, container overhead unnecessary.
-- **EC2-only deployments**: not using ECS/EKS.
+**Dùng AMI khi**:
+- **App legacy**: phụ thuộc cứng vào tầng OS.
+- **Cấu hình kernel/OS đặc thù**: không container hoá được.
+- **Compliance**: môi trường nhà nước/bị quản lý, container = rủi ro mới.
+- **Stateful chạy dài**: VM là đủ, không cần phụ phí container.
+- **Chỉ deploy bằng EC2**: không xài ECS/EKS.
 
-**Hybrid**:
-- **AMI** = pre-installed runtime + agent.
-- **Container** = app code.
-- E.g., AMI has Docker pre-installed, EC2 pulls container at boot.
+**Lai (hybrid)**:
+- **AMI** = cài sẵn runtime + agent.
+- **Container** = code app.
+- Ví dụ: AMI cài sẵn Docker, EC2 kéo container về lúc khởi động.
 
-**Reality 2026**:
-- **New apps**: containers (95% of cases).
-- **Legacy**: AMI or lift-and-shift.
-- **Specialized**: AMI for HPC, ML training (large VMs with GPUs).
+**Thực tế 2026**:
+- **App mới**: container (95% trường hợp).
+- **Legacy**: AMI hoặc lift-and-shift.
+- **Đặc thù**: AMI cho HPC, huấn luyện ML (VM lớn kèm GPU).
 
-**Choosing**:
-- **Greenfield**: containers.
-- **Lift-and-shift from on-prem**: AMI initially, refactor to containers later.
-- **Stateless web app**: containers.
-- **Database**: managed service (RDS), not AMI or container.
+**Cách chọn**:
+- **Làm mới (greenfield)**: container.
+- **Dời từ on-prem (lift-and-shift)**: AMI trước, refactor sang container sau.
+- **Web app stateless**: container.
+- **Database**: dùng dịch vụ managed (RDS), không AMI cũng không container.
 
-**Build pipelines**:
+**Pipeline build**:
 - AMI: Packer.
 - Container: Docker + ECR.
 
-→ Default 2026: containers. AMI for specific cases.
+→ Mặc định 2026: container. AMI cho các trường hợp đặc thù.
 </details>
 
-**Q3.** EBS gp3 vs gp2 — should I migrate?
+**Q3.** EBS gp3 vs gp2 — có nên chuyển không?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**gp2** (older general purpose SSD, 2014+):
-- IOPS tied to size: 3 IOPS/GB.
+**gp2** (general purpose SSD đời cũ, từ 2014):
+- IOPS gắn với dung lượng: 3 IOPS/GB.
 - 100GB = 300 IOPS, 1TB = 3000 IOPS.
-- $0.10/GB/month.
-- Burst: 3000 IOPS for short bursts.
+- $0.10/GB/tháng.
+- Burst: 3000 IOPS trong những đợt ngắn.
 
-**gp3** (newer, 2020+):
-- **Independent IOPS + throughput**: not tied to size.
-- Baseline: 3000 IOPS + 125 MB/s **for any size**.
-- $0.08/GB/month (**20% cheaper**).
-- Extra IOPS: $0.005/IOPS-month above 3000.
-- Extra throughput: $0.04/MB/s-month above 125.
+**gp3** (mới hơn, từ 2020):
+- **IOPS + throughput độc lập**: không gắn với dung lượng.
+- Mức nền: 3000 IOPS + 125 MB/s **cho mọi dung lượng**.
+- $0.08/GB/tháng (**rẻ hơn 20%**).
+- IOPS thêm: $0.005/IOPS-tháng trên mức 3000.
+- Throughput thêm: $0.04/MB/s-tháng trên mức 125.
 
-**Migration benefits**:
+**Lợi ích khi chuyển**:
 
-For 100GB volume:
-- gp2: $10/month + 300 IOPS.
-- gp3: $8/month + 3000 IOPS.
-- **gp3 cheaper AND 10x more IOPS**.
+Với volume 100GB:
+- gp2: $10/tháng + 300 IOPS.
+- gp3: $8/tháng + 3000 IOPS.
+- **gp3 rẻ hơn VÀ nhiều IOPS gấp 10 lần**.
 
-For 1TB volume:
-- gp2: $100/month + 3000 IOPS.
-- gp3: $80/month + 3000 IOPS.
-- gp3 **20% cheaper**.
+Với volume 1TB:
+- gp2: $100/tháng + 3000 IOPS.
+- gp3: $80/tháng + 3000 IOPS.
+- gp3 **rẻ hơn 20%**.
 
-For 4TB volume (high IOPS need):
-- gp2: $400/month + 12000 IOPS (burst).
-- gp3: $320/month + 12000 IOPS (provisioned).
-- gp3 **20% cheaper, consistent performance**.
+Với volume 4TB (cần IOPS cao):
+- gp2: $400/tháng + 12000 IOPS (burst).
+- gp3: $320/tháng + 12000 IOPS (provisioned).
+- gp3 **rẻ hơn 20%, hiệu năng ổn định**.
 
-**Migration steps**:
+**Cách chuyển**:
 
 ```bash
 # In-place migration (no downtime, no data loss)
@@ -1208,98 +1343,98 @@ aws ec2 modify-volume \
   --volume-type gp3
 ```
 
-→ Live migration over a few hours. App keeps running.
+→ Chuyển nóng trong vài giờ. App vẫn chạy.
 
-**When NOT to migrate**:
+**Khi KHÔNG nên chuyển**:
 
-- **Very small volumes** (< 50GB): cost diff trivial.
-- **Constrained AWS old account**: edge cases with old configurations.
+- **Volume rất nhỏ** (< 50GB): chênh lệch tiền không đáng kể.
+- **Tài khoản AWS cũ bị ràng buộc**: vài cấu hình cũ là ngoại lệ.
 
-**When YES (almost always)**:
+**Khi NÊN (gần như luôn luôn)**:
 
-- 50GB+: cheaper.
-- High IOPS needs: gp3 customizable.
-- New deployments: gp3 default.
+- 50GB+: rẻ hơn.
+- Cần IOPS cao: gp3 tuỳ chỉnh được.
+- Deploy mới: gp3 mặc định.
 
-**Verify after migration**:
-- Performance same or better.
-- Cost reduced next bill.
+**Kiểm tra sau khi chuyển**:
+- Hiệu năng bằng hoặc tốt hơn.
+- Chi phí giảm ở hoá đơn kỳ sau.
 
-**Real example** (medium production):
-- 5 EC2, each 200GB EBS = 1TB total.
-- gp2: $100/month.
-- gp3: $80/month + free 3000 IOPS each.
-- Savings: $240/year. Easy win.
+**Ví dụ thực tế** (production cỡ vừa):
+- 5 EC2, mỗi máy 200GB EBS = 1TB tổng.
+- gp2: $100/tháng.
+- gp3: $80/tháng + free 3000 IOPS mỗi volume.
+- Tiết kiệm: $240/năm. Quá dễ.
 
-**At scale**:
-- Large fleet 100TB EBS: $1000+ savings/month.
-- ROI: 1 hour migration script.
+**Ở quy mô lớn**:
+- Fleet lớn 100TB EBS: tiết kiệm $1000+/tháng.
+- ROI: 1 giờ viết script migration.
 
-→ **Migrate to gp3 default 2026**. No reason to stay gp2.
+→ **Năm 2026 cứ mặc định gp3**. Không có lý do gì ở lại gp2.
 </details>
 
-**Q4.** Spot instances trade-offs — what workloads?
+**Q4.** Spot instance đánh đổi gì — hợp với workload nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Spot instances**:
-- 60-90% discount vs on-demand.
-- Can be **interrupted with 2-minute warning**.
-- Price varies hourly (market).
+**Spot instance**:
+- Giảm 60-90% so với on-demand.
+- Có thể bị **thu hồi với cảnh báo trước 2 phút**.
+- Giá biến động theo giờ (theo thị trường).
 
-**Good workloads** (fault-tolerant):
+**Workload hợp** (chịu lỗi tốt):
 
-1. **Stateless workers**:
-   - Image processing.
-   - Video encoding.
-   - Batch ETL jobs.
-   - CI/CD runners.
+1. **Worker stateless**:
+   - Xử lý ảnh.
+   - Mã hoá video.
+   - Job ETL batch.
+   - Runner CI/CD.
 
-2. **Distributed systems**:
-   - Kafka consumers (re-process from offset).
-   - K8s spot nodes (pods rescheduled).
-   - Hadoop/Spark batch (retry tasks).
+2. **Hệ phân tán**:
+   - Kafka consumer (xử lý lại từ offset).
+   - Node spot trong K8s (pod được lên lịch lại).
+   - Hadoop/Spark batch (thử lại task).
 
-3. **Test/dev environments**:
-   - Acceptable interruption.
-   - Save 80% on non-critical.
+3. **Môi trường test/dev**:
+   - Chấp nhận gián đoạn.
+   - Tiết kiệm 80% cho phần không quan trọng.
 
-4. **Burst capacity**:
-   - Spike workloads with spot, baseline with on-demand.
+4. **Năng lực burst**:
+   - Phần tải tăng vọt chạy spot, phần nền chạy on-demand.
 
-**Bad workloads** (avoid spot):
+**Workload không hợp** (tránh spot):
 
 1. **Stateful**:
-   - Databases (data loss risk).
-   - Long-running build with no checkpoint.
+   - Database (rủi ro mất dữ liệu).
+   - Build dài không có checkpoint.
 
-2. **Real-time**:
-   - Customer-facing APIs (sudden interruption = downtime).
-   - WebSocket connections.
+2. **Thời gian thực**:
+   - API phục vụ khách (bị thu hồi đột ngột = downtime).
+   - Kết nối WebSocket.
 
-3. **Single-instance critical**:
-   - One key service, no redundancy.
+3. **Một máy đơn quan trọng**:
+   - Một dịch vụ then chốt, không có dự phòng.
 
-**Spot strategies**:
+**Chiến lược chọn spot**:
 
 **Capacity-Optimized**:
-- AWS recommends instance type with lowest interruption probability.
-- Best for: long-running tasks, sensitive to interruption.
+- AWS gợi ý loại máy có xác suất bị thu hồi thấp nhất.
+- Hợp cho: task chạy dài, nhạy với gián đoạn.
 
 **Lowest-Price**:
-- Cheapest instance type.
-- Best for: maximum savings, very fault-tolerant.
+- Loại máy rẻ nhất.
+- Hợp cho: tối đa tiết kiệm, chịu lỗi rất tốt.
 
 **Diversified**:
-- Spread across multiple instance types/AZs.
-- Best for: high resilience, less chance of total interruption.
+- Trải ra nhiều loại máy/AZ.
+- Hợp cho: độ bền cao, ít khả năng bị thu hồi toàn bộ.
 
-**Spot fleet vs Spot instances**:
-- **Spot fleet**: multi-type, multi-AZ, mix on-demand + spot, target capacity.
-- **Spot instances**: simpler, less flexible.
+**Spot fleet vs Spot instance**:
+- **Spot fleet**: nhiều loại, nhiều AZ, trộn on-demand + spot, đặt mức capacity mục tiêu.
+- **Spot instance**: đơn giản hơn, ít linh hoạt hơn.
 
-**Handling interruption**:
+**Xử lý khi bị thu hồi**:
 
 ```bash
 # Inside EC2: check metadata
@@ -1317,113 +1452,115 @@ def check_spot_termination():
         cleanup_and_exit()
 ```
 
-**Cost-savings examples**:
+**Ví dụ tiết kiệm**:
 
-- 100 CI runners running 8h/day workdays:
-  - On-demand m5.large: 100 × 8h × 20 days × $0.10 = $1600/month.
-  - Spot m5.large (60% off): $640/month.
-  - **Savings: $960/month**.
+- 100 CI runner chạy 8h/ngày các ngày làm việc:
+  - On-demand m5.large: 100 × 8h × 20 ngày × $0.10 = $1600/tháng.
+  - Spot m5.large (giảm 60%): $640/tháng.
+  - **Tiết kiệm: $960/tháng**.
 
-**Tools**:
-- **Karpenter** (K8s): mixes spot + on-demand intelligently.
-- **AWS Spot Advisor**: analyze interruption rates.
+**Công cụ**:
+- **Karpenter** (K8s): trộn spot + on-demand một cách thông minh.
+- **AWS Spot Advisor**: phân tích tỷ lệ bị thu hồi.
 
-→ Spot for any fault-tolerant workload = huge savings.
+→ Spot cho mọi workload chịu lỗi tốt = tiết kiệm cực lớn.
 
-**Anti-patterns**:
-- DB on spot.
-- Critical single-instance service on spot.
-- "Just spot everything" without graceful handling.
+**Anti-pattern**:
+- Để DB trên spot.
+- Dịch vụ một máy đơn quan trọng trên spot.
+- "Cứ spot tất" mà không xử lý gián đoạn cho mượt.
 </details>
 
-**Q5.** ASG vs manual EC2 scaling — when needed?
+**Q5.** ASG vs scaling EC2 thủ công — khi nào cần ASG?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Manual scaling**: provision N EC2 statically. Resize manually when needed.
+**Scaling thủ công**: cấp N máy EC2 tĩnh, đổi size bằng tay khi cần.
 
-**ASG (Auto Scaling Group)**: dynamic, automated.
+**ASG (Auto Scaling Group)**: động, tự động.
 
-**Use ASG when**:
+**Dùng ASG khi**:
 
-1. **Traffic varies significantly**:
-   - Day vs night.
-   - Weekday vs weekend.
-   - Black Friday spike.
+1. **Traffic dao động mạnh**:
+   - Ngày vs đêm.
+   - Trong tuần vs cuối tuần.
+   - Đợt tăng vọt kiểu Black Friday.
 
-2. **High availability required**:
-   - Multi-AZ instances.
-   - Auto-replace failed instances.
+2. **Cần độ sẵn sàng cao (HA)**:
+   - Máy trải nhiều AZ.
+   - Tự thay máy chết.
 
-3. **Cost optimization**:
-   - Scale down at low traffic.
-   - Save 30-70% vs over-provisioned static.
+3. **Tối ưu chi phí**:
+   - Giảm máy lúc tải thấp.
+   - Tiết kiệm 30-70% so với cấp dư tĩnh.
 
-4. **Stateless workload**:
-   - Web servers, API.
-   - Workers.
+4. **Workload stateless**:
+   - Web server, API.
+   - Worker.
 
-**Manual scaling OK when**:
+**Scaling thủ công ổn khi**:
 
-1. **Predictable workload**:
-   - Internal tool, 9-5 weekday only.
+1. **Workload đoán trước được**:
+   - Công cụ nội bộ, chỉ chạy giờ hành chính các ngày làm việc.
 
-2. **Very small scale**:
-   - 1-2 instances.
-   - Manual restart acceptable.
+2. **Quy mô rất nhỏ**:
+   - 1-2 máy.
+   - Khởi động lại thủ công chấp nhận được.
 
-3. **Stateful single-instance**:
-   - Specific DB instance.
-   - Cache server with state.
+3. **Stateful một máy đơn**:
+   - Một DB instance cụ thể.
+   - Cache server giữ trạng thái.
 
-**ASG features**:
+**Tính năng ASG**:
 
 - **Min/Max/Desired count**.
-- **Multi-AZ distribution**.
-- **Auto-replace** failed instances (Health check).
-- **Scaling policies**:
-  - Target tracking (e.g., CPU 50%).
-  - Step scaling (tiered).
-  - Scheduled (cron-based).
-  - Predictive (ML-based).
+- **Trải nhiều AZ**.
+- **Tự thay** máy chết (qua health check).
+- **Scaling policy**:
+  - Target tracking (ví dụ CPU 50%).
+  - Step scaling (chia bậc).
+  - Scheduled (theo lịch cron).
+  - Predictive (dựa trên ML).
 
-**Trade-offs**:
+**Đánh đổi**:
 
-- **Stateless required**: EC2 may terminate/launch. App must handle.
-- **Boot time**: instances need bootstrap (user data) before serving traffic. Often 1-5 min.
-- **Cost spike during scale-up**: temporary over-capacity.
+- **Bắt buộc stateless**: EC2 có thể bị terminate/launch. App phải xử lý được.
+- **Thời gian khởi động**: máy cần bootstrap (user data) trước khi phục vụ. Thường mất 1-5 phút.
+- **Chi phí tăng tạm lúc scale-up**: dư capacity trong chốc lát.
 
-**Patterns**:
+**Mẫu kiến trúc**:
 
-1. **Web tier**: ASG behind ALB. Multi-AZ. Scale on CPU/RPS.
-2. **Worker tier**: ASG processing queue. Scale on queue depth.
-3. **Cache tier**: NOT ASG. Use ElastiCache (managed).
-4. **DB tier**: NOT ASG. Use RDS or DynamoDB.
+1. **Tầng web**: ASG sau ALB. Trải nhiều AZ. Scale theo CPU/RPS.
+2. **Tầng worker**: ASG xử lý queue. Scale theo độ sâu queue.
+3. **Tầng cache**: KHÔNG dùng ASG. Dùng ElastiCache (managed).
+4. **Tầng DB**: KHÔNG dùng ASG. Dùng RDS hoặc DynamoDB.
 
-**Modern alternative**:
-- **K8s + HPA + Cluster Autoscaler**: more flexible than ASG, but more complex.
-- **Fargate**: serverless containers, no instance management.
-- **Lambda**: serverless functions, scales to zero.
+**Cách làm hiện đại hơn**:
+- **K8s + HPA + Cluster Autoscaler**: linh hoạt hơn ASG, nhưng phức tạp hơn.
+- **Fargate**: container serverless, không quản lý máy.
+- **Lambda**: function serverless, scale về 0 được.
 
-**Decision**:
-- 1-2 static instances: manual.
-- Variable workload, stateless: ASG.
-- K8s shop: K8s autoscaling.
-- Serverless candidate: Lambda/Fargate.
+**Quyết định**:
+- 1-2 máy tĩnh: thủ công.
+- Workload dao động, stateless: ASG.
+- Shop dùng K8s: dùng autoscaling của K8s.
+- Ứng viên serverless: Lambda/Fargate.
 
-→ ASG is **standard for stateless tier with variable load**. Default for production web/app.
+→ ASG là **chuẩn cho tầng stateless có tải dao động**. Mặc định cho web/app production.
 
 **Anti-pattern**:
-- Try to ASG a database or stateful service.
-- Forget to terminate orphan instances.
-- No metric to trigger scale → no actual scaling.
-- Scale up but never scale down (cost spike).
+- Cố ASG một database hay dịch vụ stateful.
+- Quên terminate các máy mồ côi.
+- Không có metric để kích hoạt scale → không scale thật.
+- Scale lên mà không bao giờ scale xuống (cháy chi phí).
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm dịch vụ: EC2, AMI, EBS, key pair, security group, EIP, ASG, Session Manager và user data.
 
 ```bash
 # === EC2 ===
@@ -1520,58 +1657,61 @@ resource "aws_autoscaling_policy" "cpu_target" {
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **EC2** | Elastic Compute Cloud (virtual machines) |
-| **Instance type** | EC2 size + family (t3.medium, m6i.large) |
-| **Instance family** | T/M/C/R/X/I/D/P/G (use case-optimized) |
-| **Instance size** | nano/micro/small/medium/large/xlarge/... |
-| **Generation** | Number after family (m5, m6i, m7i) |
-| **Burstable (T)** | Burst above baseline using CPU credits |
-| **CPU credits** | Earned when idle, spent when bursting (T-class) |
-| **AMI** | Amazon Machine Image (EC2 template) |
-| **Region** | Geographic cluster of datacenters |
-| **AZ** | Availability Zone (datacenter within region) |
-| **EBS** | Elastic Block Store (network disk) |
-| **Volume type** | gp3/io2/st1/sc1 (EBS performance tier) |
-| **Snapshot** | EBS backup to S3 (incremental) |
-| **Key pair** | SSH public/private key |
-| **User data** | Shell script run on first boot |
-| **cloud-init** | Linux EC2 boot script processor |
-| **Security Group** | Stateful firewall per resource |
-| **Elastic IP (EIP)** | Static public IP |
-| **Launch Template** | EC2 blueprint (newer than Launch Config) |
-| **Auto Scaling Group (ASG)** | Group of EC2 with scaling policies |
-| **Target tracking** | ASG scale to maintain metric target |
-| **Step scaling** | ASG tiered scaling rules |
-| **On-demand** | Pay per use, no commitment |
-| **Reserved Instance (RI)** | 1-3 year commit, 30-70% discount |
-| **Savings Plan** | Flexible commit (Compute, EC2 Instance) |
-| **Spot Instance** | 60-90% off, interruptible |
-| **Spot fleet** | Multi-type, multi-AZ spot strategy |
-| **Session Manager** | SSH-less access via AWS IAM |
-| **IAM instance profile** | Attach IAM role to EC2 |
-| **Packer** | HashiCorp tool building AMI |
-| **EC2 metadata** | http://169.254.169.254/ — instance info |
-| **IMDSv2** | Secure metadata version (2026 default) |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **EC2** | Máy tính ảo đàn hồi | Elastic Compute Cloud — máy ảo trên AWS |
+| **Instance type** | Loại máy | Họ + size của EC2 (t3.medium, m6i.large) |
+| **Instance family** | Họ máy | T/M/C/R/X/I/D/P/G — tối ưu theo use case |
+| **Instance size** | Kích cỡ máy | nano/micro/small/medium/large/xlarge/... |
+| **Generation** | Thế hệ | Số sau tên họ (m5, m6i, m7i) |
+| **Burstable (T)** | Bùng phát | Vọt trên baseline bằng CPU credit |
+| **CPU credits** | Tín dụng CPU | Tích lúc rảnh, tiêu lúc bùng phát (họ T) |
+| **AMI** | Ảnh máy | Amazon Machine Image — template tạo EC2 |
+| **Region** | Vùng | Cụm trung tâm dữ liệu theo địa lý |
+| **AZ** | Khu khả dụng | Availability Zone — trung tâm dữ liệu trong region |
+| **EBS** | Ổ đĩa khối | Elastic Block Store — ổ đĩa qua mạng |
+| **Volume type** | Loại volume | gp3/io2/st1/sc1 — hạng hiệu năng EBS |
+| **Snapshot** | Ảnh chụp | Sao lưu EBS lên S3 (incremental) |
+| **Key pair** | Cặp khoá | Khoá SSH công khai/riêng |
+| **User data** | Dữ liệu khởi động | Shell script chạy lúc boot đầu tiên |
+| **cloud-init** | Bộ khởi tạo cloud | Bộ xử lý script boot trên Linux EC2 |
+| **Security Group** | Nhóm bảo mật | Tường lửa stateful gắn theo tài nguyên |
+| **Elastic IP (EIP)** | IP tĩnh đàn hồi | IP công khai tĩnh |
+| **Launch Template** | Mẫu khởi chạy | Bản thiết kế EC2 (mới hơn Launch Config) |
+| **Auto Scaling Group (ASG)** | Nhóm tự co giãn | Nhóm EC2 kèm chính sách scaling |
+| **Target tracking** | Bám mục tiêu | ASG scale để giữ một chỉ số mục tiêu |
+| **Step scaling** | Scale theo bậc | ASG scale theo các bậc ngưỡng |
+| **On-demand** | Theo nhu cầu | Trả theo dùng, không cam kết |
+| **Reserved Instance (RI)** | Máy đặt trước | Cam kết 1-3 năm, giảm 30-70% |
+| **Savings Plan** | Gói tiết kiệm | Cam kết linh hoạt (Compute, EC2 Instance) |
+| **Spot Instance** | Máy giá rẻ thu hồi | Giảm 60-90%, có thể bị thu hồi |
+| **Spot fleet** | Đội spot | Chiến lược spot đa loại, đa AZ |
+| **Session Manager** | Quản lý phiên | Truy cập không cần SSH, qua AWS IAM |
+| **IAM instance profile** | Hồ sơ IAM của máy | Gắn IAM role vào EC2 |
+| **Packer** | Packer | Công cụ HashiCorp dựng AMI |
+| **EC2 metadata** | Metadata máy | http://169.254.169.254/ — thông tin instance |
+| **IMDSv2** | Metadata bản 2 | Phiên bản metadata bảo mật (mặc định 2026) |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_what-is-aws-overview.md](00_what-is-aws-overview.md)
-- → Tiếp: [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md) *(sắp viết)*
-- ↑ Cluster: [AWS README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [Cloud Fundamentals networking](../../../cloud-fundamentals/lessons/01_basic/02_cloud-networking.md) — VPC + SG context
-- ☁️ [Cloud Fundamentals storage](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — block storage overview
-- 🐳 [Docker basic](../../../../10_devops/docker/lessons/01_basic/) — containers vs AMI
+- ⬅️ **Bài trước:** [AWS Overview — Bản đồ dịch vụ + Thiết lập tài khoản 2026](00_what-is-aws-overview.md)
+- ➡️ **Bài tiếp theo:** [S3 chuyên sâu + Nền tảng IAM](02_s3-deep-and-iam.md)
+- ↑ **Về cụm:** [AWS — Cloud platform](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [Networking trên cloud (VPC + Security Group)](../../../cloud-fundamentals/lessons/01_basic/02_cloud-networking.md) — bối cảnh VPC + SG
+- ☁️ [Lưu trữ và database trên cloud](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — tổng quan block storage
+- 🐳 [Docker cơ bản](../../../../10_devops/docker/lessons/01_basic/) — so sánh container với AMI
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [EC2 docs](https://docs.aws.amazon.com/ec2/)
 - 📖 [EC2 instance types](https://aws.amazon.com/ec2/instance-types/)
 - 📖 [EBS docs](https://docs.aws.amazon.com/ebs/)
@@ -1583,6 +1723,7 @@ resource "aws_autoscaling_policy" "cpu_target" {
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 01 AWS basic cluster. EC2 instance families + sizes + generations + burstable T-class + AMI (standard + custom + Packer) + EBS volume types + snapshots + key pairs + user data scripts + Security Group patterns + Elastic IP + Auto Scaling Group basics + pricing (on-demand/RI/spot) + hands-on FastAPI on EC2 end-to-end. 6 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thêm lời dẫn 2-3 câu trước mỗi bảng/code/list và câu phân tích sau, Việt hoá các đoạn "điện tín" EN ở §1-§10, Việt hoá toàn bộ đáp án self-check Q1-Q5, thêm ẩn dụ và câu bắc cầu giữa các section. Chuẩn hoá metadata "Prerequisites" → "Yêu cầu trước"; Glossary đổi sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; nav đồng bộ marker ⬅️/➡️/↑ với link-text = tiêu đề H1 thực và 3 sub-heading chuẩn (🧭/🧩/🌐); xoá nhãn "(sắp viết)" cho bài đã tồn tại. Giữ nguyên 100% code/lệnh/config/số liệu kỹ thuật và cấu trúc 8 phần + diagram.

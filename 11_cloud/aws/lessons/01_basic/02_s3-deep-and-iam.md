@@ -1,83 +1,86 @@
-# 🎓 S3 deep + IAM fundamentals
+# 🎓 S3 chuyên sâu + Nền tảng IAM
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [01_ec2-and-ebs-compute.md](01_ec2-and-ebs-compute.md), [Cloud security basic](../../../cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md)
+> **Yêu cầu trước:** [EC2 + EBS — Compute foundation](01_ec2-and-ebs-compute.md), [Cloud Security & Shared Responsibility Model](../../../cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md)
 
-> 🎯 *S3 = AWS's flagship storage. 90% AWS apps touch S3. Bài này deep: bucket policy, presigned URL, lifecycle, CORS, static website, versioning, encryption. IAM cho S3: users, roles, policies, common patterns. Build static website + secure file uploads.*
+> 🎯 *S3 là kho lưu trữ chủ lực của AWS — gần như mọi ứng dụng trên AWS đều đụng tới nó. Bài này đi sâu vào những phần bạn sẽ dùng hằng ngày: bucket policy, presigned URL, lifecycle, CORS, static website, versioning, encryption. Phần IAM dạy cách phân quyền đúng cho S3: users, roles, policies và các pattern thường gặp. Cuối bài bạn tự dựng được một static website và một luồng upload file an toàn cho frontend.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Tạo + manage S3 buckets (Console + CLI + SDK)
-- [ ] **Bucket policy** vs **IAM policy** — when each
-- [ ] **Presigned URL** cho time-limited access
-- [ ] **Lifecycle policy** auto move storage tiers
-- [ ] **Versioning** + **MFA delete**
-- [ ] **CORS** cho frontend upload
-- [ ] **Static website hosting** + CloudFront
-- [ ] **Encryption** SSE-S3 / SSE-KMS / Client-side
-- [ ] **IAM** users, roles, policies cho S3
-- [ ] **Service-to-service IAM** (EC2 reads S3 via IAM role)
+- [ ] Tạo và quản lý S3 bucket (Console + CLI + SDK).
+- [ ] Phân biệt **bucket policy** và **IAM policy** — khi nào dùng cái nào.
+- [ ] Dùng **presigned URL** để cấp quyền truy cập có giới hạn thời gian.
+- [ ] Dùng **lifecycle policy** để tự động chuyển object giữa các storage tier.
+- [ ] Bật **versioning** và **MFA delete** để chống mất dữ liệu.
+- [ ] Cấu hình **CORS** cho frontend upload trực tiếp.
+- [ ] Dựng **static website hosting** kèm CloudFront.
+- [ ] Hiểu ba kiểu **encryption**: SSE-S3 / SSE-KMS / Client-side.
+- [ ] Dựng **IAM** users, roles, policies cho S3.
+- [ ] Cho dịch vụ gọi dịch vụ an toàn — **EC2 đọc S3 qua IAM role** thay vì access key.
 
 ---
 
-## Tình huống — Upload file từ frontend SPA → AWS S3
+## Tình huống — Upload file từ frontend SPA lên S3
 
-Build React app, user upload images:
-- File large (5MB).
-- Upload qua API backend → backend → S3 = bottleneck + bandwidth cost.
-- Better: frontend uploads **directly to S3** (presigned URL).
+Hình dung bạn đang xây một app React, trong đó người dùng cần upload ảnh lên hệ thống. Mỗi tấm ảnh tầm 5 MB, không nhỏ. Cách làm "ngây thơ" là cho người dùng gửi file qua API backend, backend nhận xong rồi đẩy tiếp lên S3. Vấn đề là toàn bộ luồng dữ liệu nặng nề đó phải chui qua server của bạn — vừa nghẽn cổ chai, vừa tốn băng thông, vừa tốn tiền data transfer.
 
-But:
-- S3 bucket should NOT be public.
-- User shouldn't have AWS credentials.
-- Need secure temporary access.
+Cách tốt hơn là để frontend **upload thẳng lên S3**, không đi vòng qua backend. Nhưng làm vậy lại đẻ ra ba câu hỏi khó:
 
-Sếp: *"Use S3 presigned URL pattern. Backend gives frontend a time-limited URL, user uploads direct. Bài này dạy."*
+- Bucket thì *không nên* để public.
+- Người dùng *không nên* cầm AWS credentials.
+- Vậy phải có một cách cấp quyền truy cập tạm thời, an toàn.
 
-→ Bài này: S3 deep + IAM correct pattern.
+Sếp đi ngang, gợi ý: *"Dùng pattern presigned URL của S3 đi. Backend phát cho frontend một URL có hạn dùng, người dùng tự upload thẳng lên S3 bằng URL đó. Bài này dạy đúng cái này."*
+
+Đó chính là sợi chỉ xuyên suốt bài: đi sâu vào S3 và học cách phân quyền IAM cho đúng.
 
 ---
 
-## 1️⃣ S3 basics refresher
+## 1️⃣ Ôn nhanh nền tảng S3
 
-🪞 **Ẩn dụ**: *S3 như **kho hàng tự phục vụ vô hạn** — bạn không cần quan tâm kệ nào, kho nào; bạn chỉ cần dán mã vạch (key) cho gói hàng (object). IAM là thẻ ra-vào kho — ai cầm thẻ nào thì lấy được kệ nào; presigned URL là "vé một lần" để khách hàng vào tự lấy gói hàng mà không cần thẻ.*
+Trước khi đi sâu, ta gom lại vài khái niệm cốt lõi đã gặp ở cụm cloud-fundamentals (bài 03). Để dễ hình dung mối quan hệ giữa S3, IAM và presigned URL, dùng một ẩn dụ đời thường.
 
-(Recall cloud-fundamentals bài 03.)
+🪞 **Ẩn dụ**: *S3 như một **kho hàng tự phục vụ vô hạn** — bạn không cần quan tâm kệ nào, kho nào; bạn chỉ cần dán mã vạch (key) cho gói hàng (object). IAM là tấm thẻ ra-vào kho — ai cầm thẻ nào thì lấy được kệ nào; còn presigned URL là "vé một lần" để khách hàng tự vào lấy đúng gói hàng mà không cần cầm thẻ ra-vào.*
 
-- **Bucket** = top-level container (globally unique name).
-- **Object** = data + metadata (key + value).
-- **Key** = path within bucket: `2026/photos/cat.jpg`.
+Ba khái niệm nền của S3:
 
-### S3 URL formats
+- **Bucket** = thùng chứa cấp cao nhất, tên phải *unique toàn cầu* (không trùng với bất kỳ bucket nào trên thế giới).
+- **Object** = dữ liệu kèm metadata, lưu dưới dạng cặp key + value.
+- **Key** = "đường dẫn" của object trong bucket, ví dụ `2026/photos/cat.jpg`.
 
-```
-# Virtual hosted-style (recommend 2026)
+### Các dạng URL của S3
+
+S3 có nhiều cách viết URL, và việc chọn đúng dạng quan trọng vì AWS đang loại dần dạng cũ:
+
+```text
+# Virtual hosted-style (khuyến nghị 2026)
 https://bucket-name.s3.us-east-1.amazonaws.com/key
-https://bucket-name.s3.amazonaws.com/key       (older, deprecated)
+https://bucket-name.s3.amazonaws.com/key       (cũ hơn, deprecated)
 
-# Path-style (deprecated 2020+, removed for new buckets)
+# Path-style (deprecated từ 2020+, không còn cho bucket mới)
 https://s3.us-east-1.amazonaws.com/bucket-name/key
 ```
 
-→ Use virtual hosted-style. Path-style being phased out.
+Tóm lại: dùng *virtual hosted-style*. Dạng *path-style* đang bị khai tử dần nên không nên xài cho bucket mới.
 
-### CLI basics
+### Các lệnh CLI cơ bản
+
+Phần lớn thao tác hằng ngày với S3 đi qua nhóm lệnh `aws s3` — gọn và đủ dùng cho copy, sync, list, xoá:
 
 ```bash
-# Create bucket
+# Tạo bucket
 aws s3 mb s3://my-unique-bucket-name --region ap-southeast-1
 
 # Upload
 aws s3 cp local.txt s3://my-bucket/path/
 aws s3 cp local-dir/ s3://my-bucket/folder/ --recursive
 
-# Sync (efficient)
+# Sync (hiệu quả — chỉ copy phần thay đổi)
 aws s3 sync ./local s3://my-bucket/folder/
 
 # Download
@@ -89,13 +92,15 @@ aws s3 ls s3://my-bucket/folder/ --recursive --human-readable --summarize
 
 # Delete
 aws s3 rm s3://my-bucket/file.txt
-aws s3 rb s3://my-bucket --force   # delete bucket + contents
+aws s3 rb s3://my-bucket --force   # xoá bucket + toàn bộ nội dung
 
 # Move
 aws s3 mv s3://bucket/old.txt s3://bucket/new.txt
 ```
 
-### SDK example (Python)
+### Ví dụ với SDK (Python)
+
+Khi viết app, bạn sẽ thao tác S3 qua SDK thay vì CLI. Đây là vài thao tác cơ bản với `boto3` — upload, download, list, delete, và sinh presigned URL (sẽ đào sâu ở phần kế):
 
 ```python
 import boto3
@@ -116,31 +121,29 @@ for obj in response.get('Contents', []):
 # Delete
 s3.delete_object(Bucket='my-bucket', Key='remote.txt')
 
-# Generate presigned URL (next section)
+# Sinh presigned URL (phần sau sẽ đào sâu)
 url = s3.generate_presigned_url(
     'get_object',
     Params={'Bucket': 'my-bucket', 'Key': 'remote.txt'},
-    ExpiresIn=3600   # 1 hour
+    ExpiresIn=3600   # 1 giờ
 )
 ```
 
 ---
 
-## 2️⃣ Bucket policy vs IAM policy
+## 2️⃣ Bucket policy và IAM policy
 
-### Two policy systems
+Câu hỏi đầu tiên ai mới vào S3 cũng vướng: phân quyền thì đặt ở đâu? AWS có *hai* hệ thống policy cùng tồn tại, và hiểu rõ chúng khác nhau ở góc nhìn nào là chìa khoá.
 
-**IAM policy** (attached to user/role/group):
-- "What can this **identity** do?"
-- Says: alice can read bucket-A.
+**IAM policy** (gắn vào user/role/group) trả lời câu hỏi: "**Danh tính này** được làm gì?" — ví dụ: alice được đọc bucket-A.
 
-**Bucket policy** (attached to bucket):
-- "Who can do what with this **bucket**?"
-- Says: bucket-A allows public read on /static/*.
+**Bucket policy** (gắn vào chính bucket) trả lời câu hỏi: "Ai được làm gì với **bucket này**?" — ví dụ: bucket-A cho phép public đọc thư mục `/static/*`.
 
-→ Both can grant/deny. Both evaluated.
+Cả hai đều có thể cấp (allow) hoặc chặn (deny), và AWS **đánh giá cả hai** khi quyết định một request có được phép hay không.
 
-### Bucket policy example
+### Ví dụ bucket policy
+
+Đây là một bucket policy điển hình làm hai việc cùng lúc: cho public đọc thư mục `/static/*`, đồng thời chặn mọi truy cập không qua HTTPS:
 
 ```json
 {
@@ -170,14 +173,15 @@ url = s3.generate_presigned_url(
 }
 ```
 
-→ Allow public read for `/static/*`. Deny non-HTTPS access.
+Statement đầu cho phép public đọc `/static/*`; statement sau dùng `Deny` để chặn mọi request HTTP (không mã hoá đường truyền). Áp policy này lên bucket:
 
-Apply:
 ```bash
 aws s3api put-bucket-policy --bucket my-bucket --policy file://policy.json
 ```
 
-### IAM policy example
+### Ví dụ IAM policy
+
+Ngược lại, IAM policy gắn vào danh tính. Ví dụ dưới giới hạn mỗi user chỉ truy cập được đúng thư mục mang ID của chính họ, nhờ placeholder `${aws:userid}`:
 
 ```json
 {
@@ -190,24 +194,26 @@ aws s3api put-bucket-policy --bucket my-bucket --policy file://policy.json
 }
 ```
 
-→ User can only access their own folder via `${aws:userid}`.
+Biến `${aws:userid}` được AWS thay bằng ID thật của user lúc chạy, nên một policy duy nhất phục vụ được mọi user mà ai cũng chỉ chạm tới thư mục riêng.
 
-### When use which?
+### Khi nào dùng cái nào?
 
-| Scenario | Use |
+Bảng dưới gom các tình huống thường gặp để bạn chọn nhanh — phần lớn ranh giới rất rõ:
+
+| Tình huống | Dùng |
 |---|---|
-| Make some objects public | Bucket policy |
-| Grant cross-account access | Bucket policy (with cross-account principal) |
-| Grant specific IAM users access | IAM policy on user |
-| Force HTTPS | Bucket policy (deny non-HTTPS) |
-| Force encryption | Bucket policy (deny unencrypted PUT) |
-| Service role access | IAM policy attached to role |
+| Cho một số object public | Bucket policy |
+| Cấp quyền truy cập cross-account | Bucket policy (với principal của account kia) |
+| Cấp quyền cho IAM user cụ thể | IAM policy gắn vào user |
+| Bắt buộc HTTPS | Bucket policy (deny non-HTTPS) |
+| Bắt buộc encryption | Bucket policy (deny PUT chưa mã hoá) |
+| Cấp quyền cho service role | IAM policy gắn vào role |
 
-**Both together** = common. Bucket policy sets boundaries; IAM policy grants specific access.
+Trên thực tế **dùng cả hai cùng lúc** là chuyện rất phổ biến: bucket policy đặt ra ranh giới chung của bucket, còn IAM policy cấp quyền cụ thể cho từng danh tính.
 
 ### Block Public Access (BPA)
 
-**Account + bucket level** override that **blocks public access** regardless of policy:
+Có một "công tắc an toàn" mạnh hơn cả policy. **Block Public Access** là lớp chặn ở *cấp account và cấp bucket*, **chặn mọi truy cập public bất chấp policy** ghi gì:
 
 ```bash
 aws s3api put-public-access-block --bucket my-bucket \
@@ -215,32 +221,37 @@ aws s3api put-public-access-block --bucket my-bucket \
     BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
 ```
 
-→ Even if bucket policy says `"Principal": "*"`, BPA blocks. Safe by default.
-
-→ **Enable account-wide** as Day 1 baseline.
+Nghĩa là dù bucket policy có ghi `"Principal": "*"`, BPA vẫn chặn — đây chính là cơ chế "an toàn mặc định" để tránh lỡ tay làm lộ bucket. Lời khuyên: **bật BPA toàn account ngay từ Day 1** như một baseline.
 
 ---
 
-## 3️⃣ Presigned URL — Secure temporary access
+## 3️⃣ Presigned URL — truy cập tạm thời an toàn
 
-### Use case
+Quay lại đúng bài toán mở đầu: cho phép người dùng upload/download mà không cần cầm credentials, không cần để bucket public. Presigned URL chính là lời giải.
 
-User uploads photo via frontend:
-- User has no AWS credentials.
-- Bucket private.
-- Backend gives time-limited URL for upload/download.
+### Bối cảnh
 
-### Workflow
+Người dùng cần upload ảnh qua frontend, nhưng:
+
+- Người dùng không có AWS credentials.
+- Bucket để private.
+- Backend sẽ phát cho họ một URL có hạn dùng để upload hoặc download.
+
+### Luồng hoạt động
+
+Sơ đồ dưới mô tả vòng đời một lần upload qua presigned URL — backend chỉ phát URL, còn dữ liệu nặng đi thẳng từ trình duyệt lên S3:
 
 ```mermaid
 graph LR
     User[User browser] -->|POST /upload| Backend[Backend API]
-    Backend -->|generate presigned PUT URL| AWS[AWS S3 API]
-    Backend -->|return URL| User
-    User -->|PUT to URL with file| S3[(S3 bucket)]
+    Backend -->|sinh presigned PUT URL| AWS[AWS S3 API]
+    Backend -->|trả URL| User
+    User -->|PUT file lên URL| S3[(S3 bucket)]
 ```
 
-### Generate presigned URL
+### Sinh presigned URL
+
+Phía backend, `boto3` sinh URL bằng `generate_presigned_url`. Lưu ý sự khác biệt giữa URL để *download* (`get_object`) và để *upload* (`put_object`), cũng như thời hạn (`ExpiresIn`) nên đặt ngắn hơn cho upload:
 
 ```python
 import boto3
@@ -253,7 +264,7 @@ url = s3.generate_presigned_url(
         'Bucket': 'my-bucket',
         'Key': 'photos/cat.jpg'
     },
-    ExpiresIn=3600   # 1 hour
+    ExpiresIn=3600   # 1 giờ
 )
 
 # Presigned PUT (upload)
@@ -264,11 +275,13 @@ upload_url = s3.generate_presigned_url(
         'Key': f'uploads/{user_id}/{filename}',
         'ContentType': 'image/jpeg',
     },
-    ExpiresIn=600   # 10 minutes
+    ExpiresIn=600   # 10 phút
 )
 ```
 
-### FastAPI endpoint example
+### Endpoint FastAPI mẫu
+
+Trong một app thật, bạn gói việc sinh URL vào một endpoint. Endpoint dưới nhận tên file + content-type, tạo key gắn với user, rồi trả về presigned PUT URL kèm thông tin để frontend dùng tiếp:
 
 ```python
 from fastapi import FastAPI
@@ -303,10 +316,12 @@ async def get_upload_url(req: UploadRequest, current_user_id: str):
     }
 ```
 
-### Frontend upload
+### Phía frontend upload
+
+Frontend làm ba bước: xin URL từ backend, PUT file thẳng lên S3 bằng URL đó, rồi báo backend là đã xong:
 
 ```javascript
-// 1. Get presigned URL from backend
+// 1. Lấy presigned URL từ backend
 const { upload_url, object_key } = await fetch('/api/upload-url', {
   method: 'POST',
   body: JSON.stringify({
@@ -316,32 +331,30 @@ const { upload_url, object_key } = await fetch('/api/upload-url', {
   headers: { 'Content-Type': 'application/json' }
 }).then(r => r.json());
 
-// 2. Upload directly to S3
+// 2. Upload thẳng lên S3
 await fetch(upload_url, {
   method: 'PUT',
   body: file,
   headers: { 'Content-Type': file.type }
 });
 
-// 3. Notify backend of completion
+// 3. Báo backend đã upload xong
 await fetch('/api/upload-complete', {
   method: 'POST',
   body: JSON.stringify({ object_key })
 });
 ```
 
-### Presigned POST (for browser uploads)
+### Presigned POST (cho upload từ trình duyệt)
 
-Alternative: **Presigned POST** allows:
-- Browser-friendly (multipart form).
-- Conditions (content-type, size limit).
+Có một biến thể mạnh hơn cho trình duyệt: **presigned POST**. Khác presigned URL thường ở chỗ nó dùng *multipart form* thân thiện với browser, và quan trọng hơn là cho phép đặt *điều kiện* (giới hạn content-type, giới hạn kích thước) ngay tại server:
 
 ```python
 post = s3.generate_presigned_post(
     Bucket='my-bucket',
     Key=f'uploads/{uuid.uuid4()}',
     Conditions=[
-        ['content-length-range', 0, 5_000_000],   # max 5 MB
+        ['content-length-range', 0, 5_000_000],   # tối đa 5 MB
         ['starts-with', '$Content-Type', 'image/']
     ],
     ExpiresIn=600
@@ -356,27 +369,33 @@ formData.append('file', file);
 await fetch(post.url, { method: 'POST', body: formData });
 ```
 
-→ Server-enforced size/type limits.
+Cái hay là giới hạn dung lượng và kiểu file được S3 *bắt buộc ở phía server*, không phụ thuộc vào frontend có trung thực hay không.
 
-### Why this pattern
+### Vì sao đáng dùng pattern này
 
-**Without presigned URL**:
-- User → API → backend → S3.
-- Backend bandwidth: GB of traffic per upload.
-- Cost: data transfer + API server time.
+So sánh hai cách để thấy lợi ích rất rõ. **Không có presigned URL**, dữ liệu đi qua backend:
 
-**With presigned URL**:
-- User → API (small request) for URL.
-- User → S3 direct upload.
-- Backend handles 0 bytes of upload data.
+- Luồng: User → API → backend → S3.
+- Backend phải gánh hàng GB traffic mỗi lần upload.
+- Tốn cả tiền data transfer lẫn thời gian xử lý của API server.
 
-→ Scale better. Cheaper.
+**Có presigned URL**, backend đứng ngoài luồng dữ liệu nặng:
+
+- User gọi API (request nhỏ) chỉ để xin URL.
+- User upload thẳng lên S3.
+- Backend xử lý 0 byte dữ liệu upload.
+
+Kết quả: hệ thống scale tốt hơn và rẻ hơn — backend không còn là nút thắt băng thông.
 
 ---
 
-## 4️⃣ Lifecycle policies
+## 4️⃣ Lifecycle policy
 
-### Move objects through storage tiers
+Dữ liệu thường "nguội" dần theo thời gian: log của hôm nay rất cần, log một năm trước thì hiếm khi đụng tới. Lifecycle policy cho phép tự động chuyển object sang các storage tier rẻ hơn theo tuổi, và xoá khi hết hạn — không cần ai đụng tay.
+
+### Chuyển object qua các storage tier
+
+Cấu hình dưới chuyển log từ Standard sang Standard-IA sau 30 ngày, xuống Glacier IR sau 90 ngày, vào Deep Archive sau 1 năm, và xoá hẳn sau 7 năm:
 
 ```json
 {
@@ -391,7 +410,7 @@ await fetch(post.url, { method: 'POST', body: formData });
         { "Days": 365, "StorageClass": "DEEP_ARCHIVE" }
       ],
       "Expiration": {
-        "Days": 2555    // 7 years for compliance
+        "Days": 2555
       },
       "NoncurrentVersionExpiration": {
         "NoncurrentDays": 90
@@ -401,88 +420,102 @@ await fetch(post.url, { method: 'POST', body: formData });
 }
 ```
 
-Apply:
+Lưu ý con số `2555` ngày tương đương 7 năm — đây là mốc giữ lại thường dùng cho yêu cầu *compliance* (tuân thủ). Áp policy:
+
 ```bash
 aws s3api put-bucket-lifecycle-configuration \
   --bucket my-bucket \
   --lifecycle-configuration file://lifecycle.json
 ```
 
-### Common patterns
+### Các pattern thường gặp
+
+Tùy loại dữ liệu mà vòng đời hợp lý khác nhau. Dưới đây là vài khuôn mẫu hay dùng:
 
 **Logs**:
-- Day 0-30: Standard (hot, recent debugging).
-- Day 30-90: Standard-IA.
-- Day 90-365: Glacier Instant Retrieval.
-- Day 365+: Deep Archive.
-- Day 2555 (7 years): Delete.
+- Ngày 0–30: Standard (nóng, còn cần debug gần đây).
+- Ngày 30–90: Standard-IA.
+- Ngày 90–365: Glacier Instant Retrieval.
+- Ngày 365+: Deep Archive.
+- Ngày 2555 (7 năm): xoá.
 
 **User uploads**:
-- Day 0-90: Standard.
-- Day 90+: Intelligent-Tiering (auto-tier).
+- Ngày 0–90: Standard.
+- Ngày 90+: Intelligent-Tiering (tự chọn tier).
 
 **Backups**:
-- Day 0-30: Standard.
-- Day 30+: Glacier Instant.
-- Day 365+: Deep Archive.
-- Keep forever (or compliance window).
+- Ngày 0–30: Standard.
+- Ngày 30+: Glacier Instant.
+- Ngày 365+: Deep Archive.
+- Giữ vô thời hạn (hoặc theo cửa sổ compliance).
 
 **Temp files**:
-- Day 7: delete.
+- Ngày 7: xoá.
 
-→ Lifecycle saves 50-80% storage cost.
+Áp dụng đúng lifecycle có thể cắt **50–80% chi phí lưu trữ** so với để mọi thứ nằm mãi ở tier Standard.
 
 ---
 
-## 5️⃣ Versioning + MFA Delete
+## 5️⃣ Versioning và MFA Delete
+
+Một sự cố kinh điển: ai đó lỡ tay ghi đè hoặc xoá nhầm file quan trọng, và không còn cách lấy lại. Versioning sinh ra để chống đúng nỗi đau này.
 
 ### Versioning
 
-Enable:
+Bật versioning cho bucket bằng một lệnh:
+
 ```bash
 aws s3api put-bucket-versioning \
   --bucket my-bucket \
   --versioning-configuration Status=Enabled
 ```
 
-Result:
-- Every PUT creates new version.
-- DELETE marks delete marker (file appears gone, version still there).
-- Restore: copy old version forward.
+Sau khi bật, hành vi của bucket thay đổi như sau:
+
+- Mỗi lần PUT tạo ra một version mới (không ghi đè bản cũ).
+- Khi DELETE, S3 chỉ đặt một *delete marker* — file "trông như đã biến mất" nhưng version cũ vẫn còn đó.
+- Khôi phục: copy version cũ trở lại làm bản hiện hành.
 
 ```bash
-# List versions
+# Liệt kê các version
 aws s3api list-object-versions --bucket my-bucket --prefix file.txt
 
-# Restore specific version
+# Khôi phục một version cụ thể
 aws s3 cp s3://my-bucket/file.txt?versionId=abc s3://my-bucket/file.txt
 ```
 
-### Use cases
+### Khi nào hữu ích
 
-- **Accidental delete recovery**: restore prev version.
-- **Compliance**: audit trail of changes.
-- **Ransomware mitigation**: versions of pre-encrypted files survive.
+- **Khôi phục khi xoá nhầm**: lấy lại version trước đó.
+- **Compliance**: có dấu vết kiểm toán cho mọi thay đổi.
+- **Giảm thiệt hại do ransomware**: các version trước-khi-bị-mã-hoá vẫn còn nguyên.
 
-### Cost
+### Cái giá phải trả
 
-Each version = stored separately. 100 versions of 1MB file = 100MB storage.
+Cẩn thận điểm này: mỗi version được lưu *riêng*. 100 version của một file 1 MB sẽ ngốn 100 MB. Vì vậy nên kết hợp versioning với lifecycle để đẩy version cũ xuống tier rẻ rồi xoá dần:
 
-→ Combine with lifecycle policy:
 ```json
-"NoncurrentVersionTransitions": [
-  { "NoncurrentDays": 30, "StorageClass": "GLACIER_IR" }
-],
-"NoncurrentVersionExpiration": {
-  "NoncurrentDays": 365
+{
+  "Rules": [
+    {
+      "Id": "NoncurrentVersionTiering",
+      "Status": "Enabled",
+      "NoncurrentVersionTransitions": [
+        { "NoncurrentDays": 30, "StorageClass": "GLACIER_IR" }
+      ],
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 365
+      }
+    }
+  ]
 }
 ```
 
-→ Old versions → Glacier → eventually deleted.
+Hiệu quả: version cũ tự trôi xuống Glacier rồi cuối cùng bị xoá — vừa an toàn vừa không phình chi phí.
 
 ### MFA Delete
 
-For **extra protection on delete**:
+Khi cần thêm một lớp bảo vệ cho thao tác xoá, bật MFA Delete — muốn xoá vĩnh viễn một version thì phải nhập mã MFA:
 
 ```bash
 aws s3api put-bucket-versioning \
@@ -491,19 +524,23 @@ aws s3api put-bucket-versioning \
   --mfa "arn:aws:iam::ACCOUNT:mfa/user 123456"
 ```
 
-→ Permanently delete version requires MFA. Useful for compliance, ransomware.
+Cơ chế này rất hợp cho compliance và chống ransomware: kẻ tấn công có credentials cũng không xoá được dữ liệu nếu thiếu thiết bị MFA.
 
-⚠️ Only enable via root account. Disabling also requires MFA.
+⚠️ Chỉ bật được qua tài khoản root. Việc tắt MFA Delete cũng đòi hỏi MFA — cân nhắc kỹ trước khi bật.
 
 ---
 
-## 6️⃣ CORS for frontend upload
+## 6️⃣ CORS cho frontend upload
 
-### Problem
+Ngay khi bạn cho frontend gọi thẳng S3 (như pattern presigned URL ở trên), một rào cản của trình duyệt sẽ hiện ra: CORS.
 
-Browser blocks cross-origin requests by default. Frontend `app.acmeshop.vn` calls S3 `my-bucket.s3.amazonaws.com` = CORS error.
+### Vấn đề
 
-### Solution: CORS config
+Trình duyệt mặc định chặn các request *cross-origin*. Frontend ở `app.acmeshop.vn` gọi sang S3 `my-bucket.s3.amazonaws.com` là khác origin → trình duyệt báo lỗi CORS.
+
+### Giải pháp: cấu hình CORS
+
+Bạn khai báo cho bucket biết origin nào được phép gọi, với những method và header nào:
 
 ```json
 [
@@ -517,44 +554,51 @@ Browser blocks cross-origin requests by default. Frontend `app.acmeshop.vn` call
 ]
 ```
 
-Apply:
 ```bash
 aws s3api put-bucket-cors \
   --bucket my-bucket \
   --cors-configuration file://cors.json
 ```
 
-### CORS subtleties
+### Vài điểm hay nhầm về CORS
 
-- `AllowedOrigins`: include schema (`https://`).
-- `MaxAgeSeconds`: browser cache preflight response.
-- Preflight: OPTIONS request before actual request.
-- `*` wildcard supported, but specific origins safer.
+Có mấy chỗ tinh tế dễ vấp khi cấu hình CORS:
 
-### Browser checks
+- `AllowedOrigins` phải kèm schema (`https://`), không chỉ ghi tên miền trơn.
+- `MaxAgeSeconds` là thời gian trình duyệt cache lại kết quả *preflight*.
+- Preflight là request `OPTIONS` mà trình duyệt tự gửi *trước* request thật để hỏi quyền.
+- Có hỗ trợ wildcard `*`, nhưng liệt kê origin cụ thể vẫn an toàn hơn.
+
+### Kiểm tra trong trình duyệt
+
+CORS là chuyện của trình duyệt, nên phải test bằng trình duyệt — `curl` sẽ không tái hiện được lỗi này:
 
 ```javascript
-// Browser console
+// Console của trình duyệt
 fetch('https://my-bucket.s3.amazonaws.com/file.txt')
   .then(r => r.text())
   .then(console.log);
-// CORS error if origin not allowed.
+// Báo lỗi CORS nếu origin không nằm trong danh sách cho phép.
 ```
 
-→ Set CORS once per bucket. Tested in browser, not curl.
+Nhớ: cấu hình CORS một lần cho mỗi bucket, và luôn kiểm chứng trong trình duyệt chứ không phải bằng `curl`.
 
 ---
 
 ## 7️⃣ Static website hosting
 
-### Use case
+S3 không chỉ để chứa file — nó còn có thể *phục vụ* luôn một website tĩnh (HTML/CSS/JS) mà bạn không cần dựng server nào cả.
 
-Host static site (HTML/CSS/JS) directly on S3 — no server.
+### Bối cảnh
 
-### Setup
+Bạn có một site tĩnh (blog, landing page) và muốn đưa nó lên mạng nhanh, rẻ, không phải nuôi server.
+
+### Cách dựng
+
+Ba bước: bật chế độ static hosting, gắn bucket policy cho public đọc, và tắt Block Public Access (cẩn thận với bước này):
 
 ```bash
-# Enable static hosting
+# Bật static hosting
 aws s3 website s3://my-bucket/ \
   --index-document index.html \
   --error-document error.html
@@ -571,35 +615,40 @@ aws s3api put-bucket-policy --bucket my-bucket --policy '{
   }]
 }'
 
-# Disable Block Public Access (carefully!)
+# Tắt Block Public Access (cẩn thận!)
 aws s3api put-public-access-block --bucket my-bucket \
   --public-access-block-configuration \
     BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false
 ```
 
-→ Access: `http://my-bucket.s3-website-us-east-1.amazonaws.com`.
+Sau đó truy cập qua URL dạng: `http://my-bucket.s3-website-us-east-1.amazonaws.com`.
 
-### Issues with S3 static hosting alone
+### Hạn chế khi dùng S3 static hosting một mình
 
-- **HTTP only** (no HTTPS).
-- **No custom domain TLS**.
-- **No CDN**.
-- **No edge logic**.
+Dựng nhanh thật, nhưng riêng S3 static hosting có vài giới hạn lớn:
 
-### Solution: CloudFront in front
+- Chỉ **HTTP** (không có HTTPS).
+- Không gắn được TLS cho custom domain.
+- Không có CDN.
+- Không chạy được logic ở edge.
 
-```
-User → CloudFront (CDN, HTTPS) → S3 bucket (private with OAI)
+### Giải pháp: đặt CloudFront ở phía trước
+
+Cách làm chuẩn là để CloudFront đứng trước S3, lo phần HTTPS + CDN, còn bucket thì để private:
+
+```text
+User → CloudFront (CDN, HTTPS) → S3 bucket (private, qua OAI)
 ```
 
 ```bash
-# 1. Create CloudFront distribution pointing to S3
-# 2. Use Origin Access Identity (OAI) so S3 only accessible via CloudFront
-# 3. Add custom domain + ACM certificate
-# 4. Block public access on S3 (only CloudFront has access)
+# 1. Tạo CloudFront distribution trỏ về S3
+# 2. Dùng Origin Access Identity (OAI) để S3 chỉ truy cập được qua CloudFront
+# 3. Thêm custom domain + ACM certificate
+# 4. Bật Block Public Access trên S3 (chỉ CloudFront có quyền vào)
 ```
 
-Bucket policy with OAI:
+Lúc này bucket chỉ cho phép đúng "danh tính" CloudFront đọc, nhờ một bucket policy với OAI:
+
 ```json
 {
   "Statement": [{
@@ -613,39 +662,47 @@ Bucket policy with OAI:
 }
 ```
 
-→ **Modern pattern**: CloudFront + S3 with OAI. Block Public Access enabled.
+Đây chính là **pattern hiện đại**: CloudFront + S3 qua OAI, và bật Block Public Access trên bucket.
 
-### Alternative for SPA hosting
+### Lựa chọn khác cho việc host SPA
 
-- **Vercel / Netlify**: easier (CDN + git deploy built-in).
-- **AWS Amplify**: AWS-native SPA hosting.
-- **Cloudflare Pages**: CDN with edge functions.
+Nếu bạn chỉ host một SPA và không cần dính chặt vào AWS, có vài lựa chọn dễ thở hơn:
 
-→ S3 + CloudFront still works, but more setup.
+- **Vercel / Netlify**: gọn hơn (CDN + deploy theo git có sẵn).
+- **AWS Amplify**: dịch vụ host SPA của chính AWS.
+- **Cloudflare Pages**: CDN kèm edge function.
+
+S3 + CloudFront vẫn chạy tốt, chỉ là cần thiết lập nhiều bước hơn.
 
 ---
 
 ## 8️⃣ Encryption
 
+Câu hỏi cuối về S3: dữ liệu nằm trong bucket có được mã hoá không, và ai giữ chìa khoá? S3 có nhiều kiểu encryption, khác nhau chủ yếu ở chỗ *ai quản lý key*.
+
 ### Server-side encryption (SSE)
 
-**SSE-S3** (default 2026):
-- AWS manages keys.
-- Free.
-- Use case: most data.
+Ba kiểu SSE phổ biến, đi từ "AWS lo hết" tới "bạn lo hết":
+
+**SSE-S3** (mặc định 2026):
+- AWS quản lý key.
+- Miễn phí.
+- Dùng cho: phần lớn dữ liệu thông thường.
 
 **SSE-KMS**:
-- KMS customer-managed keys.
-- Audit log per access.
-- BYOK supported.
-- Use case: PII, PHI, compliance.
+- Dùng key quản lý qua KMS.
+- Có audit log cho từng lần truy cập.
+- Hỗ trợ BYOK (mang key của bạn vào).
+- Dùng cho: dữ liệu PII, PHI, cần compliance.
 
 **SSE-C**:
-- You supply key per request.
-- AWS doesn't store key.
-- Use case: ultra-sensitive, you manage keys offline.
+- Bạn cung cấp key theo từng request.
+- AWS không lưu key.
+- Dùng cho: dữ liệu cực nhạy cảm, bạn tự quản key ngoài AWS.
 
-### Enable default encryption
+### Bật encryption mặc định
+
+Để mọi object upload lên đều tự được mã hoá, bật default encryption ở cấp bucket. Ví dụ dưới dùng KMS:
 
 ```bash
 aws s3api put-bucket-encryption --bucket my-bucket \
@@ -660,11 +717,12 @@ aws s3api put-bucket-encryption --bucket my-bucket \
   }'
 ```
 
-→ All uploads auto-encrypted with KMS.
+Từ đây mọi upload tự động được mã hoá bằng KMS, không phụ thuộc client có nhớ đặt header hay không.
 
-### Force encryption on upload
+### Ép buộc mã hoá khi upload
 
-Bucket policy:
+Muốn chắc ăn hơn nữa, dùng bucket policy để *từ chối* mọi PUT không kèm header mã hoá đúng:
+
 ```json
 {
   "Effect": "Deny",
@@ -678,11 +736,11 @@ Bucket policy:
 }
 ```
 
-→ Reject upload without encryption header.
+Request upload nào thiếu header mã hoá sẽ bị từ chối thẳng.
 
 ### Client-side encryption
 
-Encrypt before upload, decrypt after download.
+Ở mức bảo vệ cao nhất, bạn mã hoá *trước khi* upload và giải mã *sau khi* download — AWS không bao giờ thấy dữ liệu gốc:
 
 ```python
 from cryptography.fernet import Fernet
@@ -699,19 +757,23 @@ obj = s3.get_object(Bucket='my-bucket', Key='encrypted.bin')
 decrypted = cipher.decrypt(obj['Body'].read())
 ```
 
-→ AWS sees only encrypted blob. Strongest guarantee.
+Với cách này, AWS chỉ nhìn thấy một khối dữ liệu đã mã hoá — đảm bảo mạnh nhất, đổi lại bạn phải tự gánh trách nhiệm quản lý key.
 
 ---
 
-## 9️⃣ IAM for S3 deep
+## 9️⃣ IAM cho S3 chuyên sâu
 
-### IAM identity types
+Tới đây ta đã chạm IAM rải rác qua từng phần. Giờ gom lại thành một bức tranh đầy đủ: ai là "danh tính" trong AWS, policy cấu trúc ra sao, và các pattern phân quyền thực chiến.
 
-**User**: human, has password + access keys.
-**Group**: collection of users.
-**Role**: assumed by services (EC2, Lambda) or users (cross-account).
+### Các loại danh tính IAM
 
-### Policy structure
+**User**: con người, có password + access key.
+**Group**: một nhóm các user.
+**Role**: được "đeo vào" bởi dịch vụ (EC2, Lambda) hoặc bởi user (cho cross-account).
+
+### Cấu trúc một policy
+
+Mọi IAM policy đều theo cùng một khung: hành động gì (`Action`), trên tài nguyên nào (`Resource`), cho phép hay chặn (`Effect`), kèm điều kiện tuỳ chọn (`Condition`):
 
 ```json
 {
@@ -719,7 +781,7 @@ decrypted = cipher.decrypt(obj['Body'].read())
   "Statement": [
     {
       "Sid": "OptionalIdentifier",
-      "Effect": "Allow",    // or "Deny"
+      "Effect": "Allow",
       "Action": ["s3:GetObject"],
       "Resource": "arn:aws:s3:::my-bucket/*",
       "Condition": {
@@ -730,9 +792,13 @@ decrypted = cipher.decrypt(obj['Body'].read())
 }
 ```
 
-### Common S3 IAM policies
+Trường `Effect` nhận giá trị `Allow` hoặc `Deny`; ví dụ trên còn thêm `Condition` để chỉ cho phép truy cập từ một IP cụ thể.
 
-**Read-only S3 user**:
+### Các IAM policy cho S3 hay gặp
+
+Dưới đây là ba khuôn policy bạn sẽ viết đi viết lại trong thực tế.
+
+**User chỉ đọc (read-only) S3**:
 ```json
 {
   "Effect": "Allow",
@@ -747,7 +813,7 @@ decrypted = cipher.decrypt(obj['Body'].read())
 }
 ```
 
-**App needs to read/write specific prefix**:
+**App cần đọc/ghi đúng một prefix**:
 ```json
 {
   "Effect": "Allow",
@@ -756,7 +822,7 @@ decrypted = cipher.decrypt(obj['Body'].read())
 }
 ```
 
-**User-scoped folder**:
+**Mỗi user một thư mục riêng**:
 ```json
 {
   "Effect": "Allow",
@@ -765,11 +831,11 @@ decrypted = cipher.decrypt(obj['Body'].read())
 }
 ```
 
-→ `${aws:userid}` placeholder = actual user's ID at runtime.
+Placeholder `${aws:userid}` được thay bằng ID thật của user lúc chạy, nên cùng một policy phục vụ mọi user mà ai cũng chỉ thấy thư mục của mình.
 
-### EC2 reads S3 via IAM role
+### EC2 đọc S3 qua IAM role
 
-**Not via access keys**. Attach IAM role:
+Đây là điểm quan trọng nhất của cả phần IAM: **đừng nhét access key vào EC2**. Thay vào đó, gắn một IAM role cho instance. Cấu hình Terraform dưới tạo role cho EC2 *assume*, cấp quyền S3, rồi gắn qua *instance profile*:
 
 ```hcl
 resource "aws_iam_role" "app" {
@@ -801,21 +867,24 @@ resource "aws_iam_instance_profile" "app" {
 
 resource "aws_instance" "app" {
   iam_instance_profile = aws_iam_instance_profile.app.name
-  # No access keys needed!
+  # Không cần access key!
 }
 ```
 
-Inside EC2:
+Bên trong EC2, SDK tự lấy credentials tạm thời từ *instance metadata* — bạn không phải truyền key vào đâu cả:
+
 ```python
 import boto3
-# AWS SDK auto-fetches credentials from instance metadata
+# SDK tự lấy credentials từ instance metadata
 s3 = boto3.client('s3')
 s3.get_object(Bucket='my-bucket', Key='file.txt')
 ```
 
-→ Credentials auto-rotated. No leaked keys.
+Lợi ích kép: credentials được tự động xoay vòng và không có key nào bị rò rỉ vì chẳng có key nào để rò.
 
 ### Lambda + S3 IAM
+
+Lambda cũng theo đúng tinh thần đó — gắn một execution role thay vì access key. Role dưới vừa có quyền ghi log (qua managed policy có sẵn) vừa được đọc S3:
 
 ```hcl
 resource "aws_iam_role" "lambda" {
@@ -845,9 +914,10 @@ resource "aws_iam_role_policy" "lambda_s3" {
 }
 ```
 
-### Cross-account access
+### Truy cập cross-account
 
-Bucket policy in Account A:
+Khi account B cần đọc bucket của account A, phải cấu hình *hai* phía. Bucket policy ở Account A cho phép principal của Account B:
+
 ```json
 {
   "Effect": "Allow",
@@ -857,23 +927,20 @@ Bucket policy in Account A:
 }
 ```
 
-Account B's user must also have IAM policy granting S3 access to that bucket.
-
-→ Both bucket policy (Account A) AND IAM policy (Account B) needed.
+Đồng thời user/role ở Account B cũng phải có IAM policy cấp quyền truy cập bucket đó. Quy tắc cần nhớ: cross-account đòi **cả** bucket policy (Account A) **lẫn** IAM policy (Account B) — thiếu một bên là không vào được.
 
 ---
 
-## 🔟 Hands-on: Static blog + secure file upload
+## 🔟 Hands-on: Static blog + upload file an toàn
 
-### Goal
+Giờ ráp mọi mảnh ghép lại thành một hệ thống chạy thật. Mục tiêu gồm hai phần: một static website (blog) trên S3 + CloudFront, và một luồng upload file an toàn qua presigned URL.
 
-1. **Static website** (blog) on S3 + CloudFront.
-2. **Secure file upload** via presigned URL.
+### Phần 1: Static website
 
-### Part 1: Static website
+Đầu tiên tạo bucket với tên unique (gắn account ID để tránh trùng), rồi sync site lên kèm thiết lập cache hợp lý — asset tĩnh cache dài, file thường cache ngắn:
 
 ```bash
-# Create bucket
+# Tạo bucket
 BUCKET=acme-blog-$(aws sts get-caller-identity --query Account --output text)
 aws s3 mb s3://$BUCKET --region ap-southeast-1
 
@@ -882,22 +949,24 @@ aws s3 sync ./dist s3://$BUCKET/ \
   --cache-control "public, max-age=3600" \
   --metadata-directive REPLACE
 
-# Specifically static assets — longer cache
+# Riêng asset tĩnh — cache dài hơn
 aws s3 sync ./dist/assets s3://$BUCKET/assets/ \
   --cache-control "public, max-age=31536000, immutable"
 ```
 
-### CloudFront in front
+### Đặt CloudFront ở phía trước
+
+Tiếp theo dựng CloudFront với OAI để chỉ CloudFront truy cập được S3, đồng thời bucket vẫn private:
 
 ```bash
-# 1. Create CloudFront Origin Access Identity (OAI)
+# 1. Tạo CloudFront Origin Access Identity (OAI)
 OAI_ID=$(aws cloudfront create-cloud-front-origin-access-identity \
   --cloud-front-origin-access-identity-config \
     CallerReference=$(date +%s),Comment="OAI for blog" \
   --query 'CloudFrontOriginAccessIdentity.Id' \
   --output text)
 
-# 2. Bucket policy allowing CloudFront only
+# 2. Bucket policy chỉ cho phép CloudFront
 aws s3api put-bucket-policy --bucket $BUCKET --policy "{
   \"Version\": \"2012-10-17\",
   \"Statement\": [{
@@ -910,15 +979,17 @@ aws s3api put-bucket-policy --bucket $BUCKET --policy "{
   }]
 }"
 
-# 3. Create distribution (interactive via Console or detailed JSON)
+# 3. Tạo distribution (qua Console hoặc JSON chi tiết)
 # blog.acmeshop.vn → CloudFront → $BUCKET
 
-# 4. Custom domain via ACM cert + Route 53 alias
+# 4. Custom domain qua ACM cert + Route 53 alias
 ```
 
-→ Result: `https://blog.acmeshop.vn` (HTTPS, CDN, low latency, low cost).
+Thành quả: `https://blog.acmeshop.vn` chạy với HTTPS, có CDN, độ trễ thấp và chi phí thấp.
 
-### Part 2: File upload backend
+### Phần 2: Backend upload file
+
+Phần upload tái dùng đúng pattern presigned URL đã học, đóng gói thành hai endpoint — một sinh URL upload, một sinh URL download:
 
 `upload_api.py`:
 ```python
@@ -960,22 +1031,24 @@ async def generate_download_url(key: str):
     return {'download_url': url}
 ```
 
-Run via uvicorn:
+Chạy bằng uvicorn:
 ```bash
 uvicorn upload_api:app --host 0.0.0.0 --port 8000
 ```
 
-### Bucket setup
+### Cấu hình bucket cho upload
+
+Bucket nhận upload cần được "siết" đúng cách ngay từ đầu: chặn public, bật CORS cho frontend, mã hoá mặc định, và lifecycle để dọn file cũ:
 
 ```bash
 aws s3 mb s3://acme-uploads --region ap-southeast-1
 
-# Block public access
+# Chặn public access
 aws s3api put-public-access-block --bucket acme-uploads \
   --public-access-block-configuration \
     BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
 
-# CORS for frontend
+# CORS cho frontend
 aws s3api put-bucket-cors --bucket acme-uploads --cors-configuration '{
   "CORSRules": [{
     "AllowedOrigins": ["https://app.acmeshop.vn"],
@@ -993,7 +1066,7 @@ aws s3api put-bucket-encryption --bucket acme-uploads \
     }]
   }'
 
-# Lifecycle (cleanup old uploads after 30 days for free tier)
+# Lifecycle (dọn upload cũ sau 30 ngày để tiết kiệm)
 aws s3api put-bucket-lifecycle-configuration --bucket acme-uploads --lifecycle-configuration '{
   "Rules": [{
     "Id": "ExpireAfter30Days",
@@ -1004,7 +1077,9 @@ aws s3api put-bucket-lifecycle-configuration --bucket acme-uploads --lifecycle-c
 }'
 ```
 
-### Frontend test
+### Test phía frontend
+
+Cuối cùng, một đoạn frontend tối giản để chạy thử cả vòng: xin URL, PUT file thẳng lên S3:
 
 ```html
 <script>
@@ -1026,94 +1101,94 @@ async function uploadFile(file) {
 </script>
 ```
 
-→ User uploads file → presigned URL → direct to S3. Backend handles 0 bytes of upload data.
+Đúng như mục tiêu: file đi từ trình duyệt → presigned URL → thẳng lên S3, backend xử lý 0 byte dữ liệu upload.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Public S3 bucket leak
+### ❌ Cạm bẫy: Lộ bucket S3 public
 
-→ "Set public for testing" → forget → PII leaked.
+Kịch bản kinh điển: "để public cho dễ test" rồi quên tắt → dữ liệu PII bị lộ ra ngoài.
 
-→ **Fix**:
-- Block Public Access account-wide.
-- CloudFront + OAI instead of public.
-- AWS Config rule detect public buckets.
-- Quarterly audit.
+→ **Cách chữa**:
+- Bật Block Public Access toàn account.
+- Dùng CloudFront + OAI thay vì để bucket public.
+- Bật AWS Config rule để phát hiện bucket public.
+- Audit định kỳ hằng quý.
 
-### ❌ Pitfall: Long-lived access keys in app
+### ❌ Cạm bẫy: Access key sống lâu nằm trong app
 
-→ App has AWS access key in env. Leaked → AWS account compromised.
+App cắm access key cứng trong biến môi trường. Key rò ra ngoài → cả AWS account bị chiếm.
 
-→ **Fix**:
-- EC2: IAM role (instance profile).
-- Lambda: execution role.
-- Local dev: SSO temporary credentials.
-- CI/CD: OIDC federation.
-- **Zero access keys** in code, env, config files.
+→ **Cách chữa**:
+- EC2: dùng IAM role (instance profile).
+- Lambda: dùng execution role.
+- Dev local: dùng credentials tạm thời qua SSO.
+- CI/CD: dùng OIDC federation.
+- **Tuyệt đối không** để access key trong code, env hay file config.
 
-### ❌ Pitfall: Presigned URL no expiry / too long
+### ❌ Cạm bẫy: Presigned URL không hạn dùng hoặc hạn quá dài
 
 ```python
-generate_presigned_url(..., ExpiresIn=604800)   # 7 days!
+generate_presigned_url(..., ExpiresIn=604800)   # 7 ngày!
 ```
 
-→ URL leaked = 7-day window for abuse.
+URL mà lộ ra ngoài thì kẻ xấu có nguyên một cửa sổ 7 ngày để lạm dụng.
 
-→ **Fix**: 10-60 minutes typical. Just enough for the action.
+→ **Cách chữa**: đặt hạn 10–60 phút là đủ — vừa đúng cho thao tác cần làm.
 
-### ❌ Pitfall: No lifecycle policy
+### ❌ Cạm bẫy: Không có lifecycle policy
 
-→ Logs accumulate forever. Bill grows.
+Log chất đống vô thời hạn, hoá đơn cứ thế phình ra.
 
-→ **Fix**: lifecycle policy from Day 1.
+→ **Cách chữa**: gắn lifecycle policy ngay từ Day 1.
 
-### ❌ Pitfall: No versioning on critical bucket
+### ❌ Cạm bẫy: Bucket quan trọng không bật versioning
 
-→ User accident delete → data gone.
+Người dùng lỡ tay xoá → dữ liệu mất luôn, không lấy lại được.
 
-→ **Fix**: versioning enabled. Lifecycle for old versions.
+→ **Cách chữa**: bật versioning, kèm lifecycle để dọn version cũ.
 
-### ❌ Pitfall: Bucket name collision
+### ❌ Cạm bẫy: Trùng tên bucket
 
-→ `mybucket` taken. Error "BucketAlreadyExists" or "AccessDenied".
+`mybucket` đã có người lấy → gặp lỗi "BucketAlreadyExists" hoặc "AccessDenied".
 
-→ **Fix**: unique naming pattern: `{org}-{purpose}-{account-id}`.
+→ **Cách chữa**: đặt tên theo quy ước unique, ví dụ `{org}-{purpose}-{account-id}`.
 
-### ❌ Pitfall: Force HTTPS not enforced
+### ❌ Cạm bẫy: Không ép buộc HTTPS
 
-→ Bucket allows HTTP requests = data in clear.
+Bucket cho phép request HTTP → dữ liệu truyền dưới dạng plaintext.
 
-→ **Fix**: bucket policy deny `aws:SecureTransport=false`.
+→ **Cách chữa**: bucket policy deny khi `aws:SecureTransport=false`.
 
-### ❌ Pitfall: No encryption default
+### ❌ Cạm bẫy: Không bật encryption mặc định
 
-→ Some uploads not encrypted.
+Một số object lọt qua mà chưa được mã hoá.
 
-→ **Fix**: default encryption enabled at bucket level.
+→ **Cách chữa**: bật default encryption ở cấp bucket.
 
-### ✅ Best practice: BPA + KMS + HTTPS Day 1
+### ✅ Best practice: BPA + KMS + HTTPS ngay Day 1
 
-Every bucket Day 1:
-1. Block Public Access on.
-2. Default encryption (SSE-S3 or SSE-KMS).
-3. Versioning on (for important buckets).
+Mỗi bucket khi vừa tạo nên có ngay:
+1. Bật Block Public Access.
+2. Bật default encryption (SSE-S3 hoặc SSE-KMS).
+3. Bật versioning (với bucket quan trọng).
 4. Bucket policy deny non-HTTPS.
-5. Lifecycle policy for cleanup.
-6. CloudWatch metrics enabled.
+5. Lifecycle policy để dọn dẹp.
+6. Bật CloudWatch metrics.
 
-### ✅ Best practice: IAM role pattern
+### ✅ Best practice: Pattern IAM role
 
-Hierarchy:
-- **User/SSO**: humans.
-- **Group**: collection.
-- **Role**: services + cross-account.
-- **Permission boundary**: max permissions limit.
+Phân tầng danh tính rõ ràng:
+- **User/SSO**: cho con người.
+- **Group**: gom user.
+- **Role**: cho dịch vụ + cross-account.
+- **Permission boundary**: trần quyền tối đa.
 
-### ✅ Best practice: Tagging for cost
+### ✅ Best practice: Gắn tag để quản chi phí
 
-Every bucket tagged:
+Mọi bucket nên được gắn tag:
 ```hcl
 tags = {
   Environment = "prod"
@@ -1124,212 +1199,214 @@ tags = {
 }
 ```
 
-→ Cost Explorer + Macie filter by tags.
+→ Cost Explorer và Macie có thể lọc theo tag để bóc tách chi phí và phân loại dữ liệu.
 
 ### ✅ Best practice: S3 Object Ownership = "Bucket Owner Enforced"
 
-(2026 default for new buckets)
+(Mặc định 2026 cho bucket mới)
 
-→ All objects owned by bucket owner. No ACL complications.
+→ Mọi object đều thuộc về chủ bucket, không còn rắc rối với ACL.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Bucket policy vs IAM policy — when each?
+Năm câu dưới chạm vào đúng những chỗ dễ nhầm nhất về S3 và IAM. Thử tự trả lời trước khi mở đáp án.
+
+**Q1.** Bucket policy và IAM policy — khi nào dùng cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Both work, sometimes overlap. Differences**:
+Cả hai đều hoạt động và đôi khi chồng lấn nhau. Khác biệt nằm ở góc nhìn:
 
 **Bucket policy** (resource-based):
-- Attached to **bucket**.
-- "What can be done with **this bucket**?"
-- Specifies **principal** (who).
-- Use cases:
-  - Make objects public.
-  - Cross-account access.
-  - Force HTTPS / encryption.
-  - Deny non-AWS IPs.
+- Gắn vào **bucket**.
+- Trả lời "Được làm gì với **bucket này**?"
+- Có chỉ định **principal** (ai).
+- Dùng cho:
+  - Cho object public.
+  - Truy cập cross-account.
+  - Ép HTTPS / encryption.
+  - Deny các IP ngoài AWS.
 
 **IAM policy** (identity-based):
-- Attached to **user/role/group**.
-- "What can this **identity** do?"
-- No principal (identity is implicit).
-- Use cases:
-  - Grant specific user/role permissions.
-  - Cross-resource access (user → many buckets).
-  - Service role for EC2/Lambda.
+- Gắn vào **user/role/group**.
+- Trả lời "**Danh tính này** được làm gì?"
+- Không có principal (danh tính đã ngầm hiểu).
+- Dùng cho:
+  - Cấp quyền cho user/role cụ thể.
+  - Truy cập nhiều tài nguyên (một user → nhiều bucket).
+  - Service role cho EC2/Lambda.
 
-**Decision matrix**:
+**Ma trận quyết định**:
 
-| Scenario | Policy type |
+| Tình huống | Loại policy |
 |---|---|
-| App role needs to read 5 buckets | IAM policy on role |
-| One specific bucket has public folder | Bucket policy |
-| Cross-account: AccountB reads AccountA's bucket | Bucket policy (in A) + IAM policy (in B) |
-| Force encryption upload to specific bucket | Bucket policy |
-| User can only access their own folder | IAM policy with `${aws:userid}` |
-| Deny all uploads outside HTTPS | Bucket policy |
+| App role cần đọc 5 bucket | IAM policy gắn vào role |
+| Một bucket cụ thể có thư mục public | Bucket policy |
+| Cross-account: Account B đọc bucket của Account A | Bucket policy (ở A) + IAM policy (ở B) |
+| Ép mã hoá khi upload vào một bucket cụ thể | Bucket policy |
+| User chỉ truy cập được thư mục riêng | IAM policy với `${aws:userid}` |
+| Chặn mọi upload không qua HTTPS | Bucket policy |
 
-**Combined**:
-- Both evaluated.
-- Explicit Deny in **either** = denied.
-- Allow needs both: bucket policy + IAM policy (if cross-account).
+**Khi kết hợp cả hai**:
+- Cả hai đều được đánh giá.
+- Một `Deny` rõ ràng ở **bất kỳ phía nào** = bị chặn.
+- Để allow thì cần đủ điều kiện ở cả hai phía (nếu là cross-account).
 
-**Same account, simple case**:
-- IAM policy alone usually sufficient.
-- Bucket policy not needed.
+**Cùng account, trường hợp đơn giản**:
+- IAM policy một mình thường là đủ.
+- Không cần bucket policy.
 
-**Real example**:
+**Ví dụ thực tế**:
 
-1. **App reads my-bucket** (same account):
-   - IAM policy on app role: `s3:GetObject on arn:aws:s3:::my-bucket/*`.
-   - No bucket policy needed.
+1. **App đọc my-bucket** (cùng account):
+   - IAM policy trên app role: `s3:GetObject on arn:aws:s3:::my-bucket/*`.
+   - Không cần bucket policy.
 
-2. **Make /static/* public**:
+2. **Cho /static/* public**:
    - Bucket policy: `Allow s3:GetObject Principal * on /static/*`.
-   - Plus Block Public Access carefully.
+   - Kèm Block Public Access được cấu hình cẩn thận.
 
-3. **AccountB lambda reads AccountA bucket**:
+3. **Lambda của Account B đọc bucket của Account A**:
    - Bucket policy (A): `Allow Principal arn:aws:iam::B:role/lambda-role`.
    - IAM policy (B): `Allow s3:GetObject on arn:aws:s3:::a-bucket/*`.
 
-**Best practice**: prefer IAM policies for granular. Bucket policy for cross-account or bucket-wide rules.
+**Best practice**: ưu tiên IAM policy cho phân quyền chi tiết; dùng bucket policy cho cross-account hoặc các quy tắc áp cả bucket.
 </details>
 
-**Q2.** Presigned URL — security considerations?
+**Q2.** Presigned URL — cần lưu ý gì về bảo mật?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Presigned URL = signed URL with expiry** that anyone with URL can use.
+Presigned URL là một URL đã được ký kèm hạn dùng, và *bất kỳ ai* cầm URL đều dùng được.
 
-**Security considerations**:
+**Các điểm bảo mật cần để ý**:
 
-**1. Expiry time**:
-- Too short: user fails upload mid-way.
-- Too long: leak = long-term abuse.
-- **Recommend**: 5-60 minutes for uploads, 1-24 hours for downloads.
+**1. Thời hạn (expiry)**:
+- Quá ngắn: user upload giữa chừng thì hết hạn.
+- Quá dài: lộ ra là bị lạm dụng lâu dài.
+- **Khuyến nghị**: 5–60 phút cho upload, 1–24 giờ cho download.
 
-**2. URL leakage**:
-- URL ends in browser history.
-- Logs (server, proxy, CDN).
-- Shared via Slack/email.
-- → Treat URL as **secret** until expires.
+**2. Rò rỉ URL**:
+- URL lọt vào history trình duyệt.
+- Lọt vào log (server, proxy, CDN).
+- Bị chia sẻ qua Slack/email.
+- → Coi URL như một **bí mật** cho tới khi nó hết hạn.
 
-**3. Principal context**:
-- Presigned URL inherits **generator's permissions**.
-- If generator has `s3:*`, presigned URL can do `s3:*` on that object.
-- Generate with **minimal permissions** identity (IAM role for app).
+**3. Bối cảnh principal**:
+- Presigned URL kế thừa **quyền của danh tính sinh ra nó**.
+- Nếu danh tính đó có `s3:*`, presigned URL cũng làm được `s3:*` trên object đó.
+- Hãy sinh URL bằng một danh tính **quyền tối thiểu** (IAM role của app).
 
-**4. Conditions**:
-- Standard presigned URL: just URL + signature.
-- **Presigned POST**: can include conditions:
+**4. Điều kiện (conditions)**:
+- Presigned URL thường: chỉ có URL + chữ ký.
+- **Presigned POST**: gắn được điều kiện:
   ```python
   Conditions=[
-    ['content-length-range', 0, 5_000_000],   # max 5 MB
+    ['content-length-range', 0, 5_000_000],   # tối đa 5 MB
     ['starts-with', '$Content-Type', 'image/'],
     {'x-amz-server-side-encryption': 'AES256'}
   ]
   ```
-- Server-enforced limits via POST presigned.
+- Giới hạn được S3 bắt buộc ở phía server qua presigned POST.
 
-**5. HTTPS only**:
-- Always serve presigned URL over HTTPS.
-- Bucket policy enforce HTTPS:
+**5. Chỉ HTTPS**:
+- Luôn phát presigned URL qua HTTPS.
+- Bucket policy ép HTTPS:
   ```json
   "Condition": { "Bool": { "aws:SecureTransport": "false" } },
   "Effect": "Deny"
   ```
 
-**6. Verify upload**:
-- Backend gives URL.
-- User uploads.
-- **Verify with backend** before counting as done.
-- Don't trust client "I uploaded" — verify object exists in S3.
+**6. Xác minh upload**:
+- Backend phát URL.
+- User upload.
+- **Xác minh lại với backend** trước khi coi là xong.
+- Đừng tin client báo "tôi upload rồi" — kiểm tra object có thật trong S3 không.
 
 **7. Rate limiting**:
-- API endpoint giving presigned URLs = limit per user.
-- Prevent abuse (10K URL/sec → 10K simultaneous uploads).
+- Endpoint phát presigned URL phải giới hạn theo user.
+- Chống lạm dụng (10K URL/giây → 10K upload đồng thời).
 
 **8. Object ownership**:
-- Bucket Owner Enforced (2026 default).
-- Uploads automatically owned by bucket owner.
+- Bucket Owner Enforced (mặc định 2026).
+- Mọi upload tự thuộc về chủ bucket.
 
-**9. Cleanup partial uploads**:
-- User starts upload, abandons.
-- **Multipart upload** debris: pay for incomplete data.
+**9. Dọn upload dở dang**:
+- User bắt đầu upload rồi bỏ ngang.
+- Phần *multipart upload* dở dang vẫn tốn tiền lưu trữ.
 - Lifecycle policy:
   ```json
   "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
   ```
 
 **10. Audit log**:
-- CloudTrail logs presigned URL usage.
-- Monitor unusual patterns (sudden spike, weird IP).
+- CloudTrail ghi lại việc dùng presigned URL.
+- Theo dõi pattern bất thường (đột biến lưu lượng, IP lạ).
 
-**Patterns**:
+**Các pattern thường gặp**:
 
-- **User profile pics**: presigned PUT, 10 min expiry, 5MB limit, content-type image/*.
-- **Document download** (subscription): presigned GET, 1 hour, user must be authenticated to get URL.
-- **Public download**: just public object, no presigned needed.
-- **Internal report**: long-lived (24h) presigned for batch download.
+- **Ảnh profile**: presigned PUT, hạn 10 phút, giới hạn 5 MB, content-type image/*.
+- **Tải tài liệu** (gói subscription): presigned GET, hạn 1 giờ, user phải đăng nhập mới lấy được URL.
+- **Tải file public**: cứ để object public, không cần presigned.
+- **Báo cáo nội bộ**: presigned sống lâu hơn (24h) cho tải hàng loạt.
 
-**Anti-patterns**:
+**Anti-pattern**:
 
-- Presigned URL valid 1 week → ticking time bomb.
-- Same URL reused for multiple uploads.
-- No upload size limit → user uploads 5GB cat video.
-- No verification → relies on client "I uploaded".
+- Presigned URL hạn 1 tuần → quả bom hẹn giờ.
+- Dùng lại một URL cho nhiều lần upload.
+- Không giới hạn dung lượng → user upload cả video mèo 5 GB.
+- Không xác minh → tin lời client báo "đã upload".
 
-→ Presigned URL = great pattern with discipline.
+→ Presigned URL là pattern rất hay nếu dùng có kỷ luật.
 </details>
 
-**Q3.** S3 lifecycle vs Intelligent-Tiering — choose?
+**Q3.** S3 lifecycle và Intelligent-Tiering — chọn cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **S3 Intelligent-Tiering**:
-- AWS auto-monitors access patterns.
-- Moves objects between tiers automatically.
-- Tiers: Frequent → Infrequent → Archive Instant → Archive (long-term).
-- **Cost**: $0.0025 per 1000 objects monitored/month.
+- AWS tự theo dõi pattern truy cập.
+- Tự chuyển object giữa các tier.
+- Các tier: Frequent → Infrequent → Archive Instant → Archive (dài hạn).
+- **Chi phí**: $0.0025 cho mỗi 1000 object được giám sát/tháng.
 
-**Use Intelligent-Tiering when**:
-- **Unknown access patterns**: can't predict if/when objects accessed.
-- **Mixed objects**: some hot, some cold, varies per user.
-- **Hands-off**: don't want to manage policies.
-- **Object size > 128 KB**: small objects not eligible for archive tiers.
+**Dùng Intelligent-Tiering khi**:
+- **Không biết trước pattern truy cập**: không đoán được object có/khi nào được dùng.
+- **Object lẫn lộn**: cái nóng cái nguội, khác nhau theo từng user.
+- **Muốn buông tay**: không muốn tự quản policy.
+- **Object > 128 KB**: object nhỏ không vào được các archive tier.
 
-**Lifecycle policy (manual)**:
-- You define transition rules.
-- Predictable cost (no monitoring fee).
+**Lifecycle policy (thủ công)**:
+- Bạn tự định nghĩa luật chuyển tier.
+- Chi phí dự đoán được (không phí giám sát).
 
-**Use lifecycle when**:
-- **Known access patterns**: logs hot 30 days, cold after.
-- **Predictable workload**: backups always archived after period.
-- **Small objects**: < 128 KB (Intelligent doesn't help).
-- **Strict compliance retention**: delete at exact day count.
+**Dùng lifecycle khi**:
+- **Biết rõ pattern**: log nóng 30 ngày, sau đó nguội.
+- **Workload đoán trước được**: backup luôn được archive sau một khoảng thời gian.
+- **Object nhỏ**: < 128 KB (Intelligent không giúp được).
+- **Compliance chặt về thời gian giữ**: xoá đúng vào ngày thứ N.
 
-**Cost comparison**:
+**So sánh chi phí**:
 
-Scenario: 1TB data, mixed access:
+Kịch bản: 1TB dữ liệu, truy cập lẫn lộn:
 
-**Lifecycle Standard → IA at 30 → Glacier IR at 90**:
-- Some objects accessed often (in Glacier = retrieval cost).
-- Predicted: $30/month.
+**Lifecycle Standard → IA ở ngày 30 → Glacier IR ở ngày 90**:
+- Một số object hay được dùng (nằm trong Glacier = tốn phí retrieval).
+- Dự kiến: $30/tháng.
 
 **Intelligent-Tiering**:
-- AWS auto-tier based on actual access.
-- Pay monitoring fee.
-- Actual: $25/month (more accurate tier placement).
+- AWS tự xếp tier theo truy cập thực tế.
+- Trả phí giám sát.
+- Thực tế: $25/tháng (xếp tier sát hơn).
 
-→ Intelligent-Tiering often wins for unpredictable workloads.
+→ Intelligent-Tiering thường thắng với workload khó đoán.
 
-**Hybrid**:
+**Kết hợp (hybrid)**:
 
 ```json
 {
@@ -1345,30 +1422,30 @@ Scenario: 1TB data, mixed access:
 }
 ```
 
-→ All new objects → Intelligent-Tiering. AWS optimizes after that.
+→ Mọi object mới → Intelligent-Tiering. AWS tự tối ưu sau đó.
 
-**Specific case**:
-- **Logs**: typically lifecycle (predictable hot→cold pattern).
-- **User uploads**: Intelligent-Tiering (unpredictable access).
-- **Backups**: lifecycle to Glacier (always cold).
-- **Database snapshots**: lifecycle (predictable).
-- **Media library** (mixed): Intelligent-Tiering.
+**Theo từng loại dữ liệu**:
+- **Logs**: thường dùng lifecycle (pattern nóng→nguội đoán trước được).
+- **User uploads**: Intelligent-Tiering (truy cập khó đoán).
+- **Backups**: lifecycle xuống Glacier (luôn nguội).
+- **Database snapshots**: lifecycle (đoán trước được).
+- **Media library** (lẫn lộn): Intelligent-Tiering.
 
-**Verify with metrics**:
-- CloudWatch S3 metrics: track storage class distribution.
-- Cost Explorer: cost per storage class.
+**Kiểm chứng bằng metrics**:
+- CloudWatch S3 metrics: theo dõi phân bố storage class.
+- Cost Explorer: chi phí theo từng storage class.
 
-→ Default 2026: Intelligent-Tiering for unknown. Lifecycle for known.
+→ Mặc định 2026: Intelligent-Tiering cho dữ liệu khó đoán, lifecycle cho dữ liệu đoán được.
 </details>
 
-**Q4.** EC2 → S3 access — access key vs IAM role?
+**Q4.** EC2 truy cập S3 — dùng access key hay IAM role?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **Anti-pattern (access key)**:
 ```python
-# Hardcoded or env var
+# Hardcode hoặc env var
 import boto3
 session = boto3.Session(
     aws_access_key_id='AKIAXXXXX',
@@ -1377,11 +1454,11 @@ session = boto3.Session(
 s3 = session.client('s3')
 ```
 
-**Problems**:
-1. **Leak risk**: key in code/env/Docker image. Git commit by mistake. Container introspection.
-2. **No rotation**: key valid forever.
-3. **Limited scope**: bound to specific IAM user, not service.
-4. **Audit**: hard to attribute actions to specific compute resource.
+**Vấn đề**:
+1. **Nguy cơ rò rỉ**: key nằm trong code/env/Docker image. Lỡ tay commit lên git. Bị moi qua introspection container.
+2. **Không xoay vòng**: key sống mãi mãi.
+3. **Phạm vi hẹp**: gắn cứng vào một IAM user, không phải service.
+4. **Khó audit**: khó truy ra hành động thuộc về compute resource nào.
 
 **Best practice (IAM role)**:
 
@@ -1416,155 +1493,157 @@ resource "aws_iam_instance_profile" "ec2_app" {
 
 resource "aws_instance" "app" {
   iam_instance_profile = aws_iam_instance_profile.ec2_app.name
-  # ... no access keys passed
+  # ... không truyền access key
 }
 ```
 
 ```python
-# Inside EC2:
+# Bên trong EC2:
 import boto3
-s3 = boto3.client('s3')   # SDK auto-fetches credentials
+s3 = boto3.client('s3')   # SDK tự lấy credentials
 s3.get_object(Bucket='my-bucket', Key='file.txt')
 ```
 
-**How SDK gets credentials**:
-1. SDK looks at `~/.aws/credentials` (not present).
-2. SDK looks at env vars (not present).
-3. SDK queries **EC2 instance metadata** at `http://169.254.169.254/latest/meta-data/iam/security-credentials/{role-name}`.
-4. AWS returns temporary credentials (1-hour TTL).
-5. SDK uses + auto-refreshes.
+**SDK lấy credentials bằng cách nào**:
+1. SDK xem `~/.aws/credentials` (không có).
+2. SDK xem env var (không có).
+3. SDK query **EC2 instance metadata** tại `http://169.254.169.254/latest/meta-data/iam/security-credentials/{role-name}`.
+4. AWS trả về credentials tạm thời (TTL 1 giờ).
+5. SDK dùng + tự làm mới.
 
-**Benefits**:
-1. **No leaked keys** — credentials never in code/env.
-2. **Auto-rotation** — refreshed every hour.
-3. **Audit clear** — CloudTrail logs show role + EC2 instance ID.
-4. **Principle of least privilege** — role granted only what app needs.
+**Lợi ích**:
+1. **Không rò key** — credentials không bao giờ nằm trong code/env.
+2. **Tự xoay vòng** — làm mới mỗi giờ.
+3. **Audit rõ ràng** — CloudTrail ghi role + EC2 instance ID.
+4. **Quyền tối thiểu** — role chỉ được cấp đúng cái app cần.
 
-**Other services use similar pattern**:
+**Các dịch vụ khác cũng theo pattern tương tự**:
 - **Lambda**: execution role.
 - **ECS task**: task role.
 - **EKS pod**: IRSA (IAM Roles for Service Accounts).
 - **CodeBuild**: build role.
 
 **IMDSv2** (Instance Metadata Service v2):
-- Requires session token (PUT then GET).
-- Mitigates SSRF attacks.
-- Default 2026 for new EC2.
+- Bắt buộc session token (PUT rồi mới GET).
+- Giảm thiểu tấn công SSRF.
+- Mặc định 2026 cho EC2 mới.
 
 ```bash
-# IMDSv2 example
+# Ví dụ IMDSv2
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/iam/security-credentials/
 ```
 
-→ Always IAM role for EC2 → S3. Never access keys.
+→ Luôn dùng IAM role cho EC2 → S3. Đừng dùng access key.
 
-**Migration path**:
-1. Audit code for hardcoded keys.
-2. Create IAM role with required permissions.
-3. Attach instance profile to EC2.
-4. Test SDK works without keys.
-5. Remove env vars / hardcoded keys.
-6. Rotate (invalidate) old keys.
+**Lộ trình migrate**:
+1. Soát code tìm key hardcode.
+2. Tạo IAM role với quyền cần thiết.
+3. Gắn instance profile vào EC2.
+4. Test SDK chạy được mà không cần key.
+5. Gỡ env var / key hardcode.
+6. Xoay vòng (vô hiệu hoá) key cũ.
 
-→ Roll out across fleet.
+→ Triển khai dần ra toàn fleet.
 </details>
 
-**Q5.** S3 + CloudFront vs Vercel/Netlify — for static site?
+**Q5.** S3 + CloudFront và Vercel/Netlify — chọn gì cho static site?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **S3 + CloudFront**:
-- AWS-native.
-- Setup: bucket + distribution + Route 53.
-- Custom: tune cache, headers, edge functions.
-- Cost: storage $0.023/GB + CloudFront egress + cache invalidation.
+- Thuần AWS.
+- Thiết lập: bucket + distribution + Route 53.
+- Tùy biến: chỉnh cache, header, edge function.
+- Chi phí: storage $0.023/GB + CloudFront egress + cache invalidation.
 
-**Pros**:
-- Full control.
-- Integrate with AWS Lambda@Edge.
-- Long-lived setup (no startup churn).
-- Pay per use.
+**Ưu điểm**:
+- Toàn quyền kiểm soát.
+- Tích hợp với AWS Lambda@Edge.
+- Setup ổn định lâu dài (ít biến động).
+- Trả tiền theo lượng dùng.
 
-**Cons**:
-- Setup complexity (1-2 hours first time).
-- No git push deploy.
-- No PR preview deployments by default.
-- Manual cache invalidation needed.
+**Nhược điểm**:
+- Thiết lập rườm rà (lần đầu mất công).
+- Không có deploy theo git push.
+- Mặc định không có preview deploy theo PR.
+- Phải invalidate cache thủ công.
 
 **Vercel / Netlify**:
-- SaaS PaaS for frontend.
-- Git push → auto deploy.
-- Preview deploys per PR.
-- Built-in CDN, edge functions.
+- Dịch vụ PaaS chuyên cho frontend.
+- Git push → tự deploy.
+- Preview deploy theo từng PR.
+- CDN, edge function có sẵn.
 
-**Pros**:
-- **Zero config**: connect Git, done.
-- **Preview deploys**: per PR.
-- **Built-in optimizations**: image transformation, smart caching.
-- **Edge functions** built-in.
-- Free tier generous (~100GB egress).
+**Ưu điểm**:
+- **Zero config**: nối Git là xong.
+- **Preview deploy**: cho từng PR.
+- **Tối ưu sẵn**: chuyển đổi ảnh, cache thông minh.
+- **Edge function** có sẵn.
+- Free tier hào phóng (~100GB egress).
 
-**Cons**:
-- Pricing scales with usage ($20+/month easy).
-- Vendor lock-in (Next.js features Vercel-specific).
-- Less custom than AWS.
+**Nhược điểm**:
+- Giá tăng theo lượng dùng (dễ vượt $20+/tháng).
+- Vendor lock-in (một số tính năng Next.js riêng cho Vercel).
+- Ít tùy biến hơn AWS.
 
-**Choose Vercel/Netlify when**:
-- **Pure frontend** (SPA, SSG, SSR).
-- **Small team, fast iteration**.
-- **Next.js / Nuxt / SvelteKit** projects.
-- **Want PR preview deploys**.
-- **Don't want infra ops**.
+**Chọn Vercel/Netlify khi**:
+- **Thuần frontend** (SPA, SSG, SSR).
+- **Team nhỏ, lặp nhanh**.
+- **Dự án Next.js / Nuxt / SvelteKit**.
+- **Muốn preview deploy theo PR**.
+- **Không muốn lo vận hành hạ tầng**.
 
-**Choose S3 + CloudFront when**:
-- **AWS-only stack**.
-- **Custom CDN logic** (Lambda@Edge).
-- **Cost control at scale** ($1000+/month).
-- **Compliance**: AWS-specific certifications.
-- **Existing AWS pipeline**.
+**Chọn S3 + CloudFront khi**:
+- **Stack thuần AWS**.
+- **Cần logic CDN tùy biến** (Lambda@Edge).
+- **Kiểm soát chi phí ở quy mô lớn** ($1000+/tháng).
+- **Compliance**: cần chứng nhận riêng của AWS.
+- **Đã có sẵn pipeline AWS**.
 
-**Hybrid**:
-- Static blog: Cloudflare Pages (cheap CDN).
-- Dynamic frontend: Vercel.
-- Internal tools: S3 + CloudFront.
-- Different sites, different tools.
+**Kết hợp**:
+- Static blog: Cloudflare Pages (CDN rẻ).
+- Frontend động: Vercel.
+- Tool nội bộ: S3 + CloudFront.
+- Mỗi site một công cụ phù hợp.
 
-**Cost comparison** (small blog, 10K visits/month):
+**So sánh chi phí** (blog nhỏ, 10K lượt truy cập/tháng):
 
 - **S3 + CloudFront**: 
   - Storage: 5GB × $0.023 = $0.12.
   - CloudFront egress: 50GB × $0.085 = $4.25.
-  - Requests: minimal.
-  - **Total**: ~$5/month.
+  - Request: không đáng kể.
+  - **Tổng**: ~$5/tháng.
 
 - **Vercel Free tier**:
-  - 100GB egress free.
-  - **$0/month**.
+  - 100GB egress miễn phí.
+  - **$0/tháng**.
 
-→ Small site: Vercel/Netlify free tier wins.
+→ Site nhỏ: free tier của Vercel/Netlify thắng.
 
-**Cost at scale** (100K visits/month, lots of bandwidth):
+**Chi phí ở quy mô lớn** (100K lượt/tháng, nhiều băng thông):
 
-- **S3 + CloudFront**: $100-200/month (predictable per-GB).
-- **Vercel Pro**: $20-$200/month (varies on bandwidth, can spike).
+- **S3 + CloudFront**: $100–200/tháng (đơn giá theo GB, đoán được).
+- **Vercel Pro**: $20–$200/tháng (phụ thuộc băng thông, có thể vọt).
 
-→ Predictable AWS pricing wins at scale.
+→ Đơn giá AWS đoán trước được sẽ thắng ở quy mô lớn.
 
-**Recommendation 2026**:
-- Side project / personal: Vercel/Netlify/Cloudflare Pages (free or cheap).
+**Khuyến nghị 2026**:
+- Side project / cá nhân: Vercel/Netlify/Cloudflare Pages (miễn phí hoặc rẻ).
 - Startup B2C: Vercel.
-- Scale stage B2C: S3 + CloudFront for cost predictability.
-- Internal AWS-shop: S3 + CloudFront.
-- Multi-region geographic: Cloudflare Pages (global edge).
+- Giai đoạn scale B2C: S3 + CloudFront để chi phí đoán trước được.
+- Doanh nghiệp thuần AWS: S3 + CloudFront.
+- Đa vùng địa lý: Cloudflare Pages (edge toàn cầu).
 
-→ No one-size-fits-all. Pick by team + scale.
+→ Không có lựa chọn vạn năng. Chọn theo team + quy mô.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: lệnh `aws s3`/`s3api`, thao tác `boto3`, và mẫu Terraform dựng bucket chuẩn.
 
 ```bash
 # === S3 ===
@@ -1619,14 +1698,14 @@ url = s3.generate_presigned_url(
     ExpiresIn=3600
 )
 
-# Presigned POST (with conditions)
+# Presigned POST (kèm conditions)
 post = s3.generate_presigned_post(
     Bucket='bucket', Key='file.txt',
     Conditions=[['content-length-range', 0, 5_000_000]],
     ExpiresIn=600
 )
 
-# List with prefix
+# List theo prefix
 for obj in s3.list_objects_v2(Bucket='bucket', Prefix='folder/').get('Contents', []):
     print(obj['Key'], obj['Size'])
 ```
@@ -1679,66 +1758,70 @@ resource "aws_s3_bucket_lifecycle_configuration" "main" {
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **S3** | Simple Storage Service |
-| **Bucket** | S3 top-level container (globally unique) |
-| **Object** | Stored data + metadata |
-| **Key** | Object path within bucket |
-| **Prefix** | Folder-like grouping (s3 doesn't have real folders) |
-| **Bucket policy** | Resource-based policy attached to bucket |
-| **IAM policy** | Identity-based policy attached to user/role |
-| **Presigned URL** | Time-limited URL with embedded signature |
-| **Presigned POST** | Browser-friendly upload form with conditions |
-| **Lifecycle policy** | Auto-transition / delete rules |
-| **Storage class** | Standard / IA / Glacier / Deep Archive |
-| **Intelligent-Tiering** | AWS auto-tier based on access |
-| **Versioning** | Keep multiple object versions |
-| **MFA Delete** | Require MFA for permanent delete |
-| **CORS** | Cross-Origin Resource Sharing |
-| **Static website hosting** | Serve HTML directly from S3 |
-| **OAI** | Origin Access Identity (CloudFront → S3 private) |
-| **OAC** | Origin Access Control (newer OAI alternative) |
-| **SSE-S3** | Server-Side Encryption AWS keys |
-| **SSE-KMS** | Server-Side Encryption KMS keys |
-| **SSE-C** | Server-Side Encryption Customer keys |
-| **BPA** | Block Public Access (account/bucket setting) |
-| **IAM role** | Identity assumed by service (EC2, Lambda) |
-| **Instance profile** | Container for IAM role attached to EC2 |
-| **IMDSv2** | Instance Metadata Service v2 (SSRF mitigation) |
-| **IRSA** | IAM Roles for Service Accounts (EKS) |
-| **Bucket Owner Enforced** | Default ownership for new buckets 2026 |
-| **ACL** | Access Control List (legacy, prefer policy) |
-| **CloudFront OAI/OAC** | CloudFront-only access to S3 origin |
-| **ETag** | Object content hash |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **S3** | Simple Storage Service | Dịch vụ lưu trữ object của AWS |
+| **Bucket** | Thùng chứa | Thùng chứa cấp cao nhất của S3 (tên unique toàn cầu) |
+| **Object** | Đối tượng | Dữ liệu + metadata được lưu |
+| **Key** | Khoá | Đường dẫn của object trong bucket |
+| **Prefix** | Tiền tố | Cách nhóm kiểu thư mục (S3 không có thư mục thật) |
+| **Bucket policy** | Policy theo tài nguyên | Policy gắn vào bucket |
+| **IAM policy** | Policy theo danh tính | Policy gắn vào user/role |
+| **Presigned URL** | URL ký sẵn | URL có hạn dùng kèm chữ ký nhúng |
+| **Presigned POST** | POST ký sẵn | Form upload thân thiện trình duyệt, kèm điều kiện |
+| **Lifecycle policy** | Policy vòng đời | Luật tự chuyển tier / xoá |
+| **Storage class** | Lớp lưu trữ | Standard / IA / Glacier / Deep Archive |
+| **Intelligent-Tiering** | Phân tầng thông minh | AWS tự xếp tier theo truy cập |
+| **Versioning** | Quản lý phiên bản | Giữ nhiều version của object |
+| **MFA Delete** | Xoá kèm MFA | Bắt nhập MFA khi xoá vĩnh viễn |
+| **CORS** | Chia sẻ tài nguyên khác origin | Cross-Origin Resource Sharing |
+| **Static website hosting** | Host web tĩnh | Phục vụ HTML trực tiếp từ S3 |
+| **OAI** | Origin Access Identity | CloudFront → S3 private |
+| **OAC** | Origin Access Control | Bản kế nhiệm mới hơn của OAI |
+| **SSE-S3** | Mã hoá phía server, key AWS | Server-Side Encryption AWS keys |
+| **SSE-KMS** | Mã hoá phía server, key KMS | Server-Side Encryption KMS keys |
+| **SSE-C** | Mã hoá phía server, key khách | Server-Side Encryption Customer keys |
+| **BPA** | Chặn truy cập public | Block Public Access (cấp account/bucket) |
+| **IAM role** | Vai trò IAM | Danh tính được dịch vụ (EC2, Lambda) đeo vào |
+| **Instance profile** | Hồ sơ instance | Bộ chứa IAM role gắn vào EC2 |
+| **IMDSv2** | Dịch vụ metadata instance v2 | Instance Metadata Service v2 (chống SSRF) |
+| **IRSA** | IAM Roles for Service Accounts | Phân quyền IAM cho pod EKS |
+| **Bucket Owner Enforced** | Chủ bucket sở hữu | Ownership mặc định cho bucket mới 2026 |
+| **ACL** | Danh sách kiểm soát truy cập | Access Control List (cũ, nên ưu tiên policy) |
+| **CloudFront OAI/OAC** | Chỉ CloudFront vào S3 | Cho phép duy nhất CloudFront truy cập origin S3 |
+| **ETag** | Mã băm nội dung | Object content hash |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_ec2-and-ebs-compute.md](01_ec2-and-ebs-compute.md)
-- → Tiếp: [03_rds-and-dynamodb.md](03_rds-and-dynamodb.md) *(sắp viết)*
-- ↑ Cluster: [AWS README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [Cloud Fundamentals storage](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — block/object/file
-- ☁️ [Cloud Fundamentals security](../../../cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md) — IAM context
-- 🐍 [FastAPI basic](../../../../07_web/backend/python-fastapi/) — backend integration
+- ⬅️ **Bài trước:** [EC2 + EBS — Compute foundation](01_ec2-and-ebs-compute.md)
+- ➡️ **Bài tiếp theo:** [RDS + DynamoDB — Managed databases](03_rds-and-dynamodb.md)
+- ↑ **Về cụm:** [AWS](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [Cloud Storage + Databases — Chọn đúng nơi cất dữ liệu](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — block/object/file storage
+- ☁️ [Cloud Security & Shared Responsibility Model](../../../cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md) — bối cảnh IAM
+- 🐍 [FastAPI basic](../../../../07_web/backend/python-fastapi/) — tích hợp backend
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [S3 docs](https://docs.aws.amazon.com/s3/)
 - 📖 [IAM docs](https://docs.aws.amazon.com/iam/)
-- 📖 [S3 best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
+- 📖 [S3 security best practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
 - 📖 [Presigned URL guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
 - 📖 [IAM policy generator](https://awspolicygen.s3.amazonaws.com/policygen.html)
 - 📖 [S3 pricing](https://aws.amazon.com/s3/pricing/)
-- 📖 [Cloudflare R2](https://developers.cloudflare.com/r2/) — S3-compatible alternative
+- 📖 [Cloudflare R2](https://developers.cloudflare.com/r2/) — lựa chọn thay thế tương thích S3
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 02 AWS basic cluster. S3 deep (bucket policy + IAM policy + presigned URL + lifecycle + versioning + MFA delete + CORS + encryption + static hosting) + IAM fundamentals (users/roles/policies + EC2 instance profile + cross-account) + hands-on static blog + secure file upload pattern. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín tiếng Anh" sang tiếng Việt narrative (lời dẫn trước mỗi code/bảng/list, câu phân tích sau, câu bắc cầu giữa các section, ẩn dụ giữ nguyên); giữ nguyên 100% code/lệnh/config/số liệu và cấu trúc 8 phần + diagram. Sửa lỗi QA: bỏ comment `//` không hợp lệ trong 2 fence JSON (lifecycle `2555` và policy structure `Effect`) — chuyển chú thích ra prose để JSON parse được; Việt hoá field metadata "Prerequisites" → "Yêu cầu trước" + cập nhật link-text yêu cầu trước theo H1 thực; chuẩn hoá Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (`⬅️/➡️/↑` + 3 sub-heading chuẩn, link-text = H1 thực bài đích), xoá nhãn "(sắp viết)" cho bài 03 RDS đã tồn tại; đổi fence URL formats sang `text`.

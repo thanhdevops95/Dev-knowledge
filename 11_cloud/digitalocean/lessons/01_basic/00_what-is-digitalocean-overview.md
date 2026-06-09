@@ -1,13 +1,12 @@
 # 🌊 DigitalOcean — Tổng quan + Team/Project + doctl CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
-> **Prerequisites:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
+> **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
 
 > 🎯 *Bài đầu cluster DigitalOcean. Bạn đã quen AWS/GCP "siêu thị 250 services"; giờ học **DigitalOcean** — vendor cloud developer-first, ít service hơn nhưng giá predictable, UI thân thiện, công ty nhỏ-vừa và startup dùng cực nhiều. Bài này dạy: DO là gì, niche, Team/Project hierarchy, doctl CLI, pricing flat, hands-on Droplet đầu tiên.*
 
@@ -63,7 +62,7 @@ Vấn đề: bạn chưa biết DO khác AWS chỗ nào, "Project" trong DO khá
 
 | Yếu | Hệ quả |
 |---|---|
-| Ít service hơn nhiều (~30 vs 250+ AWS) | Niche workload phức tạp thiếu lựa chọn (vd: không có queue managed như SQS, không có Lambda equivalent đầy đủ) |
+| Ít service hơn nhiều (~30 vs 250+ AWS) | Niche workload phức tạp thiếu lựa chọn (vd: không có queue managed như SQS; có Functions serverless nhưng hệ sinh thái event-source/trigger kém phong phú hơn Lambda) |
 | Region ít (~15 vs AWS 30+) | Latency vùng xa (Việt Nam ping SGP1 OK, US workload mới mượt) |
 | Enterprise features yếu | SLA, compliance (HIPAA, FedRAMP) hạn chế hơn AWS/Azure |
 | Không có niche specialized (TPU, Quantum, Satellite) | Workload đặc thù không có |
@@ -77,7 +76,7 @@ Vấn đề: bạn chưa biết DO khác AWS chỗ nào, "Project" trong DO khá
 | Internal tool công ty SMB | Team < 50 người, không cần enterprise SLA |
 | Indie hacker / freelancer | Cần host đơn giản, giá rõ |
 | App Platform PaaS (alternative Heroku) | Push Git → deploy live |
-| K8s học tập | DOKS rẻ ($12 control plane free) |
+| K8s học tập | DOKS rẻ (control plane free, chỉ trả tiền worker node) |
 | Bandwidth-heavy app | Bandwidth allotment thoải mái |
 | Workload cần migrate từ Heroku/Render | Tương đồng UX |
 
@@ -198,7 +197,7 @@ Dù không isolate, Project vẫn dùng để:
 1. Truy cập [digitalocean.com](https://www.digitalocean.com) → "Sign up".
 2. Đăng ký bằng email/Google/GitHub.
 3. Verify email + add credit card hoặc PayPal.
-4. Nhận **$200 free credit** trong 60 ngày (referral 2026).
+4. Nhận **free credit** khi đăng ký mới (mức tiền + thời hạn thay đổi theo chương trình/khu vực — xem trang signup để biết ưu đãi hiện hành).
 
 ### Bước 2 — Bật 2FA
 
@@ -254,8 +253,8 @@ brew install doctl
 # Linux (snap)
 sudo snap install doctl
 
-# Linux (binary)
-cd ~ && wget https://github.com/digitalocean/doctl/releases/download/v1.104.0/doctl-1.104.0-linux-amd64.tar.gz
+# Linux (binary) — thay version bằng bản mới nhất tại github.com/digitalocean/doctl/releases
+cd ~ && wget https://github.com/digitalocean/doctl/releases/download/v1.160.1/doctl-1.160.1-linux-amd64.tar.gz
 tar xf doctl-*.tar.gz
 sudo mv doctl /usr/local/bin
 
@@ -479,7 +478,7 @@ doctl compute droplet list
 
 ---
 
-## ⚠️ Pitfalls — Bẫy phổ biến
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Để PAT leak
 
@@ -552,7 +551,7 @@ doctl compute droplet list
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** DO và AWS khác nhau ở điểm cốt lõi nào?
 
@@ -609,7 +608,7 @@ doctl compute droplet list
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -628,9 +627,9 @@ doctl compute droplet list
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | **DigitalOcean (DO)** | (giữ nguyên) | Vendor cloud developer-first, ra đời 2011 |
 | **Droplet** | (giữ nguyên) | VM của DO (analog EC2) |
@@ -650,18 +649,21 @@ doctl compute droplet list
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_droplets-and-volumes](01_droplets-and-volumes.md)
-- ↑ Cluster DigitalOcean: [DigitalOcean README](../../README.md)
-- ↶ Cloud Fundamentals: [11_cloud/cloud-fundamentals](../../../cloud-fundamentals/)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Cloud Fundamentals — Nền tảng điện toán đám mây](../../../cloud-fundamentals/)
+- ➡️ **Bài tiếp theo:** [Droplet + Block Storage Volumes — Compute cơ bản DO](01_droplets-and-volumes.md)
+- ↑ **Về cụm:** [DigitalOcean](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
 - ☁️ [AWS basic](../../../aws/) — so sánh service analog
 - ☁️ [GCP basic](../../../gcp/) — vendor #3, focus data/AI
 - 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Terraform DO provider
 - 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [DO docs](https://docs.digitalocean.com/)
 - 📖 [doctl reference](https://docs.digitalocean.com/reference/doctl/)
 - 📖 [DO Community tutorials](https://www.digitalocean.com/community/tutorials) — 5M+ articles, chất lượng cao
@@ -673,6 +675,7 @@ doctl compute droplet list
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Bài 00 cluster DigitalOcean basic. Overview DO + niche developer/SMB + so sánh AWS/GCP + 12 services tier 1 + Team→Project hierarchy + doctl setup + Tier Pricing flat + hands-on Droplet + 8 pitfalls. Pattern theo AWS/GCP lesson 00.
+- **v1.1.0 (01/06/2026)** — Đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá Glossary header sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (⬅️/➡️/↑ + link text = tiêu đề thực, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên). Sửa mâu thuẫn nội bộ: DOKS control plane free (bỏ "$12"), DO có Functions serverless (gỡ ý "không có Lambda equivalent"). Làm mềm free credit signup (bỏ số cứng $200/60 ngày); cập nhật doctl v1.104.0 → v1.160.1 + ghi chú dùng bản mới nhất.

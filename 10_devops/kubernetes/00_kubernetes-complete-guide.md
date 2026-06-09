@@ -259,7 +259,7 @@ Bạn gõ `kubectl apply -f deployment.yaml`:
 
 **Điểm cốt lõi:** Tất cả nói chuyện qua apiserver. Không ai gọi trực tiếp etcd. Đây là lý do K8s có thể có nhiều control plane (HA) — chỉ cần apiserver + etcd cluster.
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 - Production etcd **phải** backup định kỳ. Mất etcd = mất cluster, không cứu được.
 - Trong Minikube/Kind, tất cả thành phần trên chạy trong **1 container** duy nhất (single-node). Đừng tưởng tượng 5 server thật khi học local.
@@ -357,7 +357,7 @@ kubectl apply -f deployment.yaml         # tạo lần đầu
 kubectl apply -f deployment.yaml         # sửa rồi apply lại — K8s tự diff & update
 ```
 
-### ⚠️ Pitfall lớn nhất cho người mới
+### ⚠️ Cạm bẫy lớn nhất cho người mới
 
 Không bao giờ trộn imperative với declarative trên cùng resource. Vd:
 
@@ -447,7 +447,7 @@ minikube addons enable ingress          # Bật Ingress controller
 minikube addons enable metrics-server   # Bật metrics-server (cho HPA)
 ```
 
-### ⚠️ Pitfall thường gặp
+### ⚠️ Cạm bẫy thường gặp
 
 | Lỗi | Nguyên nhân | Fix |
 |---|---|---|
@@ -546,7 +546,7 @@ kubectl delete pod myapp-pod              # Xóa
 kubectl port-forward myapp-pod 8080:5000  # Tunnel local 8080 → pod 5000
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả | Đúng |
 |---|---|---|
@@ -663,7 +663,7 @@ redis.myapp-prod
 redis.myapp-prod.svc.cluster.local
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Đúng |
 |---|---|
@@ -745,7 +745,7 @@ kubectl top pod <pod>          # Cần metrics-server cài
 kubectl top nodes
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -884,7 +884,7 @@ kubectl rollout restart deployment/myapp-deployment
 kubectl delete deployment myapp-deployment   # → xóa RS → xóa pod (cascade)
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Triệu chứng | Fix |
 |---|---|---|
@@ -1028,7 +1028,7 @@ kube-proxy (iptables) intercept 10.96.5.2:80
    └─→ Pod 3 (10.244.3.9:5000)
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Triệu chứng | Fix |
 |---|---|---|
@@ -1143,7 +1143,7 @@ metadata:
 
 → Sau này `rollout history` thấy được lý do thay đổi.
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -1264,7 +1264,7 @@ kubectl describe configmap myapp-config
 kubectl edit configmap myapp-config
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -1394,7 +1394,7 @@ kubectl create secret generic myapp-secret --from-file=password.txt
 kubectl get secret myapp-secret -o jsonpath='{.data.DB_PASSWORD}' | base64 -d
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -1527,7 +1527,7 @@ kubectl describe pvc myapp-pvc
 kubectl get pod myapp-pod -o jsonpath='{.spec.volumes}'
 ```
 
-### ⚠️ Pitfall — `hostPath` chỉ dùng local
+### ⚠️ Cạm bẫy — `hostPath` chỉ dùng local
 
 ```yaml
 hostPath:
@@ -1749,7 +1749,7 @@ livenessProbe:
 
 → Nếu trộn (vd `/health` check DB), DB chết tạm → liveness fail → app restart vô tận → CrashLoop.
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -1842,7 +1842,7 @@ kubectl run -it loader --image=busybox -- /bin/sh
 while true; do wget -q -O- http://myapp; done
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Triệu chứng |
 |---|---|
@@ -1958,7 +1958,7 @@ curl http://api.myapp.local
 | `Prefix` | Match prefix (cẩn thận với `/` — match all) |
 | `ImplementationSpecific` | Tuỳ controller |
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Triệu chứng |
 |---|---|
@@ -2071,7 +2071,7 @@ kubectl get pvc                    # data-redis-0, data-redis-1, data-redis-2
 kubectl scale statefulset redis --replicas=5
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2242,7 +2242,7 @@ kubectl logs job/db-migrate-v6
 kubectl create job --from=cronjob/db-backup test-backup-now
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2338,7 +2338,7 @@ spec:
 
 → Sidecar khởi động trước app, song song với app, dừng sau app.
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2475,7 +2475,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:myapp-dev:deplo
 | `edit` | Sửa hầu hết resource, không sửa RBAC |
 | `view` | Read-only |
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2595,7 +2595,7 @@ kubectl run tmp --image=busybox -it --rm -- wget -O- http://postgres:5432
 # (từ pod không có label app=backend → fail)
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2707,7 +2707,7 @@ kubectl taint nodes node1 dedicated=db:NoSchedule
 kubectl taint nodes node1 dedicated:NoSchedule-      # remove (note dấu - cuối)
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2818,7 +2818,7 @@ kubectl get limitrange -n myapp-dev
 kubectl get pdb -n myapp-dev
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -2938,7 +2938,7 @@ helm install my-redis bitnami/redis
 helm uninstall my-release
 ```
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|
@@ -3067,7 +3067,7 @@ kubectl diff -k overlays/prod
 
 → Production thường **dùng cả 2**: Helm cho 3rd-party (Bitnami Redis, Prometheus), Kustomize cho app nội bộ.
 
-### ⚠️ Pitfall
+### ⚠️ Cạm bẫy
 
 | Sai lầm | Hậu quả |
 |---|---|

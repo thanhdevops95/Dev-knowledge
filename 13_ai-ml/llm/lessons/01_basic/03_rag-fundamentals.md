@@ -1,12 +1,11 @@
 # 📚 RAG — Retrieval Augmented Generation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [02_function-calling-and-tools](02_function-calling-and-tools.md) ✅
 
 > 🎯 *Bài 03. LLM **không có data riêng của bạn** (Acme Shop docs, internal wiki, code) → bịa khi hỏi. **RAG** = inject relevant chunks vào prompt để LLM trả lời ground-truth + cite. Bài này dạy: embedding model, vector DB, chunking strategy, retrieval, reranking, RAG vs fine-tune trade-off. Hands-on build Q&A bot cho Acme Shop docs.*
@@ -90,11 +89,13 @@ User question → Embed → Search vector DB → Top K chunks
 |---|---|---|---|
 | **text-embedding-3-large** (OpenAI) | 3072 | 8192 | Best quality |
 | **text-embedding-3-small** (OpenAI) | 1536 | 8192 | Cheap, good |
-| **voyage-3** (Voyage AI) | 1024 | 32k | Anthropic recommend 2024+ |
+| **voyage-3.5 / voyage-3-large** (Voyage AI) | 1024 | 32k | Anthropic recommend; 2025+ thay cho voyage-3 |
 | **embed-multilingual-v3** (Cohere) | 1024 | 512 | Multilingual incl. Vietnamese |
 | **BGE-M3** (BAAI) | 1024 | 8k | Open-source, multilingual |
 | **nomic-embed-text-v1.5** | 768 | 8k | Open, on-device |
 | **all-MiniLM-L6-v2** (legacy) | 384 | 512 | Tiny, on-device |
+
+> ⚠️ Embedding/reranker model đổi nhanh — tên trong bảng là ví dụ thời điểm viết. Trước khi build, kiểm tra docs nhà cung cấp + [MTEB Leaderboard](https://huggingface.co/spaces/mteb/leaderboard) cho bản mới nhất.
 
 ### Embed text
 
@@ -266,15 +267,15 @@ points = [
 ]
 client.upsert(collection_name="acmeshop_docs", points=points)
 
-# Search
+# Search (qdrant-client 1.10+: dùng query_points; client.search() đã deprecated)
 query_emb = embed("What is return policy?")
-results = client.search(
+response = client.query_points(
     collection_name="acmeshop_docs",
-    query_vector=query_emb,
+    query=query_emb,
     limit=5,
     query_filter={"must": [{"key": "section", "match": {"value": "Returns"}}]},  # optional filter
 )
-for r in results:
+for r in response.points:
     print(r.score, r.payload["text"][:100])
 ```
 
@@ -348,7 +349,7 @@ Vector search = "biencoder" — fast nhưng đôi khi noisy. **Reranker** = cros
 ```
 
 Reranker model 2026:
-- **Cohere Rerank v3** (managed)
+- **Cohere Rerank v3.5** (managed) — `rerank-v3.5` thay cho `rerank-multilingual-v3.0` cũ
 - **Voyage Rerank-2** (managed)
 - **BGE-reranker-large** (open-source)
 - **Jina Rerank**
@@ -441,12 +442,13 @@ class Answer(BaseModel):
 ### RAGAS framework
 
 ```python
+# RAGAS 0.2+: context_relevancy đã đổi tên → dùng context_precision + context_recall
 from ragas import evaluate
-from ragas.metrics import faithfulness, answer_relevancy, context_relevancy
+from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
 
 result = evaluate(
     dataset,  # {question, contexts, answer, ground_truths}
-    metrics=[faithfulness, answer_relevancy, context_relevancy],
+    metrics=[faithfulness, answer_relevancy, context_precision, context_recall],
 )
 print(result)
 ```
@@ -494,8 +496,10 @@ vo = voyageai.Client()
 qdrant = QdrantClient(url="http://localhost:6333")
 COLLECTION = "acmeshop_docs"
 
-# Create collection
-qdrant.recreate_collection(
+# Create collection (recreate_collection đã deprecated → tự kiểm tra + tạo)
+if qdrant.collection_exists(COLLECTION):
+    qdrant.delete_collection(COLLECTION)
+qdrant.create_collection(
     collection_name=COLLECTION,
     vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
 )
@@ -540,17 +544,17 @@ def rag_qa(question: str, top_k_vec: int = 20, top_k_rerank: int = 5) -> str:
     # 1. Embed query
     q_emb = vo.embed([question], model="voyage-3", input_type="query").embeddings[0]
 
-    # 2. Vector search
-    results = qdrant.search(
+    # 2. Vector search (query_points: API mới thay cho search())
+    results = qdrant.query_points(
         collection_name=COLLECTION,
-        query_vector=q_emb,
+        query=q_emb,
         limit=top_k_vec,
-    )
+    ).points
 
     # 3. Rerank
     docs = [r.payload["text"] for r in results]
     reranked = reranker.rerank(
-        model="rerank-multilingual-v3.0",
+        model="rerank-v3.5",
         query=question,
         documents=docs,
         top_n=top_k_rerank,
@@ -603,7 +607,7 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Chunk size không tune
 
@@ -655,7 +659,7 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] RAG flow indexing + query 6 step?
 - [ ] Embedding model 2026 — pick cho tiếng Việt?
@@ -668,7 +672,7 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -697,15 +701,15 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_function-calling-and-tools](02_function-calling-and-tools.md)
-- → Tiếp: [04_llm-app-cost-eval-and-production](04_llm-app-cost-eval-and-production.md) *(sắp viết)*
-- ↑ Cluster LLM: [LLM README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Function Calling + Tool Use + Agent Loop](02_function-calling-and-tools.md)
+- ➡️ **Bài tiếp theo:** [LLM App — Cost, Evaluation, Production](04_llm-app-cost-eval-and-production.md) *(sắp viết)*
+- ↑ **Về cụm:** [LLM README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🧠 [RAG + AI Agent](../../../rag-and-ai-agent/) — sibling, agent + RAG combine
 - 🔢 [Vector search + Embeddings](../../../vector-search-and-embeddings/) — sibling deep
-- 🐘 [pgvector + Postgres](../../../../06_databases/sql/postgresql/) — backend
+- 🐘 [pgvector + Postgres](../../../../06_databases/postgresql/) — backend
 - 🐳 [Docker](../../../../10_devops/docker/) — Qdrant container
 
 ### Tài nguyên ngoài (2026)
@@ -724,6 +728,7 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 LLM basic. RAG flow + embedding 2026 (text-embedding-3, voyage-3, BGE-M3, Cohere) + chunking 8 strategy + vector DB compare 9 (Pinecone/Qdrant/Weaviate/Milvus/pgvector/Chroma) + hybrid search RRF + reranker (Cohere/Voyage) + citation pattern + RAG vs Long context vs Fine-tune decision + RAGAS eval + hands-on Acme Shop Q&A bot + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Cập nhật API lỗi thời: qdrant-client `search()`→`query_points()`, `recreate_collection()`→`collection_exists`+`delete`+`create`; RAGAS `context_relevancy`→`context_precision`+`context_recall` (0.2+). Cập nhật reranker Cohere `rerank-v3.5`, embedding voyage-3.5 + thêm lưu ý kiểm tra model mới nhất.

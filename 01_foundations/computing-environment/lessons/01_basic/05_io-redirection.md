@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [03_process-and-pid.md](./03_process-and-pid.md), [04_env-variables.md](./04_env-variables.md)
 
 > 🎯 *Bài CONCEPT cuối cluster computing-environment — hiểu **3 luồng I/O** (stdin/stdout/stderr) + **redirect** (`>`, `<`, `2>&1`) + **pipe** (`|`) + `/dev/null` + `tee`. Sau bài này bạn đọc được mọi lệnh shell phức tạp như `cmd1 | cmd2 > out.txt 2>&1`.*
@@ -369,9 +368,9 @@ Phân rã:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `> file` ghi đè file đang đọc
+### ❌ Cạm bẫy: `> file` ghi đè file đang đọc
 
 ```bash
 sort data.txt > data.txt   # ❌ data.txt bị wipe TRƯỚC khi sort đọc
@@ -384,7 +383,7 @@ sort data.txt > data.txt   # ❌ data.txt bị wipe TRƯỚC khi sort đọc
   # Hoặc tool có flag in-place: sort -o data.txt data.txt
   ```
 
-### ❌ Pitfall: Quên `2>&1`, error không vào file
+### ❌ Cạm bẫy: Quên `2>&1`, error không vào file
 
 ```bash
 python app.py > app.log
@@ -398,7 +397,7 @@ python app.py > app.log
   python app.py &> app.log
   ```
 
-### ❌ Pitfall: Pipe đến tool không hỗ trợ stdin
+### ❌ Cạm bẫy: Pipe đến tool không hỗ trợ stdin
 
 ```bash
 ls -la | open    # ❌ `open` không đọc stdin
@@ -410,7 +409,7 @@ ls -la | open    # ❌ `open` không đọc stdin
   ls *.txt | xargs open       # đúng — xargs truyền filenames làm argument
   ```
 
-### ❌ Pitfall: Thứ tự `2>&1` sai
+### ❌ Cạm bẫy: Thứ tự `2>&1` sai
 
 ```bash
 cmd 2>&1 > file     # ❌ stderr vẫn ra terminal, chỉ stdout vào file
@@ -419,7 +418,7 @@ cmd > file 2>&1     # ✓ cả 2 vào file
 
 - **Quy tắc**: redirect xử lý **trái → phải**. Đặt `2>&1` SAU `> file`.
 
-### ❌ Pitfall: Buffer khi pipe
+### ❌ Cạm bẫy: Buffer khi pipe
 
 ```bash
 tail -f log.txt | grep ERROR
@@ -458,7 +457,7 @@ npm run build 2>&1 | tee build-$(date +%Y%m%d-%H%M).log
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Phân biệt `cmd > file` và `cmd >> file`?
 
@@ -541,7 +540,7 @@ sed -i 's/old/new/g' file   # sed có -i in-place
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Output redirect
 
@@ -588,7 +587,7 @@ sed -i 's/old/new/g' file   # sed có -i in-place
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -619,7 +618,7 @@ sed -i 's/old/new/g' file   # sed có -i in-place
 | 📚 Lệnh `grep`/`awk`/`sed` cụ thể | `04_os/linux/lessons/01_basic/` (chưa có bài text processing) |
 | 🛠️ Customize shell pipe | [02_tools/shell/](../../../../02_tools/shell/) (chưa có) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Bash Reference Manual — Redirections](https://www.gnu.org/software/bash/manual/html_node/Redirections.html) — chính thức
 - [Bash Pitfalls — I/O](http://mywiki.wooledge.org/BashPitfalls) — common mistakes
@@ -629,7 +628,7 @@ sed -i 's/old/new/g' file   # sed có -i in-place
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 5 lead-in trước code/bảng/diagram (cú pháp tổng quát, ví dụ thực tế, giải mã `2>&1`, bảng tổng hợp, pipe diagram), bổ sung ✅ Best practice thứ 2 (stream log lớn qua tee).
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên — **đóng cluster basic computing-environment 6/6**. Cover: 3 streams (stdin/stdout/stderr) với mermaid + ẩn dụ "2 tai, miệng, cờ đỏ", redirect `>`/`>>`/`2>`/`2>&1`/`&>`, giải mã thứ tự `2>&1` quan trọng, input redirect `<` + heredoc, pipe `|` với mermaid dây chuyền + so sánh redirect vs pipe, `/dev/null` "hố đen", `tee` "chữ T", 3 ví dụ kết hợp phức tạp (ps|grep|head, docker logs|grep|tee, curl|jq|sort), 5 pitfall (sort vào chính nó, quên 2>&1, tool không stdin, thứ tự 2>&1, buffer pipe), 4 self-check, cheatsheet đầy đủ + common patterns.
+- **v1.1.0 (24/05/2026)** — Thêm 5 lead-in trước code/bảng/diagram (cú pháp tổng quát, ví dụ thực tế, giải mã `2>&1`, bảng tổng hợp, pipe diagram), bổ sung ✅ Best practice thứ 2 (stream log lớn qua tee).

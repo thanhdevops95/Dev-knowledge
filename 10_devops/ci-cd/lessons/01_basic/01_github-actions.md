@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [What is CI/CD](00_what-is-cicd.md)
 
 > 🎯 *Master GitHub Actions: **workflow YAML**, **events**, **jobs + steps**, **actions marketplace**, **matrix**, **secrets + OIDC**, **caching**, **reusable workflows**, **environments**, **debug**. Sau bài này CI/CD project bất kỳ trong GitHub.*
@@ -736,7 +735,7 @@ jobs:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tags `v4`** thay SHA → supply chain attack vector. Pin SHA cho 3rd-party. Official `actions/*` OK tag.
 2. **Secret echo to log** → logs leak (sometimes masking miss). Never `echo $SECRET`.
@@ -746,7 +745,7 @@ jobs:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **3 events** thường dùng trong workflow?
 2. Cách share output từ **job A** sang **job B**?
@@ -783,7 +782,7 @@ jobs:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Minimal workflow
 
@@ -879,14 +878,14 @@ uses: ./.github/workflows/reusable.yml
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is CI/CD](00_what-is-cicd.md)
-- → Tiếp: [GitLab CI](02_gitlab-ci.md)
-- ↑ Cluster: [ci-cd README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [CI/CD là gì? — Automate build, test, deploy](00_what-is-cicd.md)
+- ➡️ **Bài tiếp theo:** [GitLab CI — Pipeline cho GitLab + self-host](02_gitlab-ci.md)
+- ↑ **Về cụm:** [ci-cd README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [GitHub Actions docs](https://docs.github.com/en/actions)
 - 📖 [Actions marketplace](https://github.com/marketplace?type=actions)
 - 📖 [act — run workflows locally](https://github.com/nektos/act)
@@ -899,8 +898,7 @@ uses: ./.github/workflows/reusable.yml
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Common events + Path filter + Manual inputs.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 2/5. Cover: workflow YAML structure + events (push/PR/schedule/dispatch) + jobs/steps + matrix + actions/setup-* + secrets + OIDC + reusable workflow + composite actions + caching.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Common events + Path filter + Manual inputs.

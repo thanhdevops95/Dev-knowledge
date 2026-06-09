@@ -1,9 +1,9 @@
 # 📋 Overview — <Tên chủ đề>
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *<Câu dẫn: "Chủ đề này là gì, vì sao tồn tại, học để làm gì.">*
 
@@ -65,13 +65,13 @@ graph LR
     A[Beginner] --> B[Intermediate] --> C[Advanced] --> D[Production-ready]
 ```
 
-| Bước | Đọc gì | Thời gian |
-|---|---|---|
-| 1 | [Lessons basic](./lessons/01_basic/) | <X tuần> |
-| 2 | [Lessons intermediate](./lessons/02_intermediate/) | <Y tuần> |
-| 3 | [Project 01](./projects/01_<name>/) | <Z giờ> |
-| 4 | [Lessons advanced](./lessons/03_advanced/) | <W tuần> |
-| 5 | [Project 02](./projects/02_<name>/) | <V giờ> |
+| Bước | Đọc gì |
+|---|---|
+| 1 | [Lessons basic](./lessons/01_basic/) |
+| 2 | [Lessons intermediate](./lessons/02_intermediate/) |
+| 3 | [Project 01](./projects/01_<name>/) |
+| 4 | [Lessons advanced](./lessons/03_advanced/) |
+| 5 | [Project 02](./projects/02_<name>/) |
 
 ## 7️⃣ Câu hỏi thường gặp
 
@@ -102,6 +102,7 @@ A: <Trả lời>
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Bỏ cột "Thời gian" trong bảng lộ trình học; dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

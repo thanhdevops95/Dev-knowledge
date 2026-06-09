@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~12 phút\
 > **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Bài CONCEPT — HTTPS = HTTP + TLS encryption. Hiểu **TLS handshake**, **Certificate Authority** (CA) chain, **Let's Encrypt** free cert + auto renewal, common cert errors. Sau bài này bạn debug được "NET::ERR_CERT_DATE_INVALID" trong 1 phút.*
@@ -438,9 +437,9 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Self-signed cert trên production
+### ❌ Cạm bẫy: Self-signed cert trên production
 
 ```bash
 openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem
@@ -449,7 +448,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem
 - **Hậu quả**: browser warn "Not Private", user run away → mất trust
 - **Fix**: dùng Let's Encrypt (free) hoặc paid CA
 
-### ❌ Pitfall: Quên renew cert
+### ❌ Cạm bẫy: Quên renew cert
 
 90 ngày Let's Encrypt. Forget renew → cert expired → site down.
 
@@ -460,7 +459,7 @@ sudo certbot renew --dry-run    # test
 sudo systemctl enable --now certbot.timer    # auto twice daily
 ```
 
-### ❌ Pitfall: Mixed content sau migrate HTTPS
+### ❌ Cạm bẫy: Mixed content sau migrate HTTPS
 
 Migrate HTTP→HTTPS, quên update image/CSS URL → browser block.
 
@@ -468,13 +467,13 @@ Migrate HTTP→HTTPS, quên update image/CSS URL → browser block.
 - Find/replace `http://` → `https://` toàn codebase
 - Hoặc Content-Security-Policy `upgrade-insecure-requests`
 
-### ❌ Pitfall: HSTS preload mà chưa stable
+### ❌ Cạm bẫy: HSTS preload mà chưa stable
 
 Submit `example.com` vào HSTS preload. Sau 1 tháng quyết bỏ HTTPS → user vẫn redirect HTTPS từ browser → site break.
 
 **Fix**: chỉ preload khi đã HTTPS stable 6+ months. Test thoroughly trước.
 
-### ❌ Pitfall: Trust intermediate cert nhưng quên root
+### ❌ Cạm bẫy: Trust intermediate cert nhưng quên root
 
 Nginx config chỉ `ssl_certificate cert.pem` (leaf cert). Quên include intermediate.
 
@@ -496,7 +495,7 @@ Browser fetch leaf nhưng không có intermediate → "untrusted" error.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** HTTPS giải quyết 3 vấn đề gì so với HTTP?
 
@@ -552,7 +551,7 @@ TLS layer giải quyết:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Test HTTPS
 
@@ -589,7 +588,7 @@ add_header Strict-Transport-Security "max-age=31536000" always;
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -620,9 +619,9 @@ add_header Strict-Transport-Security "max-age=31536000" always;
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [03_http-headers.md](./03_http-headers.md) — headers |
-| ➡️ Bài tiếp | [05_rest-api-concepts.md](./05_rest-api-concepts.md) (chưa có) — REST design |
+| ➡️ Bài tiếp | [05_rest-api-concepts.md](./05_rest-api-concepts.md) — REST design |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Let's Encrypt](https://letsencrypt.org/) — free CA, official
 - [Certbot](https://certbot.eff.org/) — Let's Encrypt client phổ biến
@@ -635,10 +634,8 @@ add_header Strict-Transport-Security "max-age=31536000" always;
 
 ---
 
-## 📌 Changelog
-
-- **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §1 bảng Port mặc định + bảng "Vì sao PHẢI HTTPS" + bảng TLS versions + §2 TLS Handshake mermaid + bảng "Tóm tắt 4 bước". Nội dung kỹ thuật giữ nguyên 100%.
-
-- **v1.1.0 (cherry-pick __Ref__)** — Thêm **Perfect Forward Secrecy + ECDHE** (RSA vs ECDHE key exchange, TLS 1.3 enforce PFS).
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 5/6. Cover: tình huống bạn self-signed cert đỏ → §1 HTTPS = HTTP+TLS, 4 stack diagram, 6 lý do phải HTTPS 2026, TLS versions → §2 TLS handshake mermaid 4 bước + TLS 1.3 1-RTT → §3 Certificate + CA chain mermaid + DV/OV/EV → §4 Let's Encrypt + ACME + Certbot setup + auto-renewal + Caddy auto HTTPS → §5 Manual cert (CSR + paid CA + Nginx config) → §6 5 common cert errors + fix → §7 HSTS + preload. 5 pitfall + 3 self-check.
+- **v1.1.0** — Thêm **Perfect Forward Secrecy + ECDHE** (RSA vs ECDHE key exchange, TLS 1.3 enforce PFS).
+- **v1.2.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (Port mặc định, "Vì sao PHẢI HTTPS", TLS versions) và §2 (TLS handshake mermaid + "Tóm tắt 4 bước"). Nội dung kỹ thuật giữ nguyên.

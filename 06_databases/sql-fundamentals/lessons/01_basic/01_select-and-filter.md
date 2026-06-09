@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [SQL là gì](00_what-is-sql.md)
 
 > 🎯 *Học **SELECT** đầy đủ: cột cụ thể vs `*`, alias, **WHERE** filter (AND/OR/NOT/IN/BETWEEN/LIKE/NULL), **ORDER BY** sort, **LIMIT/OFFSET** paginate, **DISTINCT** unique. Sau bài này bạn query 80% câu hỏi data thực tế.*
@@ -46,7 +45,7 @@ Bạn ngơ:
 - Sao `name = NULL` không hoạt động?
 - Sao `name LIKE '%nguyen%'` chạy chậm?
 
-→ Bài này dạy bạn (và bạn) **cách viết SELECT đúng**, **filter đầy đủ**, **tránh 5 sai lầm beginner**.
+→ Bài này dạy bạn **cách viết SELECT đúng**, **filter đầy đủ**, **tránh 5 sai lầm beginner**.
 
 ---
 
@@ -67,8 +66,8 @@ CREATE TABLE users (
 
 INSERT INTO users VALUES
 (1, 'Nguyen Van A',  'nguyenvana@ex.com',  'Hanoi',     28, 'active',   '2025-01-15'),
-(2, 'Le Van B',   'user@ex.com',   'Hanoi',     25, 'active',   '2025-02-20'),
-(3, 'Tran Van C',  'user@ex.com',  'Saigon',    35, 'inactive', '2025-03-10'),
+(2, 'Le Van B',   'levanb@ex.com',   'Hanoi',     25, 'active',   '2025-02-20'),
+(3, 'Tran Van C',  'tranvanc@ex.com',  'Saigon',    35, 'inactive', '2025-03-10'),
 (4, 'Pham Van D',   'phamvand@ex.com',   'Danang',    30, 'active',   '2025-04-05'),
 (5, 'Hoang Van E',  NULL,           'Saigon',    22, 'active',   '2025-05-12'),
 (6, 'Vu Van F',  'vuvanf@ex.com',  'Hanoi',     40, 'inactive', '2024-12-01'),
@@ -121,8 +120,8 @@ SELECT id, name, email FROM users;
 id | name | email
 ---+------+--------------
  1 | Nguyen Van A | nguyenvana@ex.com
- 2 | Le Van B  | user@ex.com
- 3 | Tran Van C | user@ex.com
+ 2 | Le Van B  | levanb@ex.com
+ 3 | Tran Van C | tranvanc@ex.com
  ...
 ```
 
@@ -164,7 +163,7 @@ FROM users;
 name | age | age_in_10_years | name_upper
 -----+-----+-----------------+-----------
 Nguyen Van A |  28 |              38 | NGUYEN VAN A
-Le Van B  |  25 |              35 | BOB
+Le Van B  |  25 |              35 | LE VAN B
 ...
 ```
 
@@ -409,7 +408,7 @@ SELECT DISTINCT city, status FROM users;
 
 → Khử cặp `(city, status)` trùng. Khác với `SELECT DISTINCT city, COUNT(*)` (xem [bài 02 aggregations](02_aggregations.md)).
 
-### Pitfall
+### Cạm bẫy
 
 ```sql
 -- ❌ DISTINCT chỉ apply trên toàn row, không phải 1 cột
@@ -501,7 +500,7 @@ LIMIT  20;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`SELECT *`** → Production code phải liệt kê cột. `*` chỉ OK cho debug/ad-hoc.
 2. **`WHERE col = NULL`** → Sai. Phải `IS NULL` / `IS NOT NULL`.
@@ -511,13 +510,13 @@ LIMIT  20;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác biệt giữa `WHERE age = NULL` và `WHERE age IS NULL`?
 2. Viết query lấy 5 user **lớn tuổi nhất ở Hà Nội**, hiển thị tên + email + tuổi.
 3. Vì sao `OFFSET 100000` chậm? Cách thay thế tốt hơn?
 4. Thứ tự logic SQL thực thi — `WHERE` trước hay sau `SELECT`?
-5. `LIKE '%nguyen%'` vs `LIKE 'long%'` — cái nào chậm hơn? Vì sao?
+5. `LIKE '%nguyen%'` vs `LIKE 'Le%'` — cái nào chậm hơn? Vì sao?
 
 <details>
 <summary>Gợi ý đáp án</summary>
@@ -535,7 +534,7 @@ LIMIT  20;
 
 4. `WHERE` thực thi **TRƯỚC** `SELECT` (số 2 vs số 6 trong order thực thi). Vì vậy alias từ `SELECT` không dùng được trong `WHERE`.
 
-5. `LIKE '%nguyen%'` chậm hơn vì **wildcard đầu** = không có index nào dùng được → full table scan. `LIKE 'long%'` có thể dùng B-tree index (prefix match).
+5. `LIKE '%nguyen%'` chậm hơn vì **wildcard đầu** = không có index nào dùng được → full table scan. `LIKE 'Le%'` có thể dùng B-tree index (prefix match).
 </details>
 
 ---
@@ -626,14 +625,14 @@ SELECT * FROM users WHERE name ILIKE '%nguyen%';
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [SQL là gì](00_what-is-sql.md)
-- → Tiếp: [Aggregations (COUNT, GROUP BY)](02_aggregations.md)
-- ↑ Cluster: [sql-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [SQL là gì? — Ngôn ngữ chung của database](00_what-is-sql.md)
+- ➡️ **Bài tiếp theo:** [Aggregations — COUNT, SUM, AVG & GROUP BY](02_aggregations.md)
+- ↑ **Về cụm:** [sql-fundamentals README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SQLBolt — Lesson 1-5](https://sqlbolt.com/) — interactive WHERE/ORDER BY/LIMIT
 - 📖 [Use The Index, Luke!](https://use-the-index-luke.com/) — vì sao `LIKE '%x%'` chậm
 - 📖 [Keyset pagination — Markus Winand](https://use-the-index-luke.com/no-offset)
@@ -647,6 +646,6 @@ SELECT * FROM users WHERE name ILIKE '%nguyen%';
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §2 Syntax tổng + Lấy tất cả cột + Lấy cột cụ thể + Alias + Biểu thức tính toán. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §2 Syntax tổng + Lấy tất cả cột + Lấy cột cụ thể + Alias + Biểu thức tính toán. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 2/6. Cover: SELECT đầy đủ (cột cụ thể vs *, alias) + WHERE 8 operator + AND/OR/NOT priority + ORDER BY multi-column + LIMIT/OFFSET pagination + DISTINCT + LIKE pattern + thứ tự thực thi logical SQL.

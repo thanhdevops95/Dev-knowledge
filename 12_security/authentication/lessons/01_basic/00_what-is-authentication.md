@@ -6,7 +6,6 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** OWASP basic [bài 04](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) ✅, HTTP cơ bản
 
 > 🎯 *Bài 00 cluster Authentication. OWASP A07 đã surface-level — cluster này deep. Bài này dạy: AuthN vs AuthZ, identity, credential, 3 factor (something you know/have/are), session vs token, lifecycle (register → login → refresh → logout), threat model. Foundation cho 4 bài deep (Password/MFA, OAuth, JWT, Federation/SSO).*
@@ -108,12 +107,12 @@ Cookie session_id=abc123
 Server: lookup Redis → {user_id} → continue
 ```
 
-**Pros**:
+**Ưu điểm**:
 - Revocation: delete entry in Redis = logout instantly.
 - Update permissions live (re-fetch from DB).
 - Smaller cookie.
 
-**Cons**:
+**Nhược điểm**:
 - Server stateful (Redis dependency).
 - Cross-domain (subdomain.acmeshop.vn) cần cookie config + CORS.
 
@@ -129,12 +128,12 @@ Header: Authorization: Bearer eyJhbGc...
 Server: verify signature → trust claims (no DB lookup)
 ```
 
-**Pros**:
+**Ưu điểm**:
 - Stateless: scale horizontal trivial.
 - Cross-domain: easy.
 - Mobile/SPA-friendly.
 
-**Cons**:
+**Nhược điểm**:
 - Revocation hard (token vẫn valid đến `exp` — need allowlist/denylist).
 - Cannot update permissions until re-issue.
 - Larger payload (base64 JWT).
@@ -392,7 +391,7 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. AuthN vs AuthZ trộn lẫn
 
@@ -444,7 +443,7 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] AuthN vs AuthZ — 5 điểm khác?
 - [ ] 3 factor + ví dụ + strength rank?
@@ -457,7 +456,7 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -490,11 +489,11 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_password-and-mfa](01_password-and-mfa.md) *(sắp viết)*
-- ↑ Cluster Authentication: [authentication README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Mật khẩu + Xác thực 2 lớp (MFA)](01_password-and-mfa.md) *(sắp viết)*
+- ↑ **Về cụm:** [authentication README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🛡️ [OWASP A07](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) — overview level
 - 🔑 [authorization](../../../authorization/) — sibling
 - 🔒 [cryptography](../../../cryptography/) — backed crypto
@@ -514,6 +513,6 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Authentication. AuthN vs AuthZ + identity/credential/factor + 3 factors + session vs token + hybrid pattern + lifecycle 9-phase + threat model top 8 attacks + self-host vs IDaaS + 7 popular tools + decision tree + Acme Shop spec hands-on + 8 pitfalls.

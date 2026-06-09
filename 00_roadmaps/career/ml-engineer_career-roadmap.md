@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã có nền tảng Machine Learning cơ bản (hoặc là Data Scientist), muốn chuyên sâu vào đưa mô hình vào môi trường sản xuất (ML Production & MLOps)\
-> **Thời gian ước tính:** ~12 tháng học tập tích cực (full-time) hoặc ~24 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng đảm nhận công việc thực tế)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone Project]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: SWE & ML Nền tảng** | 2-3 tháng | Viết code Python hướng đối tượng sạch, vững thuật toán ML, biết dùng Docker |
-| **Stage 2: Pipeline Huấn luyện** | 2 tháng | Khai tử notebook, đóng gói code training có phân bản dữ liệu DVC |
-| **Stage 3: Phục vụ mô hình (Serving)** | 2 tháng | Triển khai API FastAPI bọc model, biên dịch sang ONNX chạy tối ưu |
-| **Stage 4: Kiến trúc MLOps** | 2-3 tháng | Tích hợp hệ thống đăng ký Model Registry, giám sát độ trôi dữ liệu |
-| **Stage 5: Dự án Capstone** | 2 tháng | 1 hệ thống ML phục vụ thực tế tự động hóa 100% |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: SWE & ML Nền tảng** | Viết code Python hướng đối tượng sạch, vững thuật toán ML, biết dùng Docker |
+| **Stage 2: Pipeline Huấn luyện** | Khai tử notebook, đóng gói code training có phân bản dữ liệu DVC |
+| **Stage 3: Phục vụ mô hình (Serving)** | Triển khai API FastAPI bọc model, biên dịch sang ONNX chạy tối ưu |
+| **Stage 4: Kiến trúc MLOps** | Tích hợp hệ thống đăng ký Model Registry, giám sát độ trôi dữ liệu |
+| **Stage 5: Dự án Capstone** | 1 hệ thống ML phục vụ thực tế tự động hóa 100% |
 
 ---
 
-## ⚙️ Stage 1 — ML Basics & Software Engineering (2-3 tháng)
+## ⚙️ Stage 1 — ML Basics & Software Engineering
 
 > 🎯 *Kỹ sư ML trước hết phải là một kỹ sư phần mềm giỏi viết code sạch và biết đóng gói container.*
 
@@ -69,7 +68,7 @@ graph LR
 
 ---
 
-## 🔄 Stage 2 — Pipeline huấn luyện & Theo dõi thí nghiệm (2 tháng)
+## 🔄 Stage 2 — Pipeline huấn luyện & Theo dõi thí nghiệm
 
 > 🎯 *Xây dựng quy trình huấn luyện có thể tái lặp 100% ở bất kỳ đâu và quản lý lịch sử các lần chạy thử nghiệm.*
 
@@ -93,7 +92,7 @@ Làm AI là quá trình thử nghiệm liên tục. Hôm nay bạn đổi siêu 
 
 ---
 
-## ⚡ Stage 3 — Triển khai Model Serving & Tối ưu hóa API (2 tháng)
+## ⚡ Stage 3 — Triển khai Model Serving & Tối ưu hóa API
 
 > 🎯 *Phục vụ mô hình thông qua API HTTP/gRPC với độ trễ cực thấp dưới tải nặng.*
 
@@ -115,7 +114,7 @@ Làm AI là quá trình thử nghiệm liên tục. Hôm nay bạn đổi siêu 
 
 ---
 
-## 🤖 Stage 4 — Hạ tầng MLOps chuyên nghiệp (2-3 tháng)
+## 🤖 Stage 4 — Hạ tầng MLOps chuyên nghiệp
 
 > 🎯 *Thiết kế chu kỳ khép kín cho hệ thống ML: tự động hóa CI/CD, giám sát chất lượng và tự động huấn luyện lại.*
 
@@ -136,7 +135,7 @@ Sự khác biệt lớn nhất giữa DevOps truyền thống và MLOps là: cod
 
 ---
 
-## 🚀 Stage 5 — Dự án Capstone độc lập (2 tháng)
+## 🚀 Stage 5 — Dự án Capstone độc lập
 
 > 🎯 *Tự thiết kế và đưa vào vận hành một hệ thống ML System thực tế tự động hóa hoàn chỉnh.*
 
@@ -165,7 +164,7 @@ Cơ hội mở rộng sự nghiệp của ML Engineer rất đa dạng:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

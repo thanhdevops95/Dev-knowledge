@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *Hiểu **systemd** thay init, viết **unit file** (`.service`), dùng `systemctl` start/stop/enable, đọc log với `journalctl`, biến FastAPI thành service auto-restart, hardening (`User=`, `NoNewPrivileges=`, `ProtectSystem=`). Sau bài này backend chạy 24/7 production-grade.*
@@ -317,7 +316,7 @@ systemd-analyze security myapp.service
 
 ```ini
 [Unit]
-Description=bạn Shop FastAPI
+Description=Acme Shop FastAPI
 After=network.target postgresql.service
 Requires=postgresql.service
 
@@ -514,7 +513,7 @@ sudo systemctl list-timers              # List all timers
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Quên `daemon-reload`** sau sửa unit file → systemd vẫn dùng version cũ. Reload trước restart.
 2. **`Type=simple` mà app tự fork** → systemd tưởng app exited, kill main → tắt. Dùng `Type=forking` cho daemon classic.
@@ -524,7 +523,7 @@ sudo systemctl list-timers              # List all timers
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Vì sao systemd thay SysV init?
 2. 3 section bắt buộc trong unit file?
@@ -556,7 +555,7 @@ sudo systemctl list-timers              # List all timers
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### `systemctl` daily
 
@@ -638,18 +637,18 @@ WantedBy=timers.target
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Users & Permissions](00_users-and-permissions.md)
-- → Tiếp: [SSH Deep Dive](02_ssh-deep-dive.md)
-- ↑ Cluster: [linux README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Users & Permissions — chmod, chown, sudo, SUID, capabilities](00_users-and-permissions.md)
+- ➡️ **Bài tiếp theo:** [SSH Deep Dive — Keys, Config, Tunneling, Agent](02_ssh-deep-dive.md)
+- ↑ **Về cụm:** [linux README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [FastAPI auth + middleware](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) — backend cần systemd để run
 - [Docker compose](../../../../10_devops/docker/lessons/01_basic/03_docker-compose.md) — alternative tới systemd cho container
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [systemd man pages](https://man7.org/linux/man-pages/man1/systemd.1.html)
 - 📖 [DigitalOcean: systemctl essentials](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
 - 📖 [Arch wiki: systemd](https://wiki.archlinux.org/title/Systemd) — best resource
@@ -660,6 +659,6 @@ WantedBy=timers.target
 
 > 🎯 *Sau bài này FastAPI của bạn chạy 24/7 production-grade. Bài kế tiếp dạy **SSH deep dive** — config, key types, tunneling, agent forwarding — quản lý server từ xa.*
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm ẩn dụ "quản gia cao cấp" cho systemd, 2 lead-in trước bảng concepts + so sánh SysV/systemd. Fix grammar "FastAPI Bạn" → "FastAPI của bạn".
+- **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "quản gia cao cấp" cho systemd, 2 lời dẫn trước bảng concepts + so sánh SysV/systemd. Sửa lỗi diễn đạt nhỏ.

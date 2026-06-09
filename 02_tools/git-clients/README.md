@@ -26,12 +26,12 @@
 
 ## 🚀 Khi nào đọc folder này
 
-| Bạn là... | Đọc gì |
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 **Beginner chưa biết platform nào** | [`00_what-is-git-hosting.md`](./00_what-is-git-hosting.md) trước |
-| 🟡 **Đã quyết GitHub** | `github.md` (chưa có) |
-| 🟠 **Cần self-host** | `gitea.md` hoặc `gitlab.md` (chưa có) |
-| 🧭 **Theo Zero-to-Coder Stage 1** | `github.md` — cài account + SSH + push lần đầu |
+| **Chưa biết chọn platform nào** | [`00_what-is-git-hosting.md`](./00_what-is-git-hosting.md) trước |
+| **Đã quyết GitHub** | [`github.md`](./github.md) |
+| **Cần self-host** | [`gitea.md`](./gitea.md) hoặc [`gitlab.md`](./gitlab.md) |
+| **Cài account + SSH + push lần đầu** | [`github.md`](./github.md) |
 
 ---
 
@@ -39,13 +39,13 @@
 
 | ✅ Ở đây CÓ | ❌ Ở folder khác |
 |---|---|
-| User guide **GitHub UI**, **GitLab UI** | Git CLI lệnh (`git push`, `git pull`) → [`01_foundations/version-control/git/`](../../01_foundations/version-control/git/) |
-| So sánh platforms + chọn cái nào | Concept Version Control (commit, branch, merge) → [Foundations](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md) |
+| User guide **GitHub UI**, **GitLab UI** | Git CLI lệnh (`git push`, `git pull`) → [`02_tools/git/`](../git/) |
+| So sánh platforms + chọn cái nào | Concept Version Control (commit, branch, merge) → [Git lesson 00](../git/lessons/01_basic/00_what-is-git.md) |
 | Setup 2FA, SSH key, PAT từng platform | GitHub Desktop GUI → file riêng `github-desktop.md` |
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — 🎉 **CLUSTER HOÀN CHỈNH 7/7**. Thêm 5 file tool individual còn lại:
   - `github-desktop.md` — GUI client GitHub (~400 dòng): đồng nghiệp sợ CLI, 5-phần UI, workflow clone/commit/PR, vs VS Code Source Control

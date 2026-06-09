@@ -6,14 +6,13 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [JavaScript modern](../../../javascript-dom/lessons/01_basic/01_variables-functions-types.md), [HTML+CSS](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
 
 > 🎯 *Bài INTRO. Hiểu **React là gì**, **JSX**, **Virtual DOM**, **declarative vs imperative**, **component philosophy**, **React vs Vue vs Svelte**, setup Vite + Hello World. KHÔNG dạy hooks chi tiết (bài 02 trở đi).*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **React là gì** + history (2013 Facebook → 75k stars 2026)
+- [ ] Hiểu **React là gì** + history (2013 Facebook → ~230k stars 2026)
 - [ ] **JSX** — HTML + JS in one
 - [ ] **Virtual DOM** + **reconciliation** — sao React fast
 - [ ] **Declarative** vs **imperative** UI
@@ -56,7 +55,7 @@ Bạn ngơ:
 
 - 2011 — Jordan Walke tại Facebook tạo (cho News Feed).
 - 2013 — Open source.
-- 2026 — **75k+ GitHub stars**, dùng bởi Meta, Netflix, Airbnb, Uber, Microsoft.
+- 2026 — **~230k+ GitHub stars**, dùng bởi Meta, Netflix, Airbnb, Uber, Microsoft.
 - **React Native** (2015) — dùng cùng API build mobile app native.
 
 > 🧠 **Ẩn dụ — React như Lego:**
@@ -223,7 +222,7 @@ function UserCard({ user }) {
 function App() {
   return (
     <div>
-      <UserCard user={{ name: 'bạn', email: 'nguyenvana@ex.com', avatar: '/long.jpg' }} />
+      <UserCard user={{ name: 'Nguyen Van A', email: 'nguyenvana@ex.com', avatar: '/nguyenvana.jpg' }} />
       <UserCard user={{ name: 'Le Van B', email: 'user@ex.com', avatar: '/levanb.jpg' }} />
     </div>
   );
@@ -437,7 +436,7 @@ createRoot(document.getElementById('root')).render(
 function App() {
   return (
     <div>
-      <h1>bạn Shop</h1>
+      <h1>Acme Shop</h1>
       <p>Welcome!</p>
     </div>
   );
@@ -482,7 +481,7 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>bạn Shop Counter</h1>
+      <h1>Acme Shop Counter</h1>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>
         + Add
@@ -503,7 +502,7 @@ export default App;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Open `App.jsx` trong browser** → Browser không hiểu JSX, cần build (Vite). Always `npm run dev`.
 2. **`class` thay `className`** → JSX dùng `className` (vì `class` reserved JS). Console warning.
@@ -513,7 +512,7 @@ export default App;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **JSX** là gì? Browser hiểu được không?
 2. Khác biệt **Library** vs **Framework** — React là cái nào?
@@ -615,18 +614,18 @@ Angular = enterprise + TS
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [Components & Props](01_components-and-props.md)
-- ↑ Cluster: [react README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Components & Props — Building block của React](01_components-and-props.md)
+- ↑ **Về cụm:** [react README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [JavaScript modern](../../../javascript-dom/lessons/01_basic/01_variables-functions-types.md)
 - [HTML & CSS](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
-- [FastAPI backend](../../../backend/python-fastapi/) — gọi từ React
+- [FastAPI backend](../../../../backend/python-fastapi/) — gọi từ React
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React docs (new)](https://react.dev/) — official, 2023 redesign rất tốt
 - 📖 [Vite docs](https://vitejs.dev/)
 - 📖 [React Native docs](https://reactnative.dev/)
@@ -642,6 +641,6 @@ Angular = enterprise + TS
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Library vs Framework + §2 Vanilla JS verbose + React JSX + JSX quirks + JSX compile + §3 Component props. Fix residue `Hello, bạn!` → `Hello, Nguyen Van A!` + `name="bạn"` → `name="Nguyen Van A"`. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Library vs Framework, Vanilla JS verbose, React JSX, JSX quirks, JSX compile, Component props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 1/5. Cover: React là gì + library vs framework + JSX syntax + 6 quirks + compile process + component philosophy + props + composition + setup với Vite + first component.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 19/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** Không cần — bài này dành cho người chưa biết gì về IT
 
 > 🎯 *Trước khi bước chân vào IT, bạn cần "đứng cao" để thấy cả bức tranh — ngành này có những nghề gì, mỗi nghề làm gì, lương ra sao, học gì để làm được. Bài này dẫn bạn đi 1 vòng bản đồ — để khi pick career roadmap không bị bốc đại.*
@@ -326,15 +325,15 @@ Sau bài này, **3 step tiếp theo**:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: học quá rộng trước khi đi sâu
+### ❌ Cạm bẫy: học quá rộng trước khi đi sâu
 
 - **Triệu chứng**: 6 tháng học chút Python, chút React, chút Docker, chút SQL — không project hoàn chỉnh nào.
 - **Nguyên nhân**: sợ "chọn sai nhánh" nên không commit.
 - **Cách tránh**: pick 1 nhánh trong 1-2 tuần. Sai cũng không sao — đổi sau 3-6 tháng vẫn được. Việc commit quan trọng hơn việc chọn đúng từ đầu.
 
-### ❌ Pitfall: tutorial hell
+### ❌ Cạm bẫy: tutorial hell
 
 - **Triệu chứng**: xem 100h video Udemy, chưa tự code 1 project nào.
 - **Nguyên nhân**: video "hiểu" nhưng tay chưa "biết". Hiểu ≠ biết làm.
@@ -347,7 +346,7 @@ Sau bài này, **3 step tiếp theo**:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Trong "đội Grab" ở phần tình huống mở bài, ai là người chịu trách nhiệm khi app sập lúc 12h trưa giờ cao điểm?
 
@@ -387,7 +386,7 @@ Sau bài này, **3 step tiếp theo**:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -416,8 +415,8 @@ Sau bài này, **3 step tiếp theo**:
 
 - 🥚 [Zero-to-coder roadmap](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md) — nếu chưa code dòng nào
 - 🗺️ [00_roadmaps README](../../../../00_roadmaps/) — danh sách 17 career roadmap đầy đủ
-- 📚 [Computational Thinking](../../computational-thinking/) (chưa có) — kỹ năng tư duy giải bài toán bằng máy tính
-- 📚 [Version Control](../../version-control/git/) ✅ — git concept (6 bài bạn story arc)
+- 📚 [Computational Thinking](../../../computational-thinking/) (chưa có) — kỹ năng tư duy giải bài toán bằng máy tính
+- ➡️ **Bài tiếp theo:** [Version Control (Git)](../../../../02_tools/git/) ✅ — git concept (lessons cơ bản → nâng cao)
 
 ### Tài nguyên ngoài (đáng đọc)
 
@@ -432,6 +431,6 @@ Sau bài này, **3 step tiếp theo**:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (19/05/2026)** — Bản đầu tiên. 9 section + tình huống mở bài + ẩn dụ "ngành Y" + bản đồ 8 nhánh chính + 4 nhánh phụ + so sánh 4 nhánh hot cho beginner + lộ trình 5 stage zero-to-principal + 7 hiểu lầm phổ biến + 7 soft skill + link sang 17 career roadmap.

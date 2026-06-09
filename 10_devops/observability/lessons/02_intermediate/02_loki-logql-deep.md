@@ -1,50 +1,51 @@
-# 🎓 Loki + LogQL deep — Structured logging + cardinality management
+# 🎓 Loki + LogQL deep — Structured logging + quản lý cardinality
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [01_promql-deep-and-alerting.md](01_promql-deep-and-alerting.md), [Observability basic logs](../01_basic/02_logs-loki-elk.md)
+> **Yêu cầu trước:** [PromQL chuyên sâu + Recording rules + Chiến lược Alerting](01_promql-deep-and-alerting.md), [Logs — Loki, ELK, structured logging](../01_basic/02_logs-loki-elk.md)
 
-> 🎯 *Basic: ship log với Promtail, query `{namespace="prod"}`. Production: **LogQL deep** (regex parse, aggregate, alert), **structured JSON logging** với `trace_id`, **cardinality management** (high-card label = Loki slow + expensive), **shipping pipeline** (Promtail vs Vector vs Fluent Bit), **retention strategy** hot/warm/cold.*
+> 🎯 *Ở bài basic, bạn mới chỉ ship log với Promtail rồi gõ vài query `{namespace="prod"}` cho vui. Lên production thì khác hẳn: log phải truy vấn được, phải rẻ, và phải không làm sập Loki. Bài này đi sâu vào **LogQL** (regex parse, aggregate, alert từ log), **structured JSON logging** kèm `trace_id` để nối log với trace, **quản lý cardinality** (label sai một cái là Loki vừa chậm vừa đốt tiền), chọn đúng *shipper* (Promtail vs Vector vs Fluent Bit), và xây *retention strategy* hot/warm/cold để hoá đơn S3 không phình. Đích đến: một hệ log production query nhanh, chi phí kiểm soát được.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] **LogQL deep**: 10 query pattern phổ biến + parse JSON + aggregate
-- [ ] Write **alert from logs** (Loki ruler)
-- [ ] Setup **structured JSON logging** Python/Node với `trace_id`
-- [ ] **Label cardinality** — what to label, what NOT
-- [ ] So sánh **Promtail vs Vector vs Fluent Bit** — chọn đúng shipper
-- [ ] **Retention policy** + S3 storage backend
-- [ ] **Multi-tenant** Loki
-- [ ] Tránh **6 common Loki performance mistakes**
+- [ ] Viết **LogQL** thành thạo — các pattern query phổ biến, parse JSON và aggregate.
+- [ ] Tạo **alert từ log** bằng Loki Ruler.
+- [ ] Cấu hình **structured JSON logging** cho Python/Node/Go kèm `trace_id`.
+- [ ] Hiểu **cardinality của label** — cái gì nên làm label, cái gì tuyệt đối không.
+- [ ] So sánh **Promtail vs Vector vs Fluent Bit** để chọn đúng shipper.
+- [ ] Thiết kế **retention policy** kèm S3 storage backend.
+- [ ] Vận hành Loki **multi-tenant**.
+- [ ] Tránh những lỗi hiệu năng Loki hay gặp nhất.
 
 ---
 
-## Tình huống — Loki query timeout, AWS bill spike
+## Tình huống — Loki query timeout, hoá đơn AWS tăng vọt
 
-Production có Loki từ basic. 6 tháng sau:
-- Dev open Grafana, query `{namespace="prod"}` for last 1h → **timeout 30s**.
-- Loki memory usage 80GB → killed by OOM.
-- AWS bill: Loki S3 storage $2,500/month (was $300 last quarter).
-- New dev: "Logs khó dùng quá, dùng kubectl logs cho rồi."
+Hãy bắt đầu từ một cảnh rất quen với bất kỳ ai vận hành Loki được vài tháng. Hệ thống đã có Loki từ thời còn ở mức basic, chạy êm. Nhưng 6 tháng sau, mọi thứ bắt đầu rạn nứt cùng lúc:
 
-Root causes:
-1. **Label cardinality explosion**: someone added `request_id` label → millions of streams.
-2. **Unstructured logs**: regex parse mỗi query → slow.
-3. **Retention 90 days** for everything → storage cost.
-4. **Promtail default config** scrape everything → high volume.
+- Dev mở Grafana, query `{namespace="prod"}` cho 1 giờ gần nhất → **timeout sau 30 giây**.
+- Loki ngốn 80 GB RAM → bị OOM kill.
+- Hoá đơn AWS: riêng S3 storage của Loki đã $2,500/tháng (quý trước mới $300).
+- Dev mới vào càu nhàu: *"Log khó dùng quá, thôi dùng `kubectl logs` cho nhanh."*
 
-Sếp: *"Audit Loki. Apply intermediate practices. Bài này dạy."*
+Nhìn bề ngoài thì như bốn vấn đề riêng lẻ, nhưng đào xuống tận gốc lại quy về bốn nguyên nhân cụ thể, mỗi cái là một bài học của chương này:
+
+1. **Cardinality bùng nổ**: ai đó thêm label `request_id` → sinh ra hàng triệu *stream*.
+2. **Log không cấu trúc** (*unstructured*): mỗi query phải regex parse → chậm.
+3. **Retention 90 ngày cho tất cả**: giữ mọi thứ quá lâu → chi phí storage phình.
+4. **Promtail để mặc định**: scrape mọi thứ → volume log khổng lồ.
+
+Đây chính là kiểu nợ kỹ thuật âm thầm tích tụ rồi nổ một lần. Phần còn lại của bài sẽ gỡ từng nút một, theo đúng thứ tự để hiểu được "vì sao" trước khi sửa.
 
 ---
 
-## 1️⃣ Loki architecture refresher
+## 1️⃣ Kiến trúc Loki — nhắc lại nhanh
 
-Loki có **6 component** chia 2 path — write path (Promtail → Distributor → Ingester → S3) và read path (Querier → Frontend → S3). Diagram tóm tắt:
+Trước khi tối ưu, cần nhớ lại Loki được lắp ráp từ những mảnh nào, vì mỗi vấn đề ở trên đều nằm ở một mảnh cụ thể. Loki có **6 component** chia làm 2 đường (*path*): đường ghi (Promtail → Distributor → Ingester → S3) và đường đọc (Querier → Query Frontend → S3). Sơ đồ dưới đây tóm tắt luồng dữ liệu đi từ pod cho tới lúc bạn gõ query:
 
 ```mermaid
 graph LR
@@ -60,75 +61,80 @@ graph LR
     Querier --> Storage
 ```
 
-**Components**:
-- **Promtail / Vector**: log collector (DaemonSet on each node).
-- **Distributor**: receive logs, validate, shard by stream.
-- **Ingester**: buffer logs in memory, write WAL, flush to storage.
-- **Storage**: object store (S3) for chunks, index (BoltDB shipper / TSDB).
-- **Querier**: execute LogQL queries against ingesters + storage.
-- **Query frontend**: split query, parallelize, cache.
+Vai trò của từng component, đi theo đúng dòng chảy của một dòng log:
 
-### Key design: index labels, not content
+- **Promtail / Vector**: bộ thu log (*collector*), chạy dạng DaemonSet trên mỗi node.
+- **Distributor**: nhận log, kiểm tra hợp lệ, chia (*shard*) theo stream.
+- **Ingester**: đệm log trong RAM, ghi WAL, rồi flush xuống storage.
+- **Storage**: object store (S3) chứa các *chunk*, kèm index (BoltDB shipper hoặc TSDB).
+- **Querier**: thực thi query LogQL lên cả ingester lẫn storage.
+- **Query Frontend**: chẻ nhỏ query, chạy song song, cache kết quả.
 
-Unlike Elasticsearch (full-text index everything), Loki:
-- **Index labels only** (small): `{namespace, service, pod}`.
-- **Don't index content** (large): log lines compressed in S3.
-- Query: filter by label → fetch matching log blobs → grep content.
+### Thiết kế cốt lõi — index label, không index nội dung
 
-→ **Cheaper** (10-30x vs ES). **Slower** for full-text search across all data.
+Điểm khiến Loki rẻ hơn hẳn nằm ở một quyết định kiến trúc rất táo bạo. Khác với Elasticsearch (index toàn văn mọi thứ), Loki làm ngược lại:
 
-🪞 **Ẩn dụ**: *Loki như **thư viện sách: kệ phân loại theo tag chủ đề (label), không có index toàn văn từng cuốn**. Tìm "sách về Docker" → đi đến kệ Docker → đọc từng cuốn. Tìm "cuốn nào có từ X" toàn thư viện → chậm.*
+- **Chỉ index label** (phần nhỏ): `{namespace, service, pod}`.
+- **Không index nội dung** (phần lớn): dòng log được nén và để nguyên trong S3.
+- Khi query: lọc theo label → tải về đúng khối log khớp → `grep` nội dung trong đó.
+
+Hệ quả là một sự đánh đổi rõ ràng: Loki **rẻ hơn 10–30 lần** so với ES, nhưng **chậm hơn** khi phải tìm toàn văn trên toàn bộ dữ liệu.
+
+🪞 **Ẩn dụ**: *Loki giống một **thư viện sắp sách theo kệ chủ đề (label), nhưng không có mục lục tra từng từ trong từng cuốn**. Muốn tìm "sách về Docker" → đi thẳng tới kệ Docker, rất nhanh. Nhưng muốn tìm "cuốn nào có chứa từ X" trên toàn thư viện → phải lật từng trang từng cuốn, rất chậm.* Hiểu được sự đánh đổi này là chìa khoá để dùng Loki đúng cách — và cũng là gốc rễ của bài toán cardinality ở §6.
 
 ---
 
-## 2️⃣ LogQL syntax deep
+## 2️⃣ Cú pháp LogQL — đi sâu
 
-### Stream selector (required)
+LogQL là "ngôn ngữ" để hỏi chuyện Loki. Nhìn thoáng qua nó giống PromQL, nhưng dành cho log thay vì metric. Ta sẽ đi từ phần bắt buộc (chọn stream) ra dần tới những thao tác mạnh hơn (parse, aggregate, format).
 
-LogQL bắt đầu **bắt buộc** bằng stream selector (curly braces `{...}`) — filter logs theo label. KHÔNG được dùng bare `{}` (Loki reject). Tương tự PromQL nhưng cho logs:
+### Stream selector — bắt buộc
+
+Mỗi query LogQL **bắt buộc** phải mở đầu bằng *stream selector* — phần trong cặp ngoặc nhọn `{...}` dùng để lọc log theo label. Loki sẽ từ chối query nếu bạn để `{}` rỗng, vì như thế là bảo nó quét sạch mọi stream. Cú pháp tương tự PromQL nhưng áp cho log:
 
 ```logql
 {namespace="production", service="fastapi"}
 ```
 
-Operators:
-- `=` exact match.
-- `!=` not equal.
-- `=~` regex match.
-- `!~` regex not match.
+Bên trong selector, bạn ghép label bằng bốn toán tử so khớp:
+
+- `=` khớp chính xác.
+- `!=` không bằng.
+- `=~` khớp regex.
+- `!~` regex không khớp.
 
 ```logql
-{service=~"fastapi|worker"}                # multiple services
-{namespace=~"prod|staging", env!="dev"}    # exclude dev
+{service=~"fastapi|worker"}                # nhiều service
+{namespace=~"prod|staging", env!="dev"}    # loại trừ dev
 ```
 
-→ Stream selector narrow first. ALWAYS specify label, not bare `{}`.
+Nguyên tắc vàng: luôn thu hẹp bằng stream selector trước tiên, và không bao giờ để `{}` rỗng.
 
-### Filter expressions
+### Filter expression — lọc theo nội dung
 
-Sau stream selector, dùng **4 operator filter** (`|=`, `!=`, `|~`, `!~`) lọc theo nội dung. Filter scan content nên chậm hơn label selector — luôn narrow stream trước, filter sau:
+Sau khi đã chọn được stream, bạn dùng **bốn toán tử filter** (`|=`, `!=`, `|~`, `!~`) để lọc tiếp theo *nội dung* dòng log. Vì filter phải quét nội dung nên chậm hơn lọc bằng label — do đó luôn thu hẹp stream trước, filter sau:
 
 ```logql
-{service="fastapi"} |= "ERROR"             # contain "ERROR"
-{service="fastapi"} != "DEBUG"             # not contain "DEBUG"
-{service="fastapi"} |~ "ERROR|WARN"        # regex match
-{service="fastapi"} !~ "health.*check"     # regex not match
+{service="fastapi"} |= "ERROR"             # chứa "ERROR"
+{service="fastapi"} != "DEBUG"             # không chứa "DEBUG"
+{service="fastapi"} |~ "ERROR|WARN"        # khớp regex
+{service="fastapi"} !~ "health.*check"     # regex không khớp
 
-# Chain
+# Nối chuỗi
 {service="fastapi"} |= "ERROR" != "expected"
 ```
 
-→ Filter applied after stream selection. Filter scan content (slower).
+Filter luôn chạy *sau* khi đã chọn stream, và quét nội dung nên tốn hơn — đó là lý do thứ tự "stream trước, filter sau" rất quan trọng.
 
 ### Parse JSON
 
-Khi app log structured JSON, dùng pipe `| json` để parse — Loki extract fields thành **temporary labels** (chỉ trong query, không lưu storage). Sau parse có thể filter, format theo field:
+Khi app log ra JSON có cấu trúc, dùng pipe `| json` để Loki phân tích — nó tách các field thành **label tạm thời** (chỉ tồn tại trong query, không lưu xuống storage). Sau khi parse, bạn có thể lọc và format theo từng field:
 
 ```logql
 {service="fastapi"} | json
 ```
 
-→ Parse JSON log lines, extract fields as labels (in query, not storage).
+Giả sử app ghi ra một dòng log JSON như sau:
 
 ```json
 {
@@ -143,23 +149,25 @@ Khi app log structured JSON, dùng pipe `| json` để parse — Loki extract fi
 }
 ```
 
+Sau khi `| json`, mọi field trên trở thành biến để lọc và định dạng lại đầu ra:
+
 ```logql
-# Filter by JSON field
+# Lọc theo field JSON
 {service="fastapi"} | json | level="error"
 
-# Multiple filters
+# Nhiều điều kiện
 {service="fastapi"} | json | level="error" | duration_ms > 1000
 
-# Re-format output
+# Định dạng lại dòng output
 {service="fastapi"} | json | duration_ms > 1000 
   | line_format "{{.timestamp}} {{.endpoint}} {{.duration_ms}}ms"
 ```
 
 ### Parse logfmt
 
-Format thứ 2 phổ biến: **logfmt** (`key=value key2=value2`) — dùng bởi Go ecosystem (Kubernetes, Grafana). Loki có `| logfmt` parse tương tự `| json`:
+Định dạng phổ biến thứ hai là **logfmt** (`key=value key2=value2`) — kiểu log đặc trưng của hệ sinh thái Go (Kubernetes, Grafana dùng nhiều). Loki có `| logfmt` parse tương tự `| json`:
 
-```
+```text
 ts=2026-05-24T10:00:00Z level=error service=fastapi trace_id=abc msg="DB timeout"
 ```
 
@@ -169,92 +177,104 @@ ts=2026-05-24T10:00:00Z level=error service=fastapi trace_id=abc msg="DB timeout
 
 ### Parse regex
 
+Khi log không theo định dạng chuẩn nào (ví dụ access log của nginx), bạn dùng `| regexp` với *named capture group* để bóc tách field:
+
 ```logql
 {service="nginx"} 
   | regexp `(?P<method>\w+) (?P<path>[^ ]+) HTTP/[\d.]+" (?P<status>\d+) (?P<bytes>\d+)`
   | status >= 500
 ```
 
-→ Named capture groups become parsed fields.
+Mỗi *named capture group* (như `?P<method>`) sẽ trở thành một field parse được để lọc tiếp.
 
-### Aggregation (LogQL "metric queries")
+### Aggregation — "metric query" của LogQL
+
+Điểm thú vị: LogQL không chỉ tìm log, nó còn biến log thành số. Cú pháp aggregate gần như y hệt PromQL, giúp bạn tính tỷ lệ lỗi, top endpoint chậm, percentile... thẳng từ log:
 
 ```logql
-# Count errors per minute
+# Đếm số lỗi mỗi phút theo service
 sum by (service) (
   rate({namespace="prod"} | json | level="error" [5m])
 )
 
-# Top 10 slow endpoints
+# Top 10 endpoint chậm nhất
 topk(10,
   sum by (endpoint) (
     rate({service="fastapi"} | json | duration_ms > 1000 [5m])
   )
 )
 
-# 95th percentile of duration
+# Percentile thứ 95 của duration
 quantile_over_time(0.95,
   {service="fastapi"} | json | unwrap duration_ms [5m]
 )
 ```
 
-→ LogQL aggregate similar to PromQL syntax. `unwrap` extract numeric field for aggregation.
+Hàm `unwrap` là mấu chốt: nó rút một field số (như `duration_ms`) ra để LogQL aggregate được như metric thật.
 
 ### `line_format` + `label_format`
 
+Hai pipe này lo phần trình bày: `line_format` đổi cách hiển thị mỗi dòng output, `label_format` thêm hoặc đổi tên label:
+
 ```logql
-# Custom output line format
+# Tuỳ biến định dạng dòng output
 {service="fastapi"} | json 
   | line_format "[{{.level | upper}}] {{.endpoint}} → {{.message}}"
 
-# Add/rename label
+# Thêm / đổi tên label
 {service="fastapi"} | json
   | label_format component=`{{.service}}-{{.endpoint}}`
 ```
 
-### Operators
+### Toán tử so sánh và phép toán
+
+Sau khi parse, bạn có thể so sánh và tính toán trực tiếp trên field số:
 
 ```logql
-# Comparison
+# So sánh
 {service="fastapi"} | json | duration_ms > 1000
 {service="fastapi"} | json | status_code >= 400 and status_code < 500
 
-# Math
+# Phép toán
 {service="fastapi"} | json | unwrap duration_ms | __error__=""
 ```
 
+Lưu ý `__error__=""` ở cuối: nó loại bỏ những dòng parse lỗi, tránh làm bẩn kết quả aggregate.
+
 ---
 
-## 3️⃣ 10 LogQL patterns phổ biến
+## 3️⃣ 10 pattern LogQL phổ biến
 
-### 1. Find ERROR logs
+Lý thuyết cú pháp ở trên sẽ đọng lại tốt nhất qua các tình huống thật. Dưới đây là 10 query bạn sẽ gõ đi gõ lại trong công việc — gom từ debug sự cố tới phân tích bất thường. Hãy xem đây như một "bộ công thức nấu nhanh".
+
+### 1. Tìm log ERROR
 
 ```logql
 {namespace="prod"} |= "ERROR"
 ```
 
-### 2. Find specific exception
+### 2. Tìm một exception cụ thể
 
 ```logql
 {namespace="prod"} |= "OperationalError" |= "connection"
 ```
 
-### 3. Trace correlation
+### 3. Truy vết theo trace
 
 ```logql
 {namespace="prod"} | json | trace_id="abc123"
 ```
 
-→ All logs for specific trace across services.
+Pattern này gom toàn bộ log của một trace cụ thể, xuyên suốt mọi service — cực kỳ hữu ích khi debug một request đi qua nhiều service.
 
-### 4. Slow requests
+### 4. Request chậm
 
 ```logql
 {service="fastapi"} | json | duration_ms > 1000
   | line_format "{{.endpoint}} {{.duration_ms}}ms"
 ```
 
-### 5. Error rate per service
+### 5. Tỷ lệ lỗi theo service
 
 ```logql
 sum by (service) (
@@ -262,7 +282,7 @@ sum by (service) (
 )
 ```
 
-### 6. Top 10 noisy logs source
+### 6. Top 10 nguồn log ồn ào nhất
 
 ```logql
 topk(10,
@@ -270,7 +290,7 @@ topk(10,
 )
 ```
 
-### 7. P95 latency from logs
+### 7. P95 latency lấy từ log
 
 ```logql
 quantile_over_time(0.95,
@@ -278,7 +298,7 @@ quantile_over_time(0.95,
 )
 ```
 
-### 8. Aggregate by user
+### 8. Gom nhóm theo user
 
 ```logql
 sum by (user_id) (
@@ -286,20 +306,20 @@ sum by (user_id) (
 )
 ```
 
-→ Use carefully — high cardinality if many users.
+Dùng pattern này thận trọng: nếu có rất nhiều user, kết quả sẽ sinh ra cardinality cao ngay trong query.
 
-### 9. Anomaly: error rate change
+### 9. Phát hiện bất thường — tỷ lệ lỗi thay đổi đột ngột
 
 ```logql
-# Current 5min vs previous 5min
+# So 5 phút hiện tại với 5 phút trước
 (
   sum(rate({service="fastapi"} | json | level="error" [5m]))
   /
   sum(rate({service="fastapi"} | json | level="error" [5m] offset 5m))
-) > 2.0    # current 2x more than 5m ago
+) > 2.0    # hiện tại nhiều gấp 2 lần so với 5 phút trước
 ```
 
-### 10. Multi-line stack trace
+### 10. Stack trace nhiều dòng
 
 ```logql
 {service="fastapi"} |~ `Traceback.*\n.*\n.*` 
@@ -308,11 +328,13 @@ sum by (user_id) (
 
 ---
 
-## 4️⃣ Loki alerting rules (Ruler)
+## 4️⃣ Alert từ log với Loki Ruler
 
-Loki has built-in Ruler — evaluate LogQL queries periodically, fire alerts.
+Tìm được log lỗi là một chuyện; biết ngay khi nó xảy ra lại là chuyện khác. Loki có sẵn **Ruler** — component định kỳ chạy các query LogQL rồi bắn alert khi vượt ngưỡng, hệt như Prometheus làm với metric.
 
-### Rule config
+### Cấu hình rule
+
+File rule dưới đây minh hoạ ba kiểu alert thường gặp: tỷ lệ lỗi cao, phát hiện panic, và phát hiện brute-force đăng nhập:
 
 ```yaml
 # loki-rules.yaml
@@ -358,35 +380,43 @@ groups:
           summary: "Brute force from {{ $labels.source_ip }}"
 ```
 
-→ Alert fired from logs, routed via Alertmanager same as Prometheus alerts.
+Alert sinh ra từ log này được định tuyến qua Alertmanager y hệt alert của Prometheus — bạn tái dùng toàn bộ hạ tầng notify đã có.
 
-### When use Loki alerts vs Prometheus alerts
+### Khi nào dùng Loki alert, khi nào dùng Prometheus alert
 
-**Prometheus alerts**:
-- Metric-driven: `error_rate > X`.
-- Aggregate over time.
-- Numerical thresholds.
+Hai loại alert này không cạnh tranh mà bổ sung cho nhau. Phân biệt theo bản chất câu hỏi bạn đang hỏi:
 
-**Loki alerts**:
-- **Specific log content**: detect specific exception string, panic, security event.
-- **Pattern detection**: failed logins, SQL injection attempts, specific stack traces.
-- **Audit events**: regulatory triggers (PII access, admin login).
+**Prometheus alert** hợp khi:
+- Dựa trên metric (số): `error_rate > X`.
+- Aggregate theo thời gian.
+- Ngưỡng là con số.
 
-→ Both, complementary.
+**Loki alert** hợp khi:
+- Bắt **nội dung log cụ thể**: một chuỗi exception, panic, sự kiện bảo mật.
+- **Phát hiện pattern**: failed login dồn dập, dấu hiệu SQL injection, stack trace lạ.
+- **Sự kiện audit**: trigger theo quy định (truy cập PII, admin đăng nhập).
+
+Kết luận: dùng cả hai, chúng bù trừ cho nhau — Prometheus cho biết "tỷ lệ lỗi tăng", còn Loki cho biết "đang xuất hiện exception loại mới".
 
 ---
 
 ## 5️⃣ Structured JSON logging
 
-### Bad — unstructured
+Mọi query đẹp đẽ ở §2–§3 chỉ chạy được khi log có cấu trúc. Đây là lúc bàn tới gốc rễ: log phải ghi ra JSON, không phải chuỗi văn xuôi.
+
+### Sai — log không cấu trúc
+
+Hãy nhìn cách log "tự nhiên" mà ai cũng từng viết:
 
 ```python
 logger.info("User u-12345 logged in from 1.2.3.4, took 50ms")
 ```
 
-→ Loki can't filter `user_id` or `latency` without regex.
+Vấn đề: Loki không thể lọc theo `user_id` hay `latency` nếu không bổ regex — mỗi query lại phải parse, vừa chậm vừa dễ sai.
 
-### Good — structured JSON
+### Đúng — log JSON có cấu trúc
+
+Thay vì nhồi mọi thứ vào một câu, tách thành các field rõ ràng:
 
 ```python
 logger.info("user_login", extra={
@@ -397,10 +427,13 @@ logger.info("user_login", extra={
 })
 ```
 
-Output:
+Kết quả là một dòng JSON gọn gàng, mỗi thông tin một field:
+
 ```json
 {"timestamp": "2026-05-24T10:00:00Z", "level": "info", "msg": "user_login", "user_id": "u-12345", "source_ip": "1.2.3.4", "latency_ms": 50, "trace_id": "abc123"}
 ```
+
+Giờ thì `| json | user_id="u-12345"` chạy tức thì, không cần regex. Phần dưới là cách dựng structured logging cho ba ngôn ngữ phổ biến.
 
 ### Python — `structlog`
 
@@ -419,7 +452,7 @@ structlog.configure(
 
 log = structlog.get_logger()
 
-# Bind context for current request (via middleware)
+# Bind context cho request hiện tại (qua middleware)
 structlog.contextvars.bind_contextvars(
     trace_id=current_trace_id(),
     user_id=current_user_id(),
@@ -463,12 +496,14 @@ logger.Info("user_login",
 )
 ```
 
-### FastAPI middleware
+### Middleware cho FastAPI
+
+Mẹo hay nhất để khỏi phải lặp lại `trace_id` ở mọi dòng log: bind nó một lần ở middleware, mọi log trong phạm vi request sẽ tự mang theo:
 
 ```python
 @app.middleware("http")
 async def logging_middleware(request, call_next):
-    trace_id = get_trace_id()    # from OTel context
+    trace_id = get_trace_id()    # từ OTel context
     structlog.contextvars.bind_contextvars(trace_id=trace_id)
     
     start = time.time()
@@ -486,91 +521,106 @@ async def logging_middleware(request, call_next):
     return response
 ```
 
-→ Every log line in request scope has `trace_id` auto.
+Nhờ vậy, mọi dòng log trong phạm vi một request đều tự động có `trace_id` — không cần truyền tay.
 
-### Standard fields (production convention)
+### Bộ field chuẩn (quy ước production)
 
-| Field | Type | Description |
+Để query xuyên service được, cả tổ chức nên thống nhất một bộ field. Bảng dưới là quy ước thường dùng:
+
+| Field | Kiểu | Mô tả |
 |---|---|---|
-| `timestamp` | ISO 8601 | Event time |
+| `timestamp` | ISO 8601 | Thời điểm sự kiện |
 | `level` | string | `debug` / `info` / `warn` / `error` / `fatal` |
-| `service` | string | Service name |
-| `version` | string | Service version |
+| `service` | string | Tên service |
+| `version` | string | Phiên bản service |
 | `environment` | string | `prod` / `staging` / `dev` |
 | `trace_id` | string | OTel trace ID |
 | `span_id` | string | OTel span ID |
-| `user_id` | string | Authenticated user (if applicable) |
-| `request_id` | string | UUID per request |
-| `msg` | string | Event description |
+| `user_id` | string | User đã xác thực (nếu có) |
+| `request_id` | string | UUID mỗi request |
+| `msg` | string | Mô tả sự kiện |
 
-→ Standardize across services for cross-service query.
+Chuẩn hoá bộ field này trên mọi service chính là điều kiện để query cross-service hoạt động.
 
 ---
 
-## 6️⃣ Label cardinality management
+## 6️⃣ Quản lý cardinality của label
 
-### What's a "stream" in Loki?
+Đây là phần quan trọng nhất của cả bài, vì cardinality sai là nguyên nhân số một khiến Loki sập như trong tình huống mở đầu. Cần hiểu thật rõ "stream" là gì trước đã.
 
-Each unique label combination = **1 stream**.
+### "Stream" trong Loki là gì?
 
-```
+Mỗi tổ hợp label *duy nhất* tạo thành **một stream**. Ví dụ ba pod khác nhau của cùng một service:
+
+```text
 {namespace="prod", service="fastapi", pod="fastapi-abc"} → stream 1
 {namespace="prod", service="fastapi", pod="fastapi-def"} → stream 2
 {namespace="prod", service="fastapi", pod="fastapi-ghi"} → stream 3
 ```
 
-→ 3 pods = 3 streams. Reasonable.
+Ba pod = ba stream. Hợp lý, con số nhỏ, Loki xử lý thoải mái.
 
-### Cardinality explosion
+### Cardinality bùng nổ
 
-❌ **High-cardinality labels** (NEVER use as label):
-- `user_id` (millions).
-- `request_id` (per-request).
+Vấn đề nổ ra khi ai đó lỡ tay đưa một giá trị thay đổi liên tục lên làm label. Đây là những label **cardinality cao** — TUYỆT ĐỐI không dùng làm label:
+
+- `user_id` (hàng triệu giá trị).
+- `request_id` (mỗi request một giá trị).
 - `email`.
-- `URL with params` (`/users/123?filter=...`).
+- `URL kèm tham số` (`/users/123?filter=...`).
 
-```
+Lý do nằm ở phép nhân không phanh:
+
+```text
 {service="fastapi", user_id="u-1"} → stream 1
 {service="fastapi", user_id="u-2"} → stream 2
 ...
 {service="fastapi", user_id="u-1000000"} → stream 1M
 ```
 
-→ 1M streams = Loki ingester OOM, query slow.
+Một triệu user = một triệu stream → ingester OOM, query chậm thê thảm. Chính `request_id` ở tình huống đầu bài là thủ phạm kiểu này.
 
-### Right approach
+### Cách làm đúng
 
-✅ **Keep as label** (low cardinality, < 100 values):
-- `namespace`, `service`, `pod` (auto by Promtail).
+Quy tắc đơn giản: cái gì *ít thay đổi* thì làm label, cái gì *thay đổi theo từng request* thì để trong nội dung. Cụ thể:
+
+✅ **Giữ làm label** (cardinality thấp, < 100 giá trị):
+- `namespace`, `service`, `pod` (Promtail tự gắn).
 - `level` (info, warn, error).
 - `cluster`, `region`.
 
-✅ **Keep as content** (high cardinality):
-- `user_id`, `trace_id`, `request_id` → JSON field, query via `| json | user_id="u-123"`.
+✅ **Giữ trong nội dung** (cardinality cao):
+- `user_id`, `trace_id`, `request_id` → để thành field JSON, query bằng `| json | user_id="u-123"`.
+
+Minh hoạ rõ cái đúng và cái sai cạnh nhau:
 
 ```python
-# Right
+# Đúng
 log.info("payment_processed", user_id="u-123", amount=99.99)
-# → JSON line, user_id in content
+# → dòng JSON, user_id nằm trong nội dung
 # Loki label: {service="payment", level="info"}
 
-# Wrong
-log.info("payment_processed", labels={"user_id": "u-123"})    # ← don't!
+# Sai
+log.info("payment_processed", labels={"user_id": "u-123"})    # ← đừng!
 ```
 
-### Verify cardinality
+### Kiểm tra cardinality
+
+Để biết một label có đang phình hay không, đếm số giá trị duy nhất của nó qua Loki API hoặc Grafana:
 
 ```bash
 # Loki API
 curl http://loki:3100/loki/api/v1/label/<label_name>/values | jq '.data | length'
 
-# Or in Grafana
-# Settings → Loki datasource → Cardinality tab
+# Hoặc trong Grafana
+# Settings → Loki datasource → tab Cardinality
 ```
 
-→ Audit weekly. Cap labels < 100 unique values.
+Nên audit hằng tuần và giữ mỗi label dưới 100 giá trị duy nhất.
 
-### Limits config
+### Cấu hình giới hạn
+
+Phòng bệnh hơn chữa: đặt giới hạn cứng để Loki tự từ chối khi cardinality vượt ngưỡng, buộc mọi người ghi log đúng cách:
 
 ```yaml
 # loki config
@@ -580,23 +630,27 @@ limits_config:
   max_label_name_length: 1024
   max_label_names_per_series: 30
   
-  # Per-tenant limits
+  # Giới hạn theo tenant
   ingestion_rate_mb: 4
   ingestion_burst_size_mb: 6
   
-  # Query limits
+  # Giới hạn query
   max_query_series: 500
   max_query_parallelism: 32
   max_query_length: 30d
 ```
 
-→ Loki reject ingestion if exceed → forces good behavior.
+Khi vượt giới hạn, Loki từ chối ingest — nghe có vẻ phũ nhưng đây chính là cơ chế ép cả team giữ thói quen tốt.
 
 ---
 
 ## 7️⃣ Promtail vs Vector vs Fluent Bit
 
-### Promtail (Loki-native)
+Cardinality nằm ở phía Loki, nhưng "lượng log" và "cách parse" lại do *shipper* quyết định. Có ba lựa chọn phổ biến, mỗi cái mạnh ở một hoàn cảnh. Ta xem từng cái rồi đặt chúng cạnh nhau.
+
+### Promtail (gốc của Loki)
+
+Promtail là shipper "cùng nhà" với Loki, cấu hình bằng YAML, có sẵn service discovery cho K8s:
 
 ```yaml
 # promtail-config.yaml
@@ -619,19 +673,21 @@ scrape_configs:
             level: level
             trace_id: trace_id
       - labels:
-          level:           # ← promote to label (careful cardinality)
+          level:           # ← cẩn thận cardinality khi promote lên label
 ```
 
-**Pros**:
-- Loki-native, simple setup.
-- K8s service discovery built-in.
-- Pipeline stages for parsing.
+**Ưu điểm**:
+- Gốc của Loki, cài đặt đơn giản.
+- Service discovery cho K8s tích hợp sẵn.
+- Có *pipeline stage* để parse ngay khi thu.
 
-**Cons**:
-- Loki-only.
-- Less feature-rich than Vector.
+**Nhược điểm**:
+- Chỉ đẩy được vào Loki.
+- Ít tính năng hơn Vector.
 
-### Vector (Datadog, 2024+ popular)
+### Vector (của Datadog, phổ biến từ 2024)
+
+Vector viết bằng Rust, mạnh ở khả năng biến đổi (*transform*) và đẩy tới nhiều đích cùng lúc:
 
 ```toml
 # vector.toml
@@ -657,17 +713,19 @@ endpoint = "http://loki:3100"
 labels = { service = "{{ service }}", level = "{{ level }}" }
 ```
 
-**Pros**:
-- Multi-destination (Loki + S3 + Kafka + others).
-- VRL (Vector Remap Language) — powerful transforms.
-- Excellent performance (Rust).
-- Buffering / retry built-in.
+**Ưu điểm**:
+- Nhiều đích (Loki + S3 + Kafka + nhiều nơi khác).
+- VRL (*Vector Remap Language*) — biến đổi log rất mạnh.
+- Hiệu năng xuất sắc (viết bằng Rust).
+- Buffering / retry tích hợp sẵn.
 
-**Cons**:
-- Learning curve VRL.
-- Less K8s-native than Promtail.
+**Nhược điểm**:
+- Phải học VRL.
+- Kém "K8s-native" hơn Promtail.
 
 ### Fluent Bit (CNCF Graduated)
+
+Fluent Bit nhẹ, trưởng thành, cấu hình kiểu INI:
 
 ```ini
 [INPUT]
@@ -688,50 +746,57 @@ labels = { service = "{{ service }}", level = "{{ level }}" }
     Labels            namespace=$namespace,pod=$pod
 ```
 
-**Pros**:
-- Lightweight (low memory).
-- Mature, widely used.
-- Multi-destination (Loki, Elasticsearch, CloudWatch, etc.).
+**Ưu điểm**:
+- Nhẹ (ngốn ít RAM).
+- Trưởng thành, được dùng rộng rãi.
+- Nhiều đích (Loki, Elasticsearch, CloudWatch...).
 
-**Cons**:
-- INI-style config less expressive.
-- C-based, less feature dev than Vector.
+**Nhược điểm**:
+- Cấu hình kiểu INI kém biểu đạt.
+- Viết bằng C, phát triển tính năng chậm hơn Vector.
 
-### Comparison
+### Đặt cạnh nhau
 
-| Aspect | Promtail | Vector | Fluent Bit |
+Bảng dưới gom mọi tiêu chí lại để bạn chọn nhanh:
+
+| Tiêu chí | Promtail | Vector | Fluent Bit |
 |---|---|---|---|
 | Sponsor | Grafana Labs | Datadog (open) | CNCF |
-| Language | Go | Rust | C |
-| Memory footprint | Medium | Low | Lowest |
-| Loki-native | ✅ | ✅ | ✅ |
-| Multi-destination | ❌ (Loki only) | ✅ Many | ✅ Many |
-| Transform power | Basic | Advanced (VRL) | Lua scripts |
+| Ngôn ngữ | Go | Rust | C |
+| Mức ngốn RAM | Trung bình | Thấp | Thấp nhất |
+| Native với Loki | ✅ | ✅ | ✅ |
+| Nhiều đích | ❌ (chỉ Loki) | ✅ Nhiều | ✅ Nhiều |
+| Sức mạnh transform | Cơ bản | Cao (VRL) | Lua script |
 | K8s discovery | Native | Plugin | Plugin |
-| Configuration | YAML | TOML | INI |
-| Community 2026 | Strong | Growing | Strong |
+| Cấu hình | YAML | TOML | INI |
+| Cộng đồng 2026 | Mạnh | Đang lên | Mạnh |
 
-→ **Recommend 2026**:
-- **Loki-only stack**: Promtail (simplest).
-- **Multi-destination** (Loki + S3 + DataDog): Vector.
-- **Memory-constrained**: Fluent Bit.
+Khuyến nghị cho 2026, tuỳ hoàn cảnh:
+
+- **Stack chỉ có Loki**: chọn Promtail (đơn giản nhất).
+- **Nhiều đích** (Loki + S3 + Datadog): chọn Vector.
+- **Hạn chế RAM**: chọn Fluent Bit.
 
 ---
 
 ## 8️⃣ Retention strategy + Storage tiers
 
-### Why retention matters
+Log gửi vào rồi thì phải tính chuyện giữ bao lâu — đây là gốc của hoá đơn $2,500 ở đầu bài. Bí quyết là không giữ mọi thứ ở cùng một mức "đắt đỏ".
 
-Logs grow ~10-100GB/day for medium app. Storing forever = expensive.
+### Vì sao retention quan trọng
 
+Một app cỡ trung sinh ra khoảng 10–100 GB log mỗi ngày. Giữ vĩnh viễn ở storage nhanh = đốt tiền. Cách làm hợp lý là phân tầng theo độ "nóng" của dữ liệu:
+
+```text
+Hot:   7 ngày gần nhất  — SSD nhanh, query thường xuyên
+Warm:  8-30 ngày        — S3 standard, chậm hơn
+Cold:  31-365 ngày      — S3 IA / Glacier
+Archive: > 1 năm        — Glacier Deep Archive (compliance)
 ```
-Hot:   Last 7 days     — fast SSD, frequent query
-Warm:  8-30 days        — slower S3 standard
-Cold:  31-365 days      — S3 IA / Glacier
-Archive: > 1 year       — Glacier Deep Archive (compliance)
-```
 
-### Loki retention config
+### Cấu hình retention của Loki
+
+Loki cho phép đặt retention khác nhau cho từng loại log qua `retention_stream` — production giữ lâu, dev giữ ngắn, log compliance giữ rất lâu:
 
 ```yaml
 # loki config
@@ -743,25 +808,27 @@ compactor:
   retention_delete_worker_count: 150
 
 limits_config:
-  # Per-tenant retention
-  retention_period: 720h    # 30 days default
+  # Retention theo tenant
+  retention_period: 720h    # mặc định 30 ngày
   
-  # Stream-level retention
+  # Retention theo stream
   retention_stream:
     - selector: '{environment="prod"}'
       priority: 1
-      period: 2160h          # 90 days for prod
+      period: 2160h          # 90 ngày cho prod
     - selector: '{environment="dev"}'
       priority: 2
-      period: 168h           # 7 days for dev
+      period: 168h           # 7 ngày cho dev
     - selector: '{compliance="pci"}'
-      priority: 0            # highest priority
-      period: 8760h          # 1 year for PCI
+      priority: 0            # ưu tiên cao nhất
+      period: 8760h          # 1 năm cho PCI
 ```
 
-→ Per-stream retention via `retention_stream`. Different rules for different log types.
+Nhờ `retention_stream`, mỗi loại log có vòng đời riêng — không còn cảnh "giữ 90 ngày cho tất cả".
 
-### S3 lifecycle policies
+### S3 lifecycle policy
+
+Bên dưới Loki, S3 còn tự hạ tầng (*tier*) cho dữ liệu cũ xuống các lớp rẻ hơn theo thời gian:
 
 ```json
 {
@@ -774,31 +841,35 @@ limits_config:
         { "Days": 90, "StorageClass": "GLACIER_IR" },
         { "Days": 365, "StorageClass": "DEEP_ARCHIVE" }
       ],
-      "Expiration": { "Days": 2555 }    # 7 years for compliance
+      "Expiration": { "Days": 2555 }
     }
   ]
 }
 ```
 
-→ Loki S3 bucket lifecycle: auto-migrate to cheaper tier over time. Loki still query (slow for cold tier).
+S3 tự chuyển dữ liệu sang tier rẻ dần theo thời gian. Loki vẫn query được (nhưng chậm với tier cold). Lưu ý `Expiration: 2555` ngày tương đương 7 năm — mốc hay dùng cho compliance.
 
-### Cost estimate (AWS S3, 100GB/day logs)
+### Ước tính chi phí (AWS S3, 100 GB log/ngày)
 
-| Tier | Days | Storage | Cost/month |
+Con số nói rõ nhất giá trị của việc phân tầng. Cùng một khối lượng log, nếu để hết ở tier nóng sẽ rất đắt; phân tầng kéo tổng chi phí xuống đáng kể:
+
+| Tier | Số ngày | Dung lượng | Chi phí/tháng |
 |---|---|---|---|
 | Standard | 30 | 3 TB | $69 |
 | Standard-IA | 60 | 6 TB | $76 |
 | Glacier Instant Retrieval | 275 | 27.5 TB | $110 |
-| Deep Archive | rest | varies | $20 |
-| **Total** | | | **~$275** |
+| Deep Archive | còn lại | thay đổi | $20 |
+| **Tổng** | | | **~$275** |
 
-vs Elasticsearch hot SSD all-tier: ~$3000/month for same volume. **Loki 10x cheaper**.
+So với Elasticsearch để toàn bộ trên SSD nóng (~$3000/tháng cho cùng khối lượng), **Loki rẻ hơn khoảng 10 lần**.
 
 ---
 
-## 9️⃣ Hands-on: Loki production setup
+## 9️⃣ Hands-on: dựng Loki production
 
-### Step 1: Install Loki with S3 backend
+Giờ ráp mọi mảnh lại thành một hệ chạy thật: cài Loki backend S3, dựng Promtail, cấu hình structured logging cho FastAPI, bật alert từ log, rồi test query. Năm bước, đi từ hạ tầng tới ứng dụng.
+
+### Bước 1: Cài Loki với backend S3
 
 ```yaml
 # loki-values.yaml (Helm)
@@ -823,12 +894,12 @@ loki:
         admin: loki-admin-acme
   
   limits_config:
-    retention_period: 720h    # 30 days
+    retention_period: 720h    # 30 ngày
     max_streams_per_user: 100000
     ingestion_rate_mb: 8
     ingestion_burst_size_mb: 12
 
-deploymentMode: SimpleScalable   # 3-binary mode: write/read/backend
+deploymentMode: SimpleScalable   # chế độ 3-binary: write/read/backend
 
 write:
   replicas: 3
@@ -853,7 +924,9 @@ backend:
 helm install loki grafana/loki -f loki-values.yaml -n monitoring
 ```
 
-### Step 2: Install Promtail DaemonSet
+### Bước 2: Cài Promtail DaemonSet
+
+Promtail chạy trên mỗi node, tail log container và gắn các label chuẩn (namespace, app, node, pod, container) qua `relabel_configs`:
 
 ```yaml
 # promtail-values.yaml
@@ -892,7 +965,9 @@ config:
 helm install promtail grafana/promtail -f promtail-values.yaml -n monitoring
 ```
 
-### Step 3: Configure FastAPI structured logging
+### Bước 3: Cấu hình structured logging cho FastAPI
+
+Phần này áp dụng đúng bài học ở §5: cấu hình `structlog` ra JSON, rồi bind `trace_id` cùng các field chuẩn ở middleware:
 
 ```python
 # logging_config.py
@@ -919,7 +994,7 @@ structlog.configure(
 
 logger = structlog.get_logger()
 
-# In FastAPI app
+# Trong FastAPI app
 @app.middleware("http")
 async def request_logging(request, call_next):
     from opentelemetry import trace
@@ -948,7 +1023,9 @@ async def request_logging(request, call_next):
     return response
 ```
 
-### Step 4: Setup Loki Ruler for log-based alerts
+### Bước 4: Cấu hình Loki Ruler cho alert từ log
+
+Đóng gói rule vào ConfigMap để Loki Ruler nạp, bắt hai sự kiện quan trọng nhất — tỷ lệ lỗi cao và panic:
 
 ```yaml
 apiVersion: v1
@@ -983,25 +1060,27 @@ data:
               summary: "PANIC in production"
 ```
 
-### Step 5: Test queries in Grafana
+### Bước 5: Test query trong Grafana
+
+Cuối cùng, mở Grafana Explore và chạy thử vài query để xác nhận pipeline thông suốt từ app tới Loki:
 
 ```logql
-# 1. All FastAPI errors
+# 1. Mọi lỗi của FastAPI
 {service="fastapi"} | json | level="error"
 
-# 2. Slow requests
+# 2. Request chậm
 {service="fastapi"} | json | duration_ms > 1000
   | line_format "{{.path}} {{.duration_ms}}ms"
 
-# 3. Specific trace
+# 3. Một trace cụ thể
 {namespace="prod"} | json | trace_id="abc123"
 
-# 4. Top noisy pods
+# 4. Top pod ồn ào nhất
 topk(5,
   sum by (pod) (rate({namespace="prod"}[5m]))
 )
 
-# 5. Error rate per service over time
+# 5. Tỷ lệ lỗi theo service theo thời gian
 sum by (service) (
   rate({namespace="prod"} | json | level="error" [5m])
 )
@@ -1009,9 +1088,9 @@ sum by (service) (
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: High-card label in Promtail pipeline
+### ❌ Cạm bẫy: Label cardinality cao trong pipeline Promtail
 
 ```yaml
 pipeline_stages:
@@ -1020,38 +1099,38 @@ pipeline_stages:
         user_id: user_id
         request_id: request_id
   - labels:
-      user_id:        # ← DON'T promote to label!
-      request_id:     # ← DON'T!
+      user_id:        # ← ĐỪNG promote lên label!
+      request_id:     # ← ĐỪNG!
 ```
 
-→ Loki stream explosion.
+→ Stream bùng nổ, đúng kịch bản làm Loki OOM.
 
-→ **Fix**: Extract field to JSON content (query via `| json | user_id=...`). DON'T promote to Loki label.
+→ **Fix**: Để field nằm trong nội dung JSON (query bằng `| json | user_id=...`). KHÔNG promote lên label của Loki.
 
-### ❌ Pitfall: Bare query `{}`
+### ❌ Cạm bẫy: Query rỗng `{}`
 
 ```logql
 {} |= "ERROR"
 ```
 
-→ Scan ALL streams. Slow, expensive.
+→ Quét toàn bộ stream. Chậm, tốn kém.
 
-→ **Fix**: Always narrow stream selector:
+→ **Fix**: Luôn thu hẹp stream selector:
 ```logql
 {namespace="prod", service=~"fastapi|payment"} |= "ERROR"
 ```
 
-### ❌ Pitfall: No retention policy
+### ❌ Cạm bẫy: Không có retention policy
 
-→ Logs grow forever. AWS bill explode.
+→ Log lớn lên vô tận. Hoá đơn AWS phình to.
 
-→ **Fix**: Retention 30-90 days production. Compliance logs (PII access) longer with archive tier.
+→ **Fix**: Retention 30–90 ngày cho production. Log compliance (truy cập PII) giữ lâu hơn bằng tier archive.
 
-### ❌ Pitfall: Promtail tail every container
+### ❌ Cạm bẫy: Promtail tail mọi container
 
-→ Some apps verbose (sidecars, infrastructure). 1 chatty pod = 50% volume.
+→ Vài app rất ồn (sidecar, hạ tầng). Một pod nói nhiều = 50% volume.
 
-→ **Fix**: Drop in Promtail relabel:
+→ **Fix**: Drop ngay trong relabel của Promtail:
 ```yaml
 relabel_configs:
   - source_labels: [__meta_kubernetes_pod_label_app]
@@ -1059,33 +1138,33 @@ relabel_configs:
     action: drop
 ```
 
-### ❌ Pitfall: Unstructured logs
+### ❌ Cạm bẫy: Log không cấu trúc
 
 ```python
 logger.info(f"User {user_id} did {action}, took {duration}ms")
 ```
 
-→ Can't filter `user_id` without regex. Query slow.
+→ Không lọc được `user_id` nếu không regex. Query chậm.
 
-→ **Fix**: JSON structured logging.
+→ **Fix**: Dùng structured JSON logging.
 
-### ❌ Pitfall: Mix log levels
+### ❌ Cạm bẫy: Trộn lẫn log level
 
-→ DEBUG logs in production = volume + noise + cost.
+→ DEBUG log trong production = volume + nhiễu + chi phí.
 
-→ **Fix**: Production log level = INFO. DEBUG only when investigating. Tools like **dynamic log level** (change runtime via API).
+→ **Fix**: Log level production = INFO. Chỉ bật DEBUG khi đang điều tra. Dùng cơ chế **dynamic log level** (đổi level lúc runtime qua API).
 
-### ❌ Pitfall: No correlation IDs
+### ❌ Cạm bẫy: Không có correlation ID
 
-→ Multi-service issue, traces split across services. No `request_id` or `trace_id` → can't link.
+→ Sự cố xuyên service, trace bị xé lẻ. Không có `request_id` hay `trace_id` → không nối lại được.
 
-→ **Fix**: Propagate `trace_id` via OTel context across all services. Include in every log line.
+→ **Fix**: Lan truyền `trace_id` qua OTel context xuyên mọi service. Đính nó vào mọi dòng log.
 
 ### ✅ Best practice: Loki + Tempo correlation
 
-Grafana: click log line with `trace_id` → "View trace" → jumps to Tempo. **Cross-pillar navigation**.
+Trong Grafana: click vào dòng log có `trace_id` → "View trace" → nhảy thẳng sang Tempo. Đây là điều hướng xuyên trụ (*cross-pillar*) — từ log sang trace chỉ một cú click.
 
-Setup datasource:
+Cấu hình datasource:
 ```yaml
 # grafana-datasources.yaml
 - name: Loki
@@ -1097,163 +1176,165 @@ Setup datasource:
         datasourceUid: tempo
 ```
 
-→ Magic.
+→ Một cú click là từ log nhảy thẳng sang trace tương ứng.
 
-### ✅ Best practice: Per-service log volume monitoring
+### ✅ Best practice: Giám sát volume log theo service
 
-Track log volume per service. Alert if anomalous:
+Theo dõi lượng log mỗi service và alert khi bất thường:
 
 ```promql
 # Promtail metrics
 rate(promtail_sent_bytes_total{tenant="acme"}[5m])
 ```
 
-→ Sudden 10x volume = misbehaving service (infinite loop logging).
+→ Volume đột ngột tăng 10 lần = một service đang lỗi (ví dụ vòng lặp vô hạn ghi log).
 
-### ✅ Best practice: Documentation tags
+### ✅ Best practice: Đặt tag tài liệu cho sự kiện
 
-Add `event_type` field, document allowed values:
+Thêm field `event_type` và ghi rõ tài liệu các giá trị cho phép:
 
 ```python
 log.info("payment_processed", event_type="payment.success", amount=99.99)
 log.info("payment_failed", event_type="payment.failure", reason="declined")
 ```
 
-→ Discoverable events. Query `{ } | json | event_type=~"payment.*"`.
+→ Sự kiện trở nên dễ tra cứu. Query `{ } | json | event_type=~"payment.*"`.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Loki vs Elasticsearch cost — why 10x cheaper?
+Năm câu dưới chạm vào đúng những chỗ dễ sai nhất của Loki — từ chi phí, cardinality tới chọn shipper và retention. Bạn thử tự trả lời trước khi mở đáp án, đây là cách nhanh nhất để biết mình đã thật sự hiểu hay chỉ thấy quen.
+
+**Q1.** Vì sao Loki rẻ hơn Elasticsearch tới 10 lần?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **Elasticsearch**:
-- **Full-text index every field**: massive storage (3-5x raw log size).
-- Index in **SSD/RAM** for query speed.
-- Compute cluster scaling.
+- **Index toàn văn mọi field**: tốn storage khủng khiếp (gấp 3–5 lần dữ liệu log thô).
+- Đặt index trên **SSD/RAM** để query nhanh.
+- Phải scale cả cluster tính toán.
 
 **Loki**:
-- **Index only labels** (small, structured).
-- **Content in object storage** (S3), compressed (gzip/snappy).
-- Query: filter by label → scan content blobs.
+- **Chỉ index label** (nhỏ, có cấu trúc).
+- **Nội dung để trong object storage** (S3), nén lại (gzip/snappy).
+- Query: lọc theo label → quét các khối nội dung khớp.
 
-**Storage cost difference**:
-- 100GB raw logs/day.
-- ES: 300-500GB indexed on SSD = $0.10/GB/month × 500GB × 30 days = $1500/month for 30 days.
-- Loki: 30GB compressed on S3 = $0.023/GB/month × 30GB × 30 days = $20/month.
+**Khác biệt chi phí storage**:
+- 100 GB log thô/ngày.
+- ES: 300–500 GB đã index trên SSD = $0.10/GB/tháng × 500GB × 30 ngày = $1500/tháng cho 30 ngày dữ liệu.
+- Loki: 30 GB nén trên S3 = $0.023/GB/tháng × 30GB × 30 ngày = $20/tháng.
 
-**Trade-offs**:
-- Loki **slower** for "find any log containing X" across all data (full scan).
-- ES **faster** for arbitrary search.
+**Đánh đổi**:
+- Loki **chậm hơn** khi "tìm bất kỳ log nào chứa X" trên toàn bộ dữ liệu (full scan).
+- ES **nhanh hơn** khi search tuỳ ý.
 
-**When ES makes sense**:
-- Need complex search (free text, faceted, fuzzy).
-- Compliance requires fast retrieval over years.
-- Log analytics dashboards (Kibana).
+**Khi ES hợp lý**:
+- Cần search phức tạp (free text, faceted, fuzzy).
+- Compliance yêu cầu truy xuất nhanh qua nhiều năm.
+- Dashboard phân tích log (Kibana).
 
-**When Loki wins**:
-- K8s/microservices stack (already using Prometheus + Grafana).
-- Logs primarily for debug/correlation (90% case).
-- Cost-conscious.
+**Khi Loki thắng**:
+- Stack K8s/microservices (đã dùng Prometheus + Grafana sẵn).
+- Log chủ yếu để debug/correlation (90% trường hợp).
+- Quan tâm chi phí.
 
-→ Most teams 2026 → Loki. ES legacy or specialized use cases.
+→ Phần lớn team năm 2026 chọn Loki. ES dành cho hệ cũ hoặc ca dùng chuyên biệt.
 </details>
 
-**Q2.** Cardinality control — vì sao quan trọng cho Loki performance?
+**Q2.** Vì sao kiểm soát cardinality lại quan trọng với hiệu năng Loki?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Loki storage model**:
-- Each unique label combination = 1 **stream**.
-- Each stream stored separately (chunks in S3).
-- Ingester memory: 1 stream = 1 buffer.
+**Mô hình storage của Loki**:
+- Mỗi tổ hợp label duy nhất = 1 **stream**.
+- Mỗi stream lưu riêng (chunk trong S3).
+- RAM ingester: 1 stream = 1 buffer.
 
-**With low cardinality**:
-- 100 services × 10 levels × 10 pods/svc = 10K streams. Manageable.
+**Với cardinality thấp**:
+- 100 service × 10 level × 10 pod/service = 10K stream. Quản được.
 
-**With user_id label (1M users)**:
-- 100 services × 1M users = 100M streams. Loki ingester OOM.
+**Với label user_id (1 triệu user)**:
+- 100 service × 1 triệu user = 100 triệu stream. Ingester OOM.
 
-**Query impact**:
-- Loki index: `(label_set) → list_of_chunks`. Few streams = small index.
-- 100M streams = huge index, slow lookup.
+**Ảnh hưởng tới query**:
+- Index Loki: `(label_set) → list_of_chunks`. Ít stream = index nhỏ.
+- 100 triệu stream = index khổng lồ, tra cứu chậm.
 
-**Ingestion impact**:
-- Each log line: hash label set → find/create stream → write chunk.
-- Many streams = more chunk files = more S3 small-object overhead.
+**Ảnh hưởng tới ingestion**:
+- Mỗi dòng log: hash label set → tìm/tạo stream → ghi chunk.
+- Nhiều stream = nhiều file chunk = nhiều overhead small-object trên S3.
 
-**Mitigation**:
-- **Don't label what changes per-request**: user_id, request_id, trace_id, IP.
-- **Keep low-cardinality labels**: service, namespace, level.
-- **Move per-event data to content** (JSON field).
-- **Query with `| json | user_id="..."`**: scan content, not label.
+**Cách giảm thiểu**:
+- **Đừng làm label cho thứ thay đổi theo request**: user_id, request_id, trace_id, IP.
+- **Giữ label cardinality thấp**: service, namespace, level.
+- **Chuyển dữ liệu theo từng sự kiện vào nội dung** (field JSON).
+- **Query bằng `| json | user_id="..."`**: quét nội dung, không phải label.
 
-**Cost**:
-- High cardinality = ingester compute spike + Loki cluster scale up + S3 metadata cost.
-- Easy to 10x cost without noticing.
+**Chi phí**:
+- Cardinality cao = ingester compute tăng vọt + cluster Loki phải scale + chi phí metadata S3.
+- Rất dễ đội chi phí 10 lần mà không nhận ra.
 
-→ **Cardinality budget**: aim < 100K streams total per tenant. Monitor via `cardinality_analyzer` tool.
+→ **Ngân sách cardinality**: nhắm dưới 100K stream tổng mỗi tenant. Giám sát bằng công cụ `cardinality_analyzer`.
 </details>
 
-**Q3.** When to use Loki alert vs Prometheus alert?
+**Q3.** Khi nào dùng Loki alert, khi nào dùng Prometheus alert?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **Prometheus alert**:
-- Metric-driven (numbers).
-- Pre-defined questions (error rate > X, latency > Y).
-- Continuous time-series.
-- Best for: SLO violations, infra saturation, request anomalies.
+- Dựa trên metric (số).
+- Câu hỏi định trước (error rate > X, latency > Y).
+- Chuỗi thời gian liên tục.
+- Hợp cho: vi phạm SLO, bão hoà hạ tầng, bất thường request.
 
 **Loki alert**:
-- Content-driven (specific log patterns).
-- Discovered post-incident (new exception type).
-- Event-based.
-- Best for:
+- Dựa trên nội dung (pattern log cụ thể).
+- Phát hiện sau sự cố (loại exception mới).
+- Theo sự kiện.
+- Hợp cho:
   - **Panic / crash**: `|~ "panic:"`.
-  - **Security**: failed login spike from same IP, SQL injection patterns.
-  - **Audit**: admin login, PII access events.
-  - **Specific errors**: known regression pattern.
-  - **Stack trace appearance**: catch new exception type immediately.
+  - **Bảo mật**: failed login dồn dập từ cùng IP, pattern SQL injection.
+  - **Audit**: admin đăng nhập, truy cập PII.
+  - **Lỗi cụ thể**: pattern regression đã biết.
+  - **Stack trace xuất hiện**: bắt loại exception mới ngay lập tức.
 
-**Complementary**:
-- Prometheus: "Service X has elevated error rate."
-- Loki: "Service X is throwing NEW exception type (`OperationalError: connection`)."
-- Together: more complete picture.
+**Bổ trợ nhau**:
+- Prometheus: "Service X có error rate tăng cao."
+- Loki: "Service X đang ném ra loại exception MỚI (`OperationalError: connection`)."
+- Cùng nhau: bức tranh đầy đủ hơn.
 
-**When NOT Loki alert**:
-- High-volume metrics derivable from logs (compute Prometheus metric instead — Recording rule from Loki).
-- Aggregate stats best done as metric.
+**Khi KHÔNG nên dùng Loki alert**:
+- Metric volume cao có thể tính được từ log (nên tính thành metric Prometheus — recording rule từ Loki).
+- Thống kê aggregate tốt nhất làm dạng metric.
 
-**Example combo**:
+**Ví dụ kết hợp**:
 ```yaml
 # Prometheus: error rate > 1%
 - alert: ErrorRateHigh
   expr: ...
 
-# Loki: panic appearing
+# Loki: panic xuất hiện
 - alert: PanicDetected
   expr: rate({namespace="prod"} |~ "panic:" [1m]) > 0
 ```
 
-→ Both fire on related incident, give different signal types.
+→ Cả hai cùng bắn trên một sự cố liên quan, cho hai loại tín hiệu khác nhau.
 </details>
 
-**Q4.** Vector vs Promtail — multi-destination scenario?
+**Q4.** Vector vs Promtail — tình huống nhiều đích (multi-destination)?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Scenario**: ship logs to Loki (operations) AND S3 (compliance/archive) AND Kafka (ML pipeline) AND Datadog (executive dashboards).
+**Tình huống**: cần ship log tới Loki (vận hành) VÀ S3 (compliance/archive) VÀ Kafka (pipeline ML) VÀ Datadog (dashboard cho lãnh đạo).
 
-**Promtail**: Loki-only. Need separate shipper for S3/Kafka/Datadog.
+**Promtail**: chỉ đẩy được vào Loki. Cần shipper riêng cho S3/Kafka/Datadog.
 
-**Vector**: 1 agent, 4 destinations:
+**Vector**: 1 agent, 4 đích:
 
 ```toml
 [sources.k8s]
@@ -1282,54 +1363,54 @@ inputs = ["k8s"]
 api_key = "${DD_API_KEY}"
 ```
 
-**Vector advantages**:
-- 1 process per node (low memory).
-- Consistent transforms across destinations (VRL filter once, write to multiple).
-- Buffering + retry handle backpressure.
+**Lợi thế của Vector**:
+- 1 process mỗi node (ngốn ít RAM).
+- Transform nhất quán cho mọi đích (lọc bằng VRL một lần, ghi ra nhiều nơi).
+- Buffering + retry xử lý backpressure sẵn.
 
-**Promtail equivalent**: deploy 4 shippers (Promtail + Fluent Bit + custom S3 uploader + DD agent). More moving parts.
+**Tương đương bằng Promtail**: phải triển khai 4 shipper (Promtail + Fluent Bit + uploader S3 tự viết + DD agent). Nhiều thành phần lằng nhằng hơn.
 
-**Trade-off**:
-- Vector: more powerful, slightly higher complexity.
-- Promtail: simpler if only Loki.
+**Đánh đổi**:
+- Vector: mạnh hơn, phức tạp hơn một chút.
+- Promtail: đơn giản hơn nếu chỉ có Loki.
 
-**2026 recommend**:
-- Pure K8s + Loki: Promtail.
-- Multi-destination, mixed workload: Vector.
-- Memory-constrained edge: Fluent Bit.
+**Khuyến nghị 2026**:
+- Thuần K8s + Loki: Promtail.
+- Nhiều đích, workload hỗn hợp: Vector.
+- Edge hạn chế RAM: Fluent Bit.
 
-→ Multi-destination is Vector's strength. Single-purpose = Promtail.
+→ Nhiều đích là thế mạnh của Vector. Mục đích đơn nhất = Promtail.
 </details>
 
-**Q5.** Retention strategy — hot/warm/cold storage tiers for logs?
+**Q5.** Retention strategy — phân tầng storage hot/warm/cold cho log thế nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Workload patterns** for log access:
-- **Last 7 days**: 95% of queries (incident debug, recent state).
-- **8-30 days**: 4% queries (trend analysis, post-mortem deep dive).
-- **31-90 days**: 1% queries (compliance, quarter-over-quarter).
-- **> 90 days**: rare queries, legal/compliance hold.
+**Pattern truy cập** log theo độ tuổi:
+- **7 ngày gần nhất**: 95% query (debug sự cố, trạng thái gần đây).
+- **8-30 ngày**: 4% query (phân tích xu hướng, đào sâu post-mortem).
+- **31-90 ngày**: 1% query (compliance, so sánh theo quý).
+- **> 90 ngày**: query hiếm, giữ vì pháp lý/compliance.
 
-**Storage tiering** (AWS S3 example):
-| Tier | Cost/GB/month | Access latency | Best for |
+**Phân tầng storage** (ví dụ AWS S3):
+| Tier | Chi phí/GB/tháng | Độ trễ truy cập | Hợp cho |
 |---|---|---|---|
-| Standard | $0.023 | < 100ms | Hot (last 7d) |
-| Intelligent-Tiering | varies | varies | Auto-balance |
-| Standard-IA | $0.0125 | < 100ms | Warm (8-30d), pay per retrieval |
-| Glacier Instant | $0.004 | < 100ms | Cold (31-365d) |
-| Glacier Flexible | $0.0036 | 1-5 min | Compliance archive |
-| Glacier Deep | $0.00099 | 12 hours | Long-term (years) |
+| Standard | $0.023 | < 100ms | Hot (7 ngày gần nhất) |
+| Intelligent-Tiering | thay đổi | thay đổi | Tự cân bằng |
+| Standard-IA | $0.0125 | < 100ms | Warm (8-30 ngày), trả phí mỗi lần lấy |
+| Glacier Instant | $0.004 | < 100ms | Cold (31-365 ngày) |
+| Glacier Flexible | $0.0036 | 1-5 phút | Compliance archive |
+| Glacier Deep | $0.00099 | 12 giờ | Dài hạn (nhiều năm) |
 
-**Configuration**:
+**Cấu hình**:
 
-Loki retention:
+Retention Loki:
 ```yaml
 limits_config:
   retention_stream:
     - selector: '{environment="prod"}'
-      period: 2160h        # 90 days hot
+      period: 2160h        # 90 ngày hot
 ```
 
 S3 lifecycle:
@@ -1341,26 +1422,28 @@ S3 lifecycle:
       { "Days": 90, "StorageClass": "GLACIER_IR" },
       { "Days": 365, "StorageClass": "DEEP_ARCHIVE" }
     ],
-    "Expiration": { "Days": 2555 }    # 7 years (PCI)
+    "Expiration": { "Days": 2555 }
   }]
 }
 ```
 
-**Caveats**:
-- Loki query Glacier-tier = **slow** (12h restore for Deep Archive). Document for ops.
-- Compliance logs (PII, financial) — separate stream with longer retention.
-- Test restore quarterly: don't discover broken at audit time.
+**Lưu ý**:
+- Query Loki ở tier Glacier = **chậm** (Deep Archive cần 12 giờ để restore). Phải ghi rõ cho ops biết.
+- Log compliance (PII, tài chính) — tách stream riêng với retention dài hơn.
+- Test restore hằng quý: đừng để tới lúc audit mới phát hiện hỏng.
 
-**Cost example** (100GB/day):
-- All hot: 100 × 0.023 × 30 = $69/month per 30-day data.
-- Tiered: hot $69 + IA $76 + Glacier IR $110 + Deep $20 = **~$275/month**.
+**Ví dụ chi phí** (100 GB/ngày):
+- Để hết hot: 100 × 0.023 × 30 = $69/tháng cho mỗi 30 ngày dữ liệu.
+- Phân tầng: hot $69 + IA $76 + Glacier IR $110 + Deep $20 = **~$275/tháng**.
 
-→ Significant savings without losing data access.
+→ Tiết kiệm đáng kể mà không mất quyền truy cập dữ liệu.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: các kiểu query LogQL (selector, filter, parse, aggregate, format) và các lệnh API hay dùng cho Loki, Promtail, Ruler.
 
 ```logql
 # === Selectors ===
@@ -1379,7 +1462,7 @@ S3 lifecycle:
 {...} | logfmt
 {...} | regexp `(?P<name>pattern)`
 
-# === Filter parsed fields ===
+# === Filter trên field đã parse ===
 {...} | json | level="error"
 {...} | json | duration_ms > 1000
 
@@ -1392,17 +1475,17 @@ sum by (service) (rate({...} | json | level="error" [5m]))
 quantile_over_time(0.95, {...} | json | unwrap duration_ms [5m])
 topk(10, ...)
 
-# === Comparison with offset ===
+# === So sánh với offset ===
 (... [5m]) / (... [5m] offset 5m)
 
-# === Multi-line ===
+# === Nhiều dòng ===
 {...} |~ `Traceback.*\n.*`
 ```
 
 ```bash
 # === Loki API ===
-curl http://loki:3100/loki/api/v1/labels                    # all labels
-curl http://loki:3100/loki/api/v1/label/<name>/values        # label values
+curl http://loki:3100/loki/api/v1/labels                    # mọi label
+curl http://loki:3100/loki/api/v1/label/<name>/values        # giá trị của 1 label
 curl 'http://loki:3100/loki/api/v1/query?query={service="fastapi"}'
 
 # === Promtail ===
@@ -1415,47 +1498,50 @@ curl http://loki:3100/loki/api/v1/rules
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Loki** | Grafana's log aggregation system — index labels, content in S3 |
-| **LogQL** | Loki query language (similar PromQL syntax + log filters) |
-| **Stream** | Unique combination of labels = 1 stream in Loki |
-| **Promtail** | Loki's log collector (DaemonSet K8s, tail files) |
-| **Vector** | Datadog's log collector (Rust, multi-destination) |
-| **Fluent Bit** | CNCF lightweight log collector (C-based) |
-| **Stream selector** | `{label="value"}` — first part of LogQL |
-| **Filter expression** | `|=`, `!=`, `|~`, `!~` — narrow content |
-| **Parser stage** | `| json`, `| logfmt`, `| regexp` — extract fields |
-| **Cardinality** | # unique label combinations (high = expensive) |
-| **Loki Ruler** | Component evaluating LogQL rules → fire alerts |
-| **Structured logging** | JSON output with consistent fields |
-| **structlog** | Python structured logging library |
-| **pino** | Node.js structured logging library |
-| **zap** | Go structured logging library |
-| **`trace_id` correlation** | Link log line to OTel trace |
-| **Mimir** | Grafana's metrics backend (alternative to Prometheus federation) |
-| **Storage tier** | Hot/warm/cold = SSD / Standard-IA / Glacier |
-| **Retention policy** | How long to keep logs before delete |
-| **Multi-tenant** | Loki separate tenant data with isolated quotas |
-| **Schema config** | Loki time-range to schema version mapping |
-| **TSDB** | Time-series database (Loki's modern index format) |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Loki** | Hệ tổng hợp log | Hệ log của Grafana — index label, nội dung để trong S3 |
+| **LogQL** | Ngôn ngữ query của Loki | Cú pháp giống PromQL + thêm filter cho log |
+| **Stream** | Luồng log | Một tổ hợp label duy nhất = 1 stream trong Loki |
+| **Promtail** | Bộ thu log của Loki | Chạy DaemonSet trên K8s, tail file log |
+| **Vector** | Bộ thu log của Datadog | Viết bằng Rust, đẩy được nhiều đích |
+| **Fluent Bit** | Bộ thu log nhẹ (CNCF) | Viết bằng C, ngốn ít tài nguyên |
+| **Stream selector** | Bộ chọn stream | `{label="value"}` — phần đầu bắt buộc của LogQL |
+| **Filter expression** | Biểu thức lọc | `\|=`, `!=`, `\|~`, `!~` — lọc theo nội dung |
+| **Parser stage** | Bước parse | `\| json`, `\| logfmt`, `\| regexp` — bóc field |
+| **Cardinality** | Số tổ hợp label | Số tổ hợp label duy nhất (cao = tốn kém) |
+| **Loki Ruler** | Bộ luật alert | Component chạy rule LogQL → bắn alert |
+| **Structured logging** | Log có cấu trúc | Output JSON với bộ field nhất quán |
+| **structlog** | Thư viện log Python | Structured logging cho Python |
+| **pino** | Thư viện log Node.js | Structured logging cho Node.js |
+| **zap** | Thư viện log Go | Structured logging cho Go |
+| **`trace_id` correlation** | Nối log với trace | Liên kết dòng log với trace OTel |
+| **Mimir** | Backend metric của Grafana | Lựa chọn thay cho Prometheus federation |
+| **Storage tier** | Tầng lưu trữ | Hot/warm/cold = SSD / Standard-IA / Glacier |
+| **Retention policy** | Chính sách lưu giữ | Giữ log bao lâu trước khi xoá |
+| **Multi-tenant** | Đa người thuê | Loki tách dữ liệu theo tenant với quota riêng |
+| **Schema config** | Cấu hình schema | Ánh xạ khoảng thời gian → phiên bản schema của Loki |
+| **TSDB** | Cơ sở dữ liệu chuỗi thời gian | Định dạng index hiện đại của Loki |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_promql-deep-and-alerting.md](01_promql-deep-and-alerting.md)
-- → Tiếp: [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md) *(sắp viết)*
-- ↑ Cluster: [Observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 📊 [Basic Loki](../01_basic/02_logs-loki-elk.md) — foundation
-- ☸️ [K8s intermediate Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — deploy Loki via Helm
+- ⬅️ **Bài trước:** [PromQL chuyên sâu + Recording rules + Chiến lược Alerting](01_promql-deep-and-alerting.md)
+- ➡️ **Bài tiếp theo:** [OpenTelemetry instrumentation — Spans + Context propagation + Sampling](03_opentelemetry-instrumentation.md)
+- ↑ **Về cụm:** [Observability — System Monitoring, Logging & Tracing](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ⬅️ **Bài trước:** [Logs — Loki, ELK, structured logging](../01_basic/02_logs-loki-elk.md) — nền tảng trước bài này
+- ☸️ [Helm — Package manager cho K8s, deploy 50 service không copy-paste](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — deploy Loki qua Helm
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Loki docs](https://grafana.com/docs/loki/)
 - 📖 [LogQL docs](https://grafana.com/docs/loki/latest/logql/)
 - 📖 [Promtail docs](https://grafana.com/docs/loki/latest/clients/promtail/)
@@ -1469,8 +1555,8 @@ curl http://loki:3100/loki/api/v1/rules
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Architecture + Stream selector + Filter expressions + Parse JSON + Parse logfmt.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. LogQL deep (selectors + filters + parsers + aggregation) + 10 common patterns + Loki alerting rules + structured JSON logging (Python/Node/Go) + label cardinality management + Promtail/Vector/Fluent Bit comparison + retention strategy with S3 lifecycle. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Architecture + Stream selector + Filter expressions + Parse JSON + Parse logfmt.
+- **v2.0.0 (07/06/2026)** — Viết lại sang tiếng Việt narrative theo gold-standard: Việt hoá toàn bộ đoạn "điện tín" (Root causes, Components, Pros/Cons, Bad/Good, các đáp án self-check), thêm lời dẫn trước mỗi code/bảng/list và câu bắc cầu giữa section; chuẩn hoá heading framework (Glossary 3 cột, nav `⬅️/➡️/↑` + link-text = tiêu đề H1 thực, 3 sub-section), Việt hoá metadata "Yêu cầu trước", header bảng (Tiêu chí, Ưu/Nhược điểm) và sub-heading; xoá nhãn "(sắp viết)" cho bài 03 đã tồn tại, sửa nav trỏ đúng tiêu đề thực; thêm ngôn ngữ `text` cho fence output. Giữ nguyên 100% LogQL/code/config/số liệu và cấu trúc 9 phần + diagram.

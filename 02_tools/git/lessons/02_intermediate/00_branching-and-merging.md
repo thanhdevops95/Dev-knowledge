@@ -1,4 +1,4 @@
-# 🎓 bạn thử Google login an toàn — Branching + Merging
+# 🎓 Branching + Merging — thử tính năng mới an toàn trên nhánh riêng
 
 > **Tác giả:** Mr.Rom\
 > **Phiên bản:** v2.1.0\
@@ -6,10 +6,9 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
-> **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md)
+> **Prerequisites:** [01_init-and-first-commit.md](../01_basic/01_init-and-first-commit.md)
 
-> 🎯 *Tiếp bạn story: bạn đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này bạn không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.*
+> 🎯 *Nối tiếp bài trước: bạn đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này bạn không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -23,7 +22,7 @@
 
 ## Tình huống — bạn không muốn lặp lại bi kịch cuối tuần
 
-Tuần trước bạn mất 1 ngày code vì sửa Google login phá login cũ ([nhớ lại bài intro](./00_what-is-git.md)). Giờ có Git rồi, sếp lại bảo:
+Tuần trước bạn mất 1 ngày code vì sửa Google login phá login cũ ([nhớ lại bài intro](../01_basic/00_what-is-git.md)). Giờ có Git rồi, sếp lại bảo:
 
 > *"Thêm tính năng dark mode. Nếu OK thì merge production. Không OK thì hủy luôn, KHÔNG ảnh hưởng login."*
 
@@ -83,7 +82,7 @@ feature:       D → E (HEAD ở đây)
 
 ---
 
-## 2️⃣ bạn tạo nhánh đầu tiên — Hands-on
+## 2️⃣ Tạo nhánh đầu tiên — Hands-on
 
 ### Setup project mới
 
@@ -459,9 +458,9 @@ Mở file conflict trong VS Code → có UI:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Quên `git checkout <branch>` trước merge
+### ❌ Cạm bẫy: Quên `git checkout <branch>` trước merge
 
 ```bash
 git merge feature/x    # Đang ở main? Hay branch khác?
@@ -470,17 +469,17 @@ git merge feature/x    # Đang ở main? Hay branch khác?
 - **Triệu chứng**: merge nhầm vào branch khác, hỗn loạn
 - **Cách tránh**: luôn `git status` trước merge để biết HEAD ở đâu
 
-### ❌ Pitfall: Code thẳng vào `main`
+### ❌ Cạm bẫy: Code thẳng vào `main`
 
 - **Triệu chứng**: `main` lúc xanh lúc đỏ, deploy gãy, không revert được dễ
 - **Cách tránh**: **Quy tắc team**: KHÔNG commit thẳng `main`. Luôn qua feature branch + merge. Setup [branch protection rule](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) trên GitHub.
 
-### ❌ Pitfall: Branch sống quá lâu
+### ❌ Cạm bẫy: Branch sống quá lâu
 
 - **Triệu chứng**: branch `feature/x` sống 2 tháng → khi merge conflict hàng chục file
 - **Cách tránh**: branch ngắn 1-3 ngày là tốt nhất. Lâu hơn → rebase định kỳ từ `main`.
 
-### ❌ Pitfall: Resolve conflict bằng cách "xóa hết"
+### ❌ Cạm bẫy: Resolve conflict bằng cách "xóa hết"
 
 ```python
 # Conflict markers
@@ -533,7 +532,7 @@ git push origin --delete feature/done    # nếu đã push lên remote
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Sự khác nhau giữa `git branch new-branch` và `git checkout -b new-branch`?
 
@@ -575,7 +574,7 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -596,7 +595,7 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -624,7 +623,7 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 | 🧠 Trắc nghiệm | [quiz_branching-and-conflicts.md](../../exercises/02_intermediate/quiz_branching-and-conflicts.md) — Tự kiểm tra phân nhánh & xung đột |
 | 🗺️ Sitemap Git | [Lộ trình chinh phục Git (README)](../../README.md) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Pro Git Ch.3 — Git Branching](https://git-scm.com/book/vi/v2/Phân-nhánh-trong-Git-Sơ-Lược-Về-Phân-Nhánh-Trong-Git) — Pro Git tiếng Việt
 - [Learn Git Branching (interactive)](https://learngitbranching.js.org/) — game học branching, **cực hay**
@@ -632,14 +631,14 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 
-- **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi: "bạn thử Google login an toàn — Branching + Merging" (gắn vào story)
-  - Mở bằng **tình huống bạn tuần trước mất 1 ngày code** + cách cũ vs cách mới với Git branch
-  - Headers đổi: `1️⃣ Vì sao cần branch (WHY)` / `2️⃣ Branch là gì (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Merge` / `5️⃣ Conflict` → câu hỏi tự nhiên ("Vậy branch thực sự là gì?", "bạn tạo nhánh đầu tiên", "Hợp 2 nhánh thành 1", "Khi 2 nhánh đụng cùng dòng")
-  - Thống nhất giữ Git ở `02_tools/git/` làm Central Setup Hub và cross-cutting tool
-  - Fix relative path depth
+- **v2.0.0 (19/05/2026)** — Viết lại bố cục:
+  - Tiêu đề gắn vào tình huống thực
+  - Mở bằng **tình huống tuần trước mất 1 ngày code** + cách cũ vs cách mới với Git branch
+  - Đổi tiêu đề mục sang câu hỏi tự nhiên ("Vậy branch thực sự là gì?", "Hợp 2 nhánh thành 1", "Khi 2 nhánh đụng cùng dòng")
+  - Thống nhất giữ Git ở `02_tools/git/`
+  - Sửa lại độ sâu đường dẫn tương đối
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — branching/merging + fast-forward vs three-way + conflict resolution + 5 pitfall + naming convention.

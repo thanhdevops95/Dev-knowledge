@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md), basic obs cluster done
 
 > 🎯 *Bài cuối Observability intermediate + cuối DevOps intermediate sprint. Tools alone không reliable production — cần **process**: SLI/SLO numerical commitment, error budget trade reliability vs velocity, blameless postmortem learn from incidents, sustainable on-call rotation. Apply Google SRE book principles.*
@@ -771,27 +770,27 @@ CI integration:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: SLO too strict — chronic violation
+### ❌ Cạm bẫy: SLO too strict — chronic violation
 
 → SLO 99.99% but actual 99.8%. SLO violated weekly → ignored.
 
 → **Fix**: Realistic SLO. Measure actual baseline, set SLO 1 tier higher. Iterate quarterly.
 
-### ❌ Pitfall: No error budget policy enforcement
+### ❌ Cạm bẫy: No error budget policy enforcement
 
 → "We have SLO 99.9%". But team deploys feature even at -10% budget. SLO advisory only.
 
 → **Fix**: Policy in writing + CI gate + leadership backing. Budget exhausted = freeze, no exception.
 
-### ❌ Pitfall: Postmortem becomes blame game
+### ❌ Cạm bẫy: Postmortem becomes blame game
 
 → "John did X" → John defensive → next incident John hides info.
 
 → **Fix**: Facilitator interrupt blame. Reframe "John did X" → "System allowed X". Multiple people sign off on review.
 
-### ❌ Pitfall: Action items rot
+### ❌ Cạm bẫy: Action items rot
 
 → 6 months later: 50 open action items from postmortems. No one tracks.
 
@@ -801,19 +800,19 @@ CI integration:
 - After 3 slips, escalate.
 - Quarterly "action item amnesty" — close stale ones.
 
-### ❌ Pitfall: On-call 1-person small team
+### ❌ Cạm bẫy: On-call 1-person small team
 
 → Same person on-call every other week → burnout in 3 months.
 
 → **Fix**: Hire to 4+ on-call rotation. If can't hire, reduce SLO (acknowledge limitation).
 
-### ❌ Pitfall: SLI doesn't match user experience
+### ❌ Cạm bẫy: SLI doesn't match user experience
 
 → SLI: "Server return 200". But frontend JS broken → user sees error. SLI passes, user unhappy.
 
 → **Fix**: SLI based on **user-facing signals**. Synthetic monitoring (Datadog Synthetics, Pingdom). Real User Monitoring (RUM) — actual browser metrics.
 
-### ❌ Pitfall: Chaos engineering in production with no buy-in
+### ❌ Cạm bẫy: Chaos engineering in production with no buy-in
 
 → SRE inject failures, leadership panics, banned.
 
@@ -850,7 +849,7 @@ Internal dashboard visible to all engineering:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Vì sao 100% reliability không phải target?
 
@@ -1075,7 +1074,7 @@ Internal dashboard visible to all engineering:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```yaml
 # === SLO definition (OpenSLO) ===
@@ -1142,7 +1141,7 @@ overrides:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1176,12 +1175,12 @@ overrides:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md)
-- ↑ Cluster: [Observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [OpenTelemetry instrumentation — Spans + Context propagation + Sampling](03_opentelemetry-instrumentation.md)
+- ↑ **Về cụm:** [Observability README](../../README.md)
 - 🎯 Hoàn thành Observability intermediate cluster!
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🔁 [CI/CD intermediate Progressive delivery](../../../ci-cd/lessons/02_intermediate/04_progressive-delivery.md) — canary uses SLO threshold
 - ☸️ [K8s intermediate](../../../kubernetes/lessons/02_intermediate/) — production foundation
 
@@ -1200,8 +1199,7 @@ overrides:
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Choose SLO target + Compute budget Prometheus + Postmortem template + Impact + Timeline.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 cuối Obs intermediate + cuối DevOps intermediate sprint. SLI/SLO/SLA definition + error budget compute + multi-window burn rate alert + error budget policy enforcement + blameless postmortem template (5 whys) + on-call sustainable rotation patterns + toil reduction (50% rule) + chaos engineering intro + DORA metrics. Apply Google SRE Book principles. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Choose SLO target + Compute budget Prometheus + Postmortem template + Impact + Timeline.

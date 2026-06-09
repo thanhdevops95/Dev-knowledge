@@ -1,32 +1,29 @@
 # redis
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v0.2.0\
+> **Cập nhật:** 26/05/2026\
+> **Status:** ✅ Có bài — `01_basic` có 1 bài (bài 00 đang ở dạng placeholder, sẽ mở rộng)
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 Redis — kho lưu trữ dữ liệu *in-memory* (trong RAM), thường dùng làm *cache*, *message broker*, *session store* với tốc độ cực nhanh.
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+## 📖 Bài đã có — `lessons/01_basic/`
+
+| # | Bài | Trạng thái |
+|---|---|---|
+| 00 | [Redis là gì?](lessons/01_basic/00_what-is-redis.md) | 🚧 Placeholder — khung bài, nội dung chi tiết bổ sung sau |
+
+## 🚀 Lộ trình đọc đề xuất
+
+- **Mới bắt đầu** → đọc bài 00. Phần SQL vs NoSQL trong [SQL là gì](../sql-fundamentals/lessons/01_basic/00_what-is-sql.md) cũng giới thiệu Redis trong nhóm key-value.
+
+## 📂 Cấu trúc cluster
 
 ```
 redis/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"redis là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
+├── README.md          ← (file này)
+├── lessons/01_basic/  ← 1 bài (placeholder)
+├── exercises/         ← (chưa có)
+├── recipes/           ← (chưa có)
+└── setup/             ← (chưa có)
 ```
-
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.

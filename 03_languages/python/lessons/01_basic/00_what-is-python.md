@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
-> **Thời lượng đọc:** ~15 phút  
 > **Yêu cầu trước:** Đã [Cài đặt Python](../../setup/install-python.md) ✅
 
 > [!NOTE]
@@ -297,7 +296,7 @@ Không có một ranh giới tuyệt đối nào cả, tuy nhiên trong giới l
 
 ---
 
-## 🔗 Liên kết & Tài nguyên học tập tiếp theo
+## 🔗 Liên kết & Tài nguyên
 
 ### 🧭 Định hướng lộ trình học:
 *   ⬅️ **Bài thực hành chuẩn bị:** [Hướng dẫn cài đặt môi trường Python v2.0.0](../../setup/install-python.md)
@@ -314,5 +313,5 @@ Không có một ranh giới tuyệt đối nào cả, tuy nhiên trong giới l
 ## 📌 Nhật ký thay đổi (Changelog)
 
 *   **v1.0.0 (16/05/2026)** — Bản đầu tiên giới thiệu khái niệm Python, 5 ứng dụng và cách chạy code cơ bản.
-*   **v2.1.0 (24/05/2026)** — Tinh chỉnh nhẹ văn phong theo quy chuẩn Blueprint v0.5.4 bởi tác giả cũ.
-*   **v3.0.0 (26/05/2026)** — **Bản nâng cấp Premium bởi Mr.Rom** — Chuẩn hóa tác giả thành Mr.Rom đồng bộ; chuyển đổi 100% Alerts cũ sang GitHub Alerts tiêu chuẩn; tinh chỉnh các tiêu đề H2 thành câu hỏi mở khơi gợi tư duy sư phạm; nâng cấp văn phong truyền cảm hứng thực chiến vượt trội.
+*   **v2.1.0 (24/05/2026)** — Tinh chỉnh văn phong.
+*   **v3.0.0 (26/05/2026)** — Chuẩn hóa định dạng cảnh báo (Alerts); chuyển các tiêu đề H2 thành câu hỏi mở; tinh chỉnh văn phong cho dễ tiếp thu hơn.

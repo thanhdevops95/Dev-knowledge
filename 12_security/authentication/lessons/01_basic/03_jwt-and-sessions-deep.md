@@ -1,12 +1,11 @@
 # 🎫 JWT + Sessions Deep
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [02_oauth-and-oidc](02_oauth-and-oidc.md) ✅
 
 > 🎯 *Bài 03. JWT thực thi đúng + Session management — 2 paradigm core. Bài này dạy: JWT anatomy + JWS/JWE/JWT khác nhau, signing algorithms (RS256 vs HS256 vs ES256 vs EdDSA), key rotation + JWKS, refresh token rotation + family detection, revocation strategies (denylist/short TTL), session lifecycle production-grade. Hands-on JWT auth + session rotation Acme Shop.*
@@ -143,15 +142,19 @@ Bandwidth-sensitive (mobile, low-bw)?
 
 **Vuln**: Server expects RS256, verifies với public key. Attacker craft JWT alg=HS256 + dùng public key as HMAC secret → server verify success.
 
-**Fix**: Always specify allowed algorithms explicit:
+**Fix**: Always pin allowed algorithms — và **không bao giờ** trộn HMAC + RSA trong cùng allowlist:
 
 ```python
 import jwt
 
-# ❌ Vulnerable
-claims = jwt.decode(token, public_key)  # Algorithm auto-detect from header
+# ⚠️ PyJWT >= 2.0: `algorithms=` là tham số BẮT BUỘC.
+#    Bỏ trống không "auto-detect" mà raise DecodeError ngay.
 
-# ✅ Safe
+# ❌ Vulnerable: allowlist trộn HMAC + RSA
+#    → attacker craft alg=HS256, dùng public_key làm HMAC secret → verify pass
+claims = jwt.decode(token, public_key, algorithms=["HS256", "RS256"])
+
+# ✅ Safe: chỉ cho đúng 1 họ thuật toán bất đối xứng
 claims = jwt.decode(token, public_key, algorithms=["RS256"])
 ```
 
@@ -404,8 +407,8 @@ def revoke_family(family_id):
 
 JWT TTL 5-15 min. No denylist. Revoke = wait for expire.
 
-**Pros**: Simple, stateless.
-**Cons**: Compromised token valid up to 15 min.
+**Ưu điểm**: Simple, stateless.
+**Nhược điểm**: Compromised token valid up to 15 min.
 
 → Phù hợp non-sensitive workload.
 
@@ -603,8 +606,10 @@ def refresh_endpoint(raw_token):
 
 def logout(access_token, refresh_token):
     # 1. Deny current access token (until expire)
-    claims = jwt.decode(access_token, options={"verify_signature": False})
-    ttl = claims["exp"] - int(time.time())
+    #    Verify chữ ký TRƯỚC khi tin claims — tránh attacker gửi token tự chế
+    #    (jti nạn nhân + exp xa) làm bẩn denylist. Clamp TTL theo max access TTL.
+    claims = verify_token(access_token)
+    ttl = max(0, min(claims["exp"] - int(time.time()), 900))
     if ttl > 0:
         r.setex(f"deny:{claims['jti']}", ttl, "1")
     # 2. Revoke refresh token family
@@ -616,8 +621,10 @@ def logout(access_token, refresh_token):
     audit("logout", claims["sub"])
 
 def verify_token(token):
-    # 1. JWT validation
-    claims = jwt.decode(token, PUBLIC_KEYS[claims_kid_from(token)],
+    # 1. JWT validation — verify qua JWKS (jwks_client setup ở section 3)
+    #    để nhất quán + tự chọn đúng key theo kid trong header.
+    signing_key = jwks_client.get_signing_key_from_jwt(token)
+    claims = jwt.decode(token, signing_key.key,
                         algorithms=["RS256"],
                         audience="api.acmeshop.vn",
                         issuer="https://auth.acmeshop.vn")
@@ -663,7 +670,7 @@ def rotate_keys():
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. JWT alg=none accepted
 
@@ -699,7 +706,7 @@ def rotate_keys():
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] JWT vs JWS vs JWE — phân biệt?
 - [ ] RS256 vs HS256 vs ES256 vs EdDSA — pick cho 4 scenario?
@@ -712,7 +719,7 @@ def rotate_keys():
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -744,12 +751,12 @@ def rotate_keys():
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_oauth-and-oidc](02_oauth-and-oidc.md)
-- → Tiếp: [04_federation-sso-and-idp](04_federation-sso-and-idp.md) *(sắp viết)*
-- ↑ Cluster Authentication: [authentication README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [OAuth 2.1 + OIDC](02_oauth-and-oidc.md)
+- ➡️ **Bài tiếp theo:** [Federation + SSO + Identity Providers](04_federation-sso-and-idp.md) *(sắp viết)*
+- ↑ **Về cụm:** [authentication README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🛡️ [OWASP A07](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md)
 - 🛡️ [OWASP A02](../../../owasp-top-10/lessons/01_basic/02_crypto-failures-and-secure-design.md)
 - 🔒 [Cryptography](../../../cryptography/)
@@ -768,6 +775,7 @@ def rotate_keys():
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 Authentication basic. JWT/JWS/JWE clarify + 5 signing algorithms (HS/RS/PS/ES/EdDSA) + key rotation + JWKS endpoint + refresh token rotation + family compromise detection + 4 revocation strategies + session lifecycle + cookie attributes + Acme Shop production-grade implementation + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Fix code Hands-on: `verify_token` dùng `jwks_client.get_signing_key_from_jwt` (gỡ `PUBLIC_KEYS`/`claims_kid_from` không tồn tại → NameError); `logout` verify chữ ký + clamp TTL thay vì decode `verify_signature=False` rồi tin claims; cập nhật ví dụ algorithm-confusion theo PyJWT >= 2.0 (`algorithms=` bắt buộc, nguy hiểm khi trộn HMAC+RSA).

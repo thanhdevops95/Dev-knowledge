@@ -1,13 +1,12 @@
 # 🌐 Cloudflare CDN + DNS + SSL — Foundation của edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md), hiểu DNS A/CNAME/MX, SSL handshake cơ bản
+> **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md), hiểu DNS A/CNAME/MX, SSL handshake cơ bản
 
 > 🎯 *Bài này là trụ cột "Network" của Cloudflare — thứ làm Cloudflare nổi tiếng từ 2009. Bạn học: authoritative DNS, 1.1.1.1, sự khác biệt proxied vs DNS-only, 4 SSL mode (Off/Flexible/Full/Full Strict), Universal SSL, Page Rules (legacy) + Rules engine 2024+, Cache Rules syntax mới, Cache analytics. Sau bài: tự setup CDN+SSL cho Acme Shop, hiểu khi nào dùng mode nào, debug cache miss.*
 
@@ -535,9 +534,9 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 ---
 
-## 💡 Pitfalls — Bẫy phổ biến
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: SSL mode Flexible cho production
+### ❌ Cạm bẫy: SSL mode Flexible cho production
 
 **Triệu chứng**: User thấy HTTPS lock icon → tưởng an toàn. Form login leak qua HTTP đoạn Cloudflare → Origin.
 
@@ -545,7 +544,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 **Cách tránh**: Luôn dùng **Full (Strict)**. Origin cài Origin CA cert nếu không có Let's Encrypt.
 
-### ❌ Pitfall: Bật proxy cho mail subdomain
+### ❌ Cạm bẫy: Bật proxy cho mail subdomain
 
 **Triệu chứng**: Email bounce, SMTP timeout sau khi bật Cloudflare.
 
@@ -553,7 +552,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 **Cách tránh**: `mail.*` và MX records → DNS-only (xám) always.
 
-### ❌ Pitfall: Cache miss vì Set-Cookie
+### ❌ Cạm bẫy: Cache miss vì Set-Cookie
 
 **Triệu chứng**: Cache Hit Ratio 5-15%. Mọi static file đều MISS.
 
@@ -563,7 +562,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 - Origin: chỉ set cookie trên route cần (vd `/api/login`), không set trên static.
 - Hoặc Cache Rule: Cache Key → Ignore cookies.
 
-### ❌ Pitfall: Cache hit cũ sau khi deploy
+### ❌ Cạm bẫy: Cache hit cũ sau khi deploy
 
 **Triệu chứng**: Deploy code mới, user vẫn thấy CSS/JS cũ.
 
@@ -574,7 +573,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 - Hoặc: API call purge sau deploy.
 - Hoặc: Cache Rule → Cache Key → bypass với specific query.
 
-### ❌ Pitfall: HSTS bật rồi muốn tắt
+### ❌ Cạm bẫy: HSTS bật rồi muốn tắt
 
 **Triệu chứng**: Bật HSTS thử nghiệm 1 lần → đổi sang HTTP → browser vẫn force HTTPS → không truy cập được.
 
@@ -582,9 +581,9 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 **Cách tránh**:
 - Chỉ bật HSTS khi chắc SSL ổn định lâu dài.
-- Test trước với `max-age=300` (5 phút) → đổi `max-age=31536000` (1 năm) sau khi OK.
+- Test trước với `max-age=300` → đổi `max-age=31536000` (1 năm) sau khi OK.
 
-### ❌ Pitfall: TXT record verification quên DNS-only
+### ❌ Cạm bẫy: TXT record verification quên DNS-only
 
 **Triệu chứng**: Google Search Console verify TXT fail dù record đúng.
 
@@ -592,7 +591,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 **Cách tránh**: TXT/MX/SRV → mặc định DNS-only.
 
-### ❌ Pitfall: Cache HTML trong khi page có user-specific content
+### ❌ Cạm bẫy: Cache HTML trong khi page có user-specific content
 
 **Triệu chứng**: User A login → user B vào cùng URL → thấy thông tin A.
 
@@ -602,7 +601,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 - Chỉ cache HTML public (homepage, blog, product listing).
 - Page user-specific: Bypass cache HOẶC tách thành "shell + AJAX" (shell cache, data AJAX no-cache).
 
-### ❌ Pitfall: Wildcard cache rule quá rộng
+### ❌ Cạm bẫy: Wildcard cache rule quá rộng
 
 **Triệu chứng**: `*` match cả `/admin/*` → admin panel bị cache → user khác thấy nhau.
 
@@ -614,7 +613,7 @@ Caching → Configuration → Purge Cache → Purge Everything
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Phân biệt authoritative DNS và resolver DNS. Cloudflare làm cái nào cho zone của bạn?
 
@@ -666,7 +665,7 @@ Cloudflare quyết định không cache response này. Thường do origin gửi
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Cách làm |
 |---|---|
@@ -683,52 +682,56 @@ Cloudflare quyết định không cache response này. Thường do origin gửi
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN / Giải thích |
-|---|---|
-| **Authoritative DNS** | Server giữ records gốc của 1 domain |
-| **Resolver / Recursive DNS** | Server tra cứu DNS giúp client |
-| **Proxied** | Traffic đi qua Cloudflare (cam) |
-| **DNS-only** | DNS trả về IP origin, không proxy (xám) |
-| **Universal SSL** | Cert tự động miễn phí cho zone |
-| **Origin CA** | Cert Cloudflare cấp cho origin server |
-| **Full (Strict)** | SSL mode khuyến nghị — cả 2 chân đều HTTPS valid |
-| **HSTS** | Header buộc browser luôn dùng HTTPS |
-| **Page Rules** | Cấu hình URL pattern (legacy) |
-| **Rules engine** | Hệ thống mới (Cache/Config/Redirect/Origin Rules) |
-| **Cache Key** | Chuỗi định danh 1 cached object |
-| **Edge TTL** | Thời gian cache ở POP |
-| **Browser TTL** | Thời gian cache ở browser user |
-| **Purge** | Xoá cache thủ công |
-| **cf-cache-status** | Header cho biết trạng thái cache |
-| **HIT / MISS / DYNAMIC / BYPASS** | Trạng thái cache cụ thể |
-| **Custom Hostname** | Subdomain/domain khách map qua CNAME (Cloudflare for SaaS) |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Authoritative DNS** | DNS thẩm quyền | Server giữ records gốc của 1 domain |
+| **Resolver / Recursive DNS** | DNS tra cứu | Server tra cứu DNS giúp client |
+| **Proxied** | Đi qua proxy (cam) | Traffic đi qua Cloudflare |
+| **DNS-only** | Chỉ DNS (xám) | DNS trả về IP origin, không proxy |
+| **Universal SSL** | SSL phổ quát | Cert tự động miễn phí cho zone |
+| **Origin CA** | CA gốc | Cert Cloudflare cấp cho origin server |
+| **Full (Strict)** | Đầy đủ (nghiêm ngặt) | SSL mode khuyến nghị — cả 2 chân đều HTTPS valid |
+| **HSTS** | Bắt buộc HTTPS | Header buộc browser luôn dùng HTTPS |
+| **Page Rules** | Luật theo trang | Cấu hình URL pattern (legacy) |
+| **Rules engine** | Bộ máy luật | Hệ thống mới (Cache/Config/Redirect/Origin Rules) |
+| **Cache Key** | Khoá cache | Chuỗi định danh 1 cached object |
+| **Edge TTL** | TTL ở biên | Thời gian cache ở POP |
+| **Browser TTL** | TTL ở browser | Thời gian cache ở browser user |
+| **Purge** | Xoá cache | Xoá cache thủ công |
+| **cf-cache-status** | Trạng thái cache | Header cho biết trạng thái cache |
+| **HIT / MISS / DYNAMIC / BYPASS** | Các trạng thái cache | Trạng thái cache cụ thể |
+| **Custom Hostname** | Hostname tuỳ biến | Subdomain/domain khách map qua CNAME (Cloudflare for SaaS) |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md)
-- → Tiếp: [02_workers-and-pages](02_workers-and-pages.md) — Workers + Pages edge compute
-- ↑ Cluster: [Cloudflare README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Cloudflare — Tổng quan, account hierarchy, wrangler CLI](00_what-is-cloudflare-overview.md)
+- ➡️ **Bài tiếp theo:** [Cloudflare Workers + Pages — Edge compute & static + dynamic](02_workers-and-pages.md)
+- ↑ **Về cụm:** [Cloudflare README](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
 - ☁️ [AWS S3 + IAM](../../../aws/lessons/01_basic/02_s3-deep-and-iam.md) — so sánh CloudFront vs Cloudflare CDN
 - ☁️ [GCP Cloud Storage + IAM](../../../gcp/lessons/01_basic/02_cloud-storage-and-iam.md)
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Cloudflare DNS docs](https://developers.cloudflare.com/dns/)
 - 📖 [SSL/TLS modes docs](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/)
 - 📖 [Cache Rules docs](https://developers.cloudflare.com/cache/how-to/cache-rules/)
-- 📖 [Page Rules → Rules engine migration](https://developers.cloudflare.com/rules/page-rules/migration/)
+- ➡️ **Bài tiếp theo:** [Page Rules → Rules engine migration](https://developers.cloudflare.com/rules/page-rules/migration/)
 - 📖 [Origin CA Certificates](https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/)
 - 📖 [Cloudflare for SaaS](https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/)
 - 📖 [Cache Analytics](https://developers.cloudflare.com/analytics/account-and-zone-analytics/zone-analytics/)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 cluster Cloudflare basic. DNS authoritative + 1.1.1.1 + proxied vs DNS-only + 4 SSL modes + Universal SSL + Origin CA + Page Rules → Rules engine migration + Cache Rules 2024 syntax + cf-cache-status + cache analytics + hands-on Acme Shop setup full + 8 pitfalls. Pattern theo AWS/GCP lesson 01.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata/nav theo gold standard: đổi field "Prerequisites" → "Yêu cầu trước"; nav dùng marker ⬅️/➡️/↑ với link text là tiêu đề H1 thực của bài đích; 3 sub-heading thành 🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích).

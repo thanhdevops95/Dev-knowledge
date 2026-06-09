@@ -1,9 +1,9 @@
 # ✅ Quality Checklist — Soát trước khi publish
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.3.0\
+> **Phiên bản:** v0.4.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *File này là checklist cuối cùng để soát 1 bài (lesson, exercise, project, recipe, roadmap) trước khi commit. Đi qua từng mục — chỉ publish khi tất cả ✅.*
 
@@ -22,13 +22,14 @@
 ## 1️⃣ Cấu trúc bài (REQUIRED — mọi bài)
 
 - [ ] **H1 chỉ 1 lần** ở đầu file
-- [ ] **Metadata header** đầy đủ ngay sau H1:
+- [ ] **Metadata header** đầy đủ ngay sau H1, dùng **block-quote** (KHÔNG dùng YAML frontmatter `---` cho file học):
   - [ ] Tác giả: `Mr.Rom`
-  - [ ] Version (SemVer)
+  - [ ] Phiên bản (SemVer)
   - [ ] Tạo lúc + Cập nhật (DD/MM/YYYY)
   - [ ] Level (cho lessons): Basic / Intermediate / Advanced
-  - [ ] Thời lượng đọc ước tính
-  - [ ] Prerequisites (nếu có)
+  - [ ] Tags (nếu có)
+  - [ ] Yêu cầu trước (nếu có) — **dùng "Yêu cầu trước", KHÔNG dùng "Prerequisites"**
+  - [ ] **KHÔNG có field "Thời lượng đọc"** — đã bỏ toàn kho (ước tính không chuẩn, chỉ thêm lỗi)
 - [ ] **Câu dẫn + Mục tiêu** đầu file (REQUIRED — section 1.2 của `03_writing-style.md`)
 - [ ] **Nội dung chính** có cấu trúc rõ ràng (H2/H3 hợp lý)
 - [ ] **Changelog** cuối file với ít nhất entry v1.0.0
@@ -38,6 +39,7 @@
 ## 2️⃣ Văn phong (REQUIRED)
 
 - [ ] **Xưng hô đúng**: tác giả = "mình"/"Mr.Rom", người đọc = "bạn"
+- [ ] **KHÔNG chèn "Mr.Rom" vào thân bài / code / output / tiêu đề / summary** — tên tác giả chỉ ở field metadata + changelog, không lọt vào nội dung học
 - [ ] **Tiếng Việt có dấu đầy đủ** — không "tieng viet khong dau"
 - [ ] **Không sáo rỗng**: bỏ "Như đã biết", "Hy vọng bài viết hữu ích", "Đây là một câu hỏi rất hay"
 - [ ] **Câu dẫn giữa các section** — không nhảy ngang
@@ -74,21 +76,38 @@
 - [ ] **Internal link dùng relative path** — không absolute
 - [ ] **Trailing slash đúng**: `/` cho folder, không có `/` cho file
 - [ ] **Anchor link đã test** — đặc biệt anchor tiếng Việt có dấu
-- [ ] **Link text mô tả đích** — không "click here", "ở đây"
-- [ ] **Navigation footer** cuối bài (nếu là lesson):
-  - [ ] Bài trước / Bài tiếp / Bài liên quan
-  - [ ] Index L2
-  - [ ] Tài nguyên ngoài (nếu có)
+- [ ] **Link text mô tả đích** — không "click here", "ở đây"; **link text = tiêu đề thật của bài đích, KHÔNG dùng tên file**
+- [ ] **Heading liên kết chuẩn**: `## 🔗 Liên kết & Tài nguyên` + 3 sub-section:
+  - [ ] `### 🧭 Định hướng lộ trình học`
+  - [ ] `### 🧩 Các chủ đề có thể bạn quan tâm`
+  - [ ] `### 🌐 Tài nguyên tham khảo khác`
+- [ ] **Navigation footer** cuối bài (nếu là lesson) dùng đúng format marker + link text = tiêu đề thật:
+  - [ ] `⬅️ **Bài trước:** [tiêu đề thật](path)`
+  - [ ] `➡️ **Bài tiếp theo:** [tiêu đề thật](path)`
+  - [ ] `↑ **Về cụm:** [tiêu đề thật](path)`
 - [ ] **External link còn live** — test mở thử (link rot là cơn ác mộng)
 
 ---
 
 ## 6️⃣ Glossary & Thuật ngữ (REQUIRED nếu có thuật ngữ EN)
 
+- [ ] **Heading chuẩn**: `## 📚 Từ Điển Thuật Ngữ (Glossary)`
 - [ ] **Mọi thuật ngữ EN trong bài** đã có entry trong glossary (cấp 1 hoặc cấp 2)
-- [ ] **Format glossary chuẩn**: bảng `EN | VN | Giải thích`
+- [ ] **Header bảng glossary chuẩn**: `| Thuật ngữ | Tiếng Việt | Giải thích |` (hoặc `| EN | VN | Giải thích |` nếu bảng đã sẵn 3 cột)
 - [ ] **Giải thích ≤25 từ**, đủ để hiểu, không lan man
 - [ ] **VN dịch hoặc "giữ nguyên"** nếu không có VN tương đương
+
+---
+
+## 🚫 De-meta — vùng cấm trong file học (REQUIRED)
+
+> File HỌC (lesson / exercise / project / recipe / roadmap + file mẫu trong `EXAMPLES/` và `TEMPLATES/`) phải sạch meta-leak. Riêng file blueprint `0X_*.md` là **author-facing** — được phép nói về phương pháp.
+
+- [ ] **KHÔNG lộ phương pháp**: không nhắc "viết bằng tiếng Việt / cho người Việt / 4 nhóm đối tượng / Narrative-driven / triết lý / nguyên tắc sinh mệnh / tầng đọc"
+- [ ] **KHÔNG chèn "Mr.Rom"** vào thân bài / code / output / tiêu đề / summary (chỉ ở field metadata + changelog)
+- [ ] **KHÔNG link nội bộ author-facing** trong file học: `_blueprint/`, `__Ref__/`, `01_sitemap-detail.md`, `templates/`
+- [ ] **KHÔNG tham chiếu quy trình làm việc**: "sprint complete", "Apply Blueprint §X", "Dogfood", "Premium/chuẩn 5 sao"
+- [ ] **Không còn con số thời gian ước tính** nào: bỏ "Thời lượng đọc", "X tháng/tuần/giờ" (roadmap/stage), "~X phút làm bài" (exercise/lab), "Thời gian ước tính" — toàn kho đã loại bỏ
 
 ---
 
@@ -125,7 +144,7 @@
 - [ ] **Heading level** đi đúng (H1 → H2 → H3, không nhảy H1 → H4)
 - [ ] **Table** render đúng (đủ dấu `|`, header có separator)
 - [ ] **Code block** đóng đầy đủ (3 backtick đầu + cuối)
-- [ ] **Bullet list** consistent (cùng dùng `-` hoặc cùng `*`)
+- [ ] **Bullet list** dùng `-` (dash, 1 space) — **KHÔNG dùng `*`** (bắt buộc, không phải "consistent tuỳ chọn")
 - [ ] **Bold/italic** không dư `*`/`_`
 - [ ] **Block quote** dùng `>` đúng
 
@@ -140,6 +159,15 @@
 - [ ] Có ít nhất 1 diagram nếu khái niệm phức tạp
 - [ ] Hands-on copy-paste được (đã test)
 - [ ] Glossary đầy đủ thuật ngữ EN
+- [ ] **Heading kỹ thuật chuẩn** (Việt hoá + giữ EN trong ngoặc, đồng nhất toàn cụm):
+  - [ ] `## 🧠 Tự kiểm tra (Self-check)`
+  - [ ] `## ⚡ Tra cứu nhanh (Cheatsheet)`
+  - [ ] `## 💡 Cạm bẫy thường gặp & Best practice` — bên trong dùng `### ❌ Cạm bẫy:` và `### ✅ Best practice:`
+  - [ ] `## 📚 Từ Điển Thuật Ngữ (Glossary)`
+  - [ ] `## 📌 Nhật ký thay đổi (Changelog)`
+  - [ ] `## 🔗 Liên kết & Tài nguyên` (3 sub — xem §5)
+  - [ ] Trong nội dung dùng "Bước N" thay vì "Step N"
+- [ ] **DE-META**: KHÔNG nhắc "viết bằng tiếng Việt / cho người Việt / 4 nhóm đối tượng / Narrative / triết lý"; KHÔNG link `_blueprint/`, `__Ref__/`, `templates/` trong file học
 
 ### 🧪 Exercise
 
@@ -147,10 +175,11 @@
 - [ ] **Có gợi ý ẩn** (`<details>`) nếu khó
 - [ ] **Đáp án ẩn** (`<details>`) ở cuối
 - [ ] **Tiêu chí "đạt"** rõ ràng — kiểm chứng được
+- [ ] **KHÔNG ước tính "~X phút làm bài"** — đã bỏ toàn kho
 
 ### 🎯 Project
 
-- [ ] **README có Prerequisites** (skill / tool / source cần có trước)
+- [ ] **README có "Yêu cầu trước"** (skill / tool / source cần có trước)
 - [ ] **Mỗi step file** ngắn (500-1500 từ)
 - [ ] **Đánh số step rõ ràng** (`01_`, `02_`, ...)
 - [ ] **Output cuối project** mô tả rõ
@@ -166,7 +195,7 @@
 
 - [ ] **Mục tiêu cuối** rõ ràng, đo lường được
 - [ ] **Mỗi stage** có verify checklist
-- [ ] **Timeline thực tế** (không quá tham, không quá lỏng)
+- [ ] **KHÔNG ước tính thời gian** ở cấp roadmap/stage ("X tháng/tuần/giờ") — đã bỏ toàn kho; thứ tự stage chỉ thể hiện trình tự học, không gắn con số thời lượng
 - [ ] **Link tới content** đầy đủ — không stage "trống"
 - [ ] **Tài nguyên bổ sung** (sách, khoá, cộng đồng)
 
@@ -206,19 +235,33 @@ Những lỗi hay gặp phải check kỹ:
 
 ---
 
-## 1️⃣3️⃣ Workflow tự động (OPT)
+## 1️⃣3️⃣ Lệnh verify tự động (chạy từ gốc kho)
 
-Khi kho lớn → setup tooling tự check:
+Trước khi commit, chạy bộ lệnh sau để bắt lỗi máy soát nhanh hơn mắt người. Đồng bộ với mục K của `_workspace/lesson-qa-checklist.md`.
 
-| Tool | Check gì |
-|---|---|
-| `markdownlint` | Markdown syntax, heading order, table format |
-| `markdown-link-check` | Link vỡ (cả internal + external) |
-| `vale` | Văn phong (custom rule) |
-| `cspell` | Typo (EN + VN) |
-| Custom script | Glossary coverage, missing prerequisites, ... |
+```bash
+# 1) Link nội bộ gãy (bỏ false-positive trong code: =~, **kwargs, 'es'...)
+python3 _workspace/check-broken-links.py 2>&1 | grep -A3 '📂 File:'
 
-Tích hợp vào pre-commit hook hoặc CI.
+# 2) Residue / meta-leak trong file học
+grep -rnE 'Mr\.Rom' <path> | grep -viE 'Tác giả|[Cc]hangelog'      # Mr.Rom lọt vào thân bài
+grep -rnE '__Ref__|Apply Blueprint|sắp viết|Narrative|triết lý' <path>
+grep -rnE '"bạn"|=bạn|: bạn' <path>                                # residue "bạn" trong code/JSON/SQL
+grep -rnE 'Thời lượng đọc|~[0-9]+ phút|[0-9]+ (tháng|tuần|giờ)' <path>   # con số thời gian ước tính còn sót
+
+# 3) Bullet asterisk còn sót (phải dùng "-", không "*")
+grep -rnE '^\s*\* ' <path>
+
+# 4) Code: trích từng block ra chạy
+python3 -m py_compile <file.py>        # Python
+bash -n <file.sh>                      # Bash
+python3 -c "import yaml,sys; yaml.safe_load(open(sys.argv[1]))" <file.yaml>   # YAML
+
+# 5) Flag/lệnh deprecated — đối chiếu với bản hiện hành
+grep -rnE 'npm ci --(only=production|production)|cosign attach sbom|trivy --security-checks|brew --cask docker[^-]' <path>
+```
+
+Khi kho lớn → bổ sung tooling CI: `markdownlint` (heading order, table), `markdown-link-check` (link rot ngoài), `vale` (văn phong), `cspell` (typo EN+VN). Tích hợp vào pre-commit hook hoặc CI.
 
 ---
 
@@ -316,8 +359,12 @@ Vd: `K8s/8_Pod-la-gi.md` + `K8s-training/03_pod-and-kubectl/` + `dev-knowledge/0
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
+> ⚠️ **Quy ước repo này**: changelog xếp **TĂNG DẦN** (cũ → mới, v1.0.0 trên cùng, bản mới nhất ở dưới cùng). Quy ước này **override** global skill `naming/metadata-headers.md` (global mặc định là reverse-chronological — mới nhất trên cùng). Lý do: đọc lịch sử tiến hoá file theo đúng dòng thời gian từ trên xuống.
+
+- **v0.1.0 (15/05/2026)** — Bản đầu tiên. Checklist 14 mục cho mọi loại bài. 3 mức Minimal/Standard/Comprehensive. Common mistakes flag. Workflow tự động (OPT).
+- **v0.2.0 (16/05/2026)** — Thêm §15 Migration workflow *(đã bị deprecated trong v0.3.0)*.
 - **v0.3.0 (16/05/2026)** — Rewrite §15 sau feedback user:
   - Đổi mindset từ "Migration workflow" → "**Reference workflow**" — `_Ref/` chỉ để **cherry-pick ý hay**, không migrate
   - Bỏ label A/B/C/D (migration thinking)
@@ -325,5 +372,14 @@ Vd: `K8s/8_Pod-la-gi.md` + `K8s-training/03_pod-and-kubectl/` + `dev-knowledge/0
   - **Time-box** 15 phút/bài cho tham khảo
   - Bảng "cherry-pick gì" vs "cherry-pick KHÔNG bao gồm"
   - Nguyên tắc vàng: Blueprint + ý riêng = CHỦ ĐẠO, `_Ref/` chỉ là source of inspiration
-- **v0.2.0 (16/05/2026)** — Thêm §15 Migration workflow *(đã bị deprecated trong v0.3.0)*.
-- **v0.1.0 (15/05/2026)** — Bản đầu tiên. Checklist 14 mục cho mọi loại bài. 3 mức Minimal/Standard/Comprehensive. Common mistakes flag. Workflow tự động (OPT).
+- **v0.4.0 (01/06/2026)** — Đồng bộ với 3 quyết định governance + nâng ngang `_workspace/lesson-qa-checklist.md` v1.0.0. Lý do: thống nhất chuẩn soát bài toàn kho sau đợt làm cụm Docker:
+  - **(A)** Changelog đảo sang thứ tự **tăng dần** + ghi rõ repo override global skill (reverse-chronological); đổi heading thành `## 📌 Nhật ký thay đổi (Changelog)`
+  - **(B)** Việt hoá + chuẩn hoá heading kỹ thuật trong checklist Lesson (Self-check, Cheatsheet, Cạm bẫy & Best practice, Glossary, Liên kết, "Bước N"); header bảng Glossary `| Thuật ngữ | Tiếng Việt | Giải thích |`
+  - **(C)** Bỏ hết ước tính thời gian: §10 Career Roadmap bỏ "Timeline thực tế", §10 Exercise cấm "~X phút làm bài", §1.1 cấm field "Thời lượng đọc"
+  - §1.1 field metadata tiếng Việt + thêm Tags + cấm YAML frontmatter; "Prerequisites" → "Yêu cầu trước"
+  - §2 thêm mục cấm chèn "Mr.Rom" vào thân bài/code
+  - §5 nav chuẩn `⬅️/➡️/↑` + link text = tiêu đề thật + 3 sub-section liên kết
+  - §6 Glossary heading + header bảng chuẩn
+  - §9 bullet bắt buộc `-` (bỏ "consistent tuỳ chọn `-` hoặc `*`")
+  - Thêm section **🚫 De-meta** (vùng cấm meta-leak trong file học)
+  - §13 nâng từ bảng tool chung → **bộ lệnh verify cụ thể** (check-broken-links, grep residue/meta/thời gian, py_compile/bash -n/yaml, flag deprecated)

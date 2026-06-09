@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (nên hiểu sơ HTTP để biết DNS là bước đầu của 1 request)
 
 > 🎯 *Bài INTRO. Hiểu **DNS là gì**, **vì sao cần**, **flow domain → IP**, **3 thành phần chính**. KHÔNG đi sâu records hay resolution chi tiết (sẽ học từ bài 01 trở đi). Sau bài này bạn biết khi gõ `google.com` máy tính làm gì trước khi gửi HTTP request.*
@@ -41,7 +40,7 @@ Bạn ngơ:
 - **TTL** là gì? Vì sao có người vào nhanh, có người chờ 24h?
 - Anh kỹ thuật bảo "đợi DNS propagate" — propagate là gì?
 
-→ Đây là **DNS** — danh bạ Internet. Mỗi domain `acmeshop.vn` map tới 1 IP. Khi đổi IP, **không phải DNS server nào cũng cập nhật ngay** vì có cache. Bài này dạy bạn (và bạn) **DNS là gì**, **flow query**, và vì sao **cache + TTL** quan trọng.
+→ Đây là **DNS** — danh bạ Internet. Mỗi domain `acmeshop.vn` map tới 1 IP. Khi đổi IP, **không phải DNS server nào cũng cập nhật ngay** vì có cache. Bài này dạy bạn **DNS là gì**, **flow query**, và vì sao **cache + TTL** quan trọng.
 
 ---
 
@@ -277,7 +276,7 @@ Address: 142.250.190.46
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tưởng đổi DNS thấy ngay** → DNS có **nhiều layer cache**. Phải đợi TTL expire. Worst case 24h-48h tùy TTL cũ.
 2. **Set TTL quá cao khi đang test** → Phát hiện sai IP, đổi xong vẫn chờ 24h. Test = TTL `300`.
@@ -287,7 +286,7 @@ Address: 142.250.190.46
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khi gõ `youtube.com` vào browser, **bước đầu tiên** máy tính làm là gì?
 2. TTL `3600` nghĩa là gì? Khi nào nên hạ xuống `300`?
@@ -299,7 +298,7 @@ Address: 142.250.190.46
 <summary>Gợi ý đáp án</summary>
 
 1. **DNS lookup** — hỏi resolver "IP của youtube.com là gì?" trước khi gửi HTTP request. Nếu cache có sẵn → 1ms. Cache miss → 50-200ms.
-2. `3600` = record được cache 3600 giây (1 giờ). Nên hạ xuống `300` (5 phút) **24h trước khi đổi IP** để mọi cache expire nhanh, đổi ít disruptive.
+2. `3600` = record được cache 3600 giây (1 giờ). Nên hạ xuống `300` **24h trước khi đổi IP** để mọi cache expire nhanh, đổi ít disruptive.
 3. **Registrar** = công ty bán quyền dùng domain (Namecheap, GoDaddy). **DNS provider** = nơi host record A/CNAME/MX/... (Cloudflare, Route53). Có thể dùng 2 công ty khác nhau (mua domain Namecheap, trỏ nameserver về Cloudflare).
 4. `1.1.1.1` = **Cloudflare DNS resolver**, miễn phí, **không log query** (privacy). `8.8.8.8` = Google DNS, cũng miễn phí nhưng log. Cả 2 đều nhanh hơn DNS ISP Việt Nam thường (đỡ bị chặn site).
 5. Vì DNS có **cache layer**. User ở ISP đã expire cache → vào bình thường (IP mới). User ở ISP chưa expire → vẫn dùng IP cũ → site die khi server cũ tắt. User dùng CDN → CDN còn cache HTML cũ → hiện trang outdated.
@@ -307,7 +306,7 @@ Address: 142.250.190.46
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -357,17 +356,17 @@ host google.com              # Linux — gọn nhất
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [DNS Records (A, CNAME, MX, TXT, NS)](01_dns-records.md)
-- ↑ Cluster: [dns README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [DNS Records — A, CNAME, MX, TXT, NS và bạn bè](01_dns-records.md)
+- ↑ **Về cụm:** [dns README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) — DNS là bước đầu của 1 HTTP request
 - [HTTPS & TLS](../../../http-https/lessons/01_basic/04_https-tls.md) — TLS cert verify thông qua domain (DNS)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Cloudflare Learning: DNS](https://www.cloudflare.com/learning/dns/what-is-dns/) — series free explainer chất lượng cao
 - 📖 [How DNS Works (cartoon)](https://howdns.works/) — illustrated tutorial
 - 📖 [DNS for Developers (MDN)](https://developer.mozilla.org/en-US/docs/Glossary/DNS)
@@ -379,8 +378,7 @@ host google.com              # Linux — gọn nhất
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 "Vì sao cần DNS" bảng + §2 Anatomy domain diagram + bảng "Các thành phần" + bảng "Phân loại TLD" + §3 "Domain vs URL vs IP" diagram. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 1/5. Cover: DNS = danh bạ + 4 vấn đề DNS giải quyết → anatomy domain (root/TLD/root domain/subdomain) → 4 loại TLD → domain vs URL vs IP → 9-step DNS resolution mermaid → recursive vs iterative + 4 nameserver type → cache layer + TTL + propagation → public resolver compare.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §1 "Vì sao cần DNS", §2 Anatomy domain (diagram + bảng thành phần + bảng phân loại TLD), §3 "Domain vs URL vs IP". Thêm Changelog section.

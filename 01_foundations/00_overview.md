@@ -5,7 +5,7 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 19/05/2026
 
-> 🎯 *01_foundations là **kiến thức nền tảng** — bền vững 10+ năm. Khái niệm CS/IT bất kể bạn theo nhánh nào: industry landscape, computational thinking, version control concept, DSA, OS theory, networking theory.*
+> 🎯 *01_foundations là **kiến thức nền tảng** — bền vững 10+ năm. Khái niệm CS/IT bất kể bạn theo nhánh nào: industry landscape, computing environment, computational thinking, DSA, OS theory, networking theory.*
 
 ---
 
@@ -13,9 +13,9 @@
 
 | L2 | Trạng thái | Note |
 |---|---|---|
-| [`industry-landscape/`](./industry-landscape/) | 🚀 1 bài 🆕 | Bản đồ ngành IT — entry point cho beginner zero-base. Stage 0 của zero-to-coder |
-| [`version-control/`](./version-control/) | ✅ 6 bài 🆕 | Git concept (move từ `02_tools/git/`) — setup + 5 lesson với bạn story arc |
-| `computing-environment/` | ❌ Chưa có | Terminal / shell / OS concept (sẽ chuyển 1 bài từ `02_tools/shell/`) |
+| [`industry-landscape/`](./industry-landscape/) | ✅ 1 bài | Bản đồ ngành IT — entry point cho người mới. Stage 0 của zero-to-coder |
+| [`computing-environment/`](./computing-environment/) | ✅ 6 bài | Terminal / shell / filesystem / process / env var / I/O redirect — concept OS-agnostic |
+| [`computer-architecture-theory/`](./computer-architecture-theory/) | ✅ 1 bài | Máy tính hoạt động thế nào — binary, CPU/RAM/ổ cứng, compiler vs interpreter |
 | `computational-thinking/` | ❌ Chưa có | Logic + problem solving + algorithm cơ bản |
 | `dsa/` | ❌ Chưa có | Data Structure + Algorithm |
 | `os-theory/` | ❌ Chưa có | Process, memory, file system concept |
@@ -23,30 +23,31 @@
 | `math-for-cs/` | ❌ Chưa có | Discrete math, logic, set theory |
 | `programming-paradigms/` | ❌ Chưa có | OOP/FP/Procedural — so sánh |
 
+> Git concept nằm ở [`02_tools/git/`](../02_tools/git/) — MUST-KNOW cho mọi nhánh.
+
 ---
 
 ## 🎯 Khi nào đọc folder này
 
-| Bạn là... | Đọc gì |
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 **Zero-base** (chưa biết IT) | [industry-landscape](./industry-landscape/lessons/01_basic/00_what-is-it-industry.md) **trước nhất** |
-| 🟡 **Đã code 1 ngôn ngữ** | [version-control](./version-control/git/) — git là MUST-KNOW mọi nhánh |
-| 🟠 **Senior ôn nền tảng** | dsa/, os-theory/, networking-theory/ (chưa có content, đang phát triển) |
-| 🧭 **Theo Zero-to-Coder roadmap** | Stage 0 link sang industry-landscape, Stage 1 link sang version-control/git |
+| **Mới bắt đầu** (chưa biết IT) | [industry-landscape](./industry-landscape/lessons/01_basic/00_what-is-it-industry.md) **trước nhất**, rồi [computer-architecture-theory](./computer-architecture-theory/lessons/01_basic/00_how-computer-works.md) |
+| **Học dùng terminal / shell** | [computing-environment](./computing-environment/lessons/01_basic/00_what-is-terminal.md) — 6 bài từ terminal đến I/O redirect |
+| **Học Git** | [`02_tools/git/`](../02_tools/git/) — git là MUST-KNOW mọi nhánh |
+| **Theo Zero-to-Coder roadmap** | Stage 0 link sang industry-landscape, Stage 1 link sang computing-environment + git |
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
 - 🧭 [Zero to Coder roadmap](../00_roadmaps/career/zero-to-coder_career-roadmap.md) — link nhiều bài Foundations cho Stage 0-1
-- 📐 [Blueprint folder structure](../_blueprint/02_folder-structure.md) — vì sao git nằm ở Foundations
-- 📊 [MASTER-CATALOG](../MASTER-CATALOG.md) — tracking trạng thái
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.2.0 (19/05/2026)** — Có 2 sub-folder content thật:
-  - `industry-landscape/` ✅ 1 bài "Ngành IT là gì + bản đồ các nhánh" (cho Stage 0 zero-to-coder)
-  - `version-control/git/` ✅ 6 bài (setup + 5 lesson bạn story) — move từ `02_tools/git/`
-- **v0.1.0 (16/05/2026)** — Skeleton.
+- **v0.3.0 (19/05/2026)** — Cập nhật trạng thái phản ánh content thật:
+  - `industry-landscape/` ✅ 1 bài "Ngành IT là gì + bản đồ các nhánh"
+  - `computing-environment/` ✅ 6 bài (terminal, shell, filesystem, process, env var, I/O redirect)
+  - `computer-architecture-theory/` ✅ 1 bài "Máy tính hoạt động thế nào"
+- **v0.1.0 (16/05/2026)** — Bản khởi tạo.

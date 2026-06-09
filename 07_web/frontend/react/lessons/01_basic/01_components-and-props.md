@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [What is React](00_what-is-react.md)
 
 > 🎯 *Master **function component**, **JSX rules** sâu, **props** (pass data, destructure, default), **children prop**, **conditional render** (`&&`, ternary), **list render** + **key**, **composition pattern**. Sau bài này chia UI thành component reusable.*
@@ -184,8 +183,8 @@ function Greeting({ name, age = 0, role = 'guest' }) {
   return <h1>{name} ({role}, {age})</h1>;
 }
 
-<Greeting name="bạn" />               // age=0, role='guest'
-<Greeting name="bạn" age={28} />       // age=28, role='guest'
+<Greeting name="Nguyen Van A" />               // age=0, role='guest'
+<Greeting name="Nguyen Van A" age={28} />       // age=28, role='guest'
 ```
 
 ### Rest props
@@ -218,7 +217,7 @@ function App() {
 ### Text + variable
 
 ```jsx
-const name = 'bạn';
+const name = 'Nguyen Van A';
 <h1>Hello, {name}</h1>
 <p>Today is {new Date().toLocaleDateString()}</p>
 ```
@@ -429,7 +428,7 @@ function PageLayout({ title, children }) {
   );
 }
 
-<PageLayout title="bạn Shop">
+<PageLayout title="Acme Shop">
   <ProductList />
 </PageLayout>
 ```
@@ -646,7 +645,7 @@ function App() {
 
   return (
     <div>
-      <h1>bạn Shop</h1>
+      <h1>Acme Shop</h1>
       <ProductList products={products} onAddToCart={handleAddToCart} />
     </div>
   );
@@ -661,7 +660,7 @@ export default App;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Component lowercase** → React thấy như HTML tag `<productCard />` → render fail. PascalCase.
 2. **Quên `key` trong `.map()`** → React warning + bug khi reorder. Always stable ID.
@@ -671,7 +670,7 @@ export default App;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Component đặt tên `productCard` được không? Vì sao?
 2. Pass `user` (object) làm prop, child component access `user.name` thế nào?
@@ -695,7 +694,7 @@ export default App;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Component
 
@@ -754,14 +753,14 @@ function Layout({ children }) {
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is React](00_what-is-react.md)
-- → Tiếp: [State & Events](02_state-and-events.md)
-- ↑ Cluster: [react README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [React là gì? — Component framework #1 cho frontend](00_what-is-react.md)
+- ➡️ **Bài tiếp theo:** [State & Events — useState, event handlers, controlled forms](02_state-and-events.md)
+- ↑ **Về cụm:** [react README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React docs — Your First Component](https://react.dev/learn/your-first-component)
 - 📖 [React docs — Passing Props](https://react.dev/learn/passing-props-to-a-component)
 - 📖 [React docs — Rendering Lists](https://react.dev/learn/rendering-lists)
@@ -773,8 +772,7 @@ function Layout({ children }) {
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Cú pháp function component + Quy tắc đặt tên + File structure + §2 Pass props + Destructure props. Fix `name="bạn"` → `name="Nguyen Van A"`. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 2/5. Cover: function component + PascalCase rule + file structure + props (pass + destructure + default value + spread) + children prop + composition pattern + container/presentational.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Cú pháp function component, Quy tắc đặt tên, File structure, Pass props, Destructure props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.

@@ -1,9 +1,9 @@
 # Pod ở trạng thái `CrashLoopBackOff`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Loại:** Troubleshooting\
 > **Áp dụng cho:** Kubernetes 1.20+
 
@@ -175,14 +175,25 @@ kubectl logs my-pod -c init-db
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- 📖 Khái niệm liên quan: [Pod lifecycle](../sample_kubernetes-pod/lessons/01_basic/01_pod.md)
-- 🐛 Vấn đề liên quan: ImagePullBackOff (recipe khác), Pending Pod (recipe khác)
-- 🌐 Tài nguyên: [Official K8s troubleshooting docs](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)
+### 🧭 Định hướng lộ trình học
+
+- ↑ **Về cụm:** [Kubernetes Pod — README cụm](../sample_kubernetes-pod/README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [Pod — Đơn vị deploy nhỏ nhất của Kubernetes](../sample_kubernetes-pod/lessons/01_basic/01_pod.md) — vòng đời Pod
+- ImagePullBackOff — Pod không pull được image (recipe khác)
+- Pending Pod — Pod không schedule được (recipe khác)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [Official K8s troubleshooting docs](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/) — debug Pod chính chủ
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — sample dogfood recipe template.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — recipe debug CrashLoopBackOff (Problem → Cause → Solution → Verify → Prevention).
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá section Liên kết sang 3-sub + nav bullet (link text = tiêu đề thật); heading changelog chuẩn + tăng dần. Lý do: đồng bộ 3 quyết định governance + quy ước nền.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~12 phút\
 > **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Tiếp bài intro HTTP: deep dive **5 methods** chính (GET/POST/PUT/PATCH/DELETE) + **idempotent** vs **safe** + khi nào dùng cái nào. Sau bài này bạn design REST API endpoint chuẩn convention + biết PUT vs PATCH khác nhau ra sao.*
@@ -46,7 +45,7 @@ Sếp review: *"Sai convention. Đọc lại HTTP methods."*
 
 **Lý do**: HTTP có **5 methods chính** với **semantics rõ ràng**. Dùng `POST /getUsers` là **technically OK** nhưng **anti-pattern** — vi phạm REST convention, làm cache/proxy hiểu sai, tool monitor không track đúng.
 
-Bài này dạy bạn (và bạn) design API endpoint đúng convention từ đầu.
+Bài này dạy bạn design API endpoint đúng convention từ đầu.
 
 ---
 
@@ -392,7 +391,7 @@ curl -X OPTIONS https://api.example.com/users -v
 
 **Use case chính**: **CORS preflight** — browser tự gửi OPTIONS trước cross-origin request không simple (PUT/DELETE/custom headers) để check server có cho phép không.
 
-→ Chi tiết CORS → [03_http-headers.md](./03_http-headers.md) §CORS (chưa có).
+→ Chi tiết CORS → [03_http-headers.md](./03_http-headers.md) §5 CORS.
 
 ### CONNECT — Tunnel qua proxy
 
@@ -444,9 +443,9 @@ Echo lại request server nhận. Hiếm dùng, **đa số production disable** 
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Dùng GET với body
+### ❌ Cạm bẫy: Dùng GET với body
 
 ```bash
 curl -X GET https://api.example.com/users -d '{"filter": "active"}'
@@ -459,7 +458,7 @@ curl -X GET https://api.example.com/users -d '{"filter": "active"}'
   curl -X POST https://api.example.com/users/search -d '{"filter":"active"}'
   ```
 
-### ❌ Pitfall: PUT mà gửi 1 field
+### ❌ Cạm bẫy: PUT mà gửi 1 field
 
 ```bash
 curl -X PUT https://api.example.com/users/123 -d '{"email":"new@example.com"}'
@@ -468,13 +467,13 @@ curl -X PUT https://api.example.com/users/123 -d '{"email":"new@example.com"}'
 - **Hậu quả**: backend reset MỌI field khác về null/default → user mất name, role, ... 😱
 - **Cách fix**: dùng PATCH cho partial update.
 
-### ❌ Pitfall: POST trùng do retry
+### ❌ Cạm bẫy: POST trùng do retry
 
 Client gửi POST → network timeout → client retry → server đã nhận lần đầu + nhận lần 2 → **tạo 2 record duplicate**.
 
 - **Cách fix**: dùng `Idempotency-Key` header (cần backend support) hoặc kiểm tra duplicate (vd unique constraint trên email).
 
-### ❌ Pitfall: DELETE nhưng không idempotent (trả 404 lần 2)
+### ❌ Cạm bẫy: DELETE nhưng không idempotent (trả 404 lần 2)
 
 ```bash
 DELETE /users/123 → 204 No Content (xoá thành công)
@@ -484,7 +483,7 @@ DELETE /users/123 → 404 Not Found (vì đã xoá)
 - **Lý do**: 404 lần 2 có thể fail client retry logic. Strict idempotent phải trả `204` cả lần 2.
 - **Cách fix**: backend trả 204 nếu resource không tồn tại (xoá-able state = xoá-rồi state).
 
-### ❌ Pitfall: POST cho mọi action (RPC-style)
+### ❌ Cạm bẫy: POST cho mọi action (RPC-style)
 
 ```
 POST /api/getUsers
@@ -510,7 +509,7 @@ POST /api/deleteUser
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng PUT vs PATCH?
 
@@ -591,7 +590,7 @@ POST /api/deleteUser
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Methods table
 
@@ -637,7 +636,7 @@ curl -X DELETE URL                       # DELETE
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -662,11 +661,11 @@ curl -X DELETE URL                       # DELETE
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [00_what-is-http.md](./00_what-is-http.md) — Intro HTTP |
-| ➡️ Bài tiếp | [02_http-status-codes.md](./02_http-status-codes.md) (chưa có) — 5 nhóm status |
-| 📚 REST design | [05_rest-api-concepts.md](./05_rest-api-concepts.md) (chưa có) |
-| 🛠️ Test API | [02_tools/api-clients/](../../../02_tools/api-clients/) (chưa có) — Postman/curl |
+| ➡️ Bài tiếp | [02_http-status-codes.md](./02_http-status-codes.md) — 5 nhóm status |
+| 📚 REST design | [05_rest-api-concepts.md](./05_rest-api-concepts.md) |
+| 🛠️ Test API | [02_tools/api-clients/](../../../../02_tools/api-clients/) — Postman/curl |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [MDN HTTP Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) — chính thức
 - [RFC 9110 §9 Methods](https://www.rfc-editor.org/rfc/rfc9110#section-9) — spec đầy đủ
@@ -676,8 +675,7 @@ curl -X DELETE URL                       # DELETE
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §1 bảng 5 methods + §2 (Convention URL / Đặc trưng / Ví dụ / Response). Fix residue placeholder `"name": "bạn"` → `"name": "Nguyen Van A"` (Blueprint v0.5.7 §3.5 convention).
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 2/6. Cover: tình huống bạn design API anti-pattern `POST /getUsers` → §1 bảng 5 methods + idempotent/safe → §2 GET (URL + cache + safe) → §3 POST (Idempotency-Key Stripe pattern) → §4 PUT replace toàn bộ → §5 PATCH partial + so sánh PUT vs PATCH → §6 DELETE + soft vs hard → §7 HEAD/OPTIONS/CONNECT/TRACE → §8 REST endpoint design + 4 anti-pattern. 5 pitfall + 4 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước bảng 5 methods (§1) và các mục §2 (Convention URL / Đặc trưng / Ví dụ / Response). Chuẩn hoá ví dụ placeholder `"name": "Nguyen Van A"`.

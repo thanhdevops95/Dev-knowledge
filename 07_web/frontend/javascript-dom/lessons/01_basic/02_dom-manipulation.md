@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Variables & Functions](01_variables-functions-types.md), [HTML Essentials](../../../html-css/lessons/01_basic/01_html-essentials.md)
 
 > 🎯 *Master **DOM** — JS đại diện HTML trong memory. **`querySelector`** + family, **modify text/HTML/attribute/class**, **create + insert + remove element**, **`dataset`** (data-*), **forms**. Sau bài này JS làm trang động: add/remove/update element, không cần reload.*
@@ -24,7 +23,7 @@
 
 ---
 
-## Tình huống — bạn thêm sản phẩm vào giỏ hàng
+## Tình huống — Thêm sản phẩm vào giỏ hàng
 
 Bạn muốn:
 - Click button "+" → tăng số lượng trong giỏ hiển thị
@@ -52,7 +51,7 @@ Bạn ngơ:
 
 ## 1️⃣ DOM là gì?
 
-**DOM** = **Document Object Model** — biểu diễn HTML trong memory dưới dạng **cây cây** (tree) object. JS thao tác cây này để đổi UI.
+**DOM** = **Document Object Model** — biểu diễn HTML trong memory dưới dạng **cây** (tree) object. JS thao tác cây này để đổi UI.
 
 ```html
 <html>
@@ -535,7 +534,7 @@ render();
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`innerHTML = userInput`** → XSS attack. Dùng `textContent` cho user input.
 2. **NodeList không có `map`** → spread `[...nodeList].map(...)`.
@@ -545,7 +544,7 @@ render();
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **`querySelector`** và **`querySelectorAll`**?
 2. **`textContent`** vs **`innerHTML`** — chọn cái nào với user input?
@@ -648,18 +647,18 @@ parent.append(clone);
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Variables & Functions](01_variables-functions-types.md)
-- → Tiếp: [Events & Async](03_events-and-async.md)
-- ↑ Cluster: [javascript-dom README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Variables, Functions, Types — JS core syntax](01_variables-functions-types.md)
+- ➡️ **Bài tiếp theo:** [Events & Async — Click, Promise, async/await](03_events-and-async.md)
+- ↑ **Về cụm:** [javascript-dom README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTML Essentials](../../../html-css/lessons/01_basic/01_html-essentials.md) — HTML mà JS modify
 - [Forms & a11y](../../../html-css/lessons/01_basic/02_forms-and-accessibility.md) — form HTML JS đọc
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — DOM introduction](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
 - 📖 [javascript.info — DOM tree](https://javascript.info/dom-nodes)
 - 📖 [Modern API — You Don't Need jQuery](https://github.com/nefe/You-Dont-Need-jQuery)
@@ -673,6 +672,6 @@ parent.append(clone);
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Anatomy node + §2 querySelector + Legacy methods + Query trong element con + Iterate NodeList. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Anatomy node, querySelector, Legacy methods, Query trong element con, Iterate NodeList. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 3/5. Cover: DOM tree concept + node anatomy + query selectors (modern vs legacy) + traverse (parent/children/siblings) + modify (textContent/innerHTML/classList/style) + create + insert + remove + clone elements.

@@ -5,7 +5,7 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 16/05/2026
 
-> 🚀 **Status:** Có 3 bài đầu tiên ở [`linux/`](./linux/). Các L2 khác còn skeleton.
+> 🚀 **Status:** [`linux/`](./linux/) đã có 8 bài (3 basic + 5 intermediate). Các L2 khác còn skeleton.
 
 ## 🎯 Chủ đề này có gì
 
@@ -15,35 +15,23 @@ Hệ điều hành: Linux, MacOS, Windows + cross-platform concepts. Đây là *
 
 | L2 | Trạng thái | Note |
 |---|---|---|
-| [`linux/`](./linux/) | 🚀 3 bài | Navigation, file-ops, view-content |
+| [`linux/`](./linux/) | ✅ 8 bài | Navigation, file-ops, view-content, permissions, systemd, SSH, package, text-processing |
 | `macos/` | ❌ Chưa có | (Mac dùng được lệnh Linux qua BSD Unix) |
 | `windows/` | ❌ Chưa có | PowerShell, cmd.exe |
 | `cross-platform-concepts/` | ❌ Chưa có | Filesystem paths, command mapping |
 
-> Chi tiết sitemap mở rộng → xem [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
-
 ## 🚀 Khi nào đọc folder này
 
-| Bạn là... | Đọc gì khi có content |
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 Beginner | `lessons/01_basic/` |
-| 🟡 Người chuyển ngành | `00_overview.md` → `lessons/02_intermediate/` |
-| 🟠 Senior ôn lại | `_cheatsheet.md` (nếu có) + `_glossary.md` (nếu có) |
-| 🔵 Tra cứu nhanh | `recipes/` + `_cheatsheet.md` |
-| 🧭 Theo roadmap | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
-
-## 🤝 Muốn viết bài cho chủ đề này?
-
-1. Đọc [`../_blueprint/README.md`](../_blueprint/README.md)
-2. Copy template từ [`../_blueprint/templates/`](../_blueprint/templates/) (lesson_template / exercise_template / recipe_template / ...)
-3. Viết theo [`../_blueprint/03_writing-style.md`](../_blueprint/03_writing-style.md)
-4. Soát qua [`../_blueprint/07_quality-checklist.md`](../_blueprint/07_quality-checklist.md)
-5. Cập nhật [`../MASTER-CATALOG.md`](../MASTER-CATALOG.md)
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+| Mới bắt đầu | [`linux/lessons/01_basic/`](./linux/lessons/01_basic/) |
+| Đã biết cơ bản, lên server | [`linux/lessons/02_intermediate/`](./linux/lessons/02_intermediate/) |
+| Tra cứu nhanh | `recipes/` + `_cheatsheet.md` (khi có) |
+| Theo nghề | Xem [`../00_roadmaps/career/`](../00_roadmaps/career/) chọn career path đi qua chủ đề này |
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.2.0 (16/05/2026)** — Có 3 bài đầu ở `linux/lessons/01_basic/` (move từ `02_tools/shell/` theo Blueprint v0.5 §3.2ter).
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+- **v0.2.0 (16/05/2026)** — `linux/` có bài: 3 bài basic + 5 bài intermediate (permissions, systemd, SSH, package management, text processing).

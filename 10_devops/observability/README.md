@@ -62,7 +62,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
+- **v0.1.0 (20/05/2026)** — Khởi tạo file README.
 - **v1.0.0 (26/05/2026)** — Cập nhật mục lục hoàn chỉnh, tích hợp đầy đủ lộ trình Basic và các bài học nâng cao Intermediate.
-- **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).

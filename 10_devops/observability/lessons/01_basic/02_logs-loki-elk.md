@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Metrics with Prometheus](01_metrics-prometheus.md)
 
 > 🎯 *Logs deep: **structured logging** (JSON), **Loki** (Grafana's, label-based, cheap), **ELK** (Elasticsearch + Logstash + Kibana, full-text), **Promtail/Fluent Bit** agents, **LogQL** query, **log retention** strategies, **cost control**. Sau bài này centralize logs production.*
@@ -580,7 +579,7 @@ groups:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Unstructured logs** → painful query. JSON from day 1.
 2. **High-cardinality labels** (user_id) → Loki explode. Bounded labels only.
@@ -590,7 +589,7 @@ groups:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **structured** và **unstructured** logs?
 2. **Loki labels** vs **content** — strategy?
@@ -614,7 +613,7 @@ groups:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Install K8s
 
@@ -683,17 +682,17 @@ ELK     Full-text + mature
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Metrics with Prometheus](01_metrics-prometheus.md)
-- → Tiếp: [Traces with OpenTelemetry](03_traces-opentelemetry.md)
-- ↑ Cluster: [observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Metrics with Prometheus — De-facto metrics tool](01_metrics-prometheus.md)
+- ➡️ **Bài tiếp theo:** [Traces & OpenTelemetry — Distributed tracing](03_traces-opentelemetry.md)
+- ↑ **Về cụm:** [observability README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [FastAPI middleware](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) — request_id middleware
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Loki docs](https://grafana.com/docs/loki/latest/)
 - 📖 [LogQL cheatsheet](https://grafana.com/docs/loki/latest/query/log_queries/)
 - 📖 [Elastic Stack docs](https://www.elastic.co/guide/index.html)
@@ -706,8 +705,7 @@ ELK     Full-text + mature
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Unstructured + Structured + FastAPI structlog + §2 Loki Architecture + Vs Elasticsearch.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 3/5. Cover: structured vs unstructured + structlog FastAPI + Loki architecture + label strategy + LogQL queries + Elasticsearch/Vector alternative + cost control (retention, sampling, dedup).
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Unstructured + Structured + FastAPI structlog + §2 Loki Architecture + Vs Elasticsearch.

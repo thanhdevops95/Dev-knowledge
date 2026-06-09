@@ -1,11 +1,10 @@
 # <Tool / Software / Extension> — Cài đặt chi tiết
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY\
+> **Cập nhật:** 01/06/2026\
 > **OS hỗ trợ:** macOS / Linux / Windows (chỉ rõ phiên bản min)\
-> **Thời lượng cài:** ~X phút\
 > **Khó:** ⭐ Easy / ⭐⭐ Medium / ⭐⭐⭐ Hard
 
 > 🎯 *<1-2 câu: tool này là gì, dùng làm gì. Người mới đọc xong block này biết "có cần cài không".>*
@@ -32,7 +31,7 @@
 | OS | <vd: macOS 12+> | <vd: macOS 14+> |
 | RAM | 4 GB | 8 GB+ |
 | Disk | 500 MB | 2 GB+ |
-| Prerequisites | <vd: Xcode CLI tools> | <vd: Xcode + Homebrew> |
+| Yêu cầu trước | <vd: Xcode CLI tools> | <vd: Xcode + Homebrew> |
 
 ---
 
@@ -196,19 +195,26 @@ Hoặc edit file `~/.config/<tool>/config`:
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Bài học dùng tool này
-- [<Lesson 1>](../../<L1>/<L2>/lessons/01_basic/<file>.md)
-- [<Lesson 2>](...)
+### 🧭 Định hướng lộ trình học
 
-### Tài nguyên ngoài
+- ↑ **Về cụm:** [<Tên cụm> — README cụm](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [<tiêu đề thật lesson dùng tool này 1>](../../<L1>/<L2>/lessons/01_basic/<file>.md)
+- [<tiêu đề thật lesson dùng tool này 2>](../../<L1>/<L2>/lessons/01_basic/<file>.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
 - [<Official docs>](<URL>) — chi tiết option cài
 - [<Awesome list>](<URL>) — extension/plugin tổng hợp
 - [<Community forum>](<URL>) — hỏi đáp khi gặp lỗi không có trong §7
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá section Liên kết sang 3-sub + nav bullet, dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

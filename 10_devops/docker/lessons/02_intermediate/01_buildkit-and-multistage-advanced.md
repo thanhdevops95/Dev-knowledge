@@ -1,31 +1,30 @@
 # 🎓 BuildKit & Multi-stage Advanced — Build 1 phút thay 5 phút
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.2.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
-> **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), Docker 23+ installed
+> **Yêu cầu trước:** [Docker Intermediate — Tổng quan](00_intermediate-overview.md), đã cài Docker 23 trở lên.
 
-> 🎯 *Bạn build image FastAPI mất 5 phút mỗi lần — `pip install` chạy lại từ đầu dù chỉ sửa 1 dòng code. Bài này dạy bạn dùng **BuildKit** (engine default 2026) đúng cách: cache mount, secret mount, parallelism, buildx, multi-platform, advanced multi-stage. Mục tiêu: build < 1 phút, image multi-arch.*
+> 🎯 *Mỗi lần `git push`, build image FastAPI của bạn ngốn 5 phút — `pip install` chạy lại từ đầu dù bạn chỉ sửa đúng 1 dòng code. Bài này chỉ cho bạn dùng **BuildKit** (engine build mặc định của Docker từ 2023) cho đúng: giữ cache giữa các lần build (*cache mount*), tiêm secret build-time mà không lộ (*secret mount*), build song song nhiều stage, dùng `buildx` để build đa nền tảng, và viết multi-stage Dockerfile gọn. Đích đến: build dưới 1 phút, image chạy được cả trên amd64 lẫn arm64.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **BuildKit** là gì, khác legacy builder thế nào
-- [ ] Dùng **`RUN --mount=type=cache`** giữ pip/npm cache giữa các build
-- [ ] Dùng **`RUN --mount=type=secret`** inject API key build-time **không leak** vào image
-- [ ] Build **multi-platform** (amd64 + arm64) bằng `docker buildx`
-- [ ] Viết **multi-stage Dockerfile** chuẩn cho Python/Node/Go
-- [ ] Dùng **`docker buildx bake`** cho monorepo nhiều image
-- [ ] Optimize **layer order** — code thay đổi không invalidate deps layer
+- [ ] Hiểu **BuildKit** là gì và khác *legacy builder* (engine build cũ) ở những điểm nào.
+- [ ] Dùng **`RUN --mount=type=cache`** để giữ lại cache của pip/npm giữa các lần build.
+- [ ] Dùng **`RUN --mount=type=secret`** để tiêm API key lúc build mà **không rò rỉ** vào image.
+- [ ] Build **đa nền tảng** (*multi-platform* — amd64 + arm64) bằng `docker buildx`.
+- [ ] Viết **multi-stage Dockerfile** chuẩn cho Python, Node và Go.
+- [ ] Dùng **`docker buildx bake`** để build nhiều image trong một *monorepo*.
+- [ ] Sắp xếp **thứ tự layer** sao cho sửa code không làm hỏng cache của layer cài thư viện.
 
 ---
 
 ## Tình huống — Build chậm 5 phút mỗi lần `git push`
 
-Bạn có FastAPI app + Dockerfile basic:
+Hãy bắt đầu từ một cảnh quen thuộc với bất kỳ ai đang đẩy code lên CI hằng ngày. Bạn có một app FastAPI kèm Dockerfile viết theo kiểu cơ bản nhất, đủ chạy nhưng chưa tối ưu:
 
 ```dockerfile
 FROM python:3.12-slim
@@ -35,11 +34,11 @@ RUN pip install -r requirements.txt
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
 ```
 
-Build lần đầu **5 phút** — ok.
+Build lần đầu mất **5 phút** — chấp nhận được, vì lần đầu phải tải base image và cài toàn bộ thư viện.
 
-Sửa 1 dòng trong `app.py` (không động `requirements.txt`), `docker build`:
+Vấn đề bắt đầu ở lần thứ hai. Bạn chỉ sửa đúng 1 dòng trong `app.py`, hoàn toàn không động tới `requirements.txt`, rồi chạy lại `docker build`. Đáng lẽ phải nhanh, nhưng kết quả lại như sau:
 
-```
+```text
 [+] Building 287.4s
  => [1/4] FROM python:3.12-slim                              0.5s (cached)
  => [2/4] WORKDIR /app                                       0.1s (cached)
@@ -47,9 +46,11 @@ Sửa 1 dòng trong `app.py` (không động `requirements.txt`), `docker build`
  => [4/4] RUN pip install -r requirements.txt              285.0s ← lại 5 phút!
 ```
 
-🔥 **Vấn đề**: `COPY . .` đứng trước `RUN pip install` → layer COPY thay đổi (vì có `app.py` mới) → cache layer phía sau **vỡ**, pip install chạy lại.
+Nhìn vào dòng cuối là thấy ngay thủ phạm.
 
-Bạn sửa thứ tự:
+🔥 **Vấn đề**: `COPY . .` đứng *trước* `RUN pip install`. Mỗi lần bạn sửa code, layer `COPY` thay đổi (vì có `app.py` mới), kéo theo toàn bộ layer phía sau bị xem là "không còn tin được nữa" — cache **vỡ**, và `pip install` phải chạy lại từ đầu.
+
+Cách chữa quen thuộc là đảo thứ tự, tách phần ít thay đổi (`requirements.txt`) lên trước phần hay thay đổi (code):
 
 ```dockerfile
 COPY requirements.txt .
@@ -57,23 +58,25 @@ RUN pip install -r requirements.txt
 COPY . .
 ```
 
-→ Build 2: chỉ chạy lại COPY cuối, **15 giây**.
+→ Build lần 2 giờ chỉ chạy lại đúng `COPY` cuối, mất **15 giây**. Tốt hơn hẳn.
 
-Nhưng sửa `requirements.txt` (thêm 1 package)? Lại 5 phút pip install từ đầu. **Vì sao?**
+Nhưng câu chuyện chưa hết. Bây giờ bạn thêm 1 package vào `requirements.txt` — lập tức quay về **5 phút** `pip install` từ đầu. **Vì sao mẹo đảo thứ tự không cứu được lần này?**
 
-→ Vì pip không có **persistent cache** giữa builds. Mỗi build = pip download lại từ PyPI.
+→ Vì pip không giữ **cache lâu dài** (*persistent cache* — kho tải về dùng lại được giữa các lần build) ở chỗ Docker nhìn thấy. Mỗi lần layer `pip install` chạy lại, pip tải toàn bộ package từ PyPI một lần nữa, kể cả những package cũ không hề đổi.
 
-Sếp: *"Dùng BuildKit cache mount đi. `--mount=type=cache` giữ pip cache giữa các build. Build lần thứ 2 chỉ install package mới."*
+Sếp đi ngang, liếc qua màn hình rồi gợi ý: *"Dùng BuildKit cache mount đi. `--mount=type=cache` giữ cache của pip giữa các lần build. Lần thứ hai chỉ cài đúng package mới thôi."*
 
-→ Bài này dạy BuildKit features đầy đủ.
+→ Đó chính là chủ đề của bài này — đi qua từng tính năng của BuildKit một cách đầy đủ.
 
 ---
 
 ## 1️⃣ Vậy BuildKit là gì?
 
-**BuildKit** = build engine thế hệ mới của Docker, viết bằng Go, replace legacy builder (cũ chạy bên trong Docker daemon).
+Trước khi chữa được bệnh, cần biết "động cơ" build hiện tại là cái gì. **BuildKit** là engine build thế hệ mới của Docker, viết bằng Go, ra đời để thay cho *legacy builder* — engine cũ chạy lồng bên trong Docker daemon (tiến trình nền `dockerd`). Sự khác biệt không chỉ là "mới hơn", mà là cả một kiến trúc khác giúp build nhanh và an toàn hơn.
 
-| Aspect | Legacy builder | **BuildKit** (default 2023+) |
+Bảng dưới đặt hai engine cạnh nhau để bạn thấy rõ vì sao mọi tính năng trong bài này chỉ có ở BuildKit:
+
+| Khía cạnh | Legacy builder | **BuildKit** (mặc định từ 2023) |
 |---|---|---|
 | Architecture | In-daemon | Standalone (containerd-based) |
 | Parallelism | Sequential | **Parallel** (stage độc lập build cùng lúc) |
@@ -82,9 +85,11 @@ Sếp: *"Dùng BuildKit cache mount đi. `--mount=type=cache` giữ pip cache gi
 | Output formats | docker image | tar, OCI, registry, cache-only |
 | Frontend | Dockerfile only | Dockerfile, custom (LLB) |
 
-🪞 **Ẩn dụ**: *Legacy builder như **dây chuyền sản xuất tuần tự** — máy 1 xong mới máy 2. BuildKit như **dây chuyền song song nhiều line** — máy 1+2+3 chạy cùng lúc nếu không phụ thuộc nhau, có "kho vật liệu chung" (cache mount) tái dùng giữa các production run.*
+Điểm cốt lõi để nhớ: BuildKit build các stage độc lập *song song*, và mở ra ba loại mount mà legacy builder không có (cache, secret, SSH). Toàn bộ phần còn lại của bài thực chất là khai thác đúng hai điểm này.
 
-### Verify BuildKit đang chạy
+🪞 **Ẩn dụ**: *Legacy builder giống một **dây chuyền sản xuất một làn** — máy 1 xong mới tới máy 2, không ai được chen. BuildKit giống một **nhà máy nhiều làn chạy song song** — máy 1, 2, 3 cùng làm một lúc nếu chúng không chờ kết quả của nhau, lại có thêm một "kho vật liệu chung" (chính là cache mount) để các ca sản xuất sau lấy lại đồ đã chuẩn bị thay vì gom mới từ đầu.*
+
+### Kiểm tra BuildKit có đang chạy không
 
 Docker 23+ (2023) đã enable BuildKit mặc định — nhưng đáng check trước khi dùng feature mới. 2 lệnh dưới confirm version + BuildKit availability:
 
@@ -95,30 +100,32 @@ docker buildx version
 # BuildKit default từ Docker 23+ (2023)
 docker version | grep "Version"
 # Server: Docker Engine - Community
-#  Version: 25.0.3  ← 25+ là BuildKit default
+#  Version: 25.0.3  ← 23+ là BuildKit default
 ```
 
-Nếu muốn explicit:
+Nếu muốn bật BuildKit một cách tường minh (ví dụ trên máy còn chạy Docker đời cũ), có hai cách:
 
 ```bash
 DOCKER_BUILDKIT=1 docker build .
 # (chỉ cần với Docker < 23)
 
-# Modern syntax:
+# Cú pháp hiện đại — luôn dùng BuildKit:
 docker buildx build .
 ```
 
 ---
 
-## 2️⃣ Cache mount — pip/npm cache giữa các build
+## 2️⃣ Cache mount — giữ cache pip/npm giữa các lần build
+
+Đây là tính năng trị thẳng nỗi đau ở phần mở đầu, nên ta bắt đầu từ nó.
 
 ### Vấn đề
 
-Mỗi build, pip download package từ PyPI → mất 1-5 phút cho project lớn.
+Mỗi lần build, pip tải lại toàn bộ package từ PyPI — với project lớn là mất 1–5 phút, lặp lại vô ích ở mọi lần build.
 
-### Giải pháp BuildKit
+### Giải pháp của BuildKit
 
-BuildKit feature **cache mount** giải quyết bằng 1 dòng — mount cache dir vào RUN, BuildKit persist cache giữa các build. Cấu hình tối thiểu cho Python:
+**Cache mount** là tính năng cho phép gắn (*mount*) một thư mục cache vào đúng câu lệnh `RUN`, rồi BuildKit giữ thư mục đó lại giữa các lần build. Pip tải gì một lần thì lần sau lấy lại từ kho, khỏi tải lại. Cấu hình tối thiểu cho Python chỉ thêm đúng một dòng `--mount`:
 
 ```dockerfile
 # syntax=docker/dockerfile:1.7
@@ -134,13 +141,14 @@ COPY . .
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
 ```
 
-**Key changes**:
-- `# syntax=docker/dockerfile:1.7` — directive bắt buộc ở dòng đầu để dùng BuildKit features (1.7 là version 2026).
-- `RUN --mount=type=cache,target=/root/.cache/pip` — mount BuildKit cache vào `~/.cache/pip` khi RUN. Cache **persist giữa các build** trên cùng máy.
+Có hai dòng đáng chú ý trong Dockerfile trên:
 
-### Demo timing
+- `# syntax=docker/dockerfile:1.7` — *directive* (chỉ thị khai báo) bắt buộc ở dòng đầu để mở khoá các tính năng của BuildKit; `1.7` là phiên bản frontend dùng cho năm 2026.
+- `RUN --mount=type=cache,target=/root/.cache/pip` — gắn cache của BuildKit vào đúng `~/.cache/pip` (nơi pip để đồ tải về) trong lúc `RUN`. Cache này **được giữ lại giữa các lần build** trên cùng một máy.
 
-Số liệu thực tế trên 1 Python project ~50 dependencies. Cache mount giúp build sau **nhanh 80-95%** so với cold build:
+### Đo thử thời gian build
+
+Để thấy con số cụ thể, đây là kết quả thực tế trên một project Python khoảng 50 thư viện. Cache mount giúp các lần build sau **nhanh hơn 80–95%** so với build "nguội" (*cold build* — build khi chưa có cache):
 
 ```bash
 # Build 1 (cache trống):
@@ -156,11 +164,11 @@ docker buildx build -t myapp:v3 .
 # RUN pip install ... ~15s (chỉ download redis, các package khác đã trong cache)
 ```
 
-→ **85% build time saved** ở build 3 vs build 1.
+→ Tức là build 3 tiết kiệm **85% thời gian** so với build 1, dù vẫn có thêm package mới. Đó là phần thưởng của việc tách "tải package" ra khỏi "cache theo layer".
 
-### Cache mount cho Node/Go/Rust
+### Cache mount cho Node, Go và Rust
 
-Cache mount work cho mọi language có package manager — Node (npm/yarn), Go (build cache + module cache), Rust (cargo). Đây là pattern bắt buộc trong CI/CD modern:
+Pattern này không chỉ dành cho Python. Mọi ngôn ngữ có trình quản lý package đều dùng được — Node (npm/yarn), Go (cache build + cache module), Rust (cargo) — và đây là cách làm gần như bắt buộc trong CI/CD hiện đại. Chỉ cần đổi đường dẫn `target` cho khớp nơi từng tool để cache:
 
 ```dockerfile
 # Node.js
@@ -178,11 +186,11 @@ RUN --mount=type=cache,target=/root/.cargo/registry \
     cargo build --release
 ```
 
-### Cache mount options
+### Các tuỳ chọn của cache mount
 
-5 option chính của cache mount cho fine-tune — target path, ID để tách multiple cache, mode/uid cho non-root container. Hữu ích khi dùng image security-hardened:
+Khi cần tinh chỉnh sâu hơn, cache mount có vài tuỳ chọn đáng nhớ: đường dẫn `target`, một `id` để tách nhiều kho cache khác nhau, và `mode`/`uid` cho trường hợp container chạy bằng user không phải root. Mấy tuỳ chọn này đặc biệt hữu ích khi bạn dùng image đã siết bảo mật (*security-hardened* — gỡ bớt quyền và công cụ thừa):
 
-| Option | Mô tả |
+| Tuỳ chọn | Mô tả |
 |---|---|
 | `type=cache` | Loại mount |
 | `target=<path>` | Path trong container |
@@ -195,13 +203,15 @@ RUN --mount=type=cache,target=/root/.cargo/registry \
 
 ---
 
-## 3️⃣ Secret mount — Inject API key không leak vào image
+## 3️⃣ Secret mount — tiêm API key mà không lộ vào image
+
+Cache giúp build nhanh; nhưng còn một nỗi đau khác xuất hiện ngay khi build dính tới thông tin nhạy cảm. Đó là lúc cần secret mount.
 
 ### Vấn đề
 
-Bạn cần `PIP_INDEX_URL` private (PyPI nội bộ) cần token để pull package, hoặc cần SSH key clone private repo trong Dockerfile.
+Trong lúc build, bạn thường cần một thứ bí mật: token để kéo package từ PyPI nội bộ (qua `PIP_INDEX_URL` riêng), hoặc SSH key để `git clone` một repo private ngay trong Dockerfile. Câu hỏi là: làm sao đưa bí mật đó vào *quá trình build* mà nó không bị "đóng băng" vĩnh viễn trong image?
 
-❌ **Cách sai**:
+❌ **Cách sai thường gặp**:
 
 ```dockerfile
 # ❌ Build arg — leak vào image history!
@@ -216,9 +226,9 @@ docker history myapp:v1
 # Thấy: ARG GITHUB_TOKEN=ghp_xxx
 ```
 
-→ Bất kỳ ai pull image cũng `docker history` đọc được token.
+→ Hậu quả: bất kỳ ai pull image về cũng chỉ cần `docker history` là đọc được token nằm phơi trong lịch sử layer. Token coi như đã rò rỉ.
 
-### Giải pháp BuildKit secret mount
+### Giải pháp secret mount của BuildKit
 
 ```dockerfile
 # syntax=docker/dockerfile:1.7
@@ -234,7 +244,7 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-Build với secret:
+Điểm mấu chốt: secret được gắn vào dưới dạng file tạm trong `/run/secrets/`, chỉ tồn tại đúng trong lúc câu `RUN` đó chạy, và không bao giờ ghi vào layer. Phía dưới là cách truyền secret vào lúc build — từ file hoặc từ biến môi trường:
 
 ```bash
 # Từ file
@@ -246,7 +256,7 @@ export GITHUB_TOKEN=ghp_xxxxxx
 docker buildx build --secret id=github_token,env=GITHUB_TOKEN -t myapp:v1 .
 ```
 
-Verify không leak:
+Để chắc chắn token không lọt vào image, kiểm chứng lại bằng đúng hai lệnh mà kẻ tấn công sẽ dùng:
 
 ```bash
 docker history myapp:v1
@@ -255,7 +265,11 @@ docker inspect myapp:v1 | grep -i token
 # (empty)
 ```
 
-### SSH mount — Clone private repo
+Lịch sử chỉ còn lại dòng tham chiếu tới secret, không có giá trị thật; `inspect` thì rỗng. Đúng như mong đợi.
+
+### SSH mount — clone repo private
+
+Cùng ý tưởng "đụng vào rồi xoá", nhưng thay vì một file token, BuildKit còn cho forward luôn cả *ssh-agent* (tiến trình giữ SSH key) vào lúc build để clone repo private mà không nhúng key vào image:
 
 ```dockerfile
 # syntax=docker/dockerfile:1.7
@@ -264,18 +278,20 @@ RUN --mount=type=ssh \
     git clone git@github.com:acme/private-frontend.git
 ```
 
-Build:
+Build và chuyển ssh-agent vào:
 
 ```bash
 docker buildx build --ssh default -t myapp .
-# 'default' = ~/.ssh/agent socket
+# 'default' = ssh-agent socket trỏ bởi $SSH_AUTH_SOCK
 ```
 
 ---
 
-## 4️⃣ Multi-stage build advanced
+## 4️⃣ Multi-stage build nâng cao
 
-### Pattern 1: Build vs runtime separation (Python)
+Cache và secret lo phần *tốc độ* và *an toàn* lúc build. Phần còn lại là *kích thước* image cuối — và đây là lúc multi-stage build vào cuộc. Ý tưởng rất đời thường: tách "căn bếp" (nơi cần dao, lò, nguyên liệu thô để nấu) khỏi "đĩa món ăn" mang ra bàn (chỉ còn thành phẩm). Stage builder chứa compiler và dev tool nặng nề; stage runtime chỉ giữ đúng thứ cần để chạy. Mỗi pattern dưới đây là một công thức tách bếp cho một ngôn ngữ.
+
+### Pattern 1: Tách build và runtime (Python)
 
 ```dockerfile
 # syntax=docker/dockerfile:1.7
@@ -311,7 +327,9 @@ CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
 - Stage runtime chỉ chứa Python + installed packages — gọn.
 - Image cuối ~150 MB thay 1.2 GB.
 
-### Pattern 2: Build vs runtime (Node.js)
+Con số nói lên tất cả: image cuối từ 1.2 GB rút còn khoảng 150 MB, chỉ nhờ bỏ lại toàn bộ compiler và dev headers ở stage builder. Node.js áp dụng đúng tinh thần đó, nhưng tách thêm một bước nữa.
+
+### Pattern 2: Tách build và runtime (Node.js)
 
 ```dockerfile
 # syntax=docker/dockerfile:1.7
@@ -342,6 +360,8 @@ EXPOSE 3000
 CMD ["node", "server.js"]
 ```
 
+Node tách làm 3 stage: `deps` cài thư viện (tận dụng cache npm), `builder` đóng gói bundle production, còn `runtime` chỉ bê `dist/`, `server.js` và `node_modules` cần thiết sang. Go còn đẩy ý tưởng "đĩa món ăn trống trơn" tới mức cực hạn.
+
 ### Pattern 3: Go binary (cực gọn)
 
 ```dockerfile
@@ -366,11 +386,11 @@ EXPOSE 8080
 CMD ["/server"]
 ```
 
-→ Image cuối ~10-30 MB cho Go binary. Không có shell, không có gì khác. (Trade-off: debug khó — xem bài 03 distroless).
+→ Image cuối chỉ còn khoảng 10–30 MB cho một Go binary, vì `FROM scratch` nghĩa là base hoàn toàn trống — không shell, không gì khác ngoài file binary và chứng chỉ SSL. Đánh đổi đi kèm là debug khó hơn (không có shell để vào ngó nghiêng — chủ đề này để dành cho bài 03 về *distroless*).
 
-### Target stage — Build chỉ 1 stage
+### Chọn target stage — build đúng một stage
 
-Dockerfile nhiều stage, build stage cụ thể:
+Một Dockerfile nhiều stage không bắt buộc lúc nào cũng build tới stage cuối. Bạn có thể bảo BuildKit dừng ở một stage cụ thể bằng `--target`:
 
 ```bash
 # Build chỉ stage "builder" — để debug
@@ -380,19 +400,21 @@ docker buildx build --target=builder -t myapp:debug .
 docker buildx build -t myapp:prod .
 ```
 
-→ Dùng khi cần image debug có shell + compiler.
+→ Tiện khi cần một image debug vẫn còn shell và compiler, trong khi image production thì giữ nguyên độ gọn.
 
 ---
 
 ## 5️⃣ Multi-platform — amd64 + arm64
 
+Image gọn rồi, nhưng gọn mà chạy sai kiến trúc CPU thì cũng vô dụng. Đây là cái bẫy mà ai dùng máy Mac đời mới đều dễ sập.
+
 ### Vấn đề
 
-- Bạn dùng MacBook M-series (arm64).
-- Production server AWS EC2 t3 (amd64) hoặc Graviton (arm64).
-- Build image trên Mac → image **chỉ arm64** → deploy AWS t3 = `exec format error`.
+- Bạn code trên MacBook M-series (chip arm64).
+- Server production lại là AWS EC2 t3 (amd64) hoặc Graviton (arm64).
+- Build image trên Mac sẽ cho ra image **chỉ có arm64** → khi deploy lên EC2 t3 (amd64), container chết ngay với lỗi `exec format error` (sai định dạng file thực thi vì khác kiến trúc CPU).
 
-### Setup buildx
+### Tạo builder hỗ trợ đa nền tảng
 
 ```bash
 # Tạo builder hỗ trợ multi-platform
@@ -404,7 +426,9 @@ docker buildx ls
 # multi *  docker-container   linux/amd64, linux/arm64
 ```
 
-### Build multi-platform
+### Build cho cả hai nền tảng
+
+Có builder rồi, chỉ cần liệt kê các nền tảng đích qua `--platform`, BuildKit sẽ build song song từng kiến trúc và gói chung thành một tag:
 
 ```bash
 docker buildx build \
@@ -414,9 +438,9 @@ docker buildx build \
   .
 ```
 
-> ⚠️ `--push` bắt buộc cho multi-platform — local Docker daemon không lưu được manifest list multi-arch. Phải push lên registry.
+> ⚠️ `--push` là bắt buộc với build đa nền tảng — Docker daemon ở máy local không lưu được *manifest list* (danh mục trỏ tới nhiều image, mỗi image một kiến trúc). Phải đẩy lên registry.
 
-Verify manifest:
+Kiểm tra manifest list xem đã có đủ hai kiến trúc chưa:
 
 ```bash
 docker buildx imagetools inspect acme/myapp:v1
@@ -425,11 +449,12 @@ docker buildx imagetools inspect acme/myapp:v1
 #   linux/arm64  sha256:def...
 ```
 
-### Cross-platform build tip
+### Mẹo tăng tốc build chéo kiến trúc
 
-Khi build amd64 trên M-series Mac, BuildKit dùng **QEMU emulation** — chậm. Tăng tốc bằng:
-- **Native builder** trên server amd64 (GitHub Actions runner ubuntu-latest = amd64).
-- **`--cache-to`/`--cache-from`** lưu cache vào registry để CI tái dùng.
+Có một cái giá ngầm cần biết: khi build bản amd64 ngay trên Mac M-series, BuildKit phải giả lập CPU amd64 bằng **QEMU** (*emulation* — mô phỏng kiến trúc khác) nên chậm hẳn. Hai cách giảm đau:
+
+- Dùng **builder native** chạy đúng trên máy amd64 (ví dụ runner `ubuntu-latest` của GitHub Actions vốn là amd64) — khỏi giả lập.
+- Dùng **`--cache-to`/`--cache-from`** để lưu cache lên registry, cho CI lần sau lấy lại thay vì build lại từ đầu.
 
 ```bash
 docker buildx build \
@@ -444,6 +469,8 @@ docker buildx build \
 ---
 
 ## 6️⃣ BuildKit cache trong CI/CD (GitHub Actions)
+
+Mọi thứ phía trên đến giờ vẫn là build trên máy bạn. Nhưng cache mount chỉ sống *trên một máy* — sang runner CI sạch bong là mất sạch. Vậy làm sao để CI cũng được hưởng cache? Câu trả lời là đẩy cache lên một nơi dùng chung. Workflow dưới đây minh hoạ cách BuildKit lưu cache vào kho cache của GitHub Actions:
 
 ```yaml
 name: Build
@@ -475,21 +502,25 @@ jobs:
             github_token=${{ secrets.GITHUB_TOKEN }}
 ```
 
-**Highlights**:
-- `cache-from: type=gha` + `cache-to: type=gha` — BuildKit lưu cache lên **GitHub Actions cache** (10GB free per repo). Build sau pull cache → 70-90% faster.
-- `secrets:` — inject secret vào BuildKit secret mount.
-- `platforms: linux/amd64,linux/arm64` — build multi-arch trong 1 job.
+Ba dòng đáng để mắt trong workflow trên:
 
-→ **2026 default**: GitHub Actions = `cache-from/to: type=gha`. GitLab CI = `type=registry`. AWS CodeBuild = `type=s3`.
+- `cache-from: type=gha` + `cache-to: type=gha` — BuildKit lưu cache lên **kho cache của GitHub Actions** (mỗi repo được 10 GB miễn phí). Build sau kéo cache về nên nhanh hơn 70–90%.
+- `secrets:` — chính là cách tiêm secret vào secret mount đã học ở §3, nhưng từ phía CI.
+- `platforms: linux/amd64,linux/arm64` — build cả hai kiến trúc gọn trong một job.
+
+→ Mỗi nền tảng CI có một backend cache "mặc định" riêng tính tới 2026: GitHub Actions dùng `type=gha`, GitLab CI dùng `type=registry`, còn AWS CodeBuild dùng `type=s3`.
 
 ---
 
-## 7️⃣ `docker buildx bake` — Build monorepo nhiều image
+## 7️⃣ `docker buildx bake` — build nhiều image trong monorepo
 
-### Vấn đề monorepo
+Tới đây bạn build *một* image rất ngon. Nhưng đời thực hay là một *monorepo* (một repo chứa nhiều service) với cả chục Dockerfile. Gõ tay từng lệnh build cho mỗi cái vừa mỏi tay vừa phí cache.
 
-Bạn có monorepo:
-```
+### Vấn đề của monorepo
+
+Giả sử repo của bạn có cấu trúc:
+
+```text
 acme/
 ├── backend/Dockerfile
 ├── frontend/Dockerfile
@@ -497,9 +528,11 @@ acme/
 └── migrations/Dockerfile
 ```
 
-Build 4 image cần 4 lệnh, không tái dùng cache cross-image.
+Build 4 image theo cách thủ công là 4 lệnh riêng, lại không chia sẻ cache được giữa các image. Càng nhiều service càng đuối.
 
 ### Giải pháp bake
+
+`docker buildx bake` cho phép khai báo *tất cả* image trong một file cấu hình duy nhất, rồi build một phát. File này viết bằng HCL (cùng ngôn ngữ với Terraform), nên bạn có thể dùng biến và cho các target kế thừa cấu hình chung qua `inherits`. Ví dụ với 4 service ở trên:
 
 `docker-bake.hcl`:
 
@@ -547,19 +580,21 @@ target "migrations" {
 }
 ```
 
-Build tất cả:
+Sau đó build toàn bộ chỉ bằng đúng một lệnh, truyền tag qua biến môi trường:
 
 ```bash
 TAG=v1.2.3 docker buildx bake --push
 ```
 
-→ 1 lệnh, 4 image, parallel, multi-arch, cache shared.
+→ Một lệnh, bốn image, build song song, đa kiến trúc, dùng chung cache. Đây là cách gọn nhất để CI build cả monorepo.
 
 ---
 
-## 8️⃣ Hands-on: Setup pipeline build < 1 phút
+## 8️⃣ Hands-on: dựng pipeline build dưới 1 phút
 
-### Step 1: Optimize Dockerfile cho FastAPI
+Giờ ráp mọi mảnh ghép lại thành một thứ chạy thật. Mục tiêu của phần này: từ một FastAPI app, dựng một pipeline hoàn chỉnh build dưới 1 phút ở các lần sau, image đa kiến trúc, cache được tái dùng trên CI. Ba bước, đi từ Dockerfile tới workflow rồi kiểm chứng bằng số liệu.
+
+### Bước 1: Tối ưu Dockerfile cho FastAPI
 
 ```dockerfile
 # Dockerfile
@@ -590,7 +625,9 @@ EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-### Step 2: GitHub Actions workflow
+Dockerfile này gói trọn hai bài học: multi-stage (builder/runtime) cho image gọn, và cache mount cho `pip install` nhanh. Tiếp theo là phần để CI tự chạy nó.
+
+### Bước 2: Workflow GitHub Actions
 
 `.github/workflows/build.yml`:
 
@@ -645,37 +682,41 @@ jobs:
           cache-to: type=gha,mode=max
 ```
 
-### Step 3: Verify build times
+### Bước 3: Kiểm chứng thời gian build
 
-| Run | Build time | Cache state |
+Cuối cùng, chạy thử vài lần để xác nhận pipeline làm đúng việc. Bảng dưới ghi lại thời gian build qua bốn kịch bản tiêu biểu, từ lần đầu "nguội" tới các lần sau có cache:
+
+| Lần build | Thời gian | Trạng thái cache |
 |---|---|---|
-| Run 1 (first ever) | ~4 phút | Cold (pull base + pip install) |
-| Run 2 (no changes) | ~30s | Full cache hit |
-| Run 3 (sửa app code) | ~45s | Pip cached, chỉ rebuild code layer |
-| Run 4 (sửa requirements.txt) | ~1 phút | Pip download new package, others cached |
+| Lần 1 (đầu tiên) | ~4 phút | Nguội (tải base image + pip install) |
+| Lần 2 (không đổi gì) | ~30s | Trúng cache toàn bộ |
+| Lần 3 (sửa code app) | ~45s | Pip còn cache, chỉ build lại layer code |
+| Lần 4 (sửa requirements.txt) | ~1 phút | Pip tải package mới, phần còn lại lấy từ cache |
 
-→ **75-90% build time saved**.
+→ Tiết kiệm **75–90% thời gian build** ở các lần sau — đúng mục tiêu đặt ra đầu bài.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Quên `# syntax=docker/dockerfile:1.7`
+### ❌ Cạm bẫy: Quên `# syntax=docker/dockerfile:1.7`
 
 ```dockerfile
-# ❌ Thiếu syntax directive — BuildKit features fail
+# ❌ Thiếu syntax directive — rủi ro với builder cũ / feature mới
 FROM python:3.12
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 ```
 
-**Lỗi**:
-```
-error: failed to solve: failed to compute cache key: --mount feature requires syntax directive
+**Lỗi** (khi rơi về classic builder hoặc built-in frontend cũ — Docker < 23 / `DOCKER_BUILDKIT=0`):
+```text
+Dockerfile parse error: Unknown flag: mount
 ```
 
-→ **Fix**: Dòng ĐẦU TIÊN của Dockerfile phải là `# syntax=docker/dockerfile:1.7` (hoặc version cao hơn).
+> Trên Docker 23+ (BuildKit default, built-in frontend mới) các mount cơ bản (`cache`/`secret`/`bind`) chạy được **kể cả khi thiếu** syntax directive. Nhưng vẫn nên khai báo để pin frontend version và mở khoá option/feature mới nhất.
 
-### ❌ Pitfall: Cache mount path sai
+→ **Fix**: Dòng ĐẦU TIÊN của Dockerfile nên là `# syntax=docker/dockerfile:1.7` (hoặc version cao hơn).
+
+### ❌ Cạm bẫy: Cache mount path sai
 
 ```dockerfile
 # ❌ Mount sai path
@@ -687,7 +728,7 @@ RUN --mount=type=cache,target=/root/.cache \
 
 → **Fix**: Mount đúng sub-path tool dùng: `/root/.cache/pip` cho pip, `/root/.npm` cho npm.
 
-### ❌ Pitfall: Secret in `ARG` hoặc `ENV`
+### ❌ Cạm bẫy: Secret in `ARG` hoặc `ENV`
 
 ```dockerfile
 # ❌ ARG leak vào history
@@ -704,7 +745,7 @@ RUN --mount=type=secret,id=npm_token \
     npm ci
 ```
 
-### ❌ Pitfall: Multi-platform không `--push`
+### ❌ Cạm bẫy: Multi-platform không `--push`
 
 ```bash
 # ❌ Không có --push
@@ -712,14 +753,14 @@ docker buildx build --platform linux/amd64,linux/arm64 -t myapp .
 ```
 
 **Lỗi**:
-```
+```text
 ERROR: Multi-platform build is not supported for the docker driver.
 Switch to a different driver, or use --push or --output flag.
 ```
 
 → **Fix**: `--push` (lên registry) hoặc `--output type=oci,dest=image.tar` (local OCI tarball).
 
-### ❌ Pitfall: COPY thừa làm vỡ cache
+### ❌ Cạm bẫy: COPY thừa làm vỡ cache
 
 ```dockerfile
 # ❌ COPY toàn bộ trước install
@@ -771,7 +812,7 @@ docs/
 tests/
 ```
 
-→ Giảm build context size → build start nhanh hơn → tránh COPY nhầm file nhạy cảm.
+→ Build context (toàn bộ thư mục gửi cho daemon lúc build) nhỏ lại nên build khởi động nhanh hơn, đồng thời tránh lỡ tay `COPY` nhầm file nhạy cảm (như `.env`) vào image.
 
 ### ✅ Best practice: Image label metadata
 
@@ -786,7 +827,9 @@ LABEL org.opencontainers.image.created="${BUILD_DATE}"
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
+
+Năm câu hỏi dưới chạm vào đúng những chỗ dễ nhầm nhất của BuildKit. Bạn thử tự trả lời trước khi mở đáp án — đây là cách nhanh nhất để biết mình thật sự hiểu hay chỉ mới thấy quen.
 
 **Q1.** Vì sao `RUN --mount=type=cache` nhanh hơn dùng `COPY requirements.txt + RUN pip install` thuần?
 
@@ -805,11 +848,11 @@ LABEL org.opencontainers.image.created="${BUILD_DATE}"
 <details>
 <summary>💡 Đáp án</summary>
 
-Local Docker daemon dùng `containerd image store` chỉ hỗ trợ **một platform per image tag** (cho version cũ). Multi-platform image cần **manifest list** (OCI Image Index v1) reference nhiều image (1 per platform) — concept này không có trong local docker.
+Local Docker daemon dùng image store cổ điển (legacy graph driver) chỉ hỗ trợ **một platform per image tag**. Multi-platform image cần **manifest list** (OCI Image Index v1) reference nhiều image (1 per platform) — concept này không có trong image store cổ điển.
 
 Registry (Docker Hub, GHCR, ECR) hỗ trợ manifest list — đó là nơi multi-platform image sống. Vì vậy buildx **bắt buộc `--push`** hoặc `--output type=oci` để xuất ra registry/tarball.
 
-(Note: Docker Desktop 2024+ có experimental `containerd image store` hỗ trợ local multi-platform, nhưng chưa stable.)
+(Note: từ Docker Desktop 4.34+ và Docker Engine v29+, `containerd image store` là default và hỗ trợ lưu local multi-platform image — khi đó có thể dùng `--load` thay `--push`. Phần lớn setup cũ/CI vẫn dùng image store cổ điển nên `--push` vẫn là cách an toàn.)
 </details>
 
 **Q3.** Khác biệt `--mount=type=cache` vs `--mount=type=secret` về **persistence**?
@@ -834,7 +877,7 @@ BuildKit **tự động phát hiện parallelism** dựa trên DAG dependency. N
 Bạn không cần làm gì đặc biệt — chỉ cần Dockerfile chuẩn. BuildKit phân tích `COPY --from=X` để xây DAG → schedule parallel.
 
 Verify bằng output build log:
-```
+```text
 [+] Building 23.5s (15/15) FINISHED
  => [stage-A 1/3] FROM ...      4.2s
  => [stage-B 1/2] ...            3.1s ┐
@@ -869,7 +912,9 @@ GitHub Actions cache:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: lệnh `buildx` cơ bản, build đa nền tảng, các chiến lược cache trong CI, và các mẫu `--mount` hay dùng trong Dockerfile.
 
 ```bash
 # === BuildKit basics ===
@@ -935,8 +980,7 @@ FROM python:3.12-slim AS final
 
 ---
 
-## 📚 Glossary
-
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 | Term | Vietnamese / Explanation |
 |---|---|
 | **BuildKit** | Build engine mới của Docker (default 2023+), parallel + cache mount + secret mount |
@@ -958,17 +1002,20 @@ FROM python:3.12-slim AS final
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_intermediate-overview.md](00_intermediate-overview.md)
-- → Tiếp: [02_image-security-supply-chain.md](02_image-security-supply-chain.md) *(sắp viết)*
-- ↑ Cluster: [Docker README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Docker Intermediate — Từ "chạy được" đến "production-grade"](00_intermediate-overview.md)
+- ➡️ **Bài tiếp theo:** [Image Security & Supply Chain — Scan, Sign, Verify](02_image-security-supply-chain.md)
+- ↑ **Về cụm:** [Docker — Containerization Platform](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
 - 🔁 [CI/CD GitHub Actions](../../../ci-cd/lessons/01_basic/01_github-actions.md) — workflow integration
 - 🔁 [CI/CD Pipeline patterns](../../../ci-cd/lessons/01_basic/03_pipeline-patterns.md) — monorepo selective build
 - ☸️ [K8s images](../../../kubernetes/lessons/01_basic/01_pods-and-deployments.md) — imagePullPolicy
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [BuildKit docs](https://docs.docker.com/build/buildkit/)
 - 📖 [Dockerfile reference](https://docs.docker.com/reference/dockerfile/) — syntax + RUN --mount
 - 📖 [buildx docs](https://docs.docker.com/buildx/)
@@ -979,8 +1026,9 @@ FROM python:3.12-slim AS final
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Verify BuildKit + Cache mount giải pháp + Demo timing + Cache cho Node/Go/Rust + Cache mount options.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 của intermediate cluster. Tập trung BuildKit cache/secret/SSH mount, multi-stage 3 pattern (Python/Node/Go), multi-platform amd64+arm64, buildx bake monorepo, CI integration (GitHub Actions với `type=gha` cache). 5 pitfall + 3 best practice + 5 self-check + cheatsheet command/Dockerfile.
+- **v1.1.0 (25/05/2026)** — thêm lead-in trước Verify BuildKit + Cache mount giải pháp + Demo timing + Cache cho Node/Go/Rust + Cache mount options.
+- **v1.1.1 (01/06/2026)** — Sửa lỗi QA: comment "25+ là BuildKit default" → "23+" (BuildKit default từ Docker Engine 23.0); sửa giải thích Q2 multi-platform (image store cổ điển/legacy graph driver mới là cái không hỗ trợ manifest list, không phải containerd image store); cập nhật note containerd image store đã GA + default (Docker Desktop 4.34+/Engine v29+); sửa pitfall syntax directive (error thật là "Unknown flag: mount" trên classic builder, Docker 23+ chạy được mount cơ bản kể cả thiếu directive); sửa chú thích `--ssh default` ($SSH_AUTH_SOCK thay vì ~/.ssh/agent).
+- **v1.2.0 (01/06/2026)** — Polish văn phong + soát QA theo checklist: Việt hoá metadata "Yêu cầu trước" và mục tiêu, làm mượt các đoạn "điện tín" (chuỗi thuật ngữ EN) ở §1–§8, thêm lời dẫn trước code/bảng và câu bắc cầu giữa các section, Việt hoá các sub-heading EN thuần (Demo timing, Cache mount options, Setup buildx, Verify manifest, Cross-platform tip, Step 1–3) và header bảng (Aspect/Option), giải thích thuật ngữ EN trong ngoặc lần đầu (cache mount, secret mount, monorepo, QEMU, manifest list, build context), bổ sung ngôn ngữ `text` cho fence output build; giữ nguyên 100% code/số liệu/flag và heading cấu trúc.

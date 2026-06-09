@@ -1,83 +1,88 @@
 # 🎓 Terragrunt — DRY Terraform cho multi-env multi-region
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), Terraform modules + workspaces
+> **Yêu cầu trước:** [IaC Intermediate — Tổng quan](00_intermediate-overview.md), đã nắm Terraform *modules* và *workspaces*.
 
-> 🎯 *3 envs × 5 regions × 5 modules = 75 folder, 50K dòng duplicate. Terragrunt DRY: 1 module Terraform + 1 config per env (~10 dòng). Bài này dạy Terragrunt fundamentals + dependency graph + module versioning + run-all + advanced patterns.*
+> 🎯 *3 môi trường × 5 region × 5 module = 75 folder, mỗi folder lại copy gần như nguyên xi nhau, cộng dồn thành hàng chục nghìn dòng trùng lặp. Sửa một dòng CIDR cũng phải mò qua chục file và cầu trời không quên cái nào. Bài này chỉ cho bạn dùng **Terragrunt** để giữ DRY: một module Terraform duy nhất, mỗi env chỉ còn một file config chừng mười dòng. Đi qua từ nền tảng, cấu trúc repo, dependency giữa các module, versioning module, `run-all`, cho tới các pattern multi-account nâng cao.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **Terragrunt** vs workspaces — khi nào dùng cái nào
-- [ ] Setup repo structure **`live/` + `modules/`** pattern
-- [ ] Dùng **`include`** + **`generate`** + **`inputs`** trong terragrunt.hcl
-- [ ] Manage **remote state** với S3 + DynamoDB tự động generated
-- [ ] **Dependencies** giữa modules (`dependency block`)
-- [ ] **`run-all`** apply across multiple modules
-- [ ] **Module versioning** với git tags
-- [ ] Setup **multi-account AWS** với assume role
+- [ ] Hiểu **Terragrunt** khác *workspaces* ở đâu và khi nào nên chọn cái nào.
+- [ ] Dựng cấu trúc repo theo pattern **`live/` + `modules/`**.
+- [ ] Dùng **`include`** + **`generate`** + **`inputs`** trong `terragrunt.hcl`.
+- [ ] Quản lý **remote state** với S3 + DynamoDB được sinh tự động.
+- [ ] Khai báo **dependency** giữa các module (`dependency` block).
+- [ ] Dùng **`run-all`** để apply nhiều module một lượt.
+- [ ] Quản lý **version của module** bằng git tag.
+- [ ] Thiết lập **multi-account AWS** với *assume role*.
 
 ---
 
-## Tình huống — Update VPC CIDR = sửa 15 file
+## Tình huống — Đổi VPC CIDR = sửa 15 file
 
-Repo basic Terraform:
-```
+Hãy bắt đầu từ một cảnh quen với bất kỳ ai từng quản hạ tầng nhiều môi trường bằng Terraform thuần. Repo của bạn được tổ chức theo kiểu "copy folder cho mỗi env, mỗi region", trông gọn gàng nhưng ẩn chứa quả bom trùng lặp:
+
+```text
 infra/
 ├── dev/
 │   ├── us-east-1/vpc/
-│   │   ├── main.tf      # 200 lines
+│   │   ├── main.tf      # 200 dòng
 │   │   ├── variables.tf
-│   │   └── backend.tf   # S3 backend config — 20 lines, same in all 75 folders
-│   ├── us-west-2/vpc/   # copy of us-east-1/vpc
+│   │   └── backend.tf   # config S3 backend — 20 dòng, lặp y hệt trong cả 75 folder
+│   ├── us-west-2/vpc/   # bản copy của us-east-1/vpc
 │   ├── eu-west-1/vpc/   # copy
 │   └── ...
-├── staging/  # copy of dev
-└── prod/     # copy of dev with different CIDR
+├── staging/  # copy của dev
+└── prod/     # copy của dev, chỉ khác CIDR
 ```
 
-→ Sửa VPC CIDR for prod: update `prod/us-east-1/vpc/variables.tf` + check 4 other regions + verify staging.
+Vấn đề lộ ra ngay khi có một yêu cầu nhỏ: đổi CIDR của VPC cho môi trường prod. Đáng lẽ chỉ là một dòng, nhưng thực tế bạn phải sửa `prod/us-east-1/vpc/variables.tf`, rồi kiểm tra 4 region còn lại, rồi soát lại cả staging cho chắc.
 
-Workflow:
-- Dev forget update `prod/us-west-2/vpc/` → drift.
-- Code review nightmare: PR has 5+ duplicated files.
+Và đây là hai cái bẫy quen thuộc mọc lên từ kiểu repo này:
 
-Sếp: *"Refactor to Terragrunt. 1 module, N config. Bài này dạy."*
+- Ai đó quên cập nhật `prod/us-west-2/vpc/` → cấu hình lệch nhau (*drift*), prod mỗi region một kiểu.
+- Review code thành cơn ác mộng: một PR đụng tới 5+ file gần như giống hệt nhau, người review chẳng biết nhìn vào đâu.
+
+Sếp đi ngang, liếc qua cái PR rồi gợi ý: *"Refactor sang Terragrunt đi. Một module, N config thôi."* Đó chính là chủ đề của bài này.
 
 ---
 
-## 1️⃣ Terragrunt concept
+## 1️⃣ Terragrunt là gì?
 
-### What's Terragrunt?
+Trước khi sửa được bệnh trùng lặp, cần hiểu Terragrunt thực chất là cái gì và nó đứng ở đâu so với Terraform.
 
-**Terragrunt** = thin wrapper around Terraform, eliminates duplication:
-- Module Terraform code in 1 place.
-- Per-env config (`terragrunt.hcl`) minimal.
-- Inherit + override pattern.
-- Auto-generate `backend.tf`, `provider.tf` from config.
+**Terragrunt** là một lớp bọc mỏng (*thin wrapper*) quanh Terraform, sinh ra để xoá bỏ trùng lặp. Nó không thay thế Terraform mà chạy *bên ngoài*, gọi Terraform underneath. Bốn việc chính nó làm cho bạn:
 
-### vs workspaces
+- Giữ code module Terraform ở đúng một nơi duy nhất.
+- Để config cho từng env (`terragrunt.hcl`) tối giản hết mức.
+- Cho phép kế thừa rồi ghi đè (*inherit + override*) cấu hình chung.
+- Tự sinh `backend.tf`, `provider.tf` từ config thay vì bắt bạn copy tay.
 
-**Terraform workspaces** (basic):
-- Same backend, different state file per workspace.
-- `terraform workspace select prod`.
-- Variables via `terraform.tfvars` files.
-- Limit: still copy folder for multi-region (workspaces are within 1 directory).
+### So với workspaces
 
-**Terragrunt**:
-- Different backend per env (separate state file).
-- Multi-account, multi-region native.
-- Dependency between modules.
-- More flexible for complex layouts.
+Câu hỏi đầu tiên ai cũng hỏi: "Đã có Terraform *workspaces* rồi, sao còn cần Terragrunt?" Workspaces cũng tách được nhiều môi trường, nhưng nó dừng ở mức khá hẹp. Bảng dưới đặt hai cách cạnh nhau để thấy ranh giới:
 
-### Install
+| Khía cạnh | Terraform workspaces | **Terragrunt** |
+|---|---|---|
+| Backend | Cùng một backend, mỗi workspace một state file | Backend riêng cho từng env (state cách ly hẳn) |
+| Chuyển môi trường | `terraform workspace select prod` | `cd` vào folder env tương ứng |
+| Biến cấu hình | Qua file `terraform.tfvars` | Qua `inputs` kế thừa nhiều tầng |
+| Multi-region | Vẫn phải copy folder (workspace gói trong 1 thư mục) | Multi-region, multi-account *native* |
+| Dependency | Không có | `dependency` block giữa các module |
+| Bố cục phức tạp | Khó mở rộng | Linh hoạt cho layout lớn |
 
-Terragrunt là Go binary standalone — cài 1 command. Wrap Terraform để add DRY layer (module versioning, dependency, multi-env config) — không thay Terraform mà tăng cường:
+Điểm cốt lõi để nhớ: workspaces giải quyết "nhiều state trên cùng một backend trong cùng một thư mục", còn Terragrunt giải quyết "nhiều env/region/account với state cách ly và có quan hệ phụ thuộc lẫn nhau". Phần còn lại của bài là khai thác đúng điểm khác biệt đó.
+
+🪞 **Ẩn dụ**: *Một module Terraform giống **bản thiết kế nhà mẫu** — 3 phòng ngủ, 2 phòng tắm, một cái sân. Còn config Terragrunt giống **tấm nhãn dán cho từng căn nhà cụ thể**: "Căn số 1: môi trường dev, vùng us-east-1, cỡ nhỏ". Bạn cần một bản thiết kế + 75 tấm nhãn, chứ không phải vẽ lại 75 bản thiết kế giống hệt nhau.*
+
+### Cài đặt
+
+Terragrunt là một Go binary độc lập, cài bằng đúng một câu lệnh. Cài xong, nó tự đứng giữa bạn và Terraform để thêm lớp DRY (versioning module, dependency, config multi-env) mà không động gì tới bản Terraform đang có:
 
 ```bash
 # macOS
@@ -91,20 +96,20 @@ sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
 terragrunt --version
 ```
 
-🪞 **Ẩn dụ**: *Terraform module like **bản thiết kế nhà mẫu** (3 phòng ngủ, 2 phòng tắm, sân). Terragrunt config like **nhãn dán per căn nhà**: "Nhà số 1: dev env, us-east-1, kích thước nhỏ". 1 bản thiết kế + 75 nhãn vs 75 bản thiết kế.*
-
 ---
 
-## 2️⃣ Repo structure pattern
+## 2️⃣ Pattern cấu trúc repo
 
-### Standard layout
+Hiểu Terragrunt là gì rồi, việc đầu tiên khi bắt tay vào là dựng đúng bộ khung thư mục. Đây là phần quyết định mọi thứ về sau có gọn hay không.
 
-Repo Terragrunt chuẩn tách **2 folder**: `modules/` (Terraform reusable code, DRY) và `live/` (Terragrunt config per env/region/component). Pattern này scale từ 1 env đến hàng trăm:
+### Bố cục chuẩn
 
-```
+Repo Terragrunt chuẩn tách làm **hai folder** với hai vai trò rạch ròi: `modules/` chứa code Terraform tái sử dụng được (phần DRY), còn `live/` chứa config Terragrunt cho từng env/region/component. Pattern này mở rộng mượt từ một env cho tới hàng trăm:
+
+```text
 infrastructure/
-├── terragrunt.hcl              # root config
-├── modules/                     # Terraform modules
+├── terragrunt.hcl              # config gốc (root)
+├── modules/                    # các module Terraform
 │   ├── vpc/
 │   │   ├── main.tf
 │   │   ├── variables.tf
@@ -112,13 +117,13 @@ infrastructure/
 │   ├── eks/
 │   ├── rds/
 │   └── s3/
-└── live/                        # per-env config
+└── live/                       # config theo từng env
     ├── dev/
-    │   ├── account.hcl          # account-level vars
+    │   ├── account.hcl         # biến cấp account
     │   ├── us-east-1/
-    │   │   ├── region.hcl       # region-level vars
+    │   │   ├── region.hcl      # biến cấp region
     │   │   ├── vpc/
-    │   │   │   └── terragrunt.hcl    # 10 lines
+    │   │   │   └── terragrunt.hcl    # ~10 dòng
     │   │   ├── eks/
     │   │   │   └── terragrunt.hcl
     │   │   ├── rds/
@@ -131,43 +136,42 @@ infrastructure/
     └── prod/...
 ```
 
-→ **`modules/`**: Terraform code (DRY).  
-**`live/`**: Terragrunt config per env.
+Cách đọc bố cục này rất đơn giản: `modules/` là nơi giữ code Terraform thật (viết một lần, dùng mọi nơi), còn `live/` chỉ chứa các file config mỏng mô tả "env này, region này muốn dùng module nào với tham số gì".
 
-### Workflow
+### Quy trình hằng ngày
 
-Daily workflow đơn giản: `cd` vào env+region+component, gõ `terragrunt plan`/`apply`. Terragrunt tự download module, generate backend.tf + provider.tf, gọi Terraform underneath:
+Khi đã có bộ khung, công việc thường nhật cực kỳ đơn giản: `cd` vào đúng tổ hợp env + region + component rồi gõ `terragrunt plan`/`apply`. Terragrunt sẽ tự tải module về, sinh `backend.tf` + `provider.tf`, rồi gọi Terraform bên dưới:
 
 ```bash
-# Plan VPC dev us-east-1
+# Plan VPC cho dev us-east-1
 cd live/dev/us-east-1/vpc
 terragrunt plan
 
-# Apply EKS prod us-east-1
+# Apply EKS cho prod us-east-1
 cd live/prod/us-east-1/eks
 terragrunt apply
 ```
 
-→ Terragrunt downloads module, generates backend.tf, provider.tf, applies.
+Toàn bộ phép màu "tải module, sinh backend, sinh provider, chạy init rồi apply" diễn ra ngầm sau một lệnh duy nhất. Phần tiếp theo sẽ mở từng lớp ra xem nó làm điều đó bằng cách nào.
 
 ---
 
-## 3️⃣ Root `terragrunt.hcl`
+## 3️⃣ File gốc `terragrunt.hcl`
 
-Common config inherited by all child Terragrunt:
+Trái tim của cả hệ thống nằm ở file gốc — nơi khai báo những cấu hình chung mà *mọi* file con sẽ kế thừa. Viết tốt phần này thì mỗi file con về sau chỉ còn vài dòng. Hai khối quan trọng nhất là `remote_state` (sinh `backend.tf`) và `generate "provider"` (sinh `provider.tf`):
 
 ```hcl
 # infrastructure/terragrunt.hcl
 
-# Generate backend.tf in each child (no duplicate)
+# Sinh backend.tf trong từng file con (khỏi lặp tay)
 remote_state {
   backend = "s3"
-  
+
   generate = {
     path      = "backend.tf"
     if_exists = "overwrite_terragrunt"
   }
-  
+
   config = {
     bucket         = "acme-tfstate-${get_aws_account_id()}"
     key            = "${path_relative_to_include()}/terraform.tfstate"
@@ -177,7 +181,7 @@ remote_state {
   }
 }
 
-# Generate provider.tf in each child
+# Sinh provider.tf trong từng file con
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
@@ -191,7 +195,7 @@ terraform {
 
 provider "aws" {
   region = var.region
-  
+
   default_tags {
     tags = {
       Environment = var.env
@@ -199,7 +203,7 @@ provider "aws" {
       Repository  = "acme/infrastructure"
     }
   }
-  
+
   assume_role {
     role_arn = "arn:aws:iam::$${var.aws_account_id}:role/TerraformExecutionRole"
   }
@@ -207,26 +211,32 @@ provider "aws" {
 EOF
 }
 
-# Common inputs all children inherit
+# inputs chung mà mọi file con đều thừa hưởng
 inputs = {
   organization = "acme"
 }
 ```
 
-### Key features
+### Các tính năng then chốt
 
-6 feature chính của Terragrunt — chính là lý do dùng thay vì Terraform workspaces:
+Trong file gốc trên có vài hàm và khối là lý do chính khiến người ta chọn Terragrunt thay vì workspaces. Mỗi cái giải một bài toán mà Terraform thuần không làm gọn được:
 
-- **`generate`**: Terragrunt writes file (e.g., `backend.tf`) into child folder before running Terraform.
-- **`path_relative_to_include()`**: returns relative path → unique state key per child.
-- **`get_aws_account_id()`**: built-in functions.
-- **`inputs`**: variables passed to module.
+- **`generate`** — Terragrunt ghi hẳn một file (ví dụ `backend.tf`) vào folder con *trước khi* chạy Terraform, nên không cần copy tay file backend vào từng nơi.
+- **`path_relative_to_include()`** — trả về đường dẫn tương đối từ root tới file con hiện tại, nhờ vậy mỗi env có một *key* state riêng biệt, không đụng nhau.
+- **`get_aws_account_id()`** — một trong nhiều hàm dựng sẵn (*built-in functions*) cho phép lấy thông tin runtime mà chèn thẳng vào config.
+- **`inputs`** — các biến được truyền xuống module, kế thừa từ tầng này sang tầng kia.
+
+Ý tưởng chung: file gốc khai báo *một lần*, mọi file con thừa hưởng. Hai phần tiếp theo sẽ làm rõ "thừa hưởng từ đâu" — bắt đầu từ các biến cấp account và region.
 
 ---
 
-## 4️⃣ Account + Region levels
+## 4️⃣ Tầng account và region
 
-### `account.hcl` (per env account)
+Cấu hình không chỉ đến từ file gốc. Terragrunt còn cho bạn nhét các biến đặc thù vào từng tầng trung gian — account và region — rồi cho chúng "chảy" xuống các file con bên dưới. Đây là cách tách "cái gì thuộc về cả account" khỏi "cái gì thuộc về riêng một region".
+
+### `account.hcl` — biến cấp account (cho từng env)
+
+File này khai báo những thứ gắn liền với cả một tài khoản AWS: tên env, account ID. Mỗi env một file:
 
 ```hcl
 # live/dev/account.hcl
@@ -246,7 +256,9 @@ locals {
 }
 ```
 
-### `region.hcl` (per region)
+### `region.hcl` — biến cấp region
+
+Tương tự, file này giữ những thứ đặc thù theo vùng: tên region và dải CIDR riêng của vùng đó. Mỗi region một file:
 
 ```hcl
 # live/dev/us-east-1/region.hcl
@@ -264,82 +276,89 @@ locals {
 }
 ```
 
-→ Account + region vars cascade down via `include` blocks.
+Mấu chốt là các biến account + region này sẽ *chảy xuống* (*cascade*) các file con thông qua khối `include` — đúng phần ta xem ngay sau đây.
 
 ---
 
-## 5️⃣ Child `terragrunt.hcl`
+## 5️⃣ File con `terragrunt.hcl`
 
-### Simple VPC module
+Đây là nơi mọi mảnh ghép gặp nhau: file con thừa hưởng config gốc, đọc các biến account + region, rồi trỏ tới module thật và truyền tham số xuống. Vẻ đẹp của Terragrunt nằm cả ở chỗ file này ngắn đến bất ngờ.
+
+### Module VPC đơn giản
 
 ```hcl
 # live/dev/us-east-1/vpc/terragrunt.hcl
 
-# Include root config (inherit backend, provider, common inputs)
+# Kế thừa config gốc (backend, provider, inputs chung)
 include "root" {
   path = find_in_parent_folders()
 }
 
-# Reference local hcl files
+# Đọc các file hcl cục bộ
 locals {
   account_vars = read_terragrunt_config(find_in_parent_folders("account.hcl"))
   region_vars  = read_terragrunt_config(find_in_parent_folders("region.hcl"))
 }
 
-# Terraform module source
+# Nguồn của module Terraform
 terraform {
   source = "../../../../modules/vpc"
-  # OR remote: source = "git::git@github.com:acme/infrastructure-modules.git//vpc?ref=v1.2.3"
+  # HOẶC remote: source = "git::git@github.com:acme/infrastructure-modules.git//vpc?ref=v1.2.3"
 }
 
-# Inputs override / extend
+# inputs ghi đè / mở rộng
 inputs = {
   env             = local.account_vars.locals.env
   aws_account_id  = local.account_vars.locals.account_id
   region          = local.region_vars.locals.aws_region
   cidr_block      = local.region_vars.locals.vpc_cidr
-  
+
   availability_zones = [
     "${local.region_vars.locals.aws_region}a",
     "${local.region_vars.locals.aws_region}b",
     "${local.region_vars.locals.aws_region}c",
   ]
-  
+
   enable_nat_gateway = true
-  single_nat_gateway = local.account_vars.locals.env == "dev"   # dev cheap, prod HA
+  single_nat_gateway = local.account_vars.locals.env == "dev"   # dev rẻ, prod chạy HA
 }
 ```
 
-→ **10 lines** per env-region. All inherit from root + account + region locals.
+Đếm lại sẽ thấy: cả file con cho một VPC chỉ khoảng **10 dòng** thực chất. Tất cả phần nặng nề — backend, provider, code module — đều được kế thừa từ root + account + region.
 
-### Result
+### Chuyện gì xảy ra khi chạy
+
+Để hiểu file ngắn vậy mà vẫn đủ, hãy xem từng bước Terragrunt làm khi bạn gõ lệnh:
 
 ```bash
 cd live/dev/us-east-1/vpc
 terragrunt plan
 ```
 
-Terragrunt:
-1. Read this `terragrunt.hcl`.
-2. Find root `terragrunt.hcl` (via `find_in_parent_folders`).
-3. Inherit `remote_state`, `generate "provider"`, `inputs`.
-4. Read `account.hcl` + `region.hcl` locals.
-5. Generate `backend.tf` + `provider.tf` in current folder.
-6. Run `terraform init` + `terraform plan`.
+Terragrunt sẽ lần lượt:
 
-→ Clean apply. State file at `s3://acme-tfstate-...../live/dev/us-east-1/vpc/terraform.tfstate`.
+1. Đọc file `terragrunt.hcl` hiện tại.
+2. Tìm file `terragrunt.hcl` gốc (qua `find_in_parent_folders`).
+3. Kế thừa `remote_state`, `generate "provider"`, `inputs`.
+4. Đọc các `locals` trong `account.hcl` + `region.hcl`.
+5. Sinh `backend.tf` + `provider.tf` ngay tại folder hiện tại.
+6. Chạy `terraform init` + `terraform plan`.
+
+Kết quả là một lần apply sạch sẽ, với state file nằm đúng chỗ riêng của nó: `s3://acme-tfstate-..../live/dev/us-east-1/vpc/terraform.tfstate`. Mỗi env-region một key, không đụng nhau — chính nhờ `path_relative_to_include()` ở phần trước.
 
 ---
 
-## 6️⃣ Dependencies between modules
+## 6️⃣ Dependency giữa các module
+
+Tới đây bạn build được từng module độc lập. Nhưng hạ tầng thật không độc lập: EKS cần VPC tồn tại trước, RDS lại cần network sẵn sàng. Đây là lúc khối `dependency` toả sáng.
 
 ### Vấn đề
 
-VPC must exist before EKS. EKS must exist before RDS.
+Trật tự bắt buộc: VPC phải có trước EKS, EKS phải có trước RDS. Không có Terragrunt, bạn phải tự nhớ thứ tự này và gõ apply đúng tuần tự bằng tay — quên thứ tự là apply chết ngay vì thiếu đầu vào.
 
-Without Terragrunt: manual order. Forget order → apply fails.
+### Khối `dependency`
 
-### `dependency` block
+Terragrunt cho phép một module *đọc output* của module khác và tự sắp xếp thứ tự apply. EKS chỉ cần khai báo nó phụ thuộc VPC, rồi lấy `vpc_id` và `subnet_ids` từ output của VPC:
 
 ```hcl
 # live/dev/us-east-1/eks/terragrunt.hcl
@@ -350,7 +369,7 @@ include "root" {
 
 dependency "vpc" {
   config_path = "../vpc"
-  
+
   mock_outputs = {
     vpc_id     = "vpc-12345"
     subnet_ids = ["subnet-1", "subnet-2"]
@@ -369,58 +388,50 @@ inputs = {
 }
 ```
 
-→ Terragrunt:
-1. Check VPC state exists.
-2. Read VPC outputs (`vpc_id`, `private_subnet_ids`).
-3. Inject as input to EKS.
-4. Apply EKS with VPC info.
+Khi chạy, Terragrunt sẽ kiểm tra state của VPC đã tồn tại chưa, đọc output (`vpc_id`, `private_subnet_ids`), tiêm chúng làm input cho EKS, rồi mới apply EKS với thông tin VPC thật.
 
-**`mock_outputs`**: fake values for `plan` when VPC not yet applied (chicken-and-egg). Real apply needs VPC applied first.
+Còn `mock_outputs` để làm gì? Đó là các giá trị giả dùng cho lệnh `plan` *khi VPC chưa được apply* — tình huống "con gà và quả trứng": muốn plan EKS nhưng VPC chưa tồn tại nên chưa có output thật. Mock cho phép plan chạy qua; còn apply thật thì bắt buộc VPC phải có trước.
 
 ### `terragrunt run-all`
 
-Apply all modules in dependency order:
+Khi muốn apply *cả cây* module theo đúng thứ tự phụ thuộc mà không phải `cd` qua từng folder, dùng `run-all`:
 
 ```bash
 cd live/dev/us-east-1
 terragrunt run-all apply
 ```
 
-→ Terragrunt:
-1. Scan all `terragrunt.hcl` in tree.
-2. Build dependency graph.
-3. Apply in topological order (VPC → EKS → RDS).
-4. Parallel where possible (S3 + DynamoDB independent of VPC).
+Terragrunt sẽ quét toàn bộ `terragrunt.hcl` trong cây thư mục, dựng đồ thị phụ thuộc, apply theo thứ tự topo (VPC → EKS → RDS), và chạy song song những module độc lập với nhau (ví dụ S3 + DynamoDB không phụ thuộc VPC).
 
-⚠️ `run-all` powerful but dangerous. Use carefully:
-- `run-all destroy` = destroy everything.
-- Lock collision possible.
-- Use `--terragrunt-include-dir` / `--terragrunt-exclude-dir` to limit.
+> ⚠️ `run-all` mạnh nhưng nguy hiểm, phải dùng cẩn thận. `run-all destroy` sẽ xoá sạch mọi thứ trong cây; lock có thể đụng nhau khi chạy song song. Dùng `--terragrunt-include-dir` / `--terragrunt-exclude-dir` để giới hạn phạm vi.
 
 ---
 
-## 7️⃣ Module versioning
+## 7️⃣ Versioning cho module
+
+Module dùng chung cho nhiều env mở ra một bài toán mới: làm sao nâng cấp module cho dev mà không vô tình làm vỡ prod? Câu trả lời là gán *version* cho module.
 
 ### Vấn đề
 
-Module `modules/vpc/` in monorepo. Update breaks dev env without breaking prod.
+Khi module `modules/vpc/` nằm chung *monorepo* với code live, mọi env đều trỏ tới cùng một bản code. Bạn vừa sửa module để thử trên dev là prod cũng "ăn" thay đổi đó luôn — cực kỳ rủi ro. Cách chữa là tách module ra và đánh version cho nó.
 
-→ Version modules.
+### Pattern: tách module sang repo riêng
 
-### Pattern: external module repo
+Đưa toàn bộ module sang một repo độc lập, ví dụ `infrastructure-modules`:
 
-Separate repo `infrastructure-modules`:
-```
-infrastructure-modules/   (different repo)
+```text
+infrastructure-modules/   (repo riêng)
 ├── vpc/
 ├── eks/
 ├── rds/
 └── ...
 ```
 
-Tag releases: `v1.2.0`, `v1.3.0`, etc.
+Mỗi lần module ổn định, gắn một git tag để đóng băng phiên bản: `v1.2.0`, `v1.3.0`, v.v.
 
-### Reference in Terragrunt
+### Tham chiếu trong Terragrunt
+
+Lúc này mỗi env có thể *ghim* vào một version khác nhau. Dev có thể chạy bản mới nhất trong khi prod vẫn ở bản cũ đã được kiểm chứng:
 
 ```hcl
 # live/dev/us-east-1/vpc/terragrunt.hcl
@@ -431,46 +442,50 @@ terraform {
 # live/prod/us-east-1/vpc/terragrunt.hcl
 terraform {
   source = "git::git@github.com:acme/infrastructure-modules.git//vpc?ref=v1.0.0"
-  # prod pinned older version
+  # prod ghim bản cũ hơn
 }
 ```
 
-→ Update dev to `v1.3.0` first → test → promote prod to `v1.3.0` later.
+Nhờ vậy bạn có một quy trình promote an toàn: nâng dev lên `v1.3.0` trước → kiểm thử → rồi mới promote prod lên `v1.3.0` sau.
 
-### Tagging workflow
+### Quy trình tag
+
+Vòng đời một bản release gọn trong vài lệnh — tag ở repo module, đổi `ref` ở repo live rồi apply:
 
 ```bash
-# In modules repo
+# Trong repo module
 git tag v1.3.0
 git push origin v1.3.0
 
-# In live infra
-# Update terragrunt.hcl ref=v1.3.0
-terragrunt plan   # downloads v1.3.0
+# Trong repo live
+# Sửa terragrunt.hcl thành ref=v1.3.0
+terragrunt plan   # tải v1.3.0 về
 terragrunt apply
 ```
 
 ---
 
-## 8️⃣ Multi-account pattern
+## 8️⃣ Pattern multi-account
 
-### Setup AssumeRole
+Một bước trưởng thành nữa của hạ tầng là tách mỗi môi trường vào một *tài khoản AWS riêng*. Terragrunt hỗ trợ chuyện này gần như miễn phí nhờ cơ chế *assume role*.
 
-3 AWS accounts:
-- Root account (no resources).
-- Dev account (111111111111).
-- Prod account (222222222222).
+### Thiết lập AssumeRole
 
-Each child account has role `TerraformExecutionRole` trusting root.
+Mô hình điển hình gồm ba tài khoản AWS:
 
-Terragrunt provider config:
+- Tài khoản gốc (*root account*) — không chứa resource nào.
+- Tài khoản dev (`111111111111`).
+- Tài khoản prod (`222222222222`).
+
+Mỗi tài khoản con có sẵn một role tên `TerraformExecutionRole` tin tưởng (*trust*) tài khoản gốc. Config provider trong Terragrunt chỉ cần khai báo assume role tới đúng account ID của env:
+
 ```hcl
 generate "provider" {
   path = "provider.tf"
   contents = <<EOF
 provider "aws" {
   region = var.region
-  
+
   assume_role {
     role_arn = "arn:aws:iam::$${var.aws_account_id}:role/TerraformExecutionRole"
   }
@@ -479,54 +494,62 @@ EOF
 }
 ```
 
-→ Per-env `aws_account_id` in `account.hcl`. Terragrunt assume role of target account.
+Giá trị `aws_account_id` lấy từ `account.hcl` của từng env, nên Terragrunt tự assume role vào đúng tài khoản đích.
 
-### Benefits
+### Lợi ích
 
-- **Blast radius isolation**: dev mistakes can't affect prod.
-- **IAM separation**: dev access only via assume role.
-- **Cost tracking**: per-account billing.
-- **Compliance**: prod account has stricter SCPs.
+Tách account không chỉ cho gọn — nó mang lại vài lợi ích an toàn rất đáng giá:
 
-### Cross-account dependency
+- **Cô lập bán kính ảnh hưởng** (*blast radius*): lỡ tay trên dev không thể chạm tới prod.
+- **Tách quyền IAM**: muốn vào dev chỉ có thể qua assume role, không có đường tắt.
+- **Theo dõi chi phí**: hoá đơn tách theo từng account.
+- **Tuân thủ** (*compliance*): tài khoản prod có thể siết SCP chặt hơn hẳn.
 
-Sometimes prod EKS needs dev VPC peering. Terragrunt `dependency` works cross-account if state in shared bucket.
+### Dependency xuyên account
+
+Đôi khi prod EKS lại cần VPC peering tới dev VPC. Khối `dependency` của Terragrunt vẫn làm việc xuyên account, miễn là state nằm trong một bucket chia sẻ được:
 
 ```hcl
 dependency "dev_vpc" {
   config_path = "../../../dev/us-east-1/vpc"
-  # State bucket might be different — root config handles
+  # Bucket state có thể khác — config gốc lo phần này
 }
 ```
 
 ---
 
-## 9️⃣ Hands-on: Refactor 75-folder repo to Terragrunt
+## 9️⃣ Hands-on: refactor repo 75 folder sang Terragrunt
 
-### Before
+Giờ ráp mọi mảnh ghép lại thành một việc thật: biến đống repo trùng lặp ở đầu bài thành một cấu trúc Terragrunt gọn gàng. Phần này đi từ ảnh "trước/sau", qua các bước migrate, rồi tới quy trình promote.
 
-```
-infra/dev/us-east-1/vpc/main.tf        (200 lines)
+### Trước
+
+Đây là điểm xuất phát quen thuộc — mỗi tổ hợp env-region-component là một bản copy của `main.tf`:
+
+```text
+infra/dev/us-east-1/vpc/main.tf        (200 dòng)
 infra/dev/us-west-2/vpc/main.tf        (copy)
 infra/dev/eu-west-1/vpc/main.tf        (copy)
 infra/staging/us-east-1/vpc/main.tf    (copy)
 infra/prod/us-east-1/vpc/main.tf       (copy)
-...  (75 folders, ~15K lines)
+...  (75 folder, ~15K dòng)
 ```
 
-### After: Terragrunt structure
+### Sau: cấu trúc Terragrunt
 
-```
+Sau khi refactor, code module gom về một chỗ, còn mỗi env-region chỉ còn vài dòng config:
+
+```text
 infrastructure/
-├── terragrunt.hcl                       (50 lines, root config)
+├── terragrunt.hcl                       (50 dòng, config gốc)
 ├── modules/
-│   └── vpc/main.tf                       (200 lines, ONE copy)
+│   └── vpc/main.tf                       (200 dòng, MỘT bản duy nhất)
 └── live/
     ├── dev/
-    │   ├── account.hcl                   (5 lines)
+    │   ├── account.hcl                   (5 dòng)
     │   ├── us-east-1/
-    │   │   ├── region.hcl                (4 lines)
-    │   │   └── vpc/terragrunt.hcl        (15 lines)
+    │   │   ├── region.hcl                (4 dòng)
+    │   │   └── vpc/terragrunt.hcl        (15 dòng)
     │   ├── us-west-2/
     │   │   ├── region.hcl
     │   │   └── vpc/terragrunt.hcl
@@ -535,174 +558,176 @@ infrastructure/
     └── prod/...
 ```
 
-**Code reduction**: 15K lines → 200 lines module + 15 × 15 = 225 lines config = **~400 lines total**. **97% reduction**.
+Con số nói lên tất cả: từ ~15K dòng rút còn 200 dòng module + khoảng 15 × 15 = 225 dòng config, tổng cộng tầm **400 dòng** — giảm khoảng **97%**. Quan trọng hơn cả con số: từ nay sửa CIDR chỉ còn đúng một chỗ.
 
-### Migration workflow
+### Quy trình migrate
 
-1. **Audit existing**: list all current Terraform configs, identify common code.
-2. **Extract module**: copy `dev/us-east-1/vpc/main.tf` → `modules/vpc/main.tf`. Parameterize via variables.
-3. **Create live structure**: `live/dev/us-east-1/vpc/terragrunt.hcl` referencing module + dev/us-east-1 vars.
-4. **Test 1 env**: `terragrunt plan` should show no changes (state same).
-5. **Migrate state if needed**: if state path changes, use `terragrunt state mv`.
-6. **Repeat per env**.
-7. **Delete old folders**.
+Refactor không làm một phát mà đi từng bước, luôn giữ nguyên hiện trạng hạ tầng để không gây gián đoạn:
 
-### Promotion workflow
+1. **Khảo sát hiện trạng**: liệt kê toàn bộ config Terraform đang có, tìm phần code chung.
+2. **Tách module**: copy `dev/us-east-1/vpc/main.tf` sang `modules/vpc/main.tf`, tham số hoá bằng các `variable`.
+3. **Dựng cấu trúc live**: tạo `live/dev/us-east-1/vpc/terragrunt.hcl` trỏ tới module + biến dev/us-east-1.
+4. **Thử một env**: chạy `terragrunt plan`, kết quả phải là *no changes* (state không đổi) — đó là dấu hiệu refactor đúng.
+5. **Di trú state nếu cần**: nếu đường dẫn state thay đổi, dùng `terragrunt state mv`.
+6. **Lặp lại cho từng env**.
+7. **Xoá các folder cũ**.
 
-Dev updates module to `v1.3.0`:
+### Quy trình promote
+
+Khi muốn nâng module lên version mới, nguyên tắc là luôn chạy dev trước, prod sau. Dev nâng module lên `v1.3.0`:
+
 ```bash
 cd live/dev/us-east-1/vpc
-# Update ref=v1.3.0 in terragrunt.hcl
+# Sửa ref=v1.3.0 trong terragrunt.hcl
 terragrunt plan
 terragrunt apply
 ```
 
-If OK, promote staging:
+Nếu ổn, promote tiếp sang staging:
+
 ```bash
 cd live/staging/us-east-1/vpc
-# Update ref=v1.3.0
+# Sửa ref=v1.3.0
 terragrunt plan
 terragrunt apply
 ```
 
-Repeat regions + envs.
+Cứ thế lặp lại cho các region và env còn lại. Khi cần xử lý hàng loạt trong một env, dùng `run-all`:
 
-`run-all` for batch:
 ```bash
-cd live/dev   # dev only
+cd live/dev   # chỉ riêng dev
 terragrunt run-all plan
 ```
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `run-all destroy` accident
+### ❌ Cạm bẫy: lỡ tay `run-all destroy`
 
 ```bash
 cd live/prod
-terragrunt run-all destroy   # destroys ALL prod resources!
+terragrunt run-all destroy   # xoá SẠCH mọi resource của prod!
 ```
 
-→ Cluster gone in 5 minutes.
+→ Cả cluster biến mất chỉ trong vài phút.
 
 → **Fix**:
-- **Always `--terragrunt-non-interactive` removed** — require confirmation.
-- **RBAC**: `terraform destroy` permission only for specific roles.
-- **State backup**: S3 versioning + DynamoDB enable.
-- **No prod `run-all`** — apply individual modules only.
+- **Luôn yêu cầu xác nhận** — đừng để dính `--terragrunt-non-interactive` trên prod.
+- **RBAC**: quyền `terraform destroy` chỉ cấp cho role cụ thể.
+- **Backup state**: bật versioning cho S3 + DynamoDB.
+- **Không `run-all` trên prod** — chỉ apply từng module một.
 
-### ❌ Pitfall: Mock outputs different from real
+### ❌ Cạm bẫy: mock outputs lệch với thực tế
 
 ```hcl
 mock_outputs = {
   vpc_id = "vpc-12345"
-  subnet_ids = []                    # ← empty!
+  subnet_ids = []                    # ← rỗng!
 }
 ```
 
-→ `terragrunt plan` works, `apply` fails because EKS needs ≥2 subnets.
+→ `terragrunt plan` chạy qua ngon lành, nhưng `apply` chết vì EKS cần ít nhất 2 subnet.
 
-→ **Fix**: Mock outputs realistic. Test apply periodically.
+→ **Fix**: cho mock outputs sát thực tế (đúng kiểu, đủ phần tử). Thỉnh thoảng chạy apply thật để chắc mock không trôi xa hiện thực.
 
-### ❌ Pitfall: Circular dependency
+### ❌ Cạm bẫy: phụ thuộc vòng (circular dependency)
 
+```text
+A phụ thuộc B
+B phụ thuộc C
+C phụ thuộc A    ← vòng lặp!
 ```
-A depends on B
-B depends on C
-C depends on A    ← cycle!
-```
 
-→ `run-all apply` infinite loop / error.
+→ `run-all apply` lặp vô hạn hoặc báo lỗi.
 
-→ **Fix**: Refactor to break cycle. Often C → split into C1 (no A dep) + C2 (uses A).
+→ **Fix**: refactor để cắt vòng. Thường tách C thành C1 (không phụ thuộc A) + C2 (dùng A).
 
-### ❌ Pitfall: Manual `backend.tf` in module folder
+### ❌ Cạm bẫy: để `backend.tf` thủ công trong folder module
 
-```
+```text
 modules/vpc/
 ├── main.tf
-└── backend.tf      ← DON'T! Terragrunt generates this
+└── backend.tf      ← ĐỪNG! Terragrunt tự sinh file này
 ```
 
-→ Conflicts with Terragrunt `generate "backend"`.
+→ Xung đột với `generate "backend"` của Terragrunt.
 
-→ **Fix**: Module folder has NO `backend.tf` or `provider.tf`. Terragrunt generates per env.
+→ **Fix**: folder module KHÔNG được có `backend.tf` hay `provider.tf`. Terragrunt sinh chúng riêng cho từng env.
 
-### ❌ Pitfall: Hardcoded account_id in modules
+### ❌ Cạm bẫy: hardcode account_id / giá trị env trong module
 
 ```hcl
 # modules/vpc/main.tf
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"   # ← env-specific should be variable!
+  cidr_block = "10.0.0.0/16"   # ← thứ đặc thù env phải là biến!
 }
 ```
 
-→ Module not reusable across envs.
+→ Module không còn dùng lại được cho env khác.
 
-→ **Fix**: Make module parameterized. `variable "cidr_block" {}`.
+→ **Fix**: tham số hoá module: `variable "cidr_block" {}`.
 
-### ❌ Pitfall: Lock duration set too long
+### ❌ Cạm bẫy: đặt thời gian giữ lock quá lâu
 
 ```hcl
 remote_state {
   config = {
     dynamodb_table = "tflocks"
-    # No lock TTL!
+    # Không có lock TTL!
   }
 }
 ```
 
-→ Crashed apply leaves lock forever. Manual unlock needed.
+→ Một lần apply bị crash sẽ để lại lock vĩnh viễn, phải mở khoá tay.
 
-→ **Fix**: 
-- Terragrunt timeout: `--terragrunt-fetch-dependency-output-from-state` shorter timeout.
-- Manual unlock: `terragrunt force-unlock <lock-id>`.
-- Atlantis (next lesson) handles automatically.
+→ **Fix**:
+- Đặt timeout cho Terragrunt: `--terragrunt-fetch-dependency-output-from-state` với timeout ngắn hơn.
+- Mở khoá tay: `terragrunt force-unlock <lock-id>`.
+- Atlantis (xem bài kế) xử lý chuyện này tự động.
 
-### ❌ Pitfall: Module monorepo + git ref pointing branch
+### ❌ Cạm bẫy: ghim module vào branch thay vì tag
 
 ```hcl
-source = "git::...//vpc?ref=main"   # ← main moves!
+source = "git::...//vpc?ref=main"   # ← main luôn dịch chuyển!
 ```
 
-→ Same `terragrunt.hcl`, different apply over time. Reproducibility broken.
+→ Cùng một `terragrunt.hcl` nhưng apply ở hai thời điểm cho kết quả khác nhau. Mất khả năng tái lập (*reproducibility*).
 
-→ **Fix**: Always pin to **tag** or **commit SHA**:
+→ **Fix**: luôn ghim vào **tag** hoặc **commit SHA**:
+
 ```hcl
 source = "git::...//vpc?ref=v1.2.0"          # tag
 source = "git::...//vpc?ref=abc123def4567890" # SHA
 ```
 
-### ✅ Best practice: Use `dependency` over `data` source
+### ✅ Best practice: dùng `dependency` thay vì `data` source
 
 ```hcl
-# ❌ Use data source to read state
+# ❌ Dùng data source để đọc state
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = { bucket = "...", key = "..." }
 }
 
-# ✅ Use Terragrunt dependency
+# ✅ Dùng dependency của Terragrunt
 dependency "vpc" {
   config_path = "../vpc"
 }
 ```
 
-→ Dependency block: Terragrunt manages ordering, fail if VPC not applied yet (cleaner error).
+→ Khối `dependency` để Terragrunt tự lo thứ tự apply, và báo lỗi sạch hơn nếu VPC chưa được apply.
 
-### ✅ Best practice: Lock terragrunt version
+### ✅ Best practice: ghim version Terragrunt
 
-```hcl
+```text
 # .terragrunt-version
 0.55.0
 ```
 
-→ Tools like `tgenv` (Terragrunt env manager) install correct version per repo.
+→ Các công cụ như `tgenv` (trình quản lý version Terragrunt) sẽ cài đúng phiên bản cho từng repo, giúp cả team đồng nhất.
 
-→ Team consistency.
-
-### ✅ Best practice: Pre-commit hooks
+### ✅ Best practice: pre-commit hooks
 
 ```yaml
 # .pre-commit-config.yaml
@@ -716,85 +741,87 @@ repos:
       - id: terraform_tfsec
 ```
 
-→ Auto-format + validate + security scan before commit.
+→ Tự format + validate + quét bảo mật trước mỗi lần commit.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Terragrunt vs Terraform workspaces — chọn khi nào?
+Năm câu dưới chạm đúng những chỗ dễ nhầm nhất của Terragrunt. Bạn thử tự trả lời trước khi mở đáp án — đó là cách nhanh nhất để biết mình thật sự hiểu hay chỉ mới thấy quen.
+
+**Q1.** Terragrunt và Terraform workspaces — chọn cái nào, khi nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Workspaces** (basic Terraform):
-- Same backend, different state per workspace.
-- Same directory, switch via `terraform workspace`.
-- Variables via `<workspace>.tfvars`.
-- 1 provider config.
+**Workspaces** (Terraform cơ bản):
+- Cùng backend, mỗi workspace một state.
+- Cùng thư mục, chuyển bằng `terraform workspace`.
+- Biến qua file `<workspace>.tfvars`.
+- Một config provider duy nhất.
 
-**Best for**:
-- Simple multi-env (dev/staging/prod), same AWS account.
-- Same region (or region as variable).
-- Small team, < 5 modules.
+**Hợp với**:
+- Multi-env đơn giản (dev/staging/prod) trong cùng một tài khoản AWS.
+- Cùng region (hoặc region để làm biến).
+- Team nhỏ, dưới 5 module.
 
 **Terragrunt**:
-- Different backend per env (state isolation).
-- Different folders per env-region.
-- Different account/region configs.
-- Dependency management between modules.
+- Backend riêng cho từng env (cách ly state).
+- Folder riêng cho từng env-region.
+- Config account/region khác nhau.
+- Quản lý dependency giữa các module.
 
-**Best for**:
-- Multi-account (env in separate AWS accounts).
-- Multi-region with different config.
-- 10+ modules with dependencies.
-- Module versioning across envs (dev v1.3, prod v1.0).
+**Hợp với**:
+- Multi-account (mỗi env một tài khoản AWS riêng).
+- Multi-region với config khác nhau.
+- Trên 10 module có phụ thuộc lẫn nhau.
+- Versioning module khác nhau giữa các env (dev v1.3, prod v1.0).
 
-**Decision**:
-- **1 account, 1 region, < 5 modules**: workspaces.
-- **Multi-account OR multi-region OR > 10 modules**: Terragrunt.
+**Cách quyết**:
+- **1 account, 1 region, dưới 5 module**: dùng workspaces.
+- **Multi-account HOẶC multi-region HOẶC trên 10 module**: dùng Terragrunt.
 
-Hybrid: Terraform Cloud workspaces (different from `terraform workspace`) overlap with Terragrunt features.
+Lưu ý lai: Terraform Cloud workspaces (khác hẳn `terraform workspace`) có một số tính năng giẫm lên Terragrunt.
 
-Migration: workspaces → Terragrunt is straightforward (state copy + refactor structure).
+Việc chuyển từ workspaces sang Terragrunt khá thẳng băng: copy state + refactor lại cấu trúc thư mục.
 </details>
 
-**Q2.** Why generate `backend.tf` instead of putting in module?
+**Q2.** Vì sao nên sinh `backend.tf` thay vì đặt nó trong module?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Without Terragrunt** (backend in module):
-```
+**Không Terragrunt** (backend nằm trong module):
+```text
 modules/vpc/
 ├── main.tf
 └── backend.tf      # bucket = "...", key = "vpc/terraform.tfstate"
 ```
 
-→ Same backend for ALL envs! All envs share state. Conflict + dangerous.
+→ Cùng một backend cho MỌI env! Tất cả env dùng chung state — xung đột và cực kỳ nguy hiểm.
 
-**Workaround**: parameterize backend? Doesn't work — Terraform backend can't use variables.
+**Thử tham số hoá backend?** Không được — backend của Terraform không dùng được biến:
 
 ```hcl
-# DOES NOT WORK
+# KHÔNG CHẠY
 backend "s3" {
-  bucket = "${var.env}-tfstate"   # ERROR
+  bucket = "${var.env}-tfstate"   # LỖI
 }
 ```
 
-→ Backend config can't use variables (chicken-and-egg: need backend before init, vars come after).
+→ Config backend không cho dùng biến (con gà–quả trứng: cần backend trước khi init, mà biến lại có sau).
 
-**Workaround**: backend partial config + `-backend-config` flag:
+**Lách bằng** partial config + cờ `-backend-config`:
 ```bash
 terraform init -backend-config="bucket=acme-dev-tfstate"
 ```
 
-→ Works but manual + verbose.
+→ Chạy được nhưng thủ công và dài dòng.
 
-**Terragrunt solution**:
-- `generate "backend"` writes `backend.tf` in **current child folder** before `terraform init`.
-- Content from root `terragrunt.hcl` with interpolated values (path, env).
-- Per-env unique state automatically.
+**Cách của Terragrunt**:
+- `generate "backend"` ghi `backend.tf` ngay tại **folder con hiện tại** trước khi `terraform init`.
+- Nội dung lấy từ `terragrunt.hcl` gốc với các giá trị nội suy (path, env).
+- Mỗi env một state riêng, hoàn toàn tự động.
 
 ```hcl
 remote_state {
@@ -811,25 +838,25 @@ remote_state {
 }
 ```
 
-→ Each child folder gets correct backend, no manual config.
+→ Mỗi folder con được đúng backend của nó, không phải config tay.
 
-**Key insight**: Terragrunt sits OUTSIDE Terraform. Generates files Terraform reads. Avoid Terraform backend variable limitation.
+**Ý chốt**: Terragrunt đứng NGOÀI Terraform, sinh ra các file mà Terraform sẽ đọc — nhờ vậy né được giới hạn "backend không dùng biến" của Terraform.
 </details>
 
-**Q3.** Dependency `mock_outputs` — vì sao cần?
+**Q3.** `mock_outputs` trong `dependency` — vì sao cần?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Scenario**: brand new env (dev), no resources exist yet. Want to plan EKS.
+**Bối cảnh**: một env hoàn toàn mới (dev), chưa có resource nào. Bạn muốn plan EKS.
 
-EKS Terragrunt has `dependency "vpc"`. VPC not applied yet → state empty → `dependency.vpc.outputs.vpc_id` = undefined → plan fails.
+EKS Terragrunt có `dependency "vpc"`. VPC chưa apply → state rỗng → `dependency.vpc.outputs.vpc_id` không xác định → plan chết.
 
-**Mock outputs** solve:
+**Mock outputs** giải bài này:
 ```hcl
 dependency "vpc" {
   config_path = "../vpc"
-  
+
   mock_outputs = {
     vpc_id = "vpc-mock"
     private_subnet_ids = ["subnet-mock-1", "subnet-mock-2"]
@@ -838,134 +865,136 @@ dependency "vpc" {
 }
 ```
 
-→ Plan can render templates with mock values. Apply requires real (mock_outputs not used for apply).
+→ Plan render được template với giá trị mock. Apply thì cần giá trị thật (mock không dùng cho apply).
 
-**Workflow**:
-1. `terragrunt plan` EKS → uses mock_outputs → shows what EKS WILL create.
-2. Realize need VPC first.
-3. `terragrunt apply` VPC → real outputs available.
-4. `terragrunt apply` EKS → uses real VPC outputs.
+**Quy trình**:
+1. `terragrunt plan` EKS → dùng mock_outputs → cho thấy EKS SẼ tạo gì.
+2. Nhận ra cần VPC trước.
+3. `terragrunt apply` VPC → có output thật.
+4. `terragrunt apply` EKS → dùng output VPC thật.
 
-**`mock_outputs_allowed_terraform_commands`** restricts mock use to safe commands (plan, validate). Apply/destroy must use real outputs.
+**`mock_outputs_allowed_terraform_commands`** giới hạn mock chỉ cho các lệnh an toàn (plan, validate). Apply/destroy buộc phải dùng output thật.
 
 **Best practice**:
-- Mock outputs **realistic** (real-looking IDs, valid CIDR, etc.).
-- Mock outputs match types (list vs scalar).
-- Test full apply periodically to ensure mocks don't drift from reality.
+- Mock outputs **sát thực tế** (ID trông thật, CIDR hợp lệ...).
+- Mock outputs đúng kiểu (list vs scalar).
+- Định kỳ chạy apply đầy đủ để mock không trôi xa thực tế.
 
-→ Mock outputs = developer convenience for planning across not-yet-applied modules.
+→ Mock outputs = tiện ích để lập trình viên plan được qua các module chưa apply.
 </details>
 
-**Q4.** `run-all` parallel limits — gì cần biết?
+**Q4.** Giới hạn chạy song song của `run-all` — cần biết gì?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**`terragrunt run-all apply`** behavior:
-- Scans all `terragrunt.hcl` recursively.
-- Builds dependency graph.
-- Applies in **topological order** (dependencies first).
-- **Parallelizes independent modules** at same level.
+**Hành vi của `terragrunt run-all apply`**:
+- Quét đệ quy mọi `terragrunt.hcl`.
+- Dựng đồ thị phụ thuộc.
+- Apply theo **thứ tự topo** (dependency trước).
+- **Chạy song song** các module độc lập ở cùng một tầng.
 
-**Default parallelism**: all independent modules at once.
+**Mặc định**: mọi module độc lập chạy cùng lúc.
 
-**Issues**:
+**Các vấn đề**:
 
-1. **AWS API rate limits**: 100+ modules applied in parallel → API throttling.
+1. **Rate limit của AWS API**: 100+ module apply song song → bị throttle.
 
 ```bash
-# Limit parallelism
+# Giới hạn song song
 terragrunt run-all apply --terragrunt-parallelism 5
 ```
 
-2. **Lock collision**: 2 modules same DynamoDB lock → wait.
+2. **Đụng lock**: 2 module cùng một lock DynamoDB → phải chờ.
 
-3. **Resource limits**: each Terraform process = ~100MB RAM. 50 modules = 5GB. CI runner OOM.
+3. **Giới hạn tài nguyên**: mỗi process Terraform ngốn ~100MB RAM. 50 module = 5GB → CI runner OOM.
 
-4. **Network**: 50 parallel `terraform init` downloads providers concurrently.
+4. **Mạng**: 50 lệnh `terraform init` song song tải provider cùng lúc.
 
-**Solutions**:
-- `--terragrunt-parallelism N` — cap concurrency.
-- Group apply by stage (prod-vpc → all → prod-eks → all → prod-apps).
-- Atlantis (next lesson) queue apply intelligently.
+**Giải pháp**:
+- `--terragrunt-parallelism N` — chặn mức song song.
+- Gom apply theo từng giai đoạn (prod-vpc → cả cụm → prod-eks → cả cụm → prod-apps).
+- Atlantis (bài kế) xếp hàng apply một cách thông minh.
 
-**Production pattern**: Atlantis runs `terragrunt plan/apply` per module, not `run-all`. Avoids cascade risk.
+**Pattern cho production**: Atlantis chạy `terragrunt plan/apply` cho từng module, không dùng `run-all`, để tránh rủi ro đổ dây chuyền.
 
-**`run-all` good for**:
-- Local development (apply all in dev quickly).
-- Disaster recovery (rebuild from scratch in DR region).
-- New env bootstrap.
+**`run-all` hợp cho**:
+- Phát triển cục bộ (apply nhanh cả env dev).
+- Khôi phục thảm hoạ (dựng lại từ đầu ở region DR).
+- Bootstrap env mới.
 
-**`run-all` bad for**:
-- Production apply (use Atlantis with explicit PR).
-- Destroy operations (use module-by-module).
+**`run-all` không hợp cho**:
+- Apply production (dùng Atlantis với PR tường minh).
+- Thao tác destroy (làm từng module một).
 
-→ `run-all` is power tool. Use intentionally.
+→ `run-all` là công cụ mạnh. Dùng có chủ đích.
 </details>
 
-**Q5.** Module versioning via Git tag — how rollback?
+**Q5.** Versioning module bằng git tag — rollback ra sao?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Scenario**: dev applied module v1.3.0, broke something. Need rollback to v1.2.0.
+**Bối cảnh**: dev đã apply module v1.3.0, vỡ một thứ gì đó. Cần rollback về v1.2.0.
 
-**Step 1**: Update terragrunt.hcl:
+**Bước 1**: sửa terragrunt.hcl:
 ```hcl
 source = "git::...//vpc?ref=v1.2.0"
 ```
 
-**Step 2**: 
+**Bước 2**:
 ```bash
 cd live/dev/us-east-1/vpc
 terragrunt plan
 ```
 
-Terragrunt:
-- Downloads v1.2.0 of module.
-- Reads current state (was applied with v1.3.0).
-- Diff: shows changes to revert from v1.3.0 → v1.2.0.
+Terragrunt sẽ:
+- Tải v1.2.0 của module.
+- Đọc state hiện tại (đang ở v1.3.0).
+- Diff: cho thấy các thay đổi để revert từ v1.3.0 → v1.2.0.
 
-**Step 3**:
+**Bước 3**:
 ```bash
 terragrunt apply
 ```
 
-Applies reverse changes.
+Áp dụng các thay đổi ngược lại.
 
-**Caveats**:
+**Lưu ý**:
 
-1. **Destructive operations possible**: v1.3.0 added column to RDS, v1.2.0 doesn't have → `terraform plan` shows column drop. **Loss of data**.
+1. **Có thể dính thao tác phá huỷ**: v1.3.0 thêm cột vào RDS, v1.2.0 không có → `terraform plan` báo drop cột. **Mất dữ liệu**.
 
-   Fix: Add `lifecycle { prevent_destroy = true }` on critical resources.
+   Cách phòng: thêm `lifecycle { prevent_destroy = true }` cho resource trọng yếu.
 
-2. **Resource recreation**: some changes (e.g., subnet CIDR) require destroy + recreate. Downtime.
+2. **Tái tạo resource**: vài thay đổi (ví dụ đổi CIDR subnet) buộc phải destroy + recreate → gián đoạn.
 
-   Fix: `lifecycle { create_before_destroy = true }` where possible.
+   Cách phòng: dùng `lifecycle { create_before_destroy = true }` ở nơi có thể.
 
-3. **State migration**: v1.3.0 added new output. v1.2.0 doesn't. `terragrunt apply` removes output → other dependent modules break.
+3. **Di trú state**: v1.3.0 thêm output mới, v1.2.0 không có. `terragrunt apply` xoá output đó → các module phụ thuộc vỡ theo.
 
-   Fix: Phased rollback. Update dependent modules first.
+   Cách phòng: rollback theo từng giai đoạn. Cập nhật các module phụ thuộc trước.
 
 **Best practice**:
-- **Test in dev first** before promoting tag to prod.
-- **Tag every release** for easy rollback.
-- **Document breaking changes** in module CHANGELOG.
-- **Major version bump** for breaking changes (SemVer).
+- **Thử ở dev trước** khi promote tag lên prod.
+- **Tag mọi release** để rollback dễ.
+- **Ghi breaking change** vào CHANGELOG của module.
+- **Bump major version** cho breaking change (theo SemVer).
 
-**Disaster recovery**:
-- S3 versioning on state bucket = restore previous state file if needed.
-- Combined with git revert of terragrunt.hcl = full rollback path.
+**Khôi phục thảm hoạ**:
+- Versioning S3 trên bucket state = khôi phục lại state file cũ khi cần.
+- Kết hợp với git revert của terragrunt.hcl = đường rollback đầy đủ.
 
-→ Module versioning + state versioning = safety net for prod IaC changes.
+→ Versioning module + versioning state = lưới an toàn cho mọi thay đổi IaC trên prod.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo nhóm: lệnh Terragrunt cơ bản, `run-all`, thao tác state, mẫu `terragrunt.hcl`, và các hàm dựng sẵn hay dùng.
 
 ```bash
-# === Terragrunt basics ===
+# === Terragrunt cơ bản ===
 terragrunt --version
 terragrunt init
 terragrunt plan
@@ -981,20 +1010,20 @@ terragrunt run-all apply --terragrunt-parallelism 5
 terragrunt run-all apply --terragrunt-include-dir live/dev
 terragrunt run-all apply --terragrunt-exclude-dir live/prod
 
-# === State commands ===
+# === Lệnh state ===
 terragrunt state list
 terragrunt state show <resource>
 terragrunt state mv <source> <dest>
 terragrunt state rm <resource>
 terragrunt force-unlock <lock-id>
 
-# === Inspect dependency graph ===
+# === Xem đồ thị phụ thuộc ===
 terragrunt graph-dependencies
-# Output: DAG of all modules
+# Output: DAG của mọi module
 ```
 
 ```hcl
-# === terragrunt.hcl template ===
+# === Mẫu terragrunt.hcl ===
 include "root" {
   path = find_in_parent_folders()
 }
@@ -1022,7 +1051,7 @@ inputs = {
 ```
 
 ```bash
-# === Built-in functions ===
+# === Hàm dựng sẵn ===
 get_aws_account_id()
 get_terraform_command()
 get_terraform_commands_that_need_locking()
@@ -1035,53 +1064,56 @@ read_terragrunt_config("file.hcl")
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Terragrunt** | Wrapper around Terraform for DRY config |
-| **Terraform module** | Reusable Terraform code (variables + resources + outputs) |
-| **`live/` folder** | Per-env Terragrunt config |
-| **`modules/` folder** | Reusable Terraform module code |
-| **`terragrunt.hcl`** | Per-folder Terragrunt config file |
-| **`include` block** | Inherit parent terragrunt.hcl config |
-| **`generate` block** | Auto-write file (backend.tf/provider.tf) before Terraform |
-| **`dependency` block** | Reference outputs of another module |
-| **`mock_outputs`** | Fake values for plan when dependency not applied yet |
-| **`run-all`** | Apply across multiple modules in dependency order |
-| **Topological order** | Order respecting dependencies (DAG) |
-| **`source`** | Reference Terraform module location (local/git/registry) |
-| **Module versioning** | Pin module to specific tag/SHA |
-| **Cross-account** | Multi-AWS-account setup with assume role |
-| **DRY** | Don't Repeat Yourself principle |
-| **`find_in_parent_folders()`** | Built-in: walk up tree to find file |
-| **`path_relative_to_include()`** | Path from root config to current |
-| **driftctl** | OSS drift detection tool (next lesson) |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Terragrunt** | Lớp bọc Terraform | Wrapper quanh Terraform để giữ config DRY |
+| **Terraform module** | Module Terraform | Code Terraform tái sử dụng (variables + resources + outputs) |
+| **`live/` folder** | Thư mục `live/` | Config Terragrunt theo từng env |
+| **`modules/` folder** | Thư mục `modules/` | Code module Terraform tái sử dụng |
+| **`terragrunt.hcl`** | File config Terragrunt | File config Terragrunt cho từng folder |
+| **`include` block** | Khối `include` | Kế thừa config từ `terragrunt.hcl` cha |
+| **`generate` block** | Khối `generate` | Tự sinh file (backend.tf/provider.tf) trước khi chạy Terraform |
+| **`dependency` block** | Khối `dependency` | Tham chiếu output của module khác |
+| **`mock_outputs`** | Giá trị giả | Giá trị giả cho `plan` khi dependency chưa apply |
+| **`run-all`** | Chạy toàn cụm | Apply nhiều module theo thứ tự phụ thuộc |
+| **Topological order** | Thứ tự topo | Thứ tự tôn trọng dependency (theo DAG) |
+| **`source`** | Nguồn module | Vị trí module Terraform (local/git/registry) |
+| **Module versioning** | Đánh version module | Ghim module vào tag/SHA cụ thể |
+| **Cross-account** | Xuyên tài khoản | Thiết lập nhiều tài khoản AWS với assume role |
+| **DRY** | Đừng lặp lại | Don't Repeat Yourself — nguyên tắc tránh trùng lặp |
+| **`find_in_parent_folders()`** | Hàm tìm file cha | Built-in: đi ngược lên cây thư mục tìm file |
+| **`path_relative_to_include()`** | Đường dẫn tương đối | Path từ config gốc tới folder hiện tại |
+| **driftctl** | Công cụ dò drift | Công cụ OSS phát hiện drift (xem bài kế) |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_intermediate-overview.md](00_intermediate-overview.md)
-- → Tiếp: [02_atlantis-gitops-for-iac.md](02_atlantis-gitops-for-iac.md) *(sắp viết)*
-- ↑ Cluster: [IaC README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🏗️ [Basic Modules & Workspaces](../01_basic/03_modules-and-workspaces.md)
-- ☸️ [K8s Helm sub-charts](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — same DRY concept
+- ⬅️ **Bài trước:** [IaC Intermediate — Từ "terraform apply local" đến "GitOps infra"](00_intermediate-overview.md)
+- ➡️ **Bài tiếp theo:** [Atlantis — GitOps cho Terraform/Terragrunt](02_atlantis-gitops-for-iac.md)
+- ↑ **Về cụm:** [IaC — Infrastructure as Code](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ⬅️ **Bài trước:** [Modules & Multi-env — DRY + Reusability](../01_basic/03_modules-and-workspaces.md) — nền tảng module trước khi lên Terragrunt
+- ☸️ [Helm — Package manager cho K8s](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — cùng tư tưởng DRY cho hạ tầng
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Terragrunt docs](https://terragrunt.gruntwork.io/)
 - 📖 [Gruntwork Terragrunt Examples](https://github.com/gruntwork-io/terragrunt-infrastructure-live-example)
 - 📖 [Terragrunt Best Practices](https://terragrunt.gruntwork.io/docs/getting-started/best-practices/)
-- 📖 [terragrunt-atlantis-config](https://github.com/transcend-io/terragrunt-atlantis-config) — bridge tool
+- 📖 [terragrunt-atlantis-config](https://github.com/transcend-io/terragrunt-atlantis-config) — công cụ cầu nối
 - 📖 [pre-commit-terraform](https://github.com/antonbabenko/pre-commit-terraform)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install + Standard layout + Workflow + Key features.
-
-- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. Terragrunt vs workspaces + `live/` + `modules/` structure + root + account + region + child terragrunt.hcl + generate backend/provider + dependency block + run-all + module versioning + multi-account assume role + migration workflow. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. Terragrunt vs workspaces + cấu trúc `live/` + `modules/` + root + account + region + child terragrunt.hcl + generate backend/provider + dependency block + run-all + module versioning + multi-account assume role + migration workflow. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in trước Install + Standard layout + Workflow + Key features.
+- **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thay các đoạn "điện tín" tiếng Anh (concept, vs workspaces, key features, result, benefits, toàn bộ 5 self-check) bằng câu văn mạch WHY→WHAT→HOW có lời dẫn trước và phân tích sau mỗi code/bảng; Việt hoá metadata "Yêu cầu trước" và mục tiêu; chuyển khối So-sánh workspaces từ bullet sang bảng; Việt hoá heading nav (⬅️/➡️/↑ + link-text = tiêu đề H1 thực) và 3 sub-heading chuẩn; xoá nhãn "(sắp viết)" cho bài Atlantis đã tồn tại; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); Việt hoá comment trong code/output. Giữ nguyên 100% code/lệnh/config/số liệu/flag và cấu trúc 8 phần.

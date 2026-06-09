@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Không có (bài đầu tiên cho người mới bắt đầu)
 
 > 🎯 *Trước khi bắt tay học lập trình, bạn cần hiểu thực sự "chiếc hộp sắt" trước mặt bạn hoạt động như thế nào. Bài này giúp bạn hiểu từ dòng điện nhị phân 0 và 1, cấu trúc phần cứng CPU/RAM, đến cách mã nguồn (code) của bạn được biên dịch thành mệnh lệnh cho máy tính chạy.*
@@ -115,7 +114,7 @@ graph TD
 
 ---
 
-## 💡 Cạm bẫy thường gặp (Pitfalls)
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### ❌ Lầm tưởng: Máy tính tự nhiên thông minh
 - **Triệu chứng**: Bạn nghĩ rằng máy tính có tư duy như con người, tự hiểu bạn muốn làm gì.
@@ -127,7 +126,7 @@ graph TD
 
 ---
 
-## 🧠 Câu hỏi ôn tập (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1. Tại sao RAM có tốc độ đọc ghi cực nhanh nhưng người ta không dùng RAM để làm ổ cứng lưu trữ mọi dữ liệu luôn?**
 <details>
@@ -169,8 +168,8 @@ Vì hai lý do cốt lõi:
 ## 🔗 Liên kết & Tài nguyên
 
 ### Bài tiếp theo trong lộ trình
-- [Bản đồ ngành CNTT — Bạn đang ở đâu?](../../industry-landscape/lessons/01_basic/00_what-is-it-industry.md)
-- [Terminal là gì & các lệnh Linux đầu tiên](../../computing-environment/lessons/01_basic/00_what-is-terminal.md)
+- [Bản đồ ngành CNTT — Bạn đang ở đâu?](../../../industry-landscape/lessons/01_basic/00_what-is-it-industry.md)
+- [Terminal là gì & các lệnh Linux đầu tiên](../../../computing-environment/lessons/01_basic/00_what-is-terminal.md)
 
 ### Tài nguyên ngoài nên xem
 - [Video: How Computers Work (Code.org)](https://www.youtube.com/playlist?list=PLzdnOPI1iJNcsDrewIlpsG75rji30gpJK) — Loạt video cực kỳ trực quan về máy tính.

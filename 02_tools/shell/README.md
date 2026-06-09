@@ -81,7 +81,6 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 ## 🤝 Muốn viết bài cho chủ đề này?
 
 1. **Xác nhận scope**: bài có thuộc shell-as-tool? Nếu thuộc Linux/OS → đặt vào `04_os/linux/`
-2. Đọc [`../../_blueprint/README.md`](../../_blueprint/README.md)
 3. Copy template phù hợp:
    - Setup → `setup_template.md`
    - Lesson tool feature → `lesson_template.md`
@@ -90,9 +89,9 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.4.0 (21/05/2026)** — **Move `00_what-is-terminal.md`** sang `01_foundations/computing-environment/lessons/01_basic/`. Lý do: terminal/shell là concept tính toán nền tảng → thuộc Foundations. Folder này giờ chỉ còn shell-as-tool features (zsh customize, scripting, aliases) — chưa có content. Tool guide từng terminal emulator (iTerm/Kitty/Alacritty/Warp) sẽ ở `02_tools/terminal-emulators/`.
-- **v0.3.0 (16/05/2026)** — Refactor scope theo Blueprint v0.5 §3.2ter: move 3 lessons (navigation, file-operations, view-content) sang `04_os/linux/` (vì là lệnh POSIX, không phải shell-tool features). Reframe folder này focus shell-as-tool: terminal apps, customize, scripting.
-- **v0.2.0 (16/05/2026)** — Refactor `00_terminal-fundamentals.md` thành 4 bài.
 - **v0.1.0 (16/05/2026)** — Skeleton + bài terminal đầu tiên.
+- **v0.2.0 (16/05/2026)** — Refactor `00_terminal-fundamentals.md` thành 4 bài.
+- **v0.3.0 (16/05/2026)** — Refactor scope theo Blueprint v0.5 §3.2ter: move 3 lessons (navigation, file-operations, view-content) sang `04_os/linux/` (vì là lệnh POSIX, không phải shell-tool features). Reframe folder này focus shell-as-tool: terminal apps, customize, scripting.
+- **v0.4.0 (21/05/2026)** — **Move `00_what-is-terminal.md`** sang `01_foundations/computing-environment/lessons/01_basic/`. Lý do: terminal/shell là concept tính toán nền tảng → thuộc Foundations. Folder này giờ chỉ còn shell-as-tool features (zsh customize, scripting, aliases) — chưa có content. Tool guide từng terminal emulator (iTerm/Kitty/Alacritty/Warp) sẽ ở `02_tools/terminal-emulators/`.

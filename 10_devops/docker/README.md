@@ -13,7 +13,7 @@
 
 Sau khi đi qua chủ đề này, bạn sẽ:
 - [x] Hiểu bản chất Container vs VM và kiến trúc Docker
-- [x] Quản lý container thành thạo thông qua bộ lệnh CRUD container
+- [x] Quản lý container thành thạo qua các lệnh theo vòng đời container
 - [x] Tự viết Dockerfile tối ưu để đóng gói ứng dụng cá nhân
 - [x] Thiết lập môi trường chạy đa dịch vụ (App + DB + Cache) qua Docker Compose
 - [x] Nắm vững các kỹ thuật tăng tốc build với BuildKit & Advanced Multi-stage
@@ -26,14 +26,14 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 ## 📂 Cấu trúc Chương trình học
 
 ### ⚙️ Setup — Cài đặt ban đầu
-*   ✅ 🌟 [`setup/install-docker.md`](./setup/install-docker.md) — Cài đặt Docker Desktop & Engine trên macOS, Windows, Linux và kiểm tra cài đặt.
+- ✅ 🌟 [`setup/install-docker.md`](./setup/install-docker.md) — Cài đặt Docker Desktop & Engine trên macOS, Windows, Linux và kiểm tra cài đặt.
 
 ### 📖 Lessons Basic — Quy trình cơ bản (4 bài)
 
 | # | Bài học | Loại | Trạng thái | Nội dung chính |
 |---|---|---|---|---|
 | **00** | [`What is Docker`](./lessons/01_basic/00_what-is-docker.md) | 🌱 Intro | ✅ 🌟 | Tại sao có Docker, Container khác VM thế nào, mô hình Image/Container/Registry. |
-| **01** | [`Images & Containers`](./lessons/01_basic/01_images-and-containers.md) | 🌳 Lesson | ✅ 🌟 | Dạy **8 lệnh CRUD container** cơ bản dùng hàng ngày (pull, run, stop, exec, etc.). |
+| **01** | [`Images & Containers`](./lessons/01_basic/01_images-and-containers.md) | 🌳 Lesson | ✅ 🌟 | Các lệnh điều khiển Image & Container theo vòng đời (pull, run, ps, stop, start, logs, exec, stats...). |
 | **02** | [`Dockerfile basics`](./lessons/01_basic/02_dockerfile-basics.md) | 🌳 Lesson | ✅ 🌟 | Dạy cách viết Dockerfile từ base image để tự build image cho ứng dụng của bạn. |
 | **03** | [`Docker Compose`](./lessons/01_basic/03_docker-compose.md) | 🌳 Lesson | ✅ 🌟 | Dạy cách thiết lập và điều phối cụm multi-container app bằng 1 file YAML duy nhất. |
 
@@ -51,9 +51,9 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ## 🚀 Lộ trình đề xuất
 
-*   🟢 **Beginner (Chưa biết gì):** Học tuần tự: [Setup](./setup/install-docker.md) → [Bài 00](./lessons/01_basic/00_what-is-docker.md) → Bài 01 → Bài 02 → Bài 03.
-*   🟡 **Đã biết cơ bản nhưng muốn tối ưu:** Tập trung học ngay cụm **Lessons Intermediate (00 - 04)** để nắm kỹ năng thu nhỏ image và bảo mật nâng cao.
-*   🧭 **Lộ trình DevOps chuyên nghiệp:** Hoàn thành toàn bộ 10 bài học này làm bước đệm bắt buộc trước khi chuyển sang học Kubernetes.
+- **Mới bắt đầu với Docker:** Học tuần tự: [Setup](./setup/install-docker.md) → [Bài 00](./lessons/01_basic/00_what-is-docker.md) → Bài 01 → Bài 02 → Bài 03.
+- **Muốn tối ưu cho production:** Vào thẳng cụm **Lessons Intermediate (00 - 04)** để nắm kỹ năng thu nhỏ image và bảo mật nâng cao.
+- **Theo lộ trình DevOps:** Hoàn thành toàn bộ 10 bài làm bước đệm trước khi chuyển sang học Kubernetes.
 
 ---
 
@@ -68,7 +68,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (26/05/2026)** — Cập nhật mục lục đầy đủ bao gồm cả cấu phần Basic và cụm bài học Intermediate Production-ready.
 - **v0.1.0 (16/05/2026)** — Bản khởi sinh sơ bộ chỉ chứa lộ trình Basic.
+- **v1.0.0 (26/05/2026)** — Cập nhật mục lục đầy đủ bao gồm cả cấu phần Basic và cụm bài học Intermediate Production-ready.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [00_what-is-terminal.md](./00_what-is-terminal.md), [02_filesystem-concept.md](./02_filesystem-concept.md)
 
 > 🎯 *Bài CONCEPT — hiểu **process là gì** + **PID** + **parent/child tree** + **trạng thái** + **signal** (SIGTERM/SIGKILL). KHÔNG dạy lệnh (`ps`/`kill`/`top` cụ thể xem [`04_os/linux/lessons/01_basic/`](../../../../04_os/linux/lessons/01_basic/) — bài chưa có). Bài này dạy bạn HIỂU vì sao có "process zombie", vì sao `Ctrl+C` đôi khi không hoạt động.*
@@ -283,9 +282,9 @@ disown      # tách khỏi shell — terminal đóng không kill process
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `kill -9` cho mọi thứ
+### ❌ Cạm bẫy: `kill -9` cho mọi thứ
 
 ```bash
 kill -9 1234   # ❌ "Cứ -9 cho chắc"
@@ -298,7 +297,7 @@ kill -9 1234   # ❌ "Cứ -9 cho chắc"
   - State trong memory mất hết (chưa kịp save)
 - **Cách tránh**: thử `kill <PID>` (SIGTERM) trước. Đợi 5-10s. Chỉ `-9` nếu thực sự kẹt.
 
-### ❌ Pitfall: Process zombie tích lũy
+### ❌ Cạm bẫy: Process zombie tích lũy
 
 ```bash
 ps aux | awk '$8 == "Z" {print}'
@@ -311,7 +310,7 @@ ps aux | awk '$8 == "Z" {print}'
   - Restart parent (zombie sẽ được PID 1 adopt + cleanup)
   - Fix code parent: gọi `wait()` sau khi child xong (Python: `subprocess.wait()`)
 
-### ❌ Pitfall: Đóng terminal làm chết process
+### ❌ Cạm bẫy: Đóng terminal làm chết process
 
 ```bash
 python long-training.py &
@@ -320,7 +319,7 @@ python long-training.py &
 
 - **Cách tránh**: dùng `nohup`, `disown`, hoặc `tmux`/`screen`
 
-### ❌ Pitfall: Run multiple instance app cùng port
+### ❌ Cạm bẫy: Run multiple instance app cùng port
 
 ```bash
 python app.py &     # PID 1234 listen port 5000
@@ -351,7 +350,7 @@ signal.signal(signal.SIGINT, cleanup)
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Bạn chạy `python myapp.py` 3 lần (3 terminal). Có mấy program? Có mấy process?
 
@@ -416,7 +415,7 @@ Nhược: tốn RAM (mỗi process ~50-200 MB overhead).
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -445,7 +444,7 @@ Nhược: tốn RAM (mỗi process ~50-200 MB overhead).
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -478,7 +477,7 @@ Nhược: tốn RAM (mỗi process ~50-200 MB overhead).
 | 📚 Lệnh `ps`/`top`/`kill` cụ thể | `04_os/linux/lessons/01_basic/` (chưa có bài process) |
 | 🐳 Process trong Docker container | [10_devops/docker/lessons/01_basic/01_images-and-containers.md](../../../../10_devops/docker/lessons/01_basic/01_images-and-containers.md) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Linux Process Management](https://www.digitalocean.com/community/tutorials/how-to-use-ps-kill-and-nice-to-manage-processes-in-linux) — DigitalOcean guide
 - [The Twelve-Factor App — IX. Disposability](https://12factor.net/disposability) — graceful shutdown chuẩn
@@ -487,7 +486,7 @@ Nhược: tốn RAM (mỗi process ~50-200 MB overhead).
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 5 lead-in trước bảng/code/diagram (Program vs Process, PID 1, pstree output, 5 trạng thái, Zombie sequence diagram).
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster basic computing-environment 4/6 bài. Cover: Program vs Process, PID, parent/child tree với mermaid, PID 1 (systemd/launchd/Docker), 4 trạng thái + Zombie, signal (SIGTERM/SIGKILL/SIGINT/SIGSTOP/SIGCONT/SIGHUP), foreground/background + nohup/disown, process trong Docker context, 4 pitfall + 4 self-check + cheatsheet signal table.
+- **v1.1.0 (24/05/2026)** — Thêm 5 lead-in trước bảng/code/diagram (Program vs Process, PID 1, pstree output, 5 trạng thái, Zombie sequence diagram).

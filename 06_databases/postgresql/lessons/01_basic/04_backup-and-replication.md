@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [psql & Meta-commands](01_psql-and-meta-commands.md)
 
 > 🎯 *Master Postgres production essentials: **`pg_dump`** + **`pg_restore`** (logical backup), **`pg_basebackup`** (physical), **streaming replication** (HA + read replica), **WAL + PITR** intro, **3-2-1 backup rule**, schedule cron + monitoring. Sau bài này tự tin chạy Postgres production.*
@@ -191,7 +190,7 @@ pg_restore -d myapp_restored -j 4 backup.dump
 psql -d myapp_restored -c "SELECT COUNT(*) FROM users;"
 ```
 
-### bạn restore sau disaster
+### Restore sau sự cố
 
 ```bash
 # Last backup yesterday 2 AM
@@ -498,7 +497,7 @@ pgbackrest --stanza=main restore \
 
 ---
 
-## 8️⃣ bạn's production setup
+## 8️⃣ Production setup tham khảo
 
 ### Architecture
 
@@ -554,7 +553,7 @@ prometheus + postgres_exporter
 
 ---
 
-## 9️⃣ Bạn fix disaster
+## 9️⃣ Quy trình fix disaster
 
 ```bash
 # DELETE FROM users; xảy ra 14:32:01
@@ -584,7 +583,7 @@ kubectl scale deployment myapp --replicas=3
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Backup chưa test restore** → corrupt, không restore được. Monthly drill.
 2. **Backup local same disk** → disk fail mất cả 2. 3-2-1 rule.
@@ -594,7 +593,7 @@ kubectl scale deployment myapp --replicas=3
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **logical** (pg_dump) và **physical** (pg_basebackup) backup?
 2. **3-2-1 rule** = gì?
@@ -618,7 +617,7 @@ kubectl scale deployment myapp --replicas=3
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### pg_dump
 
@@ -697,17 +696,17 @@ pgbackrest --stanza=main restore --type=time --target='2026-05-23 14:31:59'
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [JSONB & Arrays](03_jsonb-and-arrays.md)
-- ↑ Cluster: [postgresql README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [JSONB, Arrays & Full-text — Postgres killer features](03_jsonb-and-arrays.md)
+- ↑ **Về cụm:** [postgresql README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [systemd timer thay cron](../../../../04_os/linux/lessons/02_intermediate/01_systemd-services.md#9️⃣-timer-units--thay-thế-cron) — scheduling backup
 - [Linux SSH](../../../../04_os/linux/lessons/02_intermediate/02_ssh-deep-dive.md) — manage backups across servers
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Postgres backup docs](https://www.postgresql.org/docs/current/backup.html)
 - 📖 [pgBackRest docs](https://pgbackrest.org/)
 - 📖 [PostgreSQL High Availability — Tatiana Krupenya](https://highavailability.network/) — concepts
@@ -720,8 +719,7 @@ pgbackrest --stanza=main restore --type=time --target='2026-05-23 14:31:59'
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 "2 loại backup" + Logical pg_dump pros/cons (Việt hoá "Pros/Cons" → "Ưu/Nhược") + Physical pg_basebackup + §2 4 format pg_dump + Options. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 5/5. Cover: logical (pg_dump 4 format + pg_dumpall) + pg_restore + physical (pg_basebackup) + PITR (WAL archive + recovery_target_time) + streaming replication setup + logical replication + monitor lag + backup strategy (3-2-1) + production checklist.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 "2 loại backup" + Logical pg_dump ưu/nhược + Physical pg_basebackup + §2 4 format pg_dump + Options. Chuẩn hoá tiêu đề mục. Thêm Changelog section.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *SSH > basic. Học **key types** (RSA/ed25519), **`~/.ssh/config`** chuẩn, **SSH agent** (đỡ gõ passphrase), **tunneling** (local/remote/dynamic), **`scp`/`rsync`/`sshfs`** transfer file, **hardening** server (disable root, fail2ban), **debug** SSH lỗi.*
@@ -159,13 +158,13 @@ cat ~/.ssh/id_ed25519.pub | ssh user@vps "mkdir -p ~/.ssh && cat >> ~/.ssh/autho
 
 Host vps1
     HostName vps1.acmeshop.vn
-    User long
+    User deploy
     Port 22
     IdentityFile ~/.ssh/id_ed25519
 
 Host vps2
     HostName 198.51.100.22
-    User long
+    User deploy
     Port 2222
     IdentityFile ~/.ssh/id_vps2_specific
 
@@ -177,7 +176,7 @@ Host prod-*
 
 Host bastion
     HostName bastion.acmeshop.vn
-    User long
+    User deploy
 
 Host github.com
     User git
@@ -527,7 +526,7 @@ debug1: Authentication succeeded (publickey).
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`PasswordAuthentication yes` production** → brute force dễ. Force key-only.
 2. **`PermitRootLogin yes`** → attacker biết username = root. **Always no**.
@@ -537,7 +536,7 @@ debug1: Authentication succeeded (publickey).
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Loại key SSH **modern + an toàn** nhất 2026?
 2. Sinh + copy public key lên server bằng lệnh gì?
@@ -558,13 +557,13 @@ debug1: Authentication succeeded (publickey).
 3. ```
    Host vps1
        HostName vps1.x.com
-       User long
+       User deploy
        Port 22
        IdentityFile ~/.ssh/id_ed25519
 
    Host bastion
        HostName bastion.x.com
-       User long
+       User deploy
 
    Host prod
        HostName prod.x.com
@@ -579,7 +578,7 @@ debug1: Authentication succeeded (publickey).
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Daily commands
 
@@ -602,7 +601,7 @@ Host *
 
 Host vps1
     HostName vps1.example.com
-    User long
+    User deploy
     IdentityFile ~/.ssh/id_ed25519
 
 Host prod
@@ -612,7 +611,7 @@ Host prod
 
 Host bastion
     HostName bastion.example.com
-    User long
+    User deploy
 ```
 
 ### Transfer
@@ -659,18 +658,18 @@ scp vps:/path/file ./                   rsync --progress huge.tar vps:/tmp/
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [systemd Services](01_systemd-services.md)
-- → Tiếp: [Package Management](03_package-management.md)
-- ↑ Cluster: [linux README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [systemd Services — Biến app thành service production](01_systemd-services.md)
+- ➡️ **Bài tiếp theo:** [Package Management — apt, dnf, snap, dependency, security updates](03_package-management.md)
+- ↑ **Về cụm:** [linux README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [TCP/IP ports/sockets/firewall](../../../../05_networking/tcp-ip-fundamentals/lessons/01_basic/03_ports-sockets-firewall.md) — port 22, firewall SSH
-- [git over SSH](../../../../01_foundations/version-control/git/) — git push/pull qua SSH key
+- [git over SSH](../../../../02_tools/git/) — git push/pull qua SSH key
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [OpenSSH manual](https://man.openbsd.org/ssh)
 - 📖 [SSH best practices — Mozilla](https://infosec.mozilla.org/guidelines/openssh)
 - 📖 [DigitalOcean: SSH essentials](https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys)
@@ -681,6 +680,6 @@ scp vps:/path/file ./                   rsync --progress huge.tar vps:/tmp/
 
 > 🎯 *Sau bài này bạn quản lý fleet 10+ server thuần thục. Bài kế tiếp dạy **package management** — apt/dnf/snap, dependency hell, security updates.*
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.2.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm ẩn dụ "bộ chìa khoá cao cấp" cho SSH keys, 2 lead-in trước bảng thuật toán + ssh-keygen command. Fix `user@laptop` → `user@laptop` (fictional residue).
+- **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "bộ chìa khoá cao cấp" cho SSH keys, 2 lời dẫn trước bảng thuật toán + lệnh ssh-keygen. Chuẩn hóa username trong ví dụ.

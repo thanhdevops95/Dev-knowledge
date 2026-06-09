@@ -5,7 +5,7 @@
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 23/05/2026\
 > **Loại:** Tool category — overview + so sánh + khuyến nghị\
-> **Đọc trước:** [Git là gì](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — phân biệt Git (tool) vs Git hosting (platform)
+> **Đọc trước:** [Git là gì](../git/lessons/01_basic/00_what-is-git.md) — phân biệt Git (tool) vs Git hosting (platform)
 
 > 🎯 *Bạn đã biết Git (concept VCS), giờ cần chọn **nền tảng cloud** để host repo + collab team. File này so sánh 5 lựa chọn chính (GitHub/GitLab/Bitbucket/Codeberg/Gitea) + recommend theo profile. Chi tiết từng platform → file riêng (`github.md`, `gitlab.md`, ...).*
 
@@ -32,7 +32,7 @@ Search Google "git hosting": GitHub, GitLab, Bitbucket, Codeberg, Gitea, Sourceh
 
 **Git hosting** = nền tảng cloud cho phép bạn **lưu Git repo từ xa** + cung cấp **web UI + tool collab** xung quanh.
 
-Không phải Git. Git là **tool VCS chạy local** (xem [Git lesson 00](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md)). Git hosting là **dịch vụ cloud** dùng Git làm backbone, thêm:
+Không phải Git. Git là **tool VCS chạy local** (xem [Git lesson 00](../git/lessons/01_basic/00_what-is-git.md)). Git hosting là **dịch vụ cloud** dùng Git làm backbone, thêm:
 
 | Service | Mô tả |
 |---|---|
@@ -117,7 +117,7 @@ Không phải Git. Git là **tool VCS chạy local** (xem [Git lesson 00](../../
 - Tích hợp Copilot, GitHub Actions, GitHub Pages
 - Cộng đồng VN lớn → dễ hỏi khi vướng
 
-→ Cài chi tiết: [📄 github.md](./github.md) (chưa có) — account, 2FA, SSH key, PR workflow, GitHub Actions
+→ Cài chi tiết: [📄 github.md](./github.md) — account, 2FA, SSH key, PR workflow, GitHub Actions
 
 ### 🟡 Case 2: Team / Startup ≤ 5 người
 
@@ -137,7 +137,7 @@ Không phải Git. Git là **tool VCS chạy local** (xem [Git lesson 00](../../
 - Audit log, IAM phức tạp, SSO/SAML, complitance (SOC2, HIPAA)
 - Đặc biệt phù hợp **công ty không muốn code ở cloud bên ngoài** (banking, healthcare, gov)
 
-→ Cài chi tiết: [📄 gitlab.md](./gitlab.md) (chưa có)
+→ Cài chi tiết: [📄 gitlab.md](./gitlab.md)
 
 ### 🟣 Case 4: CI/CD heavy + DevOps focused
 
@@ -169,7 +169,7 @@ Không phải Git. Git là **tool VCS chạy local** (xem [Git lesson 00](../../
 - "GitHub-lite" — UI quen thuộc
 - Phù hợp solo dev / homelab muốn full control
 
-→ Cài chi tiết: [📄 gitea.md](./gitea.md) (chưa có)
+→ Cài chi tiết: [📄 gitea.md](./gitea.md)
 
 ### 🟤 Case 7: Mở rộng thị trường Trung Quốc
 
@@ -224,12 +224,12 @@ AI coding trở thành **dealbreaker** cho nhiều team. Bảng đối chiếu:
 
 | Tool | User guide |
 |---|---|
-| **GitHub** | [📄 github.md](./github.md) (chưa có) — account, 2FA, SSH, PR, Actions, Pages |
-| **GitHub Desktop** | [📄 github-desktop.md](./github-desktop.md) (chưa có) — GUI cho người ghét CLI |
-| **GitLab** | [📄 gitlab.md](./gitlab.md) (chưa có) — cloud + self-host |
-| **Bitbucket** | [📄 bitbucket.md](./bitbucket.md) (chưa có) — Jira integration |
-| **Codeberg** | [📄 codeberg.md](./codeberg.md) (chưa có) — non-profit OSS |
-| **Gitea** | [📄 gitea.md](./gitea.md) (chưa có) — self-host lightweight |
+| **GitHub** | [📄 github.md](./github.md) — account, 2FA, SSH, PR, Actions, Pages |
+| **GitHub Desktop** | [📄 github-desktop.md](./github-desktop.md) — GUI cho người ghét CLI |
+| **GitLab** | [📄 gitlab.md](./gitlab.md) — cloud + self-host |
+| **Bitbucket** | [📄 bitbucket.md](./bitbucket.md) — Jira integration |
+| **Codeberg** | [📄 codeberg.md](./codeberg.md) — non-profit OSS |
+| **Gitea** | [📄 gitea.md](./gitea.md) — self-host lightweight |
 
 ---
 
@@ -277,16 +277,16 @@ Cần đọc Terms of Service:
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
 ### Trong kho
 
-- 🎓 [Git là gì](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — Git concept (đọc trước)
-- 🎓 [Git Remote + GitHub](../../01_foundations/version-control/git/lessons/01_basic/03_remote-and-github.md) — bài lesson đồng nghiệp join project
+- ⬅️ **Bài trước:** [Git là gì? — Máy thời gian cho code của bạn](../git/lessons/01_basic/00_what-is-git.md) — Git concept (đọc trước)
+- 🎓 [Git Remote + GitHub](../git/lessons/01_basic/02_remote-and-github-basic.md) — bài lesson đồng nghiệp join project
 - 🧭 [Zero to Coder Roadmap](../../00_roadmaps/career/zero-to-coder_career-roadmap.md) — Stage 1 cài git + tạo GitHub account
 - 🛠️ [02_tools README](../README.md) — danh sách tool category khác
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [GitHub Docs](https://docs.github.com/) — chính thức, đầy đủ nhất
 - [GitLab Docs](https://docs.gitlab.com/) — chính thức
@@ -298,6 +298,6 @@ Cần đọc Terms of Service:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool category git-clients hoàn chỉnh. Cover: 7 platform (GitHub/GitLab/Bitbucket/Codeberg/Gitea/Sourcehut/Gitee) + bảng so sánh 14 tiêu chí 5 chính + 7 case khuyến nghị + vendor lock-in section + AI integration 2026 + 5 FAQ + link sang 6 file tool individual sẽ viết.

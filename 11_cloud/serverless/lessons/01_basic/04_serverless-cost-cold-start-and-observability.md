@@ -1,13 +1,12 @@
 # 💰 Serverless — Cost, Cold Start, Observability
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
-> **Level:** Basic (bài 04/5)\
+> **Cập nhật:** 01/06/2026\
+> **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** Bài [03_serverless-patterns-and-anti-patterns](03_serverless-patterns-and-anti-patterns.md) ✅
+> **Yêu cầu trước:** Bài [Serverless patterns & anti-patterns](03_serverless-patterns-and-anti-patterns.md) ✅
 
 > 🎯 *Bài 04 (cuối basic). Hai chủ đề kết thúc serverless basic: **cost** (pricing 4 vendor, hidden cost, optimization) + **cold start** (mechanics, mitigation, trade-off) + **observability** (3 pillars trong serverless context). Hands-on so sánh cost Lambda vs Cloud Run cho 1 workload thật + setup OTel cho function.*
 
@@ -40,17 +39,17 @@ Bài này dạy decision framework + tooling.
 
 ## 1️⃣ Pricing model 4 vendor
 
-🪞 **Ẩn dụ**: *Pricing serverless như **đi taxi tính tiền**: 4 hãng có cách tính khác nhau — Lambda tính theo "thời gian × hộc đèn taxi" (memory size), Cloud Functions tương tự, Cloud Run linh hoạt hơn (chỉ tính khi xe có khách = concurrent request), Cloudflare Workers tính theo "số chuyến" (request count) — chuyến rất rẻ nhưng giới hạn 50ms CPU.*
+🪞 **Ẩn dụ**: *Pricing serverless như **đi taxi tính tiền**: 4 hãng có cách tính khác nhau — Lambda tính theo "thời gian × hộc đèn taxi" (memory size), Cloud Functions tương tự, Cloud Run linh hoạt hơn (chỉ tính khi xe có khách = concurrent request), Cloudflare Workers tính theo "số chuyến" (request count) — chuyến rất rẻ, mỗi request được tới 30s CPU trên gói Standard.*
 
 ### Bảng so sánh 2026
 
 | Vendor | Pricing dimensions | Free tier/tháng | Price per 1M req | Notes |
 |---|---|---|---|---|
 | **AWS Lambda** | Invocation + GB-second + data egress | 1M req + 400k GB-s | $0.20/M req + $0.0000166667/GB-s | Arm (Graviton) rẻ 20% |
-| **GCP Cloud Functions Gen2** | Invocation + vCPU-s + GiB-s + egress | 2M req | $0.40/M req + $0.0000024/vCPU-s | Gen2 tính như Cloud Run |
+| **GCP Cloud Functions Gen2** | Invocation + vCPU-s + GiB-s + egress | 2M req | $0.40/M req + $0.000024/vCPU-s | Gen2 tính như Cloud Run |
 | **GCP Cloud Run** | Request + vCPU-s + GiB-s | 2M req + 360k GB-s | $0.40/M req + $0.000024/vCPU-s (request-based) | Idle CPU không tính nếu min=0 |
 | **Azure Functions Consumption** | Execution + GB-s + egress | 1M execution + 400k GB-s | $0.20/M + $0.000016/GB-s | Premium plan flat |
-| **Cloudflare Workers** | Request only | 100k req/ngày (free) | $0.30/M req (Paid plan, 10M included $5) | 50ms CPU limit standard |
+| **Cloudflare Workers** | Request only | 100k req/ngày (free) | $0.30/M req (Paid plan, 10M included $5) | 30s CPU/request (Standard); free ~10ms |
 | **Cloudflare Workers Unbound** | Request + CPU duration | — | $0.30/M req + $12.50/M GB-s | Long-running compute |
 
 ### Tính ví dụ — API 10M req/tháng, avg 200ms, 512 MB
@@ -69,10 +68,10 @@ Bài này dạy decision framework + tooling.
 - **Total: ~$54/tháng**
 
 **Cloudflare Workers**:
-- Request: 10M × $0.30/M = **$3.00** (nếu nằm trong 50ms CPU)
+- Request: 10M × $0.30/M = **$3.00** (gói Standard tính theo request, CPU thực tế thấp)
 - **Total: ~$3/tháng** + bundled plan $5 = **$5/tháng**
 
-→ **Lambda thường rẻ nhất** cho event-driven workload < 1s. **Workers rẻ nhất** cho lightweight (< 50ms CPU). **Cloud Run** rẻ nhất khi traffic ổn định + concurrency cao (tận dụng max-concurrency-per-instance).
+→ **Lambda thường rẻ nhất** cho event-driven workload < 1s. **Workers rẻ nhất** cho lightweight (CPU/request thấp, logic ngắn ở edge). **Cloud Run** rẻ nhất khi traffic ổn định + concurrency cao (tận dụng max-concurrency-per-instance).
 
 ### Break-even — Serverless vs container always-on
 
@@ -430,59 +429,59 @@ Deploy thay đổi, đợi 7 ngày, so sánh:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### 1. Provisioned concurrency trên function ít dùng
+### ❌ Cạm bẫy: Provisioned concurrency trên function ít dùng
 
-**Bẫy**: Set provisioned=5 cho function gọi 1 lần/giờ → trả tiền 5 instance 24/7 vô ích.
+Set provisioned=5 cho function gọi 1 lần/giờ → trả tiền 5 instance 24/7 vô ích.
 
-**Fix**: Provisioned chỉ cho function gọi > 1 req/s sustained.
+✅ **Best practice**: Provisioned chỉ cho function gọi > 1 req/s sustained.
 
-### 2. Memory thấp = nghĩ rẻ → thực ra đắt
+### ❌ Cạm bẫy: Memory thấp tưởng rẻ nhưng hoá đắt
 
-**Bẫy**: Lambda 128 MB max CPU 0.08 vCPU → handler chạy chậm 4x → tổng GB-s đắt hơn.
+Lambda 128 MB max CPU 0.08 vCPU → handler chạy chậm 4x → tổng GB-s đắt hơn.
 
-**Fix**: Test với 512/1024/2048 MB, chọn sweet spot (thường 512-1024 MB).
+✅ **Best practice**: Test với 512/1024/2048 MB, chọn sweet spot (thường 512-1024 MB).
 
-### 3. X-Ray sample 100% production
+### ❌ Cạm bẫy: X-Ray sample 100% trong production
 
-**Bẫy**: Trace ingest $5/M, 100M req = $500/tháng chỉ cho trace.
+Trace ingest $5/M, 100M req = $500/tháng chỉ cho trace.
 
-**Fix**: Sample 1% + always sample error.
+✅ **Best practice**: Sample 1% + always sample error.
 
-### 4. Log INFO mọi thứ trong prod
+### ❌ Cạm bẫy: Log INFO mọi thứ trong prod
 
-**Bẫy**: 1 GB log/ngày × $0.50 = $15/tháng. Scale 10x → $150.
+1 GB log/ngày × $0.50 = $15/tháng. Scale 10x → $150.
 
-**Fix**: WARN+ trong prod; structured + sampling.
+✅ **Best practice**: WARN+ trong prod; structured + sampling.
 
-### 5. Cold start lo lắng quá độ
+### ❌ Cạm bẫy: Lo lắng cold start quá độ
 
-**Bẫy**: Provisioned concurrency cho mọi function → cost balloon.
+Bật provisioned concurrency cho mọi function → cost balloon.
 
-**Fix**: Đo cold start ratio trước. Nếu < 5% → không cần provisioned.
+✅ **Best practice**: Đo cold start ratio trước. Nếu < 5% → không cần provisioned.
 
-### 6. Không có retry/DLQ cho async invocation
+### ❌ Cạm bẫy: Không có retry/DLQ cho async invocation
 
-**Bẫy**: SQS message gọi Lambda, function fail → message vào "void".
+SQS message gọi Lambda, function fail → message vào "void".
 
-**Fix**: SQS DLQ cấu hình; Lambda destination on failure.
+✅ **Best practice**: SQS DLQ cấu hình; Lambda destination on failure.
 
-### 7. Container reuse assumption sai
+### ❌ Cạm bẫy: Giả định container reuse sai
 
-**Bẫy**: Code outer scope assume singleton, sau cold start lại chạy → race condition.
+Code outer scope assume singleton, sau cold start lại chạy → race condition.
 
-**Fix**: Idempotent init; document outer scope vs inner scope clearly.
+✅ **Best practice**: Idempotent init; tách rõ outer scope vs inner scope.
 
-### 8. Egress cost qua API Gateway
+### ❌ Cạm bẫy: Egress cost qua API Gateway
 
-**Bẫy**: Mobile app pull large JSON 500 KB × 1M req = 500 GB egress × $0.09 = $45.
+Mobile app pull large JSON 500 KB × 1M req = 500 GB egress × $0.09 = $45.
 
-**Fix**: Compression (Brotli/gzip), pagination, CDN cache, GraphQL gửi đúng field cần.
+✅ **Best practice**: Compression (Brotli/gzip), pagination, CDN cache, GraphQL gửi đúng field cần.
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Tính cost Lambda + Cloud Run + Workers cho workload 10M req?
 - [ ] Liệt kê 5 hidden cost không nằm trong sticker price?
@@ -495,43 +494,46 @@ Deploy thay đổi, đợi 7 ngày, so sánh:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Cold start** | Latency khi runtime init từ container mới |
-| **Warm start** | Container đã sẵn, chỉ chạy handler |
-| **Provisioned Concurrency** | (Lambda) pre-warm N instance, pay always-on |
-| **Min instances** | (Cloud Run/Functions) tương đương |
-| **GB-second** | Đơn vị tính compute: memory × duration |
-| **vCPU-second** | (Cloud Run) đơn vị CPU |
-| **EMF** | Embedded Metric Format — log JSON CloudWatch tự extract metric |
-| **X-Ray** | AWS distributed tracing |
-| **OTel** | OpenTelemetry — vendor-neutral observability |
-| **SnapStart** | Lambda Java snapshot init state |
-| **Graviton** | AWS Arm CPU — 20% rẻ + thường nhanh hơn |
-| **Native AOT** | Ahead-of-Time compile (.NET, Java GraalVM) |
-| **DLQ** | Dead Letter Queue — message không deliver được |
-| **Container reuse** | Lambda dùng lại container cho invocation kế tiếp |
-| **Init duration** | Time spent in INIT phase (billed in Lambda) |
-| **Bundle size** | Zip + dependencies trong deploy package |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Cold start** | Khởi động nguội | Độ trễ khi runtime phải init từ container mới |
+| **Warm start** | Khởi động nóng | Container đã sẵn, chỉ chạy handler |
+| **Provisioned Concurrency** | Năng lực dự phòng (Lambda) | Pre-warm N instance, trả phí always-on |
+| **Min instances** | Số instance tối thiểu | (Cloud Run/Functions) tương đương Provisioned Concurrency |
+| **GB-second** | GB-giây | Đơn vị tính compute: memory × duration |
+| **vCPU-second** | vCPU-giây | (Cloud Run) đơn vị tính CPU |
+| **EMF** | Định dạng metric nhúng | Embedded Metric Format — log JSON để CloudWatch tự extract metric |
+| **X-Ray** | Tracing AWS | AWS distributed tracing |
+| **OTel** | OpenTelemetry | Bộ chuẩn observability vendor-neutral |
+| **SnapStart** | Snapshot init (Java) | Lambda chụp snapshot trạng thái init để giảm cold start Java |
+| **Graviton** | CPU Arm của AWS | Rẻ ~20% + thường init nhanh hơn |
+| **Native AOT** | Biên dịch trước khi chạy | Ahead-of-Time compile (.NET, Java GraalVM) |
+| **DLQ** | Hàng đợi thư chết | Dead Letter Queue — nơi chứa message không deliver được |
+| **Container reuse** | Tái dùng container | Lambda dùng lại container cho invocation kế tiếp |
+| **Init duration** | Thời lượng init | Thời gian ở INIT phase (Lambda tính tiền phần này) |
+| **Bundle size** | Kích thước gói deploy | Zip + dependencies trong deploy package |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_serverless-patterns-and-anti-patterns](03_serverless-patterns-and-anti-patterns.md)
-- ↑ Cluster Serverless: [Serverless README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md)
-- ☁️ [GCP Cloud Functions + Cloud Run](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md)
+- ⬅️ **Bài trước:** [Serverless Patterns & Anti-patterns — Khi nào dùng, khi nào tránh](03_serverless-patterns-and-anti-patterns.md)
+- ↑ **Về cụm:** [Serverless](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [Lambda + API Gateway — Nhập môn Serverless](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md)
+- ☁️ [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md)
 - 💰 [Cloud Cost Management](../../../cloud-cost-management/)
-- 📊 [Observability basic](../../../../10_devops/observability/)
-- 🔁 [OTel instrumentation intermediate](../../../../10_devops/observability/lessons/02_intermediate/03_opentelemetry-instrumentation.md)
+- 📊 [Observability](../../../../10_devops/observability/)
+- 🔁 [OpenTelemetry instrumentation — Spans + Context propagation + Sampling](../../../../10_devops/observability/lessons/02_intermediate/03_opentelemetry-instrumentation.md)
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [AWS Lambda Pricing](https://aws.amazon.com/lambda/pricing/)
 - 📖 [GCP Cloud Run Pricing](https://cloud.google.com/run/pricing)
 - 📖 [Cloudflare Workers Pricing](https://developers.cloudflare.com/workers/platform/pricing/)
@@ -543,6 +545,7 @@ Deploy thay đổi, đợi 7 ngày, so sánh:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Serverless. Pricing 4 vendor + break-even + hidden cost (NAT/egress/log) + cold start anatomy + 4 mitigation strategy + 3 pillars observability (log/metric/trace) + sampling + debug workflow + hands-on audit Acme Shop bill + 8 pitfalls. Hoàn thành Serverless basic cluster.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước, Level bỏ hậu tố "(bài 04/5)"); sửa số liệu Cloudflare Workers CPU "50ms" → "30s/request (Standard)" cho khớp bài 00/01; sửa giá Cloud Functions Gen2 vCPU-s thiếu số 0 ($0.0000024 → $0.000024); đổi 8 cạm bẫy sang dạng "❌ Cạm bẫy / ✅ Best practice"; Glossary chuyển 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); nav đồng bộ marker ⬅️/↑ + link-text = tiêu đề thực + 3 sub-heading chuẩn.

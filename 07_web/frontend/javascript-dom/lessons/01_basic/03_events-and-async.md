@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [DOM Manipulation](02_dom-manipulation.md)
 
 > 🎯 *Master events: **`addEventListener`** + 20+ event types, **bubbling + delegation**, **`preventDefault`/`stopPropagation`**. Plus async: **`setTimeout`/`setInterval`**, **Promise**, **`async/await`** + error handling. Sau bài này write JS interactive đầy đủ.*
@@ -672,7 +671,7 @@ function debounce(fn, delay) {
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Quên `e.preventDefault()` cho form submit** → page reload, mất data. Always có khi handle bằng JS.
 2. **Anonymous listener không remove được** → cleanup leak. Dùng named function hoặc AbortController.
@@ -686,7 +685,7 @@ function debounce(fn, delay) {
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. `addEventListener` vs `onclick=""` — chọn cái nào, vì sao?
 2. **Event delegation** giải quyết vấn đề gì?
@@ -710,7 +709,7 @@ function debounce(fn, delay) {
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Event basics
 
@@ -793,14 +792,14 @@ const throttled = throttle(fn, 100);    // max 1/100ms
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [DOM Manipulation](02_dom-manipulation.md)
-- → Tiếp: [Fetch API & Modules](04_fetch-and-modules.md)
-- ↑ Cluster: [javascript-dom README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [DOM Manipulation — JS điều khiển HTML](02_dom-manipulation.md)
+- ➡️ **Bài tiếp theo:** [Fetch API & ES Modules — Gọi backend + Code modular](04_fetch-and-modules.md)
+- ↑ **Về cụm:** [javascript-dom README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — Events](https://developer.mozilla.org/en-US/docs/Web/Events)
 - 📖 [MDN — Using Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 - 📖 [javascript.info — Promises, async/await](https://javascript.info/async)
@@ -813,8 +812,7 @@ const throttled = throttle(fn, 100);    // max 1/100ms
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 addEventListener Cơ bản + vs onclick cũ + Remove listener + Options + AbortController. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 4/5. Cover: addEventListener + 20+ event types (click/input/submit/keyboard/mouse/touch) + event bubbling + delegation + preventDefault + stopPropagation + Promise + async/await + setTimeout/setInterval + microtask vs task queue.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục addEventListener cơ bản, so sánh onclick cũ, Remove listener, Options, AbortController. Thêm mục Changelog.

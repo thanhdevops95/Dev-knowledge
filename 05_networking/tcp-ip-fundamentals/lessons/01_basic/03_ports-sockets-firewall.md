@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [TCP vs UDP](02_tcp-vs-udp.md)
 
 > 🎯 *Hiểu **port** (số cổng), **well-known ports**, **socket** = (IP, port) tuple, ephemeral port range, và **firewall** cơ bản (`ufw`, `iptables`, AWS Security Group). Sau bài này bạn fix được 80% lỗi "Connection refused".*
@@ -46,7 +45,7 @@ Bạn ngơ:
 - **Port 5432** ở đâu cần mở?
 - **Firewall** ở đâu — VPS hay máy local?
 
-→ Bài này dạy bạn (và bạn) **port + socket + firewall** đầy đủ.
+→ Bài này dạy bạn **port + socket + firewall** đầy đủ.
 
 ---
 
@@ -357,7 +356,7 @@ Internet → ALB SG → ALB → EC2 SG → EC2 OS firewall (iptables) → app
 | **No route to host** | Routing fail — định tuyến không có path tới đích |
 | **Network unreachable** | Local interface không kết nối được mạng |
 
-### Bạn debug case — port 5432 timeout
+### Debug case — port 5432 timeout
 
 ```
 Step 1: ping IP        → OK = server up, layer 3 OK
@@ -379,7 +378,7 @@ ss -tlnp | grep 5432
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Bind `0.0.0.0` trên Postgres/MySQL/Redis production** → expose ra Internet, **bị tấn công** trong 24h. Hoặc bind `127.0.0.1` + SSH tunnel, hoặc bind private IP + SG strict.
 2. **Mở "all traffic" trong AWS SG cho debug** → quên đóng = exposed forever. Always strict.
@@ -389,7 +388,7 @@ ss -tlnp | grep 5432
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Range port 0-65535 — chia 3 vùng nào? Vùng nào cần `sudo` bind?
 2. Phân biệt **listening** và **connected** socket. Bao nhiêu socket cho 100 user truy cập đồng thời 1 web server port 443?
@@ -461,7 +460,7 @@ nc -uz host port                # L4 UDP check
 curl -v https://host            # L7 (HTTP)
 ```
 
-### bạn's quick troubleshoot
+### Quy trình troubleshoot nhanh
 
 ```
 1. ping IP                 → fail? Layer 3 / route / firewall L3
@@ -494,17 +493,17 @@ curl -v https://host            # L7 (HTTP)
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [TCP vs UDP](02_tcp-vs-udp.md)
-- → Tiếp: [Network Tools](04_network-tools.md)
-- ↑ Cluster: [tcp-ip-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [TCP vs UDP — 2 giao thức Layer 4 quan trọng nhất](02_tcp-vs-udp.md)
+- ➡️ **Bài tiếp theo:** [Network Tools — `ping`, `traceroute`, `ss`, `tcpdump`, `nmap` & friends](04_network-tools.md)
+- ↑ **Về cụm:** [tcp-ip-fundamentals README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTP headers](../../../http-https/lessons/01_basic/03_http-headers.md) — CORS thực thi ở Layer 7, không phải firewall L4
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [IANA Service Name and Transport Protocol Port Registry](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml)
 - 📖 [UFW Ubuntu wiki](https://help.ubuntu.com/community/UFW)
 - 📖 [iptables tutorial — Frozentux](https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html) — classic
@@ -518,6 +517,6 @@ curl -v https://host            # L7 (HTTP)
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 "3 vùng port" bảng + §2 TCP well-known bảng + §2 UDP well-known bảng + §3 "Xem sockets ss/netstat" code + §3 "Bind 0.0.0.0 vs 127.0.0.1" comparison. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 ("3 vùng port"), §2 (TCP/UDP well-known), §3 ("Xem sockets ss/netstat" + "Bind 0.0.0.0 vs 127.0.0.1"). Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 4/5. Cover: port 16-bit + 3 vùng (well-known/registered/ephemeral) → 20+ TCP + 8 UDP well-known port → socket 5-tuple + listening vs connected → `ss`/`netstat` + bind 0.0.0.0 vs 127.0.0.1 → firewall layer (iptables, ufw, AWS SG, K8s NetPol) → Connection refused vs timeout debug.

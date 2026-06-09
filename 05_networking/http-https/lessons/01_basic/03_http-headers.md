@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Headers là **metadata** kèm theo HTTP request/response. Bài này dạy **4 nhóm headers** chính: Content (type/length/encoding), Auth (Bearer/Basic/JWT), Cache (Cache-Control/ETag), **CORS** (giải thích vì sao browser block cross-origin). Sau bài này bạn config CORS không cần Google nữa.*
@@ -172,10 +171,10 @@ const userId = decoded.sub;
 ### Basic auth — Legacy
 
 ```http
-Authorization: Basic bG9uZzpwYXNzMTIz
+Authorization: Basic YWRtaW46cGFzczEyMw==
 ```
 
-- `Basic <base64(username:password)>`
+- `Basic <base64(username:password)>` (ví dụ trên là `admin:pass123`)
 - KHÔNG encrypt — base64 dễ decode. **CHỈ dùng qua HTTPS**.
 - Hiện chỉ dùng cho:
   - Internal admin panel đơn giản
@@ -200,8 +199,8 @@ Cookie: session_id=abc123; theme=dark
 
 - Server set qua `Set-Cookie` response header
 - Browser tự đính kèm mỗi request cùng domain
-- **Pros**: simple, secure (HttpOnly flag), no JS access
-- **Cons**: cross-domain khó (cần CORS + credentials), không scale stateless
+- **Ưu điểm**: simple, secure (HttpOnly flag), no JS access
+- **Nhược điểm**: cross-domain khó (cần CORS + credentials), không scale stateless
 
 ### WWW-Authenticate (response challenge)
 
@@ -440,18 +439,18 @@ Permissions-Policy: geolocation=(), camera=()
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Quên `Content-Type: application/json`
+### ❌ Cạm bẫy: Quên `Content-Type: application/json`
 
 ```bash
-curl -X POST /api/users -d '{"name":"bạn"}'
+curl -X POST /api/users -d '{"name":"Nguyen Van A"}'
 → 400 (server parse JSON fail vì Content-Type default form-urlencoded)
 ```
 
 **Fix**: luôn set khi gửi JSON.
 
-### ❌ Pitfall: CORS `*` + `credentials: true`
+### ❌ Cạm bẫy: CORS `*` + `credentials: true`
 
 ```http
 Access-Control-Allow-Origin: *
@@ -461,7 +460,7 @@ Access-Control-Allow-Credentials: true
 
 **Fix**: dùng origin cụ thể với credentials.
 
-### ❌ Pitfall: Cache static asset không có hash filename
+### ❌ Cạm bẫy: Cache static asset không có hash filename
 
 ```html
 <link rel="stylesheet" href="/app.css">       ← KHÔNG hash
@@ -475,7 +474,7 @@ Access-Control-Allow-Credentials: true
 <link rel="stylesheet" href="/app.a3b7c2.css">  ← Đổi name = browser load mới
 ```
 
-### ❌ Pitfall: Lưu JWT trong localStorage
+### ❌ Cạm bẫy: Lưu JWT trong localStorage
 
 ```javascript
 localStorage.setItem('token', jwt);    // ❌ XSS attack đọc được
@@ -489,7 +488,7 @@ Set-Cookie: token=...; HttpOnly; Secure; SameSite=Strict
 
 → JS không read được (HttpOnly), chỉ HTTPS (Secure), không cross-site (SameSite).
 
-### ❌ Pitfall: Trust `X-Forwarded-For` blindly
+### ❌ Cạm bẫy: Trust `X-Forwarded-For` blindly
 
 Client có thể fake header này. Backend trust → log IP sai → bị bypass IP-based rate limit.
 
@@ -507,7 +506,7 @@ Client có thể fake header này. Backend trust → log IP sai → bị bypass 
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** `Content-Type` vs `Accept` khác nhau?
 
@@ -524,7 +523,7 @@ POST /users HTTP/1.1
 Content-Type: application/json        ← body tôi gửi là JSON
 Accept: application/json              ← muốn nhận JSON response
 
-{"name": "bạn"}
+{"name": "Nguyen Van A"}
 ```
 
 Response có `Content-Type` riêng:
@@ -586,7 +585,7 @@ Set-Cookie: token=...; HttpOnly; Secure; SameSite=Strict
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Common request headers
 
@@ -624,7 +623,7 @@ app.use(cors({
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -648,9 +647,9 @@ app.use(cors({
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [02_http-status-codes.md](./02_http-status-codes.md) |
-| ➡️ Bài tiếp | [04_https-tls.md](./04_https-tls.md) (chưa có) — HTTPS + TLS |
+| ➡️ Bài tiếp | [04_https-tls.md](./04_https-tls.md) — HTTPS + TLS |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [MDN HTTP Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) — chính thức
 - [MDN CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) — đầy đủ về CORS
@@ -660,8 +659,7 @@ app.use(cors({
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước Tình huống CORS error block, §1 bảng "4 nhóm chính", §2 Content-Type MIME list + "Content-Type matters" example + Multipart upload block. Fix placeholder `"name":"bạn"` → `"name":"Nguyen Van A"` (Blueprint v0.5.7 §3.5). Nội dung kỹ thuật giữ nguyên.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 4/6. Cover: tình huống bạn 5 CORS errors → §1 Header concept + 4 nhóm → §2 Content (Content-Type 9 MIME + multipart upload) → §3 Auth (Bearer/Basic/API key/Cookie) → §4 Cache (Cache-Control directives + ETag mermaid + static asset best practice) → §5 **CORS** (SOP, simple vs preflight với mermaid, server config code 3 framework, 4 pitfalls) → §6 Custom headers + security headers. 5 pitfall + 3 self-check.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước Tình huống CORS, §1 bảng "4 nhóm chính", §2 (Content-Type MIME list + ví dụ "Content-Type matters" + multipart upload). Chuẩn hoá ví dụ placeholder `"name":"Nguyen Van A"`. Nội dung kỹ thuật giữ nguyên.

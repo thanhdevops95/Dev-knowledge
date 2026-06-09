@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Advanced\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [00_undo-and-recovery.md](./00_undo-and-recovery.md) ✅
 
 > 🎯 *Bài học "hồi sinh" tối thượng — Khám phá sức mạnh của chiếc hộp đen ghi lại mọi vết tích hoạt động của HEAD trong Git. Sau bài học này, bạn sẽ nắm giữ trong tay tấm bùa hộ mệnh tối cao để cứu vãn mọi thảm họa mất code tồi tệ nhất, ngay cả khi bạn nghĩ rằng dữ liệu đã bị xóa vĩnh viễn khỏi ổ cứng!*
@@ -166,7 +165,7 @@ Output thực tế:
 
 ---
 
-## 🧠 Câu hỏi ôn tập (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1: Nếu tôi sửa code ở Working Directory (chưa git add và chưa commit lần nào) rồi lỡ tay gõ `git reset --hard HEAD` thì `git reflog` có cứu được tôi không?**
 <details>
@@ -188,7 +187,7 @@ Output thực tế:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa kỹ thuật | Ẩn dụ thực tế |
 |---|---|---|
@@ -211,5 +210,5 @@ Output thực tế:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 - **v2.0.0 (26/05/2026)** — Mr.Rom biên soạn chi tiết bài học nâng cao về Reflog, giải thích cơ chế Garbage Collection ngầm, commit mồ côi và kịch bản hồi sinh dữ liệu thực tế theo chuẩn Blueprint v0.2.0.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Đã [cài Git](../../setup/git.md) ✅
 
 > 🎯 *Bài INTRO — hiểu **Git là gì**, **vì sao mọi coder cần biết**, **mô hình tinh thần** trước khi học lệnh. KHÔNG dạy lệnh chi tiết (sẽ học ở [bài 01](./01_init-and-first-commit.md) trở đi).*
@@ -91,7 +90,7 @@ graph LR
     B -->|git checkout| A
 ```
 
-> 💡 **Bạn có thể dùng Git mà KHÔNG cần GitHub** (project cá nhân local). Nhưng dùng GitHub thì PHẢI có Git. Hiện bài này dạy Git (concept). Tool guide cho [GitHub UI/account/PR](../../../../02_tools/git-clients/github.md) ✅ để riêng.
+> 💡 **Bạn có thể dùng Git mà KHÔNG cần GitHub** (project cá nhân local). Nhưng dùng GitHub thì PHẢI có Git. Hiện bài này dạy Git (concept). Tool guide cho [GitHub UI/account/PR](../../../git-clients/github.md) ✅ để riêng.
 
 ---
 
@@ -188,12 +187,12 @@ Bài intro này chỉ giới thiệu sơ. Mỗi khái niệm sau có 1 bài họ
 |---|---|---|
 | **Repository (repo)** | Folder được Git track + thư mục `.git/` ẩn | [01_init-and-first-commit](./01_init-and-first-commit.md) |
 | **Commit** | 1 "ảnh chụp" code + metadata (tác giả, time, message) | [01_init-and-first-commit](./01_init-and-first-commit.md) |
-| **Branch** | Nhánh phát triển song song — bạn thử Google login mà không phá main | [02_branching-and-merging](./02_branching-and-merging.md) |
-| **Merge** | Gộp 2 branch — sau khi feature xong | [02_branching-and-merging](./02_branching-and-merging.md) |
-| **Conflict** | Khi 2 thay đổi đụng cùng dòng khi merge | [02_branching-and-merging](./02_branching-and-merging.md) |
-| **Remote** | Repo ở server xa (vd GitHub) | [03_remote-and-github](./03_remote-and-github.md) |
-| **Push / Pull** | Đẩy / kéo commit giữa local và remote | [03_remote-and-github](./03_remote-and-github.md) |
-| **Reset / Revert / Restore** | Undo các kiểu | [04_undo-and-recovery](./04_undo-and-recovery.md) |
+| **Branch** | Nhánh phát triển song song — bạn thử Google login mà không phá main | [00_branching-and-merging](../02_intermediate/00_branching-and-merging.md) |
+| **Merge** | Gộp 2 branch — sau khi feature xong | [00_branching-and-merging](../02_intermediate/00_branching-and-merging.md) |
+| **Conflict** | Khi 2 thay đổi đụng cùng dòng khi merge | [00_branching-and-merging](../02_intermediate/00_branching-and-merging.md) |
+| **Remote** | Repo ở server xa (vd GitHub) | [02_remote-and-github-basic](./02_remote-and-github-basic.md) |
+| **Push / Pull** | Đẩy / kéo commit giữa local và remote | [02_remote-and-github-basic](./02_remote-and-github-basic.md) |
+| **Reset / Revert / Restore** | Undo các kiểu | [00_undo-and-recovery](../03_advanced/00_undo-and-recovery.md) |
 | **Rebase / Cherry-pick** | Power user — sửa lịch sử | (advanced, học sau) |
 
 ---
@@ -230,7 +229,7 @@ Cụ thể:
 - **CLI**: hiểu sâu Git, debug tốt, dùng được trên server SSH. Học CLI **trước** để có nền.
 - **GUI**: nhanh hơn cho 1 số task (xem history visual, resolve conflict). Cài kèm sau khi đã quen CLI.
 
-→ Bài 01-04 dạy CLI. Tool guide GUI ([GitHub Desktop](../../../../02_tools/git-clients/github-desktop.md) — chưa có, [GitKraken](../../../../../02_tools/git-clients/gitkraken.md) — chưa có, [Sourcetree](../../../../../02_tools/git-clients/sourcetree.md) — chưa có) tách riêng.
+→ Bài 01-04 dạy CLI. Tool guide GUI ([GitHub Desktop](../../../git-clients/github-desktop.md), GitKraken — chưa có, Sourcetree — chưa có) tách riêng.
 
 ### "Tại sao gọi là 'Git'?"
 
@@ -243,15 +242,15 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 | # | Bài | Học gì | Thời gian |
 |---|---|---|---|
 | 01 | [Init + First commit](./01_init-and-first-commit.md) | `git init`, `git status`, `git add`, `git commit` — workflow cơ bản | 20 phút |
-| 02 | [Branching + Merging](./02_branching-and-merging.md) | `git branch`, `git checkout`, `git merge`, resolve conflict | 25 phút |
-| 03 | [Remote + GitHub](./03_remote-and-github.md) | `git clone`, `git push`, `git pull`, `git fetch` | 20 phút |
-| 04 | [Undo + Recovery](./04_undo-and-recovery.md) | `git restore`, `git reset`, `git revert`, recover deleted commit | 25 phút |
+| 02 | [Remote + GitHub](./02_remote-and-github-basic.md) | `git clone`, `git push`, `git pull`, `git fetch` | 20 phút |
+| 03 | [Branching + Merging](../02_intermediate/00_branching-and-merging.md) | `git branch`, `git checkout`, `git merge`, resolve conflict | 25 phút |
+| 04 | [Undo + Recovery](../03_advanced/00_undo-and-recovery.md) | `git restore`, `git reset`, `git revert`, recover deleted commit | 25 phút |
 
 → Học hết 4 bài này là đủ cho **95% công việc daily** của mọi nhánh dev.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -287,12 +286,12 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 
 | Tool | Khi nào dùng tool guide |
 |---|---|
-| 🛠️ [GitHub user guide](../../../../02_tools/git-clients/github.md) ✅ | Khi tạo account, setup SSH, dùng PR, GitHub Actions |
-| 🛠️ [GitLab user guide](../../../../02_tools/git-clients/gitlab.md) (chưa có) | Nếu company dùng GitLab thay GitHub |
-| 🛠️ [GitHub Desktop](../../../../02_tools/git-clients/github-desktop.md) (chưa có) | Beginner muốn GUI thay CLI |
-| 🛠️ [So sánh các Git hosting + GUI](../../../../02_tools/git-clients/) (chưa có) | Khi cần quyết platform/tool dùng |
+| 🛠️ [GitHub user guide](../../../git-clients/github.md) ✅ | Khi tạo account, setup SSH, dùng PR, GitHub Actions |
+| 🛠️ [GitLab user guide](../../../git-clients/gitlab.md) | Nếu company dùng GitLab thay GitHub |
+| 🛠️ [GitHub Desktop](../../../git-clients/github-desktop.md) | Beginner muốn GUI thay CLI |
+| 🛠️ [So sánh các Git hosting + GUI](../../../git-clients/00_what-is-git-hosting.md) | Khi cần quyết platform/tool dùng |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Pro Git Book — tiếng Việt](https://git-scm.com/book/vi/v2) — bible của Git, miễn phí
 - [Visualizing Git (interactive)](https://git-school.github.io/visualizing-git/) — xem Git làm gì với mỗi lệnh
@@ -303,16 +302,16 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+- **v2.2.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 
-- **v2.0.0 (19/05/2026)** — **Restructure** theo writing-style v0.5.1:
-  - Mở bằng **tình huống mất 1 ngày code cuối tuần** — narrative dẫn dắt thay vì định nghĩa khô
-  - Headers đổi từ `## 1️⃣ Vì sao cần Git (WHY)` / `## 2️⃣ Git là gì (WHAT)` → **câu hỏi tự nhiên** ("Vậy Git thực sự là gì?", "Khoan — Git khác GitHub thế nào?", "Bên dưới Git ngầm chạy ra sao?")
+- **v2.0.0 (19/05/2026)** — Viết lại bố cục:
+  - Mở bằng **tình huống mất 1 ngày code cuối tuần** dẫn dắt thay vì định nghĩa khô
+  - Đổi tiêu đề mục sang **câu hỏi tự nhiên** ("Vậy Git thực sự là gì?", "Khoan — Git khác GitHub thế nào?", "Bên dưới Git ngầm chạy ra sao?")
   - Định nghĩa Git **đến SAU tình huống** — đóng vai "lời giải"
   - Thêm bảng "Vì sao Git là MUST-KNOW cho mọi nhánh IT" — link sang 8 nhánh
   - Thêm câu hỏi mới "Tại sao gọi là 'Git'?" trong FAQ
-  - Chuẩn hóa vị trí Git nằm tại `02_tools/git/` đóng vai trò là Central Setup Hub cho toàn bộ dự án.
+  - Chuẩn hóa vị trí Git nằm tại `02_tools/git/`
   - Link tool guide GUI (GitHub/GitLab/Desktop) trỏ sang `02_tools/git-clients/` thay vì inline
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên với WHY/WHAT/HOW headers cứng — đã thay bằng v2.0.0.
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên.

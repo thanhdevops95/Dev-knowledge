@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã biết Python và SQL cơ bản, muốn chuyên sâu vào xây dựng hạ tầng, đường ống dữ liệu (Data Pipeline) và kho dữ liệu (Data Warehouse)\
-> **Thời gian ước tính:** ~10 tháng học tập tích cực (full-time) hoặc ~20 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và làm việc thực tế)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Cloud & Capstone]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Python & SQL Nâng cao** | 2 tháng | Thành thạo SQL Window Functions, CTE và thư viện Pandas |
-| **Stage 2: Kho dữ liệu & Mô hình hóa** | 25 ngày | Thiết kế sơ đồ Star Schema, phân biệt OLTP vs OLAP, dùng DuckDB |
-| **Stage 3: Điều phối Batch & dbt** | 2-3 tháng | Dựng pipeline tự động Airflow, làm sạch dữ liệu bằng dbt |
-| **Stage 4: Xử lý Streaming** | 1-2 tháng | Xây dựng pipeline thu thập và tổng hợp sự kiện real-time qua Kafka |
-| **Stage 5: Cloud Data & Capstone** | 2 tháng | Triển khai pipeline trên cloud, trực quan hóa biểu đồ Analytics |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Python & SQL Nâng cao** | Thành thạo SQL Window Functions, CTE và thư viện Pandas |
+| **Stage 2: Kho dữ liệu & Mô hình hóa** | Thiết kế sơ đồ Star Schema, phân biệt OLTP vs OLAP, dùng DuckDB |
+| **Stage 3: Điều phối Batch & dbt** | Dựng pipeline tự động Airflow, làm sạch dữ liệu bằng dbt |
+| **Stage 4: Xử lý Streaming** | Xây dựng pipeline thu thập và tổng hợp sự kiện real-time qua Kafka |
+| **Stage 5: Cloud Data & Capstone** | Triển khai pipeline trên cloud, trực quan hóa biểu đồ Analytics |
 
 ---
 
-## 💻 Stage 1 — Làm chủ Python & SQL nâng cao (2 tháng)
+## 💻 Stage 1 — Làm chủ Python & SQL nâng cao
 
 > 🎯 *SQL và Python là hai ngôn ngữ sinh mệnh của một kỹ sư dữ liệu. Bạn phải master cả hai.*
 
@@ -70,7 +69,7 @@ graph LR
 
 ---
 
-## 🗄️ Stage 2 — Kho dữ liệu & Dimensional Modeling (2 tháng)
+## 🗄️ Stage 2 — Kho dữ liệu & Dimensional Modeling
 
 > 🎯 *Hiểu sự khác biệt giữa cơ sở dữ liệu vận hành (OLTP) và kho dữ liệu phân tích (OLAP), thiết kế mô hình dimensional modeling.*
 
@@ -94,7 +93,7 @@ Mô hình cơ sở dữ liệu của ứng dụng (OLTP) được tối ưu hóa
 
 ---
 
-## 🔄 Stage 3 — Điều phối đường ống & Công cụ dbt (2-3 tháng)
+## 🔄 Stage 3 — Điều phối đường ống & Công cụ dbt
 
 > 🎯 *Xây dựng hệ thống tự động chạy data pipeline theo lịch (Orchestration) và biến đổi dữ liệu chuẩn hóa bằng dbt.*
 
@@ -115,7 +114,7 @@ Mô hình cơ sở dữ liệu của ứng dụng (OLTP) được tối ưu hóa
 
 ---
 
-## ⚡ Stage 4 — Xử lý dữ liệu thời gian thực (Streaming) (1-2 tháng)
+## ⚡ Stage 4 — Xử lý dữ liệu thời gian thực (Streaming)
 
 > 🎯 *Xây dựng đường ống xử lý dữ liệu dòng (Data Stream) thời gian thực sử dụng Kafka và Spark.*
 
@@ -140,7 +139,7 @@ Xử lý Streaming yêu cầu một tư duy hoàn toàn khác. Dữ liệu khôn
 
 ---
 
-## 🚀 Stage 5 — Cloud Data Stack & Capstone Project (2 tháng)
+## 🚀 Stage 5 — Cloud Data Stack & Capstone Project
 
 > 🎯 *Triển khai giải pháp dữ liệu hoàn chỉnh trên nền tảng đám mây và hoàn thiện Portfolio.*
 
@@ -173,7 +172,7 @@ Từ Data Engineer, bạn có thể thăng tiến theo các hướng:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

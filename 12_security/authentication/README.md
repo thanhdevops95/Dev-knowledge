@@ -22,21 +22,20 @@
 
 ## 📖 Lessons — Basic cluster (5 bài)
 
-| # | Bài | Trọng tâm | Thời lượng |
-|---|---|---|---|
-| 00 | [Auth foundation](lessons/01_basic/00_what-is-authentication.md) | AuthN vs AuthZ + 3 factors + session vs token + lifecycle + threat model | ~18p |
-| 01 | [Password + MFA deep](lessons/01_basic/01_password-and-mfa.md) | Argon2id + breach check + TOTP + WebAuthn/Passkey + backup codes | ~22p |
-| 02 | [OAuth 2.1 + OIDC](lessons/01_basic/02_oauth-and-oidc.md) | 5 flows + PKCE + ID token + Google/Apple + account linking | ~22p |
-| 03 | [JWT + Sessions deep](lessons/01_basic/03_jwt-and-sessions-deep.md) | JWT/JWS/JWE + signing algorithms + refresh rotation + revocation | ~22p |
-| 04 | [Federation + SSO + IdP](lessons/01_basic/04_federation-sso-and-idp.md) | SAML + Keycloak + SCIM + JIT + break-glass + 500-employee architecture | ~22p |
+| # | Bài | Trọng tâm |
+| --- | --- | --- |
+| 00 | [Auth foundation](lessons/01_basic/00_what-is-authentication.md) | AuthN vs AuthZ + 3 factors + session vs token + lifecycle + threat model |
+| 01 | [Password + MFA deep](lessons/01_basic/01_password-and-mfa.md) | Argon2id + breach check + TOTP + WebAuthn/Passkey + backup codes |
+| 02 | [OAuth 2.1 + OIDC](lessons/01_basic/02_oauth-and-oidc.md) | 5 flows + PKCE + ID token + Google/Apple + account linking |
+| 03 | [JWT + Sessions deep](lessons/01_basic/03_jwt-and-sessions-deep.md) | JWT/JWS/JWE + signing algorithms + refresh rotation + revocation |
+| 04 | [Federation + SSO + IdP](lessons/01_basic/04_federation-sso-and-idp.md) | SAML + Keycloak + SCIM + JIT + break-glass + 500-employee architecture |
 
-→ **Tổng ~106 phút đọc + 15-20h hands-on**.
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-- ↑ [12_security README](../README.md)
+- ↑ **Về cụm:** [12_security README](../README.md)
 - 🛡️ [owasp-top-10](../owasp-top-10/) — overview level
 - 🌐 [HTTPS/TLS](../../05_networking/http-https/lessons/01_basic/04_https-tls.md)
 - 🐍 [FastAPI auth](../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
@@ -50,7 +49,7 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Deep dive OWASP A07 với 4 chuyên đề (Password/MFA, OAuth/OIDC, JWT/Session, Federation/SSO).
 - **v0.1.0 (20/05/2026)** — Skeleton ban đầu.
+- **v1.0.0 (24/05/2026)** — Basic cluster hoàn chỉnh 5/5 bài. Deep dive OWASP A07 với 4 chuyên đề (Password/MFA, OAuth/OIDC, JWT/Session, Federation/SSO).

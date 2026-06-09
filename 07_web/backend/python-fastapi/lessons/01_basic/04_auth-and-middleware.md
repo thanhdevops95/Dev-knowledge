@@ -6,8 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** [Database với SQLModel](03_database-with-sqlmodel.md), [HTTP Headers](../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
+> **Prerequisites:** [Database với SQLModel](03_database-with-sqlmodel.md), [HTTP Headers](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
 
 > 🎯 *Hoàn chỉnh backend production: **password hash** (bcrypt), **JWT tokens**, **OAuth2 Password Flow**, **`Depends()` chain** cho `get_current_user`, **CORS** middleware, **custom middleware** (logging, request_id). Sau bài này backend bảo mật + production-ready.*
 
@@ -326,7 +325,7 @@ def delete_user(id: int, admin: User = Depends(get_current_admin)):
 
 ## 7️⃣ CORS — Cho phép frontend origin khác gọi API
 
-Frontend React ở `localhost:3000`, API ở `localhost:8000` → browser **block** vì khác origin (xem [HTTP headers CORS](../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)).
+Frontend React ở `localhost:3000`, API ở `localhost:8000` → browser **block** vì khác origin (xem [HTTP headers CORS](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)).
 
 ### Config
 
@@ -347,7 +346,7 @@ app.add_middleware(
 )
 ```
 
-### Pitfall
+### Cạm bẫy
 
 ```python
 # ❌ NGUY HIỂM production
@@ -429,7 +428,7 @@ app.add_middleware(CORSMiddleware, ...)          # ← chạy giữa
 
 ---
 
-## 1️⃣0️⃣ bạn ghép full stack production-ready
+## 1️⃣0️⃣ Ghép full stack production-ready
 
 ```python
 # app/main.py
@@ -446,7 +445,7 @@ async def lifespan(app):
     init_db()
     yield
 
-app = FastAPI(title="bạn Shop API", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="Acme Shop API", version="1.0.0", lifespan=lifespan)
 
 # CORS
 app.add_middleware(
@@ -487,7 +486,7 @@ app.include_router(orders.router)
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **SECRET_KEY hardcode trong code** → push lên git = mọi token bị giả mạo. Luôn từ env, sinh bằng `openssl rand`.
 2. **`allow_origins=["*"]` + `allow_credentials=True`** → spec CORS cấm combo này. Browser block.
@@ -497,7 +496,7 @@ app.include_router(orders.router)
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Sao password phải hash **chậm**? Tool nào (2026 default)?
 2. JWT có **3 phần**, viết ra. Verify cần gì?
@@ -521,7 +520,7 @@ app.include_router(orders.router)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Hash password
 
@@ -596,17 +595,17 @@ async def log_requests(req, call_next):
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Database với SQLModel](03_database-with-sqlmodel.md)
-- ↑ Cluster: [python-fastapi README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Database với SQLModel — CRUD thực tế](03_database-with-sqlmodel.md)
+- ↑ **Về cụm:** [python-fastapi README](../../README.md)
 
-### Cross-reference
-- [HTTP Headers — Auth + CORS](../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
-- [HTTPS & TLS](../../../../05_networking/http-https/lessons/01_basic/04_https-tls.md) — JWT nên dùng qua HTTPS
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP Headers — Auth + CORS](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
+- [HTTPS & TLS](../../../../../05_networking/http-https/lessons/01_basic/04_https-tls.md) — JWT nên dùng qua HTTPS
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [FastAPI Security — OAuth2 with Password](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/)
 - 📖 [JWT.io debugger](https://jwt.io/) — decode + verify JWT online
 - 📖 [OWASP — Password Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
@@ -619,8 +618,7 @@ async def log_requests(req, call_next):
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Cài passlib + `app/core/security.py` + Dùng hash/verify + Tại sao không SHA256 + §2 JWT 3 phần. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 5/5. Cover: hash password bcrypt + JWT (3 phần + workflow + vs cookie session) + OAuth2PasswordBearer + dependency `get_current_user` + CORS middleware + custom middleware (logging, rate limit) + production checklist (HTTPS, refresh token, secret rotation).
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Cài passlib + `app/core/security.py` + Dùng hash/verify + Tại sao không SHA256, §2 JWT 3 phần. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.

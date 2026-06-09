@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** [psql & Meta-commands](01_psql-and-meta-commands.md), [SQL schema design](../../../sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
 
 > 🎯 *Master index Postgres: **5 loại index** (B-tree default, GIN cho text/JSONB, GiST cho range/geo, BRIN cho time-series, Hash), **partial + multicolumn + expression** indexes, **EXPLAIN ANALYZE** đọc query plan, **5 common slow query patterns** + fix, **VACUUM + ANALYZE** tuning.*
@@ -249,7 +248,7 @@ CREATE INDEX idx_users_email_lower ON users(LOWER(email));
 
 -- Query phải dùng đúng expression
 SELECT * FROM users WHERE LOWER(email) = 'nguyenvana@ex.com';     -- ✅ use index
-SELECT * FROM users WHERE email = 'bạn@ex.com';             -- ❌ not use (different expr)
+SELECT * FROM users WHERE email = 'NguyenVanA@ex.com';       -- ❌ not use (different expr)
 
 -- Extract from JSONB
 CREATE INDEX idx_users_country ON users((data->>'country'));
@@ -437,7 +436,7 @@ ORDER BY n_dead_tup DESC LIMIT 10;
 
 ---
 
-## 9️⃣ Index strategy — bạn's approach
+## 9️⃣ Index strategy — chiến lược thực tế
 
 ### 1. Index FK columns
 
@@ -480,7 +479,7 @@ WHERE idx_scan = 0;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`SELECT * FROM table` lúc dev nhanh, prod chậm** → tables grow. Dùng specific cột + EXPLAIN check.
 2. **Quên `CONCURRENTLY` khi index prod** → lock writes 5-30 phút trên big table. Always `CONCURRENTLY` prod.
@@ -490,7 +489,7 @@ WHERE idx_scan = 0;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. 5 loại index Postgres — chọn cái nào cho: ID lookup? JSONB search? Time-series log?
 2. Composite index `(user_id, created_at)` help query nào, không help query nào?
@@ -514,7 +513,7 @@ WHERE idx_scan = 0;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Create index
 
@@ -596,18 +595,18 @@ SELECT relname, n_dead_tup FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIM
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [psql & Meta-commands](01_psql-and-meta-commands.md)
-- → Tiếp: [JSONB & Arrays](03_jsonb-and-arrays.md)
-- ↑ Cluster: [postgresql README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [psql & Meta-commands — Master CLI client](01_psql-and-meta-commands.md)
+- ➡️ **Bài tiếp theo:** [JSONB, Arrays & Full-text — Postgres killer features](03_jsonb-and-arrays.md)
+- ↑ **Về cụm:** [postgresql README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [SQL schema design](../../../sql-fundamentals/lessons/01_basic/05_schema-design-basics.md) — index basics
 - [SQL SELECT](../../../sql-fundamentals/lessons/01_basic/01_select-and-filter.md) — keyset pagination
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Use The Index, Luke!](https://use-the-index-luke.com/) — bible, free online book
 - 📖 [PostgreSQL indexes docs](https://www.postgresql.org/docs/current/indexes.html)
 - 📖 [explain.dalibo.com](https://explain.dalibo.com/) — visualize EXPLAIN
@@ -620,8 +619,7 @@ SELECT relname, n_dead_tup FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIM
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Phân tích trade-off (đổi "Phân tích" → "Phân tích trade-off" rõ hơn) + §2 6 loại index (sửa "5 loại" → "6 loại" cho đúng count) + Cú pháp tạo + CONCURRENTLY + §3 Single column. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 3/5. Cover: index là gì + trade-off + 6 loại Postgres (B-tree/Hash/GIN/GiST/BRIN/SP-GiST) + B-tree composite + partial + expression + EXPLAIN ANALYZE + index size + bloat + VACUUM + pg_stat_user_indexes monitor.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Phân tích trade-off + §2 6 loại index + Cú pháp tạo + CONCURRENTLY + §3 Single column. Chuẩn hoá ví dụ email + tiêu đề §9. Thêm Changelog section.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Không có — đây là bài intro mọi developer cần đọc
 
 > 🎯 *Bài INTRO. Hiểu **SQL là gì**, **RDBMS** vs **NoSQL**, **table/row/column**, 5 nhóm câu lệnh (DDL/DML/DQL/DCL/TCL), 5 hệ phổ biến (PostgreSQL/MySQL/SQLite/SQL Server/Oracle), và **cài SQLite trong 1 phút** để chạy thử. KHÔNG dạy SELECT chi tiết (sẽ học từ bài 01 trở đi).*
@@ -30,7 +29,7 @@ Bạn làm sản phẩm có 100 user. Lưu trong **Excel** `users.xlsx`:
 | id | name | email | created_at | status |
 |----|------|-------|------------|--------|
 | 1  | Nguyen Van A | nguyenvana@ex.com | 2025-01-15 | active |
-| 2  | Le Van B  | user@ex.com | 2025-02-20 | active |
+| 2  | Le Van B  | levanb@ex.com | 2025-02-20 | active |
 | ... | ... | ... | ... | ... |
 
 Vài tháng sau, vấn đề bùng nổ:
@@ -48,7 +47,7 @@ Bạn ngơ:
 - Làm sao **tự động hóa** thay vì click pivot table?
 - Làm sao đảm bảo **không mất data** khi server crash?
 
-→ Tất cả là việc của **database** — và **SQL** là cách bạn "nói chuyện" với database. Bài này dạy bạn (và bạn) **SQL là gì**, vì sao thay Excel, **5 hệ phổ biến**, và cách chạy query đầu tiên.
+→ Tất cả là việc của **database** — và **SQL** là cách bạn "nói chuyện" với database. Bài này dạy bạn **SQL là gì**, vì sao thay Excel, **5 hệ phổ biến**, và cách chạy query đầu tiên.
 
 ---
 
@@ -98,8 +97,8 @@ TABLE: users
 │ id │ name        │ email        │ created_at  │ status   │  ← Schema (cột + kiểu)
 ├────┼─────────────┼──────────────┼─────────────┼──────────┤
 │ 1  │ Nguyen Van A│ nguyenvana@ex.com  │ 2025-01-15  │ active   │  ← Row (record)
-│ 2  │ Le Van B    │ user@ex.com   │ 2025-02-20  │ active   │
-│ 3  │ Tran Van C  │ user@ex.com  │ 2025-03-10  │ inactive │
+│ 2  │ Le Van B    │ levanb@ex.com │ 2025-02-20  │ active   │
+│ 3  │ Tran Van C  │ tranvanc@ex.com  │ 2025-03-10  │ inactive │
 └────┴─────────────┴──────────────┴─────────────┴──────────┘
    ↑      ↑          ↑              ↑           ↑
    └─ PK  └─ name col, type VARCHAR, NOT NULL
@@ -200,7 +199,7 @@ INSERT INTO users (name, email) VALUES ('Nguyen Van A', 'nguyenvana@ex.com');
 SELECT * FROM users WHERE id = 1;
 
 -- DML: sửa data
-UPDATE users SET name = 'bạn Le' WHERE id = 1;
+UPDATE users SET name = 'Nguyen Van A' WHERE id = 1;
 
 -- DCL: phân quyền
 GRANT SELECT ON users TO analyst_role;
@@ -278,22 +277,22 @@ sqlite> CREATE TABLE users (
   ...> );
 
 sqlite> INSERT INTO users (name, email) VALUES ('Nguyen Van A', 'nguyenvana@ex.com');
-sqlite> INSERT INTO users (name, email) VALUES ('Le Van B',  'user@ex.com');
-sqlite> INSERT INTO users (name, email) VALUES ('Tran Van C', 'user@ex.com');
+sqlite> INSERT INTO users (name, email) VALUES ('Le Van B',  'levanb@ex.com');
+sqlite> INSERT INTO users (name, email) VALUES ('Tran Van C', 'tranvanc@ex.com');
 
 sqlite> SELECT * FROM users;
 1|Nguyen Van A|nguyenvana@ex.com
-2|Le Van B|user@ex.com
-3|Tran Van C|user@ex.com
+2|Le Van B|levanb@ex.com
+3|Tran Van C|tranvanc@ex.com
 
 sqlite> .mode column       -- Format đẹp
 sqlite> .headers on
 sqlite> SELECT * FROM users;
 id  name  email
 --  ----  ------------
-1   bạn  nguyenvana@ex.com
-2   Le Van B   user@ex.com
-3   Tran Van C  user@ex.com
+1   Nguyen Van A  nguyenvana@ex.com
+2   Le Van B   levanb@ex.com
+3   Tran Van C  tranvanc@ex.com
 
 sqlite> .exit
 ```
@@ -359,7 +358,7 @@ row := db.QueryRow("SELECT * FROM users WHERE id = ?", 1)
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Tưởng SQL = MySQL** → SQL là **chuẩn ngôn ngữ**, MySQL chỉ là 1 hệ. Postgres/SQLite/SQL Server đều "SQL" với 90% syntax chung + 10% phương ngữ riêng.
 2. **Lưu password plaintext** → Nguy hiểm. Phải hash (bcrypt/argon2) trước khi `INSERT`.
@@ -369,7 +368,7 @@ row := db.QueryRow("SELECT * FROM users WHERE id = ?", 1)
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **SQL** đứng cho gì? Phát minh năm nào?
 2. Phân biệt **DDL** vs **DML** vs **DQL**. Cho ví dụ mỗi loại.
@@ -393,7 +392,7 @@ row := db.QueryRow("SELECT * FROM users WHERE id = ?", 1)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cài SQLite quick
 
@@ -452,17 +451,17 @@ DELETE FROM t WHERE id = 1;                   -- DML
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [SELECT & Filter](01_select-and-filter.md)
-- ↑ Cluster: [sql-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [SELECT & WHERE — Câu lệnh SQL bạn dùng 90% thời gian](01_select-and-filter.md)
+- ↑ **Về cụm:** [sql-fundamentals README](../../README.md)
 
-### Cross-reference
-- [HTTP là gì](../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — backend web nhận HTTP request, query SQL, trả response
-- [REST API concepts](../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — REST resource thường map 1:1 với SQL table
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP là gì](../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — backend web nhận HTTP request, query SQL, trả response
+- [REST API concepts](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — REST resource thường map 1:1 với SQL table
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SQLBolt](https://sqlbolt.com/) — tutorial interactive miễn phí (recommend #1 cho beginner)
 - 📖 [PostgreSQL Tutorial](https://www.postgresqltutorial.com/) — best Postgres tutorial
 - 📖 [SQLite docs](https://www.sqlite.org/lang.html)
@@ -475,8 +474,7 @@ DELETE FROM t WHERE id = 1;                   -- DML
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Excel vs SQL + §2 Anatomy table + Relational diagram + §3 "Khi nào chọn gì" + §4 Ví dụ flow đầy đủ. Fix residue `bạn` (Long character) → `Nguyen Van A` trong 2 sơ đồ ASCII. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 1/6. Cover: SQL là gì + RDBMS vs Excel + relational concept (PK/FK) + SQL vs NoSQL (7 loại) + 5 nhóm câu lệnh (DDL/DML/DQL/DCL/TCL) + flow đầy đủ tạo bảng → insert → query → setup SQLite.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Excel vs SQL + §2 Anatomy table + Relational diagram + §3 "Khi nào chọn gì" + §4 Ví dụ flow đầy đủ. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.

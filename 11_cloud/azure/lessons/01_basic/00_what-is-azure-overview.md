@@ -1,13 +1,12 @@
 # ☁️ Azure — Tổng quan + account setup + az CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
+> **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
 
 > 🎯 *Bài đầu tiên của cluster Azure. Azure là vendor #2 (~24% market share Q1 2026), mạnh nhất ở stack doanh nghiệp Microsoft (Windows Server, AD, Office 365, .NET). Bài này dạy: Azure là gì, services tier 1, hierarchy **Management Group → Subscription → Resource Group**, `az` CLI, Free Tier, Entra ID (Azure AD) basics, hands-on deploy first VM. Không deep từng service — 4 bài kế tiếp sẽ làm.*
 
@@ -156,7 +155,7 @@ Có hơn 200 services. **Tier 1** (cần biết ngay) = ~20 services chiếm 90%
 | **Service Bus** | Enterprise messaging (queue + topic) | SQS + SNS / Pub/Sub |
 | **Event Grid** | Event routing | EventBridge / Eventarc |
 | **Event Hubs** | Streaming ingest (Kafka-compatible) | Kinesis / Pub/Sub streaming |
-| **Azure OpenAI** | GPT-4 / Claude / DALL-E enterprise | Bedrock / Vertex AI Gemini |
+| **Azure OpenAI** | GPT-4o / o-series / DALL-E enterprise (chỉ model OpenAI) | Bedrock (Claude) / Vertex AI (Gemini) |
 | **Azure AI Search** | Vector + semantic search | OpenSearch / Vertex AI Search |
 | **Azure Data Factory** | ETL/ELT pipeline | Glue / Dataflow |
 
@@ -725,7 +724,7 @@ az group delete --name rg-sandbox-sea --yes --no-wait
 
 ---
 
-## ⚠️ Pitfalls — Bẫy phổ biến của người mới Azure
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Để Service Principal password leak
 
@@ -804,7 +803,7 @@ az group delete --name rg-sandbox-sea --yes --no-wait
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Mô tả 3 service tier 1 của Azure cho mỗi nhóm (compute/storage/database/network)?
 - [ ] Vẽ sơ đồ Tenant → Management Group → Subscription → Resource Group → Resource cho công ty bạn?
@@ -880,56 +879,59 @@ Sau Azure basic:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Azure** | Microsoft public cloud |
-| **Subscription** | Đơn vị billing + quota + isolation (analog AWS Account / GCP Project) |
-| **Tenant** | 1 Entra ID directory (1 organization) |
-| **Management Group** | Group subscription để apply policy + RBAC kế thừa |
-| **Resource Group (RG)** | Container logical group resource cùng lifecycle |
-| **Resource ID** | Path unique định danh resource trên Azure |
-| **`az` CLI** | CLI chính của Azure |
-| **Entra ID** | Tên mới của Azure AD (2023+) — identity service |
-| **Service Principal (SP)** | Identity cho app/automation, có credential (password/cert) |
-| **Managed Identity** | SP tự động cho Azure resource, không cần credential |
-| **Workload Identity Federation** | OIDC trust GitHub/GitLab → không cần password |
-| **RBAC** | Role-Based Access Control trên resource Azure |
-| **Built-in role** | Role pre-defined của Microsoft (Owner, Contributor, ...) |
-| **Custom role** | Tự define permission list |
-| **PIM** | Privileged Identity Management — admin role just-in-time |
-| **VM** | Virtual Machine (Compute) |
-| **VMSS** | Virtual Machine Scale Set — auto-scale group |
-| **VNet** | Virtual Network |
-| **NSG** | Network Security Group — firewall L4 |
-| **Blob Storage** | Object storage |
-| **Storage Account** | Container chứa Blob/Files/Queue/Table |
-| **Key Vault** | Secret + key + cert store |
-| **App Service** | PaaS web app |
-| **Functions** | Serverless function |
-| **AKS** | Azure Kubernetes Service |
-| **Bicep** | DSL IaC native Azure (compile sang ARM JSON) |
-| **ARM** | Azure Resource Manager — API control plane |
-| **Free Tier** | 12 tháng + always free + $200 credit (30 ngày) |
-| **CAF** | Cloud Adoption Framework — Microsoft best practice |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Azure** | Đám mây Microsoft | Nền tảng *public cloud* của Microsoft |
+| **Subscription** | Gói đăng ký | Đơn vị billing + quota + isolation (tương đương AWS Account / GCP Project) |
+| **Tenant** | Thư mục tổ chức | 1 Entra ID directory đại diện cho 1 tổ chức |
+| **Management Group** | Nhóm quản trị | Group nhiều subscription để áp policy + RBAC kế thừa |
+| **Resource Group (RG)** | Nhóm tài nguyên | Container logical gom resource cùng vòng đời |
+| **Resource ID** | Định danh tài nguyên | Path unique định danh một resource trên Azure |
+| **`az` CLI** | Dòng lệnh Azure | CLI chính thức của Azure |
+| **Entra ID** | Dịch vụ định danh | Tên mới của Azure AD (từ 2023) — identity service |
+| **Service Principal (SP)** | Danh tính ứng dụng | Identity cho app/automation, có credential (password/cert) |
+| **Managed Identity** | Danh tính tự quản | SP tự động cấp cho resource Azure, không cần credential |
+| **Workload Identity Federation** | Liên kết danh tính | OIDC trust GitHub/GitLab → không cần lưu password |
+| **RBAC** | Phân quyền theo vai trò | Role-Based Access Control trên resource Azure |
+| **Built-in role** | Vai trò dựng sẵn | Role pre-defined của Microsoft (Owner, Contributor, ...) |
+| **Custom role** | Vai trò tùy biến | Tự định nghĩa danh sách permission |
+| **PIM** | Quyền admin tạm thời | Privileged Identity Management — admin role just-in-time |
+| **VM** | Máy ảo | Virtual Machine (nhóm Compute) |
+| **VMSS** | Nhóm VM co giãn | Virtual Machine Scale Set — auto-scale group |
+| **VNet** | Mạng riêng ảo | Virtual Network |
+| **NSG** | Tường lửa L4 | Network Security Group — firewall tầng L4 |
+| **Blob Storage** | Lưu trữ đối tượng | Object storage |
+| **Storage Account** | Tài khoản lưu trữ | Container chứa Blob/Files/Queue/Table |
+| **Key Vault** | Két bí mật | Nơi lưu secret + key + certificate |
+| **App Service** | Web app PaaS | Dịch vụ chạy web app dạng PaaS |
+| **Functions** | Hàm serverless | Serverless function |
+| **AKS** | Kubernetes quản lý | Azure Kubernetes Service |
+| **Bicep** | Ngôn ngữ IaC Azure | DSL IaC native của Azure (compile sang ARM JSON) |
+| **ARM** | Lớp quản lý tài nguyên | Azure Resource Manager — API control plane |
+| **Free Tier** | Hạn mức miễn phí | 12 tháng + always free + $200 credit (30 ngày) |
+| **CAF** | Khung áp dụng cloud | Cloud Adoption Framework — best practice của Microsoft |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_virtual-machines-and-disks.md](01_virtual-machines-and-disks.md)
-- ↑ Cluster Azure: [Azure README](../../README.md)
-- ↶ Cloud Fundamentals: [11_cloud/cloud-fundamentals](../../../cloud-fundamentals/)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS basic](../../../aws/) — so sánh service analog
-- ☁️ [GCP basic](../../../gcp/) — so sánh vendor #3
-- 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Terraform Azure provider
-- 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
+- ⬅️ **Bài trước:** [Cloud Fundamentals — Nền tảng điện toán đám mây](../../../cloud-fundamentals/)
+- ➡️ **Bài tiếp theo:** [Azure VM + Managed Disks — Compute foundation](01_virtual-machines-and-disks.md)
+- ↑ **Về cụm:** [Azure](../../README.md)
 
-### Tài nguyên ngoài (2026)
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ **So sánh vendor:** [AWS](../../../aws/) — đối chiếu service analog
+- ☁️ **So sánh vendor:** [GCP (Google Cloud Platform)](../../../gcp/) — vendor #3
+- 🏗️ **Triển khai tự động:** [IaC — Infrastructure as Code](../../../../10_devops/iac/) — Terraform có Azure provider
+- 🧭 **Tấm bản đồ sự nghiệp:** [Cloud Engineer Career Roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Azure docs](https://learn.microsoft.com/azure/)
 - 📖 [`az` CLI reference](https://learn.microsoft.com/cli/azure/)
 - 📖 [Azure Free Tier](https://azure.microsoft.com/free)
@@ -943,6 +945,7 @@ Sau Azure basic:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Azure basic. Overview Azure + so sánh AWS/GCP + 20 services tier 1 + Management Group → Subscription → Resource Group hierarchy + `az` CLI + Service Principal/Managed Identity + Free Tier 2026 + Entra ID & RBAC cơ bản + hands-on tạo VM B1s + 8 pitfalls. Pattern mirror AWS lesson 00.
+- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cụm Azure basic. Overview Azure + so sánh AWS/GCP + 20 services tier 1 + Management Group → Subscription → Resource Group hierarchy + `az` CLI + Service Principal/Managed Identity + Free Tier 2026 + Entra ID & RBAC cơ bản + hands-on tạo VM B1s + 8 pitfalls.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ Claude khỏi mô tả Azure OpenAI (Azure OpenAI chỉ phục vụ model OpenAI; Claude qua Bedrock/Vertex AI); đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá bảng Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, 3 sub-heading canonical, link-text = tiêu đề thực của bài đích).

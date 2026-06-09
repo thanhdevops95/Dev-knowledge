@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Status:** ✅ Intermediate cluster hoàn thành (5/5 bài)
 
-> 🎯 *Từ "có dashboard" → "SRE practice". Build trên Observability basic (5 bài). Cluster intermediate thứ 4 của `10_devops/`. Apply 4+ insight từ `__Ref__/` (SRE practices, blameless postmortem, on-call patterns, burn rate alerts). Output: SRE-grade observability với SLO discipline.*
+> 🎯 *Từ "có dashboard" → "SRE practice". Xây tiếp trên Observability basic (5 bài), đi sâu SRE practices, blameless postmortem, on-call patterns, burn rate alerts. Output: SRE-grade observability với SLO discipline.*
 
 ---
 
@@ -36,15 +36,14 @@
 
 ## 📖 Lessons — Intermediate cluster (5 bài)
 
-| # | Bài | Trọng tâm | Tag | Thời lượng |
-|---|---|---|---|---|
-| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + tool stack 2026 + 3am incident scenario | MUST-KNOW | ~13p |
-| 01 | [PromQL deep + Alerting](01_promql-deep-and-alerting.md) | Functions deep + recording rules + multi-window burn rate + Alertmanager + cardinality + Mimir/Thanos | MUST-KNOW | ~25p |
-| 02 | [Loki + LogQL deep](02_loki-logql-deep.md) | LogQL deep + 10 patterns + structured logging + cardinality + Promtail/Vector/Fluent Bit + retention | MUST-KNOW | ~22p |
-| 03 | [OpenTelemetry instrumentation](03_opentelemetry-instrumentation.md) | Manual spans + W3C TraceContext propagation + sampling head/tail + Collector pipeline + correlation 3 pillars | MUST-KNOW | ~22p |
-| 04 | [SRE practices](04_sre-practices.md) | SLI/SLO/SLA + error budget + burn rate + blameless postmortem (5 whys) + on-call rotation + toil reduction + DORA metrics | MUST-KNOW | ~25p |
+| # | Bài | Trọng tâm | Tag |
+| --- | --- | --- | --- |
+| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + tool stack 2026 + 3am incident scenario | MUST-KNOW |
+| 01 | [PromQL deep + Alerting](01_promql-deep-and-alerting.md) | Functions deep + recording rules + multi-window burn rate + Alertmanager + cardinality + Mimir/Thanos | MUST-KNOW |
+| 02 | [Loki + LogQL deep](02_loki-logql-deep.md) | LogQL deep + 10 patterns + structured logging + cardinality + Promtail/Vector/Fluent Bit + retention | MUST-KNOW |
+| 03 | [OpenTelemetry instrumentation](03_opentelemetry-instrumentation.md) | Manual spans + W3C TraceContext propagation + sampling head/tail + Collector pipeline + correlation 3 pillars | MUST-KNOW |
+| 04 | [SRE practices](04_sre-practices.md) | SLI/SLO/SLA + error budget + burn rate + blameless postmortem (5 whys) + on-call rotation + toil reduction + DORA metrics | MUST-KNOW |
 
-→ **Tổng ~107 phút đọc + 8-10h hands-on**. Sau cluster: Observability tier-1 + SRE practice.
 
 ---
 
@@ -65,11 +64,11 @@
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
-- ↑ [Observability README](../../README.md)
-- ↶ [Basic cluster](../01_basic/) — 5 bài foundation
+### 🧭 Định hướng lộ trình học
+- ↑ **Về cụm:** [Observability README](../../README.md)
+- ⬅️ **Bài trước:** [Basic cluster](../01_basic/) — 5 bài foundation
 - 🐳 [Docker intermediate](../../../docker/lessons/02_intermediate/)
 - ☸️ [Kubernetes intermediate](../../../kubernetes/lessons/02_intermediate/)
 - 🔁 [CI/CD intermediate](../../../ci-cd/lessons/02_intermediate/)
@@ -91,6 +90,6 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Cluster intermediate thứ 4 của `10_devops/`. 5 bài hoàn thành: overview + PromQL deep + LogQL deep + OTel instrumentation + SRE practices. Apply 4+ insight từ `__Ref__/` (SRE practices, blameless postmortem template, on-call sustainable rotation, alert saturation patterns, burn rate alerts). Hoàn thành 4/5 DevOps intermediate cluster (Docker + K8s + CI/CD + Obs). Apply rule Blueprint v0.5.2 (no fictional character).
+- **v1.0.0 (24/05/2026)** — 5 bài hoàn thành: overview + PromQL deep + LogQL deep + OTel instrumentation + SRE practices, bao quát SRE practices, blameless postmortem template, on-call sustainable rotation, alert saturation patterns, burn rate alerts.

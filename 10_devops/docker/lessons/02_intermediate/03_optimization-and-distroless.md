@@ -1,15 +1,14 @@
-# 🎓 Optimization & Distroless — Từ 1.2 GB xuống 30 MB
+# 🎓 Optimization & Distroless — Từ 1.2 GB xuống 85 MB
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.2.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [02_image-security-supply-chain.md](02_image-security-supply-chain.md)
+> **Yêu cầu trước:** [Image Security & Supply Chain — Scan, Sign, Verify](02_image-security-supply-chain.md)
 
-> 🎯 *Image FastAPI 1.2 GB → 30 MB là thật được, không "marketing". Bài này dạy: dùng **dive** phân tích layer, chọn đúng **base image** (alpine vs slim vs distroless vs scratch), **multi-stage advanced**, **layer order** tối ưu. Production benefits: pull nhanh, attack surface nhỏ, cold start nhanh.*
+> 🎯 *Một image FastAPI nặng 1.2 GB ép xuống còn 85 MB là chuyện làm thật được, không phải lời quảng cáo. Bài này đi qua bốn kỹ thuật cốt lõi: dùng **dive** để soi xem từng *layer* (lớp filesystem cấu thành image) nặng vì cái gì, chọn đúng **base image** giữa alpine / slim / distroless / scratch, viết **multi-stage advanced** (build nhiều giai đoạn, chỉ giữ lại sản phẩm cuối), và sắp xếp **layer order** sao cho sửa code không phá *cache*. Đổi lại trên production: image kéo về (*pull*) nhanh hơn, bề mặt tấn công (*attack surface* — số thành phần kẻ xấu có thể khai thác) nhỏ hơn, và *cold start* (lần khởi tạo đầu của container) ngắn hơn.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -25,7 +24,7 @@
 
 ## Tình huống — Image 1.2 GB, deploy chậm, attack surface lớn
 
-Bạn FastAPI app, Dockerfile basic:
+Bạn vừa viết xong một *API* bằng FastAPI và đóng gói nó bằng một Dockerfile "chân phương" nhất: lấy image Python đầy đủ, cài thư viện, copy code vào, chạy. Trên máy bạn nó chạy ngon, *test* qua hết, nên bạn yên tâm đẩy lên *registry*. Dockerfile trông như sau:
 
 ```dockerfile
 FROM python:3.12
@@ -36,16 +35,14 @@ COPY . .
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
 ```
 
-Build → `myapp:v1` **1.2 GB**.
-
-Sếp/team chạy số:
+Build xong, `myapp:v1` cân nặng **1.2 GB**. Một mình con số đó nghe chưa có gì đáng sợ — cho đến khi cả team ngồi lại nhân nó với quy mô vận hành thật:
 - **Pull time**: 100 deploy/ngày × 1.2 GB × 10 cluster = 1.2 TB traffic/ngày. AWS data transfer ~$0.09/GB egress → **$108/ngày = $3,240/tháng** chỉ pull image.
 - **Cold start**: pod khởi tạo phải pull image → user gặp 503 trong 30-60s.
 - **Attack surface**: Trivy scan = 247 packages, 1 CRITICAL + 4 HIGH CVE. Khả năng exploit cao.
 
 Sếp: *"Image này 1.2 GB là không production-ready. FastAPI runtime tinh khôi chỉ cần ~50 MB. Tại sao bạn ship 1.2 GB? Đi học distroless + multi-stage + layer optimization đi."*
 
-→ Bài này dạy hành trình **1.2 GB → 30 MB**.
+→ Bài này dạy hành trình **1.2 GB → 85 MB**.
 
 ---
 
@@ -73,9 +70,9 @@ dive myapp:v1
 ```
 
 Output (TUI mode):
-```
+```text
 Layers ─────────────────────  Current Layer Contents ──────
-[Layer 1] 90 MB   FROM python:3.12      /usr/local/lib/...
+[Layer 1] 350 MB  FROM python:3.12      /usr/local/lib/...
 [Layer 2] 0.5 KB  WORKDIR /app          /app/
 [Layer 3] 0.1 KB  COPY requirements.txt /app/requirements.txt
 [Layer 4] 850 MB  RUN pip install ...   /usr/local/lib/python3.12/site-packages/
@@ -91,15 +88,16 @@ Image efficiency score: 72%
 
 Đọc output `dive` đúng cách trả lời 3 câu hỏi: layer nào nặng nhất, layer nào duplicate (waste), file nào không cần. Từ 1 image 1.2 GB, dive thường chỉ ra **3 wins** rõ ràng (slim base + multi-stage + `.dockerignore`):
 
-- **Layer 1 (base)** 900 MB — `python:3.12` full image, có gcc + dev headers.
+- **Layer 1 (base)** 350 MB — `python:3.12` full image, có gcc + dev headers.
 - **Layer 4 (pip install)** 850 MB — bao gồm `__pycache__/`, `pip cache`, dev deps.
-- **Layer 5 (COPY)** 5 MB — code + `.git` (300 MB git history!) + `__pycache__`.
+- **Layer 5 (COPY)** 5 MB — code + `.git` + `__pycache__` lẫn vào (góp phần vào waste).
 - **Waste 320 MB**: `__pycache__/` duplicated across layers, `.git`, pip download cache.
 
 → **3 wins** rõ ràng:
-1. Base image: `python:3.12` → `python:3.12-slim` (saves 850 MB).
-2. Multi-stage: tách build vs runtime (saves 500+ MB).
-3. `.dockerignore` aggressive: bỏ `.git`, `__pycache__`, `*.pyc` (saves 300+ MB).
+
+1. Base image: `python:3.12` (350 MB) → `python:3.12-slim` (~150 MB) — saves ~200 MB.
+2. Multi-stage: tách build vs runtime, vứt gcc + dev deps + pip cache trong layer 850 MB — saves 700+ MB.
+3. `.dockerignore` aggressive: bỏ `.git`, `__pycache__`, `*.pyc` — cắt phần lớn 320 MB waste.
 
 ### dive trong CI
 
@@ -116,9 +114,9 @@ dive --ci --lowestEfficiency=0.95 --highestUserWastedPercent=0.05 myapp:v1
 
 ## 2️⃣ Base image showdown — Pick the right one
 
-### So sánh 5 base image phổ biến (Python 3.12)
+### So sánh các base image phổ biến (Python 3.12)
 
-Pick base image **đúng** giảm 80-95% image size mà không mất tính năng. Bảng so sánh 7 base image cho Python — từ full Debian (1 GB) đến scratch (0 byte). Production runtime nên dùng distroless hoặc slim:
+Chọn đúng *base image* (ảnh nền mà Dockerfile kế thừa từ dòng `FROM`) là đòn bẩy lớn nhất: chỉ đổi một dòng có thể cắt 80-95% dung lượng mà không mất tính năng. Bảng dưới xếp các lựa chọn cho Python theo thứ tự nặng dần đảo ngược — từ Debian đầy đủ (~1 GB) xuống tới `scratch` (0 byte). Quy tắc nhanh: *runtime* trên production nên ngả về distroless hoặc slim, còn full image chỉ để dev và *build stage*.
 
 | Base image | Size | Có gì | Khi dùng |
 |---|---|---|---|
@@ -132,7 +130,7 @@ Pick base image **đúng** giảm 80-95% image size mà không mất tính năng
 
 ### Alpine vs slim — Pitfall
 
-**Alpine** (musl libc) ≠ **slim** (glibc). Compatibility differences:
+Thấy alpine chỉ ~50 MB, nhiều người vội chọn nó cho mọi thứ. Đừng vội: alpine dùng **musl libc** còn slim dùng **glibc** (hai bản thư viện C chuẩn của Linux khác nhau), nên có những thư viện chạy trên slim nhưng vỡ trên alpine. Vài cái bẫy hay gặp:
 
 - Python `pip install pandas`/`numpy` trên alpine = compile từ source (chậm), có bug với glibc-specific package.
 - Node.js native modules (`bcrypt`, `sharp`) thường break trên alpine.
@@ -151,12 +149,12 @@ Pick base image **đúng** giảm 80-95% image size mà không mất tính năng
 - ❌ Coreutils (no ls, cat, grep)
 - ❌ Network tools (no curl, wget, ping)
 
-**Pros**:
+**Ưu điểm**:
 - ✅ Attack surface cực nhỏ — hacker vào không có tool gì để dùng.
 - ✅ CVE đếm trên đầu ngón tay (vs 200+ trong alpine/slim).
 - ✅ Image size 30-50 MB cho Python/Node, 2-5 MB cho Go.
 
-**Cons**:
+**Nhược điểm**:
 - ❌ Debug khó — không `kubectl exec ... bash`.
 - ❌ Phải dùng multi-stage build (distroless không có pip).
 - ❌ User application phải handle SIGTERM (no shell forward signal).
@@ -182,6 +180,8 @@ FROM cgr.dev/chainguard/python:latest-dev@sha256:...
 ---
 
 ## 3️⃣ Multi-stage advanced patterns
+
+Đến đây bạn đã biết *chọn* base image nào; phần này chỉ cho bạn cách *ghép* chúng lại. Ý tưởng của **multi-stage** là tách Dockerfile thành nhiều giai đoạn: một stage "phân xưởng" nặng nề để biên dịch (có gcc, dev header, pip cache), rồi chỉ copy đúng sản phẩm đã build sang một stage runtime mỏng tang. Mọi rác của khâu build bị vứt lại, không lọt vào image cuối. Dưới đây là bốn khuôn mẫu sẵn dùng cho bốn hệ sinh thái phổ biến.
 
 ### Python — Slim builder + Distroless runtime
 
@@ -215,7 +215,7 @@ COPY --from=builder /install /usr/local
 COPY app/ ./app/
 
 # Distroless không có shell — phải dùng exec form
-USER 1000:1000
+USER nonroot:nonroot
 EXPOSE 8000
 
 # CMD exec form bắt buộc
@@ -238,7 +238,7 @@ FROM node:20-slim AS deps
 WORKDIR /build
 COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --production
+    npm ci --omit=dev
 
 # ===== Stage 2: build =====
 FROM node:20-slim AS builder
@@ -333,7 +333,7 @@ COPY --from=builder /build/build/libs/app.jar /app/app.jar
 
 ENV PATH="/opt/jre/bin:$PATH"
 
-USER 1000:1000
+USER nonroot:nonroot
 EXPOSE 8080
 CMD ["-jar", "/app/app.jar"]
 ENTRYPOINT ["java"]
@@ -345,11 +345,13 @@ ENTRYPOINT ["java"]
 
 ## 4️⃣ Layer order optimization
 
+Nhỏ image rồi vẫn chưa đủ — nếu mỗi lần sửa một dòng code mà phải build lại toàn bộ thì *workflow* hằng ngày vẫn ì ạch. Mấu chốt nằm ở thứ tự các lệnh trong Dockerfile.
+
 ### Nguyên tắc
 
-**Layer cache invalidation cascade**: khi 1 layer đổi, **tất cả layer sau** cũng rebuild.
+Docker cache từng layer, nhưng theo kiểu domino: **khi một layer đổi thì tất cả layer phía sau nó đều phải build lại** (gọi là *layer cache invalidation cascade*). Hãy hình dung như xếp đồ trong ba lô — thứ ít khi lấy ra (sạc, sách) nhét xuống đáy, thứ dùng liên tục (điện thoại, ví) để trên cùng; sắp ngược lại thì lần nào cũng phải dỡ tung cả ba lô.
 
-→ Đặt layer **stable** trên đầu, **volatile** dưới cuối.
+→ Vậy nên: đặt layer **stable** (ít đổi) lên đầu, layer **volatile** (đổi liên tục) xuống cuối.
 
 | Stability | Loại | Vị trí |
 |---|---|---|
@@ -411,7 +413,11 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
 
 ## 5️⃣ Loại bỏ waste — `.dockerignore` + apt cleanup
 
+Ngay cả Dockerfile gọn gàng vẫn lén tha rác vào image: thư mục `.git`, `__pycache__`, cache của trình quản lý gói. Phần này dọn ba nguồn rác lớn nhất — file thừa lúc `COPY`, cache của `apt`, và cache của `pip`.
+
 ### `.dockerignore` aggressive
+
+File `.dockerignore` báo cho `docker build` biết những gì **không** được copy vào *build context*. Thiếu nó, mỗi lần `COPY . .` sẽ ôm cả `.git` và `__pycache__` từ máy dev vào image. Một mẫu "mạnh tay" nên dùng:
 
 ```dockerignore
 # .dockerignore
@@ -511,7 +517,9 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 ---
 
-## 6️⃣ Hands-on: 1.2 GB → 30 MB cho FastAPI
+## 6️⃣ Hands-on: 1.2 GB → 85 MB cho FastAPI
+
+Giờ ghép tất cả lại và chạy thật. Ta đi từ Dockerfile "chân phương" trong phần Tình huống, cải tiến từng bước và **đo dung lượng sau mỗi bước** để thấy rõ kỹ thuật nào mang lại bao nhiêu phần trăm. Quan sát con số tụt dần qua từng version thuyết phục hơn mọi lời giải thích.
 
 ### Step 1: Measure baseline
 
@@ -582,7 +590,7 @@ FROM gcr.io/distroless/python3-debian12
 WORKDIR /app
 COPY --from=builder /install /usr/local
 COPY app/ ./app/
-USER 1000:1000
+USER nonroot:nonroot
 EXPOSE 8000
 CMD ["-m", "uvicorn", "app.main:app", "--host", "0.0.0.0"]
 ENTRYPOINT ["/usr/bin/python3"]
@@ -623,9 +631,9 @@ trivy image myapp:v3 --severity HIGH,CRITICAL | wc -l
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Distroless không có shell → CMD shell form crash
+### ❌ Cạm bẫy: Distroless không có shell → CMD shell form crash
 
 ```dockerfile
 FROM gcr.io/distroless/python3-debian12
@@ -633,7 +641,7 @@ CMD python app.py    # ❌ Shell form — distroless không có /bin/sh
 ```
 
 **Lỗi**:
-```
+```text
 exec /bin/sh: no such file or directory
 ```
 
@@ -643,7 +651,7 @@ CMD ["app.py"]
 ENTRYPOINT ["/usr/bin/python3"]
 ```
 
-### ❌ Pitfall: Alpine + Python heavy package = compile from source
+### ❌ Cạm bẫy: Alpine + Python heavy package = compile from source
 
 ```dockerfile
 FROM python:3.12-alpine
@@ -654,7 +662,7 @@ RUN pip install pandas numpy   # ← 5-10 phút compile!
 
 → **Fix**: dùng `python:3.12-slim` (glibc) hoặc image có pre-built wheel.
 
-### ❌ Pitfall: USER root + distroless
+### ❌ Cạm bẫy: USER root + distroless
 
 ```dockerfile
 FROM gcr.io/distroless/python3-debian12
@@ -668,7 +676,7 @@ USER nonroot:nonroot
 USER 65532:65532
 ```
 
-### ❌ Pitfall: Health check với curl trong distroless
+### ❌ Cạm bẫy: Health check với curl trong distroless
 
 ```dockerfile
 FROM gcr.io/distroless/python3-debian12
@@ -692,13 +700,13 @@ COPY --from=builder /usr/lib/x86_64-linux-gnu/libcurl.so.4 /usr/lib/x86_64-linux
 
 → Recommend probe HTTP từ K8s, không curl trong image.
 
-### ❌ Pitfall: `.dockerignore` thiếu `__pycache__`
+### ❌ Cạm bẫy: `.dockerignore` thiếu `__pycache__`
 
 → Mỗi build COPY toàn bộ `__pycache__/` từ dev local (~50-200 MB). Image phình to.
 
 → **Fix**: Add `__pycache__` + `*.pyc` vào `.dockerignore`.
 
-### ❌ Pitfall: `pip install --user` không tương thích `--prefix`
+### ❌ Cạm bẫy: `pip install --user` không tương thích `--prefix`
 
 ```dockerfile
 # ❌ Mix flags
@@ -748,9 +756,9 @@ LABEL org.opencontainers.image.licenses="Apache-2.0"
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Tại sao **multi-stage** giảm size HOÀNG NHIÊN dù stage builder vẫn 1 GB?
+**Q1.** Tại sao **multi-stage** giảm size HIỂN NHIÊN dù stage builder vẫn 1 GB?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -830,8 +838,6 @@ COPY --from=grpcio/health-probe:latest /grpc_health_probe /bin/grpc_health_probe
 
 **Q5.** zstd compression saves 10-20% pull bandwidth — vì sao registry chưa default 100%?
 
-<parameter name="content_continued">
-
 <details>
 <summary>💡 Đáp án</summary>
 
@@ -851,7 +857,7 @@ docker buildx build \
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === dive ===
@@ -922,8 +928,7 @@ ENTRYPOINT ["/app"]
 
 ---
 
-## 📚 Glossary
-
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 | Term | Vietnamese / Explanation |
 |---|---|
 | **dive** | Tool TUI inspect image layer + waste bytes |
@@ -944,16 +949,19 @@ ENTRYPOINT ["/app"]
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_image-security-supply-chain.md](02_image-security-supply-chain.md)
-- → Tiếp: [04_registry-production-patterns.md](04_registry-production-patterns.md) *(sắp viết)*
-- ↑ Cluster: [Docker README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Image Security & Supply Chain — Scan, Sign, Verify](02_image-security-supply-chain.md)
+- ➡️ **Bài tiếp theo:** [Registry & Production Patterns — Harbor, ECR, pull-through cache](04_registry-production-patterns.md)
+- ↑ **Về cụm:** [Docker — Containerization Platform](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
 - ☸️ [K8s Pods](../../../kubernetes/lessons/01_basic/01_pods-and-deployments.md) — imagePullPolicy + cold start
 - 📊 [Observability metrics](../../../observability/lessons/01_basic/01_metrics-prometheus.md) — measure cold start
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [dive on GitHub](https://github.com/wagoodman/dive)
 - 📖 [Google distroless images](https://github.com/GoogleContainerTools/distroless)
 - 📖 [Chainguard Images](https://www.chainguard.dev/chainguard-images)
@@ -965,8 +973,9 @@ ENTRYPOINT ["/app"]
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install dive + Inspect + Key insights + dive trong CI + §2 So sánh base image.
-
-- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 của intermediate. Hành trình 1.2 GB → 30 MB cho FastAPI: dive analyze + base image comparison (alpine/slim/distroless/scratch/Chainguard) + multi-stage 4 language templates (Python/Node/Go/Java) + layer order optimization + `.dockerignore` aggressive + apt/pip cleanup pattern. 6 pitfall + 3 best practice + 5 self-check + cheatsheet với 2 production-ready Dockerfile.
+- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 của intermediate. Hành trình 1.2 GB → 85 MB cho FastAPI: dive analyze + base image comparison (alpine/slim/distroless/scratch/Chainguard) + multi-stage 4 language templates (Python/Node/Go/Java) + layer order optimization + `.dockerignore` aggressive + apt/pip cleanup pattern. 6 pitfall + 3 best practice + 5 self-check + cheatsheet với 2 production-ready Dockerfile.
+- **v1.1.0 (25/05/2026)** — thêm lead-in trước Install dive + Inspect + Key insights + dive trong CI + §2 So sánh base image.
+- **v1.1.1 (01/06/2026)** — Sửa lỗi QA: tuyên bố dung lượng 30 MB → 85 MB cho khớp kết quả hands-on thật (title + lead-in + §6 + changelog); đồng bộ số layer trong dive (base 350 MB ở cả TUI output lẫn Key insights, tổng khớp 1.2 GB) + sửa lại "3 wins" cho đúng nguồn tiết kiệm; distroless Dockerfile dùng `USER nonroot:nonroot` (khớp pitfall UID 65532, trước đó nhầm `1000:1000`); sửa typo "HOÀNG NHIÊN" → "HIỂN NHIÊN"; gỡ tag rác `<parameter ...>` lọt vào Q5.
+- **v1.2.0 (01/06/2026)** — Polish văn phong + soát QA theo checklist: Việt hoá các đoạn "điện tín" và mở bài tình huống (lời dẫn 2-3 câu trước mỗi code/bảng/section §3-§6), giải thích thuật ngữ EN trong ngoặc lần đầu (base image, attack surface, cold start, layer, cascade...), thêm câu bắc cầu giữa các phần và ẩn dụ "ba lô" cho layer order; sửa heading "5 base image" (bảng có 7 dòng) → bỏ con số cứng; cập nhật flag deprecated `npm ci --production` → `npm ci --omit=dev`; thêm ngôn ngữ `text` cho 2 block output thiếu fence-language. Giữ nguyên toàn bộ code/số liệu/bảng/cấu trúc heading.

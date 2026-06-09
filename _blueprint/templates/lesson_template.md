@@ -1,12 +1,12 @@
 # <Tên bài học>
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic | Intermediate | Advanced\
-> **Thời lượng đọc:** ~X phút\
-> **Prerequisites:** [<bài tiên quyết>](../path/to/file.md) (nếu có)
+> **Tags:** <tag1>, <tag2> (vd: git, version-control)\
+> **Yêu cầu trước:** [<bài tiên quyết>](../path/to/file.md) (nếu có)
 
 > 🎯 *<Câu dẫn 1-2 dòng: Trước khi học X cần biết Y. Sau bài này bạn sẽ làm được Z.>*
 
@@ -83,9 +83,9 @@ Kết quả:
 
 ---
 
-## 💡 Pitfall & Best practice <!-- OPTIONAL -->
+## 💡 Cạm bẫy thường gặp & Best practice <!-- OPTIONAL -->
 
-### ❌ Pitfall: <tên cạm bẫy>
+### ❌ Cạm bẫy: <tên cạm bẫy>
 - **Triệu chứng**: ...
 - **Nguyên nhân**: ...
 - **Cách tránh**: ...
@@ -96,7 +96,7 @@ Kết quả:
 
 ---
 
-## 🧠 Self-check <!-- OPTIONAL -->
+## 🧠 Tự kiểm tra (Self-check) <!-- OPTIONAL -->
 
 **Q1.** <Câu hỏi 1>
 
@@ -118,7 +118,7 @@ Kết quả:
 
 ---
 
-## ⚡ Cheatsheet <!-- OPTIONAL -->
+## ⚡ Tra cứu nhanh (Cheatsheet) <!-- OPTIONAL -->
 
 | Mục đích | Lệnh / Cú pháp |
 |---|---|
@@ -128,7 +128,7 @@ Kết quả:
 
 ---
 
-## 📚 Glossary <!-- REQUIRED nếu có thuật ngữ EN -->
+## 📚 Từ Điển Thuật Ngữ (Glossary) <!-- REQUIRED nếu có thuật ngữ EN -->
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -139,21 +139,24 @@ Kết quả:
 
 ## 🔗 Liên kết & Tài nguyên <!-- OPTIONAL -->
 
-### Bài liên quan trong kho
+### 🧭 Định hướng lộ trình học
 
-| Hướng | Bài |
-|---|---|
-| ⬅️ Bài trước | [<Bài trước>](./<path>.md) |
-| ➡️ Bài tiếp | [<Bài sau>](./<path>.md) |
-| 🔗 Liên quan | [<Bài 1>](./<path>.md), [<Bài 2>](./<path>.md) |
-| ⬆️ Index L2 | [<Tên L2>](../README.md) |
+- ⬅️ **Bài trước:** [<tiêu đề thật của bài trước>](./<path>.md)
+- ➡️ **Bài tiếp theo:** [<tiêu đề thật của bài tiếp>](./<path>.md)
+- ↑ **Về cụm:** [<Tên cụm> — README cụm](../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [<tiêu đề thật của bài liên quan 1>](./<path>.md)
+- [<tiêu đề thật của bài liên quan 2>](./<path>.md)
+
+### 🌐 Tài nguyên tham khảo khác
 
 - [<Tên tài nguyên>](<URL>) — <ngắn gọn lý do recommend>
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Việt hoá heading kỹ thuật (Self-check/Cheatsheet/Pitfall/Glossary), đổi section Liên kết sang 3-sub + nav bullet 3-marker, đổi "Prerequisites" → "Yêu cầu trước" + thêm Tags, dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

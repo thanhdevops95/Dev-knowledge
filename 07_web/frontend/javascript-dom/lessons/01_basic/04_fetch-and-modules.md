@@ -6,8 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
-> **Prerequisites:** [Events & Async](03_events-and-async.md), [REST API](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
+> **Prerequisites:** [Events & Async](03_events-and-async.md), [REST API](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
 
 > 🎯 *Master **Fetch API** — GET/POST/PUT/DELETE, JSON body, headers, error handling, abort, retry. Plus **ES modules** — `import/export`, default vs named, dynamic import, tree-shaking. Sau bài này gọi FastAPI từ frontend hoàn chỉnh, code chia file modular.*
 
@@ -24,7 +23,7 @@
 
 ---
 
-## Tình huống — bạn fetch FastAPI nhưng lỗi không hiển thị
+## Tình huống — Fetch FastAPI nhưng lỗi không hiển thị
 
 Bạn viết code call FastAPI backend:
 
@@ -41,7 +40,7 @@ Bạn thử POST:
 ```javascript
 fetch('/users', {
   method: 'POST',
-  body: { name: 'bạn' }   // ← BUG: object không stringify
+  body: { name: 'Nguyen Van A' }   // ← BUG: object không stringify
 });
 // → Backend nhận body lạ
 ```
@@ -192,7 +191,7 @@ async function createUser(data) {
 
 // Use
 const user = await createUser({
-  name: 'bạn',
+  name: 'Nguyen Van A',
   email: 'nguyenvana@ex.com'
 });
 ```
@@ -225,7 +224,7 @@ fetch('/api', {
 });
 ```
 
-→ Hiếm dùng. FastAPI OAuth2 `/token` endpoint cần dạng này ([bài auth FastAPI](../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)).
+→ Hiếm dùng. FastAPI OAuth2 `/token` endpoint cần dạng này ([bài auth FastAPI](../../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)).
 
 ### PUT / PATCH / DELETE
 
@@ -537,7 +536,7 @@ import debounce from 'lodash/debounce';
 
 ---
 
-## 1️⃣0️⃣ bạn ghép full app — Frontend gọi FastAPI
+## 1️⃣0️⃣ Ghép full app — Frontend gọi FastAPI
 
 ### `api.js`
 
@@ -655,7 +654,7 @@ loadProducts();
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>bạn Shop</title>
+  <title>Acme Shop</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -673,11 +672,11 @@ loadProducts();
 </html>
 ```
 
-→ Full-stack hoàn chỉnh! Frontend (HTML+CSS+JS) gọi FastAPI backend Bạn viết. Modular code, proper error handle.
+→ Full-stack hoàn chỉnh! Frontend (HTML+CSS+JS) gọi FastAPI backend bạn viết. Modular code, proper error handle.
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`fetch` không reject 4xx/5xx** — must check `res.ok`. 90% beginner lỗi này.
 2. **POST không `JSON.stringify`** — gửi `[object Object]`. Always stringify object body.
@@ -687,7 +686,7 @@ loadProducts();
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. `fetch('/missing')` trả 404 — `.then()` chạy hay `.catch()`?
 2. POST JSON body — 2 thứ phải có?
@@ -716,7 +715,7 @@ loadProducts();
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Fetch
 
@@ -806,19 +805,19 @@ try {
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Events & Async](03_events-and-async.md)
-- ↑ Cluster: [javascript-dom README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Events & Async — Click, Promise, async/await](03_events-and-async.md)
+- ↑ **Về cụm:** [javascript-dom README](../../README.md)
 
-### Cross-reference
-- [REST API concepts](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — backend Bạn gọi
-- [HTTP methods](../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
-- [HTTP headers](../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md) — CORS, Auth
-- [FastAPI auth](../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — backend bạn gọi
+- [HTTP methods](../../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
+- [HTTP headers](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md) — CORS, Auth
+- [FastAPI auth](../../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 - 📖 [MDN — ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
 - 📖 [javascript.info — Fetch](https://javascript.info/fetch)
@@ -830,8 +829,7 @@ try {
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 fetch GET + async/await + Response object + §2 fetch không reject 4xx + Check res.ok. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 5/5. Cover: fetch API (GET/POST/PUT/DELETE) + async/await + Response object + error handling (gotcha 4xx/5xx) + JSON body + FormData + AbortController cancel + ES modules (import/export) + tree-shaking.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục fetch GET, async/await, Response object, fetch không reject 4xx, Check res.ok. Thêm mục Changelog.

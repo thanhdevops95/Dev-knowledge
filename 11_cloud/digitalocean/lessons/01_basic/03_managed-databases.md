@@ -1,13 +1,12 @@
 # 🗃️ Managed Databases — Postgres / MySQL / Redis / MongoDB / Kafka
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [02_spaces-object-storage-and-cdn](02_spaces-object-storage-and-cdn.md) ✅, hiểu SQL cơ bản, đã dùng Postgres/Redis
+> **Yêu cầu trước:** [Spaces — Object Storage + CDN built-in](02_spaces-object-storage-and-cdn.md), hiểu SQL cơ bản, đã dùng Postgres/Redis
 
 > 🎯 *Bài 03 đi sâu **Managed Databases** của DO. Bạn sẽ học: vì sao nên dùng managed thay self-host, 5 engine (Postgres / MySQL / Redis / MongoDB / Kafka), standby + read replica, connection pooling, automated backup, security baseline, hands-on deploy Postgres production cho Acme Shop.*
 
@@ -79,6 +78,8 @@ Bài này dạy đủ deploy production-grade.
 
 ## 2️⃣ 5 Engines DO managed
 
+DO không chỉ có Postgres. Trong cùng một giao diện Managed Databases, bạn chọn được 5 engine khác nhau, mỗi cái hợp với một kiểu dữ liệu. Bảng dưới đối chiếu năng lực của từng engine theo các tiêu chí bạn quan tâm khi chọn (HA, replica, backup, PITR) — để thấy nhanh cái nào hỗ trợ gì.
+
 ### Đặc điểm chung
 
 | | Postgres | MySQL | Redis | MongoDB | Kafka |
@@ -109,6 +110,8 @@ Bài này dạy đủ deploy production-grade.
 ---
 
 ## 3️⃣ Pricing — Tier matrix
+
+Giá managed DB chia làm hai nhóm: **Basic** (1 node, không HA — hợp dev/staging) và **Pro** (kèm standby, hợp production). Càng nhiều RAM/vCPU/standby thì giá càng lên. Bảng dưới giúp bạn ướm ngân sách $30-100/tháng mà sếp đưa ra rơi vào tier nào.
 
 ### Postgres (tương tự MySQL/MongoDB)
 
@@ -174,9 +177,9 @@ Bài này dạy đủ deploy production-grade.
 
 ### Vấn đề
 
-Postgres mỗi connection ~10MB RAM. 200 web request → 200 connection → 2GB RAM Postgres chỉ để giữ connection.
+Mỗi connection tới Postgres tốn khoảng 10MB RAM cho process backend riêng. Khi app web có 200 request đồng thời mở 200 connection, riêng việc giữ connection đã ngốn ~2GB RAM của Postgres — chưa chạy query nào. Đây là nút thắt kinh điển khi traffic tăng.
 
-→ Cần **connection pool**: app mở 200 "logical" connection, pool maintain 20 "physical" tới Postgres, multiplex.
+Giải pháp là dùng *connection pool*: app vẫn mở 200 connection "logical" như bình thường, nhưng pool chỉ duy trì khoảng 20 connection "physical" thật tới Postgres rồi *multiplex* (ghép nhiều request qua chung một connection vật lý).
 
 ### DO Postgres có PgBouncer built-in
 
@@ -491,7 +494,7 @@ sudo chmod +x /etc/cron.weekly/postgres-backup
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Quên `?sslmode=require`
 
@@ -568,7 +571,7 @@ sudo chmod +x /etc/cron.weekly/postgres-backup
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Standby và Read Replica khác nhau thế nào?
 
@@ -636,7 +639,7 @@ Combined: zero attack surface từ internet.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -656,9 +659,9 @@ Combined: zero attack surface từ internet.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | **Managed DB** | DB có quản | DB DO lo deploy/backup/HA/patch |
 | **Standby** | Dự phòng đồng bộ | Node passive sync replicate, auto-failover |
@@ -679,17 +682,20 @@ Combined: zero attack surface từ internet.
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_spaces-object-storage-and-cdn](02_spaces-object-storage-and-cdn.md)
-- → Tiếp: [04_app-platform-and-functions](04_app-platform-and-functions.md)
-- ↑ Cluster DigitalOcean: [DigitalOcean README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS RDS + DynamoDB](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md) — so sánh
-- 🐘 [Postgres](../../../../03_Programming/databases/postgres/) — engine deep dive
-- 🐍 [SQLAlchemy + asyncpg](../../../../07_web/backend/python-fastapi/) — driver
+- ⬅️ **Bài trước:** [Spaces — Object Storage kèm CDN miễn phí](02_spaces-object-storage-and-cdn.md)
+- ➡️ **Bài tiếp theo:** [App Platform + Functions + DOKS — PaaS + Serverless + K8s](04_app-platform-and-functions.md)
+- ↑ **Về cụm:** [DigitalOcean](../../README.md)
 
-### Tài nguyên ngoài (2026)
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [AWS RDS + DynamoDB](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md) — so sánh managed DB của AWS
+- 🐘 [Postgres](../../../../06_databases/postgresql/) — đào sâu engine Postgres
+- 🐍 [SQLAlchemy + asyncpg](../../../../07_web/backend/python-fastapi/) — driver kết nối từ FastAPI
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [DO Managed Databases docs](https://docs.digitalocean.com/products/databases/)
 - 📖 [DO Postgres docs](https://docs.digitalocean.com/products/databases/postgresql/)
 - 📖 [DO Connection pools](https://docs.digitalocean.com/products/databases/postgresql/how-to/manage-connection-pools/)
@@ -699,6 +705,7 @@ Combined: zero attack surface từ internet.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Managed DB rationale + 5 engine (Postgres/MySQL/Redis/MongoDB/Kafka) + tier matrix + standby vs read replica + PgBouncer pool mode + backup PITR + Trusted Sources + VPC private + user RBAC + hands-on Postgres production + 10 pitfalls.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước) + Glossary header 3 cột + nav theo gold-standard (⬅️/➡️/↑ Về cụm, link-text = tiêu đề thực, 3 sub Định hướng/Chủ đề/Tài nguyên). Thêm lời dẫn trước các bảng (5 engine, tier matrix) và viết mượt đoạn connection pooling. Giữ nguyên toàn bộ nội dung kỹ thuật + số liệu (đã verify max_connections=22 cho Basic 1GB là đúng: 25/GB trừ 3 reserved).

@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [01_what-is-shell.md](./01_what-is-shell.md), [03_process-and-pid.md](./03_process-and-pid.md)
 
 > 🎯 *Bài CONCEPT — hiểu **environment variable là gì**, **$PATH** đặc biệt thế nào, **scope** (process/session/system), **`.env` file** pattern, **secrets**. Sau bài này bạn hiểu vì sao `command not found` xảy ra, vì sao `.env` không được commit, và cách config app qua env var.*
@@ -386,9 +385,9 @@ services:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Set env trong shell mà app vẫn không thấy
+### ❌ Cạm bẫy: Set env trong shell mà app vẫn không thấy
 
 ```bash
 export API_KEY="secret"
@@ -402,7 +401,7 @@ export API_KEY="secret"
   - Ghi env vào file persistent (`~/.zshrc`)
   - Set qua launchd plist (Mac advanced)
 
-### ❌ Pitfall: Commit `.env` lên public repo
+### ❌ Cạm bẫy: Commit `.env` lên public repo
 
 ```bash
 git add .         # ❌ include .env
@@ -416,7 +415,7 @@ git push          # ❌ secrets leak lên GitHub
   - Nếu lỡ commit → KHÔNG đủ chỉ `git rm` — phải **rotate ALL secrets** + dùng `git filter-repo` xoá history
 - **Tool ngăn ngừa**: `pre-commit` hook + `gitleaks` scan tự động
 
-### ❌ Pitfall: Sửa `.zshrc` xong gõ env mới ngay
+### ❌ Cạm bẫy: Sửa `.zshrc` xong gõ env mới ngay
 
 ```bash
 # Sửa .zshrc thêm export
@@ -430,7 +429,7 @@ echo $NEW
 - **Lý do**: `.zshrc` chỉ chạy lúc khởi tạo shell. Sửa file không tự reload.
 - **Cách fix**: `source ~/.zshrc` hoặc đóng-mở terminal.
 
-### ❌ Pitfall: Override `$PATH` mất binary cũ
+### ❌ Cạm bẫy: Override `$PATH` mất binary cũ
 
 ```bash
 export PATH="/my/custom/bin"   # ❌ Bỏ qua $PATH cũ
@@ -469,7 +468,7 @@ export PATH="/my/custom/bin"   # ❌ Bỏ qua $PATH cũ
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Bạn `export API_KEY=abc` ở terminal 1. Mở terminal 2 mới, `echo $API_KEY` ra gì?
 
@@ -549,7 +548,7 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -591,7 +590,7 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -619,11 +618,11 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 |---|---|
 | ⬅️ Bài trước | [03_process-and-pid.md](./03_process-and-pid.md) — Process concept (env theo process) |
 | ➡️ Bài tiếp | [05_io-redirection.md](./05_io-redirection.md) — chưa có |
-| 📚 Git `.gitignore` cho `.env` | [Git lesson 01](../../../version-control/git/lessons/01_basic/01_init-and-first-commit.md) §3 |
+| 📚 Git `.gitignore` cho `.env` | [Git lesson 01](../../../../02_tools/git/lessons/01_basic/01_init-and-first-commit.md) §3 |
 | 🐳 Env var trong Docker | [Docker Compose lesson](../../../../10_devops/docker/lessons/01_basic/03_docker-compose.md) §6 |
 | 🛠️ Customize shell `.zshrc` | [02_tools/shell/](../../../../02_tools/shell/) (chưa có content) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [The Twelve-Factor App — III. Config](https://12factor.net/config) — chuẩn vàng config qua env var
 - [dotenv (Node.js)](https://github.com/motdotla/dotenv) — library phổ biến nhất
@@ -634,9 +633,7 @@ bash -c 'echo "local=$local_var, exp=$EXP_VAR"'
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 5 lead-in trước code/bảng (cú pháp env, shell var vs env var, `which`, scope persistence, process-level), bổ sung ✅ Best practice thứ 2 (phân biệt `.env` / `.env.example` / `.env.local`).
-
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster basic computing-environment 5/6 bài. Cover: env var concept, $PATH với mermaid lookup flow, 3 scope (process/session/persistent), inheritance parent-child với mermaid, `.env` pattern + `.env.example`, secrets vs config thường, vault tools, env trong Docker (3 cách), 5 pitfall + 4 self-check + cheatsheet 10 env var phổ biến.
+- **v1.1.0 (24/05/2026)** — Thêm 5 lead-in trước code/bảng (cú pháp env, shell var vs env var, `which`, scope persistence, process-level), bổ sung ✅ Best practice thứ 2 (phân biệt `.env` / `.env.example` / `.env.local`).

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** [CSS Fundamentals](03_css-fundamentals.md)
 
 > 🎯 *Master 2 layout modern: **Flexbox** (1D — row hoặc column), **Grid** (2D — row + column). Plus **responsive design** (media queries, container queries, mobile-first). Sau bài này build được layout production: navbar, card grid, dashboard, holy grail.*
@@ -24,7 +23,7 @@
 
 ---
 
-## Tình huống — Bạn viết homepage bạn Shop responsive
+## Tình huống — Bạn viết homepage Acme Shop responsive
 
 Bạn cần layout:
 ```
@@ -531,7 +530,7 @@ main { /* Tự fill space */ }
 ```html
 <body>
   <div class="layout">
-    <header class="header">bạn Shop</header>
+    <header class="header">Acme Shop</header>
     <nav class="nav">Menu</nav>
     <main class="main">
       <div class="card-grid">
@@ -613,7 +612,7 @@ body {
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Dùng `float`** cho layout → 2010 style. Giờ là Flexbox/Grid.
 2. **`position: absolute`** cho layout thường → element chồng nhau. Chỉ dùng cho overlay (modal, tooltip).
@@ -623,7 +622,7 @@ body {
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Flexbox** vs **Grid** — chọn cái nào cho navbar? Cho page layout?
 2. Viết CSS center 1 div theo cả 2 trục — 3 dòng?
@@ -661,7 +660,7 @@ body {
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Flexbox quick
 
@@ -759,13 +758,13 @@ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [CSS Fundamentals](03_css-fundamentals.md)
-- ↑ Cluster: [html-css README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [CSS Fundamentals — Selectors, Specificity, Box Model](03_css-fundamentals.md)
+- ↑ **Về cụm:** [html-css README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — Flexbox guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout)
 - 📖 [MDN — CSS Grid guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
 - 📖 [Flexbox Froggy](https://flexboxfroggy.com/) — interactive game
@@ -779,8 +778,7 @@ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Setup flex + Container properties + Item properties + Navbar pattern + Vertical center. Fix residue `bạn Shop` → `Acme Shop`. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 5/5. Cover: Flexbox 1D (container + item properties + patterns) + Grid 2D (template areas + grid-template-columns/rows + responsive auto-fit) + media queries breakpoints + mobile-first + container queries + position properties.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Setup flex, Container properties, Item properties, Navbar pattern, Vertical center. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.

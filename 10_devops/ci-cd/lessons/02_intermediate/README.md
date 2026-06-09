@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Status:** ✅ Intermediate cluster hoàn thành (5/5 bài)
 
-> 🎯 *Từ "deploy được" → "supply chain secure + GitOps + progressive". Build trên CI/CD basic (5 bài). Cluster intermediate thứ 3 của `10_devops/`. Apply 4 insight từ `__Ref__/` (GitOps anti-pattern, 12-factor, SLSA, progressive). Output: pipeline SOC2-compliant + auto-rollback.*
+> 🎯 *Từ "deploy được" → "supply chain secure + GitOps + progressive". Xây tiếp trên CI/CD basic (5 bài). Bốn trụ cột: GitOps anti-pattern, 12-factor, SLSA, progressive delivery. Output: pipeline SOC2-compliant + auto-rollback.*
 
 ---
 
@@ -36,15 +36,14 @@
 
 ## 📖 Lessons — Intermediate cluster (5 bài)
 
-| # | Bài | Trọng tâm | Tag | Thời lượng |
-|---|---|---|---|---|
-| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + tool stack 2026 + 4 production incident scenarios | MUST-KNOW | ~13p |
-| 01 | [GitOps với ArgoCD](01_gitops-with-argocd.md) | ArgoCD architecture + Application + ApplicationSet (4 generators) + multi-cluster + sync waves + RBAC + ArgoCD vs Flux | MUST-KNOW | ~25p |
-| 02 | [Supply chain security](02_supply-chain-security.md) | SLSA Level 3 + provenance attestation + cosign full chain + Kyverno admission verify + vulnerability lifecycle | MUST-KNOW | ~22p |
-| 03 | [Secret management](03_secret-management.md) | 12-factor + Vault + ESO + Sealed Secrets + SOPS + dynamic credentials + gitleaks + IRSA | MUST-KNOW | ~22p |
-| 04 | [Progressive delivery](04_progressive-delivery.md) | Argo Rollouts canary + AnalysisTemplate auto-rollback + traffic shifting (nginx/Istio) + Feature flags (OpenFeature/Unleash) | MUST-KNOW | ~25p |
+| # | Bài | Trọng tâm | Tag |
+| --- | --- | --- | --- |
+| 00 | [Intermediate overview](00_intermediate-overview.md) | Map 4 mảng + tool stack 2026 + 4 production incident scenarios | MUST-KNOW |
+| 01 | [GitOps với ArgoCD](01_gitops-with-argocd.md) | ArgoCD architecture + Application + ApplicationSet (4 generators) + multi-cluster + sync waves + RBAC + ArgoCD vs Flux | MUST-KNOW |
+| 02 | [Supply chain security](02_supply-chain-security.md) | SLSA Level 3 + provenance attestation + cosign full chain + Kyverno admission verify + vulnerability lifecycle | MUST-KNOW |
+| 03 | [Secret management](03_secret-management.md) | 12-factor + Vault + ESO + Sealed Secrets + SOPS + dynamic credentials + gitleaks + IRSA | MUST-KNOW |
+| 04 | [Progressive delivery](04_progressive-delivery.md) | Argo Rollouts canary + AnalysisTemplate auto-rollback + traffic shifting (nginx/Istio) + Feature flags (OpenFeature/Unleash) | MUST-KNOW |
 
-→ **Tổng ~107 phút đọc + 6-8h hands-on**. Sau cluster: CI/CD production-grade tier-1, SOC2-ready.
 
 ---
 
@@ -61,11 +60,11 @@
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
-- ↑ [CI/CD README](../../README.md)
-- ↶ [Basic cluster](../01_basic/) — 5 bài foundation
+### 🧭 Định hướng lộ trình học
+- ↑ **Về cụm:** [CI/CD README](../../README.md)
+- ⬅️ **Bài trước:** [Basic cluster](../01_basic/) — 5 bài foundation
 - 🐳 [Docker intermediate](../../../docker/lessons/02_intermediate/) — image production-grade
 - ☸️ [Kubernetes intermediate](../../../kubernetes/lessons/02_intermediate/) — K8s production
 - 📊 [Observability basic](../../../observability/) — Prometheus cho canary analysis
@@ -87,6 +86,6 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Cluster intermediate thứ 3 của `10_devops/`. 5 bài hoàn thành: overview + ArgoCD + supply chain SLSA + secret Vault + progressive delivery. Apply 4 insight từ `__Ref__/` (GitOps anti-pattern, 12-factor violations, SLSA Level 3, progressive delivery patterns). Apply rule Blueprint v0.5.2 (no fictional character).
+- **v1.0.0 (24/05/2026)** — 5 bài hoàn thành: overview + ArgoCD + supply chain SLSA + secret Vault + progressive delivery. Bao quát 4 mảng: GitOps anti-pattern, 12-factor, SLSA Level 3, progressive delivery patterns.

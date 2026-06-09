@@ -55,7 +55,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (26/05/2026)** — Hoàn thiện mục lục chi tiết cho module Infrastructure as Code, kết nối đầy đủ các bài học Basic & Intermediate hiện có.
 - **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).
+- **v1.0.0 (26/05/2026)** — Hoàn thiện mục lục chi tiết cho module Infrastructure as Code, kết nối đầy đủ các bài học Basic & Intermediate hiện có.

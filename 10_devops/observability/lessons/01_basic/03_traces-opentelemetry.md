@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Logs](02_logs-loki-elk.md)
 
 > 🎯 *Master distributed tracing: **OpenTelemetry** (CNCF standard), **spans + trace**, **context propagation** across services, **sampling** strategy, **Tempo vs Jaeger vs Honeycomb**, instrument FastAPI + auto-instrument, correlate **traces ↔ logs ↔ metrics**.*
@@ -579,7 +578,7 @@ span.set_attribute("user.id", user_id)        # Just ID
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **100% sampling** → Tempo OOM, $$$$. Tail sampling 1-10% normal + 100% errors.
 2. **High cardinality attribute** (`user.id`, `request.id`) → slow query. Use as needed but watch.
@@ -589,7 +588,7 @@ span.set_attribute("user.id", user_id)        # Just ID
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Trace** vs **Span** — relationship?
 2. **OpenTelemetry** — 3 components?
@@ -613,7 +612,7 @@ span.set_attribute("user.id", user_id)        # Just ID
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Install OTel + auto-instrument FastAPI
 
@@ -699,14 +698,14 @@ Datadog APM  $$$
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Logs Loki/ELK](02_logs-loki-elk.md)
-- → Tiếp: [Grafana & Alerting](04_grafana-and-alerting.md)
-- ↑ Cluster: [observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Logs — Loki, ELK, structured logging](02_logs-loki-elk.md)
+- ➡️ **Bài tiếp theo:** [Grafana & Alerting — Unified dashboard + alert routing](04_grafana-and-alerting.md)
+- ↑ **Về cụm:** [observability README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [OpenTelemetry docs](https://opentelemetry.io/)
 - 📖 [Tempo docs](https://grafana.com/docs/tempo/latest/)
 - 📖 [Jaeger docs](https://www.jaegertracing.io/)

@@ -1,10 +1,10 @@
 # 🤖 13_ai-ml
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 24/05/2026\
-> **Status:** 🟢 Active — 1/10 cluster có basic content (llm)
+> **Cập nhật:** 07/06/2026\
+> **Status:** 🟢 Active — 1/10 cluster basic đầy đủ (llm) + 5/10 cluster có bài intro
 
 > 🎯 *AI / ML knowledge: LLM (ChatGPT/Claude/Gemini), RAG, AI Agents, Vector Search, Embeddings, Fine-tuning, classical ML, Deep Learning, Math for ML, MLOps, NLP, Computer Vision. LLM cluster là cluster đầu tiên — cross-cuts mọi dev role 2026.*
 
@@ -21,17 +21,16 @@ LLM (Large Language Models), RAG (Retrieval Augmented Generation), AI Agents, Ve
 | Cluster | Status | Basic | Intermediate |
 |---|---|---|---|
 | [llm](llm/) | ✅ Active | 5/5 ✅ | ⏳ |
-| [rag-and-ai-agent](rag-and-ai-agent/) | 🟡 Skeleton | ⏳ | ⏳ |
-| [vector-search-and-embeddings](vector-search-and-embeddings/) | 🟡 Skeleton | ⏳ | ⏳ |
-| [math-for-ml](math-for-ml/) | 🟡 Skeleton | ⏳ | ⏳ |
-| [ml-fundamentals](ml-fundamentals/) | 🟡 Skeleton | ⏳ | ⏳ |
-| [deep-learning](deep-learning/) | 🟡 Skeleton | ⏳ | ⏳ |
+| [rag-and-ai-agent](rag-and-ai-agent/) | 🚧 Intro | 🚧 1 intro | ⏳ |
+| [vector-search-and-embeddings](vector-search-and-embeddings/) | 🚧 Intro | 🚧 1 intro | ⏳ |
+| [math-for-ml](math-for-ml/) | 🚧 Intro | 🚧 1 intro | ⏳ |
+| [ml-fundamentals](ml-fundamentals/) | 🚧 Intro | 🚧 1 intro | ⏳ |
+| [deep-learning](deep-learning/) | 🚧 Intro | 🚧 1 intro | ⏳ |
 | [nlp](nlp/) | 🟡 Skeleton | ⏳ | ⏳ |
 | [computer-vision](computer-vision/) | 🟡 Skeleton | ⏳ | ⏳ |
 | [fine-tuning-and-training](fine-tuning-and-training/) | 🟡 Skeleton | ⏳ | ⏳ |
 | [mlops](mlops/) | 🟡 Skeleton | ⏳ | ⏳ |
 
-> Chi tiết sitemap → [`../_blueprint/01_sitemap-detail.md`](../_blueprint/01_sitemap-detail.md).
 
 ---
 
@@ -50,25 +49,24 @@ LLM (Large Language Models), RAG (Retrieval Augmented Generation), AI Agents, Ve
 
 ## 📖 Active cluster — llm basic (5 bài)
 
-| # | Bài | Tag | Thời lượng |
-|---|---|---|---|
-| 00 | [LLM intro + tokenization](llm/lessons/01_basic/00_what-is-llm-and-tokenization.md) | MUST-KNOW | ~18p |
-| 01 | [Prompt engineering](llm/lessons/01_basic/01_prompt-engineering-and-context.md) | MUST-KNOW | ~22p |
-| 02 | [Function calling + tools](llm/lessons/01_basic/02_function-calling-and-tools.md) | MUST-KNOW | ~22p |
-| 03 | [RAG fundamentals](llm/lessons/01_basic/03_rag-fundamentals.md) | MUST-KNOW | ~22p |
-| 04 | [Production LLM app](llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md) | MUST-KNOW | ~22p |
+| # | Bài | Tag |
+| --- | --- | --- |
+| 00 | [LLM intro + tokenization](llm/lessons/01_basic/00_what-is-llm-and-tokenization.md) | MUST-KNOW |
+| 01 | [Prompt engineering](llm/lessons/01_basic/01_prompt-engineering-and-context.md) | MUST-KNOW |
+| 02 | [Function calling + tools](llm/lessons/01_basic/02_function-calling-and-tools.md) | MUST-KNOW |
+| 03 | [RAG fundamentals](llm/lessons/01_basic/03_rag-fundamentals.md) | MUST-KNOW |
+| 04 | [Production LLM app](llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md) | MUST-KNOW |
 
-→ **Tổng ~106 phút**. Foundation cho mọi AI app 2026.
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
-### Trong workspace
+### 🧭 Định hướng lộ trình học
 - 🐍 [Python](../03_languages/python/)
 - 🌐 [HTTP API](../05_networking/http-https/)
 - 🛡️ [OWASP LLM Top 10](../12_security/owasp-top-10/)
-- 🐘 [pgvector + Postgres](../06_databases/sql/postgresql/)
+- 🐘 [pgvector + Postgres](../06_databases/postgresql/)
 - 🐳 [Docker + K8s](../10_devops/)
 - ☁️ [11_cloud](../11_cloud/)
 - 💰 [Cloud cost management](../11_cloud/cloud-cost-management/)
@@ -83,7 +81,8 @@ LLM (Large Language Models), RAG (Retrieval Augmented Generation), AI Agents, Ve
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (24/05/2026)** — Cluster **llm basic 5/5 hoàn chỉnh**. Cluster đầu tiên của 13_ai-ml branch. 1/10 sub-clusters active. Foundation cho dev build AI app — không cần math/classical ML trước.
 - **v0.1.0 (16/05/2026)** — Skeleton ban đầu.
+- **v1.0.0 (24/05/2026)** — Cluster **llm basic 5/5 hoàn chỉnh**. Cluster đầu tiên của 13_ai-ml branch. 1/10 sub-clusters active. Foundation cho dev build AI app — không cần math/classical ML trước.
+- **v1.1.0 (07/06/2026)** — Sync status bảng Sub-clusters với thực tế thư mục: 5 cluster (rag-and-ai-agent, vector-search-and-embeddings, math-for-ml, ml-fundamentals, deep-learning) đã có bài intro `00` → đổi `Skeleton ⏳` thành `🚧 Intro / 🚧 1 intro`; cập nhật dòng Status đầu file.

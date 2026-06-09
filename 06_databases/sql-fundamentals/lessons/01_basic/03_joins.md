@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [SELECT & Filter](01_select-and-filter.md), [Aggregations](02_aggregations.md)
 
 > 🎯 *Học **5 loại JOIN** (INNER/LEFT/RIGHT/FULL/CROSS), khi nào dùng cái nào, **alias bảng**, **self-join**, **3 JOIN bảng**, và 4 sai lầm phổ biến (Cartesian, ambiguous column, NULL trong LEFT JOIN). Sau bài này bạn ghép được data từ mọi schema relational.*
@@ -51,7 +50,7 @@ Bạn ngơ:
 - **`ON`** dùng ra sao?
 - **LEFT JOIN** với **INNER JOIN** khác nhau thế nào?
 
-→ Bài này dạy bạn (và bạn) **JOIN bảng đúng cách**.
+→ Bài này dạy bạn **JOIN bảng đúng cách**.
 
 ---
 
@@ -544,7 +543,7 @@ SELECT * FROM users u JOIN orders o ON o.user_id = u.id;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác biệt giữa `INNER JOIN` và `LEFT JOIN`?
 2. Vì sao `FROM users, orders` (không ON) ra Cartesian product?
@@ -650,14 +649,14 @@ WHERE u.status = 'active'
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Aggregations](02_aggregations.md)
-- → Tiếp: [INSERT, UPDATE, DELETE](04_insert-update-delete.md)
-- ↑ Cluster: [sql-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Aggregations — COUNT, SUM, AVG & GROUP BY](02_aggregations.md)
+- ➡️ **Bài tiếp theo:** [INSERT / UPDATE / DELETE & Transactions](04_insert-update-delete.md)
+- ↑ **Về cụm:** [sql-fundamentals README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SQLBolt — Lesson 6-8 (JOINs)](https://sqlbolt.com/lesson/select_queries_with_joins)
 - 📖 [Visualizing SQL JOINs — Joe Celko style diagram](https://www.codeproject.com/articles/33052/visual-representation-of-sql-joins)
 - 📖 [Use The Index, Luke! — Indexes for JOIN](https://use-the-index-luke.com/sql/join)
@@ -670,6 +669,6 @@ WHERE u.status = 'active'
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 4/6. Cover: 5 JOIN (INNER/LEFT/RIGHT/FULL/CROSS) + alias bảng + self-join + JOIN 3 bảng + 4 anti-pattern (Cartesian explosion, ambiguous column, NULL trong LEFT JOIN, missing ON).

@@ -1,22 +1,18 @@
 # computer-architecture
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v0.1.0\
 > **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Status:** ❌ Chưa có content
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🚧 *Folder này hiện chưa có bài. Nội dung về kiến trúc máy tính (binary, CPU/RAM/ổ cứng, compiler vs interpreter) đang nằm ở [`../computer-architecture-theory/`](../computer-architecture-theory/) — xem bài [Máy tính hoạt động thế nào](../computer-architecture-theory/lessons/01_basic/00_how-computer-works.md).*
 
 ## 📂 Cấu trúc dự kiến (theo menu 7 loại)
 
 ```
 computer-architecture/
 ├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"computer-architecture là gì\" — intro chung
+├── 00_overview.md     ← "computer-architecture là gì" — intro chung
 ├── lessons/           ← 📖 bài học lý thuyết
 │   ├── 01_basic/
 │   ├── 02_intermediate/
@@ -25,7 +21,7 @@ computer-architecture/
 ├── exercises/         ← 🧪 bài tập nhỏ
 ├── projects/          ← 🎯 project lớn nhiều bước
 ├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
+├── _cheatsheet.md     ← ⚡ tra cứu nhanh (nếu có)
 └── _glossary.md       ← 📘 thuật ngữ (nếu có)
 ```
 

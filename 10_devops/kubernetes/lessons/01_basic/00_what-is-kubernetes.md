@@ -155,7 +155,7 @@ Worker Node là các máy chủ vật lý hoặc máy ảo thực tế chịu tr
 
 ---
 
-## 4️⃣ Lựa Cường Sân Chơi Thử Nghiệm: 4 Phương Pháp Cài Đặt Kubernetes Tại Local
+## 4️⃣ Lựa Chọn Sân Chơi Thử Nghiệm: 4 Phương Pháp Cài Đặt Kubernetes Tại Local
 
 Để học tập K8s mà không mất tiền mua máy chủ đám mây, bạn có thể tự khởi tạo các cluster mini siêu gọn ngay trên máy laptop cá nhân của mình bằng 4 công cụ sau:
 
@@ -437,7 +437,7 @@ fastapi-deployment-55b5d8f6d-8zzcc    1/1     Running   0          20s
 Để kiểm tra xem hệ thống phân phối tải Service có hoạt động trơn tru không, bạn hãy thực hiện lệnh ánh xạ cổng (port-forward) trực tiếp từ máy host vào Service:
 
 ```bash
-# Ánh xạ cổng 8080 của máy local vào cổng 8 port ảo của Service
+# Ánh xạ cổng 8080 của máy local vào cổng 80 của Service
 kubectl port-forward svc/fastapi-service 8080:80
 ```
 
@@ -467,7 +467,7 @@ kind delete cluster --name fastapi-lab
 
 ---
 
-## ✅ Thử Thách Tự Đánh Giá (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 Bạn hãy cố gắng suy ngẫm và trả lời nhanh 5 câu hỏi cốt lõi sau để kiểm tra mức độ nắm bắt bài học:
 1. Docker Compose khác biệt cốt lõi nhất với Kubernetes ở điểm nào?
@@ -536,13 +536,12 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
 
 ## 📌 Lịch Sử Thay Đổi (Changelog)
 
-- **v2.0.0 (26/05/2026)** — **Mr.Rom nâng cấp Premium chuẩn 5 sao:**
-  - Nâng cấp toàn diện tệp tin đạt chuẩn chất lượng Premium 5 sao của Blueprint mới.
-  - Thiết lập tiêu đề H1 mới giàu nhạc tính và khối metadata block YAML chuẩn chỉnh.
-  - Chuyển đổi 100% các tiêu đề H2 sang dạng câu hỏi gợi mở khơi gợi tư duy sâu sắc.
-  - Sửa đổi toàn bộ các Alerts cũ sang định dạng GitHub Alerts tiêu chuẩn.
-  - Việt hóa 100% các dòng ghi chú giải thích bên trong các khối code YAML và Bash.
-  - Nâng cấp chương thực hành thực chiến: Khởi tạo cụm `kind` cục bộ và deploy ứng dụng FastAPI có giới hạn tài nguyên an toàn.
-  - Sửa đổi đường dẫn chéo tương đối trỏ chính xác về lộ trình DevOps Career Roadmap gốc.
-- **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4+ §3.6: bổ sung lời dẫn trước các phần sơ đồ kiến trúc.
-- **v1.0.0 (23/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên giới thiệu K8s.
+- **v2.0.0 (26/05/2026)** — Nâng cấp toàn diện nội dung:
+  - Chuẩn hóa khối metadata và tiêu đề.
+  - Chuyển các tiêu đề H2 sang dạng câu hỏi gợi mở.
+  - Chuẩn hóa các khối lưu ý sang định dạng GitHub Alerts.
+  - Việt hóa các dòng ghi chú bên trong khối code YAML và Bash.
+  - Bổ sung phần thực hành: khởi tạo cụm `kind` cục bộ và deploy ứng dụng FastAPI có giới hạn tài nguyên.
+  - Sửa đường dẫn chéo trỏ chính xác về lộ trình DevOps Career Roadmap.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các phần sơ đồ kiến trúc.
+- **v1.0.0 (23/05/2026)** — Khởi tạo bản giới thiệu K8s.

@@ -11,15 +11,15 @@
 
 ---
 
-## Tình huống — Maria không muốn code lên Microsoft
+## Tình huống — không muốn code lên Microsoft
 
-Maria là OSS dev viết tool cho cộng đồng Linux. Cô không muốn:
+Giả sử bạn là OSS dev viết tool cho cộng đồng Linux. Bạn không muốn:
 - Code public bị **Microsoft train Copilot** (GitHub Terms of Service cho phép)
 - **Tracking pixel** từ Big Tech
 - Phải verify SMS / phone với Microsoft
 - Project OSS phụ thuộc vào platform của 1 corporation
 
-Maria search "GitHub alternatives ethical" → tìm thấy **Codeberg**. Free, non-profit, OSS, dựa trên Forgejo. Cài thử → quá nhẹ, không có popup AI, không tracking. Maria yêu.
+Bạn search "GitHub alternatives ethical" → tìm thấy **Codeberg**. Free, non-profit, OSS, dựa trên Forgejo. Cài thử → quá nhẹ, không có popup AI, không tracking. Quá hợp.
 
 → Bài này dạy bạn dùng Codeberg cho OSS project + privacy/ethical reasons.
 
@@ -241,20 +241,20 @@ Codeberg có **built-in importer**:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Account approval pending
+### ❌ Cạm bẫy: Account approval pending
 
 - New account đôi khi pending approval admin (chống abuse). Có thể đợi vài giờ đến vài ngày.
 - **Cách tránh**: tạo account sớm, dùng email reputation tốt (không tạm)
 
-### ❌ Pitfall: Quota CI runner shared hết
+### ❌ Cạm bẫy: Quota CI runner shared hết
 
 - Shared runner Codeberg free, nhưng community-funded → có quota
 - Heavy push → CI queue dài
 - **Cách fix**: self-host runner trên VPS bạn (free, unlimited)
 
-### ❌ Pitfall: Recruiter không biết Codeberg
+### ❌ Cạm bẫy: Recruiter không biết Codeberg
 
 - Career portfolio mà chỉ Codeberg → recruiter VN không biết, hỏi GitHub đâu
 - **Cách tránh**: dual-host — Codeberg cho OSS, GitHub mirror cho visibility
@@ -263,7 +263,7 @@ Codeberg có **built-in importer**:
   git push github main    # mirror sang GitHub
   ```
 
-### ❌ Pitfall: Mong đợi feature parity với GitHub
+### ❌ Cạm bẫy: Mong đợi feature parity với GitHub
 
 - Codeberg/Forgejo nhỏ hơn — ít integration, ít app marketplace
 - **Cách tránh**: chọn Codeberg với expectation "git hosting đơn giản + ethical", không thay GitHub fully
@@ -276,7 +276,7 @@ Codeberg có **built-in importer**:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Tại sao có 3 thứ: Codeberg, Forgejo, Gitea?
 
@@ -339,7 +339,7 @@ Codeberg có **built-in importer**:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Action | Cách |
 |---|---|
@@ -354,7 +354,7 @@ Codeberg có **built-in importer**:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -377,7 +377,7 @@ Codeberg có **built-in importer**:
 - 🛠️ [github.md](./github.md) — GitHub user guide
 - 🛠️ [gitea.md](./gitea.md) — Gitea self-host (parent của Forgejo)
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Codeberg.org](https://codeberg.org/) — sign up
 - [Codeberg Documentation](https://docs.codeberg.org/) — chính thức
@@ -389,6 +389,6 @@ Codeberg có **built-in importer**:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #5 trong git-clients/. Cover: tình huống Maria dev OSS không thích Microsoft → §1 Codeberg là gì + phân biệt Codeberg/Forgejo/Gitea → §2 vs GitHub (5 pick + 4 không pick) → §3 Account + 2FA + SSH → §4 Repo + push → §5 PR workflow → §6 Forgejo Actions compatible GitHub Actions → §7 Migrate từ GitHub built-in importer. 5 pitfall + 3 self-check.
+- **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #5 trong git-clients/. Cover: tình huống dev OSS không thích Microsoft → §1 Codeberg là gì + phân biệt Codeberg/Forgejo/Gitea → §2 vs GitHub (5 pick + 4 không pick) → §3 Account + 2FA + SSH → §4 Repo + push → §5 PR workflow → §6 Forgejo Actions compatible GitHub Actions → §7 Migrate từ GitHub built-in importer. 5 pitfall + 3 self-check.

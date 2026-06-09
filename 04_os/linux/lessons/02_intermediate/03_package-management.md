@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *Hiểu **`apt`** (Debian/Ubuntu) vs **`dnf`** (RHEL/Fedora) vs **snap/flatpak** (universal), **dependency resolution**, **repositories + PPA**, **security updates** + unattended-upgrades, lock file `dpkg`, build từ source khi cần.*
@@ -489,7 +488,7 @@ docker run --rm -it ubuntu:24.04 bash      # Test trong env clean
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`apt upgrade` không `update` trước** → dùng index cũ. Luôn 2 lệnh: `update && upgrade`.
 2. **Cài qua `dpkg -i` không qua `apt`** → không resolve dependency → broken. Dùng `apt install ./file.deb`.
@@ -499,7 +498,7 @@ docker run --rm -it ubuntu:24.04 bash      # Test trong env clean
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác nhau **`apt update`** vs **`apt upgrade`**?
 2. Cài Python 3.12 trên Ubuntu 22.04 (default 3.10) — cách nào?
@@ -598,18 +597,18 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [SSH Deep Dive](02_ssh-deep-dive.md)
-- → Tiếp: [Text Processing Advanced](04_text-processing-advanced.md)
-- ↑ Cluster: [linux README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [SSH Deep Dive — Keys, Config, Tunneling, Agent](02_ssh-deep-dive.md)
+- ➡️ **Bài tiếp theo:** [Text Processing — grep, sed, awk + pipe combos](04_text-processing-advanced.md)
+- ↑ **Về cụm:** [linux README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [systemd services](01_systemd-services.md) — package có thể tự cài service files
 - [Docker](../../../../10_devops/docker/) — alternative khi package conflict
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Debian apt manual](https://manpages.debian.org/bookworm/apt/apt.8.en.html)
 - 📖 [RHEL dnf docs](https://docs.fedoraproject.org/en-US/quick-docs/dnf/)
 - 📖 [Snap docs](https://snapcraft.io/docs)
@@ -622,4 +621,4 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ## 📌 Changelog
 
-- **v1.2.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm ẩn dụ "app store + thợ sửa nhà combo", 3 lead-in trước bảng vai trò + update vs upgrade + install/remove.
+- **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "app store + thợ sửa nhà combo", 3 lời dẫn trước bảng vai trò + update vs upgrade + install/remove.

@@ -6,8 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
+> **Prerequisites:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
 
 > 🎯 *Ghép FastAPI + database thật. Học **SQLModel** (Sebastián Ramírez, kết hợp SQLAlchemy + Pydantic), **Dependency Injection** (`Depends`), **session lifecycle**, viết CRUD đầy đủ với **PostgreSQL/SQLite**. Migration với **Alembic**.*
 
@@ -302,7 +301,7 @@ statement = (
 results = session.exec(statement).all()
 ```
 
-→ Pattern + syntax: gần với SQL ở [bài 03 JOINs SQL fundamentals](../../../../06_databases/sql-fundamentals/lessons/01_basic/03_joins.md).
+→ Pattern + syntax: gần với SQL ở [bài 03 JOINs SQL fundamentals](../../../../../06_databases/sql-fundamentals/lessons/01_basic/03_joins.md).
 
 ---
 
@@ -462,7 +461,7 @@ engine = create_engine(DATABASE_URL, echo=False, pool_size=10, max_overflow=20)
 
 ---
 
-## 1️⃣0️⃣ bạn ghép tất cả
+## 1️⃣0️⃣ Ghép tất cả — cấu trúc project hoàn chỉnh
 
 ```
 myapp/
@@ -487,7 +486,7 @@ myapp/
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Share session global** → race condition, transaction lẫn. **1 request = 1 session** qua DI.
 2. **Quên `session.commit()`** → DB rollback khi request kết thúc, data bị mất.
@@ -497,7 +496,7 @@ myapp/
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. SQLModel khác gì SQLAlchemy + Pydantic riêng?
 2. `Depends(get_session)` làm gì?
@@ -521,7 +520,7 @@ myapp/
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Setup nhanh
 
@@ -554,7 +553,7 @@ def get_user(id: int, session: Session = Depends(get_session)):
 
 ```python
 # Create
-user = User(email="x@y.com", name="bạn")
+user = User(email="x@y.com", name="Nguyen Van A")
 session.add(user); session.commit(); session.refresh(user)
 
 # Get by ID
@@ -567,7 +566,7 @@ users = session.exec(select(User).limit(20)).all()
 users = session.exec(select(User).where(User.age >= 25)).all()
 
 # Update
-user.name = "Lê bạn"; session.add(user); session.commit()
+user.name = "Le Van B"; session.add(user); session.commit()
 
 # Delete
 session.delete(user); session.commit()
@@ -602,18 +601,18 @@ alembic downgrade -1
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Pydantic Models](02_pydantic-models.md)
-- → Tiếp: [Auth & Middleware](04_auth-and-middleware.md)
-- ↑ Cluster: [python-fastapi README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Pydantic Models — Validation + Serialization của FastAPI](02_pydantic-models.md)
+- ➡️ **Bài tiếp theo:** [Auth & Middleware — JWT, OAuth2, CORS, Logging](04_auth-and-middleware.md)
+- ↑ **Về cụm:** [python-fastapi README](../../README.md)
 
-### Cross-reference
-- [SQL Schema Design](../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md) — concept PK/FK/index từ SQL fundamentals
-- [SQL INSERT/UPDATE/DELETE](../../../../06_databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md) — transaction + soft delete
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md) — concept PK/FK/index từ SQL fundamentals
+- [SQL INSERT/UPDATE/DELETE](../../../../../06_databases/sql-fundamentals/lessons/01_basic/04_insert-update-delete.md) — transaction + soft delete
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SQLModel docs](https://sqlmodel.tiangolo.com/) — tutorial chính thức
 - 📖 [SQLAlchemy 2.0 docs](https://docs.sqlalchemy.org/)
 - 📖 [Alembic tutorial](https://alembic.sqlalchemy.org/en/latest/tutorial.html)
@@ -625,8 +624,7 @@ alembic downgrade -1
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Cài SQLModel + §2 database.py + main.py + §3 Pattern khuyên dùng + §4 users.py API. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 4/5. Cover: SQLModel (Pydantic + SQLAlchemy gộp) + engine setup + Session dependency + lifespan startup + 4-model pattern (Base/Table/Create/Read) + CRUD endpoints + Alembic migration intro.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Cài SQLModel, §2 database.py + main.py, §3 Pattern khuyên dùng, §4 users.py API. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.

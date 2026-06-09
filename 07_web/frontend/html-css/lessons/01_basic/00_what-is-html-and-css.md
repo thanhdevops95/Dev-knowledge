@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** Không có — đây là bài intro frontend đầu tiên
 
 > 🎯 *Bài INTRO. Hiểu **browser model** (Server → HTML → Browser → render), **3 ngôn ngữ trụ cột** (HTML + CSS + JS), **HTML/CSS evolution** (HTML4 → 5, CSS1 → 3+), **framework landscape** 2026 (React/Vue/Svelte/HTMX), **build tools** (Vite/Webpack). KHÔNG dạy syntax HTML/CSS chi tiết (sẽ học từ bài 01 trở đi).*
@@ -25,7 +24,7 @@
 
 ## Tình huống — Bạn muốn build frontend cho FastAPI
 
-Bạn đã có backend FastAPI ([cluster trước](../../../backend/python-fastapi/)). Sản phẩm cần **UI** cho user click + xem data.
+Bạn đã có backend FastAPI ([cluster trước](../../../../backend/python-fastapi/)). Sản phẩm cần **UI** cho user click + xem data.
 
 Bạn thử:
 
@@ -271,12 +270,12 @@ Mọi trang HTML production-ready cần **8 thành phần cơ bản** — từ D
 </script>
 ```
 
-✅ **Pros**:
+✅ **Ưu điểm**:
 - Không build tool, mở `.html` chạy ngay.
 - Bundle size = 0KB framework.
 - Học fundamentals đầu tiên.
 
-❌ **Cons**:
+❌ **Nhược điểm**:
 - App lớn = code nhiều, khó manage state.
 - Reactivity manual (event listener khắp nơi).
 - Không có component reuse builtin.
@@ -291,12 +290,12 @@ function App() {
 }
 ```
 
-✅ **Pros**:
+✅ **Ưu điểm**:
 - Component-based — reuse + scoped state.
 - Reactivity tự động (state đổi → UI re-render).
 - Ecosystem to: router, state management, UI lib.
 
-❌ **Cons**:
+❌ **Nhược điểm**:
 - Cần build tool (Vite/Webpack).
 - Bundle size ban đầu lớn.
 - Learning curve.
@@ -375,7 +374,7 @@ dist/
 
 ---
 
-## 9️⃣ bạn ghép tất cả — full-stack dự kiến
+## 9️⃣ Ghép tất cả — full-stack dự kiến
 
 ```
 ┌─────────────────────────────────────┐
@@ -389,7 +388,7 @@ dist/
 └─────────────────────────────────────┘
               ↓ HTTP (HTTPS)
 ┌─────────────────────────────────────┐
-│  FastAPI backend (Bạn đã viết)     │  ← Cluster python-fastapi
+│  FastAPI backend (bạn đã viết)     │  ← Cluster python-fastapi
 │   - REST API                         │
 │   - Postgres database                │
 │   - Chạy systemd service              │
@@ -404,7 +403,7 @@ dist/
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Học framework trước HTML/CSS** → khi React broken, không debug được CSS layout cơ bản. Học vanilla trước.
 2. **Inline style mọi thứ** (`<p style="color:red">`) → khó maintain. Tách CSS file.
@@ -414,7 +413,7 @@ dist/
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Vai trò 3 ngôn ngữ trụ cột — HTML, CSS, JS?
 2. Mở DevTools tab nào để debug HTTP request? Tab nào xem DOM?
@@ -438,7 +437,7 @@ dist/
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### HTML minimal template
 
@@ -511,18 +510,18 @@ Backend dev?           → HTMX
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [HTML Essentials](01_html-essentials.md)
-- ↑ Cluster: [html-css README](../../README.md)
-- ↑↑ Frontend grouping: [frontend README](../../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [HTML Essentials — Semantic tags, structure, common elements](01_html-essentials.md)
+- ↑ **Về cụm:** [html-css README](../../README.md)
+- ↑ **Về cụm:** [frontend README](../../../README.md)
 
-### Cross-reference
-- [HTTP là gì](../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — browser nhận HTML qua HTTP
-- [FastAPI](../../../backend/python-fastapi/) — frontend gọi backend này
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — browser nhận HTML qua HTTP
+- [FastAPI](../../../../backend/python-fastapi/) — frontend gọi backend này
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN Web Docs](https://developer.mozilla.org/) — bible cho mọi frontend dev
 - 📖 [HTML Living Standard](https://html.spec.whatwg.org/) — spec gốc
 - 📖 [Can I Use](https://caniuse.com/) — browser support tracker
@@ -535,8 +534,7 @@ Backend dev?           → HTMX
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Browser model + DevTools + §2 Bảng vai trò + §3 Anatomy HTML + Phần. Fix `bạn Shop` (residue Long Shop fictional brand) → `Acme Shop` per Blueprint placeholder. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 1/5. Cover: browser request → render flow + DevTools 7 tab + 3 ngôn ngữ trụ cột (HTML/CSS/JS) + ẩn dụ "Trang web như xây nhà" + Anatomy 1 trang HTML đầy đủ + lộ trình frontend 2026.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Browser model, DevTools, Bảng vai trò, Anatomy HTML. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.

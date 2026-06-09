@@ -62,7 +62,7 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (26/05/2026)** — Cập nhật mục lục hoàn chỉnh kết nối toàn bộ lộ trình học CI/CD từ Basic đến các kỹ thuật GitOps & Security Intermediate.
 - **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).
+- **v1.0.0 (26/05/2026)** — Cập nhật mục lục hoàn chỉnh kết nối toàn bộ lộ trình học CI/CD từ Basic đến các kỹ thuật GitOps & Security Intermediate.

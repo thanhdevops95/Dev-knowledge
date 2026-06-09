@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã biết lập trình cơ bản, muốn chuyên sâu vào công nghệ Web3, mật mã học và phát triển hợp đồng thông minh (Smart Contract)\
-> **Thời gian ước tính:** ~10 tháng học tập tích cực (full-time) hoặc ~20 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển hoặc làm việc trong các dự án DeFi/Web3)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone Project]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Nền tảng Blockchain** | 1-2 tháng | Hiểu cơ chế mã hóa bất đối xứng, cách gửi giao dịch mạng Sepolia |
-| **Stage 2: Solidity & EVM** | 2-3 tháng | Viết và biên dịch được smart contract chuẩn ERC-20, ERC-721 |
-| **Stage 3: DApp Frontend** | 2 tháng | Tạo giao diện kết nối ví MetaMask, đọc/ghi dữ liệu lên blockchain |
-| **Stage 4: Bảo mật & Kiểm thử** | 2 tháng | Viết Fuzz test bằng Foundry, quét lỗi contract bằng Slither |
-| **Stage 5: Dự án Capstone** | 2 tháng | 1 dự án DApp hoàn chỉnh chạy live trên mạng testnet |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Nền tảng Blockchain** | Hiểu cơ chế mã hóa bất đối xứng, cách gửi giao dịch mạng Sepolia |
+| **Stage 2: Solidity & EVM** | Viết và biên dịch được smart contract chuẩn ERC-20, ERC-721 |
+| **Stage 3: DApp Frontend** | Tạo giao diện kết nối ví MetaMask, đọc/ghi dữ liệu lên blockchain |
+| **Stage 4: Bảo mật & Kiểm thử** | Viết Fuzz test bằng Foundry, quét lỗi contract bằng Slither |
+| **Stage 5: Dự án Capstone** | 1 dự án DApp hoàn chỉnh chạy live trên mạng testnet |
 
 ---
 
-## 🔒 Stage 1 — Blockchain Fundamentals (1-2 tháng)
+## 🔒 Stage 1 — Blockchain Fundamentals
 
 > 🎯 *Hiểu sâu về mật mã học và kiến trúc sổ cái trước khi viết dòng code đầu tiên.*
 
@@ -71,7 +70,7 @@ graph LR
 
 ---
 
-## ⛓️ Stage 2 — Ngôn ngữ Solidity & EVM (2-3 tháng)
+## ⛓️ Stage 2 — Ngôn ngữ Solidity & EVM
 
 > 🎯 *Làm chủ ngôn ngữ lập trình hợp đồng thông minh Solidity và bộ công cụ Foundry.*
 
@@ -101,7 +100,7 @@ Solidity là ngôn ngữ viết Smart Contract phổ biến nhất trên thế g
 
 ---
 
-## 🌐 Stage 3 — Phát triển DApp Frontend (2 tháng)
+## 🌐 Stage 3 — Phát triển DApp Frontend
 
 > 🎯 *Kết nối giao diện Web với Smart Contract thông qua thư viện Viem và các hooks của wagmi.*
 
@@ -121,7 +120,7 @@ Solidity là ngôn ngữ viết Smart Contract phổ biến nhất trên thế g
 
 ---
 
-## 🛡️ Stage 4 — Bảo mật & Kiểm thử Smart Contract (2 tháng)
+## 🛡️ Stage 4 — Bảo mật & Kiểm thử Smart Contract
 
 > 🎯 *Tìm và diệt các lỗ hổng bảo mật kinh điển, viết Unit Test bao phủ 90%+ và chạy quét lỗi tĩnh.*
 
@@ -146,7 +145,7 @@ Lịch sử Web3 đã chứng kiến những vụ hack hàng trăm triệu đô 
 
 ---
 
-## 🚀 Stage 5 — Dự án Capstone Web3 (2 tháng)
+## 🚀 Stage 5 — Dự án Capstone Web3
 
 > 🎯 *Tự thiết kế, phát triển, kiểm thử bảo mật và deploy một DApp hoàn chỉnh lên mạng Testnet.*
 
@@ -181,7 +180,7 @@ Cơ hội phát triển Web3 rất rộng mở:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

@@ -1,9 +1,9 @@
 # 📊 Master Catalog
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** DD/MM/YYYY\
-> **Cập nhật:** DD/MM/YYYY
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *Tracking trạng thái mọi bài trong kho. Cập nhật khi tạo bài mới, đổi trạng thái, hoặc đổi tag.*
 
@@ -198,6 +198,7 @@ Tích hợp pre-commit hook hoặc CI job để giữ catalog luôn fresh.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (DD/MM/YYYY)** — Bản đầu tiên.
+- **v1.1.0 (01/06/2026)** — Dùng heading changelog chuẩn + tăng dần. Lý do: đồng bộ với 3 quyết định governance đã duyệt.

@@ -1,32 +1,23 @@
 # load-balancing
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v0.1.0\
+> **Cập nhật:** 25/05/2026\
+> **Status:** 🚧 Chưa có bài — folder đang chờ nội dung
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+## 🎯 Chủ đề dự kiến
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+Load balancing — phân tải traffic: L4 vs L7 LB, thuật toán (round-robin, least-conn, IP-hash), health check, sticky session.
+
+## 📂 Cấu trúc
 
 ```
 load-balancing/
 ├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"load-balancing là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
+├── lessons/           ← 📖 bài học lý thuyết (chưa có)
+├── setup/             ← ⚙️ cài đặt + cấu hình (chưa có)
+├── exercises/         ← 🧪 bài tập nhỏ (chưa có)
+└── recipes/           ← 📚 công thức / troubleshooting (chưa có)
 ```
 
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.
+→ Khi có bài đầu tiên, README này sẽ thành index liệt kê lessons + lộ trình đọc.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [HTML Essentials](01_html-essentials.md)
 
 > 🎯 *Master **form** trong HTML: 15+ input types, **validation tự động** browser, **label** + accessibility, **submit/GET vs POST**, **ARIA attributes**, **a11y checklist**. Sau bài này viết được form login/signup/checkout đúng chuẩn — keyboard navigate được, screen reader đọc được.*
@@ -46,7 +45,7 @@ Bạn viết form login đầu tiên:
 - Password hiển thị plaintext.
 
 Họ bảo:
-> *"Anh viết form như anh là user duy nhất. **15% dân số** có disability — mù, mất tay, dyslexia. Nếu form không accessible = không bán được cho 15% khách hàng. Plus, accessibility = SEO bonus + UX cho **mọi** user."*
+> *"Bạn viết form như bạn là user duy nhất. **15% dân số** có disability — mù, mất tay, dyslexia. Nếu form không accessible = không bán được cho 15% khách hàng. Plus, accessibility = SEO bonus + UX cho **mọi** user."*
 
 Bạn ngơ:
 - **`<input type>`** thực ra có nhiều loại?
@@ -95,7 +94,7 @@ Form có 2 method chính — GET đẩy data vào URL (visible, cache được, 
 | **GET** | Search, filter (data đi vào URL: `?q=phone&page=2`) |
 | **POST** | Submit data (login, signup, create) — body request |
 
-→ Chi tiết [bài HTTP methods](../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md).
+→ Chi tiết [bài HTTP methods](../../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md).
 
 ### Submit flow
 
@@ -566,7 +565,7 @@ WCAG 2.2 dựa trên 4 nguyên tắc:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`<div onclick>`** thay button → keyboard không vào, screen reader bỏ qua. Dùng `<button>`.
 2. **Placeholder thay label** → khi user gõ, mất context. Luôn có `<label>`.
@@ -576,7 +575,7 @@ WCAG 2.2 dựa trên 4 nguyên tắc:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Sao `<input type="email">` tốt hơn `<input type="text">` cho email?
 2. Cách kết hợp `<label>` + `<input>` — 2 cách?
@@ -600,7 +599,7 @@ WCAG 2.2 dựa trên 4 nguyên tắc:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Form template
 
@@ -678,18 +677,18 @@ role="alert"            khi cần dynamic announce
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [HTML Essentials](01_html-essentials.md)
-- → Tiếp: [CSS Fundamentals](03_css-fundamentals.md)
-- ↑ Cluster: [html-css README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [HTML Essentials — Semantic tags, structure, common elements](01_html-essentials.md)
+- ➡️ **Bài tiếp theo:** [CSS Fundamentals — Selectors, Specificity, Box Model](03_css-fundamentals.md)
+- ↑ **Về cụm:** [html-css README](../../README.md)
 
-### Cross-reference
-- [HTTP methods (GET vs POST)](../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
-- [FastAPI form handling](../../../backend/python-fastapi/lessons/01_basic/01_routes-and-parameters.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [HTTP methods (GET vs POST)](../../../../../05_networking/http-https/lessons/01_basic/01_http-methods.md)
+- [FastAPI form handling](../../../../backend/python-fastapi/lessons/01_basic/01_routes-and-parameters.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — HTML Forms guide](https://developer.mozilla.org/en-US/docs/Learn/Forms)
 - 📖 [WCAG 2.2 quickref](https://www.w3.org/WAI/WCAG22/quickref/)
 - 📖 [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/)
@@ -702,8 +701,7 @@ role="alert"            khi cần dynamic announce
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Form cơ bản + Anatomy form + GET vs POST + Submit flow + §2 15+ input types. Fix `username=bạn` residue → `username=nguyenvana`. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 3/5. Cover: form anatomy + GET vs POST + 15+ input types + mobile keyboard auto + label association + validation HTML5 + accessibility (ARIA, WCAG, screen reader, keyboard nav) + form best practices.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Form cơ bản, Anatomy form, GET vs POST, Submit flow, 15+ input types. Chuẩn hoá giá trị ví dụ thành `username=nguyenvana`. Thêm mục Changelog.

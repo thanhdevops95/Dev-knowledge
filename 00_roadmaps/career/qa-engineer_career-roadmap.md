@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Muốn trở thành Kỹ sư Kiểm thử Tự động hóa hiện đại (Automation QA / SDET), không đi theo hướng kiểm thử thủ công (Manual QA) truyền thống\
-> **Thời gian ước tính:** ~8 tháng học tập tích cực (full-time) hoặc ~16 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng thiết kế và vận hành các bộ khung test tự động)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>CI/CD & Capstone]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Nền tảng lập trình & Test** | 2 tháng | Làm chủ Python/JS cơ bản, hiểu cấu trúc Kim tự tháp Test |
-| **Stage 2: Unit & Integration Test** | 1-2 tháng | Viết test logic code đạt độ phủ coverage > 80% cho dự án |
-| **Stage 3: E2E UI Test (Playwright)** | 2 tháng | Viết kịch bản tự động mở trình duyệt click chọn, điền form |
-| **Stage 4: API & Performance Testing**| 1-2 tháng | Viết test schema API, chạy load test đo RPS/Latency qua k6 |
-| **Stage 5: CI/CD & Capstone Project** | 1-2 tháng | Tự động chạy test suite khi push code, xuất báo cáo trực quan |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Nền tảng lập trình & Test** | Làm chủ Python/JS cơ bản, hiểu cấu trúc Kim tự tháp Test |
+| **Stage 2: Unit & Integration Test** | Viết test logic code đạt độ phủ coverage > 80% cho dự án |
+| **Stage 3: E2E UI Test (Playwright)** | Viết kịch bản tự động mở trình duyệt click chọn, điền form |
+| **Stage 4: API & Performance Testing** | Viết test schema API, chạy load test đo RPS/Latency qua k6 |
+| **Stage 5: CI/CD & Capstone Project** | Tự động chạy test suite khi push code, xuất báo cáo trực quan |
 
 ---
 
-## ⚙️ Stage 1 — Lập trình & Tư duy Thiết kế Test Case (2 tháng)
+## ⚙️ Stage 1 — Lập trình & Tư duy Thiết kế Test Case
 
 > 🎯 *Kỹ sư QA Automation trước hết phải là một lập trình viên. Bạn cần vững code và tư duy thiết kế ca kiểm thử.*
 
@@ -65,7 +64,7 @@ graph LR
 
 ---
 
-## 🧪 Stage 2 — Unit & Integration Testing (1-2 tháng)
+## 🧪 Stage 2 — Unit & Integration Testing
 
 > 🎯 *Viết code test logic của ứng dụng, mock các dịch vụ ngoài và kiểm thử tích hợp cơ sở dữ liệu.*
 
@@ -86,7 +85,7 @@ Unit Test giúp lập trình viên phát hiện lỗi ngay khi vừa viết xong
 
 ---
 
-## 📱 Stage 3 — E2E & UI Testing với Playwright (2 tháng)
+## 📱 Stage 3 — E2E & UI Testing với Playwright
 
 > 🎯 *Viết mã nguồn giả lập trình duyệt thật, tương tác với giao diện và chống hiện tượng test chạy chập chờn (flaky tests).*
 
@@ -111,7 +110,7 @@ Unit Test giúp lập trình viên phát hiện lỗi ngay khi vừa viết xong
 
 ---
 
-## ⚡ Stage 4 — API & Performance Testing (1-2 tháng)
+## ⚡ Stage 4 — API & Performance Testing
 
 > 🎯 *Kiểm thử tự động các endpoints API và chạy giả lập hàng ngàn người dùng để kiểm tra giới hạn chịu tải.*
 
@@ -131,7 +130,7 @@ Giao diện có thể thay đổi liên tục, nhưng hợp đồng dữ liệu 
 
 ---
 
-## 🚀 Stage 5 — CI/CD Integration & Capstone Project (1-2 tháng)
+## 🚀 Stage 5 — CI/CD Integration & Capstone Project
 
 > 🎯 *Tích hợp chạy test tự động trong pipeline GitHub Actions và hoàn thành Capstone Project.*
 
@@ -159,7 +158,7 @@ Cơ hội sự nghiệp của kỹ sư kiểm thử tự động:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng có chiều sâu và liên kết chặt chẽ.

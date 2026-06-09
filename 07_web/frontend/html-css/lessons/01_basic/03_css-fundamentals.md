@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [HTML Essentials](01_html-essentials.md)
 
 > 🎯 *Master CSS thực sự: **3 cách include CSS**, **selectors** đầy đủ, **specificity** (vì sao style không apply), **box model** (margin/border/padding/content), **`box-sizing: border-box`**, **units** (px/rem/em/%/vh/vw), **CSS variables**, **`!important`** đừng lạm dụng.*
@@ -267,7 +266,7 @@ Khi 2+ rule cùng apply 1 element, **specificity cao hơn thắng**. Tính theo 
 | `style="..."` (inline) | 1 | 0 | 0 | 0 | `(1,0,0,0)` |
 | `!important` | — | — | — | — | **Override mọi thứ** |
 
-### bạn's button case
+### Quay lại case button ở tình huống đầu bài
 
 ```css
 .btn { background: blue; }                /* (0,0,1,0) */
@@ -649,7 +648,7 @@ small {
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Lạm dụng `!important`** → specificity war, debt code không maintain. Tăng specificity selector thay vì.
 2. **ID trong CSS** → specificity quá cao, khó override. Dùng class.
@@ -659,7 +658,7 @@ small {
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. 3 cách include CSS — chọn cái nào cho production?
 2. Tính specificity của `#header .nav li.active a:hover`?
@@ -687,7 +686,7 @@ small {
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Selectors
 
@@ -759,14 +758,14 @@ Same specificity → last declared wins
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Forms & Accessibility](02_forms-and-accessibility.md)
-- → Tiếp: [Layout — Flexbox, Grid, Responsive](04_layout-flexbox-grid-responsive.md)
-- ↑ Cluster: [html-css README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Forms & Accessibility — Input đúng cách + a11y basic](02_forms-and-accessibility.md)
+- ➡️ **Bài tiếp theo:** [Layout — Flexbox, Grid, Responsive Design](04_layout-flexbox-grid-responsive.md)
+- ↑ **Về cụm:** [html-css README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — CSS Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
 - 📖 [CSS-Tricks Almanac](https://css-tricks.com/almanac/) — properties + tutorials
 - 📖 [Specificity Calculator](https://specificity.keegan.st/)
@@ -780,8 +779,7 @@ Same specificity → last declared wins
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 3 cách include CSS (Inline + Internal + External + Decision) + §2 Anatomy CSS rule. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 4/5. Cover: 3 cách include CSS + anatomy rule + selectors (basic + combinator + pseudo-class + pseudo-element + attribute) + specificity rules + cascade order + box model + units (px/em/rem/%) + colors + font + CSS variables.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục 3 cách include CSS (Inline, Internal, External, bảng quyết định) và mục Anatomy CSS rule. Thêm mục Changelog.

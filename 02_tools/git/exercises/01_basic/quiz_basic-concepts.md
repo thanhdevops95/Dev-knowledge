@@ -150,6 +150,6 @@ Các **`<type>`** phổ biến nhất:
 
 ---
 
-## 🔗 Liên kết học tập tiếp theo
+## 🔗 Liên kết & Tài nguyên
 *   ⬅️ Quay lại bài học: [02_remote-and-github-basic.md](../../lessons/01_basic/02_remote-and-github-basic.md)
 *   ➡️ Thử thách thực hành: [lab_my-first-portfolio.md](../01_basic/lab_my-first-portfolio.md)

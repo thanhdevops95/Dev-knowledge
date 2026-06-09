@@ -1,9 +1,9 @@
 # 📘 Glossary — Kubernetes Pod
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *Bảng thuật ngữ EN ↔ VN cho chủ đề Pod. Mỗi entry có giải thích ngắn và link tới bài giảng kỹ.*
 
@@ -29,6 +29,7 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — mẫu cho Blueprint.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — glossary chủ đề Kubernetes Pod.
+- **v1.1.0 (01/06/2026)** — Gỡ meta-leak "mẫu cho Blueprint"; heading changelog chuẩn + tăng dần. Lý do: file glossary giống file học, phải sạch meta-leak.

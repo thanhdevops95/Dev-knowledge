@@ -1,13 +1,12 @@
 # 🎓 FaaS đào sâu — Cold start, isolate vs container, runtime & duration
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [00_what-is-serverless-overview.md](00_what-is-serverless-overview.md)
+> **Yêu cầu trước:** [Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn](00_what-is-serverless-overview.md)
 
 > 🎯 *Bài 00 cho bạn bức tranh tổng. Bài này đào sâu **kiến trúc FaaS** — bên dưới Lambda/Cloud Functions/Workers thực sự chạy gì? Cold start xảy ra như nào? V8 isolate khác container ra sao? Vì sao memory tăng thì CPU tăng theo? Sau bài này bạn đủ kiến thức để chọn runtime + memory + duration đúng cho workload.*
 
@@ -620,9 +619,9 @@ Khác biệt có thể 200-500ms cold start.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Import nặng trong handler
+### ❌ Cạm bẫy: Import nặng trong handler
 
 ```python
 def lambda_handler(event, context):
@@ -633,19 +632,19 @@ def lambda_handler(event, context):
 
 → **Fix**: import ở module level. Cold start chậm 1 lần, warm invocation không bị.
 
-### ❌ Pitfall: Quên cold start tồn tại
+### ❌ Cạm bẫy: Quên cold start tồn tại
 
 - **Triệu chứng**: P99 latency 2000ms trong khi P50 50ms.
 - **Nguyên nhân**: 1-5% request là cold start.
 - **Cách tránh**: P99 = warm latency + cold start probability. Provisioned Concurrency cho user-facing latency-sensitive API.
 
-### ❌ Pitfall: Memory 128MB cho function CPU-heavy
+### ❌ Cạm bẫy: Memory 128MB cho function CPU-heavy
 
 - **Triệu chứng**: Function chạy 8 giây cho task hash 100MB. Phải tăng timeout liên tục.
 - **Nguyên nhân**: 128MB = 0.07 vCPU.
 - **Cách tránh**: Lambda Power Tuning để tìm sweet spot. Thường 512-1024MB rẻ hơn 128MB.
 
-### ❌ Pitfall: Container image Lambda quá lớn
+### ❌ Cạm bẫy: Container image Lambda quá lớn
 
 - **Triệu chứng**: Cold start 3-5s.
 - **Nguyên nhân**: Image 5GB → kéo + giải nén lâu.
@@ -654,7 +653,7 @@ def lambda_handler(event, context):
   - Bỏ dev dependencies.
   - Cân nhắc zip thay vì container nếu < 50MB.
 
-### ❌ Pitfall: Concurrency limit hit silently
+### ❌ Cạm bẫy: Concurrency limit hit silently
 
 - **Triệu chứng**: Random `429 Too Many Requests` từ Lambda.
 - **Nguyên nhân**: Reached account/function concurrency limit.
@@ -663,7 +662,7 @@ def lambda_handler(event, context):
   - Raise limit qua Service Quotas.
   - Reserved concurrency cho function critical.
 
-### ❌ Pitfall: Cloud Run concurrency = 1 (default ai cấu hình sai)
+### ❌ Cạm bẫy: Cloud Run concurrency = 1 (default ai cấu hình sai)
 
 - **Triệu chứng**: 1000 instance cho 1000 req → cost gấp 80 lần cần thiết.
 - **Nguyên nhân**: Set concurrency=1 (như Lambda) thay vì 80.
@@ -708,7 +707,7 @@ def lambda_handler(event, context):
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Cold start là gì? Liệt kê các bước AWS Lambda phải làm.
 
@@ -866,7 +865,7 @@ Default 80, max 1000.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### FaaS execution model
 
@@ -934,9 +933,9 @@ gcloud run services logs read SVC --region us-central1
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Cold start | Khởi động lạnh | Init lần đầu sau idle, tốn 100ms-3s |
 | Warm invocation | Gọi nóng | Container reused, ~10ms |
@@ -958,24 +957,29 @@ gcloud run services logs read SVC --region us-central1
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_what-is-serverless-overview.md](00_what-is-serverless-overview.md)
-- → Tiếp theo: [02_event-driven-and-triggers.md](02_event-driven-and-triggers.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🟧 [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — Lambda vendor deep với hands-on
-- 🟦 [GCP Cloud Functions + Cloud Run](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — Cloud Run + concurrency
+- ⬅️ **Bài trước:** [Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn](00_what-is-serverless-overview.md)
+- ➡️ **Bài tiếp theo:** [Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule](02_event-driven-and-triggers.md)
+- ↑ **Về cụm:** [Serverless](../../README.md)
 
-### Tài nguyên ngoài
-- 📖 [Firecracker (GitHub)](https://github.com/firecracker-microvm/firecracker) — open source microVM
-- 📖 [Cloudflare Workers Architecture](https://blog.cloudflare.com/cloud-computing-without-containers/) — V8 isolate giải thích
-- 📖 [AWS Lambda Power Tuning](https://github.com/alexcasalboni/aws-lambda-power-tuning)
-- 📖 [Lambda runtime support](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
-- 📖 [Cloud Run concurrency](https://cloud.google.com/run/docs/about-concurrency)
-- 📖 [Serverless cold start research](https://mikhail.io/serverless/coldstarts/) — đo cold start nhiều vendor
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🟧 [Lambda + API Gateway — Nhập môn Serverless](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — Lambda vendor deep với hands-on.
+- 🟦 [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — Cloud Run + concurrency.
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [Firecracker (GitHub)](https://github.com/firecracker-microvm/firecracker) — open source microVM hypervisor.
+- [Cloudflare Workers Architecture](https://blog.cloudflare.com/cloud-computing-without-containers/) — giải thích cơ chế V8 isolate.
+- [AWS Lambda Power Tuning](https://github.com/alexcasalboni/aws-lambda-power-tuning) — tool tìm memory size tối ưu.
+- [Lambda runtime support](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) — danh sách runtime AWS hỗ trợ.
+- [Cloud Run concurrency](https://cloud.google.com/run/docs/about-concurrency) — tài liệu chính thức về concurrency.
+- [Serverless cold start research](https://mikhail.io/serverless/coldstarts/) — đo cold start nhiều vendor.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — FaaS deep cho Basic cluster. Execution model + 3 engine sandbox (container/microVM/V8 isolate) + runtime comparison + memory↔CPU coupling + concurrency Lambda vs Cloud Run + max duration + hands-on đo cold start. 6 pitfall + 3 best practice + 5 self-check. Cross-link AWS/GCP serverless lessons.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text = tiêu đề thực); header Glossary sang `| Thuật ngữ | Tiếng Việt | Giải thích |`; chuẩn hoá nav (marker `⬅️/➡️/↑`, 3 sub `🧭/🧩/🌐`, link-text khớp H1 bài đích). Giữ nguyên toàn bộ nội dung kỹ thuật, số liệu, code.

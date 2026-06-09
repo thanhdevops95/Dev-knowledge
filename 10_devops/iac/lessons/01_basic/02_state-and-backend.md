@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~14 phút\
 > **Prerequisites:** [Terraform Basics](01_terraform-basics.md)
 
 > 🎯 *Deep state: **state file** format + secrets, **remote backends** (S3+DynamoDB / GCS / Azure), **state locking**, **`terraform state` commands** (mv/rm/import/list), **drift detection**, **state recovery**, **workspaces** intro.*
@@ -583,7 +582,7 @@ jobs:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Local state in production** → laptop dies = lose ability to manage. **Remote backend mandatory**.
 2. **Commit `.tfstate` to git** → secrets leak forever. **`.gitignore` + remote backend**.
@@ -593,7 +592,7 @@ jobs:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Sao **local state** không OK production?
 2. **S3 + DynamoDB** backend — vai trò mỗi cái?
@@ -617,7 +616,7 @@ jobs:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Backend S3 + DynamoDB
 
@@ -687,14 +686,14 @@ terraform workspace list
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Terraform Basics](01_terraform-basics.md)
-- → Tiếp: [Modules & Workspaces](03_modules-and-workspaces.md)
-- ↑ Cluster: [iac README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Terraform Basics — Providers, Resources, Variables](01_terraform-basics.md)
+- ➡️ **Bài tiếp theo:** [Modules & Multi-env — DRY + Reusability](03_modules-and-workspaces.md)
+- ↑ **Về cụm:** [iac README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Terraform State docs](https://developer.hashicorp.com/terraform/language/state)
 - 📖 [Backend types](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)
 - 📖 [Terraform Cloud](https://www.hashicorp.com/products/terraform)
@@ -706,8 +705,7 @@ terraform workspace list
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 State file inside + Local state dangerous + §2 Setup bootstrap.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 3/5. Cover: state file structure + secrets in state + local vs remote + S3 + DynamoDB backend setup + state operations (import/mv/rm) + state encryption.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 State file inside, Local state dangerous và §2 Setup bootstrap.

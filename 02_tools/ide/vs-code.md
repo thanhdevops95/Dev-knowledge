@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 20/05/2026\
 > **OS hỗ trợ:** macOS 10.15+ / Windows 10+ / Linux\
-> **Thời lượng đọc:** ~25 phút (chưa kể cài + thực hành)\
 > **Loại:** Tool individual — focused vào VS Code
 
 > 🎯 *User guide đầy đủ cho VS Code — cài, UI tour, settings, extensions, workflows, shortcuts. **CHỈ về VS Code** — so sánh với Cursor/Neovim/JetBrains đã ở [00_what-is-ide.md](./00_what-is-ide.md).*
@@ -702,19 +701,19 @@ Extensions: Python + Jupyter + SQL Tools + Rainbow CSV + Data Wrangler
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
 ### Trong kho
 
 - 🛠️ [00_what-is-ide.md](./00_what-is-ide.md) — So sánh VS Code với Cursor/Neovim/JetBrains
 - 🧭 [Zero to Coder Stage 1](../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) — beginner cài VS Code đầu tiên
-- 📚 [Git lesson 00](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — Git + VS Code tích hợp (GitLens extension)
+- 📚 [Git lesson 00](../git/lessons/01_basic/00_what-is-git.md) — Git + VS Code tích hợp (GitLens extension)
 
 ### Cursor — alternative AI-first
 
-- [cursor.md](./cursor.md) (chưa có) — Cursor là fork VS Code + Claude/GPT built-in, công thức "switch khi nào"
+- `cursor.md` (chưa có) — Cursor là fork VS Code + Claude/GPT built-in, công thức "switch khi nào"
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [VS Code Official Docs](https://code.visualstudio.com/docs) — chính thức
 - [VS Code Tips & Tricks](https://code.visualstudio.com/docs/getstarted/tips-and-tricks) — official cheatsheet
@@ -724,7 +723,7 @@ Extensions: Python + Jupyter + SQL Tools + Rainbow CSV + Data Wrangler
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (20/05/2026)** — **Restructure thành full tool guide** (move từ `02_tools/ide/vs-code.md`):
   - Title: "VS Code — Cài đặt chi tiết" → "**VS Code — User Guide**"

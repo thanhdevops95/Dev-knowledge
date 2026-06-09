@@ -1,9 +1,9 @@
 # Kubernetes Pod
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *Pod là đơn vị deploy nhỏ nhất của Kubernetes. Hiểu Pod là điều kiện tiên quyết cho mọi resource K8s khác (Deployment, Service, StatefulSet...).*
 
@@ -12,8 +12,6 @@
 ## 🎯 Chủ đề này có gì
 
 Bộ tài liệu hoàn chỉnh về Kubernetes Pod — khái niệm, cách tạo, quản lý, debug. Sau khi đi qua, bạn sẽ tự tin làm việc với Pod trong production.
-
-> 📌 *Đây là **bài mẫu** — chỉ có 1 lesson basic. Trong kho thật, chủ đề K8s sẽ có nhiều L2 hơn (deployment, service, ...).*
 
 ## 📂 Cấu trúc nội dung
 
@@ -40,6 +38,7 @@ Bộ tài liệu hoàn chỉnh về Kubernetes Pod — khái niệm, cách tạo
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (15/05/2026)** — Bản đầu tiên — mẫu cho Blueprint.
+- **v1.0.0 (15/05/2026)** — Bản đầu tiên — README chủ đề Kubernetes Pod.
+- **v1.1.0 (01/06/2026)** — Gỡ meta-leak "bài mẫu / Blueprint / trong kho thật"; heading changelog chuẩn + tăng dần. Lý do: README chủ đề là file giống file học, phải sạch meta-leak.

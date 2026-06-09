@@ -51,15 +51,15 @@
 
 ## 🚀 Lộ trình đề xuất
 
-| Bạn là... | Đọc gì |
+| Nhu cầu | Đọc gì |
 |---|---|
-| 🟢 **Zero-base** chưa từng mở terminal | [00_what-is-terminal](./lessons/01_basic/00_what-is-terminal.md) → rồi [`04_os/linux/lessons/01_basic/`](../../04_os/linux/lessons/01_basic/) học lệnh thật |
-| 🟡 **Đã dùng terminal nhưng confused** | 00_what-is-terminal (phân biệt terminal vs shell vs command) |
-| 🧭 **Theo Zero-to-Coder roadmap** | Stage 1 link tới 00_what-is-terminal |
+| **Chưa từng mở terminal** | [00_what-is-terminal](./lessons/01_basic/00_what-is-terminal.md) → rồi [`04_os/linux/lessons/01_basic/`](../../04_os/linux/lessons/01_basic/) học lệnh thật |
+| **Đã dùng terminal nhưng lẫn lộn terminal / shell / command** | [00_what-is-terminal](./lessons/01_basic/00_what-is-terminal.md) (phân biệt 3 lớp) |
+| **Theo Zero-to-Coder roadmap** | Stage 1 link tới 00_what-is-terminal |
 
 ---
 
-## 🔗 Liên kết quan trọng
+## 🔗 Liên kết & Tài nguyên
 
 | Nhu cầu | Đi đâu |
 |---|---|
@@ -70,12 +70,12 @@
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (23/05/2026)** — 🎉 **CLUSTER BASIC HOÀN CHỈNH 6/6**. Thêm bài cuối: `05_io-redirection.md` — 3 streams (stdin/stdout/stderr) + redirect `>`/`>>`/`2>&1`/`&>` + pipe `|` + `/dev/null` + `tee`. Beginner giờ có **toàn bộ kiến thức computing environment OS-agnostic** để hiểu shell sâu.
-- **v0.6.0 (23/05/2026)** — Thêm bài thứ 5: `04_env-variables.md` — Env var concept + $PATH với mermaid lookup + 3 scope + inheritance parent-child + `.env` pattern + secrets vs config + vault tools (HashiCorp/AWS Secrets Manager/...) + Docker env 3 cách. Cluster basic 5/6 bài.
-- **v0.5.0 (23/05/2026)** — Thêm bài thứ 4: `03_process-and-pid.md` — Program vs Process + PID tree với mermaid + PID 1 (systemd/launchd/Docker) + 4 trạng thái + Zombie + signal (SIGTERM vs SIGKILL) + fg/bg + nohup/disown + Docker context. Cluster basic 4/6 bài.
-- **v0.4.0 (23/05/2026)** — Thêm bài thứ 3: `02_filesystem-concept.md` — Filesystem 3 OS + absolute/relative path + 5 ký hiệu (`/` `~` `.` `..` `-`) + Working Directory + hidden files + permissions `rwxr-xr-x` + symlink. Cluster basic 3/6 bài.
+- **v0.1.0 (20/05/2026)** — Bản khởi tạo.
+- **v0.2.0 (21/05/2026)** — Có bài đầu tiên `00_what-is-terminal.md`. Viết lại README cho rõ phạm vi (concept nền tảng, không phải tool guide hay lệnh OS) + danh sách 6 lesson dự kiến + bảng phân biệt với `02_tools`/`04_os`.
 - **v0.3.0 (23/05/2026)** — Thêm bài thứ 2: `01_what-is-shell.md` — Phân biệt Terminal/Shell/Command 3 lớp + so sánh bash/zsh/fish + config file `.bashrc`/`.zshrc`. Cluster basic giờ có 2/6 bài.
-- **v0.2.0 (21/05/2026)** — **Nhận file đầu tiên**: `00_what-is-terminal.md` move từ `02_tools/shell/lessons/01_basic/`. Rewrite README phản ánh scope thật (Foundations concept, KHÔNG phải tool guide hay lệnh OS) + danh sách 6 lesson dự kiến + bảng phân biệt với 02_tools/04_os.
-- **v0.1.0 (20/05/2026)** — Skeleton.
+- **v0.4.0 (23/05/2026)** — Thêm bài thứ 3: `02_filesystem-concept.md` — Filesystem 3 OS + absolute/relative path + 5 ký hiệu (`/` `~` `.` `..` `-`) + Working Directory + hidden files + permissions `rwxr-xr-x` + symlink. Cluster basic 3/6 bài.
+- **v0.5.0 (23/05/2026)** — Thêm bài thứ 4: `03_process-and-pid.md` — Program vs Process + PID tree với mermaid + PID 1 (systemd/launchd/Docker) + 4 trạng thái + Zombie + signal (SIGTERM vs SIGKILL) + fg/bg + nohup/disown + Docker context. Cluster basic 4/6 bài.
+- **v0.6.0 (23/05/2026)** — Thêm bài thứ 5: `04_env-variables.md` — Env var concept + $PATH với mermaid lookup + 3 scope + inheritance parent-child + `.env` pattern + secrets vs config + vault tools (HashiCorp/AWS Secrets Manager/...) + Docker env 3 cách. Cluster basic 5/6 bài.
+- **v1.0.0 (23/05/2026)** — 🎉 **CLUSTER BASIC HOÀN CHỈNH 6/6**. Thêm bài cuối: `05_io-redirection.md` — 3 streams (stdin/stdout/stderr) + redirect `>`/`>>`/`2>&1`/`&>` + pipe `|` + `/dev/null` + `tee`. Beginner giờ có **toàn bộ kiến thức computing environment OS-agnostic** để hiểu shell sâu.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~13 phút\
 > **Prerequisites:** [CI/CD basic cluster](../01_basic/), [Docker intermediate](../../../docker/lessons/02_intermediate/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
 
 > 🎯 *Bài INTRO của intermediate. Bạn đã setup GitHub Actions / GitLab CI ở basic. Production scale cần: **GitOps** (Git = source of truth), **supply chain security** (SLSA + provenance), **secret management** (Vault + ESO), **progressive delivery** (canary + feature flags). Bài này map 4 mảng + chuẩn bị 4 bài kế tiếp.*
@@ -293,14 +292,13 @@ graph TB
 
 ## 7️⃣ Lộ trình 4 bài kế tiếp
 
-| Bài | Nội dung | Thời lượng | Output sau bài |
-|---|---|---|---|
-| **01** GitOps ArgoCD | Architecture + Application + ApplicationSet + multi-cluster + Flux compare + drift detection + sync waves + RBAC | ~25p | Manage 10+ app + 3 cluster qua 1 ArgoCD |
-| **02** Supply chain SLSA | Provenance attestation + cosign keyless verify + Kyverno policy + SBOM lifecycle + SLSA L3 pipeline | ~22p | Pipeline SLSA L3 compliant, admission reject unsigned |
-| **03** Secret management | Vault setup + ESO + Sealed Secrets + SOPS + dynamic credentials + audit | ~22p | Zero secret trong Git, rotation auto 1h |
-| **04** Progressive delivery | Argo Rollouts canary deep + metric analysis + auto-rollback + AB test + OpenFeature + Unleash | ~25p | Canary 5%→100% với auto-rollback dựa SLO |
+| Bài | Nội dung | Output sau bài |
+| --- | --- | --- |
+| **01** GitOps ArgoCD | Architecture + Application + ApplicationSet + multi-cluster + Flux compare + drift detection + sync waves + RBAC | Manage 10+ app + 3 cluster qua 1 ArgoCD |
+| **02** Supply chain SLSA | Provenance attestation + cosign keyless verify + Kyverno policy + SBOM lifecycle + SLSA L3 pipeline | Pipeline SLSA L3 compliant, admission reject unsigned |
+| **03** Secret management | Vault setup + ESO + Sealed Secrets + SOPS + dynamic credentials + audit | Zero secret trong Git, rotation auto 1h |
+| **04** Progressive delivery | Argo Rollouts canary deep + metric analysis + auto-rollback + AB test + OpenFeature + Unleash | Canary 5%→100% với auto-rollback dựa SLO |
 
-→ **Tổng ~107 phút đọc + 6-8h hands-on**. Sau cluster: CI/CD production-grade tier-1.
 
 ---
 
@@ -343,7 +341,7 @@ graph TB
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -374,12 +372,12 @@ graph TB
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_gitops-with-argocd.md](01_gitops-with-argocd.md) *(sắp viết)*
-- ↑ CI/CD README: [README](../../README.md)
-- ↶ Trước (basic): [04_deploy-strategies.md](../01_basic/04_deploy-strategies.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [GitOps với ArgoCD — Git = Single Source of Truth](01_gitops-with-argocd.md) *(sắp viết)*
+- ↑ **Về cụm:** [README](../../README.md)
+- ⬅️ **Bài trước:** [Deploy Strategies — Rolling, Blue-Green, Canary, Feature flags](../01_basic/04_deploy-strategies.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🐳 [Docker intermediate Image security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md) — supply chain foundation
 - ☸️ [K8s intermediate Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — chart ArgoCD deploy
 - ☸️ [K8s intermediate StatefulSet](../../../kubernetes/lessons/02_intermediate/03_statefulset-and-storage.md) — stateful workload
@@ -400,8 +398,7 @@ graph TB
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Supply chain Components + CI/CD integration + Solution stack secrets + ESO+Vault pattern + Progressive delivery tool stack.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO của intermediate cluster. Map 4 mảng (GitOps/Supply chain/Secret mgmt/Progressive delivery) + tool stack 2026 + 4 production incident scenarios + roadmap 4 bài kế tiếp + cross-link DevOps stack. Apply insight `__Ref__/`: GitOps anti-pattern war story.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Supply chain Components + CI/CD integration + Solution stack secrets + ESO+Vault pattern + Progressive delivery tool stack.

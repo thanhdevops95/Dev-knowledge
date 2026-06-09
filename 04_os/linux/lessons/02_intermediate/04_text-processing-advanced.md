@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Linux View File Content](../01_basic/03_view-file-content.md), [IO Redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md)
 
 > 🎯 *Master 3 tool **Unix power**: **`grep`** (search), **`sed`** (substitute), **`awk`** (process). Plus `sort`/`uniq`/`cut`/`tr`/`wc`/`xargs`. Sau bài này bạn cào log production 10GB, transform JSON, parse CSV trong terminal — không cần script.*
@@ -103,7 +102,7 @@ journalctl -u nginx | grep "5\d\d"        # Pipe từ command khác
 cat *.log | grep "error" | wc -l           # Count line
 ```
 
-### Bạn count error log
+### Đếm error trong log
 
 ```bash
 $ grep -c "ERROR" /var/log/myapp/app.log
@@ -183,7 +182,7 @@ sed -E 's/[0-9]+/NUM/g' file              # ERE regex (group, +, ?, |)
 sed -E 's/(\w+)@(\w+)/USER@DOMAIN/g' file
 ```
 
-### bạn masking IP private trong export
+### Masking IP private khi export log
 
 ```bash
 sed -E 's/192\.168\.[0-9]+\.[0-9]+/0.0.0.0/g' access.log > masked.log
@@ -284,7 +283,7 @@ awk -F, '$3 > 100 {print $1, $3}' sales.csv
 awk -F'[,;]' '{print $1, $2}' data
 ```
 
-### bạn parse nginx access.log
+### Parse nginx access.log
 
 Format: `IP - user [time] "method URL HTTP" status size`:
 ```
@@ -503,7 +502,7 @@ find . -name "*.JPG" | while read f; do mv "$f" "${f%.JPG}.jpg"; done
 
 ---
 
-## 8️⃣ bạn's debug pipeline
+## 8️⃣ Pipeline debug log thực chiến
 
 > *"5 phút trước crash, log có pattern gì? Group by minute, show top error message."*
 
@@ -519,7 +518,7 @@ journalctl -u myapp --since "5 min ago" \
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`sed -i` không backup** → sửa file production sai pattern = mất data. **Luôn `sed -i.bak`** hoặc dry-run trước.
 2. **`grep` regex BRE quên escape** → `grep "foo|bar"` không match (vì `|` trong BRE là literal). Dùng `-E`.
@@ -529,7 +528,7 @@ journalctl -u myapp --since "5 min ago" \
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Đếm số dòng error trong file (case-insensitive)?
 2. Sửa `localhost` thành `127.0.0.1` trong mọi file `.conf` (in-place, backup `.bak`)?
@@ -559,7 +558,7 @@ journalctl -u myapp --since "5 min ago" \
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### grep top patterns
 
@@ -628,17 +627,17 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Package Management](03_package-management.md)
-- ↑ Cluster: [linux README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Package Management — apt, dnf, snap, dependency, security updates](03_package-management.md)
+- ↑ **Về cụm:** [linux README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [Linux view file content (basic)](../01_basic/03_view-file-content.md) — cat/less/head/tail
 - [IO redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md) — pipe `|` + redirect `>`
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [GNU grep manual](https://www.gnu.org/software/grep/manual/grep.html)
 - 📖 [sed by example](https://www.grymoire.com/Unix/Sed.html)
 - 📖 [AWK programming — Bruce Barnett](https://www.grymoire.com/Unix/Awk.html)
@@ -649,6 +648,6 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 
 > 🎯 *Cluster Linux intermediate 5/5 đóng. Bạn giờ vận hành server Linux production-grade: permission + systemd + SSH + package + text processing. Bài kế tiếp có thể vào `03_advanced` (kernel tuning, eBPF) hoặc cluster khác.*
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm ẩn dụ "kính lúp" cho `grep`, 2 lead-in trước code (cơ bản + regex), fix grammar "bạn count" → "Bạn count" + "(và bạn)" duplicate.
+- **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "kính lúp" cho `grep`, 2 lời dẫn trước ví dụ (cơ bản + regex), chuẩn hóa tiêu đề các case thực tế.

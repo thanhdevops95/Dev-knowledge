@@ -262,5 +262,5 @@ rm -rf conflict-hero-playground
 
 ---
 
-## 🔗 Liên kết & Điều hướng
+## 🔗 Liên kết & Tài nguyên
 *   ➡️ Thử thách tiếp theo: [lab_team-pull-request.md](./lab_team-pull-request.md) — Thực hành quy trình Pull Request chuyên nghiệp.

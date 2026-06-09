@@ -1,16 +1,16 @@
 # 🧭 [Sample] Backend Developer — Stage 3 excerpt
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 19/05/2026\
-> **Cập nhật:** 19/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Loại:** Sample — minh hoạ 1 stage trong career roadmap
 
 > 🎯 *Đây là **đoạn trích 1 stage** của 1 career roadmap, viết theo chuẩn mới — tập trung navigation + link, KHÔNG dạy concept. Concept đẩy hết sang lesson, deep tool đẩy sang tool guide.*
 
 ---
 
-## (Trích) Stage 3 — Database + ORM (2 tháng)
+## (Trích) Stage 3 — Database + ORM
 
 ### Tại sao stage này?
 
@@ -45,7 +45,7 @@ Stage 3 này dạy cách *gắn database thật* vào API: thiết kế schema, 
   - 🛠️ [So sánh DB clients](../../02_tools/db-clients/00_db-client-options.md) (chưa có)
 - [ ] Install `sqlalchemy[asyncio]` + `alembic` qua pip
 
-### 🧪 Bài tập (mỗi tuần 5-10 bài)
+### 🧪 Bài tập
 
 > 💡 Bài tập dùng dataset thật để khỏi nhàm. KHÔNG `SELECT 1+1`.
 
@@ -103,6 +103,7 @@ Stage 3 này dạy cách *gắn database thật* vào API: thiết kế schema, 
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (19/05/2026)** — Sample 1 stage roadmap. Demonstrate: navigation-only, link sang lesson cho concept, link sang tool guide cho deep tool, verify checklist + recovery guide khi vấp.
+- **v1.1.0 (01/06/2026)** — Bỏ ước tính thời gian cấp stage ("(2 tháng)", "mỗi tuần 5-10 bài"); heading changelog chuẩn + tăng dần. Lý do: đồng bộ quyết định (C) — không còn con số thời gian ước tính nào.

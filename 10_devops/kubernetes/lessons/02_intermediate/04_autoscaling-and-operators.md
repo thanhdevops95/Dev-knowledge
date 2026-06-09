@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [03_statefulset-and-storage.md](03_statefulset-and-storage.md)
 
 > 🎯 *Bài cuối intermediate. Manual `kubectl scale` không kịp với load spike. **HPA** scale pod, **VPA** adjust limits, **Cluster Autoscaler** add node, **KEDA** scale theo external event. Setup Postgres production 30+ YAML = pain — **Operator** abstract complex stateful workload. Bài này dạy cả 2 + viết simple operator.*
@@ -918,15 +917,15 @@ spec:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: HPA + VPA same target
+### ❌ Cạm bẫy: HPA + VPA same target
 
 (Đã giải thích §2). Loop infinite.
 
 → **Fix**: HPA dùng custom metric (req/sec), VPA `Off` mode.
 
-### ❌ Pitfall: HPA scale too aggressive
+### ❌ Cạm bẫy: HPA scale too aggressive
 
 ```yaml
 behavior:
@@ -940,13 +939,13 @@ behavior:
 
 → **Fix**: `stabilizationWindowSeconds: 30+` + `scaleUp` reasonable (100-200%).
 
-### ❌ Pitfall: PDB minAvailable too high vs HPA minReplicas
+### ❌ Cạm bẫy: PDB minAvailable too high vs HPA minReplicas
 
 (War story §5). Block HPA scale-down → stuck.
 
 → **Fix**: PDB `maxUnavailable` thay `minAvailable`. Hoặc PDB minAvailable < HPA minReplicas - 2.
 
-### ❌ Pitfall: KEDA scale-to-zero break healthcheck
+### ❌ Cạm bẫy: KEDA scale-to-zero break healthcheck
 
 → Pod scaled to 0, K8s service endpoint empty → upstream LB → 503.
 
@@ -954,7 +953,7 @@ behavior:
 - KEDA HTTP add-on: handle wake-up khi request đến.
 - Hoặc `minReplicaCount: 1` (keep 1 pod always).
 
-### ❌ Pitfall: Operator update CRD spec → break existing CR
+### ❌ Cạm bẫy: Operator update CRD spec → break existing CR
 
 → Bump major version operator CRD schema → existing CR validation fail.
 
@@ -962,7 +961,7 @@ behavior:
 - CRD versioning: keep `v1` storage true + add `v1beta1` conversion webhook.
 - Test upgrade trên staging cluster trước.
 
-### ❌ Pitfall: Custom operator infinite reconcile loop
+### ❌ Cạm bẫy: Custom operator infinite reconcile loop
 
 ```go
 // Update CR status mỗi reconcile
@@ -1004,7 +1003,7 @@ Production database/Kafka/Elasticsearch → use Operator. Trade learning curve f
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng HPA, KEDA, VPA — và conflict gì giữa chúng?
 
@@ -1130,7 +1129,7 @@ kubectl apply -f acme-pg-cluster.yaml
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === HPA ===
@@ -1207,7 +1206,7 @@ spec:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1235,21 +1234,21 @@ spec:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_statefulset-and-storage.md](03_statefulset-and-storage.md)
-- ↑ Cluster: [Kubernetes README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [StatefulSet & Storage — Postgres trong K8s, không mất data](03_statefulset-and-storage.md)
+- ↑ **Về cụm:** [Kubernetes README](../../README.md)
 - 🎯 Hoàn thành Kubernetes intermediate cluster!
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 📊 [Observability Prometheus](../../../observability/lessons/01_basic/01_metrics-prometheus.md) — metrics source cho HPA custom
 - 🐳 [Docker intermediate Security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md) — operator-driven scan (Trivy operator)
 - 🔁 [CI/CD basic Deploy strategies](../../../ci-cd/lessons/01_basic/04_deploy-strategies.md) — autoscale interact với deploy
 - 🗄️ [PostgreSQL basic](../../../../06_databases/postgresql/) — Postgres concepts
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [HPA docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 - 📖 [VPA GitHub](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler)
-- 📖 [Cluster Autoscaler docs](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
+- ↑ **Về cụm:** [Cluster Autoscaler docs](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
 - 📖 [Karpenter docs](https://karpenter.sh/)
 - 📖 [KEDA docs](https://keda.sh/docs/) — 50+ triggers
 - 📖 [Operator framework](https://operatorframework.io/)
@@ -1260,7 +1259,7 @@ spec:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install metrics-server + HPA basic CPU + VPA Install + Modes + Example.
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 — bài cuối intermediate. HPA (CPU/custom metric) + VPA + Cluster Autoscaler + Karpenter + KEDA event-driven + PDB-HPA war story (apply insight `__Ref__/`) + Operator pattern (CRD + Controller) + write simple operator với Kubebuilder + use CloudNativePG production-grade Postgres. 6 pitfall + 3 best practice + 5 self-check + cheatsheet đầy đủ.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install metrics-server + HPA basic CPU + VPA Install + Modes + Example.

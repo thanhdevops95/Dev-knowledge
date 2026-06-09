@@ -6,7 +6,6 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [01_navigation.md](./01_navigation.md)\
 > **Áp dụng cho:** Linux • macOS • WSL • Git Bash
 
@@ -317,9 +316,9 @@ rm -rf old-stuff/
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `mkdir` không có `-p` → báo lỗi khi folder cha chưa có
+### ❌ Cạm bẫy: `mkdir` không có `-p` → báo lỗi khi folder cha chưa có
 
 ```bash
 mkdir a/b/c
@@ -328,7 +327,7 @@ mkdir a/b/c
 
 - **Cách tránh**: dùng `mkdir -p a/b/c` — tạo cả `a` và `b` nếu chưa có.
 
-### ❌ Pitfall: `cp` đè file đích không hỏi (silent overwrite)
+### ❌ Cạm bẫy: `cp` đè file đích không hỏi (silent overwrite)
 
 ```bash
 cp source.txt dest.txt    # dest.txt đã có → bị đè không cảnh báo
@@ -346,7 +345,7 @@ cp source.txt dest.txt    # dest.txt đã có → bị đè không cảnh báo
   alias rm='rm -i'
   ```
 
-### ❌ Pitfall: `rm *` trong folder lớn (đặc biệt nguy hiểm)
+### ❌ Cạm bẫy: `rm *` trong folder lớn (đặc biệt nguy hiểm)
 
 ```bash
 rm *   # xóa MỌI file trong folder hiện tại
@@ -358,7 +357,7 @@ rm *   # xóa MỌI file trong folder hiện tại
   - Dùng `rm -i *` để hỏi từng file
   - Tốt nhất: `rm` từng file rõ ràng
 
-### ❌ Pitfall: `rm -rf` với biến chưa định nghĩa
+### ❌ Cạm bẫy: `rm -rf` với biến chưa định nghĩa
 
 Đây là 1 trong những **bug huyền thoại** đã xóa server thật:
 
@@ -408,7 +407,7 @@ mkdir -p projects/{frontend,backend,database}/{src,tests,docs}
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Sự khác nhau giữa `cp file.txt copy.txt` và `cp -r folder copy-folder`?
 
@@ -461,7 +460,7 @@ Phân tích:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Lệnh | Mục đích |
 |---|---|
@@ -481,7 +480,7 @@ Phân tích:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -503,24 +502,19 @@ Phân tích:
 |---|---|
 | ⬅️ Bài trước | [01_navigation.md](./01_navigation.md) |
 | ➡️ Bài tiếp | [03_view-file-content.md](./03_view-file-content.md) — cat, less, head, tail |
-| 🔗 Liên quan | (sẽ có) `06_file-permissions.md` — chmod, chown |
+| 🔗 Liên quan | [Users & Permissions](../02_intermediate/00_users-and-permissions.md) — chmod, chown |
 | 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Linux File Operations](https://linuxize.com/post/basic-linux-commands/) — tutorial chi tiết
 - [Brace Expansion Tutorial](https://www.linuxjournal.com/content/bash-brace-expansion) — patterns nâng cao
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 3 lead-in trước code (mkdir 1 folder, nhiều folder, -p lồng nhau).
-
-
-- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Mở bằng **tình huống tạo cấu trúc project đầu tiên** với 5 lệnh cụ thể (mkdir/touch/cp/mv/rm)
-  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Mô hình (WHAT)` / `3️⃣ Hands-on (HOW)` → câu hỏi/mô tả tự nhiên
-  - Content kỹ thuật KHÔNG đổi
-- **v1.1.0 (16/05/2026)** — Move từ `02_tools/shell/` sang `04_os/linux/` theo Blueprint v0.5 §3.2ter. Title đổi "File Operations" → "Linux File Operations".
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — lesson `mkdir`/`touch`/`cp`/`mv`/`rm` với hands-on + 4 pitfall + 4 best practice.
+- **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/`. Đổi tiêu đề "File Operations" → "Linux File Operations".
+- **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống tạo cấu trúc project đầu tiên với 5 lệnh cụ thể (mkdir/touch/cp/mv/rm). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
+- **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (mkdir 1 folder, nhiều folder, -p lồng nhau).

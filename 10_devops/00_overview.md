@@ -120,7 +120,7 @@ graph LR
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (26/05/2026)** — Biên soạn nội dung hoàn chỉnh cho file tổng quan DevOps L1.
 - **v0.1.0 (16/05/2026)** — Khởi tạo file khung (skeleton).
+- **v1.0.0 (26/05/2026)** — Biên soạn nội dung hoàn chỉnh cho file tổng quan DevOps L1.

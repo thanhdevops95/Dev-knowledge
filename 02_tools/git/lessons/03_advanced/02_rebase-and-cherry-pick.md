@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Advanced\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
 > **Prerequisites:** [00_branching-and-merging.md](../02_intermediate/00_branching-and-merging.md), [01_advanced-recovery-reflog.md](./01_advanced-recovery-reflog.md) ✅
 
 > 🎯 *Bài học nghệ thuật lịch sử Git — Khám phá hai công cụ quyền lực tối thượng giúp tái định vị nền tảng nhánh và chọn lọc chính xác các mảnh ghép thay đổi. Bạn sẽ học cách "phẫu thuật thẩm mỹ" cho lịch sử Git bừa bộn trở nên thẳng thớm, đẹp đẽ như một tác phẩm nghệ thuật.*
@@ -180,7 +179,7 @@ Output thực tế hiển thị:
 
 ---
 
-## 🧠 Câu hỏi ôn tập (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1: Nếu tôi đang Rebase mà gặp Merge Conflict thì quá trình có bị hủy bỏ không? Tôi phải làm thế nào?**
 <details>
@@ -207,7 +206,7 @@ Squash giúp dọn sạch bãi rác lịch sử. Thay vì lưu lại hàng chụ
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa kỹ thuật | Ẩn dụ thực tế |
 |---|---|---|
@@ -230,5 +229,5 @@ Squash giúp dọn sạch bãi rác lịch sử. Thay vì lưu lại hàng chụ
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 - **v2.0.0 (26/05/2026)** — Mr.Rom soạn thảo hoàn chỉnh bài học Rebase & Cherry-pick nâng cao, hướng dẫn chi tiết Interactive Rebase (Squash) và các quy tắc an toàn lịch sử theo chuẩn Blueprint v0.2.0.

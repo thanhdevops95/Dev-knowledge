@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [HTML & CSS là gì](00_what-is-html-and-css.md)
 
 > 🎯 *Master HTML thực sự: **document structure**, **20 common tag** thường gặp, **semantic tags** (`<header>`, `<article>`, `<nav>`...), **inline vs block**, **attributes** (id, class, data-), **embedding media** (img, video, iframe), **links + navigation**. Sau bài này viết được trang web đầy đủ structure.*
@@ -26,7 +25,7 @@
 
 ## Tình huống — Bạn viết trang giới thiệu
 
-Bạn muốn trang `about.html` cho Acme Shop. Anh viết:
+Bạn muốn trang `about.html` cho Acme Shop. Bạn viết:
 
 ```html
 <div>Acme Shop</div>
@@ -265,13 +264,13 @@ HTML5 (2014) thêm **8 tag semantic** thay thế `<div>` lung tung. Cùng 1 tran
 
 ```html
 <!-- Basic -->
-<img src="photo.jpg" alt="Bạn đang code" width="800" height="600">
+<img src="photo.jpg" alt="Lập trình viên đang code" width="800" height="600">
 
 <!-- Responsive — modern -->
 <picture>
   <source media="(min-width: 800px)" srcset="large.jpg">
   <source media="(min-width: 400px)" srcset="medium.jpg">
-  <img src="small.jpg" alt="bạn" loading="lazy">
+  <img src="small.jpg" alt="Ảnh sản phẩm" loading="lazy">
 </picture>
 
 <!-- Lazy load (browser tự defer load) -->
@@ -298,7 +297,7 @@ HTML5 (2014) thêm **8 tag semantic** thay thế `<div>` lung tung. Cùng 1 tran
   </thead>
   <tbody>
     <tr>
-      <td>bạn</td>
+      <td>Nguyen Van A</td>
       <td>28</td>
     </tr>
   </tbody>
@@ -514,7 +513,7 @@ Lỗi thường gặp:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`<div>` cho mọi thứ** → 2010 style. Semantic tag cho SEO + a11y.
 2. **Nhiều `<h1>` 1 trang** → SEO confuse. **1 `<h1>` duy nhất**.
@@ -524,7 +523,7 @@ Lỗi thường gặp:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **`<section>`** vs **`<article>`** vs **`<div>`**?
 2. **`<strong>`** vs **`<b>`** — chọn cái nào, lý do?
@@ -644,14 +643,14 @@ defer / async (script)
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [HTML & CSS là gì](00_what-is-html-and-css.md)
-- → Tiếp: [Forms & Accessibility](02_forms-and-accessibility.md)
-- ↑ Cluster: [html-css README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [HTML & CSS là gì? — Nền tảng frontend web](00_what-is-html-and-css.md)
+- ➡️ **Bài tiếp theo:** [Forms & Accessibility — Input đúng cách + a11y basic](02_forms-and-accessibility.md)
+- ↑ **Về cụm:** [html-css README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN — HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
 - 📖 [HTML Living Standard](https://html.spec.whatwg.org/) — spec
 - 📖 [W3C Markup Validator](https://validator.w3.org/)
@@ -666,6 +665,6 @@ defer / async (script)
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 HTML5 structure + Vai trò meta + §2 Anti-pattern div + Semantic HTML5 + Bảng semantic tags. Fix `bạn Shop` (residue Long Shop) → `Acme Shop` (Blueprint placeholder brand). Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục HTML5 structure, Vai trò meta, Anti-pattern div, Semantic HTML5, Bảng semantic tags. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 2/5. Cover: HTML5 structure đầy đủ (8 meta cho SEO + social + viewport) + semantic tags (header/nav/main/article/section/aside/footer) + common tags (heading/list/link/image/table) + form basics + best practices (alt text, lang attr).

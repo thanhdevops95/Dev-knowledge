@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
 > **Prerequisites:** [JOINs](03_joins.md), [INSERT/UPDATE/DELETE](04_insert-update-delete.md)
 
 > 🎯 *Học thiết kế schema từ A-Z: chọn **data types** đúng, **PRIMARY KEY** + **FOREIGN KEY**, **constraints** (NOT NULL/UNIQUE/CHECK), **indexes** (when + how), **normalization** 1NF→3NF, và 5 anti-pattern beginner. Sau bài này bạn không sợ "schema sai sau 1 năm vứt cả app".*
@@ -53,7 +52,7 @@ Bạn ngơ:
 - Sao có `VARCHAR(50)` mà mình dùng 255 không sai?
 - **Normalization** là gì, nghe đáng sợ?
 
-→ Bài này dạy bạn (và bạn) **schema design** đúng từ đầu — tránh dependency hell sau này.
+→ Bài này dạy bạn **schema design** đúng từ đầu — tránh dependency hell sau này.
 
 ---
 
@@ -443,14 +442,14 @@ orders
 ┌────┬─────────┬─────────────┬───────────┬──────────┬────────────────────────────────┐
 │ id │ user_id │ user_name   │ user_city │ product  │ product_category │ amount │
 ├────┼─────────┼─────────────┼───────────┼──────────┼────────────────────────────────┤
-│ 1  │ 1       │ bạn        │ Hanoi     │ iPhone   │ Phone            │ 25M    │
-│ 2  │ 1       │ bạn        │ Hanoi     │ AirPods  │ Audio            │ 5M     │
-│ 3  │ 2       │ Le Van B         │ Hanoi     │ iPhone   │ Phone            │ 25M    │
+│ 1  │ 1       │ Nguyen Van A│ Hanoi     │ iPhone   │ Phone            │ 25M    │
+│ 2  │ 1       │ Nguyen Van A│ Hanoi     │ AirPods  │ Audio            │ 5M     │
+│ 3  │ 2       │ Le Van B    │ Hanoi     │ iPhone   │ Phone            │ 25M    │
 └────┴─────────┴─────────────┴───────────┴──────────┴──────────────────┴────────┘
 ```
 
 **Vấn đề:**
-- Đổi `bạn` thành `Lê bạn` → update **mọi row** của user 1 (anomaly).
+- Đổi tên user 1 từ `Nguyen Van A` thành tên mới → update **mọi row** của user 1 (anomaly).
 - User 1 đổi city Hanoi → Saigon → update mọi row.
 - Lưu trùng `Phone`, `Audio` cho product → tốn disk.
 
@@ -479,8 +478,8 @@ orders                     users
 ┌────┬─────────┬────────┐  ┌─────┬──────┬──────┐
 │ id │ user_id │ amount │  │ id  │ name │ city │
 ├────┼─────────┼────────┤  ├─────┼──────┼──────┤
-│ 1  │ 1       │ 25M    │  │ 1   │ bạn │ Hanoi│
-│ 2  │ 1       │ 5M     │  │ 2   │ Le Van B  │ Hanoi│
+│ 1  │ 1       │ 25M    │  │ 1   │ Nguyen Van A │ Hanoi│
+│ 2  │ 1       │ 5M     │  │ 2   │ Le Van B     │ Hanoi│
 └────┴─────────┴────────┘  └─────┴──────┴──────┘
 ```
 
@@ -655,7 +654,7 @@ CREATE INDEX idx_orders_user_id ON orders(user_id);
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Tại sao không lưu tiền dùng `FLOAT`?
 2. Khi nào chọn `UUID` thay vì `SERIAL` cho PK?
@@ -679,7 +678,7 @@ CREATE INDEX idx_orders_user_id ON orders(user_id);
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Type tốt cho mỗi cột
 
@@ -771,16 +770,16 @@ EXPLAIN ANALYZE SELECT * FROM t WHERE col = 'x';
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [INSERT, UPDATE, DELETE](04_insert-update-delete.md)
-- ↑ Cluster: [sql-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [INSERT / UPDATE / DELETE & Transactions](04_insert-update-delete.md)
+- ↑ **Về cụm:** [sql-fundamentals README](../../README.md)
 
-### Cross-reference
-- [REST API concepts](../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — REST resource thường map 1:1 với SQL table
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [REST API concepts](../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md) — REST resource thường map 1:1 với SQL table
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Use The Index, Luke!](https://use-the-index-luke.com/) — bible về index/performance
 - 📖 [Postgres docs: CREATE TABLE](https://www.postgresql.org/docs/current/sql-createtable.html)
 - 📖 [Database normalization explained — Vertabelo](https://vertabelo.com/blog/normalization-1nf-2nf-3nf/)
@@ -793,8 +792,7 @@ EXPLAIN ANALYZE SELECT * FROM t WHERE col = 'x';
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Data types — Số numeric + Chuỗi text + Boolean + Date/Time + JSON/JSONB sections. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 6/6. Cover: data types (numeric, text, boolean, date/time, JSON, ARRAY) + PK + FK + constraints (NOT NULL, UNIQUE, CHECK, DEFAULT) + 3 normalization form (1NF/2NF/3NF) + denormalization khi nào + indexes vai trò + ERD design + naming convention.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Data types — Số numeric + Chuỗi text + Boolean + Date/Time + JSON/JSONB sections. Chuẩn hoá tên trong ví dụ normalization. Thêm Changelog section.

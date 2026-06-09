@@ -1,13 +1,12 @@
 # ☁️ Cloudflare — Tổng quan, account hierarchy, wrangler CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu CDN/DNS cơ bản, đã từng dùng `curl`
+> **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu CDN/DNS cơ bản, đã từng dùng `curl`
 
 > 🎯 *Bài đầu tiên của Cloudflare cluster. Bạn đã quen AWS/GCP — vendor "data-center-centric". Cloudflare là một paradigm khác: **edge-first**, mọi thứ chạy ở 320+ POPs phủ khắp thế giới trước cả khi chạm origin. Bài này dạy: Cloudflare là gì, 3 trụ cột (Network/Security/Developer Platform), Account+Zone hierarchy, wrangler CLI, Free Tier "ngông nghênh" so với AWS/GCP, và deploy first Worker trong 5 phút.*
 
@@ -128,7 +127,7 @@ Cloudflare 2026 chia thành **3 mảng sản phẩm chính**:
 | **Workers KV** | Eventual consistent key-value | 100k read/ngày, 1k write/ngày, 1 GB |
 | **Durable Objects** | Strongly consistent stateful object | Paid ($5/tháng bundle) |
 | **R2** | S3-compatible object storage | 10 GB storage, 1M Class A, 10M Class B op/tháng — **zero egress fee** |
-| **D1** | SQLite edge-replicated | 5 GB storage, 5M row read/ngày |
+| **D1** | SQLite edge-replicated | 500 MB/DB (5 GB tổng account), 5M row read/ngày |
 | **Queues** | Message queue | Paid (Workers Paid plan $5) |
 | **Hyperdrive** | Connection pool tới Postgres origin | Free with Workers Paid |
 | **Pages** | Static site + dynamic functions | 500 builds/tháng, unlimited bandwidth |
@@ -152,7 +151,7 @@ Cloudflare 2026 chia thành **3 mảng sản phẩm chính**:
 
 Cloudflare hierarchy **đơn giản hơn AWS/GCP** rất nhiều:
 
-```
+```text
 Account (gắn email + billing)
 ├── Zone "acmeshop.vn"        ← (1 zone = 1 domain)
 │   ├── DNS records (A, CNAME, MX, ...)
@@ -181,7 +180,7 @@ Account (gắn email + billing)
 
 Tại sao Cloudflare bắt domain phải là "Zone"? Vì để Cloudflare làm CDN/proxy, bạn phải **trỏ nameservers của domain về Cloudflare**. Lúc đó Cloudflare "sở hữu" DNS của domain → bật `proxied = true` → mọi request đến domain đi qua POP Cloudflare trước → cache + WAF + DDoS protect → forward về origin nếu cần.
 
-```
+```text
 User → DNS query "acmeshop.vn" → Cloudflare DNS trả về IP của POP gần
 User → HTTP request tới POP → Cloudflare cache/WAF/Worker xử lý
        → (nếu cần) forward tới origin AWS S3 / VPS bạn
@@ -245,7 +244,7 @@ Free plan không có spending — không cần alert. Nếu nâng Pro/Business: 
 
 Free plan có **Audit Log 30 ngày** cho mọi action quan trọng. Pro+ giữ lâu hơn:
 
-```
+```text
 Account Home → Manage Account → Audit Log
 ```
 
@@ -303,7 +302,7 @@ wrangler whoami
 
 Hoặc tạo file `.env` (không commit):
 
-```
+```bash
 CLOUDFLARE_API_TOKEN=xxx
 CLOUDFLARE_ACCOUNT_ID=xxx
 ```
@@ -353,7 +352,7 @@ So sánh side-by-side với AWS/GCP:
 | **DDoS protection** | **Unmetered L3-L7** | Shield Standard (basic) | Cloud Armor basic |
 | **Edge compute** | 100k req/ngày Workers | 1M Lambda req/tháng | 2M Functions/tháng |
 | **Object storage** | 10 GB R2 + **$0 egress** | 5 GB S3 + 100 GB egress | 5 GB GCS + 1 GB egress/tháng |
-| **DB** | 5 GB D1 + 5M reads/ngày | 750h RDS db.t3.micro | 1 GB Firestore |
+| **DB** | D1 500 MB/DB (5 GB tổng) + 5M reads/ngày | 750h RDS db.t3.micro | 1 GB Firestore |
 | **DNS** | Unlimited records | Route 53: 50 records | Cloud DNS: 25 zones |
 | **SSL** | Free unlimited Universal SSL | ACM free | Let's Encrypt manual |
 | **WAF custom rules** | 5 rules free | AWS WAF $1/rule + $0.60/M | Cloud Armor $5/policy |
@@ -374,7 +373,7 @@ Khi tạo API token hoặc invite member:
 
 Ví dụ token deploy Workers:
 
-```
+```text
 Account: Acme Shop
   ├── Workers Scripts: Edit
   ├── Workers KV: Edit
@@ -384,7 +383,7 @@ Zone: (không cần — Workers không gắn zone)
 
 Token cho frontend dev update DNS:
 
-```
+```text
 Account: (không cần)
 Zone: acmeshop.vn
   └── DNS: Edit
@@ -413,7 +412,7 @@ npm create cloudflare@latest -- acmeshop-hello \
 
 Lệnh này tạo:
 
-```
+```text
 acmeshop-hello/
 ├── src/
 │   └── index.ts          # Worker code
@@ -506,9 +505,9 @@ wrangler delete acmeshop-hello
 
 ---
 
-## 💡 Pitfalls — Bẫy phổ biến của người mới
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Dùng Global API Key cho mọi script
+### ❌ Cạm bẫy: Dùng Global API Key cho mọi script
 
 **Triệu chứng**: Script CI/CD dùng `CLOUDFLARE_API_KEY` (Global) → 1 ngày bị compromise → toàn bộ zone+DNS+Workers bị wipe.
 
@@ -520,7 +519,7 @@ wrangler delete acmeshop-hello
 - Set TTL token + rotate định kỳ.
 - `gitleaks` hook trước khi commit.
 
-### ❌ Pitfall: Quên đổi nameservers → Zone "Pending"
+### ❌ Cạm bẫy: Quên đổi nameservers → Zone "Pending"
 
 **Triệu chứng**: Add zone xong, chờ mãi không active. CDN/WAF không hoạt động.
 
@@ -531,7 +530,7 @@ wrangler delete acmeshop-hello
 - Kiểm tra: `dig NS yourdomain.com +short` phải trả `xxx.ns.cloudflare.com`.
 - Đợi 5 phút - 24h (TTL DNS).
 
-### ❌ Pitfall: Bật proxy (cam) cho subdomain không hỗ trợ HTTP
+### ❌ Cạm bẫy: Bật proxy (cam) cho subdomain không hỗ trợ HTTP
 
 **Triệu chứng**: Bật proxy (icon cam) cho subdomain `mail.acmeshop.vn` → email server không nhận được kết nối SMTP.
 
@@ -542,7 +541,7 @@ wrangler delete acmeshop-hello
 - Chỉ web (HTTP/HTTPS) → **Proxied** (cam).
 - Bài 01 chi tiết.
 
-### ❌ Pitfall: Nhầm Workers free tier 100k/ngày là 100k/tháng
+### ❌ Cạm bẫy: Nhầm Workers free tier 100k/ngày là 100k/tháng
 
 **Triệu chứng**: Worker chạy production, ngày 2 đã hết quota → return error 1015 (rate limited).
 
@@ -552,7 +551,7 @@ wrangler delete acmeshop-hello
 - Monitor request rate ở Dashboard → Workers → Analytics.
 - Khi gần ngưỡng → upgrade Workers Paid ($5/tháng, 10M req included).
 
-### ❌ Pitfall: Commit `wrangler.toml` chứa account_id + zone_id public
+### ❌ Cạm bẫy: Commit `wrangler.toml` chứa account_id + zone_id public
 
 **Triệu chứng**: Repo public trên GitHub có `wrangler.toml` lộ `account_id`. Không phải secret nhưng giúp attacker target.
 
@@ -562,7 +561,7 @@ wrangler delete acmeshop-hello
 - Repo private → OK commit.
 - Repo public → để placeholder, set qua env hoặc secrets.
 
-### ❌ Pitfall: Region bias khi test latency
+### ❌ Cạm bẫy: Region bias khi test latency
 
 **Triệu chứng**: Test từ máy ở Việt Nam → 8ms tới Worker. Tự tin "global fast". Khách Brazil complain 200ms.
 
@@ -573,7 +572,7 @@ wrangler delete acmeshop-hello
 - Dùng `request.cf.colo` log để biết user đi POP nào.
 - Monitor real-user latency qua Cloudflare Analytics → Web Analytics.
 
-### ❌ Pitfall: Nhầm "Zone" với "Project"
+### ❌ Cạm bẫy: Nhầm "Zone" với "Project"
 
 **Triệu chứng**: Bạn muốn tách 3 môi trường (prod/staging/dev) trên cùng 1 domain — không biết tạo Zone hay tạo Worker khác name.
 
@@ -584,7 +583,7 @@ wrangler delete acmeshop-hello
 - Hoặc 3 worker name: `acmeshop-api-prod`, `acmeshop-api-staging`, `acmeshop-api-dev`.
 - Hoặc dùng wrangler **environments** (`[env.staging]`) trong `wrangler.toml`.
 
-### ❌ Pitfall: Không bật "Always Use HTTPS"
+### ❌ Cạm bẫy: Không bật "Always Use HTTPS"
 
 **Triệu chứng**: User gõ `http://acmeshop.vn` → Cloudflare forward HTTP về origin → form login leak password qua HTTP.
 
@@ -596,7 +595,7 @@ wrangler delete acmeshop-hello
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Cloudflare khác AWS/GCP ở 3 điểm chính nào?
 
@@ -648,7 +647,7 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -668,55 +667,59 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN / Giải thích |
-|---|---|
-| **POP** | Point of Presence — 1 data center edge Cloudflare (320+ cái) |
-| **Zone** | 1 domain được Cloudflare manage DNS |
-| **Account** | Top-level container, gắn email + billing |
-| **Worker** | Function code chạy ở edge (V8 isolate) |
-| **wrangler** | CLI chính để deploy Workers + Pages + R2 + D1 |
-| **R2** | Object storage S3-compatible, zero egress |
-| **D1** | SQLite database edge-replicated |
-| **KV** | Workers KV — eventual consistent key-value store |
-| **Durable Objects** | Stateful object với strong consistency |
-| **Pages** | Static site hosting + Functions (Workers tích hợp) |
-| **Universal SSL** | Cert miễn phí auto-renew của Cloudflare |
-| **Proxied (cam)** | DNS record đi qua proxy Cloudflare (HTTP/HTTPS) |
-| **DNS-only (xám)** | DNS record trả IP origin trực tiếp, không qua proxy |
-| **Free Tier** | Plan miễn phí — rộng hơn AWS/GCP rất nhiều |
-| **API Token** | Credential scoped (recommended) |
-| **Global API Key** | Credential full quyền (legacy, tránh) |
-| **colo** | Mã POP xử lý request (SIN, HAN, LAX, ...) |
-| **Bandwidth Alliance** | Liên minh giảm egress fee giữa cloud providers |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **POP** | Điểm hiện diện | Point of Presence — 1 data center edge Cloudflare (320+ cái) |
+| **Zone** | Vùng (domain) | 1 domain được Cloudflare manage DNS |
+| **Account** | Tài khoản | Top-level container, gắn email + billing |
+| **Worker** | Hàm chạy ở edge | Function code chạy ở edge (V8 isolate) |
+| **wrangler** | CLI Cloudflare | CLI chính để deploy Workers + Pages + R2 + D1 |
+| **R2** | Object storage | Object storage S3-compatible, zero egress |
+| **D1** | CSDL SQLite edge | SQLite database edge-replicated |
+| **KV** | Key-value store | Workers KV — eventual consistent key-value store |
+| **Durable Objects** | Object có trạng thái | Stateful object với strong consistency |
+| **Pages** | Hosting static + Functions | Static site hosting + Functions (Workers tích hợp) |
+| **Universal SSL** | Chứng chỉ SSL miễn phí | Cert miễn phí auto-renew của Cloudflare |
+| **Proxied (cam)** | Đi qua proxy | DNS record đi qua proxy Cloudflare (HTTP/HTTPS) |
+| **DNS-only (xám)** | Chỉ phân giải DNS | DNS record trả IP origin trực tiếp, không qua proxy |
+| **Free Tier** | Gói miễn phí | Plan miễn phí — rộng hơn AWS/GCP rất nhiều |
+| **API Token** | Credential scoped | Credential phạm vi giới hạn (recommended) |
+| **Global API Key** | Khoá API toàn quyền | Credential full quyền (legacy, tránh) |
+| **colo** | Mã POP | Mã POP xử lý request (SIN, HAN, LAX, ...) |
+| **Bandwidth Alliance** | Liên minh băng thông | Liên minh giảm egress fee giữa cloud providers |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_cdn-dns-and-ssl.md](01_cdn-dns-and-ssl.md) — DNS, proxied vs DNS-only, SSL modes
-- ↑ Cluster Cloudflare: [Cloudflare README](../../README.md)
-- ↶ Cloud Fundamentals: [11_cloud/cloud-fundamentals](../../../cloud-fundamentals/)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS basic](../../../aws/) — so sánh paradigm
-- ☁️ [GCP basic](../../../gcp/) — so sánh paradigm
-- 🌐 [Serverless](../../../serverless/) — Workers là edge serverless
-- 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
+- ⬅️ **Bài trước:** [Cloud Fundamentals — Nền tảng điện toán đám mây](../../../cloud-fundamentals/) — kiến thức nền tiên quyết
+- ➡️ **Bài tiếp theo:** [Cloudflare CDN + DNS + SSL — Foundation của edge](01_cdn-dns-and-ssl.md) — DNS, proxied vs DNS-only, SSL modes
+- ↑ **Về cụm:** [Cloudflare](../../README.md)
 
-### Tài nguyên ngoài (2026)
-- 📖 [Cloudflare docs](https://developers.cloudflare.com/)
-- 📖 [wrangler CLI reference](https://developers.cloudflare.com/workers/wrangler/)
-- 📖 [Cloudflare Free Plan](https://www.cloudflare.com/plans/free/)
-- 📖 [Network Map (320+ POPs)](https://www.cloudflare.com/network/)
-- 📖 [Workers Examples gallery](https://developers.cloudflare.com/workers/examples/)
-- 📖 [Cloudflare Radar](https://radar.cloudflare.com/) — global internet trends realtime
-- 📖 [The Cloudflare Blog](https://blog.cloudflare.com/) — deep dive engineering posts
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ **So sánh paradigm:** [AWS](../../../aws/) — vendor region-first lớn nhất
+- ☁️ **So sánh paradigm:** [GCP](../../../gcp/) — vendor region-first
+- 🌐 **Edge serverless:** [Serverless](../../../serverless/) — Workers thuộc nhóm này
+- 🧭 **Tấm bản đồ sự nghiệp:** [Cloud Engineer Career Roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
+- [Cloudflare docs](https://developers.cloudflare.com/) — tài liệu gốc đầy đủ nhất.
+- [wrangler CLI reference](https://developers.cloudflare.com/workers/wrangler/) — tra cứu lệnh wrangler.
+- [Cloudflare Free Plan](https://www.cloudflare.com/plans/free/) — chi tiết gói miễn phí.
+- [Network Map (320+ POPs)](https://www.cloudflare.com/network/) — bản đồ mạng edge toàn cầu.
+- [Workers Examples gallery](https://developers.cloudflare.com/workers/examples/) — kho ví dụ Worker.
+- [Cloudflare Radar](https://radar.cloudflare.com/) — xu hướng internet toàn cầu realtime.
+- [The Cloudflare Blog](https://blog.cloudflare.com/) — bài kỹ thuật chuyên sâu.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Cloudflare basic. Overview Cloudflare edge-first paradigm + 3 trụ cột (Network/Security/Developer Platform) + Account→Zone hierarchy + wrangler CLI setup + Free Tier 2026 vs AWS/GCP + hands-on first Worker live tại 320+ POPs + 8 pitfalls. Pattern theo AWS/GCP lesson 00.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi QA: gắn ngôn ngữ cho các code fence bare (cây thư mục/flow/scope token/path dùng `text`, file `.env` dùng `bash`); chuẩn hoá phần "Liên kết & Tài nguyên" theo gold standard (marker ⬅️/➡️/↑, link-text = tiêu đề thực, 3 sub-heading canonical: Định hướng lộ trình học / Các chủ đề có thể bạn quan tâm / Tài nguyên tham khảo khác).

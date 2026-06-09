@@ -1,13 +1,12 @@
 # 🎓 Serverless Patterns & Anti-patterns — Khi nào dùng, khi nào tránh
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** [02_event-driven-and-triggers.md](02_event-driven-and-triggers.md)
+> **Yêu cầu trước:** [Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule](02_event-driven-and-triggers.md)
 
 > 🎯 *Bài 00-02 đã cho bạn nền tảng. Bài này tổng hợp **8 pattern thực chiến** mà mọi team serverless đều áp dụng, và **6 anti-pattern** đắt giá bạn cần tránh. Sau bài này bạn có 1 "playbook" để mỗi khi nhận yêu cầu mới, bạn biết ngay "pattern nào áp dụng" thay vì design từ đầu.*
 
@@ -24,7 +23,7 @@
 
 ## Tình huống — Acme Shop muốn build nhiều feature mới
 
-Quý mới, Acme Shop có 5 feature cần build:
+Quý mới, Acme Shop có 8 feature cần build:
 
 1. **Mobile API** cho app khách hàng — REST endpoint.
 2. **Auto-resize ảnh sản phẩm** khi seller upload.
@@ -694,7 +693,9 @@ graph TD
 
 ---
 
-## 💡 Best practice tổng
+## 💡 Cạm bẫy thường gặp & Best practice
+
+Sáu anti-pattern phía trên là những cạm bẫy hay gặp nhất khi mới làm serverless — biết để tránh. Phần dưới đây gom lại 5 best practice nền tảng: nếu áp dụng từ đầu, bạn sẽ không rơi vào hầu hết các cạm bẫy đó.
 
 ### ✅ Best practice 1: Coarse-grained Lambda, không micro-micro
 
@@ -742,7 +743,7 @@ def stream_handler(event, context):
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Pattern File Processing Pipeline khác Chatty Backend ở điểm gì? Vì sao 1 cái là pattern tốt, 1 cái là anti-pattern dù cả 2 đều có nhiều function?
 
@@ -1111,7 +1112,7 @@ ETL stream (DDB Streams)        → Lambda
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 8 Pattern map
 
@@ -1150,9 +1151,9 @@ Workflow > 2 step? → Step Functions
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | API Backend | — | Pattern HTTP API qua Lambda/Cloud Run |
 | File Pipeline | — | Pattern S3/GCS event → parallel function |
@@ -1175,15 +1176,19 @@ Workflow > 2 step? → Step Functions
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_event-driven-and-triggers.md](02_event-driven-and-triggers.md)
-- → Tiếp theo: [04_serverless-cost-cold-start-and-observability.md](04_serverless-cost-cold-start-and-observability.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🟧 [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md)
-- 🟦 [GCP Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md)
+- ⬅️ **Bài trước:** [Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule](02_event-driven-and-triggers.md)
+- ➡️ **Bài tiếp theo:** [Serverless — Cost, Cold Start, Observability](04_serverless-cost-cold-start-and-observability.md)
+- ↑ **Về cụm:** [Serverless — Basic cluster](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🟧 **Phía AWS:** [Lambda + API Gateway — Nhập môn Serverless](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md)
+- 🟦 **Phía GCP:** [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md)
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Serverless Patterns Collection (AWS)](https://serverlessland.com/patterns) — 500+ pattern AWS chính thức
 - 📖 [AWS Lambda Best Practices](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
 - 📖 [AWS Step Functions Patterns](https://docs.aws.amazon.com/step-functions/latest/dg/sample-projects.html)
@@ -1193,6 +1198,7 @@ Workflow > 2 step? → Step Functions
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Patterns + Anti-patterns cho Basic cluster. 8 pattern (API/File/ETL/Cron/Webhook/Chatbot/Fanout/Saga) + 6 anti-pattern (chatty/monolith/sync-long/no-version/no-monitor/serverless-cho-mọi-thứ) + Acme Shop feature mapping + Step Functions saga template. 5 best practice + 5 self-check.
+- **v1.1.0 (01/06/2026)** — Chuẩn hoá khung: heading best-practice gộp thành "Cạm bẫy thường gặp & Best practice"; field metadata "Yêu cầu trước"; Glossary header 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; nav đồng bộ marker ⬅️/➡️/↑ với link-text là tiêu đề bài thực + 3 sub-heading chuẩn. Sửa số liệu mở bài "5 feature" → "8 feature" cho khớp danh sách 8 mục và bảng map cuối bài.

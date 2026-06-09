@@ -5,11 +5,7 @@
 > **Cập nhật:** 20/05/2026\
 > **Status:** ❌ Skeleton — chưa có content
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🚧 *Folder này chưa có content. Trong thời gian chờ, [sql-fundamentals](../sql-fundamentals/) dùng SQLite làm DB ví dụ xuyên suốt — đọc bài [SQL là gì](../sql-fundamentals/lessons/01_basic/00_what-is-sql.md) để cài SQLite và chạy query đầu tiên.*
 
 ## 📂 Cấu trúc dự kiến (theo menu 7 loại)
 

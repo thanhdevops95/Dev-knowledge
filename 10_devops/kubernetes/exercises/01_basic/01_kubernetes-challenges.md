@@ -5,7 +5,6 @@
 > **Tạo lúc:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [PRACTICAL, LAB, EXERCISE, K8S-BASIC]\
-> **Thời lượng hoàn thành:** ~45 phút\
 > **Prerequisites:** [Kubernetes Basic Module (Lessons 00 - 04)](../../lessons/01_basic/00_what-is-kubernetes.md)
 
 > 🎯 **Mục tiêu cốt lõi:** Chuyển hóa toàn bộ lý thuyết về Pod, Deployment, Service, ConfigMap, Secret, Namespace và RBAC thành kỹ năng thực tế. Bạn sẽ được rèn luyện tư duy thông qua 5 câu hỏi trắc nghiệm phản biện sâu sắc, và trực tiếp bắt tay vào xây dựng 3 dự án Lab thực chiến hoàn chỉnh, có khả năng chạy ngay trên các Cluster local như `kind` hay `minikube`.

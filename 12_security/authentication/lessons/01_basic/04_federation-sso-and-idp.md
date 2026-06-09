@@ -1,12 +1,11 @@
 # 🏢 Federation + SSO + Identity Providers
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md) ✅
 
 > 🎯 *Bài 04 (cuối basic). Enterprise identity: **SAML 2.0** (legacy nhưng vẫn dominant trong enterprise) + **OIDC SSO** + **SCIM** (provisioning) + IdP setup (Keycloak, Entra ID, Okta) + Just-in-Time provisioning + **break-glass account** + audit. Hands-on Keycloak self-host + SAML/OIDC SSO Acme Shop admin. Đóng cluster Authentication basic.*
@@ -149,7 +148,7 @@ Simpler, JSON-based, mobile-friendly.
 
 ### Why Keycloak
 
-- **OSS** (Red Hat).
+- **OSS**, CNCF incubating project (Red Hat khởi xướng, vẫn là maintainer chính).
 - Support **OIDC + SAML + OAuth 2.0** ra-of-the-box.
 - LDAP/AD federation (sync user from existing directory).
 - Built-in MFA, social login, password policy, audit.
@@ -166,9 +165,11 @@ docker run -d --name keycloak \
     -e KC_DB_URL=jdbc:postgresql://postgres/keycloak \
     -e KC_DB_USERNAME=keycloak \
     -e KC_DB_PASSWORD=... \
-    quay.io/keycloak/keycloak:25.0 \
+    quay.io/keycloak/keycloak:26.6 \
     start --optimized
 ```
+
+> ⚠️ Pin theo tag major hiện hành (giữa 2026 là dòng `26.6.x`). Kiểm tra bản mới nhất tại [keycloak.org/downloads](https://www.keycloak.org/downloads) — đừng để pin một bản đã hết hỗ trợ.
 
 For production: behind nginx/HAProxy with TLS, Postgres backing, multi-instance.
 
@@ -490,7 +491,7 @@ Next:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. SAML signature wrapping
 
@@ -526,7 +527,7 @@ Next:
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] SAML vs OIDC — pick cho 4 scenario?
 - [ ] Keycloak realm/client/group setup cho admin SSO?
@@ -539,7 +540,7 @@ Next:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -552,7 +553,7 @@ Next:
 | **OIDC** | OpenID Connect |
 | **SCIM** | System for Cross-domain Identity Management |
 | **JIT provisioning** | Create user on first login |
-| **Keycloak** | Red Hat OSS IdP |
+| **Keycloak** | OSS IdP, CNCF incubating (Red Hat khởi xướng + maintainer chính) |
 | **Realm** | Tenant in Keycloak |
 | **Client** | App registered in IdP |
 | **Federation** | Trust between IdP and source (LDAP/AD/Google) |
@@ -569,12 +570,12 @@ Next:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md)
-- ↑ Cluster Authentication: [authentication README](../../README.md)
-- ↑ 12_security: [README](../../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [JWT + Sessions Deep](03_jwt-and-sessions-deep.md)
+- ↑ **Về cụm:** [authentication README](../../README.md)
+- ↑ **Về cụm:** [README](../../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🛡️ [OWASP A07](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md)
 - 🔑 [authorization](../../../authorization/)
 - 🎓 [compliance](../../../compliance/)
@@ -598,6 +599,7 @@ Next:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Authentication. SAML vs OIDC + Keycloak self-host setup + federation Google + Client/Realm/Group/Role + SCIM provisioning + JIT + break-glass account + audit log + compliance frameworks + 500-employee SSO architecture hands-on + 8 pitfalls. **Đóng Authentication basic cluster 5/5.**
+- **v1.1.0 (07/06/2026)** — Sửa lỗi thời (factual): mô tả Keycloak là "Red Hat OSS IdP" → "OSS, CNCF incubating (Red Hat khởi xướng + maintainer chính)" (Keycloak gia nhập CNCF incubating từ 04/2023); cập nhật Docker tag `25.0` → `26.6` + thêm ghi chú pin theo bản hiện hành. Sync cả Glossary.

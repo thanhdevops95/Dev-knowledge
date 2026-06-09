@@ -1,4 +1,4 @@
-# 🎓 bạn lỡ tay 2h sáng — Undo + Recovery
+# 🎓 Undo + Recovery — cứu code khi lỡ tay lúc 2h sáng
 
 > **Tác giả:** Mr.Rom\
 > **Phiên bản:** v2.1.0\
@@ -6,10 +6,9 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md), [02_branching-and-merging.md](./02_branching-and-merging.md)
+> **Prerequisites:** [01_init-and-first-commit.md](../01_basic/01_init-and-first-commit.md), [00_branching-and-merging.md](../02_intermediate/00_branching-and-merging.md)
 
-> 🎯 *Tiếp bạn story: 2h sáng, bạn gõ nhầm `git reset --hard`, mất 3 commit của 1 đêm code. Hoảng. Anh senior chỉ nói "đừng panic, Git rất khó mất data thật". Bài này dạy mọi cách "quay lại" — restore/amend/reset/revert/reflog/stash.*
+> 🎯 *Nối tiếp bài trước: 2h sáng, bạn gõ nhầm `git reset --hard`, mất 3 commit của 1 đêm code. Hoảng. Anh senior chỉ nói "đừng panic, Git rất khó mất data thật". Bài này dạy mọi cách "quay lại" — restore/amend/reset/revert/reflog/stash.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -418,9 +417,9 @@ flowchart TD
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `git reset --hard` mất changes chưa commit
+### ❌ Cạm bẫy: `git reset --hard` mất changes chưa commit
 
 ```bash
 echo "code quan trọng" >> file.txt
@@ -434,7 +433,7 @@ git reset --hard HEAD    # ❌ Mất luôn dòng vừa thêm
   git stash pop    # nếu muốn lấy lại
   ```
 
-### ❌ Pitfall: `git push --force` sau `reset` lên branch shared
+### ❌ Cạm bẫy: `git push --force` sau `reset` lên branch shared
 
 ```bash
 git reset --hard HEAD~3
@@ -444,7 +443,7 @@ git push --force    # ⚠️ Xóa 3 commit khỏi remote
 - **Hậu quả**: đồng nghiệp có 3 commit đó → mất, conflict khi pull
 - **Cách tránh**: dùng `git revert` thay `reset` cho branch shared (`main`, `develop`)
 
-### ❌ Pitfall: `commit --amend` commit đã push
+### ❌ Cạm bẫy: `commit --amend` commit đã push
 
 ```bash
 git commit --amend -m "fix typo"
@@ -454,7 +453,7 @@ git push --force    # ⚠️ Rewrite history
 - **Hậu quả**: history chia 2 nhánh, đồng nghiệp confused
 - **Cách tránh**: amend CHỈ commit chưa push. Đã push → tạo commit mới `fix: typo in commit message`
 
-### ❌ Pitfall: Quên `git stash pop`
+### ❌ Cạm bẫy: Quên `git stash pop`
 
 ```bash
 git stash
@@ -501,7 +500,7 @@ git reset --hard backup-before-reset
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khác nhau `git reset --soft`, `--mixed`, `--hard`?
 
@@ -555,7 +554,7 @@ Git giữ reflog **90 ngày mặc định** → ít khi commit thực sự mất
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # Bỏ thay đổi
@@ -599,7 +598,7 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -626,7 +625,7 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 | 🧪 Thực hành | [lab_git-time-traveler.md](../../exercises/03_advanced/lab_git-time-traveler.md) — Thực hành du hành thời gian |
 | 🗺️ Sitemap Git | [Lộ trình chinh phục Git (README)](../../README.md) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Pro Git Ch.7 — Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified) — hiểu sâu reset
 - [Oh Sh*t, Git!](https://ohshitgit.com/) — collection các tình huống "lỡ tay" + cách fix
@@ -634,15 +633,15 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 
-- **v2.0.0 (19/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Title đổi: "bạn lỡ tay 2h sáng — Undo + Recovery" (gắn vào story)
-  - Mở bằng **tình huống bạn 2h sáng** `git reset --hard HEAD~3` mất 3 commit feature payment, nhịp tim 120bpm — anh senior dạy `git reflog`
-  - Headers đổi: `1️⃣ Vì sao học Undo (WHY)` / `2️⃣ Mô hình 4 vùng (WHAT)` / `3️⃣ Hands-on (HOW)` / `4️⃣ Decision tree` → câu hỏi tự nhiên ("Lệnh nào tác động vùng nào?", "Bắt tay làm cùng bạn", "Lỡ chỗ nào fix lệnh nào?")
-  - §2.7 `git reflog` thêm callback "quay lại tình huống bạn ở đầu bài"
-  - Thống nhất giữ Git ở `02_tools/git/` làm Central Setup Hub và cross-cutting tool
-  - Fix relative path depth
+- **v2.0.0 (19/05/2026)** — Viết lại bố cục:
+  - Tiêu đề gắn vào tình huống thực
+  - Mở bằng **tình huống 2h sáng** `git reset --hard HEAD~3` mất 3 commit feature payment, nhịp tim 120bpm — anh senior dạy `git reflog`
+  - Đổi tiêu đề mục sang câu hỏi tự nhiên ("Lệnh nào tác động vùng nào?", "Lỡ chỗ nào fix lệnh nào?")
+  - §2.7 `git reflog` thêm callback "quay lại tình huống ở đầu bài"
+  - Thống nhất giữ Git ở `02_tools/git/`
+  - Sửa lại độ sâu đường dẫn tương đối
 - **v1.0.0 (16/05/2026)** — Bản đầu tiên — restore/amend/reset (3 mode)/revert/stash/reflog + decision tree + 6 pitfall/best-practice.

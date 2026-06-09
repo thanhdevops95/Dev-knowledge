@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Kubernetes basics](../../../kubernetes/), [HTTP](../../../../05_networking/http-https/)
 
 > 🎯 *Bài INTRO. Hiểu **observability** (3 pillars: metrics + logs + traces), **vs monitoring** (passive vs proactive), **landscape 2026** (Prometheus + Grafana + Loki + Tempo + Jaeger + Datadog + Honeycomb), **SLI/SLO/SLA**, **OpenTelemetry**. KHÔNG dạy Prometheus deep (bài 01).*
@@ -472,7 +471,7 @@ Grafana → Explore → Loki →
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Logs ingest mọi thứ** → $5K/mo bill. Drop noisy logs (health checks, debug).
 2. **No metric retention** → can't compare with last week. 30+ days metrics.
@@ -482,7 +481,7 @@ Grafana → Explore → Loki →
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **monitoring** và **observability**?
 2. **3 pillars** + use case mỗi cái?
@@ -506,7 +505,7 @@ Grafana → Explore → Loki →
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 3 Pillars
 
@@ -570,13 +569,13 @@ Error budget = SLO - actual
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [Metrics with Prometheus](01_metrics-prometheus.md)
-- ↑ Cluster: [observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Metrics with Prometheus — De-facto metrics tool](01_metrics-prometheus.md)
+- ↑ **Về cụm:** [observability README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [SRE book (Google)](https://sre.google/books/) — free
 - 📖 [Observability Engineering — Charity Majors](https://www.oreilly.com/library/view/observability-engineering/9781492076438/)
 - 📖 [OpenTelemetry docs](https://opentelemetry.io/)
@@ -591,8 +590,7 @@ Error budget = SLO - actual
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Monitoring vs Observability + §2 3 Pillars (Metrics + Logs + Traces) + Tổng kết.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 1/5. Cover: monitoring vs observability + 3 pillars (Metrics/Logs/Traces) + SLI/SLO/SLA + error budget + tool stack 2026 (Prometheus/Loki/OTel/Grafana).
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Monitoring vs Observability + §2 3 Pillars (Metrics + Logs + Traces) + Tổng kết.

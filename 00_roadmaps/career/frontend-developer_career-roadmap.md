@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã nắm vững nền tảng máy tính (hoặc hoàn thành Stage 1 của Zero to Coder), muốn theo đuổi hướng lập trình giao diện Web UI/UX\
-> **Thời gian ước tính:** ~9 tháng học tập tích cực (full-time) hoặc ~18 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng ứng tuyển và làm việc thực tế)
 
 ---
@@ -36,17 +35,17 @@ graph LR
     S4 --> S5[🚀 Stage 5<br/>Capstone Project]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: HTML & CSS (Giao diện tĩnh)** | 1-2 tháng | Xây dựng được trang landing page tĩnh đẹp đẽ, responsive (Mobile-first) |
-| **Stage 2: JavaScript (Tương tác động)** | 2 tháng | Thêm logic tương tác, xử lý form, gọi API lấy dữ liệu động từ server |
-| **Stage 3: Framework (React hoặc Vue)** | 2-3 tháng | Làm chủ Component và State, xây dựng Single Page Application (SPA) |
-| **Stage 4: Công cụ & Tối ưu hóa** | 1-2 tháng | Áp dụng TypeScript, viết unit test, kiểm tra hiệu năng bằng Lighthouse |
-| **Stage 5: Dự án Capstone** | 1-2 tháng | 1 dự án Frontend Portfolio hoàn chỉnh chạy live, tối ưu SEO & A11y |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: HTML & CSS (Giao diện tĩnh)** | Xây dựng được trang landing page tĩnh đẹp đẽ, responsive (Mobile-first) |
+| **Stage 2: JavaScript (Tương tác động)** | Thêm logic tương tác, xử lý form, gọi API lấy dữ liệu động từ server |
+| **Stage 3: Framework (React hoặc Vue)** | Làm chủ Component và State, xây dựng Single Page Application (SPA) |
+| **Stage 4: Công cụ & Tối ưu hóa** | Áp dụng TypeScript, viết unit test, kiểm tra hiệu năng bằng Lighthouse |
+| **Stage 5: Dự án Capstone** | 1 dự án Frontend Portfolio hoàn chỉnh chạy live, tối ưu SEO & A11y |
 
 ---
 
-## 🎨 Stage 1 — HTML & CSS (1-2 tháng)
+## 🎨 Stage 1 — HTML & CSS
 
 > 🎯 *Tạo nền móng vững chắc về cấu trúc trang web chuẩn SEO, cách bố cục giao diện linh hoạt và tư duy Responsive thiết kế.*
 
@@ -75,7 +74,7 @@ graph LR
 
 ---
 
-## ⚡ Stage 2 — Làm chủ ngôn ngữ JavaScript (2 tháng)
+## ⚡ Stage 2 — Làm chủ ngôn ngữ JavaScript
 
 > 🎯 *Học sâu về ngôn ngữ lập trình của trình duyệt, cách thao tác với giao diện (DOM) và xử lý bất đồng bộ.*
 
@@ -101,7 +100,7 @@ Nhiều người mới thường mắc sai lầm là vội vàng học React/Vue
 
 ---
 
-## ⚛️ Stage 3 — Component Framework: React (2-3 tháng)
+## ⚛️ Stage 3 — Component Framework: React
 
 > 🎯 *Học tư duy phát triển UI theo dạng các mảnh ghép (Component), quản lý dữ liệu tập trung và điều hướng trang web (Routing).*
 
@@ -127,7 +126,7 @@ Nhiều người mới thường mắc sai lầm là vội vàng học React/Vue
 
 ---
 
-## 🛠️ Stage 4 — Công cụ chuyên nghiệp & Tối ưu hóa (1-2 tháng)
+## 🛠️ Stage 4 — Công cụ chuyên nghiệp & Tối ưu hóa
 
 > 🎯 *Trang bị TypeScript để tránh bug lúc gõ code, viết unit test, kiểm tra hiệu năng trình duyệt và deploy lên Cloud.*
 
@@ -151,7 +150,7 @@ Nhiều người mới thường mắc sai lầm là vội vàng học React/Vue
 
 ---
 
-## 🚀 Stage 5 — Dự án Capstone độc lập (1-2 tháng)
+## 🚀 Stage 5 — Dự án Capstone độc lập
 
 > 🎯 *Tự lên ý tưởng, thiết kế UX/UI và hoàn thiện một ứng dụng Frontend chuyên nghiệp chạy live trên internet.*
 
@@ -182,11 +181,11 @@ Sau khi làm chủ Frontend, bạn có các lựa chọn mở rộng nghề nghi
 ## 🔄 Hướng dẫn điều chỉnh lộ trình
 
 - **Nếu bạn cảm thấy CSS quá khó căn chỉnh:** Đừng nản lòng, CSS là một kỹ năng cần thực hành nhiều để quen mắt. Hãy tập trung làm chủ Flexbox và CSS Grid trước, sau đó chuyển sang sử dụng Tailwind CSS để viết code nhanh hơn.
-- **Về việc chọn Framework:** Nếu công ty bạn nhắm tới yêu cầu Vue 3 thay vì React, hãy học Vue 3. Các khái niệm về Component, Props, State và Routing ở Vue 3 đều tương đồng 90% với React, bạn chỉ mất khoảng 1-2 tuần để làm quen với cú pháp mới.
+- **Về việc chọn Framework:** Nếu công ty bạn nhắm tới yêu cầu Vue 3 thay vì React, hãy học Vue 3. Các khái niệm về Component, Props, State và Routing ở Vue 3 đều tương đồng 90% với React, bạn chỉ mất khoảngđể làm quen với cú pháp mới.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Biên soạn lại toàn bộ nội dung theo văn phong kể chuyện định hướng có chiều sâu.

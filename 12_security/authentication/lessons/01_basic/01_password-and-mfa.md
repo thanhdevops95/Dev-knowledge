@@ -1,12 +1,11 @@
 # 🔑 Mật khẩu + Xác thực 2 lớp (MFA)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [00 - Authentication là gì](00_what-is-authentication.md) ✅. Không cần biết crypto trước, mình sẽ giới thiệu khi đến.
 
 > 🎯 *Bài trước bạn đã biết 3 yếu tố xác thực (mật khẩu, vật bạn cầm, sinh trắc học). Bài này đi sâu vào 2 yếu tố đầu — vì sao mật khẩu plain text là thảm hoạ, dùng "băm" (hashing) thế nào cho đúng, làm sao thêm lớp xác thực thứ 2 (TOTP/Passkey) để chống bị chiếm tài khoản. Cuối bài: bạn migrate được DB user từ mật khẩu cũ sang chuẩn 2026, thêm được Passkey cho admin.*
@@ -251,9 +250,9 @@ def login_voi_auto_rehash(email, mat_khau):
 
 Ngày xưa các app bắt user đặt mật khẩu phải có chữ hoa + chữ thường + số + ký tự đặc biệt + đổi mỗi 90 ngày. NIST (cơ quan tiêu chuẩn Mỹ) năm 2024 ra hướng dẫn mới — gần như đảo ngược các quy tắc cũ:
 
-| Quy tắc cũ | Quy tắc mới (NIST SP 800-63B 2024) |
+| Quy tắc cũ | Quy tắc mới (NIST SP 800-63B-4, final 09/2024) |
 |---|---|
-| Tối thiểu 6-8 ký tự | **Tối thiểu 8, khuyến nghị 15+** |
+| Tối thiểu 6-8 ký tự | **Tối thiểu 8 ký tự** (memorized secret); với *single-factor password*, verifier SHALL yêu cầu **≥ 15** và SHOULD hỗ trợ tới **≥ 64** |
 | Phải có hoa + thường + số + ký tự đặc biệt | **Bỏ yêu cầu này** (độ dài quan trọng hơn) |
 | Bắt đổi mỗi 90 ngày | **Bỏ** (chỉ đổi khi nghi bị lộ) |
 | Cấm dán (paste) password vào ô input | **Bắt buộc cho phép paste** (giúp user dùng password manager) |
@@ -267,7 +266,10 @@ Ngày xưa các app bắt user đặt mật khẩu phải có chữ hoa + chữ 
 Áp dụng quy tắc mới vào code, mình check 3 điều: độ dài, không trong top mật khẩu phổ biến, không bị lộ ở data breach:
 
 ```python
-COMMON_PASSWORDS = set(open("top10k_breached.txt").read().splitlines())
+# Chuẩn hoá lower-case khi nạp file để khớp với mk.lower() lúc check.
+# Nếu file chứa entry có chữ hoa (Password1, Qwerty123) mà chỉ lower 1 đầu
+# thì sẽ không bao giờ khớp -> lọt mật khẩu phổ biến (false negative).
+COMMON_PASSWORDS = {dong.strip().lower() for dong in open("top10k_breached.txt")}
 
 def validate_mat_khau(mk: str) -> tuple[bool, str | None]:
     """Trả về (ok, thông điệp lỗi nếu fail)."""
@@ -1027,7 +1029,7 @@ assert t1 > 0.1  # > 100ms = đã chạy dummy verify
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Vì sao không lưu mật khẩu plain text, mà phải băm? Nếu hash one-way thì server làm sao verify khi user login?
 
@@ -1078,7 +1080,7 @@ Lần login kế tiếp dùng hash mới luôn. Sau 6 tháng, ~95% user (active)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Code Python |
 |---|---|
@@ -1093,7 +1095,7 @@ Lần login kế tiếp dùng hash mới luôn. Sau 6 tháng, ~95% user (active)
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -1127,13 +1129,13 @@ Lần login kế tiếp dùng hash mới luôn. Sau 6 tháng, ~95% user (active)
 - [04 — Federation + SSO](04_federation-sso-and-idp.md) — enterprise: dùng Keycloak làm IdP cho cả công ty
 
 ### Bài liên quan trong kho
-- ↑ [00 — Authentication là gì](00_what-is-authentication.md) — nền tảng AuthN vs AuthZ
+- ↑ **Về cụm:** [00 — Authentication là gì](00_what-is-authentication.md) — nền tảng AuthN vs AuthZ
 - 🛡️ [OWASP A07 — Auth failures](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) — overview
 - 🛡️ [OWASP A02 — Crypto failures](../../../owasp-top-10/lessons/01_basic/02_crypto-failures-and-secure-design.md) — encryption deep
 
 ### Tài nguyên ngoài (đọc thêm)
 - 📖 [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — chuẩn vàng về băm mật khẩu
-- 📖 [NIST SP 800-63B (2024)](https://pages.nist.gov/800-63-3/sp800-63b.html) — guideline chính thức Mỹ
+- 📖 [NIST SP 800-63B-4 (final 09/2024)](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63b-4.pdf) — guideline chính thức Mỹ
 - 📖 [Argon2 spec (PHC)](https://github.com/P-H-C/phc-winner-argon2) — spec gốc + reference implementation
 - 📖 [haveibeenpwned API docs](https://haveibeenpwned.com/API/v3) — k-anonymity workflow
 - 📖 [RFC 6238 — TOTP](https://datatracker.ietf.org/doc/html/rfc6238) — chuẩn TOTP gốc
@@ -1143,7 +1145,8 @@ Lần login kế tiếp dùng hash mới luôn. Sau 6 tháng, ~95% user (active)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.0.0 (24/05/2026)** — Rewrite hoàn toàn theo Blueprint v0.5.3. Lý do: bản v1.0.0 vi phạm §3.6 (header → code ngay không lead-in) + §3.7 (English-heavy, comments code English). Bản này: mỗi code block có 2-3 câu lead-in giải thích "vì sao" + "expect gì", comments code tiếng Việt, mọi thuật ngữ EN xuất hiện lần đầu đều italic + dịch + giải thích, định nghĩa "trả lời tình huống" thay định nghĩa khô. Nội dung kỹ thuật giữ nguyên (Argon2id, TOTP, Passkey, recovery flow, migration pattern).
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên (đã bị thay thế bởi v2.0.0 do vi phạm Blueprint).
+- **v2.0.0 (24/05/2026)** — Rewrite hoàn toàn theo Blueprint v0.5.3. Lý do: bản v1.0.0 vi phạm §3.6 (header → code ngay không lead-in) + §3.7 (English-heavy, comments code English). Bản này: mỗi code block có 2-3 câu lead-in giải thích "vì sao" + "expect gì", comments code tiếng Việt, mọi thuật ngữ EN xuất hiện lần đầu đều italic + dịch + giải thích, định nghĩa "trả lời tình huống" thay định nghĩa khô. Nội dung kỹ thuật giữ nguyên (Argon2id, TOTP, Passkey, recovery flow, migration pattern).
+- **v2.1.0 (07/06/2026)** — Fix QA: (1) sửa bug case-mismatch trong `COMMON_PASSWORDS` — nạp file `top10k_breached.txt` đã lower-case để khớp với `mk.lower()` lúc check (tránh lọt mật khẩu phổ biến có chữ hoa, false negative); (2) chuẩn hoá trích dẫn NIST: ghi rõ **SP 800-63B-4 (final 09/2024)**, tách ngữ cảnh "min 8 cho memorized secret / SHALL ≥ 15 cho single-factor password / SHOULD ≥ 64", sửa link tài nguyên từ bộ -3 cũ sang bản -4 chính thức.

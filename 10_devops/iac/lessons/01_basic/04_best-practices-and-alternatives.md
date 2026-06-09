@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Modules & Multi-env](03_modules-and-workspaces.md)
 
 > 🎯 *Production best practices: **security scanning** (tfsec, checkov), **cost estimation** (Infracost), **policy as code** (OPA, Sentinel), **drift detection** automation, **CI/CD integration**, **secrets management**. Plus **alternatives** to Terraform: Pulumi, CDK, Crossplane.*
@@ -725,7 +724,7 @@ Operations:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Skip security scanning** → CVE in production. tfsec + checkov mandatory.
 2. **Mega monorepo state** → slow apply, lock blocks team. Split by domain.
@@ -735,7 +734,7 @@ Operations:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **tfsec** vs **checkov** — chọn cái nào?
 2. **Infracost** giải quyết vấn đề gì?
@@ -759,7 +758,7 @@ Operations:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Production checklist
 
@@ -822,17 +821,17 @@ Crossplane   K8s-native IaC
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Modules & Workspaces](03_modules-and-workspaces.md)
-- ↑ Cluster: [iac README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Modules & Multi-env — DRY + Reusability](03_modules-and-workspaces.md)
+- ↑ **Về cụm:** [iac README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [CI/CD pipeline patterns](../../../ci-cd/lessons/01_basic/03_pipeline-patterns.md) — security scanning patterns
 - [K8s + RBAC](../../../kubernetes/lessons/01_basic/04_namespaces-and-rbac.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Terraform Best Practices](https://www.terraform-best-practices.com/)
 - 📖 [tfsec](https://aquasecurity.github.io/tfsec/)
 - 📖 [Checkov](https://www.checkov.io/)
@@ -847,8 +846,7 @@ Crossplane   K8s-native IaC
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước tfsec + Checkov + CI integration + Common findings.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 5/5. Cover: security scan (tfsec/checkov/snyk) + cost (Infracost) + policy (OPA/Sentinel) + alternatives (Pulumi/CDK/Crossplane decision matrix) + tagging strategy + naming convention.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước tfsec, Checkov, CI integration và Common findings.

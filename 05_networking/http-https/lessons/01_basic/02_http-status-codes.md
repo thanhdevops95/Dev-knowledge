@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~12 phút\
 > **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Hiểu **5 nhóm status code** (1xx-5xx) + **20 mã phổ biến** nhất + **khi nào dùng cái nào**. Sau bài này bạn đọc HTTP error nhìn 1 phát biết lỗi ai, fix ở đâu — không phải google "401 nghĩa là gì".*
@@ -216,7 +215,7 @@ Allow: GET, PUT, PATCH, DELETE
 
 ```bash
 # 400: format sai
-curl -X POST /users -d 'name=bạn&email=...'    # backend expect JSON, đây là form
+curl -X POST /users -d 'name=Nguyen+Van+A&email=...'    # backend expect JSON, đây là form
 → 400 Bad Request
 
 # 422: format đúng nhưng validation sai
@@ -375,9 +374,9 @@ graph LR
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Dùng 200 OK với error body
+### ❌ Cạm bẫy: Dùng 200 OK với error body
 
 ```http
 HTTP/1.1 200 OK
@@ -387,7 +386,7 @@ HTTP/1.1 200 OK
 - **Hậu quả**: client code `if response.status === 200` → tưởng success → bug
 - **Cách fix**: dùng đúng status (404) + body chi tiết
 
-### ❌ Pitfall: Cache 301 nhầm
+### ❌ Cạm bẫy: Cache 301 nhầm
 
 Đổi domain `example.com → example.io` với 301:
 - 6 tháng sau quyết định **quay lại** `example.com`
@@ -395,7 +394,7 @@ HTTP/1.1 200 OK
 
 **Cách tránh**: dùng **302** cho hầu hết redirect. Chỉ dùng 301 khi **chắc chắn** không quay lại + đã chạy stable 30+ ngày.
 
-### ❌ Pitfall: 404 cho mọi "không thấy"
+### ❌ Cạm bẫy: 404 cho mọi "không thấy"
 
 ```
 GET /api/users/123    → 404 (user không tồn tại — OK)
@@ -409,7 +408,7 @@ Backend trả 404 cho cả case user **không có quyền** xem → confuse. Nê
 
 (Trừ security obscurity intentional — vd Stripe trả 404 cho resource bạn không own, không 403, để hide existence.)
 
-### ❌ Pitfall: 500 cho validation error
+### ❌ Cạm bẫy: 500 cho validation error
 
 ```python
 def create_user(data):
@@ -429,7 +428,7 @@ def create_user(data):
         }), 422
 ```
 
-### ❌ Pitfall: Backend crash trả 200
+### ❌ Cạm bẫy: Backend crash trả 200
 
 Backend Python catch exception nhưng vẫn trả 200:
 
@@ -464,7 +463,7 @@ Retry-After: 300                          ← Đợi 5 phút retry
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** 401 vs 403 khác nhau ra sao? Cho ví dụ.
 
@@ -590,7 +589,7 @@ Content-Type: application/json
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -614,10 +613,10 @@ Content-Type: application/json
 | Hướng | Bài |
 |---|---|
 | ⬅️ Bài trước | [01_http-methods.md](./01_http-methods.md) — Methods |
-| ➡️ Bài tiếp | [03_http-headers.md](./03_http-headers.md) (chưa có) — Headers |
-| 📚 REST design | [05_rest-api-concepts.md](./05_rest-api-concepts.md) (chưa có) |
+| ➡️ Bài tiếp | [03_http-headers.md](./03_http-headers.md) — Headers |
+| 📚 REST design | [05_rest-api-concepts.md](./05_rest-api-concepts.md) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [MDN HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) — chính thức, đầy đủ
 - [HTTP Cats](https://http.cat/) — meme status code (mỗi mã có 1 ảnh mèo, hilarious + dễ nhớ)
@@ -628,8 +627,7 @@ Content-Type: application/json
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6 (Header→Code anti-pattern fix): thêm lead-in 2-3 câu trước §1 bảng 5 nhóm, §2 bảng 2xx, §2 phần "200 vs 201 vs 204", §2 "202 Accepted async pattern", §3 bảng 3xx redirect. Nội dung kỹ thuật giữ nguyên 100%.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 3/6. Cover: tình huống Bạn debug 5 lỗi → §1 cấu trúc + 5 nhóm + cách nhớ "4 = Fault client, 5 = Fault server" → §2 2xx (200/201/204/202 async) → §3 3xx (301 vs 302 cảnh báo cache, 304 cache mechanism với mermaid) → §4 4xx chi tiết 401 vs 403 (interview classic) + 422 vs 400 + 429 + 405 → §5 5xx production debug 502/503/504 với mermaid LB diagram → §6 bảng tra cứu 20 mã + 11 MUST-KNOW bold → §7 best practice API design. 5 pitfall + 4 self-check.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (5 nhóm), §2 (2xx, "200 vs 201 vs 204", "202 Accepted async"), §3 (3xx redirect). Nội dung kỹ thuật giữ nguyên.

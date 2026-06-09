@@ -67,12 +67,12 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 ## 🚀 Lộ trình đề xuất
 
-| Bạn là... | Đi theo |
+| Nhu cầu | Đi theo |
 |---|---|
-| 🟢 **Beginner zero-base** | [Setup](./setup/install-python.md) → [00_what-is-python](./lessons/01_basic/00_what-is-python.md) → 01 → 02 → 03 → ... |
-| 🟡 **Đã biết 1 ngôn ngữ khác** | Skim 00 → đi nhanh qua 01-03 → vào intermediate khi có |
-| 🟠 **Senior ôn lại Pythonic** | Skim 01-03 phần "Pitfall & Best practice" |
-| 🧭 **Theo Zero-to-Coder Stage 2** | Setup + 4 bài đầu (00-03) đủ cho Stage 2 (Python cơ bản) |
+| **Học từ đầu** | [Setup](./setup/install-python.md) → [00_what-is-python](./lessons/01_basic/00_what-is-python.md) → 01 → 02 → 03 → ... |
+| **Đã biết 1 ngôn ngữ khác** | Skim 00 → đi nhanh qua 01-03 → vào intermediate khi có |
+| **Ôn lại cách viết Pythonic** | Skim 01-03 phần "Pitfall & Best practice" |
+| **Theo Zero-to-Coder Stage 2** | Setup + 4 bài đầu (00-03) đủ cho Stage 2 (Python cơ bản) |
 
 ---
 
@@ -114,17 +114,6 @@ Sau setup + 4 bài (00-03), bạn có thể:
 
 ---
 
-## 🤝 Muốn viết thêm bài Python?
-
-1. Đọc [`../../_blueprint/README.md`](../../_blueprint/README.md)
-2. Chọn template:
-   - Setup → `setup_template.md`
-   - Lesson → `lesson_template.md`
-3. Tham khảo 4 bài có sẵn làm reference
-4. Cập nhật bảng trên + [`../../MASTER-CATALOG.md`](../../MASTER-CATALOG.md)
-
----
-
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Bộ Python basic đầu tiên: setup + 4 bài (intro + 3 lesson). Stage 2 zero-to-coder có Python foundation đủ chạy.

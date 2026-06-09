@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [Git basics](../../../../02_tools/git/), [Docker](../../../docker/)
 
 > 🎯 *Bài INTRO. Hiểu **CI/CD** (Continuous Integration + Continuous Delivery/Deployment), **why** + **lịch sử**, **landscape 2026** (GitHub Actions / GitLab CI / CircleCI / Jenkins / Drone), **anatomy pipeline**, **trunk-based vs Gitflow**, **DORA metrics**.*
@@ -479,7 +478,7 @@ jobs:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Long-running branches** → merge hell. Trunk-based + feature flags.
 2. **Slow CI** (15+ min) → devs frustrated, skip. Optimize: cache, parallel, only run affected.
@@ -489,7 +488,7 @@ jobs:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác **Continuous Delivery** vs **Continuous Deployment**?
 2. **4 DORA metrics** + target Elite?
@@ -513,7 +512,7 @@ jobs:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Generic pipeline (any tool)
 
@@ -579,18 +578,18 @@ Failure:     0-15%
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [GitHub Actions](01_github-actions.md)
-- ↑ Cluster: [ci-cd README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [GitHub Actions — Default CI/CD 2026](01_github-actions.md)
+- ↑ **Về cụm:** [ci-cd README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [Git basics](../../../../02_tools/git/) — branching foundation
 - [Docker](../../../docker/) — CI build images
 - [Kubernetes](../../../kubernetes/) — CI deploy K8s
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [DORA reports](https://dora.dev/) — yearly state of DevOps
 - 📖 [Accelerate book](https://nicolefv.com/book) — DORA research
 - 📖 [GitHub Actions docs](https://docs.github.com/en/actions)
@@ -604,8 +603,7 @@ Failure:     0-15%
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Visualization + Evolution + Tools compare + Pick 2026 + §3 Anatomy pipeline.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 1/5. Cover: CI vs CD vs CD (Delivery vs Deployment) + history + 8 tool 2026 compare + decision matrix + anatomy pipeline (trigger/jobs/steps/secrets) + first GitHub Actions workflow.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Visualization + Evolution + Tools compare + Pick 2026 + §3 Anatomy pipeline.

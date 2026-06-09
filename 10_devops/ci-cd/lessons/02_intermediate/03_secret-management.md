@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** [02_supply-chain-security.md](02_supply-chain-security.md), [K8s basic ConfigMap+Secret](../../../kubernetes/lessons/01_basic/03_configmaps-and-secrets.md)
 
 > 🎯 *Secret trong K8s default base64 (không phải encryption). Production cần: external store (Vault/AWS SM), auto sync vào cluster, rotation, audit. Bài này dạy stack: **HashiCorp Vault + External Secrets Operator + Sealed Secrets + SOPS**. Apply 12-factor App principle #3.*
@@ -891,9 +890,9 @@ metadata:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Vault unsealed key in repo
+### ❌ Cạm bẫy: Vault unsealed key in repo
 
 → Vault initial 5 keys + root token. If commit to Git = game over. Anyone unseal Vault, read all secrets.
 
@@ -902,7 +901,7 @@ metadata:
 - Shamir keys distributed to **5 different people**, threshold 3 → no single person can unseal.
 - Document Disaster Recovery procedure offline (encrypted USB in safe).
 
-### ❌ Pitfall: ExternalSecret refresh too aggressive
+### ❌ Cạm bẫy: ExternalSecret refresh too aggressive
 
 ```yaml
 refreshInterval: 10s   # ← every 10 seconds!
@@ -912,7 +911,7 @@ refreshInterval: 10s   # ← every 10 seconds!
 
 → **Fix**: `refreshInterval: 1h` minimum. For dynamic credential closer to TTL (e.g., 30m for 1h TTL).
 
-### ❌ Pitfall: Sealed Secret key rotation forgotten
+### ❌ Cạm bẫy: Sealed Secret key rotation forgotten
 
 → Cluster compromise — must rotate Sealed Secret encryption key. But forgot to **re-encrypt** existing SealedSecrets → next deploy fail.
 
@@ -921,7 +920,7 @@ refreshInterval: 10s   # ← every 10 seconds!
 - Automate re-encryption (kubeseal --recovery-private-key + re-encrypt).
 - Test rotation in staging quarterly.
 
-### ❌ Pitfall: ESO refresh fail silently
+### ❌ Cạm bẫy: ESO refresh fail silently
 
 → Vault network down → ESO can't refresh → K8s Secret stale → app keeps using old credentials. Eventually Vault rotates dynamic credential → app auth fail.
 
@@ -930,13 +929,13 @@ refreshInterval: 10s   # ← every 10 seconds!
 - Alert if errors > threshold.
 - Health check on K8s Secret freshness (annotation timestamp).
 
-### ❌ Pitfall: Hardcoded service account credentials in Vault
+### ❌ Cạm bẫy: Hardcoded service account credentials in Vault
 
 → Anti-pattern: store AWS IAM access key in Vault → used by app. Now AWS key is in 2 places (AWS + Vault). Rotation = update both.
 
 → **Fix**: Use Vault's **AWS Secret Engine** — Vault assumes role on demand, generates short-lived AWS credentials. Or use **IRSA** (IAM Roles for Service Accounts) — no Vault needed for AWS access.
 
-### ❌ Pitfall: Audit log not centralized
+### ❌ Cạm bẫy: Audit log not centralized
 
 → Vault audit log in Vault server only. Lost when Vault recreate.
 
@@ -947,7 +946,7 @@ vault audit enable file file_path=/vault/logs/audit.log
 vault audit enable syslog tag="vault" facility="AUTH"
 ```
 
-### ❌ Pitfall: ESO ServiceAccount permissions too broad
+### ❌ Cạm bẫy: ESO ServiceAccount permissions too broad
 
 ```yaml
 # Policy giving full access
@@ -989,7 +988,7 @@ rate(vault_secret_kv_read_total[5m]) > 10 * avg_over_time(rate(vault_secret_kv_r
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** K8s Secret default — vì sao không an toàn?
 
@@ -1144,7 +1143,7 @@ K8s Secret defaults:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === Vault ===
@@ -1189,7 +1188,7 @@ trufflehog filesystem .
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1218,17 +1217,17 @@ trufflehog filesystem .
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_supply-chain-security.md](02_supply-chain-security.md)
-- → Tiếp: [04_progressive-delivery.md](04_progressive-delivery.md) *(sắp viết)*
-- ↑ Cluster: [CI/CD README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Supply chain security — SLSA Level 3 pipeline + admission verify](02_supply-chain-security.md)
+- ➡️ **Bài tiếp theo:** [Progressive Delivery — Argo Rollouts canary + Feature flags](04_progressive-delivery.md) *(sắp viết)*
+- ↑ **Về cụm:** [CI/CD README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☸️ [K8s basic ConfigMap+Secret](../../../kubernetes/lessons/01_basic/03_configmaps-and-secrets.md) — K8s Secret foundation
 - ☸️ [K8s intermediate Autoscaling+Operators](../../../kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md) — ESO is Operator pattern
 - 🐳 [Docker intermediate BuildKit](../../../docker/lessons/02_intermediate/01_buildkit-and-multistage-advanced.md) — secret mount build-time
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [12-Factor App](https://12factor.net/) — original principles
 - 📖 [HashiCorp Vault docs](https://www.vaultproject.io/docs)
 - 📖 [External Secrets Operator](https://external-secrets.io/)
@@ -1242,8 +1241,7 @@ trufflehog filesystem .
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Secret store options + Comparison matrix + §3 Vault concepts + Install dev mode + KV engine.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 intermediate. 12-Factor App #3 + secret store landscape 2026 + Vault deep (KV/DB/Transit engines, K8s auth) + ESO sync workflow + Sealed Secrets vs SOPS vs ESO comparison + dynamic credentials + pre-commit gitleaks + Reloader auto-restart. Apply insight `__Ref__/` (12-factor violations). 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Secret store options + Comparison matrix + §3 Vault concepts + Install dev mode + KV engine.

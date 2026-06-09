@@ -1,13 +1,12 @@
 # 🎓 Multi-cloud Overview — Định nghĩa, lý do, khi nên/không nên 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, có thực hành ít nhất 1 cloud (AWS hoặc GCP hoặc Azure)
+> **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, có thực hành ít nhất 1 cloud (AWS hoặc GCP hoặc Azure)
 
 > 🎯 *Bài đầu tiên cluster Multi-cloud. Bạn đã biết 1 cloud rồi (AWS/GCP/Azure); giờ học khi nào dùng nhiều cloud cùng lúc, lý do thật vs lý do giả, cost ops vs giảm lock-in. Bài này KHÔNG dạy lệnh — dạy chiến lược: định nghĩa, animal pattern (single/hybrid/multi/poly), số liệu 2026, anti-pattern "multi-cloud for multi-cloud sake".*
 
@@ -28,7 +27,7 @@ Sáng thứ Hai, sếp gọi bạn lên phòng họp:
 
 > Sếp: *"Bạn ơi, mình vừa nhận được 1 báo cáo lo lắm. Acme Shop đang chạy production trên AWS Singapore. Nhưng tuần trước team Data ML triển khai pipeline trên **GCP** vì BigQuery + Vertex AI. Team Mobile thì xài **Firebase** (cũng GCP). Team SEO thì gắn **Cloudflare R2** để tiết kiệm egress. Đội Legal thì yêu cầu chuyển data Vietnamese customers về **VNG Cloud** hoặc **VietNam Data Lake** trong nước theo Nghị định 53. Sáng nay accounting báo Acme Shop đang trả tiền cho 4 cloud provider — mỗi tháng ~$50K. Mình hỏi bạn 2 câu: (1) Acme Shop có đang multi-cloud không? (2) Có phải mình đang lãng phí?"*
 
-Bạn ngẩn người. Có vẻ Acme Shop đã trở thành multi-cloud mà không có chiến lược rõ ràng — đây gọi là **accidental multi-cloud**, một trong những lý do phổ biến nhất.
+Bạn ngẩn người. Có vẻ Acme Shop đã trở thành multi-cloud mà không có chiến lược rõ ràng — đây gọi là *accidental multi-cloud* (multi-cloud "tình cờ", không chủ đích), một trong những lý do phổ biến nhất.
 
 → Bài này lấp đầy: định nghĩa rõ ràng, lý do hợp lệ vs accidental, framework quyết định có nên multi-cloud không, số liệu thị trường 2026.
 
@@ -99,7 +98,7 @@ Quay lại tình huống đầu bài. Acme Shop **không** có chiến lược m
 | Con đường | Lý do | Ví dụ Acme Shop |
 |---|---|---|
 | **M&A** (sáp nhập) | Mua công ty đang chạy cloud khác | Acme Shop mua Foody-Clone đang trên Azure |
-| **Best-of-breed** | Team muốn 1 service đặc biệt của cloud khác | ML team thèm BigQuery |
+| **Best-of-breed** (chọn dịch vụ tốt nhất từng loại) | Team muốn 1 service đặc biệt của cloud khác | ML team thèm BigQuery |
 | **Shadow IT** | Team tự đăng ký tài khoản không qua DevOps | Marketing tự xài Cloudflare Pages |
 | **Compliance** | Luật yêu cầu data residency cụ thể | Vietnamese data buộc phải tại VN |
 | **Free credit chase** | Startup theo $300 GCP / $1000 Azure credit | Acme Shop trial GCP cho recommendation engine |
@@ -112,7 +111,7 @@ Quay lại tình huống đầu bài. Acme Shop **không** có chiến lược m
 | Source | Số liệu |
 |---|---|
 | **Flexera 2026 State of Cloud Report** | 89% enterprise đang multi-cloud (78% public+private hybrid, 11% multi-public only) |
-| **Gartner Magic Quadrant 2026** | "By 2027, 75% of enterprise will use 2+ public cloud providers" |
+| **Gartner forecast 2026** | "By 2027, 75% of enterprise will use 2+ public cloud providers" |
 | **CNCF Survey 2025** | 76% K8s production workload phân bổ 2+ cloud |
 | **HashiCorp State of Cloud 2026** | 72% có multi-cloud strategy chính thức, 28% accidental |
 
@@ -372,21 +371,21 @@ graph TD
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall 1: Confuse "cloud-native" với "cloud-agnostic"
+### ❌ Cạm bẫy 1: Confuse "cloud-native" với "cloud-agnostic"
 
 - **Triệu chứng**: Team nói "we are cloud-native, so we can run anywhere".
 - **Nguyên nhân**: Cloud-native = dùng managed service (containers, serverless) tốt; cloud-agnostic = chạy được trên nhiều cloud. Hai khái niệm khác nhau.
 - **Cách tránh**: Phân biệt rõ. K8s workload là cloud-agnostic (mức độ); Lambda function là cloud-native AWS (lock-in).
 
-### ❌ Pitfall 2: Bỏ qua egress cost trong TCO
+### ❌ Cạm bẫy 2: Bỏ qua egress cost trong TCO
 
 - **Triệu chứng**: Pitch deck multi-cloud chỉ tính compute + storage, không tính network.
 - **Nguyên nhân**: Egress fee "ẩn" trong invoice, không hiển thị rõ.
 - **Cách tránh**: Trước khi commit, ước tính traffic AWS→GCP→AWS round-trip cho 1 năm.
 
-### ❌ Pitfall 3: Build abstraction layer quá sớm
+### ❌ Cạm bẫy 3: Build abstraction layer quá sớm
 
 - **Triệu chứng**: Tốn 6 tháng xây internal cloud abstraction lib (như "MyCompany Cloud SDK") rồi không bao giờ dùng cloud thứ 2.
 - **Nguyên nhân**: Premature optimization.
@@ -409,7 +408,7 @@ graph TD
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Acme Shop có 3 region AWS (Singapore, Tokyo, Sydney). Đây có phải multi-cloud không?
 
@@ -473,7 +472,7 @@ d) Mua công ty đang chạy Azure
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Pattern | Định nghĩa nhanh |
 |---|---|
@@ -500,9 +499,9 @@ d) Mua công ty đang chạy Azure
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Single-cloud | Đơn cloud | Tất cả workload trên 1 vendor |
 | Multi-cloud | Đa cloud | 2+ public cloud vendor |
@@ -532,12 +531,14 @@ d) Mua công ty đang chạy Azure
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [01_vendor-lock-in-and-portability.md](01_vendor-lock-in-and-portability.md)
-- ↑ Cluster: [Multi-cloud-strategies README](../../README.md)
-- ↶ Foundation: [11_cloud/cloud-fundamentals](../../../cloud-fundamentals/)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
+- ⬅️ **Bài trước:** [Cloud Fundamentals](../../../cloud-fundamentals/) — nền tảng cloud trước khi vào multi-cloud
+- ➡️ **Bài tiếp theo:** [Vendor Lock-in & Portability — 4 chiều khoá, abstraction layer, exit cost](01_vendor-lock-in-and-portability.md)
+- ↑ **Về cụm:** [Multi-cloud Strategies](../../README.md)
+
+### 🧩 Các chủ đề liên quan
+
 - ☁️ [AWS basic](../../../aws/) — vendor 1
 - ☁️ [GCP basic](../../../gcp/) — vendor 2
 - ☁️ [Azure basic](../../../azure/) — vendor 3
@@ -546,9 +547,10 @@ d) Mua công ty đang chạy Azure
 - 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
 - 💰 [Cloud Cost Management](../../../cloud-cost-management/) — FinOps
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📊 [Flexera 2026 State of Cloud Report](https://www.flexera.com/blog/cloud/state-of-the-cloud/)
-- 📊 [Gartner Magic Quadrant for Cloud Infrastructure 2026](https://www.gartner.com/en/research/methodologies/magic-quadrants-research)
+- 📊 [Gartner Cloud Strategy & Forecast Research](https://www.gartner.com/en/information-technology/insights/cloud-strategy)
 - 📊 [CNCF Cloud Native Survey 2025](https://www.cncf.io/reports/)
 - 📊 [HashiCorp State of Cloud Strategy Survey](https://www.hashicorp.com/state-of-the-cloud)
 - 📖 [AWS Multi-cloud whitepaper](https://docs.aws.amazon.com/whitepapers/latest/aws-multi-account-security-strategy/aws-multi-account-security-strategy.html)
@@ -560,6 +562,7 @@ d) Mua công ty đang chạy Azure
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 00 cluster Multi-cloud-strategies basic. Định nghĩa single/hybrid/multi/poly cloud + 5 lý do hợp lệ (regulatory/best-of-breed/M&A/lock-in/DR) + 3 anti-pattern + cost reality (egress + skill + tooling = +58% TCO) + framework quyết định + survey 2026 (Flexera 89%, Gartner 75% by 2027). Foundation cho 4 bài kế tiếp về portability/network/K8s/DR. Acme Shop accidental multi-cloud tình huống xuyên suốt.
+- **v1.1.0 (01/06/2026)** — Fix QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa attribution sai loại report ("Gartner Magic Quadrant" → "Gartner forecast" vì Magic Quadrant đánh giá vendor, không phải dự báo thị phần), cập nhật link Gartner tương ứng; chuẩn hoá khối Liên kết theo canonical (marker ⬅️/➡️/↑, link-text = tiêu đề H1 thực, 3 sub-heading 🧭/🧩/🌐); header Glossary → "| Thuật ngữ | Tiếng Việt | Giải thích |"; chú thích Việt inline lần đầu cho "accidental multi-cloud" và "best-of-breed".

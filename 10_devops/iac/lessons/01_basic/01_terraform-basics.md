@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [What is IaC](00_what-is-iac.md)
 
 > 🎯 *Master Terraform/OpenTofu core: **HCL** syntax, **providers**, **resources**, **data sources**, **variables** + **outputs**, **locals**, **expressions**, **functions**, **dependencies**, **lifecycle**. Sau bài này provision real cloud infra.*
@@ -903,7 +902,7 @@ curl http://54.234.1.5/        # nginx default page
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Hardcode credentials in .tf** → leak. Always env / profile / OIDC.
 2. **Skip version pinning** → `terraform apply` next year = surprise breaking changes.
@@ -913,7 +912,7 @@ curl http://54.234.1.5/        # nginx default page
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **terraform init** làm gì?
 2. **Resource** vs **Data source**?
@@ -937,7 +936,7 @@ curl http://54.234.1.5/        # nginx default page
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Workflow
 
@@ -1030,14 +1029,14 @@ cidrsubnet, formatdate, timestamp
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is IaC](00_what-is-iac.md)
-- → Tiếp: [State & Backend](02_state-and-backend.md)
-- ↑ Cluster: [iac README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [IaC là gì? — Infrastructure as Code overview](00_what-is-iac.md)
+- ➡️ **Bài tiếp theo:** [State & Backend — Production essentials](02_state-and-backend.md)
+- ↑ **Về cụm:** [iac README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Terraform language docs](https://developer.hashicorp.com/terraform/language)
 - 📖 [Terraform Registry](https://registry.terraform.io/) — providers + modules
 - 📖 [HCL spec](https://github.com/hashicorp/hcl)
@@ -1050,8 +1049,7 @@ cidrsubnet, formatdate, timestamp
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Install + §2 Folder structure + main.tf + Workflow + §3 Blocks.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 2/5. Cover: install Terraform/OpenTofu + folder structure + HCL blocks + resources + providers + variables + outputs + data sources + 5-command workflow + first AWS VPC.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 Install, §2 Folder structure, main.tf, Workflow và §3 Blocks.

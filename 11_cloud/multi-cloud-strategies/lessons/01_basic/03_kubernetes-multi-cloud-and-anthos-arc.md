@@ -1,13 +1,12 @@
 # 🎓 Kubernetes Multi-cloud — Anthos, Azure Arc, Cluster API, Service Mesh
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** Đã đọc [02_multi-cloud-network-and-identity](02_multi-cloud-network-and-identity.md) ✅, biết K8s basics (Pod/Service/Deployment), có thực hành EKS hoặc GKE
+> **Yêu cầu trước:** Đã đọc [02_multi-cloud-network-and-identity](02_multi-cloud-network-and-identity.md) ✅, biết K8s basics (Pod/Service/Deployment), có thực hành EKS hoặc GKE
 
 > 🎯 *Bài 03 cluster Multi-cloud. **K8s là layer portable nhất** cho multi-cloud — chính vì thế là backbone của mọi multi-cloud strategy nghiêm túc 2026. Bài này: vì sao K8s portable, multi-cluster management tools (Anthos, Azure Arc, EKS Anywhere, Cluster API, Rancher, Karmada), service mesh cross-cluster (Istio multi-primary, Cilium ClusterMesh, Linkerd), và workload portability gotchas thực tế.*
 
@@ -42,11 +41,9 @@ Yêu cầu:
 
 🪞 **Ẩn dụ**: *K8s như **chuẩn container ISO** trong vận tải biển — mọi cảng (cloud) đều có cẩu tương thích. Khác với "đóng gói theo cảng riêng" (Lambda AWS, Cloud Functions GCP) — chỉ cẩu cảng đó mới bốc được.*
 
-### CNCF standard
+### Chuẩn chung do CNCF giữ
 
-- K8s spec do CNCF maintain (vendor-neutral foundation).
-- API `apps/v1`, `core/v1`, `networking.k8s.io/v1` là chuẩn — mọi managed K8s (EKS, GKE, AKS, OCI, DigitalOcean, OVH, Vultr...) đều implement.
-- `kubectl apply -f pod.yaml` chạy được mọi nơi.
+Lý do K8s portable nằm ở chỗ nó là một *chuẩn chung* chứ không phải sản phẩm riêng của hãng nào. Spec K8s do CNCF (một foundation vendor-neutral) duy trì; các API như `apps/v1`, `core/v1`, `networking.k8s.io/v1` là chuẩn mà mọi bản managed K8s (EKS, GKE, AKS, OCI, DigitalOcean, OVH, Vultr...) đều phải tuân theo. Nhờ vậy, `kubectl apply -f pod.yaml` chạy được ở mọi nơi mà không cần sửa.
 
 ### Layer portability mapping
 
@@ -64,9 +61,9 @@ Yêu cầu:
 
 → App + K8s API là portable. Control plane + infra là cloud-specific. Pattern multi-cloud K8s = **giữ app layer + K8s API constant**, swap control plane.
 
-### What's NOT portable (caveats)
+### Những thứ KHÔNG portable (cần lưu ý)
 
-Mặc dù K8s API portable, có 5 thứ vendor-specific:
+K8s API thì portable, nhưng bên dưới vẫn có 5 thứ gắn chặt với từng vendor mà bạn phải xử lý riêng:
 
 | Resource | Vendor-specific | Workaround |
 |---|---|---|
@@ -123,70 +120,51 @@ Sau khi có nhiều cluster (EKS + GKE + AKS), vấn đề:
 
 🪞 **Ẩn dụ**: *Như quản lý **chuỗi cửa hàng franchise** — không thể bay tới mỗi cửa hàng training riêng. Cần 1 hub central (multi-cluster management) để rollout policy + monitor.*
 
-### Option 1: Google Anthos (premium, mature)
+### Option 1: Google Anthos (cao cấp, trưởng thành)
 
-**Định nghĩa**: Google's multi-cloud K8s platform — GKE Enterprise hỗ trợ chạy K8s on GCP, AWS, Azure, on-prem.
+Anthos là *platform* multi-cloud K8s của Google — nay đóng gói dưới tên GKE Enterprise, cho phép chạy K8s trên GCP, AWS, Azure và cả on-prem từ một mặt bằng điều khiển duy nhất.
 
-**Components**:
-- **GKE Multi-cloud**: K8s control plane managed by Google, chạy trên AWS/Azure VM.
-- **Anthos Config Management** (ACM): GitOps + policy.
-- **Anthos Service Mesh**: managed Istio.
-- **Anthos Cloud Run for Anthos**: serverless on K8s.
+Anthos không phải một sản phẩm đơn lẻ mà là bộ thành phần ghép lại:
 
-**Pros**:
-- Mature (since 2019).
-- Single pane Google Cloud Console cho tất cả cluster.
-- Policy enforcement strong.
+- **GKE Multi-cloud**: control plane K8s do Google quản lý, chạy trên VM của AWS/Azure.
+- **Anthos Config Management** (ACM): lớp GitOps + policy.
+- **Anthos Service Mesh**: bản Istio được Google quản lý (managed).
+- **Cloud Run for Anthos**: chạy workload serverless ngay trên K8s.
 
-**Cons**:
-- **Đắt**: $0.10/vCPU/h cho mỗi cluster managed (~$100-300/cluster/tháng baseline).
-- Lock-in lại với Google.
-- Setup phức tạp (2-4 tuần).
+Điểm mạnh là độ chín: ra mắt từ 2019, mọi cluster đều hiện trong một màn hình Google Cloud Console duy nhất, và khả năng *enforce* policy rất mạnh. Đổi lại, Anthos đắt — khoảng $0.10/vCPU/h cho mỗi cluster managed (baseline ~$100-300/cluster/tháng), kéo theo *lock-in* với Google và quá trình *setup* khá phức tạp.
 
-**Khi dùng**: Enterprise đã đầu tư GCP, có $100K+/năm Anthos budget, cần managed solution.
+→ Hợp khi: doanh nghiệp đã đầu tư sâu vào GCP, có ngân sách Anthos $100K+/năm, và cần một giải pháp managed trọn gói thay vì tự vận hành.
 
-### Option 2: Azure Arc (Microsoft equivalent)
+### Option 2: Azure Arc (đối trọng từ Microsoft)
 
-**Định nghĩa**: Azure Arc cho phép manage K8s cluster bất kỳ đâu (AWS, GCP, on-prem) qua Azure Portal.
+Azure Arc là câu trả lời tương đương của Microsoft: cho phép quản lý cluster K8s ở bất kỳ đâu (AWS, GCP, on-prem) ngay từ Azure Portal — Azure đóng vai "trung tâm điều khiển", còn cluster thì nằm ở cloud khác.
 
-**Components**:
-- **Arc-enabled Kubernetes**: register cluster bất kỳ vào Azure.
-- **Azure Policy** for K8s: enforce policy cross-cluster.
-- **Azure Monitor** for containers: observability central.
-- **GitOps via Flux**: deployment qua Git.
+Bộ thành phần của Arc gồm:
 
-**Pros**:
-- Free tier có hạn (đến 6 cluster small).
-- Tích hợp tốt với Microsoft stack.
-- Strong RBAC + Entra ID integration.
+- **Arc-enabled Kubernetes**: đăng ký (register) một cluster bất kỳ vào Azure.
+- **Azure Policy for Kubernetes**: enforce policy xuyên cluster.
+- **Azure Monitor for containers**: gom observability về một chỗ.
+- **GitOps qua Flux**: triển khai (deployment) bằng Git.
 
-**Cons**:
-- Vẫn lock-in Microsoft.
-- Performance lệ thuộc Azure connectivity.
+Arc có free tier giới hạn (đến 6 cluster nhỏ), tích hợp mượt với hệ sinh thái Microsoft và mạnh về RBAC + Entra ID. Nhược điểm là vẫn *lock-in* Microsoft, và hiệu năng phụ thuộc vào chất lượng kết nối tới Azure.
 
-**Khi dùng**: Tổ chức Microsoft-centric (Entra ID + Office 365), hybrid với on-prem Windows.
+→ Hợp khi: tổ chức xoay quanh Microsoft (Entra ID + Office 365) hoặc cần *hybrid* với on-prem Windows.
 
 ### Option 3: AWS EKS Anywhere
 
-**Định nghĩa**: AWS distribution của K8s chạy on-prem hoặc bare metal — managed bởi AWS console.
+EKS Anywhere là bản phân phối (distribution) K8s của AWS dành cho on-prem hoặc bare metal, vận hành theo trải nghiệm AWS console nhưng đặt ngoài cloud AWS.
 
-**Pros**:
-- AWS-native experience anywhere.
-- vSphere + bare metal support.
+Điểm hấp dẫn là mang được trải nghiệm AWS-native xuống tận datacenter riêng, hỗ trợ cả vSphere lẫn bare metal. Tuy nhiên có một giới hạn quan trọng: **EKS Anywhere không chạy được trên GCP/Azure** — chỉ AWS + on-prem. Vì thế "multi-cloud" ở đây thực chất là *hybrid* (AWS + on-prem) chứ không phải đa public cloud.
 
-**Cons**:
-- **Không chạy được trên GCP/Azure** (chỉ AWS + on-prem).
-- "Multi-cloud" theo nghĩa rộng = hybrid (AWS + on-prem) only.
-
-**Khi dùng**: AWS shop muốn extend xuống on-prem datacenter.
+→ Hợp khi: shop thuần AWS muốn mở rộng xuống datacenter on-prem, không có nhu cầu chạy trên cloud của hãng khác.
 
 ### Option 4: Cluster API (CAPI) — open source, vendor-neutral
 
 🪞 **Ẩn dụ**: *Như **Terraform cho K8s cluster lifecycle** — declarative manage cluster (create/upgrade/delete) cross-provider.*
 
-**Định nghĩa**: CNCF sub-project. Define cluster as Kubernetes resource. Provider plugins: CAPA (AWS), CAPG (GCP), CAPZ (Azure), CAPV (vSphere), CAPDO (DigitalOcean), v.v.
+Cluster API là sub-project của Kubernetes SIG Cluster Lifecycle. Ý tưởng cốt lõi: mô tả chính bản thân cluster như một *Kubernetes resource* — bạn khai báo cluster bằng YAML giống hệt cách khai báo một Deployment. Mỗi cloud có một plugin provider riêng: CAPA (AWS), CAPG (GCP), CAPZ (Azure), CAPV (vSphere), CAPDO (DigitalOcean)...
 
-**Example**:
+Ví dụ một cluster AWS khai báo declarative:
 
 ```yaml
 apiVersion: cluster.x-k8s.io/v1beta1
@@ -208,38 +186,23 @@ spec:
     name: acmeshop-aws-prod
 ```
 
-**Pros**:
-- 100% open source (no lock-in).
-- Vendor-neutral.
-- Mature (graduated CNCF 2024).
+Thế mạnh: 100% *open source* nên không *lock-in*, hoàn toàn vendor-neutral, và đã trưởng thành (dự án Kubernetes SIG Cluster Lifecycle, ổn định ở mức production từ API `v1beta1`). Cái giá phải trả là bạn tự host một *management cluster* (1 cluster chuyên để quản các cluster còn lại), gánh thêm chi phí vận hành, và giao diện kém bóng bẩy hơn Anthos.
 
-**Cons**:
-- Self-host management cluster (1 cluster để manage other cluster).
-- Operational burden.
-- Less polished UI (so với Anthos).
+→ Hợp khi: tổ chức có Platform team đủ mạnh, muốn tránh *lock-in* ở tầng quản lý cluster.
 
-**Khi dùng**: Tổ chức có Platform team mạnh, muốn tránh vendor lock-in management plane.
+### Option 5: Rancher (SUSE) — mạnh về giao diện
 
-### Option 5: Rancher (SUSE) — enterprise UI
+Rancher (do SUSE sở hữu) là công cụ quản lý multi-cluster nổi bật nhờ giao diện trực quan, hướng tới người vận hành chưa rành K8s sâu.
 
-**Định nghĩa**: Multi-cluster K8s management với UI mạnh. Owns by SUSE.
+Điểm cộng lớn nhất là *UI* tốt bậc nhất cho operator không phải chuyên gia K8s, gom RBAC/namespace/project về một chỗ, và phần core là open source miễn phí. Bù lại, Rancher buộc bạn học thêm một số khái niệm riêng của nó (ví dụ "Project"), và gói hỗ trợ enterprise của SUSE khá đắt.
 
-**Pros**:
-- UI tốt nhất cho operator non-K8s expert.
-- Centralized RBAC, namespace, project.
-- Open source core (free).
+→ Hợp khi: tổ chức có nhiều admin K8s còn non kinh nghiệm cần giao diện trực quan, chưa đi hẳn theo GitOps.
 
-**Cons**:
-- Học cost cao (Rancher's own concepts như "Project").
-- SUSE enterprise support đắt.
+### Option 6: Karmada — lập lịch xuyên cluster
 
-**Khi dùng**: Tổ chức nhiều junior K8s admin cần UI, không full GitOps.
+Karmada là dự án CNCF (đang ở giai đoạn Incubating), thường được gọi là "Federation v2". Khác với các tool ở trên thiên về *quản lý*, Karmada tập trung vào *lập lịch* (scheduling): nó quyết định workload chạy ở cluster nào và bao nhiêu replica mỗi nơi, dựa trên policy bạn khai báo.
 
-### Option 6: Karmada — multi-cluster scheduling
-
-**Định nghĩa**: CNCF project (incubating). "Federation v2" — schedule workload across multiple K8s cluster với policy.
-
-**Example**:
+Ví dụ một PropagationPolicy phân bổ replica theo trọng số:
 
 ```yaml
 apiVersion: policy.karmada.io/v1alpha1
@@ -273,18 +236,11 @@ spec:
             weight: 1
 ```
 
-→ 5 replicas của ml-inference: 2 EKS + 2 GKE + 1 AKS. Khi 1 cluster down, Karmada reschedule.
+→ 5 replica của ml-inference được chia: 2 trên EKS + 2 trên GKE + 1 trên AKS. Khi 1 cluster sập, Karmada tự *reschedule* phần replica đó sang cluster còn sống.
 
-**Pros**:
-- True multi-cluster scheduler.
-- Replica distribution intelligent.
-- Open source.
+Thế mạnh: đây là *scheduler* đa cluster đúng nghĩa, phân bổ replica thông minh theo trọng số, và hoàn toàn open source. Mặt hạn chế: dự án còn ở giai đoạn Incubating (độ sẵn sàng cho production tuỳ trường hợp), và vận hành phức tạp vì phải duy trì cả control plane Karmada lẫn các member cluster.
 
-**Cons**:
-- Còn incubating (production-readiness varied).
-- Operational complexity (Karmada control plane + member cluster).
-
-**Khi dùng**: Production multi-cloud serving workload cần redistribute dynamic.
+→ Hợp khi: chạy production multi-cloud, workload cần được phân bổ lại (redistribute) một cách động khi tải hoặc khi cluster thay đổi.
 
 ### Comparison matrix
 
@@ -307,7 +263,7 @@ spec:
 
 ### Option 1: Istio multi-primary
 
-**Architecture**:
+Trong mô hình *multi-primary*, mỗi cluster có một Istiod (control plane Istio) riêng, các cluster tin nhau qua chung một root CA. Sơ đồ dưới minh hoạ hai cluster trao đổi certificate và pod gọi nhau qua mTLS:
 
 ```mermaid
 graph TB
@@ -328,27 +284,13 @@ graph TB
     PA1 <-.mTLS.-> PB2
 ```
 
-**Setup**:
-- Mỗi cluster có Istiod riêng.
-- Trust common root CA.
-- Endpoint discovery cross-cluster qua remote secret.
-- Network: VPC peering hoặc gateway mode (qua public LB).
+Cách dựng gồm bốn việc chính: mỗi cluster cài Istiod riêng; tất cả tin chung một root CA; bật *endpoint discovery* xuyên cluster qua remote secret; và nối mạng bằng VPC peering hoặc *gateway mode* (đi qua public LB).
 
-**Pros**:
-- Full feature (mTLS, traffic shaping, observability).
-- Standard CNCF.
-
-**Cons**:
-- Setup phức tạp.
-- Latency overhead 1-5ms per hop.
-- Resource cost: Istiod ~500m CPU per cluster.
+Ưu điểm là Istio cho bộ tính năng đầy đủ (mTLS, *traffic shaping*, observability) theo chuẩn CNCF. Nhược điểm: dựng khá phức tạp, thêm độ trễ 1-5ms mỗi *hop*, và Istiod tốn khoảng 500m CPU mỗi cluster.
 
 ### Option 2: Cilium ClusterMesh
 
-**Architecture**:
-- Cilium là CNI dựa trên eBPF.
-- ClusterMesh: pod IP routable cross-cluster qua VPN/Direct Connect.
-- Service discovery: global service annotation.
+Cilium là một CNI (lớp mạng cho K8s) dựa trên eBPF. Với ClusterMesh, IP của pod trở nên *routable* xuyên cluster qua VPN/Direct Connect, còn service discovery thực hiện bằng một annotation đánh dấu "global service". Ví dụ khai báo một service dùng chung giữa các cluster:
 
 ```yaml
 apiVersion: v1
@@ -365,29 +307,15 @@ spec:
     - port: 8080
 ```
 
-→ Service `orders-api` available cross-cluster, traffic load-balanced sang pod ở cluster bất kỳ.
+→ Service `orders-api` lúc này hiện diện ở mọi cluster, traffic được *load-balance* sang pod ở cluster bất kỳ.
 
-**Pros**:
-- Performance tốt (eBPF — no sidecar overhead).
-- Network policy cross-cluster.
-
-**Cons**:
-- Yêu cầu Cilium làm CNI (replace AWS VPC CNI / GKE CNI).
-- Lock-in Cilium ecosystem.
+Ưu điểm: hiệu năng tốt vì eBPF không cần sidecar (không có overhead của proxy phụ), kèm khả năng áp network policy xuyên cluster. Nhược điểm: bắt buộc dùng Cilium làm CNI (thay AWS VPC CNI / GKE CNI), nên gắn chặt với hệ sinh thái Cilium.
 
 ### Option 3: Linkerd multi-cluster
 
-**Architecture**:
-- Linkerd: lightweight service mesh (Rust-based).
-- Multi-cluster qua gateway mode.
+Linkerd là service mesh nhẹ (viết bằng Rust), nối các cluster với nhau qua *gateway mode* — mọi traffic xuyên cluster đi qua một gateway chung.
 
-**Pros**:
-- Đơn giản nhất (cài 5 phút).
-- Resource footprint nhỏ.
-
-**Cons**:
-- Ít feature hơn Istio (no advanced traffic shaping).
-- Gateway mode mọi traffic qua LB → latency cao hơn.
+Ưu điểm: đơn giản nhất trong ba lựa chọn (cài nhanh) và *footprint* tài nguyên rất nhỏ. Nhược điểm: ít tính năng hơn Istio (không có *traffic shaping* nâng cao), và vì gateway mode dồn mọi traffic qua LB nên độ trễ cao hơn so với mô hình pod-gọi-pod trực tiếp.
 
 ### Service mesh comparison
 
@@ -494,7 +422,7 @@ Lý thuyết "K8s portable" đẹp, nhưng thực tế 5 chỗ đau:
 |---|---|---|
 | `gp2`, `gp3`, `io1`, `io2` | `standard`, `standard-rwo`, `premium-rwo` | `default`, `managed-premium` |
 
-**Fix**: Define `default` StorageClass per cluster pointing to equivalent. App PVC reference `storageClassName: default`. Trade-off: lose specific perf tuning.
+**Cách xử lý**: định nghĩa một StorageClass tên `default` ở mỗi cluster, trỏ tới loại disk tương đương của cloud đó. App khai báo PVC với `storageClassName: default` là xong. Đánh đổi: mất khả năng tinh chỉnh hiệu năng theo loại disk cụ thể.
 
 ### Gotcha 2: LoadBalancer Service không tương thích
 
@@ -510,7 +438,7 @@ spec:
     cloud.google.com/load-balancer-type: "Internal"
 ```
 
-**Fix**: Dùng Ingress với portable controller (NGINX, Contour, Traefik). LoadBalancer Service chỉ cho extreme low-latency case.
+**Cách xử lý**: dùng Ingress với một controller portable (NGINX, Contour, Traefik) thay cho LoadBalancer Service. Chỉ giữ LoadBalancer Service cho các trường hợp cần độ trễ cực thấp.
 
 ### Gotcha 3: IAM cho pod khác nhau
 
@@ -518,7 +446,7 @@ spec:
 |---|---|---|
 | IRSA (IAM Role for Service Account) | Workload Identity (GSA bind to KSA) | Azure Workload Identity (AAD app bind to SA) |
 
-**Fix**: Define service account per cluster với annotation phù hợp; app code dùng default credential chain (boto3, google-cloud, azure-sdk tự pick up).
+**Cách xử lý**: tạo service account riêng ở mỗi cluster kèm annotation phù hợp với cơ chế của cloud đó; phía code app cứ dùng *default credential chain* (boto3, google-cloud, azure-sdk tự nhận diện và lấy credential).
 
 ### Gotcha 4: Ingress controller behavior
 
@@ -526,13 +454,11 @@ spec:
 - GCP GKE Ingress: auto-provision GLB, latency tối ưu nhưng setup khác.
 - Azure: AGIC (Application Gateway Ingress Controller).
 
-**Fix**: Pick 1 portable ingress (NGINX nginx-ingress hoặc Traefik) — install qua Helm trên mọi cluster. Cost: lose vendor-specific feature (AWS WAF integration).
+**Cách xử lý**: chọn một ingress portable duy nhất (nginx-ingress hoặc Traefik) và cài qua Helm trên mọi cluster. Cái giá: mất các tính năng đặc thù của vendor (ví dụ tích hợp AWS WAF).
 
 ### Gotcha 5: DNS + external-dns
 
-App tạo Service/Ingress → mong muốn DNS record `api.acmeshop.io` tự tạo.
-
-**Tool**: `external-dns` controller — đọc Ingress annotation, tạo Route 53 / Cloud DNS / Azure DNS record.
+Khi app tạo Service/Ingress, ta mong DNS record `api.acmeshop.io` tự được sinh ra. Công cụ làm việc này là controller `external-dns` — nó đọc annotation trên Ingress rồi gọi API tạo record trên Route 53 / Cloud DNS / Azure DNS.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -547,23 +473,23 @@ spec:
 
 → external-dns nhận trigger, gọi Route 53 API (nếu trên AWS) hoặc Cloud DNS API (nếu trên GCP) tạo record.
 
-**Gotcha**: 3 cluster đều tạo record `api.acmeshop.io` → conflict!
+**Cạm bẫy**: cả 3 cluster cùng cố tạo record `api.acmeshop.io` → xung đột (conflict)!
 
-**Fix**:
-- 1 cluster làm "DNS owner" (set `--source service --domain-filter acmeshop.io` chỉ ở 1 cluster).
-- Cluster khác dùng `txt-owner-id` để track ownership.
+**Cách xử lý**:
+- Cho 1 cluster làm "DNS owner" (chỉ đặt `--source service --domain-filter acmeshop.io` ở cluster đó).
+- Các cluster còn lại dùng `txt-owner-id` để theo dõi ai đang sở hữu record.
 
 ---
 
 ## 6️⃣ Hands-on — Argo CD ApplicationSet deploy app 2 cluster
 
-### Prerequisites
+### Yêu cầu trước
 
 - 2 cluster K8s (EKS + GKE, hoặc 2 kind cluster local).
 - Argo CD installed trên 1 cluster (gọi là "ops cluster").
 - Repo GitHub `acmeshop/k8s-manifests`.
 
-### Step 1: Register 2 cluster vào Argo CD
+### Bước 1: Đăng ký 2 cluster vào Argo CD
 
 ```bash
 # Login Argo CD
@@ -582,7 +508,7 @@ argocd cluster add gke_acmeshop_asia-southeast1_prod --name gcp-prod
 argocd cluster list
 ```
 
-### Step 2: Create repo structure
+### Bước 2: Tạo cấu trúc repo
 
 ```
 k8s-manifests/
@@ -637,7 +563,7 @@ spec:
   type: ClusterIP
 ```
 
-### Step 3: ApplicationSet
+### Bước 3: ApplicationSet
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -673,7 +599,7 @@ spec:
           - CreateNamespace=true
 ```
 
-### Step 4: Apply + verify
+### Bước 4: Apply + kiểm tra
 
 ```bash
 kubectl apply -f applicationset.yaml -n argocd
@@ -692,7 +618,7 @@ kubectl --context=gke-gcp-singapore -n demo get pods
 
 Kết quả mong đợi: cùng nginx-demo chạy 2 cluster, GitOps managed.
 
-### Step 5: Test failover
+### Bước 5: Thử failover
 
 ```bash
 # Drain 1 cluster (simulate failure)
@@ -734,33 +660,33 @@ graph TD
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall 1: "K8s là portable" = giữ nguyên manifest
+### ❌ Cạm bẫy 1: "K8s là portable" = giữ nguyên manifest
 
 - **Triệu chứng**: Apply manifest EKS sang GKE → bug storage class, ingress.
 - **Nguyên nhân**: Underestimate vendor-specific gotcha.
 - **Cách tránh**: Always test cross-cluster trước khi go production. Build CI matrix `test-eks, test-gke, test-aks`.
 
-### ❌ Pitfall 2: Multi-cluster mà không có observability central
+### ❌ Cạm bẫy 2: Multi-cluster mà không có observability central
 
 - **Triệu chứng**: 3 cluster, 3 Grafana, debug = mở 3 tab.
 - **Nguyên nhân**: Cài Prometheus per cluster, không federation.
 - **Cách tránh**: 1 Grafana central + Prometheus federation hoặc Mimir (long-term storage). Cluster label trên mọi metric.
 
-### ❌ Pitfall 3: GitOps + manual `kubectl apply`
+### ❌ Cạm bẫy 3: GitOps + manual `kubectl apply`
 
 - **Triệu chứng**: State drift, Argo CD báo "OutOfSync" everywhere.
 - **Nguyên nhân**: Engineer "fix nhanh" qua kubectl, Argo CD revert lại.
 - **Cách tránh**: Disable kubectl write access cho non-emergency role. Emergency = "break glass" account.
 
-### ❌ Pitfall 4: Cross-cluster gossip overhead
+### ❌ Cạm bẫy 4: Cross-cluster gossip overhead
 
 - **Triệu chứng**: Service mesh cross-cluster làm tăng latency 30%+.
 - **Nguyên nhân**: Gateway mode mọi traffic, không tận dụng locality.
 - **Cách tránh**: Set locality-aware load balancing (Istio) — prefer same-cluster pod, cross-cluster chỉ khi fail.
 
-### ❌ Pitfall 5: Karmada production prematurely
+### ❌ Cạm bẫy 5: Karmada production prematurely
 
 - **Triệu chứng**: Karmada bug làm replicas chia sai, production down.
 - **Nguyên nhân**: Karmada còn Incubating, edge case nhiều.
@@ -790,7 +716,7 @@ azure-prod-singapore
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Cilium ClusterMesh vs Istio multi-primary — khi nào pick cái nào?
 
@@ -883,7 +809,7 @@ azure-prod-singapore
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Multi-cluster tool nhanh
 
@@ -927,15 +853,15 @@ azure-prod-singapore
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Multi-cluster | Đa cluster | Quản lý nhiều K8s cluster |
 | Anthos | (GCP) | Platform GCP để run K8s anywhere |
 | Azure Arc | (Azure) | Azure manage K8s/Server anywhere |
 | EKS Anywhere | (AWS) | AWS distribution K8s on-prem |
-| Cluster API (CAPI) | (CNCF) | Declarative cluster lifecycle |
+| Cluster API (CAPI) | (K8s SIG) | Declarative cluster lifecycle (sub-project Kubernetes SIG Cluster Lifecycle) |
 | CAPA / CAPG / CAPZ | (CAPI providers) | AWS / GCP / Azure provider của Cluster API |
 | Rancher | (SUSE) | Multi-cluster K8s UI |
 | Karmada | (CNCF Incubating) | Cross-cluster scheduling federation |
@@ -962,32 +888,35 @@ azure-prod-singapore
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [02_multi-cloud-network-and-identity.md](02_multi-cloud-network-and-identity.md)
-- → Tiếp: [04_disaster-recovery-and-architecture-patterns.md](04_disaster-recovery-and-architecture-patterns.md)
-- ↑ Cluster: [Multi-cloud-strategies README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☸️ [Kubernetes deep](../../../../10_devops/kubernetes/) — K8s fundamentals
-- 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Cluster API provisioning
-- ☁️ [AWS EKS](../../../aws/) — EKS specifics
-- ☁️ [GCP GKE](../../../gcp/) — GKE specifics
+- ⬅️ **Bài trước:** [Cross-cloud Network & Identity — Transit, VPN, Federation, Vault sync](02_multi-cloud-network-and-identity.md)
+- ➡️ **Bài tiếp theo:** [Multi-cloud — Disaster Recovery + Architecture Patterns](04_disaster-recovery-and-architecture-patterns.md)
+- ↑ **Về cụm:** [Multi-cloud Strategies](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☸️ [Kubernetes deep](../../../../10_devops/kubernetes/) — nền tảng K8s
+- ↑ **Về cụm:** [IaC Terraform](../../../../10_devops/iac/) — provisioning cho Cluster API
+- ☁️ [AWS EKS](../../../aws/) — chi tiết EKS
+- ☁️ [GCP GKE](../../../gcp/) — chi tiết GKE
 - 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
 
-### Tài nguyên ngoài (2026)
-- 📖 [Cluster API book](https://cluster-api.sigs.k8s.io/)
+### 🌐 Tài nguyên tham khảo khác (2026)
+- ↑ **Về cụm:** [Cluster API book](https://cluster-api.sigs.k8s.io/)
 - 📖 [Karmada docs](https://karmada.io/docs/)
 - 📖 [Anthos overview](https://cloud.google.com/anthos/docs/concepts/overview)
 - 📖 [Azure Arc-enabled Kubernetes](https://learn.microsoft.com/en-us/azure/azure-arc/kubernetes/)
 - 📖 [Argo CD ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/)
-- 📖 [Istio multi-cluster guide](https://istio.io/latest/docs/setup/install/multicluster/)
-- 📖 [Cilium ClusterMesh](https://docs.cilium.io/en/stable/network/clustermesh/)
-- 📖 [Linkerd multi-cluster](https://linkerd.io/2/features/multicluster/)
+- ↑ **Về cụm:** [Istio multi-cluster guide](https://istio.io/latest/docs/setup/install/multicluster/)
+- ↑ **Về cụm:** [Cilium ClusterMesh](https://docs.cilium.io/en/stable/network/clustermesh/)
+- ↑ **Về cụm:** [Linkerd multi-cluster](https://linkerd.io/2/features/multicluster/)
 - 📖 [Rancher docs](https://ranchermanager.docs.rancher.com/)
-- 📖 [CNCF Landscape Multi-cluster Management](https://landscape.cncf.io/?group=projects-and-products&view-mode=card#provisioning--automation--configuration)
+- ↑ **Về cụm:** [CNCF Landscape Multi-cluster Management](https://landscape.cncf.io/?group=projects-and-products&view-mode=card#provisioning--automation--configuration)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 03 cluster Multi-cloud basic. K8s là layer portable nhất + 6 multi-cluster management tool (Anthos, Azure Arc, EKS Anywhere, Cluster API, Rancher, Karmada) so sánh + 3 service mesh cross-cluster (Istio multi-primary, Cilium ClusterMesh, Linkerd) + GitOps Argo CD ApplicationSet hands-on (deploy app 2 cluster) + 5 portability gotcha thực tế + decision tree Acme Shop. Pattern open-source no lock-in: Cluster API + Argo CD + Karmada + Cilium.
+- **v1.1.0 (01/06/2026)** — Việt hoá các khối điện tín EN (Pros/Cons/Components/Architecture/Setup/Fix...) trong §2-§5 thành câu dẫn narrative; sửa lỗi factual Cluster API (là sub-project Kubernetes SIG Cluster Lifecycle, không phải dự án CNCF graduated) ở §2 và Glossary; chuẩn hoá metadata (Yêu cầu trước), Glossary header (Thuật ngữ/Tiếng Việt/Giải thích), nav (⬅️/➡️/↑ + link-text theo tiêu đề thực + 3 sub-heading chuẩn) và đổi "Step N" → "Bước N".

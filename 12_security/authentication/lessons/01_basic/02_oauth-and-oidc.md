@@ -1,12 +1,11 @@
 # 🔄 OAuth 2.1 + OIDC
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [01_password-and-mfa](01_password-and-mfa.md) ✅
 
 > 🎯 *Bài 02. **OAuth 2.0/2.1** = framework delegated authorization (Login with Google). **OIDC** = OAuth + identity layer (who is the user). Bài này dạy: 5 grant flows (Auth Code+PKCE, Device, Client Credentials, ROPC deprecated, Implicit deprecated), social login implementation, IdP setup, common mistakes (state, nonce, redirect URI). Hands-on Acme Shop Google login + Apple Sign In.*
@@ -115,7 +114,8 @@ PKCE protect against **authorization code interception** (mobile/SPA where redir
 import secrets, hashlib, base64
 
 # Client generates per-request
-code_verifier = secrets.token_urlsafe(64)[:128]  # 43-128 chars
+# token_urlsafe(96) -> ~128 ký tự, hợp lệ RFC 7636 (verifier trong [43, 128])
+code_verifier = secrets.token_urlsafe(96)
 
 # Challenge = SHA256(verifier), base64url no padding
 code_challenge = base64.urlsafe_b64encode(
@@ -176,21 +176,28 @@ from jwt import PyJWKClient
 JWKS_URL = "https://www.googleapis.com/oauth2/v3/certs"
 jwks_client = PyJWKClient(JWKS_URL)
 
-def verify_google_id_token(id_token: str):
+# Google phát hành 2 dạng issuer cho id_token -> chấp nhận cả 2 để tránh false-reject
+GOOGLE_ISSUERS = {"https://accounts.google.com", "accounts.google.com"}
+
+def verify_google_id_token(id_token: str, client_id: str, expected_nonce: str):
     # Get public key matching kid header
     signing_key = jwks_client.get_signing_key_from_jwt(id_token)
 
-    # Verify
+    # Verify signature + aud; issuer check thủ công bên dưới (Google có 2 dạng iss)
     claims = jwt.decode(
         id_token,
         signing_key.key,
         algorithms=["RS256"],
-        audience=GOOGLE_CLIENT_ID,    # must match
-        issuer="https://accounts.google.com",  # must match
+        audience=client_id,    # must match
+        options={"verify_iss": False},
     )
 
+    # Verify issuer (chấp nhận cả có/không scheme)
+    if claims.get("iss") not in GOOGLE_ISSUERS:
+        raise InvalidToken("issuer mismatch")
+
     # Additional: verify nonce matches what we sent
-    if claims.get("nonce") != stored_nonce:
+    if claims.get("nonce") != expected_nonce:
         raise InvalidToken("nonce mismatch")
 
     return claims
@@ -569,7 +576,7 @@ CREATE TABLE oauth_identities (
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Skip state validation
 
@@ -621,7 +628,7 @@ CREATE TABLE oauth_identities (
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] OAuth vs OIDC — 5 điểm khác?
 - [ ] PKCE - tại sao required cho mobile/SPA?
@@ -634,7 +641,7 @@ CREATE TABLE oauth_identities (
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -665,14 +672,14 @@ CREATE TABLE oauth_identities (
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_password-and-mfa](01_password-and-mfa.md)
-- → Tiếp: [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md) *(sắp viết)*
-- ↑ Cluster Authentication: [authentication README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Mật khẩu + Xác thực 2 lớp (MFA)](01_password-and-mfa.md)
+- ➡️ **Bài tiếp theo:** [JWT + Sessions Deep](03_jwt-and-sessions-deep.md) *(sắp viết)*
+- ↑ **Về cụm:** [authentication README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🛡️ [OWASP A07](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md)
-- 🌐 [HTTP cluster](../../../../05_networking/http-https/)
+- ↑ **Về cụm:** [HTTP cluster](../../../../05_networking/http-https/)
 
 ### Tài nguyên ngoài (2026)
 - 📖 [OAuth 2.0 RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)
@@ -689,6 +696,7 @@ CREATE TABLE oauth_identities (
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 Authentication basic. OAuth 2.0/2.1 + OIDC + 5 flows (Auth Code+PKCE, Device, Client Creds, Implicit deprecated, ROPC deprecated) + JWKS + ID token validation + state+nonce+redirect_uri + Google/Apple setup + account linking + Acme Shop hands-on + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Fix code: PKCE `code_verifier` bỏ slice `[:128]` vô nghĩa (token_urlsafe(64) chỉ ra ~86 ký tự), đổi sang `token_urlsafe(96)` cho ~128 ký tự đúng RFC 7636. `verify_google_id_token` nhận `client_id` + `expected_nonce` qua tham số (hết biến tự do gây NameError) và chấp nhận cả 2 dạng issuer Google (`accounts.google.com` có/không scheme).

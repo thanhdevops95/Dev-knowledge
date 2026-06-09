@@ -3,13 +3,9 @@
 > **Tác giả:** Mr.Rom\
 > **Phiên bản:** v0.1.0 (skeleton)\
 > **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Status:** 🚧 Đang dựng — có 1 bài ở `lessons/01_basic/`
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🚧 *Mới có 1 bài đang dựng: [`lessons/01_basic/00_what-is-react-native.md`](lessons/01_basic/00_what-is-react-native.md). Dưới đây là cấu trúc dự kiến cho toàn chủ đề.*
 
 ## 📂 Cấu trúc dự kiến (theo menu 7 loại)
 

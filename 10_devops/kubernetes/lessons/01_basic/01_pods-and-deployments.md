@@ -1,5 +1,5 @@
 ---
-title: Pods Và Deployments: Hạt Nhân Và Cỗ Máy Tự Động Hóa Trạng Thế Trong Kubernetes
+title: Pods Và Deployments: Hạt Nhân Và Cỗ Máy Tự Động Hóa Trạng Thái Trong Kubernetes
 author: Mr.Rom
 version: v2.0.0
 date: 2026-05-26
@@ -86,7 +86,7 @@ Trong thế giới của Kubernetes, **Pod** là đơn vị triển khai nhỏ n
 │  │      Container 1       │  │     Container 2      │  │
 │  │ (Ứng dụng chính Flask) │  │  (Sidecar ghi Log)   │  │
 │  └────────────────────────┘  └──────────────────────┘  │
-│  Shared: localhost network, Volumne Mount              │
+│  Shared: localhost network, Volume Mount               │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -532,7 +532,7 @@ Mẫu cấu hình trên chính là bản thiết kế hoàn chỉnh nhất giúp
 
 ---
 
-## ✅ Thử Thách Tự Đánh Giá (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 Bạn hãy tự suy ngẫm và trả lời nhanh 5 câu hỏi cốt lõi sau để khắc sâu kiến thức:
 1. Tại sao trên môi trường Production tuyệt đối không được dùng Raw Pod (Pod đơn độc)?

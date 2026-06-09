@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [useEffect & Fetch](03_useeffect-and-fetch.md)
 
 > 🎯 *Master **React Router v6** — multi-page SPA, route params, navigation. Plus **Context API** — global state without prop drilling. Plus glance **state management library** landscape (Zustand, Redux, Jotai). Sau bài này build SPA hoàn chỉnh nhiều trang.*
@@ -595,7 +594,7 @@ function Layout() {
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`<a href="/products">`** thay `<Link to="/products">` → page reload, mất state. Always `<Link>`.
 2. **Context với mọi state** → re-render thừa. Tách multiple contexts theo concern.
@@ -605,7 +604,7 @@ function Layout() {
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Khác `<a>` và `<Link>` trong React Router?
 2. Đọc URL param `/products/42` — code?
@@ -734,17 +733,17 @@ const count = useStore(s => s.count);
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [useEffect & Fetch](03_useeffect-and-fetch.md)
-- ↑ Cluster: [react README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [useEffect & Fetch — Side effects + Real data](03_useeffect-and-fetch.md)
+- ↑ **Về cụm:** [react README](../../README.md)
 
-### Cross-reference
-- [FastAPI auth](../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) — JWT auth backend
-- [HTTP headers — CORS](../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [FastAPI auth](../../../../backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) — JWT auth backend
+- [HTTP headers — CORS](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [React Router docs](https://reactrouter.com/)
 - 📖 [React docs — Passing Data Deeply with Context](https://react.dev/learn/passing-data-deeply-with-context)
 - 📖 [Zustand docs](https://zustand-demo.pmnd.rs/)

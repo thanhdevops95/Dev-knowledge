@@ -6,7 +6,6 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Linux Navigation](../01_basic/01_navigation.md), [File Operations](../01_basic/02_file-operations.md)
 
 > 🎯 *Hiểu **user/group**, **3 quyền rwx** + **octal 755**, **chmod/chown/umask**, **sudo** vs root, **SUID/SGID/sticky bit**, và **capabilities** (modern alternative SUID). Sau bài này bạn đọc/viết được `ls -l` output + config permission server an toàn.*
@@ -46,7 +45,7 @@ Bạn ngơ:
 - Quyền `rwx` đọc sao? Số `755` nghĩa là gì?
 - Sao log file thư mục bạn không xem được mà user `www-data` xem được?
 
-→ Bài này dạy bạn (và bạn) **Linux permission system** đầy đủ.
+→ Bài này dạy bạn **Linux permission system** đầy đủ.
 
 ---
 
@@ -200,7 +199,7 @@ find ./project -type f -exec chmod 644 {} \;
 
 ```bash
 chown user file.txt                      # Đổi owner = user
-chown user:admin file.txt                # Đổi owner=long, group=admin
+chown user:admin file.txt                # Đổi owner=user, group=admin
 chown :admin file.txt                    # Chỉ đổi group
 chgrp admin file.txt                     # Tương đương trên
 chown -R www-data:www-data /var/www/     # Recursive — web server owner
@@ -431,7 +430,7 @@ sudo -u myapp /opt/myapp/venv/bin/fastapi run main.py --port 80
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`chmod 777` để "fix permission lỗi"** → tạm fix nhưng mở toang. Audit/staging server bị flag bảo mật. Tìm root cause: owner sai? umask sai?
 2. **Quên `x` trên dir** → user có `r` trên dir cũng không list/cd được. Dir cần **cả `r` và `x`**.
@@ -441,7 +440,7 @@ sudo -u myapp /opt/myapp/venv/bin/fastapi run main.py --port 80
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Đọc `ls -l` thấy `-rwxr-xr--`. Owner làm gì được? Group? Other?
 2. `chmod 750` = symbolic gì?
@@ -465,7 +464,7 @@ sudo -u myapp /opt/myapp/venv/bin/fastapi run main.py --port 80
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Phép tính octal
 
@@ -533,17 +532,17 @@ setcap -r /path/binary
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [systemd Services](01_systemd-services.md)
-- ↑ Cluster: [linux README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [systemd Services — Biến app thành service production](01_systemd-services.md)
+- ↑ **Về cụm:** [linux README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [TCP/IP ports/sockets/firewall](../../../../05_networking/tcp-ip-fundamentals/lessons/01_basic/03_ports-sockets-firewall.md) — port < 1024 cần root/capability
 - [FastAPI auth](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md) — backend dedicated user
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Linux man page: chmod(1)](https://man7.org/linux/man-pages/man1/chmod.1.html)
 - 📖 [Capabilities(7) man page](https://man7.org/linux/man-pages/man7/capabilities.7.html)
 - 📖 [SUID/SGID/Sticky bits explained — DigitalOcean](https://www.digitalocean.com/community/tutorials/linux-permissions-basics-and-how-to-use-umask-on-a-vps)
@@ -553,6 +552,6 @@ setcap -r /path/binary
 
 > 🎯 *Sau bài này bạn config permission server an toàn. Bài kế tiếp dạy **systemd** — biến FastAPI thành service tự khởi động + restart khi crash.*
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 2 ẩn dụ (biên lai mua hàng cho `ls -l`, mật mã 3 số cho octal), 3 lead-in trước bảng (permission, octal table, permission phổ biến), thay username fictional `long` → `rom`.
+- **v1.1.0 (24/05/2026)** — Thêm 2 ẩn dụ (biên lai mua hàng cho `ls -l`, mật mã 3 số cho octal), 3 lời dẫn trước bảng (permission, octal table, permission phổ biến), chuẩn hóa username trong ví dụ.

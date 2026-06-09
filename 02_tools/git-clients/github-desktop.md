@@ -270,21 +270,21 @@ Click 1 PR → **Checkout** branch của PR đó local → review code trong edi
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Commit qua Desktop nhưng user.email khác Git CLI
+### ❌ Cạm bẫy: Commit qua Desktop nhưng user.email khác Git CLI
 
 GitHub Desktop có settings email riêng (File → Options → Git). Nếu sửa email trong Desktop khác email trong `~/.gitconfig`, commit có thể không match GitHub account → không hiện contribution graph.
 
 **Cách tránh**: Cùng email ở 2 nơi. Settings → Git → "Use my GitHub account name and email address".
 
-### ❌ Pitfall: Force push qua Desktop
+### ❌ Cạm bẫy: Force push qua Desktop
 
 GitHub Desktop **có** option Force Push (hold Shift khi click Push button trong vài tình huống). Cảnh báo: force push lên branch shared = mất commits đồng nghiệp.
 
 **Cách tránh**: Đọc warning dialog trước khi force push. Setup branch protection trên `main` để chặn.
 
-### ❌ Pitfall: Không support advanced git operations
+### ❌ Cạm bẫy: Không support advanced git operations
 
 GitHub Desktop **KHÔNG hỗ trợ**:
 - Interactive rebase (`git rebase -i`)
@@ -305,7 +305,7 @@ Roadmap khuyến nghị:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Lần đầu commit qua GitHub Desktop. App hỏi "Sign in to GitHub" → bạn chưa setup gì → sign in fail. Vì sao?
 
@@ -364,7 +364,7 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Keyboard shortcuts (Mac / Win)
 
@@ -400,7 +400,7 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -426,10 +426,10 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 - 🛠️ [00_what-is-git-hosting.md](./00_what-is-git-hosting.md) — So sánh git hosting
 - 🛠️ [github.md](./github.md) — GitHub web user guide (account, PR, Actions, ...)
 - 🛠️ [VS Code Source Control](../ide/vs-code.md#git-tích-hợp-không-cần-cli) — alternative GUI trong VS Code
-- 🎓 [Git basic 5 lessons](../../01_foundations/version-control/git/lessons/01_basic/) — bạn story arc concept
+- 🎓 [Git — bài học cơ bản](../git/lessons/01_basic/) — các khái niệm Git nền tảng
 - 🧭 [Zero to Coder Stage 1](../../00_roadmaps/career/zero-to-coder_career-roadmap.md) — beginner cài git tools
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [GitHub Desktop Docs](https://docs.github.com/en/desktop) — chính thức, đầy đủ
 - [GitHub Desktop GitHub repo](https://github.com/desktop/desktop) — source code + issues
@@ -440,8 +440,7 @@ Nhưng **interactive rebase đầy đủ** (reorder, edit message từng commit,
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (24/05/2026)** — Apply Blueprint v0.5.4 §3.5. Bulk replace fictional character "bạn" → "bạn"/"Bạn"/"Mình" theo context (generic role thay tên riêng tự bịa). Nội dung kỹ thuật giữ nguyên.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #2 trong git-clients/. Cover: tình huống đồng nghiệp sợ CLI → §1 GitHub Desktop là gì + khi nào dùng → §2 Install 3 OS → §3 UI tour 5 phần + diagram → §4 Workflow clone/commit/push → §5 PR workflow → §6 Branching qua GUI → §7 So sánh với VS Code Source Control. 4 pitfall + 3 self-check + cheatsheet shortcut.
+- **v1.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.

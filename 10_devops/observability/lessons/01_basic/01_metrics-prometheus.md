@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [What is Observability](00_what-is-observability.md)
 
 > 🎯 *Master **Prometheus**: architecture (pull-based, time-series DB), **4 metric types** (Counter, Gauge, Histogram, Summary), **PromQL** queries, **exporters** + instrumentation, **service discovery**, **federation** + remote write (scale), **kube-prometheus-stack** install.*
@@ -654,7 +653,7 @@ alerting:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Cardinality explosion** (label `user_id`, `request_id`) → Prometheus OOM. <100K series rule.
 2. **Counter vs Gauge confusion** → counter only goes up (use `rate()`). Gauge snapshot (use as-is).
@@ -664,7 +663,7 @@ alerting:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Pull** vs **Push** trong Prometheus?
 2. 4 metric types — chọn cho: HTTP error count, current memory, request latency distribution?
@@ -771,18 +770,18 @@ blackbox-exporter     URL uptime
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is Observability](00_what-is-observability.md)
-- → Tiếp: [Logs with Loki / ELK](02_logs-loki-elk.md)
-- ↑ Cluster: [observability README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Observability là gì? — 3 pillars + monitoring landscape](00_what-is-observability.md)
+- ➡️ **Bài tiếp theo:** [Logs — Loki, ELK, structured logging](02_logs-loki-elk.md)
+- ↑ **Về cụm:** [observability README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [K8s Pods + probes](../../../kubernetes/lessons/01_basic/01_pods-and-deployments.md)
 - [FastAPI](../../../../07_web/backend/python-fastapi/)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Prometheus docs](https://prometheus.io/docs/)
 - 📖 [PromQL cheat sheet — Promlabs](https://promlabs.com/promql-cheat-sheet/)
 - 📖 [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)

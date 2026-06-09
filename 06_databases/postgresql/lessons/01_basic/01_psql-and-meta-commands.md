@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [What is PostgreSQL](00_what-is-postgresql.md)
 
 > 🎯 *Master **psql** CLI — kết nối, **meta-commands** (`\d`, `\du`, `\timing`), **system catalog** queries (size table, locks, active queries), **\\copy** import/export CSV, **pgcli** alternative, scripting `psql -c` + `-f`, **DevOps queries** (slow queries, table bloat). Sau bài này dùng Postgres CLI thuần thục như Linux power user.*
@@ -202,8 +201,8 @@ Meta-commands cho database/schema/table — đây là tập lệnh **gõ nhiều
 ### Variables
 
 ```
-\set name 'bạn'
-\echo :name           -- prints "bạn"
+\set name 'Nguyen Van A'
+\echo :name           -- prints "Nguyen Van A"
 
 \set verbose true
 \set ROW_COUNT          -- show số row affect after each query
@@ -553,7 +552,7 @@ SELECT pg_terminate_backend(12345);
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Chạy `count(*)` trên bảng 100M rows** → full scan, slow. Dùng estimate từ `pg_class.reltuples` cho approximate.
 2. **Quên `\timing on`** → không biết query nhanh/chậm. Set trong `.psqlrc`.
@@ -563,7 +562,7 @@ SELECT pg_terminate_backend(12345);
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. 5 meta-commands quan trọng nhất?
 2. Tìm bảng nào nặng nhất trong DB?
@@ -596,7 +595,7 @@ SELECT pg_terminate_backend(12345);
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Connect
 
@@ -673,14 +672,14 @@ psql -d db -f file.sql -v ON_ERROR_STOP=1
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [What is PostgreSQL](00_what-is-postgresql.md)
-- → Tiếp: [Indexes & Performance](02_indexes-and-performance.md)
-- ↑ Cluster: [postgresql README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [PostgreSQL là gì? — RDBMS #1 cho backend 2026](00_what-is-postgresql.md)
+- ➡️ **Bài tiếp theo:** [Indexes & Performance — EXPLAIN ANALYZE, B-tree, GIN, BRIN](02_indexes-and-performance.md)
+- ↑ **Về cụm:** [postgresql README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [psql docs](https://www.postgresql.org/docs/current/app-psql.html) — official reference
 - 📖 [pgcli docs](https://www.pgcli.com/)
 - 📖 [pg_stat_statements docs](https://www.postgresql.org/docs/current/pgstatstatements.html)
@@ -693,8 +692,7 @@ psql -d db -f file.sql -v ON_ERROR_STOP=1
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Kết nối 5 cách + Password `.pgpass` + `~/.psqlrc` config + §2 Database/Schema meta-commands + Roles/Permissions meta. Sửa "psql là bạn của bạn" → "psql là bạn đồng hành thân thiết" (avoid awkward double "bạn"). Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 2/5. Cover: psql connection 5 cách + .pgpass + .psqlrc config + 20+ meta-commands (\l \dt \d \du \dp \dx \df \timing \watch) + system catalog (pg_stat_activity, pg_stat_user_tables, pg_locks) + EXPLAIN intro + COPY import/export.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Kết nối 5 cách + Password `.pgpass` + `~/.psqlrc` config + §2 Database/Schema meta-commands + Roles/Permissions meta. Chuẩn hoá ví dụ `\set` + diễn đạt mượt hơn. Thêm Changelog section.

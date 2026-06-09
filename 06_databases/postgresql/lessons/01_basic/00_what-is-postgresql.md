@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [SQL fundamentals](../../../sql-fundamentals/lessons/01_basic/00_what-is-sql.md)
 
 > 🎯 *Bài INTRO. Hiểu **PostgreSQL là gì**, **vs MySQL/MariaDB**, **history** (35 năm), **MVCC architecture**, **psql** CLI, **install local** + **Docker**, kết nối từ FastAPI/Node. KHÔNG dạy `SELECT` chi tiết (xem [SQL fundamentals](../../../sql-fundamentals/)).*
@@ -162,7 +161,7 @@ A: vẫn thấy old version (consistency)
 |---|---|
 | ✅ High concurrency | ❌ "Dead rows" tích lũy → cần VACUUM định kỳ |
 | ✅ Snapshot isolation native | ❌ DB size grow until VACUUM |
-| ✅ bạn transactions OK | ❌ Configuration để tune VACUUM |
+| ✅ Long-running transactions OK | ❌ Configuration để tune VACUUM |
 
 → Modern Postgres có **autovacuum** chạy ngầm. Beginner không phải lo, advanced ops tune theo workload.
 
@@ -441,7 +440,7 @@ fastapi dev main.py
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Dùng user `postgres` cho app** → if compromised = toàn DB. Tạo user riêng per app, GRANT chỉ cần thiết.
 2. **Không pool connection** → mỗi request = new connection (~50ms overhead, 100 connection limit default). Always use pool.
@@ -451,7 +450,7 @@ fastapi dev main.py
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **MVCC** — khác lock-based traditional thế nào?
 2. **Postgres vs MySQL** — 3 điểm khác biệt chính 2026?
@@ -562,17 +561,17 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [psql & Meta-commands](01_psql-and-meta-commands.md)
-- ↑ Cluster: [postgresql README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [psql & Meta-commands — Master CLI client](01_psql-and-meta-commands.md)
+- ↑ **Về cụm:** [postgresql README](../../README.md)
 
-### Cross-reference
-- [SQL fundamentals](../../../sql-fundamentals/) — SQL syntax trước Postgres-specific
+### 🧩 Các chủ đề có thể bạn quan tâm
+- ⬅️ **Bài trước:** [SQL fundamentals](../../../sql-fundamentals/) — SQL syntax trước Postgres-specific
 - [FastAPI database](../../../../07_web/backend/python-fastapi/lessons/01_basic/03_database-with-sqlmodel.md) — FastAPI + Postgres
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [PostgreSQL official docs](https://www.postgresql.org/docs/) — best reference
 - 📖 [PostgreSQL Tutorial](https://www.postgresqltutorial.com/) — beginner-friendly
 - 📖 [Crunchy Data: Postgres learning](https://www.crunchydata.com/developers/playground)
@@ -588,6 +587,6 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 ## 📌 Changelog
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Lịch sử (đổi tên "History — Years that matter" → "Lịch sử — Các mốc quan trọng" theo §3.7 Vietnamese-first) + §1 Mức độ phổ biến (đổi "Adoption") + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Thêm Changelog section.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 1/5. Cover: Postgres là gì + history 40 năm + adoption + so sánh Postgres/MySQL/SQLite/MariaDB + MVCC concurrency + when to pick + install path 3 OS (macOS Homebrew, Linux apt, Docker) + first connection.

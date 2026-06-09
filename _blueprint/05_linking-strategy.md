@@ -1,9 +1,9 @@
 # 🔗 Linking Strategy — Quy ước liên kết & glossary
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0\
+> **Phiên bản:** v0.3.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 15/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *File này định nghĩa cách tạo liên kết giữa các bài, anchor, glossary, và pattern xử lý cross-L2 reference. Mục tiêu: kho có **mạng lưới navigation 2 chiều** — đọc 1 bài có thể nhảy ngang/dọc nhanh chóng.*
 
@@ -87,13 +87,13 @@ Trong **content files** (bài học) → KHÔNG dùng `[[...]]`, dùng markdown 
 Khi 1 bài cần content từ L2 khác (vd: K8s project cần image từ Docker project), dùng **pattern 3 bước**:
 
 ```markdown
-> ⚠️ **Prerequisite — Lấy source từ Docker:**
+> ⚠️ **Yêu cầu trước — Lấy source từ Docker:**
 >
 > Project này cần image `myapp:6.0` đã build ở Docker. Có 3 cách:
 >
-> 1. **Đi qua từ Docker series**: hoàn thành [`../../docker/projects/03_compose-multi-tier/`](../../docker/projects/03_compose-multi-tier/) Bài 24, đã có image
+> 1. **Đi qua từ Docker series**: hoàn thành [`../../docker/projects/03_compose-multi-tier/`](../../docker/projects/03_compose-multi-tier/), đã có image
 > 2. **Clone repo mẫu**: `git clone https://github.com/your-username/myapp-source`
-> 3. **Build app mới**: làm theo [`../../docker/lessons/01_basic/`](../../docker/lessons/01_basic/) trong ~30 phút
+> 3. **Build app mới**: làm theo [`../../docker/lessons/01_basic/`](../../docker/lessons/01_basic/)
 >
 > Sau khi có image, quay lại file này tiếp tục.
 ```
@@ -108,27 +108,36 @@ Khi 1 bài cần content từ L2 khác (vd: K8s project cần image từ Docker 
 
 ## 4️⃣ Navigation block cuối bài
 
-Mỗi bài lessons (và project step) nên có **navigation footer**:
+Mỗi bài lessons (và project step) nên có **navigation footer** theo cấu trúc cố định: 1 heading lớn + 3 sub-section. Đây là chuẩn áp dụng toàn kho.
 
 ```markdown
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Bài liên quan trong kho
+### 🧭 Định hướng lộ trình học
 
-| Hướng | Bài |
-|---|---|
-| ⬅️ Bài trước | [Container và Image](./00_architecture.md) |
-| ➡️ Bài tiếp | [ReplicaSet](./02_replicaset.md) |
-| 🔗 Liên quan | [Deployment](./03_deployment.md), [Service](./04_service.md) |
-| ⬆️ Index L2 | [K8s overview](../../00_overview.md) |
+- ⬅️ **Bài trước:** [Container và Image](./00_architecture.md)
+- ➡️ **Bài tiếp theo:** [ReplicaSet](./02_replicaset.md)
+- ↑ **Về cụm:** [Kubernetes — README cụm](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- [Deployment](./03_deployment.md)
+- [Service](./04_service.md)
+
+### 🌐 Tài nguyên tham khảo khác
 
 - [Official K8s docs — Pod](https://kubernetes.io/docs/concepts/workloads/pods/) — spec đầy đủ
 - [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) — build cluster from scratch
 ```
+
+**Quy tắc nav bullet (3-marker):**
+
+- Dùng đúng 3 marker: `⬅️ **Bài trước:**`, `➡️ **Bài tiếp theo:**`, `↑ **Về cụm:**`.
+- Link text là **tiêu đề thật** của bài đích, KHÔNG dùng tên file.
+- `↑ **Về cụm:**` trỏ về `README.md` của cụm/L2 hiện tại (relative path), KHÔNG trỏ về một career roadmap cụ thể (xem §11).
+- Bài đầu/cuối cụm thì bỏ marker không có đích (vd bài đầu không có "Bài trước").
 
 → Đảm bảo người đọc luôn biết "đi đâu tiếp", không bị dead-end.
 
@@ -143,7 +152,7 @@ Có 3 cấp glossary, mỗi cấp phục vụ scope khác nhau:
 Trong bài học có nhiều thuật ngữ EN, thêm section ở cuối:
 
 ```markdown
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -197,11 +206,7 @@ Thuật ngữ chung của L1, áp dụng nhiều L2 (vd: `10_devops/_glossary.md
 
 ### 6.1 Lesson → Lesson cùng L2
 
-Nên có sequential link rõ ràng:
-
-```markdown
-[⬅️ Pod](./01_pod.md) | [📋 Index](../README.md) | [➡️ Deployment](./03_deployment.md)
-```
+Liên kết tuần tự (bài trước / bài tiếp / về cụm) **chỉ** đặt ở navigation footer chuẩn (xem §4) với 3 nav bullet `⬅️` / `➡️` / `↑`. KHÔNG dùng dòng nav inline kiểu `[⬅️] | [Index] | [➡️]` rải trong thân bài — để tránh trùng lặp và lệch chuẩn footer.
 
 ### 6.2 Lesson → Exercise tương ứng
 
@@ -219,10 +224,10 @@ Trong bài lessons, ở cuối phần Hands-on:
 
 ### 6.4 Project → Lesson cần làm trước
 
-Project README có section Prerequisites:
+Project README có section "Yêu cầu trước":
 
 ```markdown
-## 📋 Prerequisites
+## 📋 Yêu cầu trước
 
 - [x] Đã làm [Pod basic](../../lessons/01_basic/01_pod.md)
 - [x] Đã làm [Deployment basic](../../lessons/01_basic/03_deployment.md)
@@ -234,7 +239,7 @@ Project README có section Prerequisites:
 Roadmap chỉ chứa link, không lặp nội dung:
 
 ```markdown
-## Bước 3 — K8s basics (1 tuần)
+## Bước 3 — K8s basics
 
 📚 **Đọc tuần tự**:
 - [ ] [Pod](../../10_devops/kubernetes/lessons/01_basic/01_pod.md)
@@ -251,13 +256,15 @@ Roadmap chỉ chứa link, không lặp nội dung:
 
 Khi rename file, link cũ vỡ. Để phát hiện sớm:
 
-### 7.1 Script đơn giản (đặt ở `_scripts/check-links.sh`)
+### 7.1 Script kho dùng (`_workspace/check-broken-links.py`)
+
+Kho có sẵn script kiểm tra link vỡ tại `_workspace/check-broken-links.py`. Chạy từ gốc kho:
 
 ```bash
-#!/usr/bin/env bash
-# Tìm tất cả markdown link nội bộ
-find . -name "*.md" -exec grep -Hn '\[.*\](\..*\.md)' {} \;
+python3 _workspace/check-broken-links.py
 ```
+
+→ Script quét toàn bộ markdown link nội bộ và báo các đích không tồn tại. Chạy trước mỗi đợt rename/di chuyển file.
 
 ### 7.2 Tooling (OPT, nâng cao)
 
@@ -322,7 +329,9 @@ glossary: ../../_glossary.md
 ---
 ```
 
-→ OPTIONAL. Chỉ thêm khi có tooling sử dụng.
+> ⚠️ **KHÔNG áp dụng cho file lessons.** Bài học trong kho dùng **metadata block-quote** ở đầu file (Tác giả / Phiên bản / Tạo lúc / Cập nhật / Level / Tags / Yêu cầu trước), KHÔNG dùng YAML frontmatter. Mẫu YAML trên chỉ là gợi ý cho tooling/static-site nếu sau này kho cần build index tự động — và khi đó nên đặt ở file chỉ-mục riêng, không nhúng vào bài học.
+
+→ OPTIONAL. Chỉ thêm khi có tooling sử dụng, và không thay thế metadata block-quote của bài.
 
 ---
 
@@ -330,11 +339,11 @@ glossary: ../../_glossary.md
 
 | Tình huống | Loại link |
 |---|---|
-| Bài trước/sau trong cùng level | Sequential: `[⬅️] [📋] [➡️]` |
-| Bài liên quan ngoài level | Block "Liên quan" trong navigation footer |
-| Bài tiên quyết | Block "Prerequisites" ở đầu (project) hoặc trong câu dẫn (lesson) |
-| Tài nguyên ngoài | Section "Tài nguyên ngoài" cuối |
-| Cross-L2 source | Block ⚠️ Prerequisite với 2-3 cách lấy source |
+| Bài trước/sau + về cụm | Nav bullet `⬅️` / `➡️` / `↑` trong sub "🧭 Định hướng lộ trình học" (footer §4) |
+| Bài liên quan ngoài level | Sub "🧩 Các chủ đề có thể bạn quan tâm" trong navigation footer |
+| Bài tiên quyết | Block "Yêu cầu trước" ở đầu (project) hoặc trong câu dẫn (lesson) |
+| Tài nguyên ngoài | Sub "🌐 Tài nguyên tham khảo khác" trong navigation footer |
+| Cross-L2 source | Block ⚠️ "Yêu cầu trước" với 2-3 cách lấy source |
 | Thuật ngữ kỹ thuật | Glossary cấp 1 (bài) → cấp 2 (L2) → cấp 3 (L1) |
 | Roadmap → bài cụ thể | Checklist với relative path |
 
@@ -353,8 +362,11 @@ glossary: ../../_glossary.md
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.2.0 (26/05/2026)** — Thêm nguyên tắc "Modular & Không rò rỉ Lộ trình (Zero Roadmap Leakage)" để chuẩn hóa độc lập hóa mô-đun kiến thức.
+> Quy ước kho: changelog **tăng dần** (cũ → mới, `v1.0.0` trên cùng). Quy ước này **override** global skill (global mặc định reverse-chronological).
+
 - **v0.1.0 (15/05/2026)** — Bản đầu tiên. Spec 5 loại link (internal, anchor, anchor cross-file, external, wiki-link). Pattern cross-L2 reference. Navigation footer chuẩn. Glossary 3 cấp (bài → L2 → L1). Link checker. Anchor quy ước.
+- **v0.2.0 (26/05/2026)** — Thêm nguyên tắc "Modular & Không rò rỉ Lộ trình (Zero Roadmap Leakage)" để chuẩn hóa độc lập hóa mô-đun kiến thức.
+- **v0.3.0 (01/06/2026)** — Chuẩn hoá theo 3 quyết định governance: changelog tăng dần + ghi rõ override global; bỏ hết ước tính thời gian (§3, §6.5); chuẩn hoá navigation footer thành 3 sub 🧭/🧩/🌐 với nav bullet 3-marker ⬅️/➡️/↑ (§4); bỏ nav inline (§6.1); heading Glossary → "Từ Điển Thuật Ngữ (Glossary)" + bảng 3 cột (§5); đổi link checker sang `_workspace/check-broken-links.py` (§7.1); thêm cảnh báo YAML frontmatter KHÔNG áp cho lessons (§9). Lý do: đồng bộ blueprint với quy ước nền toàn kho, tránh lệch chuẩn khi viết bài.
 

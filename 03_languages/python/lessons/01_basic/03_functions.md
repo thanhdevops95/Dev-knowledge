@@ -6,7 +6,6 @@
 > **Cập nhật:** 26/05/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
-> **Thời lượng đọc:** ~25 phút  
 > **Yêu cầu trước:** [Bài 02: Cấu trúc rẽ nhánh và Vòng lặp](./02_control-flow.md)
 
 > [!NOTE]
@@ -408,9 +407,9 @@ for nv in danh_sach_nhan_vien:
     
     # In báo cáo ra màn hình
     print(f"Nhân viên: {bao_cao['nhan_vien']:<15} | "
-          f"Lương gốc: {bao_cao['luong_goc']:>10:,.0f} VND | "
-          f"Thuế ({bao_cao['thue_suat']*100:>2.0f}%): {bao_cao['tien_thue']:>9:,.0f} VND | "
-          f"Thực nhận: {bao_cao['thuc_nhan']:>10:,.0f} VND")
+          f"Lương gốc: {bao_cao['luong_goc']:>10,.0f} VND | "
+          f"Thuế ({bao_cao['thue_suat']*100:>2.0f}%): {bao_cao['tien_thue']:>9,.0f} VND | "
+          f"Thực nhận: {bao_cao['thuc_nhan']:>10,.0f} VND")
 
 print("=========================================================================")
 ```
@@ -444,7 +443,7 @@ Một hàm dài hơn 100 dòng code xử lý từ xác thực thông tin, ghi fi
 
 ---
 
-## 🧠 Thử Thách Trí Tuệ: Kiểm Tra Kiến Thức Của Bạn
+## 🧠 Tự kiểm tra (Self-check)
 
 **Câu hỏi 1:** Điều gì xảy ra nếu một hàm trong Python chạy hết các dòng lệnh mà hoàn toàn không có lệnh `return` nào?
 <details>
@@ -496,7 +495,7 @@ tinh_thue_nhanh = lambda gross: gross * 0.10
 
 ---
 
-## 🔗 Liên kết & Tài nguyên học tập tiếp theo
+## 🔗 Liên kết & Tài nguyên
 
 ### 🧭 Định hướng lộ trình học:
 *   ⬅️ **Bài trước:** [Bài 02: Làm chủ Cấu trúc rẽ nhánh và Vòng lặp](./02_control-flow.md)

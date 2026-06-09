@@ -153,6 +153,6 @@ Nó giống như việc bạn dán nhãn phân loại hồ sơ vào các ngăn t
 
 ---
 
-## 🔗 Liên kết học tập tiếp theo
+## 🔗 Liên kết & Tài nguyên
 *   ⬅️ Quay lại bài học: [01_resolving-conflicts.md](../../lessons/02_intermediate/01_resolving-conflicts.md)
 *   ➡️ Thử thách thực hành: [lab_conflict-hero.md](../02_intermediate/lab_conflict-hero.md)

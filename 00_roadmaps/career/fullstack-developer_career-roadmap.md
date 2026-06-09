@@ -5,7 +5,6 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 26/05/2026\
 > **Đối tượng:** Đã có nền tảng lập trình cơ bản, muốn tự tay làm chủ cả giao diện (Frontend) lẫn hệ thống logic (Backend) của ứng dụng\
-> **Thời gian ước tính:** ~12 tháng học tập tích cực (full-time) hoặc ~24 tháng (part-time)\
 > **Mức độ:** Junior → Mid (Sẵn sàng làm việc độc lập hoặc ứng tuyển startup/freelance)
 
 ---
@@ -38,18 +37,18 @@ graph LR
     S5 --> S6[🚀 Stage 6<br/>Capstone]
 ```
 
-| Stage | Thời gian | Kết quả đầu ra |
-|---|---|---|
-| **Stage 1: Nền tảng (Foundations)** | 1-2 tháng | Thành thạo Linux terminal, Git workflow và giao thức HTTP cơ bản |
-| **Stage 2: Frontend (React & TS)** | 2-3 tháng | Dựng được giao diện web SPA đẹp mắt, responsive, lấy data từ API |
-| **Stage 3: Backend & Database** | 2-3 tháng | Xây dựng REST API CRUD kết nối cơ sở dữ liệu PostgreSQL |
-| **Stage 4: Tích hợp hệ thống** | 1-2 tháng | Connect hoàn chỉnh React với FastAPI, xử lý CORS và JWT Auth |
-| **Stage 5: Sẵn sàng cho Production** | 2 tháng | Viết unit test cả 2 bên, đóng gói Docker Compose và deploy cloud |
-| **Stage 6: Dự án Capstone** | 1-2 tháng | 1 dự án Fullstack Portfolio hoàn chỉnh chạy live trên internet |
+| Stage | Kết quả đầu ra |
+| --- | --- |
+| **Stage 1: Nền tảng (Foundations)** | Thành thạo Linux terminal, Git workflow và giao thức HTTP cơ bản |
+| **Stage 2: Frontend (React & TS)** | Dựng được giao diện web SPA đẹp mắt, responsive, lấy data từ API |
+| **Stage 3: Backend & Database** | Xây dựng REST API CRUD kết nối cơ sở dữ liệu PostgreSQL |
+| **Stage 4: Tích hợp hệ thống** | Connect hoàn chỉnh React với FastAPI, xử lý CORS và JWT Auth |
+| **Stage 5: Sẵn sàng cho Production** | Viết unit test cả 2 bên, đóng gói Docker Compose và deploy cloud |
+| **Stage 6: Dự án Capstone** | 1 dự án Fullstack Portfolio hoàn chỉnh chạy live trên internet |
 
 ---
 
-## 🛠️ Stage 1 — Nền tảng (Foundations) (1-2 tháng)
+## 🛠️ Stage 1 — Nền tảng (Foundations)
 
 > 🎯 *Trang bị bộ công cụ làm việc dòng lệnh, làm chủ Git và hiểu cách thế giới web truyền dữ liệu.*
 
@@ -72,7 +71,7 @@ graph LR
 
 ---
 
-## 🎨 Stage 2 — Phát triển Frontend (React & TS) (2-3 tháng)
+## 🎨 Stage 2 — Phát triển Frontend (React & TS)
 
 > 🎯 *Làm chủ HTML/CSS responsive, tư duy JavaScript tương tác và xây dựng Web SPA với React & TypeScript.*
 
@@ -94,7 +93,7 @@ Giao diện người dùng (UI) chính là bộ mặt của sản phẩm. Bạn 
 
 ---
 
-## 🗄️ Stage 3 — Phát triển Backend & Database (2-3 tháng)
+## 🗄️ Stage 3 — Phát triển Backend & Database
 
 > 🎯 *Viết API backend bằng FastAPI, thiết kế cơ sở dữ liệu quan hệ PostgreSQL và quản lý dữ liệu hiệu quả.*
 
@@ -115,7 +114,7 @@ Giao diện người dùng (UI) chính là bộ mặt của sản phẩm. Bạn 
 
 ---
 
-## 🔗 Stage 4 — Tích hợp hệ thống (Integration) (1-2 tháng)
+## 🔗 Stage 4 — Tích hợp hệ thống (Integration)
 
 > 🎯 *Kết nối Frontend với Backend, giải quyết các lỗi cấu hình mạng CORS, thiết lập cơ chế đăng nhập bảo mật.*
 
@@ -136,7 +135,7 @@ Khi kết nối hai ứng dụng chạy ở hai domain khác nhau (ví dụ: Rea
 
 ---
 
-## 🛡️ Stage 5 — Sẵn sàng cho Production (2 tháng)
+## 🛡️ Stage 5 — Sẵn sàng cho Production
 
 > 🎯 *Viết kiểm thử tự động cả hai phía, đóng gói ứng dụng bằng Docker Compose và triển khai deploy lên môi trường đám mây.*
 
@@ -157,7 +156,7 @@ Một lập trình viên Fullstack giỏi phải tự biết đưa sản phẩm 
 
 ---
 
-## 🚀 Stage 6 — Dự án Capstone độc lập (1-2 tháng)
+## 🚀 Stage 6 — Dự án Capstone độc lập
 
 > 🎯 *Tự thiết kế và lập trình một sản phẩm phần mềm hoàn chỉnh chạy thực tế phục vụ người dùng để làm Portfolio.*
 
@@ -188,12 +187,12 @@ Sau khi hoàn thành lộ trình Fullstack, bạn có thể đi sâu hơn theo c
 
 ## 🔄 Hướng dẫn điều chỉnh lộ trình
 
-- **Nếu cảm thấy học cả 2 cùng lúc quá nặng:** Hãy chia nhỏ thời gian. Tập trung 3-4 tháng đầu hoàn thiện Frontend (Stage 1 & 2), sau đó chuyển hẳn sang Backend ở 3-4 tháng tiếp theo (Stage 3). Không nên nhảy qua nhảy lại giữa viết CSS và viết SQL trong cùng một ngày ở giai đoạn mới học.
+- **Nếu cảm thấy học cả 2 cùng lúc quá nặng:** Hãy chia nhỏ thời gian. Tập trungđầu hoàn thiện Frontend (Stage 1 & 2), sau đó chuyển hẳn sang Backend ởtiếp theo (Stage 3). Không nên nhảy qua nhảy lại giữa viết CSS và viết SQL trong cùng một ngày ở giai đoạn mới học.
 - **Sử dụng Next.js thay thế:** Nếu bạn muốn học một framework Fullstack all-in-one chạy hoàn toàn bằng JavaScript/TypeScript thay vì tách biệt React + FastAPI, hãy sử dụng Next.js. Tuy nhiên, Mr.Rom khuyên bạn vẫn nên học cách tách biệt Frontend/Backend để hiểu sâu hơn về kiến trúc giao tiếp client-server chuẩn industry.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v2.0.0 (26/05/2026)** — **Nâng cấp thành Narrative Master**:
   - Viết lại toàn bộ nội dung sang văn phong kể chuyện định hướng và kết nối logic.

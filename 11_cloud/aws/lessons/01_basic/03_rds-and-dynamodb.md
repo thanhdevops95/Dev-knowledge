@@ -1,69 +1,78 @@
 # 🎓 RDS + DynamoDB — Managed databases
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md), [PostgreSQL basic](../../../../06_databases/postgresql/)
+> **Yêu cầu trước:** [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md), [PostgreSQL basic](../../../../06_databases/postgresql/)
 
-> 🎯 *2 managed DB AWS bạn dùng nhiều nhất 2026: **RDS** (relational Postgres/MySQL) cho ACID + queries phức tạp, **DynamoDB** (NoSQL key-value/document) cho scale + low-latency. Bài này: setup từ đầu, Multi-AZ, snapshots, design patterns, decision matrix.*
+> 🎯 *Hai dịch vụ database được dùng nhiều nhất trên AWS năm 2026 là **RDS** (relational — Postgres/MySQL) cho ACID và truy vấn phức tạp, và **DynamoDB** (NoSQL key-value/document) cho scale lớn và độ trễ thấp. Bài này đi từ đầu: setup, Multi-AZ, snapshots, design pattern, cho tới bảng quyết định chọn DB nào cho việc nào.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Deploy **RDS Postgres** Multi-AZ với backup
-- [ ] Cấu hình **parameter groups** + **option groups**
-- [ ] **Read replicas** cho read scaling
-- [ ] **Snapshots** + point-in-time recovery
-- [ ] **Performance Insights** debug slow queries
-- [ ] Design **DynamoDB table** với partition key + sort key
-- [ ] **GSI** (Global Secondary Index) cho query patterns khác
-- [ ] **DynamoDB Streams** + Lambda triggers
-- [ ] **DAX** cache cho hot partition
-- [ ] So sánh **Aurora** vs RDS Postgres
-- [ ] Quyết định **RDS vs DynamoDB** per use case
+- [ ] Deploy **RDS Postgres** Multi-AZ kèm backup.
+- [ ] Cấu hình **parameter group** và **option group**.
+- [ ] Dùng **read replica** để scale phần đọc.
+- [ ] Dùng **snapshot** và *point-in-time recovery* (khôi phục về một thời điểm bất kỳ).
+- [ ] Dùng **Performance Insights** để soi *slow query* (truy vấn chậm).
+- [ ] Thiết kế **DynamoDB table** với *partition key* và *sort key*.
+- [ ] Tạo **GSI** (Global Secondary Index) cho các kiểu query khác nhau.
+- [ ] Bắt **DynamoDB Streams** kích hoạt Lambda.
+- [ ] Dùng **DAX** cache cho *hot partition* (phân vùng nóng).
+- [ ] So sánh **Aurora** với RDS Postgres.
+- [ ] Quyết định **RDS hay DynamoDB** cho từng *use case*.
 
 ---
 
-## Tình huống — App e-commerce: user/order/cart
+## Tình huống — App e-commerce với user, order và cart
 
-App e-commerce có:
-- **Users**: 100K, relational (joins với orders, addresses).
-- **Orders**: 1M, ACID required (payment transactions).
-- **Shopping cart**: live, hot path (millions of reads/sec at peak).
-- **Activity logs**: append-heavy, eventual consistency OK.
+Hãy bắt đầu từ một bài toán mà gần như app thương mại điện tử nào cũng gặp. App của bạn có bốn loại dữ liệu với tính chất hoàn toàn khác nhau:
 
-Một DB không phù hợp hết:
-- All in Postgres: cart reads slow at scale.
-- All in DynamoDB: orders need joins + transactions.
+- **Users**: 100K tài khoản, mang tính *relational* (join với orders, addresses).
+- **Orders**: 1M đơn, bắt buộc ACID (giao dịch thanh toán không được sai một xu).
+- **Shopping cart**: dữ liệu sống, nằm trên *hot path* (hàng triệu lượt đọc mỗi giây lúc cao điểm).
+- **Activity logs**: ghi nhiều (append-heavy), chấp nhận *eventual consistency* (nhất quán sau cũng được).
 
-Sếp: *"Mix DB. RDS for users/orders. DynamoDB for cart/sessions. Best fit per workload. Bài này dạy."*
+Vấn đề là không có một DB nào hợp với cả bốn:
 
-→ Bài này: RDS + DynamoDB practical.
+- Nhét hết vào Postgres thì phần đọc cart sẽ chậm khi scale.
+- Nhét hết vào DynamoDB thì orders lại cần join và transaction — thứ DynamoDB không giỏi.
+
+Sếp nhìn vào và chốt hướng: *"Mix DB. RDS cho users/orders, DynamoDB cho cart/sessions. Mỗi workload dùng đúng công cụ của nó. Bài này dạy chính cái đó."*
+
+Đó là tinh thần của cả bài: học RDS và DynamoDB ở mức thực chiến, rồi biết khi nào chọn cái nào.
 
 ---
 
 ## 1️⃣ RDS — Managed relational
 
-🪞 **Ẩn dụ**: *RDS như **căn hộ dịch vụ** — bạn vào ở liền, có người dọn dẹp (backup) và sửa ống nước (patch); nhưng nội thất cố định (schema chặt). DynamoDB như **container kho** — bạn muốn cất gì cũng được, tùy biến tự do, nhưng phải biết cách sắp xếp (partition key) thì mới tìm hàng nhanh.*
+Trước khi đi vào từng tính năng, hãy hình dung bản chất của hai dịch vụ qua một ẩn dụ — vì nó sẽ giúp bạn nhớ được vì sao mỗi cái mạnh ở chỗ riêng.
 
-### Supported engines
+🪞 **Ẩn dụ**: *RDS giống như một **căn hộ dịch vụ** — bạn dọn vào ở ngay, có người lo dọn dẹp (backup) và sửa ống nước (patch); đổi lại nội thất cố định, không kê lại được (schema chặt). DynamoDB giống như một **container kho** — muốn cất gì cũng được, tuỳ biến tự do, nhưng bạn phải biết cách sắp xếp hàng (partition key) thì lúc cần mới lấy ra nhanh.*
 
-| Engine | License | Best for |
+RDS (Relational Database Service) là dịch vụ database quan hệ được AWS quản lý hộ: bạn không phải tự cài, tự vá, tự backup máy chủ DB nữa.
+
+### Các engine được hỗ trợ
+
+RDS không trói bạn vào một loại DB duy nhất. Bảng dưới liệt kê các *engine* được hỗ trợ và việc nào hợp với engine nào:
+
+| Engine | License | Hợp nhất với |
 |---|---|---|
-| **PostgreSQL** | Open source | **2026 default** — most flexible |
-| **MySQL** | Open source | Web app legacy, MySQL ecosystem |
-| **MariaDB** | Open source | MySQL fork, slight differences |
-| **Microsoft SQL Server** | Proprietary | .NET ecosystem |
+| **PostgreSQL** | Open source | **Mặc định 2026** — linh hoạt nhất |
+| **MySQL** | Open source | Web app cũ, hệ sinh thái MySQL |
+| **MariaDB** | Open source | Bản fork của MySQL, khác đôi chút |
+| **Microsoft SQL Server** | Proprietary | Hệ sinh thái .NET |
 | **Oracle** | Proprietary | Enterprise legacy |
-| **Aurora MySQL** | AWS proprietary | High-performance MySQL |
-| **Aurora PostgreSQL** | AWS proprietary | High-performance Postgres |
+| **Aurora MySQL** | AWS proprietary | MySQL hiệu năng cao |
+| **Aurora PostgreSQL** | AWS proprietary | Postgres hiệu năng cao |
 
-→ **2026 recommend**: **Aurora PostgreSQL** for production, **RDS PostgreSQL** for smaller scale.
+→ Khuyến nghị cho 2026: dùng **Aurora PostgreSQL** cho production, **RDS PostgreSQL** cho quy mô nhỏ hơn.
 
-### Instance classes
+### Instance class
+
+Giống như EC2, bạn chọn DB instance theo "size" CPU/RAM. Danh sách dưới đi từ máy nhỏ nhất (free tier) tới máy khổng lồ:
 
 ```
 db.t3.micro    = 1 vCPU, 1 GB RAM    (Free Tier, dev)
@@ -77,28 +86,34 @@ db.r6i.xlarge  = 4 vCPU, 32 GB
 db.r7i.24xlarge = 96 vCPU, 768 GB    (huge)
 ```
 
-→ Like EC2 families: **T (burstable)**, **M (general)**, **R (memory)**.
+→ Quy ước họ máy giống EC2: **T (burstable)** cho tải nhẹ, **M (general)** cho tải đều, **R (memory)** cho workload ngốn RAM.
 
 ### Storage
 
-- **gp3 SSD** (default 2026): predictable IOPS, 20-65,536 GB.
-- **io1/io2 SSD**: high-perf, custom IOPS.
-- **Magnetic** (legacy): cheap, slow.
+Phần lưu trữ quyết định IOPS (số thao tác đọc/ghi mỗi giây) bạn có. Ba loại chính:
 
-**Auto-scaling storage**: enable → DB grows on demand without manual resize.
+- **gp3 SSD** (mặc định 2026): IOPS ổn định, dung lượng 20–65,536 GB.
+- **io1/io2 SSD**: hiệu năng cao, IOPS tuỳ chỉnh được.
+- **Magnetic** (legacy): rẻ nhưng chậm.
+
+Khi bật **auto-scaling storage**, DB tự nới dung lượng theo nhu cầu mà bạn không phải resize thủ công.
 
 ### Multi-AZ deployment
 
-**Standard (single-AZ)**:
-- 1 instance, 1 AZ.
-- AZ outage = DB down.
-- Backup snapshot daily.
+Đây là quyết định quan trọng nhất về tính sẵn sàng (HA — High Availability). Có hai kiểu triển khai, khác nhau ở chỗ DB chịu được một AZ (Availability Zone — vùng khả dụng) sập hay không.
 
-**Multi-AZ (recommend production)**:
-- **Primary** in AZ-a.
-- **Standby** in AZ-b (synchronous replication).
-- Failover automatic on AZ outage (60-120s downtime).
-- DNS endpoint same (apps don't change config).
+Kiểu **Standard (single-AZ)** đơn giản nhưng rủi ro:
+
+- 1 instance, nằm trong 1 AZ.
+- AZ đó sập là DB chết theo.
+- Có snapshot backup hằng ngày.
+
+Kiểu **Multi-AZ (khuyến nghị cho production)** bền hơn hẳn:
+
+- **Primary** đặt ở AZ-a.
+- **Standby** đặt ở AZ-b, *replication* đồng bộ (synchronous).
+- Khi AZ sập, tự động *failover* (chuyển sang standby) trong khoảng 60–120 giây.
+- Endpoint DNS không đổi → app không cần sửa config.
 
 ```
 Without Multi-AZ:           With Multi-AZ:
@@ -107,11 +122,12 @@ Without Multi-AZ:           With Multi-AZ:
                               On failover, DNS points to standby
 ```
 
-→ **Always Multi-AZ for production**. 2x cost worth it.
+→ Production thì **luôn bật Multi-AZ**. Chi phí gấp đôi nhưng đáng.
 
-### Read replicas
+### Read replica
 
-For **read scaling**:
+Multi-AZ lo phần *sẵn sàng*, còn *read replica* lo phần *scale phần đọc*. Khi app đọc nhiều hơn ghi, bạn tách tải đọc sang các bản sao chỉ-đọc:
+
 ```
                 Primary (write)
                     ↓ async replication
@@ -121,22 +137,26 @@ For **read scaling**:
     (read-only) (read-only) (read-only)
 ```
 
-- Up to **5 read replicas** (RDS), 15 (Aurora).
-- Async replication (lag 100ms-seconds).
-- Different region replicas possible.
-- App routes reads to replicas, writes to primary.
+Vài đặc điểm cần nhớ về read replica:
 
-**Use case**:
-- Read-heavy app (90% reads).
-- Reporting + analytics (don't impact primary).
-- Disaster recovery (promote replica to primary).
+- Tối đa **5 read replica** với RDS, **15** với Aurora.
+- *Replication* bất đồng bộ (async), nên có độ trễ (lag) từ 100ms tới vài giây.
+- Có thể đặt replica ở region khác.
+- App tự định tuyến: đọc về replica, ghi về primary.
+
+Read replica hợp với các tình huống sau:
+
+- App đọc nhiều (ví dụ 90% là đọc).
+- Báo cáo và phân tích (chạy trên replica để không đụng vào primary).
+- Phương án dự phòng thảm hoạ (DR): khi cần, *promote* (nâng cấp) replica thành primary.
 
 ### Backups
 
-**Automated backups**:
-- Daily snapshot (configurable window).
-- **Point-in-time recovery (PITR)**: restore to any second within retention (1-35 days).
-- Stored in S3 (managed).
+Mất dữ liệu là cơn ác mộng, nên RDS cho hai lớp backup. **Automated backup** chạy tự động:
+
+- Snapshot hằng ngày (chọn được khung giờ).
+- **Point-in-time recovery (PITR)**: khôi phục về bất kỳ giây nào trong khoảng giữ lại (1–35 ngày).
+- Lưu trong S3 (AWS quản lý hộ).
 
 ```bash
 # Restore to specific time
@@ -146,15 +166,15 @@ aws rds restore-db-instance-to-point-in-time \
   --restore-time 2026-05-24T10:30:00Z
 ```
 
-**Manual snapshots**:
-- Trigger anytime.
-- Retained forever (until deleted).
-- Can copy cross-region.
+Bên cạnh đó là **manual snapshot** do bạn chủ động chụp:
+
+- Bấm chụp bất cứ lúc nào.
+- Giữ mãi cho tới khi bạn xoá.
+- Copy được sang region khác.
 
 ### Encryption
 
-- **At-rest**: AES-256 with KMS keys.
-- **In-transit**: SSL/TLS connection.
+RDS mã hoá ở hai lớp. Mã hoá *at-rest* (lúc nằm trên đĩa) dùng AES-256 với khoá KMS; mã hoá *in-transit* (lúc truyền) dùng kết nối SSL/TLS. Đoạn dưới ép kết nối Postgres phải đi qua SSL:
 
 ```python
 import psycopg2
@@ -168,11 +188,11 @@ conn = psycopg2.connect(
 )
 ```
 
-→ Bucket-level encryption setting on creation. Can't enable later (snapshot + restore needed).
+→ Lưu ý quan trọng: mã hoá at-rest **chỉ đặt được lúc tạo instance**. Không bật được sau — muốn mã hoá một DB đang chạy mà chưa mã hoá, bạn phải tạo snapshot rồi restore sang một instance mới đã bật mã hoá.
 
-### Parameter groups
+### Parameter group
 
-Custom PostgreSQL config:
+*Parameter group* là nơi bạn tinh chỉnh config của engine Postgres (giống `postgresql.conf` nhưng do AWS quản lý). Hai lệnh dưới tạo một group riêng rồi sửa giới hạn kết nối:
 
 ```bash
 aws rds create-db-parameter-group \
@@ -185,53 +205,46 @@ aws rds modify-db-parameter-group \
   --parameters "ParameterName=max_connections,ParameterValue=200,ApplyMethod=pending-reboot"
 ```
 
-→ Tune: connection limits, shared_buffers, work_mem, etc.
+→ Qua đây bạn tinh chỉnh được các thông số như giới hạn kết nối, `shared_buffers`, `work_mem`, v.v.
 
 ### Performance Insights
 
-Built-in DB performance analysis.
+Khi DB chậm mà không biết tại sao, **Performance Insights** là công cụ phân tích hiệu năng dựng sẵn của RDS. Lệnh dưới kiểm tra xem nó đã bật chưa:
 
 ```bash
 aws rds describe-db-instances --db-instance-identifier mydb \
   --query 'DBInstances[0].PerformanceInsightsEnabled'
 ```
 
-→ See top queries, wait events, in Console dashboard.
+→ Bật rồi, bạn xem được top query nặng nhất và các *wait event* (sự kiện chờ) ngay trên dashboard Console.
 
-### Aurora — AWS proprietary
+### Aurora — bản AWS làm riêng
 
-**Aurora benefits over RDS PostgreSQL**:
-- 3-5x faster (storage rewritten).
-- 6 copies of data across 3 AZs (durable).
-- **Aurora Serverless v2**: scale to zero or auto.
-- **Up to 15 read replicas** (vs 5 for RDS).
-- **Sub-second failover** (vs 60-120s RDS).
-- **Aurora Global Database**: cross-region < 1s lag.
-- **Backtrack**: rewind DB (no restore needed).
+Aurora là database quan hệ do AWS viết lại tầng storage, tương thích MySQL/Postgres nhưng nhanh và bền hơn. So với RDS PostgreSQL, Aurora có các điểm vượt trội:
 
-**Cost**: ~20% more than RDS.
+- Nhanh hơn 3–5 lần (do storage được viết lại).
+- Giữ 6 bản sao dữ liệu trải trên 3 AZ (rất bền).
+- **Aurora Serverless v2**: tự scale, scale được về gần như bằng không.
+- Tối đa **15 read replica** (so với 5 của RDS).
+- *Failover* **dưới 1 giây** (so với 60–120 giây của RDS).
+- **Aurora Global Database**: liên region với độ trễ dưới 1 giây.
+- **Backtrack**: "tua ngược" DB về quá khứ mà không cần restore.
 
-**Use Aurora when**:
-- Production OLTP.
-- Need many read replicas.
-- Multi-region.
-- Variable workload (Aurora Serverless).
+Đổi lại, chi phí Aurora nhỉnh hơn RDS khoảng 20%.
 
-**Use RDS PostgreSQL when**:
-- Small/dev workload.
-- Need specific Postgres extensions Aurora lacks.
-- Cost-sensitive.
-- Older deploys.
+Vậy khi nào chọn cái nào? Dùng **Aurora** khi bạn cần một trong các thứ sau: OLTP production, nhiều read replica, đa region, hoặc workload lên xuống thất thường (dùng Aurora Serverless). Ngược lại, dùng **RDS PostgreSQL** khi workload nhỏ/dev, cần extension Postgres mà Aurora chưa có, cần tiết kiệm chi phí, hoặc đang chạy trên các deploy cũ.
 
-→ **2026 default for production: Aurora PostgreSQL**.
+→ Mặc định cho production năm 2026: **Aurora PostgreSQL**.
 
 ---
 
 ## 2️⃣ RDS — Hands-on deploy
 
-### Step 1: Create subnet group (VPC config)
+Lý thuyết xong, giờ dựng thật một RDS Postgres Multi-AZ từ con số không. Bảy bước dưới đi theo đúng thứ tự thực chiến: chuẩn bị mạng trước, tạo DB, kiểm tra, giám sát, rồi thử nghiệm failover và snapshot.
 
-DB in private subnet:
+### Bước 1: Tạo subnet group (config VPC)
+
+DB production phải nằm trong *private subnet* (mạng con không lộ ra internet). Trước tiên gom các private subnet thành một subnet group:
 
 ```bash
 aws rds create-db-subnet-group \
@@ -240,9 +253,9 @@ aws rds create-db-subnet-group \
   --subnet-ids subnet-priv-a subnet-priv-b subnet-priv-c
 ```
 
-### Step 2: Security group
+### Bước 2: Security group
 
-Allow Postgres only from app SG:
+Tiếp theo, chỉ cho phép cổng Postgres (5432) được mở từ *security group* (nhóm tường lửa) của app — không mở cho cả thiên hạ:
 
 ```bash
 DB_SG=$(aws ec2 create-security-group \
@@ -258,7 +271,9 @@ aws ec2 authorize-security-group-ingress \
   --source-group $APP_SG
 ```
 
-### Step 3: Create RDS Postgres
+### Bước 3: Tạo RDS Postgres
+
+Có mạng và tường lửa rồi, giờ tạo instance. Lệnh dưới gói trọn mọi best practice đã nói ở trên: Multi-AZ, mã hoá at-rest, gp3, backup 7 ngày, bật Performance Insights, và không cho truy cập public:
 
 ```bash
 aws rds create-db-instance \
@@ -283,9 +298,11 @@ aws rds create-db-instance \
   --tags Key=Environment,Value=prod Key=Service,Value=core
 ```
 
-→ ~10-15 minutes to create.
+→ Quá trình tạo instance mất khoảng 10–15 phút.
 
-### Step 4: Verify + connect
+### Bước 4: Kiểm tra và kết nối
+
+DB lên rồi, lấy endpoint ra rồi kết nối từ một máy EC2 nằm trong app SG (vì DB ở private subnet, không vào trực tiếp từ ngoài được):
 
 ```bash
 # Get endpoint
@@ -302,7 +319,9 @@ postgres=> CREATE DATABASE acme;
 postgres=> \c acme
 ```
 
-### Step 5: Setup monitoring
+### Bước 5: Dựng giám sát
+
+DB chạy mà không có cảnh báo thì khi có sự cố bạn là người biết cuối cùng. Hai *CloudWatch alarm* dưới canh CPU và dung lượng trống:
 
 ```bash
 # CloudWatch alarms
@@ -324,9 +343,11 @@ aws cloudwatch put-metric-alarm \
   --dimensions Name=DBInstanceIdentifier,Value=acme-postgres
 ```
 
-→ Alert when CPU > 80% or storage < 5GB.
+→ Cảnh báo khi CPU vượt 80% hoặc dung lượng trống tụt dưới 5GB.
 
-### Step 6: Test failover
+### Bước 6: Thử failover
+
+Đừng chờ tới khi AZ sập thật mới biết Multi-AZ có hoạt động không. Ép failover chủ động để kiểm chứng:
 
 ```bash
 # Force failover (Multi-AZ)
@@ -340,9 +361,11 @@ aws rds wait db-instance-available --db-instance-identifier acme-postgres
 # Should be ~60-90 seconds
 ```
 
-→ App sees brief connection drop. Reconnect automatic if SDK retries.
+→ App sẽ thấy kết nối rớt trong giây lát. Nếu SDK có cơ chế retry thì nó tự kết nối lại, người dùng gần như không nhận ra.
 
-### Step 7: Snapshot + restore
+### Bước 7: Snapshot và restore
+
+Trước mọi thay đổi lớn (migration, nâng version), hãy chụp một manual snapshot làm phao cứu sinh:
 
 ```bash
 # Manual snapshot
@@ -360,22 +383,21 @@ aws rds restore-db-instance-from-db-snapshot \
   --db-subnet-group-name acme-db-subnet
 ```
 
-→ Restore = new instance. Update app to point at new endpoint if needed.
+→ Lưu ý: restore luôn tạo ra một instance **mới**. Nếu cần, hãy trỏ app sang endpoint mới này.
 
 ---
 
 ## 3️⃣ DynamoDB — NoSQL deep
 
-### Concepts
+Xong nửa quan hệ, giờ sang nửa NoSQL. DynamoDB tư duy khác hẳn RDS: không có join, không có schema cứng, mọi thứ xoay quanh việc thiết kế *key* cho đúng. Ta đi từ khái niệm gốc.
 
-**Table** = container for items (rows).
-**Item** = record (~JSON document).
-**Attribute** = field within item.
+### Khái niệm
+
+Ba từ vựng nền tảng cần phân biệt: **Table** là cái chứa các item (tương đương "bảng" nhưng lỏng lẻo hơn), **Item** là một bản ghi (gần giống một document JSON), còn **Attribute** là một trường trong item. Một item Users trông như sau — `user_id` chính là *partition key*:
 
 ```json
-// Table: Users
 {
-  "user_id": "u-12345",       // Partition Key (PK)
+  "user_id": "u-12345",
   "email": "nguyenvana@acme.com",
   "name": "Nguyen Van A",
   "created_at": "2026-05-24T10:00:00Z",
@@ -385,18 +407,22 @@ aws rds restore-db-instance-from-db-snapshot \
 
 ### Keys
 
-**Partition Key (PK)** (required):
-- Unique per item (if no sort key).
-- Hash function distributes items across partitions.
+Toàn bộ sức mạnh (và cạm bẫy) của DynamoDB nằm ở thiết kế key. Có hai loại:
 
-**Sort Key (SK)** (optional):
-- Combined with PK = composite key.
-- Sort items within same PK.
-- Allows query by range.
+**Partition Key (PK)** — bắt buộc:
+
+- Phải duy nhất cho mỗi item (nếu không có sort key).
+- DynamoDB băm (hash) PK để rải item ra các partition.
+
+**Sort Key (SK)** — tuỳ chọn:
+
+- Ghép với PK thành *composite key* (khoá tổ hợp).
+- Sắp xếp các item cùng PK với nhau.
+- Cho phép query theo khoảng (range).
 
 ### Single-table design
 
-DynamoDB best practice: **1 table for many entity types** (not 1 table per entity).
+Đây là chỗ DynamoDB ngược hẳn tư duy SQL. Best practice của DynamoDB là **gom nhiều loại thực thể vào 1 table** (chứ không phải 1 table cho mỗi thực thể như SQL). Ví dụ một table chứa cả user, order lẫn product:
 
 ```
 Table: AcmeApp
@@ -409,23 +435,30 @@ PRODUCT#p-1     METADATA               {name: "Widget", price: 10}
 PRODUCT#p-1     REVIEW#r-50            {rating: 5, ...}
 ```
 
-→ Query pattern:
-- "All orders for user u-1": `PK=USER#u-1, SK begins_with ORDER#`.
-- "All reviews for product p-1": `PK=PRODUCT#p-1, SK begins_with REVIEW#`.
+Lý do làm vậy là để gom dữ liệu liên quan vào cùng một partition, nên mỗi query chỉ chạm 1 partition và rất nhanh:
 
-→ Each query hits 1 partition = fast.
+- "Tất cả order của user u-1": `PK=USER#u-1, SK begins_with ORDER#`.
+- "Tất cả review của product p-1": `PK=PRODUCT#p-1, SK begins_with REVIEW#`.
+
+→ Mỗi query chỉ trúng 1 partition = nhanh.
 
 ### Indexes
 
+Mặc định bạn chỉ query được theo PK/SK. Muốn query theo trường khác, bạn cần *index*. Có hai loại với ràng buộc khác nhau:
+
 **Local Secondary Index (LSI)**:
-- Same PK, different SK.
-- Created at table creation only.
-- Max 5 per table.
+
+- Cùng PK nhưng khác SK.
+- Chỉ tạo được lúc tạo table.
+- Tối đa 5 cái mỗi table.
 
 **Global Secondary Index (GSI)**:
-- Different PK + SK.
-- Can create/delete anytime.
-- Each GSI = own throughput.
+
+- Khác cả PK lẫn SK.
+- Tạo/xoá được bất cứ lúc nào.
+- Mỗi GSI có throughput riêng.
+
+Ví dụ table chính dùng `user_id`, nhưng ta muốn query order theo `email` — đó là lúc GSI vào cuộc:
 
 ```python
 # Main table: PK=user_id, SK=order_id
@@ -438,41 +471,45 @@ table.query(
 )
 ```
 
-→ GSI enables additional query patterns.
+→ GSI mở thêm các kiểu query mà PK/SK gốc không làm được.
 
 ### Capacity modes
 
+DynamoDB có hai cách tính tiền theo dung lượng, chọn sai là tốn tiền oan. **On-demand** trả theo lượt:
+
+- Trả tiền theo từng request.
+- Tự scale.
+- Giá 2026 (US East): 1.25 USD/triệu lượt ghi, 0.25 USD/triệu lượt đọc.
+
+**Provisioned** thì cấp phát trước:
+
+- Đặt sẵn số *capacity unit* đọc/ghi.
+- Rẻ hơn khi tải ổn định, đoán được.
+- Giá: 0.00065 USD/WCU-giờ, 0.00013 USD/RCU-giờ.
+
+→ Lời khuyên: **bắt đầu bằng on-demand**, khi nào tải đã đoán được thì chuyển sang provisioned.
+
+### Ví dụ tính tiền
+
+Để thấy khác biệt cụ thể, lấy một workload 10K lượt đọc/giây, 1K lượt ghi/giây, tất cả ở chế độ eventually consistent.
+
 **On-demand**:
-- Pay per request.
-- Auto-scale.
-- $1.25/million writes, $0.25/million reads (2026 US East).
+
+- 10K × 0.5 (eventual) = 5K RCU tương đương... thực tế tính theo từng triệu lượt.
+- Mỗi ngày: 10K × 86400 = 864M lượt đọc × 0.25 USD/triệu = 216 USD/ngày.
+- Mỗi tháng: khoảng 6500 USD.
 
 **Provisioned**:
-- Pre-allocate read/write capacity units.
-- Cheaper at predictable scale.
-- $0.00065/WCU-hour, $0.00013/RCU-hour.
 
-→ **Start on-demand**. Switch to provisioned when patterns predictable.
+- 10K RCU × 0.00013 × 720 giờ = 936 USD/tháng.
+- Cộng 1K WCU × 0.00065 × 720 giờ = 468 USD/tháng.
+- Tổng: 1404 USD/tháng.
 
-### Pricing example
-
-10K reads/sec, 1K writes/sec, all eventually consistent:
-
-**On-demand**:
-- 10K × 0.5 (eventual) = 5K RCU equivalent... actually pay per million.
-- Daily: 10K × 86400 = 864M reads × $0.25/M = $216/day.
-- Monthly: ~$6500.
-
-**Provisioned**:
-- 10K RCU × $0.00013 × 720h = $936/month.
-- Add 1K WCU × $0.00065 × 720h = $468/month.
-- Total: $1404/month.
-
-→ On-demand ~5x more expensive at constant load. Provisioned wins for steady.
+→ Ở tải đều, on-demand đắt gấp khoảng 5 lần. Tải ổn định thì provisioned thắng rõ.
 
 ### Streams + Lambda
 
-**DynamoDB Streams**: change log of all writes.
+**DynamoDB Streams** là một *change log* — bản ghi lại mọi thay đổi ghi vào table. Bật nó lên rồi gắn Lambda, bạn có ngay kiến trúc hướng sự kiện. Đầu tiên bật stream:
 
 ```bash
 aws dynamodb update-table \
@@ -480,7 +517,8 @@ aws dynamodb update-table \
   --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
 ```
 
-Trigger Lambda on changes:
+Rồi cho Lambda phản ứng mỗi khi có item mới:
+
 ```python
 def lambda_handler(event, context):
     for record in event['Records']:
@@ -490,14 +528,17 @@ def lambda_handler(event, context):
             send_welcome_email(new_image['email']['S'])
 ```
 
-→ Event-driven architecture: DDB write → Lambda → external API (SNS, email, search index update).
+→ Đây chính là kiến trúc *event-driven*: ghi vào DynamoDB → kích hoạt Lambda → gọi tiếp dịch vụ ngoài (SNS, gửi email, cập nhật search index).
 
 ### DAX — DynamoDB Accelerator
 
-**DAX** = in-memory cache for DynamoDB:
-- Microsecond latency.
-- API-compatible (drop-in).
-- Use case: hot keys, repeated reads.
+Khi một vài key bị đọc đi đọc lại liên tục, **DAX** là lớp cache trong bộ nhớ đặt trước DynamoDB:
+
+- Độ trễ cỡ micro giây.
+- Tương thích API (drop-in, hầu như không sửa code).
+- Hợp với: hot key, các lượt đọc lặp lại.
+
+Đoạn dưới cho thấy việc đổi từ client DynamoDB thường sang client DAX gần như chỉ là đổi endpoint:
 
 ```python
 # Without DAX
@@ -509,13 +550,17 @@ from amazondax import AmazonDaxClient
 dax = AmazonDaxClient.resource(endpoint_url='dax-endpoint.cluster.dax-clusters.region.amazonaws.com:8111')
 ```
 
-→ Cost: $0.04-0.13/node-hour. Useful for repeat-heavy workloads.
+→ Chi phí: 0.04–0.13 USD/node-giờ. Đáng tiền cho workload đọc lặp nhiều.
 
 ---
 
 ## 4️⃣ DynamoDB — Hands-on
 
-### Step 1: Create table
+Lý thuyết key xong, giờ thao tác thật. Bốn bước cơ bản: tạo table, ghi/đọc item, query hiệu quả, và (quan trọng) hiểu vì sao phải tránh `scan`.
+
+### Bước 1: Tạo table
+
+Tạo một table đơn giản với PK là `user_id`, tính tiền theo lượt (on-demand) và bật mã hoá:
 
 ```bash
 aws dynamodb create-table \
@@ -529,7 +574,9 @@ aws dynamodb create-table \
   --tags Key=Service,Value=core
 ```
 
-### Step 2: Put + Get items
+### Bước 2: Put và Get item
+
+Bốn thao tác CRUD cơ bản với `boto3` — ghi, đọc, sửa, xoá một item theo key:
 
 ```python
 import boto3
@@ -559,7 +606,9 @@ table.update_item(
 table.delete_item(Key={'user_id': 'u-12345'})
 ```
 
-### Step 3: Query (efficient)
+### Bước 3: Query (cách đúng)
+
+`query` là cách đọc đúng chuẩn DynamoDB — luôn đi qua key nên nhanh và rẻ. Ví dụ query theo PK, hoặc kết hợp sort key để lấy theo khoảng thời gian:
 
 ```python
 from boto3.dynamodb.conditions import Key
@@ -575,7 +624,9 @@ table.query(
 )
 ```
 
-### Step 4: Scan (avoid!)
+### Bước 4: Scan (tránh dùng!)
+
+Ngược với `query`, `scan` đọc **toàn bộ** table rồi mới lọc — vừa chậm vừa tốn:
 
 ```python
 # Scan reads ENTIRE table (expensive, slow)
@@ -586,9 +637,11 @@ response = table.scan(
 # Better: GSI on tier field
 ```
 
-→ Scan = bad in production. Always design queries with PK + GSI.
+→ Trong production, `scan` là điều cấm kỵ. Luôn thiết kế query dựa trên PK và GSI; chỉ dùng `scan` cho việc phân tích hoặc migration một lần.
 
-### Step 5: Create GSI
+### Bước 5: Tạo GSI
+
+Nếu phát hiện hay phải query theo một trường ngoài key (ví dụ `email`), hãy thêm GSI thay vì `scan`:
 
 ```bash
 aws dynamodb update-table \
@@ -605,7 +658,8 @@ aws dynamodb update-table \
     }]"
 ```
 
-Query by email:
+Có GSI rồi, query theo email cũng nhanh như query theo key chính:
+
 ```python
 table.query(
     IndexName='email-index',
@@ -616,6 +670,8 @@ table.query(
 ---
 
 ## 5️⃣ Decision matrix — RDS vs DynamoDB vs Aurora
+
+Biết cả hai rồi, câu hỏi thực tế là: với một bài toán cụ thể thì chọn cái nào? Sơ đồ dưới gói gọn logic quyết định — bắt đầu từ câu hỏi "có cần join/transaction không":
 
 ```mermaid
 graph TD
@@ -629,27 +685,29 @@ graph TD
     Q3 -->|No, complex queries| RDS2[RDS PostgreSQL]
 ```
 
-### Use case mapping
+### Ánh xạ theo use case
 
-| Use case | Recommended DB |
+Sơ đồ trên là khung tư duy; bảng dưới đi chi tiết hơn — mỗi loại workload kèm DB hợp nhất, gồm cả những dịch vụ chuyên biệt ngoài RDS/DynamoDB:
+
+| Use case | DB khuyến nghị |
 |---|---|
-| User accounts (joins, profile) | RDS / Aurora Postgres |
-| Orders + line items (ACID) | RDS / Aurora Postgres |
-| Shopping cart (high-write, simple) | DynamoDB |
-| Session storage | DynamoDB (or ElastiCache) |
-| Product catalog (read-heavy, complex queries) | RDS Postgres + OpenSearch |
-| User activity log (write-heavy, eventual) | DynamoDB |
-| Real-time leaderboard | DynamoDB + Redis |
-| Analytics / reports | Redshift / Athena |
+| Tài khoản user (join, profile) | RDS / Aurora Postgres |
+| Order + line item (ACID) | RDS / Aurora Postgres |
+| Shopping cart (ghi nhiều, đơn giản) | DynamoDB |
+| Lưu session | DynamoDB (hoặc ElastiCache) |
+| Catalog sản phẩm (đọc nhiều, query phức tạp) | RDS Postgres + OpenSearch |
+| Activity log (ghi nhiều, eventual) | DynamoDB |
+| Bảng xếp hạng thời gian thực | DynamoDB + Redis |
+| Phân tích / báo cáo | Redshift / Athena |
 | Time-series metrics | Timestream / TimescaleDB |
-| Document store | DynamoDB or DocumentDB |
-| Graph (relationships) | Neptune |
+| Document store | DynamoDB hoặc DocumentDB |
+| Graph (quan hệ) | Neptune |
 | Caching | ElastiCache Redis |
 | Full-text search | OpenSearch |
 
-### Hybrid (common 2026)
+### Kiến trúc hybrid (rất phổ biến năm 2026)
 
-Most apps use **multiple DBs**:
+Thực tế hiếm app lớn nào chỉ xài đúng một DB. Phần lớn dùng **nhiều DB cùng lúc**, mỗi cái cho một việc:
 
 ```
 Source of truth: RDS Postgres (users, orders)
@@ -659,13 +717,15 @@ Activity log: DynamoDB (append-heavy, eventual)
 Analytics: Redshift (BI dashboards)
 ```
 
-→ Right tool per workload.
+→ Đúng công cụ cho đúng workload.
 
 ---
 
 ## 6️⃣ Hands-on: E-commerce DB stack
 
-### Architecture
+Quay lại đúng bài toán mở đầu, giờ ráp các mảnh lại thành một stack DB thật cho app e-commerce. Kiến trúc tách rõ ba lớp: RDS giữ dữ liệu quan hệ, DynamoDB giữ cart ghi nhiều, ElastiCache giữ session siêu nhanh.
+
+### Kiến trúc
 
 ```
                   FastAPI
@@ -675,7 +735,9 @@ Analytics: Redshift (BI dashboards)
         users, orders
 ```
 
-### RDS for relational (users, orders)
+### RDS cho dữ liệu quan hệ (users, orders)
+
+Users và orders cần join và transaction nên thuộc về Postgres. Đoạn SQL dưới dựng schema và minh hoạ một transaction ACID — trừ kho và tạo đơn phải cùng thành công hoặc cùng thất bại:
 
 ```sql
 -- users table
@@ -711,9 +773,11 @@ BEGIN;
 COMMIT;
 ```
 
-→ ACID transactions for payment-critical.
+→ Transaction ACID là bắt buộc cho các thao tác liên quan tới thanh toán.
 
-### DynamoDB for cart (high-write, simple)
+### DynamoDB cho cart (ghi nhiều, đơn giản)
+
+Cart thì ghi liên tục và tra cứu đơn giản theo `user_id` — đúng sở trường DynamoDB. Đoạn dưới ghi cả giỏ, đọc giỏ, và thêm món vào giỏ bằng `update_item`:
 
 ```python
 # Table: ShoppingCart
@@ -744,7 +808,9 @@ cart_table.update_item(
 )
 ```
 
-### ElastiCache for sessions (super-fast)
+### ElastiCache cho session (cực nhanh)
+
+Session cần đọc/ghi với độ trễ thấp nhất có thể nên đặt thẳng trên Redis, kèm thời gian hết hạn tự động:
 
 ```python
 import redis
@@ -757,101 +823,108 @@ r.setex(f'session:{session_id}', 3600, json.dumps(user_data))
 data = r.get(f'session:{session_id}')
 ```
 
-### Cost estimate (small e-commerce, ap-southeast-1)
+### Ước tính chi phí (e-commerce nhỏ, ap-southeast-1)
 
-- RDS Aurora Postgres db.t4g.medium Multi-AZ: ~$140/month.
-- DynamoDB on-demand 1M write + 5M read/month: ~$10/month.
-- ElastiCache cache.t4g.small: ~$30/month.
-- **Total DB layer**: ~$180/month.
+Để bạn hình dung tiền bạc, đây là chi phí lớp DB cho một app nhỏ ở region Singapore:
 
-→ Production-grade DB stack at modest cost.
+- RDS Aurora Postgres db.t4g.medium Multi-AZ: khoảng 140 USD/tháng.
+- DynamoDB on-demand 1M lượt ghi + 5M lượt đọc/tháng: khoảng 10 USD/tháng.
+- ElastiCache cache.t4g.small: khoảng 30 USD/tháng.
+- **Tổng lớp DB**: khoảng 180 USD/tháng.
+
+→ Một stack DB cấp production với chi phí khá khiêm tốn.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: RDS single-AZ for production
+Phần này gom các lỗi hay gặp nhất khi vận hành RDS/DynamoDB cùng cách chữa. Đọc kỹ vì phần lớn đều là bài học "trả giá bằng sự cố thật".
 
-→ AZ outage = downtime.
+### ❌ Cạm bẫy: RDS single-AZ cho production
 
-→ **Fix**: Multi-AZ from Day 1. Cost 2x, worth it.
+→ AZ sập là DB chết theo, app downtime.
 
-### ❌ Pitfall: t-class for production DB
+→ **Fix**: Bật Multi-AZ ngay từ Day 1. Tốn gấp đôi nhưng xứng đáng.
 
-→ Burstable credits exhausted → DB slow → cascade.
+### ❌ Cạm bẫy: Dùng máy họ T cho DB production
 
-→ **Fix**: m-class or r-class for production. t-class for dev/staging only.
+→ Hết *burst credit* là DB chậm đột ngột → kéo theo cả hệ thống nghẽn dây chuyền.
 
-### ❌ Pitfall: No backups beyond automated
+→ **Fix**: Production dùng họ M hoặc R; họ T chỉ để dev/staging.
 
-→ Default 1-day retention. Mistake before then = lost.
+### ❌ Cạm bẫy: Không có backup nào ngoài automated mặc định
 
-→ **Fix**: 
-- Backup retention 7-30 days minimum.
-- Manual snapshot before major changes.
-- Cross-region copy for DR.
+→ Mặc định chỉ giữ 1 ngày. Lỡ tay xoá nhầm trước đó là mất luôn.
 
-### ❌ Pitfall: DynamoDB scan in production
+→ **Fix**:
+
+- Đặt backup retention tối thiểu 7–30 ngày.
+- Chụp manual snapshot trước mọi thay đổi lớn.
+- Copy snapshot sang region khác cho phương án DR.
+
+### ❌ Cạm bẫy: Dùng `scan` của DynamoDB trong production
 
 ```python
 table.scan()   # reads entire table!
 ```
 
-→ Slow, expensive.
+→ Chậm và đắt.
 
-→ **Fix**: Design table for query patterns. Use GSI if needed. Scan only for analytics/migration.
+→ **Fix**: Thiết kế table theo kiểu query thật. Cần thì thêm GSI. `scan` chỉ dành cho phân tích/migration.
 
-### ❌ Pitfall: Hot partition in DynamoDB
+### ❌ Cạm bẫy: Hot partition trong DynamoDB
 
-→ All requests for `user_id=alice` hit same partition → throttled.
+→ Mọi request cho `user_id=alice` đổ dồn vào cùng một partition → bị throttle (giới hạn lại).
 
-→ **Fix**: 
-- Spread keys (don't use sequential IDs).
-- Use **write sharding**: `user-alice#shard1`, `user-alice#shard2`.
-- DAX cache for repeat reads.
+→ **Fix**:
 
-### ❌ Pitfall: RDS in public subnet
+- Rải key ra (đừng dùng ID tuần tự).
+- Dùng *write sharding*: `user-alice#shard1`, `user-alice#shard2`.
+- Dùng DAX cache cho các lượt đọc lặp.
 
-→ Internet exposed = brute force attack.
+### ❌ Cạm bẫy: Đặt RDS trong public subnet
 
-→ **Fix**: Private subnet only. App connects via VPC.
+→ Lộ ra internet = mời gọi tấn công brute-force.
 
-### ❌ Pitfall: No connection pooling
+→ **Fix**: Chỉ đặt trong private subnet. App kết nối qua VPC.
 
-→ Each request creates new DB connection → DB connection exhausted (Postgres max 100).
+### ❌ Cạm bẫy: Không dùng connection pooling
 
-→ **Fix**: 
-- App-level pool (SQLAlchemy, pg_bouncer).
-- **RDS Proxy**: managed connection pool.
+→ Mỗi request mở một kết nối DB mới → cạn kết nối (Postgres mặc định tối đa 100).
 
-### ❌ Pitfall: DynamoDB single-table design wrong
+→ **Fix**:
 
-→ Misunderstood single-table → over-complicated for simple app.
+- Pool ở tầng app (SQLAlchemy, pgbouncer).
+- Hoặc dùng **RDS Proxy**: connection pool được AWS quản lý hộ.
 
-→ **Fix**: Start with simple table (1 entity = 1 table). Refactor to single-table when query patterns known.
+### ❌ Cạm bẫy: Áp dụng single-table design sai chỗ
 
-### ✅ Best practice: Enable Performance Insights
+→ Hiểu nửa vời về single-table → bê vào một app đơn giản và làm mọi thứ phức tạp không cần thiết.
+
+→ **Fix**: Bắt đầu bằng table đơn giản (1 thực thể = 1 table). Khi đã hiểu rõ các kiểu query thì mới refactor sang single-table.
+
+### ✅ Best practice: Bật Performance Insights
 
 ```bash
 --enable-performance-insights \
 --performance-insights-retention-period 7
 ```
 
-→ Identify slow queries, lock contention, missing indexes.
+→ Giúp khoanh vùng truy vấn chậm, tranh chấp lock, index còn thiếu.
 
-### ✅ Best practice: Read replica for reporting
+### ✅ Best practice: Dùng read replica cho báo cáo
 
-→ Don't hit primary with heavy analytical queries. Use read replica.
+→ Đừng nã các truy vấn phân tích nặng vào primary. Đẩy chúng sang read replica.
 
-### ✅ Best practice: Use RDS Proxy
+### ✅ Best practice: Dùng RDS Proxy
 
 ```bash
 aws rds create-db-proxy ...
 ```
 
-→ Connection pooling + failover faster (no DNS wait).
+→ Vừa pool kết nối, vừa failover nhanh hơn (không phải chờ DNS).
 
-### ✅ Best practice: DynamoDB TTL
+### ✅ Best practice: Dùng TTL của DynamoDB
 
 ```python
 table.put_item(Item={
@@ -866,81 +939,92 @@ aws dynamodb update-time-to-live --table-name Sessions \
   --time-to-live-specification "Enabled=true, AttributeName=expires_at"
 ```
 
-→ DDB auto-deletes expired items. No app-level cleanup.
+→ DynamoDB tự xoá item hết hạn, bạn khỏi phải viết job dọn dẹp ở tầng app.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** RDS Multi-AZ vs Aurora — which is "real HA"?
+Năm câu dưới chạm đúng những chỗ dễ nhầm nhất khi chọn và vận hành RDS/DynamoDB. Thử tự trả lời trước khi mở đáp án.
+
+**Q1.** RDS Multi-AZ với Aurora — cái nào mới là "HA thật"?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **RDS Multi-AZ** (Postgres/MySQL):
-- Primary in AZ-a + Standby in AZ-b.
-- **Synchronous replication** to standby.
-- Failover ~60-120 seconds.
-- Standby cannot serve reads.
-- Same instance type (cost = 2x).
+
+- Primary ở AZ-a, Standby ở AZ-b.
+- *Replication* đồng bộ (synchronous) sang standby.
+- Failover khoảng 60–120 giây.
+- Standby không phục vụ đọc được.
+- Cùng loại instance (chi phí gấp đôi).
 
 **Aurora**:
-- 1 writer + up to 15 readers across AZs.
-- Storage layer replicated 6x across 3 AZs (volume level, not instance).
-- **Sub-second failover** (instance promotion).
-- All readers can serve reads.
-- Storage scales independently of compute.
 
-**Comparison**:
+- 1 writer cộng tối đa 15 reader trải trên nhiều AZ.
+- Tầng storage được nhân 6 bản trên 3 AZ (ở mức volume, không phải mức instance).
+- Failover **dưới 1 giây** (chỉ cần promote instance).
+- Mọi reader đều phục vụ đọc được.
+- Storage scale độc lập với compute.
 
-| Aspect | RDS Multi-AZ | Aurora |
+So sánh trực tiếp:
+
+| Khía cạnh | RDS Multi-AZ | Aurora |
 |---|---|---|
-| Failover time | 60-120s | < 30s |
-| Read replicas | 5 max, async | 15 max, < 100ms lag |
-| Storage durability | Standard SSD | 6 copies (more durable) |
-| Cost | 2x compute (Standby idle) | 1x compute + storage |
-| Scaling reads | Need add-on read replica | Built-in fast replicas |
+| Thời gian failover | 60–120s | < 30s |
+| Read replica | Tối đa 5, async | Tối đa 15, lag < 100ms |
+| Độ bền storage | SSD chuẩn | 6 bản sao (bền hơn) |
+| Chi phí | Gấp đôi compute (standby nằm không) | 1x compute + storage |
+| Scale phần đọc | Phải thêm read replica | Reader nhanh dựng sẵn |
 
-**Both achieve HA**, Aurora better:
-- More replicas for read scaling.
-- Faster failover.
-- Better durability (6 copies).
-- Aurora Serverless option (scale to zero).
+**Cả hai đều đạt HA**, nhưng Aurora nhỉnh hơn:
 
-**Recommend**:
-- **Small workload**: RDS Postgres Multi-AZ (simpler, slightly cheaper).
-- **Production scale**: Aurora PostgreSQL.
-- **Variable workload**: Aurora Serverless v2 (only pays when active).
-- **Multi-region**: Aurora Global (no RDS equivalent).
+- Nhiều replica hơn để scale đọc.
+- Failover nhanh hơn.
+- Bền hơn (6 bản sao).
+- Có tuỳ chọn Aurora Serverless (scale về gần như bằng không).
 
-**Migration**:
-- RDS Postgres → Aurora Postgres: snapshot restore (or read replica → promote).
-- 1-2 hour migration. Same SDK/driver compatible.
+Khuyến nghị:
 
-→ Aurora is **modern RDS Multi-AZ replacement** for production.
+- **Workload nhỏ**: RDS Postgres Multi-AZ (đơn giản, rẻ hơn chút).
+- **Production quy mô lớn**: Aurora PostgreSQL.
+- **Workload thất thường**: Aurora Serverless v2 (chỉ trả tiền khi có tải).
+- **Đa region**: Aurora Global (RDS không có cái tương đương).
+
+Về di chuyển:
+
+- RDS Postgres → Aurora Postgres: restore từ snapshot (hoặc tạo read replica rồi promote).
+- Tương thích cùng SDK/driver, không phải đổi code.
+
+→ Aurora là **bản thay thế hiện đại** cho RDS Multi-AZ ở production.
 </details>
 
-**Q2.** DynamoDB single-table vs multi-table — when each?
+**Q2.** DynamoDB single-table với multi-table — khi nào dùng cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Multi-table** (1 table per entity):
-- `Users` table.
-- `Orders` table.
-- `Products` table.
+**Multi-table** (1 table cho mỗi thực thể):
 
-**Pros**:
-- Mental model simple (like SQL).
-- Easy migrations.
-- Tooling friendly.
+- Table `Users`.
+- Table `Orders`.
+- Table `Products`.
 
-**Cons**:
-- Each query is 1 table = 1 partition.
-- Cross-entity queries (user + their orders) = N queries.
-- Higher complexity at scale.
+Ưu điểm:
 
-**Single-table** (1 table, many entity types):
+- Mô hình tư duy đơn giản (giống SQL).
+- Migration dễ.
+- Thân thiện với tooling.
+
+Nhược điểm:
+
+- Mỗi query trúng 1 table = 1 partition.
+- Query xuyên thực thể (user cùng order của họ) = nhiều query.
+- Phức tạp dần khi scale.
+
+**Single-table** (1 table, nhiều loại thực thể):
+
 ```
 PK              SK                     Item type
 USER#u-1        PROFILE                user data
@@ -949,112 +1033,123 @@ USER#u-1        ORDER#o-101            order
 USER#u-1        ADDRESS#default        address
 ```
 
-**Pros**:
-- All related data co-located (same partition).
-- 1 query gets user + orders + addresses.
-- Lower cost at scale.
-- DynamoDB designed for this.
+Ưu điểm:
 
-**Cons**:
-- Schema mental gymnastics.
-- Hard to onboard new devs.
-- Migrations complex.
+- Mọi dữ liệu liên quan nằm chung một partition.
+- 1 query lấy được cả user, order lẫn address.
+- Rẻ hơn khi scale.
+- Đúng thứ DynamoDB được thiết kế cho.
 
-**When use multi-table**:
-- **Beginner with DynamoDB**.
-- **Few entity types** (< 5).
-- **Mostly independent entities** (rarely query together).
-- **Small scale**.
+Nhược điểm:
 
-**When use single-table**:
-- **Advanced DynamoDB usage**.
-- **Many related queries** (user → orders → items).
-- **Scale > 100K req/sec**.
-- **Cost-critical**.
+- Phải "uốn não" với schema.
+- Khó onboard dev mới.
+- Migration phức tạp.
 
-**Hybrid (common 2026)**:
-- **Single-table** for highly-related core data (user, orders, items).
-- **Multi-table** for independent data (audit log, sessions).
+Khi nào dùng multi-table:
 
-**Reality check**:
-- Most teams **start multi-table** (easier).
-- Migrate to single-table **when patterns mature**.
-- Don't over-engineer day 1.
+- **Mới làm quen DynamoDB**.
+- **Ít loại thực thể** (dưới 5).
+- **Thực thể chủ yếu độc lập** (hiếm khi query cùng nhau).
+- **Quy mô nhỏ**.
 
-**Migration**:
-- Hard! Different access patterns.
-- Plan single-table refactor as project (weeks).
+Khi nào dùng single-table:
 
-**Tools**:
-- **NoSQL Workbench** for DynamoDB: design + visualize single-table.
-- **Alex DeBrie's** "DynamoDB Book": canonical reference.
+- **Đã thạo DynamoDB**.
+- **Nhiều query liên quan** (user → order → item).
+- **Scale trên 100K req/sec**.
+- **Nhạy cảm về chi phí**.
 
-**Anti-pattern**:
-- "Single-table because it's recommended" without understanding why.
-- "Multi-table forever" missing perf opportunity.
+Kiểu hybrid (phổ biến 2026):
 
-→ Default: start multi-table. Single-table when bottleneck or new project with clear patterns.
+- **Single-table** cho phần dữ liệu lõi liên quan chặt (user, order, item).
+- **Multi-table** cho dữ liệu độc lập (audit log, session).
+
+Thực tế:
+
+- Phần lớn team **bắt đầu bằng multi-table** (dễ hơn).
+- Chuyển sang single-table **khi các kiểu truy cập đã rõ**.
+- Đừng over-engineer ngay từ ngày đầu.
+
+Về di chuyển:
+
+- Khó! Vì các kiểu truy cập khác nhau hoàn toàn.
+- Coi việc refactor sang single-table như một dự án riêng.
+
+Công cụ:
+
+- **NoSQL Workbench** cho DynamoDB: thiết kế và trực quan hoá single-table.
+- **"The DynamoDB Book"** của Alex DeBrie: tài liệu tham chiếu kinh điển.
+
+Anti-pattern:
+
+- "Dùng single-table vì người ta khuyên" mà không hiểu vì sao.
+- "Multi-table mãi mãi" và bỏ lỡ cơ hội tối ưu hiệu năng.
+
+→ Mặc định: bắt đầu multi-table. Chuyển single-table khi gặp nút thắt hoặc khi mở dự án mới đã rõ các kiểu query.
 </details>
 
-**Q3.** RDS Proxy — when worth using?
+**Q3.** RDS Proxy — khi nào đáng dùng?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**RDS Proxy** = managed connection pooling + failover layer in front of RDS/Aurora.
+**RDS Proxy** = lớp connection pooling và failover do AWS quản lý, đặt trước RDS/Aurora.
 
-**Problem it solves**:
+Nó giải quyết các vấn đề sau:
 
-1. **Connection exhaustion**:
-   - Postgres default max_connections = 100.
-   - Lambda/microservices: 1000+ concurrent functions.
-   - Each opens new connection → DB OOM → error.
+1. **Cạn kết nối**:
+   - Postgres mặc định `max_connections` = 100.
+   - Lambda/microservices có thể có 1000+ function chạy đồng thời.
+   - Mỗi cái mở một kết nối mới → DB hết RAM → lỗi.
 
-2. **Slow failover**:
-   - DB failover: 60-120s for RDS, < 30s Aurora.
-   - DNS TTL: clients may wait 30s+ before reconnect.
-   - RDS Proxy: maintains connections, faster reconnect.
+2. **Failover chậm**:
+   - DB failover mất 60–120s với RDS, dưới 30s với Aurora.
+   - DNS TTL khiến client có thể phải chờ hơn 30s mới kết nối lại.
+   - RDS Proxy giữ sẵn kết nối nên reconnect nhanh hơn.
 
-3. **Application code simpler**:
-   - No need for app-level connection pool (HikariCP, SQLAlchemy pool).
+3. **Code app gọn hơn**:
+   - Không cần tự dựng connection pool ở tầng app (HikariCP, SQLAlchemy pool).
 
-**When worth using**:
+Khi nào đáng dùng:
 
-1. **Serverless apps (Lambda)**:
-   - Lambda functions transient.
-   - Connection creation overhead high.
-   - Proxy multiplexes connections.
+1. **App serverless (Lambda)**:
+   - Lambda chạy tạm thời rồi tắt.
+   - Chi phí mở kết nối cao.
+   - Proxy ghép (multiplex) các kết nối lại.
 
-2. **High-concurrency apps**:
-   - Many short-lived connections.
-   - Spikes overwhelm DB.
+2. **App đồng thời cao**:
+   - Nhiều kết nối sống ngắn.
+   - Các đợt tăng tải đột biến dễ làm DB ngộp.
 
-3. **HA requirement**:
-   - Faster failover.
-   - App reconnect transparent.
+3. **Yêu cầu HA cao**:
+   - Failover nhanh hơn.
+   - App reconnect trong suốt với người dùng.
 
-4. **Multi-account access**:
-   - Proxy in one account, DB in another.
+4. **Truy cập đa account**:
+   - Proxy ở account này, DB ở account khác.
 
-**Not worth when**:
+Khi nào không đáng:
 
-1. **Few persistent connections**:
-   - Traditional app server with stable pool.
-   - Proxy adds latency (small but real).
+1. **Ít kết nối, kết nối bền**:
+   - App server truyền thống với pool ổn định.
+   - Proxy thêm chút độ trễ (nhỏ nhưng có thật).
 
-2. **Small workload**:
-   - Cost: $0.018/vCPU-hour ($13/month minimum).
-   - Not worth for dev/small prod.
+2. **Workload nhỏ**:
+   - Chi phí: 0.018 USD/vCPU-giờ (tối thiểu khoảng 13 USD/tháng).
+   - Không đáng cho dev/prod nhỏ.
 
-3. **Performance-critical low-latency**:
-   - Proxy adds ~5-10ms latency.
-   - Direct connection faster.
+3. **Cần độ trễ cực thấp**:
+   - Proxy thêm khoảng 5–10ms.
+   - Kết nối thẳng nhanh hơn.
 
-**Cost**:
-- Minimum: 2 vCPUs for HA → $26/month.
-- Plus data transfer.
+Chi phí:
 
-**Setup**:
+- Tối thiểu: 2 vCPU cho HA → khoảng 26 USD/tháng.
+- Cộng thêm data transfer.
+
+Cách dựng:
+
 ```bash
 aws rds create-db-proxy \
   --db-proxy-name acme-proxy \
@@ -1069,51 +1164,55 @@ aws rds register-db-proxy-targets \
   --db-instance-identifiers acme-postgres
 ```
 
-Apps connect to proxy endpoint instead of DB endpoint.
+App kết nối tới endpoint của proxy thay vì endpoint của DB.
 
-**Decision matrix**:
+Bảng quyết định:
 
-| Workload | RDS Proxy needed? |
+| Workload | Cần RDS Proxy? |
 |---|---|
-| Lambda + RDS | YES |
-| App with HikariCP | usually no |
-| ECS/EKS with stable pool | depends on scale |
-| Tier-1 (99.95%+ SLA) | YES |
-| Cost-sensitive dev | NO |
+| Lambda + RDS | CÓ |
+| App có HikariCP | thường là không |
+| ECS/EKS với pool ổn định | tuỳ scale |
+| Tier-1 (SLA 99.95%+) | CÓ |
+| Dev nhạy cảm chi phí | KHÔNG |
 
-**Modern alternative**: 
-- App-level pgBouncer container sidecar.
-- Cheaper but more ops.
+Phương án thay thế hiện đại:
 
-→ Default 2026: **RDS Proxy for serverless + high-scale prod**. Skip for traditional pool-based apps at small scale.
+- pgBouncer chạy dạng sidecar container ở tầng app.
+- Rẻ hơn nhưng tốn công vận hành hơn.
+
+→ Mặc định 2026: **dùng RDS Proxy cho serverless và prod quy mô lớn**. Bỏ qua với app pool truyền thống ở quy mô nhỏ.
 </details>
 
-**Q4.** DynamoDB hot partition — how to mitigate?
+**Q4.** Hot partition trong DynamoDB — làm sao giảm thiểu?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Hot partition** = single partition key receives disproportionate traffic, throttling.
+**Hot partition** = một partition key nhận lượng traffic chênh lệch quá lớn, dẫn tới bị throttle.
 
-**Cause**:
-- DynamoDB distributes data across partitions by hash of PK.
-- If 1 PK is super-popular → all traffic hits 1 partition.
-- Partition has limits: **3000 RCU + 1000 WCU per second**.
+Nguyên nhân:
 
-**Examples**:
+- DynamoDB rải dữ liệu ra các partition theo hash của PK.
+- Nếu 1 PK quá phổ biến → mọi traffic dồn vào 1 partition.
+- Mỗi partition có giới hạn: **3000 RCU + 1000 WCU mỗi giây**.
 
-- **Sequential timestamps as PK**: all new writes hit same partition.
-- **Celebrity user**: 1 user has 90% of cart updates.
-- **Single product page**: P-popular item gets 100K req/sec.
+Ví dụ:
 
-**Symptoms**:
-- `ProvisionedThroughputExceededException` errors.
-- Hot partition CloudWatch metric.
-- Latency spikes.
+- **Timestamp tuần tự làm PK**: mọi lượt ghi mới đổ vào cùng một partition.
+- **User nổi tiếng**: 1 user chiếm 90% lượt cập nhật cart.
+- **Trang sản phẩm hot**: một item hot nhận 100K req/sec.
 
-**Mitigations**:
+Triệu chứng:
 
-**1. Composite PK with sharding**:
+- Lỗi `ProvisionedThroughputExceededException`.
+- Chỉ số hot partition trên CloudWatch.
+- Độ trễ tăng vọt.
+
+Các cách giảm thiểu:
+
+**1. Composite PK kèm sharding**:
+
 ```python
 # Bad: all events go to same PK
 {
@@ -1130,7 +1229,8 @@ Apps connect to proxy endpoint instead of DB endpoint.
 # Query: parallel queries across all shards
 ```
 
-**2. Random suffix for sequential keys**:
+**2. Thêm hậu tố ngẫu nhiên cho key tuần tự**:
+
 ```python
 # Bad: "user-1", "user-2", ... (sequential = same partition)
 # Good: hash prefix
@@ -1139,61 +1239,73 @@ user_id = hashlib.md5(b"user-1").hexdigest()[:4] + "#user-1"
 ```
 
 **3. DAX caching**:
-- Repeat reads of hot key cached in DAX.
-- DAX node: 100K req/sec capacity.
 
-**4. Read replicas via GSI**:
-- Multiple GSI = multiple read paths.
+- Các lượt đọc lặp của hot key được cache trong DAX.
+- Một node DAX gánh được khoảng 100K req/sec.
 
-**5. ElastiCache front of DynamoDB**:
-- Redis cache for ultra-hot keys.
+**4. Nhiều đường đọc qua GSI**:
 
-**6. Application-level batching**:
-- Aggregate writes (1 update per second instead of 100).
+- Nhiều GSI = nhiều đường đọc song song.
 
-**7. Write sharding aggregation**:
-- Sharded writes: `counter#0`, `counter#1`, ..., `counter#9`.
-- Read: sum all shards.
-- Used for high-traffic counters.
+**5. ElastiCache đặt trước DynamoDB**:
 
-**8. On-demand capacity**:
-- Auto-scale to handle bursts.
-- More expensive but handles spikes.
+- Cache Redis cho các key cực nóng.
 
-**9. Use Aurora for hot data**:
-- Some workloads better suited to relational DB.
-- Aurora handles hot rows differently (cached in memory).
+**6. Gộp ghi ở tầng app**:
+
+- Gom các lượt ghi (1 update/giây thay vì 100).
+
+**7. Write sharding cho counter**:
+
+- Sharded counter: `counter#0`, `counter#1`, ..., `counter#9`.
+- Đọc: cộng tất cả shard.
+- Dùng cho counter traffic cao.
+
+**8. Dùng on-demand capacity**:
+
+- Tự scale để hứng các đợt burst.
+- Đắt hơn nhưng chịu được spike.
+
+**9. Dùng Aurora cho hot data**:
+
+- Vài workload hợp DB quan hệ hơn.
+- Aurora xử lý hot row khác (cache trong bộ nhớ).
 
 **10. Adaptive capacity**:
-- DynamoDB auto-allocates more capacity to hot partitions.
-- Default 2026, less manual intervention.
 
-**Monitoring**:
+- DynamoDB tự cấp thêm capacity cho partition nóng.
+- Mặc định bật từ 2026, đỡ phải can thiệp tay.
+
+Giám sát:
+
 ```bash
 # CloudWatch metric: ConsumedReadCapacityUnits per partition key
 # CloudWatch metric: SystemErrors / UserErrors
 ```
 
-**Tools**:
-- **NoSQL Workbench**: visualize partition distribution.
-- **Contributor Insights**: top accessed keys.
+Công cụ:
 
-**Decision**:
-- If hot partition + writes: shard PK.
-- If hot partition + reads: DAX or ElastiCache.
-- If celebrity problem: combination of above.
+- **NoSQL Workbench**: trực quan hoá phân bố partition.
+- **Contributor Insights**: liệt kê các key bị truy cập nhiều nhất.
 
-→ Design **before** scaling. Hard to fix after.
+Quyết định:
+
+- Hot partition + ghi: shard PK.
+- Hot partition + đọc: DAX hoặc ElastiCache.
+- Bài toán user nổi tiếng: kết hợp các cách trên.
+
+→ Thiết kế **trước khi** scale. Sửa sau rất khó.
 </details>
 
-**Q5.** TTL trong DynamoDB — use cases + caveats?
+**Q5.** TTL trong DynamoDB — use case và những lưu ý?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**TTL** (Time To Live) = auto-delete items after specified time.
+**TTL** (Time To Live) = tự động xoá item sau một mốc thời gian định trước.
 
-**Setup**:
+Cách bật:
+
 ```bash
 aws dynamodb update-time-to-live \
   --table-name Sessions \
@@ -1211,32 +1323,32 @@ table.put_item(Item={
 # After 1 hour, item auto-deleted
 ```
 
-**Use cases**:
+Use case:
 
-1. **Session storage**:
-   - User login session expires 30 min.
-   - DDB auto-cleanup.
+1. **Lưu session**:
+   - Phiên đăng nhập hết hạn sau 30 phút.
+   - DynamoDB tự dọn.
 
-2. **Cache layer**:
-   - TTL = cache expiry.
-   - No manual purge.
+2. **Lớp cache**:
+   - TTL chính là thời điểm cache hết hạn.
+   - Khỏi purge thủ công.
 
-3. **Time-bound data**:
-   - Promo codes expire.
-   - Notifications older than 90 days deleted.
+3. **Dữ liệu có hạn**:
+   - Mã khuyến mãi hết hạn.
+   - Thông báo cũ hơn 90 ngày bị xoá.
 
-4. **GDPR right-to-be-forgotten**:
-   - User data with 90-day retention auto-cleared.
+4. **Quyền được lãng quên (GDPR)**:
+   - Dữ liệu user giữ 90 ngày rồi tự xoá.
 
-5. **Cost optimization**:
-   - Old data deleted = less storage.
+5. **Tối ưu chi phí**:
+   - Xoá dữ liệu cũ = bớt dung lượng lưu trữ.
 
-**Caveats**:
+Những lưu ý:
 
-1. **Not real-time**:
-   - DDB deletes within **48 hours** of expiry.
-   - Items still visible (with `expires_at` past) until processed.
-   - Filter in queries: `expires_at > now`.
+1. **Không tức thời**:
+   - DynamoDB xoá trong vòng **48 giờ** kể từ lúc hết hạn.
+   - Item (đã quá `expires_at`) vẫn còn hiện cho tới khi được xử lý.
+   - Vậy nên lọc trong query: `expires_at > now`.
 
 ```python
 # Items not yet deleted but expired:
@@ -1246,9 +1358,9 @@ table.scan(
 )
 ```
 
-2. **TTL attribute must be Number (Unix timestamp)**:
-   - Not ISO 8601 string.
-   - Seconds (not ms).
+2. **Thuộc tính TTL phải là Number (Unix timestamp)**:
+   - Không phải chuỗi ISO 8601.
+   - Tính bằng giây (không phải mili-giây).
 
 ```python
 # Correct
@@ -1258,8 +1370,8 @@ expires_at = int(time.time() + 3600)   # Number, seconds
 expires_at = '2026-05-25T10:00:00Z'    # String, ignored
 ```
 
-3. **No notification on TTL delete**:
-   - Use DynamoDB Streams to trigger Lambda when item deleted.
+3. **Không có thông báo khi TTL xoá**:
+   - Dùng DynamoDB Streams để kích hoạt Lambda khi item bị xoá.
 
 ```python
 def lambda_handler(event, context):
@@ -1272,22 +1384,23 @@ def lambda_handler(event, context):
                 cleanup_related(old['session_id']['S'])
 ```
 
-4. **Doesn't reduce billed storage size immediately**:
-   - Storage billing reflects after delete completes.
+4. **Không giảm dung lượng tính tiền ngay lập tức**:
+   - Dung lượng tính phí chỉ phản ánh sau khi xoá hoàn tất.
 
-5. **Can't be retroactive**:
-   - Set TTL: future writes deleted at TTL time.
-   - Existing items: need batch update to add `expires_at`.
+5. **Không hồi tố được**:
+   - Bật TTL: chỉ các item ghi sau này mới bị xoá theo TTL.
+   - Item đang có: phải batch update để thêm `expires_at`.
 
-6. **Index impact**:
-   - GSI items deleted when source deleted.
-   - But: visible until propagation (~1s).
+6. **Ảnh hưởng tới index**:
+   - Item trong GSI bị xoá theo khi item gốc bị xoá.
+   - Nhưng vẫn còn hiện cho tới khi propagate xong (khoảng 1s).
 
-**Cost benefit**:
-- TTL deletion **free** (no consumed capacity).
-- Vs manual scan + delete: costs RCU + WCU.
+Lợi ích chi phí:
 
-**Workflow example**:
+- Việc xoá theo TTL **miễn phí** (không tốn capacity).
+- So với scan thủ công rồi delete: tốn cả RCU lẫn WCU.
+
+Ví dụ luồng hoàn chỉnh:
 
 ```python
 # Login: create session with 30-min TTL
@@ -1308,22 +1421,26 @@ def get_session(session_id):
     return None   # expired or not found
 ```
 
-**Alternative**:
-- Manual lifecycle (CloudWatch Events + Lambda scanning expired).
-- TTL simpler, free.
+Phương án thay thế:
 
-**Best practice**:
-- Always filter in app: `expires_at > now`.
-- Use Streams for cleanup of related data.
-- Monitor TTL deletes via CloudWatch.
-- Realistic TTL: hours/days, not seconds.
+- Tự quản vòng đời (CloudWatch Events + Lambda quét item hết hạn).
+- TTL đơn giản hơn và miễn phí.
 
-→ TTL = essential DynamoDB pattern. Use for transient data.
+Best practice:
+
+- Luôn lọc ở tầng app: `expires_at > now`.
+- Dùng Streams để dọn các dữ liệu liên quan.
+- Theo dõi lượt TTL xoá qua CloudWatch.
+- TTL hợp lý: tính bằng giờ/ngày, không phải bằng giây.
+
+→ TTL là một pattern thiết yếu của DynamoDB. Dùng cho dữ liệu mang tính tạm thời.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo dịch vụ: lệnh CLI cho RDS và DynamoDB, rồi tới các đoạn code Python hay dùng nhất.
 
 ```bash
 # === RDS ===
@@ -1399,52 +1516,55 @@ with table.batch_writer() as batch:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **RDS** | Relational Database Service |
-| **Aurora** | AWS proprietary high-perf MySQL/Postgres |
-| **Multi-AZ** | Primary + Standby in different AZs |
-| **Read replica** | Async-replicated read-only copy |
-| **PITR** | Point-in-time recovery (any second within retention) |
-| **Parameter group** | Custom DB engine config |
-| **Performance Insights** | Built-in DB query analysis |
-| **RDS Proxy** | Connection pooling + faster failover |
-| **DynamoDB** | NoSQL key-value/document |
-| **Item** | DDB record (~JSON document) |
-| **PK** | Partition Key (HASH) |
-| **SK** | Sort Key (RANGE) |
-| **GSI** | Global Secondary Index |
-| **LSI** | Local Secondary Index |
-| **TTL** | Time To Live (auto-delete) |
-| **DAX** | DynamoDB Accelerator (in-memory cache) |
-| **Stream** | Change log of DDB writes |
-| **On-demand capacity** | Pay-per-request DDB |
-| **Provisioned capacity** | Pre-allocated WCU/RCU |
-| **RCU** | Read Capacity Unit |
-| **WCU** | Write Capacity Unit |
-| **Single-table design** | One DDB table for many entity types |
-| **Hot partition** | Single PK overwhelms |
-| **Aurora Serverless** | Auto-scale Aurora (v2 = continuous) |
-| **Backtrack** | Aurora rewind without restore |
-| **Aurora Global** | Multi-region Aurora |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **RDS** | Dịch vụ DB quan hệ | Relational Database Service — DB quan hệ do AWS quản lý |
+| **Aurora** | Aurora | Bản MySQL/Postgres hiệu năng cao do AWS làm riêng |
+| **Multi-AZ** | Đa vùng khả dụng | Primary + Standby đặt ở các AZ khác nhau |
+| **Read replica** | Bản sao chỉ-đọc | Bản sao chỉ-đọc, replicate bất đồng bộ |
+| **PITR** | Khôi phục theo thời điểm | Point-in-time recovery — về bất kỳ giây nào trong khoảng giữ lại |
+| **Parameter group** | Nhóm tham số | Config tuỳ chỉnh của engine DB |
+| **Performance Insights** | Phân tích hiệu năng | Công cụ phân tích truy vấn dựng sẵn của RDS |
+| **RDS Proxy** | Proxy kết nối RDS | Connection pooling + failover nhanh hơn |
+| **DynamoDB** | DynamoDB | NoSQL key-value/document |
+| **Item** | Bản ghi | Bản ghi của DynamoDB (gần như một document JSON) |
+| **PK** | Khoá phân vùng | Partition Key (HASH) |
+| **SK** | Khoá sắp xếp | Sort Key (RANGE) |
+| **GSI** | Index phụ toàn cục | Global Secondary Index |
+| **LSI** | Index phụ cục bộ | Local Secondary Index |
+| **TTL** | Thời gian sống | Time To Live — tự xoá item sau hạn |
+| **DAX** | DynamoDB Accelerator | Cache trong bộ nhớ cho DynamoDB |
+| **Stream** | Luồng thay đổi | Change log ghi lại mọi lượt ghi của DynamoDB |
+| **On-demand capacity** | Dung lượng theo lượt | Trả tiền theo từng request |
+| **Provisioned capacity** | Dung lượng đặt trước | Cấp phát sẵn WCU/RCU |
+| **RCU** | Đơn vị đọc | Read Capacity Unit |
+| **WCU** | Đơn vị ghi | Write Capacity Unit |
+| **Single-table design** | Thiết kế một bảng | Một table DynamoDB chứa nhiều loại thực thể |
+| **Hot partition** | Phân vùng nóng | Một PK gánh quá tải |
+| **Aurora Serverless** | Aurora không máy chủ | Aurora tự scale (v2 = liên tục) |
+| **Backtrack** | Tua ngược | Aurora "tua ngược" mà không cần restore |
+| **Aurora Global** | Aurora đa region | Aurora liên region |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md)
-- → Tiếp: [04_lambda-and-api-gateway.md](04_lambda-and-api-gateway.md) *(sắp viết)*
-- ↑ Cluster: [AWS README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🗄️ [PostgreSQL basics](../../../../06_databases/postgresql/) — SQL + Postgres concepts
-- 🗄️ [SQL fundamentals](../../../../06_databases/sql-fundamentals/) — SQL queries
-- ☁️ [Cloud Fundamentals storage](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — managed DB landscape
+- ⬅️ **Bài trước:** [S3 chuyên sâu + Nền tảng IAM](02_s3-deep-and-iam.md)
+- ➡️ **Bài tiếp theo:** [Lambda + API Gateway — Nhập môn Serverless](04_lambda-and-api-gateway.md)
+- ↑ **Về cụm:** [AWS](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🗄️ [PostgreSQL basics](../../../../06_databases/postgresql/) — khái niệm SQL và Postgres
+- 🗄️ [SQL fundamentals](../../../../06_databases/sql-fundamentals/) — truy vấn SQL
+- ☁️ [Cloud Fundamentals — Storage & databases](../../../cloud-fundamentals/lessons/01_basic/03_storage-and-databases.md) — toàn cảnh managed DB
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [RDS docs](https://docs.aws.amazon.com/rds/)
 - 📖 [DynamoDB docs](https://docs.aws.amazon.com/dynamodb/)
 - 📖 [Aurora docs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/)
@@ -1456,6 +1576,7 @@ with table.batch_writer() as batch:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 03 AWS basic cluster. RDS deep (instances, Multi-AZ, read replicas, snapshots, PITR, Performance Insights) + Aurora vs RDS + DynamoDB deep (PK/SK, indexes, on-demand/provisioned, Streams, DAX, TTL, single-table design) + decision matrix RDS vs DynamoDB vs Aurora + hands-on e-commerce DB stack. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín tiếng Anh" sang narrative tiếng Việt (lời dẫn trước bảng/code/list, câu phân tích sau, câu bắc cầu giữa section, dịch trọn 5 self-check answer); giữ nguyên 100% code/số liệu/lệnh/cấu trúc 8 phần. Sửa lỗi factual: bỏ từ "bucket" sai ngữ cảnh ở phần encryption RDS (RDS không có bucket — mã hoá at-rest chỉ bật lúc tạo instance, sau phải snapshot + restore). Sửa lỗi code: bỏ comment `//` trong block JSON (item Users) để JSON parse được. Chuẩn hoá QA: metadata "Prerequisites" → "Yêu cầu trước"; Glossary 3 cột; nav dùng marker ⬅️/➡️/↑ + link-text theo H1 thực + bỏ nhãn "(sắp viết)"; 3 sub-heading nav chuẩn.

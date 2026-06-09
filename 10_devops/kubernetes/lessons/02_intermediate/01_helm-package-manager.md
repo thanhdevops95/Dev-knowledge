@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), K8s basic cluster
 
 > 🎯 *Bạn có 5 service FastAPI tương tự nhau, mỗi cái 8 file YAML — copy-paste 40 file, sửa tag image phải sửa 5 chỗ. Helm giải quyết: 1 chart template, 5 values.yaml. Bài này dạy chart anatomy, templating, hooks, release lifecycle, sub-chart, Helm vs Kustomize.*
@@ -1052,9 +1051,9 @@ helm rollback fastapi 1 -n production
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Quên `--namespace` → install nhầm default
+### ❌ Cạm bẫy: Quên `--namespace` → install nhầm default
 
 ```bash
 helm install fastapi .   # ← nhầm default namespace
@@ -1063,7 +1062,7 @@ helm list                # ← list default only
 
 → **Fix**: Luôn `--namespace <name>` hoặc setup `kubectl config set-context --current --namespace=<name>`.
 
-### ❌ Pitfall: `helm upgrade --install` mà không `--atomic`
+### ❌ Cạm bẫy: `helm upgrade --install` mà không `--atomic`
 
 ```bash
 helm upgrade --install fastapi . -f values-prod.yaml
@@ -1077,7 +1076,7 @@ helm upgrade --install fastapi . -f values-prod.yaml \
   --atomic --timeout 5m --wait
 ```
 
-### ❌ Pitfall: Template render sai vì `{{ }}` thiếu space
+### ❌ Cạm bẫy: Template render sai vì `{{ }}` thiếu space
 
 ```yaml
 # ❌
@@ -1089,7 +1088,7 @@ helm upgrade --install fastapi . -f values-prod.yaml \
 
 → **Fix**: Convention space cả 2 phía.
 
-### ❌ Pitfall: `helm uninstall` xoá luôn PVC
+### ❌ Cạm bẫy: `helm uninstall` xoá luôn PVC
 
 ```bash
 helm uninstall postgresql
@@ -1104,7 +1103,7 @@ persistence:
 
 Hoặc tạo PVC ngoài chart, reference vào.
 
-### ❌ Pitfall: Override `imagePullSecrets` ở values nhưng template không có
+### ❌ Cạm bẫy: Override `imagePullSecrets` ở values nhưng template không có
 
 ```yaml
 # values.yaml
@@ -1127,7 +1126,7 @@ imagePullSecrets:
 {{- end }}
 ```
 
-### ❌ Pitfall: Sub-chart values nested không đúng
+### ❌ Cạm bẫy: Sub-chart values nested không đúng
 
 ```yaml
 # Wrong — Bitnami postgresql expect nested
@@ -1213,7 +1212,7 @@ Khác biệt: bạn có thể sửa chart (refactor template, add hook) mà khô
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Tại sao Helm 3 bỏ Tiller?
 
@@ -1333,7 +1332,7 @@ Workflow:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === Install / Upgrade / Rollback ===
@@ -1410,7 +1409,7 @@ labels:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1437,17 +1436,17 @@ labels:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_intermediate-overview.md](00_intermediate-overview.md)
-- → Tiếp: [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md) *(sắp viết)*
-- ↑ Cluster: [Kubernetes README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Kubernetes Intermediate — Production cluster vận hành thật](00_intermediate-overview.md)
+- ➡️ **Bài tiếp theo:** [Ingress Production — cert-manager + external-dns + Gateway API](02_ingress-cert-manager-tls.md) *(sắp viết)*
+- ↑ **Về cụm:** [Kubernetes README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🐳 [Docker intermediate Registry](../../../docker/lessons/02_intermediate/04_registry-production-patterns.md) — push chart lên Harbor/ECR
 - 🔁 [CI/CD basic GitHub Actions](../../../ci-cd/lessons/01_basic/01_github-actions.md) — `helm upgrade` trong pipeline
 - 📊 [Observability Prometheus](../../../observability/lessons/01_basic/01_metrics-prometheus.md) — install kube-prometheus-stack qua Helm
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Helm docs](https://helm.sh/docs/)
 - 📖 [Chart Best Practices](https://helm.sh/docs/chart_best_practices/)
 - 📖 [Artifact Hub](https://artifacthub.io/) — chart marketplace
@@ -1459,8 +1458,7 @@ labels:
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Kiến trúc + Install + §2 Tạo chart + Chart.yaml + values.yaml.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 của intermediate cluster. Chart anatomy + template (Sprig) + `_helpers.tpl` + values multi-env + release lifecycle (install/upgrade/rollback) + hooks + sub-chart dependency + ChartMuseum/OCI registry + Helm vs Kustomize + ArgoCD integration. Hands-on viết chart FastAPI từ đầu. 6 pitfall + 3 best practice + 5 self-check + cheatsheet đầy đủ.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Kiến trúc + Install + §2 Tạo chart + Chart.yaml + values.yaml.

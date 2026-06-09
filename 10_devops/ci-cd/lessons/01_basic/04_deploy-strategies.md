@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Pipeline Patterns](03_pipeline-patterns.md), [Kubernetes basics](../../../kubernetes/)
 
 > 🎯 *Master 5 deployment strategies: **Recreate**, **Rolling**, **Blue-Green**, **Canary**, **Feature flags**. Each strategy có pros/cons. Plus **rollback** + **smoke tests** + **DB migration** challenges. Sau bài này pick + implement đúng strategy cho team.*
@@ -606,7 +605,7 @@ deploy:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Recreate prod** → downtime. Use rolling.
 2. **Rolling với DB schema breaking** → mixed version error. Expand-contract migration.
@@ -616,7 +615,7 @@ deploy:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. 5 strategies — pick cho **payment service** + **dev environment**?
 2. **Rolling update** issue gì với DB schema breaking?
@@ -640,7 +639,7 @@ deploy:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Strategy choice
 
@@ -716,17 +715,17 @@ kubectl argo rollouts undo app
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Pipeline Patterns](03_pipeline-patterns.md)
-- ↑ Cluster: [ci-cd README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Pipeline Patterns — Common patterns + best practices](03_pipeline-patterns.md)
+- ↑ **Về cụm:** [ci-cd README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [K8s Pods & Deployments](../../../kubernetes/lessons/01_basic/01_pods-and-deployments.md) — rolling update K8s
 - [Postgres migrations](../../../../06_databases/postgresql/lessons/01_basic/04_backup-and-replication.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Argo Rollouts docs](https://argoproj.github.io/argo-rollouts/)
 - 📖 [Unleash](https://www.getunleash.io/) — OSS feature flags
 - 📖 [LaunchDarkly](https://launchdarkly.com/)
@@ -740,8 +739,7 @@ kubectl argo rollouts undo app
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 5 Strategies + §2 Recreate + When OK + §3 Rolling + K8s config.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 5/5. Cover: 5 strategies (Recreate/Rolling/Blue-Green/Canary/Feature Flags) + decision matrix + K8s implementation + DB migration backward compat + rollback patterns.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 5 Strategies + §2 Recreate + When OK + §3 Rolling + K8s config.

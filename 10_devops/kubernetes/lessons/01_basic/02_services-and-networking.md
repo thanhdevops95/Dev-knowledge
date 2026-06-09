@@ -518,7 +518,7 @@ Mặc dù Gateway API là tương lai của Kubernetes 2026+, tuy nhiên việc 
 
 ---
 
-## ✅ Thử Thách Tự Đánh Giá (Self-check)
+## 🧠 Tự kiểm tra (Self-check)
 
 Bạn hãy cố gắng trả lời nhanh 5 câu hỏi sau để tổng ôn kiến thức cốt lõi:
 1. Tại sao nói địa chỉ IP của Pod có tính chất "ephemeral" và Service giải quyết triệt để nỗi đau đó như thế nào?

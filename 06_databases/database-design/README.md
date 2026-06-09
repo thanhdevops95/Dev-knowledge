@@ -1,32 +1,29 @@
 # database-design
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
-> **Cập nhật:** 20/05/2026\
-> **Status:** ❌ Skeleton — chưa có content
+> **Phiên bản:** v0.2.0\
+> **Cập nhật:** 26/05/2026\
+> **Status:** ✅ Có bài — `01_basic` có 1 bài (bài 00 đang ở dạng placeholder, sẽ mở rộng)
 
-> 🚧 *Folder này chưa có content. Khi viết bài tham khảo:*
-> - 📐 [`_blueprint/01_sitemap-detail.md`](../../_blueprint/01_sitemap-detail.md) — cấu trúc dự kiến
-> - 📐 [`_blueprint/03_writing-style.md`](../../_blueprint/03_writing-style.md) — style narrative (situation → định nghĩa → ẩn dụ)
-> - 📋 [`_blueprint/templates/`](../../_blueprint/templates/) — template phù hợp loại nội dung
-> - 📊 Cập nhật [`MASTER-CATALOG.md`](../../MASTER-CATALOG.md) khi có bài đầu tiên
+> 🎯 Database Design (thiết kế cơ sở dữ liệu): xác định cấu trúc bảng, quan hệ, khóa và ràng buộc để lưu trữ dữ liệu hiệu quả, nhất quán.
 
-## 📂 Cấu trúc dự kiến (theo menu 7 loại)
+## 📖 Bài đã có — `lessons/01_basic/`
+
+| # | Bài | Trạng thái |
+|---|---|---|
+| 00 | [Database Design là gì?](lessons/01_basic/00_what-is-database-design.md) | 🚧 Placeholder — khung bài, nội dung chi tiết bổ sung sau |
+
+## 🚀 Lộ trình đọc đề xuất
+
+- **Mới bắt đầu** → đọc bài 00, đồng thời học [Schema Design Basics](../sql-fundamentals/lessons/01_basic/05_schema-design-basics.md) bên `sql-fundamentals` (PK/FK, constraints, normalization).
+
+## 📂 Cấu trúc cluster
 
 ```
 database-design/
-├── README.md          ← (file này) tổng quan + status
-├── 00_overview.md     ← \"database-design là gì\" — intro chung
-├── lessons/           ← 📖 bài học lý thuyết
-│   ├── 01_basic/
-│   ├── 02_intermediate/
-│   └── 03_advanced/
-├── setup/             ← ⚙️ cài đặt + cấu hình (nếu áp dụng)
-├── exercises/         ← 🧪 bài tập nhỏ
-├── projects/          ← 🎯 project lớn nhiều bước
-├── recipes/           ← 📚 công thức / troubleshooting
-├── _cheatsheet.md   ← ⚡ tra cứu nhanh (nếu có)
-└── _glossary.md       ← 📘 thuật ngữ (nếu có)
+├── README.md          ← (file này)
+├── lessons/01_basic/  ← 1 bài (placeholder)
+├── exercises/         ← (chưa có)
+├── recipes/           ← (chưa có)
+└── setup/             ← (chưa có)
 ```
-
-→ Không bắt buộc đủ 7 — chọn theo bản chất chủ đề.

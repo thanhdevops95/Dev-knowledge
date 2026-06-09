@@ -362,9 +362,9 @@ PR sẽ hiện:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Free tier 50 min CI/CD hết quá nhanh
+### ❌ Cạm bẫy: Free tier 50 min CI/CD hết quá nhanh
 
 ```yaml
 # Mỗi PR trigger:
@@ -375,7 +375,7 @@ PR sẽ hiện:
 - **Hậu quả**: build queue dài, dev chờ
 - **Cách fix**: cache aggressive, parallel jobs, hoặc upgrade plan
 
-### ❌ Pitfall: Smart Commit không hoạt động
+### ❌ Cạm bẫy: Smart Commit không hoạt động
 
 ```bash
 git commit -m "JIRA-123 #close fixed bug"
@@ -392,13 +392,13 @@ git commit -m "JIRA-123 #close fixed bug"
 - `git config user.email <atlassian-email>`
 - Check Jira project key exact
 
-### ❌ Pitfall: Mistake Bitbucket Server (deprecated) với Bitbucket Cloud
+### ❌ Cạm bẫy: Mistake Bitbucket Server (deprecated) với Bitbucket Cloud
 
 **Atlassian deprecated Bitbucket Server 2024** → migration sang Bitbucket Data Center. Tutorial cũ có thể dạy Bitbucket Server — KHÔNG còn áp dụng.
 
 **Cách tránh**: dùng tutorial 2024+ chỉ. Bitbucket Cloud cho mọi use case thường.
 
-### ❌ Pitfall: Free tier 5 user nhưng team scale
+### ❌ Cạm bẫy: Free tier 5 user nhưng team scale
 
 Team scale > 5 user → **buộc upgrade** Standard ($3/user/mo) hoặc Premium ($6/user/mo). Tổng cost có thể đắt hơn GitHub Team.
 
@@ -421,7 +421,7 @@ Repo settings → Branch permissions → `main`:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào CÓ sense chọn Bitbucket?
 
@@ -486,7 +486,7 @@ Khác commit thường:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Action | Cách |
 |---|---|
@@ -507,7 +507,7 @@ Atlassian không có CLI official cho Bitbucket. Community alternatives:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -532,9 +532,9 @@ Atlassian không có CLI official cho Bitbucket. Community alternatives:
 - 🛠️ [00_what-is-git-hosting.md](./00_what-is-git-hosting.md) — So sánh git hosting
 - 🛠️ [github.md](./github.md) — User guide GitHub
 - 🛠️ [gitlab.md](./gitlab.md) — User guide GitLab
-- 🎓 [Git lessons](../../01_foundations/version-control/git/lessons/01_basic/) — Git concept (dùng cho mọi platform)
+- 🎓 [Git lessons](../git/lessons/01_basic/) — Git concept (dùng cho mọi platform)
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Bitbucket Cloud Docs](https://support.atlassian.com/bitbucket-cloud/) — chính thức
 - [Bitbucket Pipelines reference](https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/)
@@ -544,6 +544,6 @@ Atlassian không có CLI official cho Bitbucket. Community alternatives:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Tool individual #4 trong git-clients/. Cover: tình huống team đã Jira → §1 Bitbucket là gì + 2 phiên bản → §2 vs GitHub/GitLab (4 case pick / 4 case không pick) → §3 Account + SSH + App Password → §4 Workspace + Project + Repo (3-tier) → §5 UI tour → §6 PR + **Smart Commits magic** + Jira branch creation → §7 Pipelines yếu nhất → §8 Atlassian integration → §9 Code Insights. 5 pitfall + 3 self-check.

@@ -1,15 +1,14 @@
 # 🎓 Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~18 phút\
-> **Prerequisites:** đã đọc [cloud-fundamentals](../../../cloud-fundamentals/) — IaaS/PaaS/SaaS, region/AZ, billing model
+> **Yêu cầu trước:** đã đọc [cloud-fundamentals](../../../cloud-fundamentals/) — IaaS/PaaS/SaaS, region/AZ, billing model
 
-> 🎯 *Bài mở màn cluster Serverless vendor-neutral. Sau bài này bạn hiểu rõ "serverless" không phải "không có server" mà là **mô hình kinh tế + vận hành mới**: pay-per-use, không quản hạ tầng, auto-scale từ 0 đến vô cực, event-driven. Bạn cũng biết 4 nhà cung cấp lớn (AWS Lambda, Cloud Functions/Run, Azure Functions, Cloudflare Workers) khác nhau ở đâu, khi nào nên (và không nên) dùng serverless.*
+> 🎯 *Bài mở màn về serverless. Sau bài này bạn hiểu rõ "serverless" không phải "không có server" mà là **mô hình kinh tế + vận hành mới**: pay-per-use, không quản hạ tầng, auto-scale từ 0 đến vô cực, event-driven. Bạn cũng biết 4 nhà cung cấp lớn (AWS Lambda, Cloud Functions/Run, Azure Functions, Cloudflare Workers) khác nhau ở đâu, khi nào nên (và không nên) dùng serverless.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -44,7 +43,7 @@ Bạn cần trả lời:
 3. **Có nên migrate** toàn bộ API không? Phần nào nên, phần nào không?
 4. **Vendor nào** chọn — Lambda? Cloud Functions? Cloudflare Workers?
 
-Bài này trả lời cả 4 câu — vendor-neutral, không bias.
+Bài này trả lời cả 4 câu, dựa trên đặc điểm thực tế của từng nền tảng.
 
 ---
 
@@ -74,7 +73,7 @@ Một dịch vụ được gọi "serverless" khi đủ **cả 4** tiêu chí:
 
 ### Lịch sử rất ngắn
 
-```
+```text
 2008  ← Google App Engine — PaaS đầu tiên kiểu serverless (autoscale + pay-per-use)
 2014  ← AWS Lambda ra mắt — FaaS "thuần" + event-driven
 2016  ← Azure Functions, Google Cloud Functions
@@ -315,7 +314,7 @@ Quay lại tình huống đầu bài. Phân tích cụ thể:
 
 ### Kế hoạch migration 4 phase
 
-```
+```text
 Phase 1 (tuần 1-2): Migrate cron + webhook + upload trigger → Lambda
   → Tiết kiệm ~1 con EC2 (cron runner). Học ecosystem Lambda.
 
@@ -344,27 +343,27 @@ Phase 4 (tuần 7+): Quan sát + iterate
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: "Serverless = không có server, không cần lo gì"
+### ❌ Cạm bẫy: "Serverless = không có server, không cần lo gì"
 
 - **Triệu chứng**: Đẩy app lên Lambda mà không monitor, không alert. App fail im lặng nhiều giờ.
 - **Nguyên nhân**: Hiểu sai từ "serverless". Vendor lo **hạ tầng**, không lo **logic app của bạn**.
 - **Cách tránh**: Vẫn cần CloudWatch / Cloud Logging + alerts + X-Ray / Cloud Trace. Observability là **trách nhiệm của bạn**.
 
-### ❌ Pitfall: "Pay-per-use luôn rẻ hơn"
+### ❌ Cạm bẫy: "Pay-per-use luôn rẻ hơn"
 
 - **Triệu chứng**: Migrate xong nhận hoá đơn $2000 trong khi EC2 chỉ $500.
 - **Nguyên nhân**: High constant traffic + long duration + provisioned concurrency → đắt nhanh.
 - **Cách tránh**: Luôn dùng pricing calculator + load test 1 tuần ở staging trước khi migrate prod. Tính cả phí egress + API Gateway.
 
-### ❌ Pitfall: Chọn FaaS cho web app full-stack
+### ❌ Cạm bẫy: Chọn FaaS cho web app full-stack
 
 - **Triệu chứng**: API Lambda cold start 800ms, user thấy chậm.
 - **Nguyên nhân**: FaaS không tối ưu cho HTTP API thông thường có session, middleware nặng.
 - **Cách tránh**: Web app full-stack → **container serverless (Cloud Run, Fargate, App Runner)**. FaaS dành cho event handler nhỏ.
 
-### ❌ Pitfall: Bỏ qua vendor lock-in
+### ❌ Cạm bẫy: Bỏ qua vendor lock-in
 
 - **Triệu chứng**: 2 năm sau muốn migrate AWS → GCP, phát hiện 50 Lambda handler dùng AWS SDK + Lambda runtime API → rewrite hết.
 - **Nguyên nhân**: FaaS handler signature riêng theo vendor. Container portable hơn nhiều.
@@ -389,7 +388,7 @@ Phase 4 (tuần 7+): Quan sát + iterate
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Serverless có thực sự "không có server" không? Giải thích ngắn.
 
@@ -493,11 +492,11 @@ Lambda chỉ phù hợp khi:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Định nghĩa nhanh
 
-```
+```text
 Serverless = no server mgmt + pay-per-use + auto-scale 0→N + event-driven
 ```
 
@@ -511,7 +510,7 @@ Serverless = no server mgmt + pay-per-use + auto-scale 0→N + event-driven
 
 ### Decision tree gọn
 
-```
+```text
 Event-driven, < 15p, micro-task   → FaaS
 Web app, container có sẵn         → Container serverless
 Global latency quan trọng         → Cloudflare Workers
@@ -530,9 +529,9 @@ Constant high traffic (>1B/tháng) → VM / ASG / container
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Serverless | Không quản hạ tầng | Mô hình cloud nơi vendor quản infrastructure, dev chỉ trả tiền theo sử dụng |
 | FaaS | Function as a Service | Function ngắn, event-driven (Lambda, Cloud Functions) |
@@ -542,7 +541,7 @@ Constant high traffic (>1B/tháng) → VM / ASG / container
 | Auto-scale | Tự co giãn | Tự tăng/giảm instance theo traffic |
 | Event-driven | Hướng sự kiện | Function chỉ chạy khi có trigger (HTTP, queue, ...) |
 | Edge compute | Tính toán biên | Chạy code ở POP gần user (Cloudflare Workers, Lambda@Edge) |
-| V8 isolate | Cách ly V8 | Cloudflare Workers dùng isolate thay vì container — nhẹ hơn 1000x |
+| V8 isolate | Cách ly V8 | Cloudflare Workers dùng isolate thay vì container — nhẹ hơn nhiều (footprint chỉ vài MB/isolate so với hàng chục-trăm MB của container) |
 | Trigger / event source | Nguồn sự kiện | Thứ kích hoạt function (S3, queue, schedule, ...) |
 | Provisioned Concurrency | Đảm bảo concurrency | Giữ N container warm sẵn để tránh cold start |
 | Pay-per-use | Trả theo dùng | Tính tiền theo request + duration thực tế |
@@ -555,17 +554,20 @@ Constant high traffic (>1B/tháng) → VM / ASG / container
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↑ [Serverless README](../../README.md) — cluster overview
-- → Tiếp theo: [01_function-as-a-service-deep.md](01_function-as-a-service-deep.md) — FaaS đào sâu
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference (đã có trong kho)
-- 🟧 [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — Lambda vendor deep
-- 🟦 [GCP Cloud Functions + Cloud Run](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — GCP serverless deep
-- ☁️ [Cloud Fundamentals](../../../cloud-fundamentals/) — vendor-neutral foundation
+- ➡️ **Bài tiếp theo:** [FaaS đào sâu — Cold start, isolate vs container, runtime & duration](01_function-as-a-service-deep.md)
+- ↑ **Về cụm:** [Serverless](../../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🟧 [Lambda + API Gateway — Nhập môn Serverless](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — Lambda đào sâu phía AWS
+- 🟦 [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — serverless đào sâu phía GCP
+- ⬅️ **Bài trước:** [Cloud Fundamentals — Nền tảng điện toán đám mây](../../../cloud-fundamentals/) — nền tảng chung trước khi vào serverless
 - 🐍 [FastAPI](../../../../07_web/backend/python-fastapi/) — framework hay deploy lên Cloud Run
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [CNCF Serverless Whitepaper](https://github.com/cncf/wg-serverless) — chuẩn hoá định nghĩa
 - 📖 [AWS Serverless](https://aws.amazon.com/serverless/) — landing page
 - 📖 [Google Serverless](https://cloud.google.com/serverless) — landing page
@@ -578,6 +580,7 @@ Constant high traffic (>1B/tháng) → VM / ASG / container
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài mở màn cluster Serverless vendor-neutral. Định nghĩa 4 tiêu chí + 2 nhánh FaaS/container + so sánh 4 vendor (AWS/GCP/Azure/Cloudflare) + decision tree + Acme Shop migration plan + 4 pitfall + 2 best practice + 5 self-check. Cross-link AWS Lambda + GCP Cloud Run lessons đã có.
+- **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ meta nội bộ trong thân bài ("vendor-neutral cluster", "không bias"); đổi field "Prerequisites" → "Yêu cầu trước"; thêm ngôn ngữ `text` cho 4 code fence (timeline/migration/cheatsheet); chuẩn hoá header Glossary sang `| Thuật ngữ | Tiếng Việt | Giải thích |`; chuẩn hoá nav (marker `➡️/↑`, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên khác, link-text = tiêu đề H1 thực); mềm hoá số liệu "V8 isolate nhẹ hơn 1000x" thành mô tả footprint định tính.

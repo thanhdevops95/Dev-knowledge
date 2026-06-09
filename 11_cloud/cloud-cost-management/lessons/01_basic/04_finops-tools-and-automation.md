@@ -1,71 +1,63 @@
 # 🎓 FinOps Tools & Automation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** [03_optimization-tactics-compute-storage-network.md](03_optimization-tactics-compute-storage-network.md)
+> **Yêu cầu trước:** [03_optimization-tactics-compute-storage-network.md](03_optimization-tactics-compute-storage-network.md)
 
-> 🎯 *Bài 00-03 dạy framework, pricing, tagging, tactic. Bài này dạy **tool + automation** — Phase Operate trong FinOps loop. Native tool (AWS Cost Explorer/Budgets/Compute Optimizer + GCP Recommender + Azure Advisor), 3rd-party (Cloudability/Vantage/Infracost), **Infracost trong PR** (cost preview trước merge), automated remediation (Lambda kill orphan, Function delete idle), cost anomaly detection ML.*
+> [!NOTE]
+> **Mục tiêu bài học:**\
+> Ba bài trước đã dạy bạn *framework*, mô hình giá, tagging và các chiến thuật tối ưu — nhưng tất cả vẫn còn nặng phần "làm tay". Bài này khép lại nhóm cơ bản bằng cách trả lời câu hỏi: làm sao để máy tự lo phần việc lặp đi lặp lại? Bạn sẽ đi qua bộ công cụ *native* của AWS/GCP/Azure, cân nhắc khi nào nên trả tiền cho công cụ *3rd-party*, đưa cảnh báo chi phí vào ngay trong *pull request* với Infracost, và viết những hàm tự động dọn dẹp tài nguyên thừa. Đây chính là Phase **Operate** trong vòng lặp FinOps.
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Dùng **AWS Cost Explorer + Budgets + Compute Optimizer** combo
-- [ ] Setup **AWS Budget alert** với email + Slack webhook
-- [ ] Hiểu **GCP Recommender Active Assist** + **Azure Advisor** equivalent
-- [ ] Đánh giá 3rd-party: **Cloudability vs CloudHealth vs Vantage vs Infracost**
-- [ ] Setup **Infracost** trong GitHub Actions PR (cost preview)
-- [ ] Build **Lambda** kill orphan EBS / idle EC2 (automated remediation)
-- [ ] Setup **Cost Anomaly Detection** ML alert
-- [ ] Hands-on full pipeline: tag enforce + Infracost PR + auto-shutdown + anomaly alert
+- [ ] Dùng bộ ba **AWS Cost Explorer + Budgets + Compute Optimizer** ăn ý với nhau
+- [ ] Thiết lập **AWS Budget alert** gửi email và Slack webhook
+- [ ] Hiểu **GCP Recommender / Active Assist** và **Azure Advisor** tương đương
+- [ ] Đánh giá công cụ 3rd-party: **Cloudability vs CloudHealth vs Vantage vs Infracost**
+- [ ] Đưa **Infracost** vào GitHub Actions để xem trước chi phí ngay trong PR
+- [ ] Viết **Lambda** dọn orphan EBS / tắt EC2 idle (tự động khắc phục)
+- [ ] Bật **Cost Anomaly Detection** cảnh báo bằng *machine learning*
+- [ ] Thực hành ráp toàn bộ pipeline: ép tag + Infracost trong PR + auto-shutdown + cảnh báo bất thường
 
 ---
 
-## Tình huống — Acme Shop có process, cần automation
+## 💡 Acme Shop đã có quy trình, giờ cần để máy chạy thay người
 
-Sau 6 tháng:
-- Tagging chuẩn, showback monthly đều.
-- Pricing optimal (RI + Spot mix).
-- Storage cleanup quarterly.
+Sau nửa năm vận hành FinOps bài bản, Acme Shop đã ở một vị trí khá đẹp: tagging chuẩn chỉnh, báo cáo *showback* gửi đều mỗi tháng, mô hình giá tối ưu với combo RI và Spot, kho lưu trữ được dọn dẹp theo quý. Mọi thứ ngăn nắp.
 
-CFO hài lòng nhưng hỏi:
+Nhưng trong buổi review, CFO đặt một câu hỏi sắc bén:
 
-> *"FinOps practitioner mới của bạn $120k/year. Mỗi tháng làm gì? Hỏi finance, mua RI thì 1 lần/quý, audit untag thì script. Người-power 50% là chạy báo cáo manual. Tự động hóa được không?"*
+> *"Bạn FinOps mới tuyển lương $120k/năm. Mỗi tháng bạn ấy làm gì? Hỏi tài chính, mua RI thì một quý một lần, audit tài nguyên thiếu tag thì đã có script. Mình ước chừng 50% công sức chỉ để chạy báo cáo bằng tay. Cái đó tự động hóa được không?"*
 
-Sếp tech về team plan:
-- Build dashboard tự refresh, không gửi manual.
-- PR pipeline alert cost trước khi merge.
-- Lambda tự kill orphan resource sau 14 ngày.
-- ML detect cost spike bất thường.
+Câu hỏi đúng trọng tâm. Một practitioner đắt tiền không nên dành nửa thời gian để copy số liệu vào bảng tính. Đội tech ngồi lại và vạch ra hướng đi: dashboard tự làm mới thay vì gửi tay, pipeline tự cảnh báo chi phí ngay trước khi merge code, hàm tự dọn tài nguyên mồ côi sau 14 ngày, và *machine learning* tự phát hiện những cú nhảy chi phí bất thường.
 
-→ Đó là Phase **Operate** — FinOps embed vào CI/CD + auto-remediation. Practitioner làm việc strategic, không firefighting.
+Tất cả những điều đó gộp lại chính là Phase **Operate**: nhúng FinOps thẳng vào CI/CD và để hệ thống tự khắc phục. Khi đó người làm FinOps mới rảnh tay để lo chuyện chiến lược, thay vì suốt ngày chữa cháy.
 
 ---
 
-## 1️⃣ Native tools — Foundation luôn dùng
+## 1️⃣ Công cụ native — nền móng luôn có sẵn
+
+Trước khi nghĩ tới việc mua công cụ ngoài, hãy tận dụng hết những gì *cloud provider* đã cho không. Bộ công cụ native của AWS, GCP, Azure tuy giao diện không lung linh nhưng miễn phí, tích hợp sâu vào hệ thống và đủ dùng cho phần lớn nhu cầu.
+
+🪞 **Ẩn dụ**: *Công cụ native giống như **app ngân hàng** — không bóng bẩy nhưng đủ chức năng cơ bản, miễn phí, gắn liền với tài khoản. Công cụ 3rd-party giống **app fintech** — giao diện đẹp, tính năng mạnh, nhưng phải trả phí.*
 
 ### AWS Cost Explorer + Budgets + Compute Optimizer
 
-🪞 **Ẩn dụ**: *Native tool như **app banking ngân hàng** — không đẹp nhưng đủ chức năng cơ bản, free, integrated sâu. 3rd-party như **app fintech** — UI đẹp, feature mạnh, trả phí.*
+Trên AWS, ba công cụ này tạo thành một bộ ba ăn ý: một cái để nhìn, một cái để cảnh báo, một cái để khuyên bạn nên thu nhỏ tài nguyên nào.
 
 #### AWS Cost Explorer
 
-UI tại Billing Console → Cost Explorer.
+Đây là dashboard chi phí mặc định, mở từ Billing Console → Cost Explorer. Nó cho phép bạn nhóm chi phí theo *service*, *region*, *tag*, *account* hay *usage type*, dự báo (*forecast*) 12 tháng tới dựa trên lịch sử, theo dõi mức sử dụng và độ phủ của Reserved Instance / Savings Plan, đề xuất *right-size* cho EC2 (liên kết chéo với Compute Optimizer), và xuất dữ liệu ra CSV hoặc qua API.
 
-**Tính năng**:
-- Group by service / region / tag / account / usage type.
-- Forecast 12 tháng dựa lịch sử.
-- Reserved Instance / Savings Plan utilization & coverage.
-- Right-size recommendation cho EC2 (cross-link Compute Optimizer).
-- Export CSV / API.
+Với một tài khoản AWS đơn lẻ tiêu khoảng $10k-$100k/tháng thì Cost Explorer là quá đủ. Chỉ khi bạn bước sang môi trường *multi-account* hoặc *multi-cloud* thì mới cần nghĩ tới công cụ 3rd-party.
 
-**Khi đủ dùng**: Single AWS account, $10k-$100k/month.\
-**Khi cần thêm**: Multi-account / multi-cloud → cần 3rd-party.
+#### AWS Budgets — cảnh báo tự động
 
-#### AWS Budgets — Alert tự động
+Cost Explorer chỉ cho bạn nhìn lại quá khứ; Budgets mới là cái canh chừng tương lai. Bạn đặt một ngưỡng ngân sách, và khi chi tiêu thực tế chạm mốc (ví dụ 80%) thì hệ thống tự bắn cảnh báo. Đoạn dưới tạo một budget $5000/tháng cho team backend, gửi cảnh báo qua email và SNS khi vượt 80%:
 
 ```bash
 # Tạo budget $5000/month team backend, alert 80%
@@ -91,17 +83,19 @@ aws budgets create-budget \
   }]'
 ```
 
-→ Vượt 80% budget → SNS → Lambda → Slack webhook.
+Luồng chạy ở đây là: vượt 80% ngân sách → bắn message vào SNS topic → Lambda nhận và đẩy tiếp vào Slack webhook. Nhờ vậy cảnh báo hiện ngay trong kênh chat của team thay vì nằm im trong hộp thư.
 
-#### Compute Optimizer (bài 03 đã đề cập)
+#### Compute Optimizer (đã nhắc ở bài 03)
+
+Cái cuối trong bộ ba là Compute Optimizer — nó quan sát mức sử dụng thực tế rồi gợi ý bạn nên đổi sang loại máy nào cho vừa. Chỉ cần bật *enrollment* một lần:
 
 ```bash
 aws compute-optimizer update-enrollment-status --status Active
 ```
 
-→ 14 ngày sau, recommendations available cho EC2/EBS/Lambda/ECS.
+Sau khoảng 14 ngày thu thập dữ liệu, các đề xuất *right-size* cho EC2/EBS/Lambda/ECS sẽ sẵn sàng để bạn xem.
 
-#### Trio AWS workflow
+#### Bộ ba AWS phối hợp ra sao
 
 ```mermaid
 graph LR
@@ -113,16 +107,15 @@ graph LR
     F -.--> A
 ```
 
-→ Trio này **free** + đủ cho 80% nhu cầu single-account AWS.
+Điểm hay là cả bộ ba này **miễn phí** và đủ phục vụ khoảng 80% nhu cầu của một tài khoản AWS đơn lẻ.
 
 ### GCP — Cloud Billing + Recommender + Active Assist
 
+GCP cũng có bộ tương đương, với điểm mạnh riêng là khả năng *export* sang BigQuery để chạy truy vấn phức tạp.
+
 #### Cloud Billing Reports
 
-UI tại Billing Console:
-- Daily cost breakdown by SKU / project / label / folder.
-- Budget alert.
-- Export BigQuery (recommend cho query phức tạp).
+Mở từ Billing Console, công cụ này bóc tách chi phí theo ngày theo SKU / project / label / folder, hỗ trợ cảnh báo ngân sách, và đặc biệt cho *export* sang BigQuery — rất tiện khi bạn cần viết truy vấn phân tích sâu. Cú pháp đặt cảnh báo ngân sách:
 
 ```bash
 # Set up budget alert
@@ -136,7 +129,7 @@ gcloud billing budgets create \
 
 #### Active Assist Recommender
 
-GCP hợp nhất nhiều recommender:
+Thay vì để bạn tự đoán tài nguyên nào lãng phí, GCP gom nhiều *recommender* lại dưới mái Active Assist, mỗi cái chuyên phát hiện một loại lãng phí:
 
 | Recommender | Phát hiện |
 |---|---|
@@ -146,6 +139,8 @@ GCP hợp nhất nhiều recommender:
 | `google.compute.address.IdleResourceRecommender` | External IP idle |
 | `google.cloudsql.instance.IdleRecommender` | Cloud SQL idle |
 | `google.compute.commitment.UsageCommitmentRecommender` | Cần mua CUD |
+
+Để liệt kê các tài nguyên idle mà recommender phát hiện:
 
 ```bash
 # List tất cả idle resource
@@ -157,23 +152,19 @@ for recommender in IdleResourceRecommender; do
 done
 ```
 
-→ Recommender + Cloud Function = auto-action (xem section 4).
+Kết hợp Recommender với Cloud Function, bạn có thể biến những đề xuất này thành hành động tự động (sẽ bàn ở phần 4).
 
 ### Azure — Cost Management + Advisor
 
+Thế mạnh nổi bật của Azure nằm ở khả năng quản lý chi phí xuyên nhiều *subscription* cùng lúc — rất hợp với doanh nghiệp lớn có cấu trúc tài khoản phức tạp.
+
 #### Azure Cost Management
 
-UI tại portal.azure.com → Cost Management.
-
-**Tính năng** cross multi-subscription (lợi thế lớn của Azure):
-- Cost analysis by subscription / resource group / tag.
-- Budget per scope (subscription, management group).
-- Cost allocation rule.
-- Export CSV daily / monthly automated to Storage Account.
+Mở từ portal.azure.com → Cost Management. Công cụ này phân tích chi phí theo subscription / resource group / tag, đặt ngân sách theo từng phạm vi (subscription hoặc management group), áp quy tắc phân bổ chi phí (*cost allocation*), và tự động *export* CSV theo ngày/tháng vào Storage Account.
 
 #### Azure Advisor
 
-Dashboard recommendations 5 category: Cost / Security / Reliability / Operational Excellence / Performance.
+Advisor là dashboard gợi ý theo 5 nhóm: Cost / Security / Reliability / Operational Excellence / Performance. Để lọc riêng các đề xuất về chi phí:
 
 ```bash
 az advisor recommendation list \
@@ -731,15 +722,15 @@ graph TD
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Bật automation production ngay từ ngày đầu
+### ❌ Cạm bẫy: Bật automation production ngay từ ngày đầu
 
 - **Triệu chứng**: Lambda kill resource sai → prod down.
 - **Nguyên nhân**: Không dry-run, không whitelist prod.
 - **Cách tránh**: DRY_RUN=true 2 tuần. Whitelist `env=prod` hard-coded. Slow rollout: dev → staging → prod 1 service at a time.
 
-### ❌ Pitfall: Infracost mọi PR bật policy block ngay
+### ❌ Cạm bẫy: Infracost mọi PR bật policy block ngay
 
 - **Triệu chứng**: PR cho hotfix critical bị block vì +$50/month.
 - **Nguyên nhân**: Policy quá nghiêm.
@@ -748,13 +739,13 @@ graph TD
   - $100-500/month: warn, require 1 reviewer.
   - $500+/month: block, require FinOps approval.
 
-### ❌ Pitfall: Slack noise — quá nhiều alert
+### ❌ Cạm bẫy: Slack noise — quá nhiều alert
 
 - **Triệu chứng**: `#finops-alerts` channel có 50 message/day → ai cũng mute.
 - **Nguyên nhân**: Alert threshold quá thấp, alert dup.
 - **Cách tránh**: Daily digest 1 message thay vì 50. Critical alert (anomaly score > 80) thì instant. Còn lại summary.
 
-### ❌ Pitfall: Mua 3rd-party tool quá sớm
+### ❌ Cạm bẫy: Mua 3rd-party tool quá sớm
 
 - **Triệu chứng**: Spend $50k/year cho Cloudability khi cloud cost $200k/year → 25% overhead.
 - **Nguyên nhân**: Sales pitch convinced.
@@ -777,7 +768,7 @@ graph TD
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào upgrade từ AWS native sang Cloudability?
 
@@ -868,7 +859,7 @@ Kubecost/OpenCost in-cluster:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### AWS native tool
 | Việc | Command / Location |
@@ -911,7 +902,7 @@ Kubecost/OpenCost in-cluster:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -938,11 +929,11 @@ Kubecost/OpenCost in-cluster:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_optimization-tactics-compute-storage-network.md](03_optimization-tactics-compute-storage-network.md)
-- ↑ Cluster: [Cloud Cost Management README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Optimization Tactics — Compute / Storage / Network / Database](03_optimization-tactics-compute-storage-network.md)
+- ↑ **Về cụm:** [Cloud Cost Management README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — Lambda context cho automation
 - 🏗️ [Terraform IaC](../../../../10_devops/iac/) — Infracost works on Terraform
 
@@ -962,6 +953,6 @@ Kubecost/OpenCost in-cluster:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 cluster cloud-cost-management. Native tool (AWS Cost Explorer + Budgets + Compute Optimizer + GCP Active Assist + Azure Advisor) + 3rd-party (Cloudability/CloudHealth/Vantage/Kubecost/CAST AI/Infracost) + Infracost full GitHub Actions integration với policy + Lambda orphan cleanup + auto-stop idle EC2 + GCP Cloud Function delete idle VM + Cost Anomaly Detection ML + Acme Shop full pipeline 6-step setup + 7 pitfalls + 5 self-check.

@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
 
 > 🎯 *Học 7 CLI tool debug mạng thật sự dùng: **ping**, **traceroute/tracepath**, **netstat/ss**, **tcpdump**, **nmap**, **nc (netcat)**, **iperf3**. Mỗi tool có 1 layer/khía cạnh riêng. Sau bài này bạn debug được 95% lỗi mạng.*
@@ -44,7 +43,7 @@ Bạn ngơ:
 - Tại sao 5 tool khác nhau cho 1 vấn đề?
 - Học theo thứ tự nào hợp lý?
 
-→ Bài này dạy bạn (và bạn) **7 tool cốt lõi** + **5 case debug** + **cheat sheet đầy đủ**.
+→ Bài này dạy bạn **7 tool cốt lõi** + **5 case debug** + **cheat sheet đầy đủ**.
 
 ---
 
@@ -445,7 +444,7 @@ iperf3 -c <server-ip> -R           # Reverse (server gửi)
 
 ---
 
-## 9️⃣ bạn's 5 case debug
+## 9️⃣ 5 case debug thực tế
 
 ### Case 1 — "Site không vào được"
 
@@ -496,7 +495,7 @@ iperf3 -c <server-ip> -R           # Reverse (server gửi)
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`ping` fail → tưởng server down** → ICMP có thể bị firewall block, server vẫn chạy. Thử `telnet host 22` hoặc `curl host`.
 2. **`tcpdump` mà filter sai** → `tcpdump port 443` = TCP **hoặc** UDP port 443. Cần `tcp port 443`.
@@ -506,7 +505,7 @@ iperf3 -c <server-ip> -R           # Reverse (server gửi)
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Test "host A có reachable không" — tool nào? Test "port 5432 mở không" — tool nào khác?
 2. Sao `mtr` hữu ích hơn `traceroute`?
@@ -530,7 +529,7 @@ iperf3 -c <server-ip> -R           # Reverse (server gửi)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 1-liner thường dùng
 
@@ -610,16 +609,16 @@ Site không vào được?
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
-- ↑ Cluster: [tcp-ip-fundamentals README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Ports, Sockets & Firewall — Layer 4 access control](03_ports-sockets-firewall.md)
+- ↑ **Về cụm:** [tcp-ip-fundamentals README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [DNS Tools](../../../dns/lessons/01_basic/03_dns-tools.md) — `dig`/`nslookup`/`host`/`whois` cho DNS debug
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Wireshark User Guide](https://www.wireshark.org/docs/wsug_html_chunked/)
 - 📖 [Julia Evans: Networking zines](https://wizardzines.com/zines/networking/)
 - 📖 [Brendan Gregg: Network observability tools](https://www.brendangregg.com/Perf/linux_observability_tools.png) — bản đồ tool kinh điển
@@ -632,8 +631,7 @@ Site không vào được?
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 ping "Đọc output" bảng + ping "Options" code + "ping không test app" warning + §2 traceroute "Khi nào hop * * *" + `mtr` tool intro. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 5/5. Cover: 6 network tools daily debug (ping L3 reachability, traceroute hop visualization, mtr live monitoring, ss/netstat socket inspection, tcpdump packet capture, nmap port scan, dig DNS query) + flowchart decision "tool nào dùng khi nào".
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 (ping "Đọc output", "Options", "ping không test app") và §2 (traceroute "Khi nào hop `* * *`", `mtr` intro). Thêm Changelog section.

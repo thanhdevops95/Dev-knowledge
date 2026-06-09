@@ -124,7 +124,7 @@ File này giải quyết: liệt kê **mọi lựa chọn chính**, so sánh **t
 - Composer mode — viết feature mới từ description
 - Switch từ VS Code cực dễ — import settings 1 click
 
-→ Cài chi tiết: [cursor.md](./cursor.md) (chưa có)
+→ Cài chi tiết: `cursor.md` (chưa có)
 
 ### 🟠 Case 3: Java/Kotlin dev (project enterprise)
 
@@ -137,7 +137,7 @@ File này giải quyết: liệt kê **mọi lựa chọn chính**, so sánh **t
 - Spring Boot support tốt nhất
 - Bù lại $169 trong 1 tháng năng suất
 
-→ Cài chi tiết: [intellij.md](./intellij.md) (chưa có)
+→ Cài chi tiết: `intellij.md` (chưa có)
 
 ### 🟣 Case 4: Power user, làm việc qua SSH/server
 
@@ -151,7 +151,7 @@ File này giải quyết: liệt kê **mọi lựa chọn chính**, so sánh **t
 
 ⚠️ **Cảnh báo**: Curve học **rất khó** (1-3 tháng để hiệu suất ngang VS Code). Đừng chọn Neovim làm editor đầu tiên.
 
-→ Cài chi tiết: [neovim.md](./neovim.md) (chưa có)
+→ Cài chi tiết: `neovim.md` (chưa có)
 
 ### 🔵 Case 5: Mac M-series, thích minimal + nhanh
 
@@ -226,12 +226,12 @@ Modal editing là **kỹ năng cả đời** — học 1 lần dùng mãi. Nhưn
 | Tool | User guide |
 |---|---|
 | **VS Code** | [📄 vs-code.md](./vs-code.md) ✅ — cài + UI tour + settings + extensions + workflow |
-| **Cursor** | [📄 cursor.md](./cursor.md) (chưa có) — AI-native fork VS Code |
-| **Neovim** | [📄 neovim.md](./neovim.md) (chưa có) — modal editor terminal |
-| **JetBrains** | [📄 jetbrains.md](./jetbrains.md) (chưa có) — IntelliJ/PyCharm/WebStorm/... |
-| **Zed** | [📄 zed.md](./zed.md) (chưa có) — Rust + GPU editor |
-| **Sublime Text** | [📄 sublime.md](./sublime.md) (chưa có) — lightweight |
-| **Xcode** | [📄 xcode.md](./xcode.md) (chưa có) — iOS/macOS only |
+| **Cursor** | `cursor.md` (chưa có) — AI-native fork VS Code |
+| **Neovim** | `neovim.md` (chưa có) — modal editor terminal |
+| **JetBrains** | `jetbrains.md` (chưa có) — IntelliJ/PyCharm/WebStorm/... |
+| **Zed** | `zed.md` (chưa có) — Rust + GPU editor |
+| **Sublime Text** | `sublime.md` (chưa có) — lightweight |
+| **Xcode** | `xcode.md` (chưa có) — iOS/macOS only |
 
 ---
 
@@ -292,13 +292,13 @@ Không phụ thuộc editor nào — đây là setting "đáng làm với mọi 
 
 ---
 
-## 🔗 Liên kết
+## 🔗 Liên kết & Tài nguyên
 
 - 🧭 [Zero to Coder Stage 1](../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) — beginner gọi editor đầu tiên
-- 📚 [Git lesson 00 — what is Git](../../01_foundations/version-control/git/lessons/01_basic/00_what-is-git.md) — editor + git tích hợp
+- 📚 [Git lesson 00 — what is Git](../git/lessons/01_basic/00_what-is-git.md) — editor + git tích hợp
 - 🛠️ [Terminal emulators category](../terminal-emulators/) (chưa có) — companion category, dùng cùng editor
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [Stack Overflow Developer Survey](https://survey.stackoverflow.co/) — số liệu thị phần editor mỗi năm
 - [Awesome VS Code](https://github.com/viatsko/awesome-vscode) — extension + theme curated
@@ -308,6 +308,6 @@ Không phụ thuộc editor nào — đây là setting "đáng làm với mọi 
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (20/05/2026)** — Bản đầu tiên. Tool category đầu tiên hoàn chỉnh trong kho — demo 2-level pattern (category + individual). So sánh 7 editor chính + 7 alternative. 7 case khuyến nghị theo profile. Bảng AI integration 2026.

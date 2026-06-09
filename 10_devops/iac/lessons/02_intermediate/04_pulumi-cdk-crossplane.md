@@ -1,38 +1,33 @@
 # 🎓 IaC Alternatives — Pulumi vs CDK vs Crossplane
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
-> **Prerequisites:** [03_state-advanced-and-drift.md](03_state-advanced-and-drift.md), Terraform/Terragrunt fluent
+> **Yêu cầu trước:** [State management advanced + Drift detection](03_state-advanced-and-drift.md), đã dùng Terraform/Terragrunt thành thạo.
 
-> 🎯 *Bài cuối DevOps intermediate sprint. Terraform/HCL dominant nhưng có alternatives mạnh: **Pulumi** (Python/TS/Go), **AWS CDK** (TypeScript synthesize CloudFormation), **CDKTF** (CDK → Terraform), **Crossplane** (K8s-native CRD cho cloud). Bài này dạy mỗi tool + decision matrix.*
+> 🎯 *Terraform/HCL vẫn thống trị thị trường *IaC* (*Infrastructure as Code* — hạ tầng mô tả bằng code), nhưng không phải là lựa chọn duy nhất. Bài này đi qua bốn ứng viên mạnh nhất: **Pulumi** (viết hạ tầng bằng Python/TypeScript/Go thật), **AWS CDK** (TypeScript sinh ra CloudFormation), **CDKTF** (CDK nhưng đích đến là Terraform), và **Crossplane** (định nghĩa cloud bằng CRD ngay trong Kubernetes). Với mỗi tool bạn sẽ nắm được cách dùng cốt lõi, rồi gom lại thành một bảng quyết định để chọn đúng tool cho từng dự án — kèm các lối di cư (*migration path*) giữa chúng.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **Pulumi**: real languages cho IaC
-- [ ] Hiểu **AWS CDK** + **CDKTF**: programmatic synthesizers
-- [ ] Hiểu **Crossplane**: K8s-native multi-cloud IaC
-- [ ] So sánh kỹ **Terraform vs Pulumi vs CDK vs Crossplane**
-- [ ] **Migration paths** giữa tools
-- [ ] **Multi-cloud abstraction** patterns
-- [ ] **Decision matrix** chọn tool đúng project
+- [ ] Hiểu **Pulumi**: viết hạ tầng bằng ngôn ngữ lập trình thật thay vì DSL.
+- [ ] Hiểu **AWS CDK** + **CDKTF**: hai bộ "synthesizer" sinh code hạ tầng theo chương trình.
+- [ ] Hiểu **Crossplane**: IaC chạy ngay trong Kubernetes, đa cloud bằng CRD.
+- [ ] So sánh kỹ **Terraform vs Pulumi vs CDK vs Crossplane** trên những trục quan trọng.
+- [ ] Nắm các **lối di cư** (*migration path*) giữa các tool.
+- [ ] Nắm các pattern **trừu tượng hoá đa cloud** (*multi-cloud abstraction*).
+- [ ] Có một **bảng quyết định** để chọn tool đúng cho từng dự án.
 
 ---
 
-## Tình huống — HCL frustrate developer team
+## Tình huống — HCL làm khổ một team developer
 
-Team backend (Python/TypeScript). Terraform repo grows:
-- Loop logic `for_each` complex.
-- Conditional resources awkward.
-- Type checking missing.
-- IDE intellisense weak.
-- Tests painful (write Go for terratest).
+Hãy bắt đầu từ một cảnh quen thuộc. Một team backend toàn người quen Python/TypeScript được giao quản lý một repo Terraform đang phình to dần. Họ vấp đủ thứ: logic lặp với `for_each` rối rắm, tạo resource có điều kiện thì cứ phải lách, không có type checking nên sai mới biết, IDE gợi ý yếu, và muốn viết test thì phải học thêm Go cho terratest.
 
-Sample HCL frustration:
+Đây là một đoạn HCL điển hình khiến cả team đau đầu — chỉ để tạo một mớ subnet có điều kiện:
+
 ```hcl
 locals {
   subnets = {
@@ -57,7 +52,8 @@ resource "aws_subnet" "main" {
 }
 ```
 
-→ Hard to read. Python equivalent (Pulumi):
+Đọc đoạn trên phải dừng lại mấy nhịp mới hiểu: `for` lồng trong map, `element` + `index` + modulo để xoay vòng AZ, ternary để phân loại public/private. Cùng logic ấy viết bằng Python (Pulumi) lại sáng sủa như viết business logic thường ngày:
+
 ```python
 for i, cidr in enumerate(cidrs):
     az = azs[i % len(azs)]
@@ -74,30 +70,27 @@ for i, cidr in enumerate(cidrs):
     )
 ```
 
-→ Familiar Python, type-checked, IDE autocomplete, easier debug.
-
-Sếp: *"Evaluate Pulumi for new projects. Bài này phân tích."*
+Vẫn là Python quen thuộc: có type checking, IDE tự gợi ý, debug dễ. Sếp đi ngang, liếc qua màn hình rồi chốt: *"Đánh giá Pulumi cho các project mới đi. Bài này phân tích cho rõ."* — và đó chính là điểm xuất phát của cả bài.
 
 ---
 
-## 1️⃣ Pulumi — Real languages for IaC
+## 1️⃣ Pulumi — viết hạ tầng bằng ngôn ngữ thật
 
-🪞 **Ẩn dụ**: *IaC tools như **ngôn ngữ vẽ kiến trúc** — Terraform HCL như **CAD chuyên dụng** (DSL phải học mới được). Pulumi như **AutoCAD chạy Python** (dùng ngôn ngữ familiar + thư viện programming). CDK như **AutoCAD chỉ cho AWS**. Crossplane như **BIM trong K8s** (everything-as-K8s-object).*
+🪞 **Ẩn dụ**: *Các tool IaC giống như các **ngôn ngữ vẽ kiến trúc**. Terraform HCL như một phần mềm **CAD chuyên dụng** — phải học một DSL riêng mới vẽ được. Pulumi như **AutoCAD chạy được Python** — dùng ngôn ngữ quen thuộc cộng thêm cả kho thư viện lập trình. AWS CDK như **AutoCAD chỉ cho riêng AWS**. Còn Crossplane như mô hình **BIM đặt trong Kubernetes** — mọi thứ đều là object của K8s.*
 
-### Concept
+### Pulumi là gì
 
-**Pulumi**: write infrastructure in **TypeScript / JavaScript / Python / Go / C# / Java**.
+Trước hết, **Pulumi** cho phép bạn viết hạ tầng bằng **TypeScript / JavaScript / Python / Go / C# / Java** — toàn ngôn ngữ lập trình thật, không phải DSL. Điểm hay là bên dưới nó dùng đúng hệ sinh thái provider của Terraform, nên bạn đổi cách viết chứ không đổi nền tảng cloud:
 
-Same providers as Terraform underneath:
-- Pulumi pulls `pulumi-aws` package (wraps Terraform AWS provider).
-- Pulumi state same concept as Terraform state.
-- Pulumi engine equivalent to Terraform engine.
+- Pulumi kéo về package `pulumi-aws` (bọc lại provider AWS của Terraform).
+- State của Pulumi cùng khái niệm với state của Terraform.
+- Engine của Pulumi tương đương engine của Terraform.
 
-→ Different DSL (real language), same cloud APIs.
+Nói gọn: Pulumi đổi DSL (sang ngôn ngữ thật) nhưng vẫn nói chuyện với cùng các API cloud như Terraform.
 
-### Setup
+### Cài đặt và khởi tạo project
 
-Pulumi install 1 lệnh + `pulumi new` scaffold project với template per cloud/language. Output ra cấu trúc tương tự Terraform nhưng dùng real programming language (TS/Python/Go/C#):
+Cài Pulumi chỉ một lệnh, rồi `pulumi new` sẽ scaffold project theo template tương ứng với từng cloud và từng ngôn ngữ. Kết quả ra một cấu trúc khá giống Terraform, nhưng code viết bằng ngôn ngữ lập trình thật (TS/Python/Go/C#):
 
 ```bash
 # Install
@@ -108,7 +101,8 @@ mkdir my-infra && cd my-infra
 pulumi new aws-typescript     # or aws-python, aws-go, etc.
 ```
 
-Project structure:
+Cấu trúc project sinh ra trông như sau — đáng chú ý là `Pulumi.yaml` cho cấu hình chung và `Pulumi.<stack>.yaml` cho cấu hình riêng từng môi trường:
+
 ```
 my-infra/
 ├── Pulumi.yaml              # project config
@@ -118,9 +112,9 @@ my-infra/
 └── tsconfig.json
 ```
 
-### Sample TypeScript
+### Ví dụ bằng TypeScript
 
-Cùng case dùng Terraform vs Pulumi TypeScript — Pulumi cho phép dùng **language features** (loops, conditionals, functions) thay vì HCL syntax giới hạn. Ví dụ tạo VPC + 3 AZ subnet:
+Để thấy khác biệt rõ nhất, hãy lấy đúng bài toán quen thuộc: tạo một VPC kèm 3 subnet trải trên 3 AZ. Pulumi cho phép dùng thẳng tính năng của ngôn ngữ (vòng lặp, điều kiện, hàm) thay cho cú pháp giới hạn của HCL:
 
 ```typescript
 // index.ts
@@ -161,9 +155,11 @@ export const vpcId = vpc.id;
 export const subnetIds = subnets.map(s => s.id);
 ```
 
-### Commands
+Để ý cách `getStack()` lấy tên môi trường, `slice(0, 3)` + `.map()` để rải subnet — tất cả đều là TypeScript thuần, không cần học thêm cú pháp riêng.
 
-Pulumi CLI có **5 lệnh chính** — `stack`, `up` (combined plan+apply), `destroy`, `output`, `config`. UX similar Terraform nhưng `up` thay cho `plan` + `apply` riêng:
+### Bộ lệnh thường dùng
+
+CLI của Pulumi xoay quanh vài lệnh chính — `stack`, `up`, `destroy`, `output`, `config`. Trải nghiệm khá giống Terraform, chỉ khác chỗ `up` gộp luôn cả bước `plan` lẫn `apply` thay vì tách hai lệnh:
 
 ```bash
 pulumi stack init dev          # create stack
@@ -179,19 +175,18 @@ pulumi stack import < stack.json
 
 ### State backend
 
-Pulumi default: Pulumi Cloud (SaaS, free tier).
+Mặc định Pulumi lưu state trên Pulumi Cloud — một dịch vụ SaaS có sẵn gói miễn phí. Nếu không muốn phụ thuộc dịch vụ ngoài, bạn tự host được trên S3 hoặc ngay máy local:
 
-Self-host option:
 ```bash
 pulumi login s3://acme-pulumi-state
 # Or local: pulumi login --local
 ```
 
-→ S3 backend with similar features to Terraform S3.
+Backend S3 ở đây có tính năng tương đương backend S3 của Terraform, nên team nào đã quen lưu state trên S3 sẽ thấy rất thân thuộc.
 
-### Loops + Conditionals
+### Vòng lặp và điều kiện
 
-Đây là **killer feature** của Pulumi so với Terraform — dùng `for`/`if` thuần Python/TS, không phải HCL `count`/`for_each`/`dynamic` workarounds. Code đọc tự nhiên như business logic:
+Đây mới là *killer feature* thực sự của Pulumi so với Terraform: bạn dùng `for`/`if` thuần của Python/TS, không phải lách qua `count`/`for_each`/`dynamic` của HCL. Code đọc tự nhiên đúng như logic nghiệp vụ:
 
 ```python
 # Python — natural
@@ -215,9 +210,11 @@ for i, cidr in enumerate(cidrs):
         subnets.append(subnet)
 ```
 
-→ Real `if`, real `for`, easy to debug.
+`if i < 2` là điều kiện thật, `for` là vòng lặp thật — đặt breakpoint debug được như mọi đoạn Python khác.
 
-### Functions + Modules
+### Hàm và module
+
+Vì là ngôn ngữ thật nên bạn tái sử dụng code bằng hàm như bình thường: gói logic tạo VPC vào một hàm rồi gọi lại nhiều lần cho từng môi trường:
 
 ```python
 # Reusable component
@@ -231,9 +228,11 @@ dev_vpc, dev_subnets = create_vpc("dev", "10.0.0.0/16", ["us-east-1a", "us-east-
 prod_vpc, prod_subnets = create_vpc("prod", "10.1.0.0/16", ["us-east-1a", "us-east-1b", "us-east-1c"])
 ```
 
-→ Standard programming abstractions. Inheritance, mixins, etc.
+Đây chính là các kỹ thuật trừu tượng hoá chuẩn của lập trình — kế thừa, mixin, v.v. — điều mà module của HCL không làm được trọn vẹn.
 
-### Testing
+### Viết test
+
+Lợi ích kéo theo: hạ tầng test được như code thường. Pulumi cho mock toàn bộ cloud nên bạn viết unit test bằng pytest, chạy nhanh, không cần dựng resource thật:
 
 ```python
 # test_vpc.py — using pytest
@@ -250,9 +249,11 @@ def test_vpc_cidr():
     assert vpc.cidr_block == "10.0.0.0/16"
 ```
 
-→ Unit test infra code like normal Python. Mock cloud, fast tests.
+Mock cloud xong, test chạy gần như tức thì — khác hẳn cảnh phải `terraform apply` lên môi trường thật rồi mới kiểm tra được.
 
-### Pulumi vs Terraform feature comparison
+### So sánh tính năng Pulumi vs Terraform
+
+Gom các điểm trên lại, bảng dưới đặt Pulumi cạnh Terraform trên những trục mà người chọn tool quan tâm nhất — từ DSL, state, đến cộng đồng và chi phí:
 
 | Feature | Terraform | Pulumi |
 |---|---|---|
@@ -269,17 +270,19 @@ def test_vpc_cidr():
 | Migration TF → Pulumi | `pulumi import` + `tf2pulumi` tool | — |
 | Cost | Free OSS | OSS free; Cloud SaaS paid (team features) |
 
+Điểm rút ra: Pulumi thắng rõ ở trải nghiệm developer (ngôn ngữ thật, type, test, IDE), còn Terraform vẫn áp đảo về cộng đồng và độ trưởng thành — một sự đánh đổi mà ta sẽ gặp lại ở bảng quyết định cuối bài.
+
 ---
 
-## 2️⃣ AWS CDK — TypeScript/Python → CloudFormation
+## 2️⃣ AWS CDK — TypeScript/Python sinh ra CloudFormation
 
-### Concept
+### AWS CDK là gì
 
-**AWS CDK**: TypeScript / Python / Java / C# / Go that **synthesizes CloudFormation templates**.
+Nếu Pulumi tự chạy engine riêng thì **AWS CDK** đi một con đường khác: bạn viết TypeScript / Python / Java / C# / Go, và nó **sinh ra template CloudFormation** rồi để CloudFormation lo phần triển khai. Đây là điểm phân biệt cốt lõi — CDK nhắm tới CloudFormation, còn Pulumi chạy engine của riêng mình.
 
-Different from Pulumi (CDK targets CloudFormation, Pulumi runs own engine).
+### Cài đặt
 
-### Setup
+Cài CDK qua npm rồi `cdk init` để dựng khung project theo ngôn ngữ bạn chọn:
 
 ```bash
 npm install -g aws-cdk
@@ -287,7 +290,9 @@ mkdir my-cdk && cd my-cdk
 cdk init app --language typescript
 ```
 
-### Sample
+### Ví dụ
+
+Đoạn dưới tạo một VPC bằng CDK, cố tình dùng cả hai mức trừu tượng để bạn thấy khác biệt: `ec2.Vpc` (mức cao, tự lo subnet/IGW/route table) và `ec2.CfnSubnet` (mức thấp, ánh xạ 1:1 với CloudFormation):
 
 ```typescript
 // lib/my-stack.ts
@@ -318,7 +323,9 @@ export class MyStack extends cdk.Stack {
 }
 ```
 
-### Commands
+### Bộ lệnh thường dùng
+
+Vòng đời làm việc với CDK xoay quanh vài lệnh quen thuộc — `synth` để sinh template, `deploy`/`destroy` để triển khai, `diff` để xem thay đổi, và `bootstrap` chạy một lần để chuẩn bị S3 chứa asset:
 
 ```bash
 cdk synth                # generate CloudFormation template
@@ -328,13 +335,15 @@ cdk diff                 # show changes
 cdk bootstrap            # one-time setup (S3 for assets)
 ```
 
-### CDK Constructs Levels
+### Ba mức construct của CDK
 
-**L1 (CfnXxx)**: 1:1 with CloudFormation resources. Verbose but full control.
+Sức mạnh thật của CDK nằm ở ba mức trừu tượng (*construct level*), càng lên cao càng viết ít mà ra nhiều. Hiểu ba mức này là hiểu cách CDK đánh đổi giữa "kiểm soát chi tiết" và "năng suất":
 
-**L2 (Xxx)**: AWS-curated abstractions. Sensible defaults (e.g., `Vpc` creates subnets + IGW + route tables).
+- **L1 (`CfnXxx`)**: ánh xạ 1:1 với resource của CloudFormation. Dài dòng nhưng kiểm soát hoàn toàn.
+- **L2 (`Xxx`)**: các trừu tượng do AWS chuẩn hoá, có default hợp lý (ví dụ `Vpc` tự tạo subnet + IGW + route table).
+- **L3 (patterns)**: các pattern gộp nhiều resource (ví dụ `LoadBalancedFargateService` = ALB + ECS Fargate + Task definition).
 
-**L3 (patterns)**: Multi-resource patterns (e.g., `LoadBalancedFargateService` = ALB + ECS Fargate + Task definition).
+Ở mức L3, năng suất gần như "phép thuật" — cả một API serverless gói trong vài dòng:
 
 ```typescript
 // L3 example — entire serverless API in 5 lines
@@ -344,9 +353,11 @@ new cdk_patterns.LambdaRestApi(this, 'Api', {
 });
 ```
 
-→ Massive productivity at L3, but lock-in to AWS Constructs.
+Đánh đổi đi kèm: L3 đẩy năng suất lên cực đại nhưng cũng khoá chặt bạn vào bộ Construct của AWS — càng tiện càng khó thoát.
 
 ### CDK vs Pulumi vs Terraform
+
+Vậy đặt cạnh nhau, CDK đứng ở đâu? Bảng dưới so ba tool trên các trục then chốt — đặc biệt là phạm vi cloud, vì đây chính là giới hạn lớn nhất của CDK:
 
 | Aspect | CDK | Pulumi | Terraform |
 |---|---|---|---|
@@ -357,21 +368,24 @@ new cdk_patterns.LambdaRestApi(this, 'Api', {
 | Stack drift | CloudFormation handles | Pulumi diff | Terraform diff |
 | Best for | AWS-only shops | Multi-cloud + dev DX | Standard |
 
-→ **CDK** great for AWS shops wanting tight integration. Not for multi-cloud.
+Kết luận ngắn gọn: CDK tuyệt vời cho team chỉ làm AWS và muốn tích hợp sâu, nhưng không phải lựa chọn cho đa cloud — đó là khoảng trống mà CDKTF lấp vào ở phần tiếp theo.
 
 ---
 
-## 3️⃣ CDKTF — CDK for Terraform
+## 3️⃣ CDKTF — CDK cho Terraform
 
-### Concept
+### CDKTF là gì
 
-**CDKTF** (CDK for Terraform): TypeScript / Python / Go / Java / C# → **Terraform HCL**.
+**CDKTF** (CDK for Terraform) là cách ghép cái hay của cả hai thế giới: viết TypeScript / Python / Go / Java / C#, nhưng đầu ra là **Terraform HCL** thay vì CloudFormation. Nó kết hợp:
 
-Combines:
-- CDK's developer experience (real languages, IDE).
-- Terraform's multi-cloud + provider ecosystem.
+- Trải nghiệm developer của CDK (ngôn ngữ thật, IDE hỗ trợ tốt).
+- Hệ sinh thái provider đa cloud của Terraform.
 
-### Setup
+Nói cách khác, bạn giữ engine Terraform đã trưởng thành nhưng không phải viết HCL nữa.
+
+### Cài đặt
+
+Cài CLI rồi `cdktf init`, khai báo luôn provider muốn dùng:
 
 ```bash
 npm install -g cdktf-cli
@@ -379,7 +393,9 @@ mkdir my-cdktf && cd my-cdktf
 cdktf init --template=typescript --providers=aws
 ```
 
-### Sample
+### Ví dụ
+
+Cùng bài toán VPC + subnet, lần này viết bằng TypeScript nhưng đích đến là Terraform. Để ý cách `App` + `TerraformStack` đóng vai trò khung, còn `app.synth()` ở cuối mới là bước sinh ra HCL:
 
 ```typescript
 // main.ts
@@ -410,7 +426,9 @@ new MyStack(app, "my-stack");
 app.synth();
 ```
 
-### Commands
+### Bộ lệnh thường dùng
+
+Lệnh của CDKTF phản chiếu đúng vòng đời Terraform bên dưới — `synth` sinh HCL JSON, còn `deploy`/`diff` thực chất gọi tới `terraform apply`/`plan`:
 
 ```bash
 cdktf synth              # generate Terraform HCL JSON
@@ -420,6 +438,8 @@ cdktf diff               # terraform plan equivalent
 ```
 
 ### CDKTF vs Pulumi vs CDK
+
+Cả ba đều cho bạn viết hạ tầng bằng ngôn ngữ thật, nên câu hỏi thực sự là *đầu ra đi về đâu* và *engine nào chạy*. Bảng dưới làm rõ điểm khác biệt đó:
 
 | Aspect | CDKTF | Pulumi | AWS CDK |
 |---|---|---|---|
@@ -431,15 +451,15 @@ cdktf diff               # terraform plan equivalent
 | Multi-cloud | Yes (via Terraform providers) | Yes | No |
 | Migration from Terraform HCL | Easy (`cdktf convert`) | Tedious | NA |
 
-→ **CDKTF** sweet spot for Terraform shops wanting TS/Python without switching engine.
+Vị trí đẹp nhất của CDKTF: dành cho team đã sống trong hệ sinh thái Terraform nhưng muốn viết bằng TS/Python mà không phải đổi engine — vừa giữ được registry provider khổng lồ, vừa di cư từ HCL cực nhẹ.
 
 ---
 
-## 4️⃣ Crossplane — K8s-native IaC
+## 4️⃣ Crossplane — IaC chạy ngay trong Kubernetes
 
-### Concept
+### Crossplane là gì
 
-**Crossplane**: define cloud infrastructure as **K8s CRDs**. ArgoCD syncs infra YAML like apps.
+**Crossplane** lật ngược cách tiếp cận: thay vì có một CLI riêng, nó định nghĩa hạ tầng cloud thành **CRD của Kubernetes** (*Custom Resource Definition* — kiểu resource tự định nghĩa). Bạn `kubectl apply` một file YAML mô tả VPC, và một controller sẽ gọi API cloud để dựng nó thật — y hệt cách K8s quản lý app. ArgoCD đồng bộ hạ tầng từ Git như đồng bộ app, nên GitOps phủ luôn cả tầng hạ tầng.
 
 ```mermaid
 graph LR
@@ -450,7 +470,9 @@ graph LR
     ArgoCD -->|sync Git| K8s
 ```
 
-### Setup
+### Cài đặt
+
+Crossplane cài bằng Helm vào cluster, rồi nạp thêm provider cho từng cloud (ở đây là provider EC2 của AWS):
 
 ```bash
 helm install crossplane crossplane-stable/crossplane \
@@ -468,7 +490,9 @@ spec:
 EOF
 ```
 
-### Sample CRD
+### Ví dụ một CRD
+
+Khi đã có provider, bạn mô tả resource cloud bằng đúng cú pháp YAML của K8s. Để ý `vpcIdRef` — đây là cách Crossplane cho một CRD tham chiếu tới CRD khác, thay cho biến output của Terraform:
 
 ```yaml
 # Define cloud resources via CRDs
@@ -501,7 +525,8 @@ spec:
     availabilityZone: us-east-1a
 ```
 
-Apply:
+Apply xong, bạn theo dõi trạng thái resource bằng `kubectl` như mọi object K8s khác — cột `SYNCED`/`READY` cho biết Crossplane đã dựng xong tài nguyên thật chưa:
+
 ```bash
 kubectl apply -f vpc.yaml
 kubectl get vpc.ec2.aws.upbound.io
@@ -509,9 +534,9 @@ kubectl get vpc.ec2.aws.upbound.io
 # my-vpc  True     True    vpc-abc123      2m
 ```
 
-### Compositions — Abstract complexity
+### Composition — giấu đi sự phức tạp
 
-Instead of users writing 30 CRDs, platform team creates **Composite Resource Definition (XRD)**:
+Bắt người dùng viết 30 CRD cho một mạng hoàn chỉnh thì chẳng khác gì viết HCL thô. Đây là lúc Composition vào cuộc: team platform định nghĩa một "kiểu hạ tầng" mới bằng **XRD** (*Composite Resource Definition*), còn người dùng chỉ điền vài tham số. Trước hết là XRD khai báo schema cho kiểu mới `XNetwork`:
 
 ```yaml
 # XRD — define new "infrastructure type"
@@ -564,7 +589,8 @@ spec:
     # ... more subnets, IGW, NAT, route tables
 ```
 
-User:
+Sau khi platform team đã định nghĩa xong, người dùng chỉ cần viết một spec ngắn gọn:
+
 ```yaml
 apiVersion: acme.io/v1alpha1
 kind: XNetwork
@@ -577,40 +603,50 @@ spec:
   privateSubnets: 3
 ```
 
-→ User writes **5-line spec**, Composition expands to 30+ resources. Self-service platform.
+Vậy là một spec 5 dòng được Composition bung ra thành 30+ resource thật. Đây chính là nền tảng cho mô hình *self-service platform*: dev tự lấy hạ tầng mà không cần biết chi tiết AWS bên dưới.
 
-### Crossplane benefits
+### Crossplane được gì
 
-1. **K8s-native**: same control plane as apps. RBAC, ArgoCD, observability — all reused.
-2. **Self-service**: devs create infra via simple CRDs. Platform team defines safe defaults via Compositions.
-3. **Multi-cloud**: same Composition pattern for AWS/GCP/Azure providers.
-4. **Continuous reconcile**: Crossplane periodically reconciles drift (unlike Terraform that requires explicit apply).
+Gom lại, Crossplane mang về bốn lợi ích mà các tool kia khó có cùng lúc:
 
-### Crossplane downsides
+1. **K8s-native**: cùng control plane với app. RBAC, ArgoCD, observability — tái dùng hết.
+2. **Self-service**: dev tự tạo hạ tầng qua CRD đơn giản; platform team định nghĩa default an toàn qua Composition.
+3. **Multi-cloud**: cùng một pattern Composition cho provider AWS/GCP/Azure.
+4. **Continuous reconcile**: Crossplane định kỳ tự dò và sửa drift, khác Terraform vốn cần `apply` tường minh.
 
-1. **K8s overhead**: need K8s cluster running.
-2. **Learning curve**: CRD + Composition + Functions concepts.
-3. **Less mature than Terraform**: 2026 CNCF Incubating.
-4. **Debugging harder**: controller logs vs Terraform plan output.
+### Crossplane mất gì
 
-### When Crossplane wins
+Đổi lại, cái giá phải trả không nhỏ — và đều xoay quanh việc nó sống trong K8s:
 
-- **Platform engineering team building IDP** (Internal Developer Platform).
-- **K8s already heavy** (most workload on K8s).
-- **Multi-cloud abstractions** needed.
-- **Self-service IDP** users prefer YAML.
+1. **Gánh nặng K8s**: phải có sẵn một cluster đang chạy.
+2. **Đường học dốc**: phải nắm cả CRD, Composition lẫn Functions.
+3. **Chưa trưởng thành bằng Terraform**: tới 2026 vẫn ở mức CNCF Incubating.
+4. **Debug khó hơn**: phải đọc log controller thay vì xem output `terraform plan` quen thuộc.
 
-### When Crossplane loses
+### Khi nào Crossplane thắng
 
-- Small team / simple infra.
-- Team not K8s-comfortable.
-- Need feature parity with Terraform (some providers lag).
+Cân nhắc hai mặt trên, Crossplane sáng giá nhất trong các bối cảnh sau:
+
+- **Platform team đang xây IDP** (*Internal Developer Platform* — nền tảng nội bộ cho dev).
+- **K8s đã là trung tâm** (phần lớn workload chạy trên K8s).
+- Cần các **trừu tượng đa cloud**.
+- Người dùng IDP **thích viết YAML** để tự phục vụ.
+
+### Khi nào Crossplane thua
+
+Ngược lại, có những lúc Crossplane là dao mổ trâu giết gà:
+
+- Team nhỏ, hạ tầng đơn giản.
+- Team chưa quen K8s.
+- Cần ngang bằng tính năng với Terraform (một số provider của Crossplane còn chậm theo sau).
 
 ---
 
-## 5️⃣ Decision matrix — Which IaC tool?
+## 5️⃣ Bảng quyết định — chọn tool IaC nào?
 
-### Quick decision tree
+### Cây quyết định nhanh
+
+Lý thuyết bốn tool đã đủ; giờ là lúc gộp lại thành một sơ đồ chọn nhanh. Cây dưới đi từ câu hỏi gốc "single cloud hay multi-cloud?" rồi rẽ nhánh theo sở thích ngôn ngữ và bối cảnh K8s:
 
 ```mermaid
 graph TD
@@ -632,7 +668,9 @@ graph TD
     Hybrid -->|Yes| Multi[Use multiple]
 ```
 
-### Detailed matrix
+### Bảng chi tiết
+
+Cây quyết định cho hướng đi nhanh; bảng dưới gắn từng tình huống thực tế với tool phù hợp kèm lý do, để bạn đối chiếu sát hơn với dự án của mình:
 
 | Use case | Tool | Reason |
 |---|---|---|
@@ -645,7 +683,9 @@ graph TD
 | **Compliance-heavy, audit strict** | Terraform + OPA | Mature policy ecosystem |
 | **Greenfield, want learn 1 thing** | OpenTofu | OSS license clean |
 
-### Production reality 2026 (estimates)
+### Thực tế thị trường 2026 (ước lượng)
+
+Còn nếu nhìn vào con số thị phần thực tế, bức tranh khá rõ ràng — Terraform vẫn là mặc định, các tool khác chia nhau phần còn lại:
 
 | Tool | Market share | Trend |
 |---|---|---|
@@ -655,19 +695,19 @@ graph TD
 | CDKTF | ~3% | Growing slowly |
 | Crossplane | ~5% | Growing (platform teams) |
 
-→ Terraform still dominates. Pulumi gaining. Crossplane niche but popular for IDP.
+Tóm lại: Terraform vẫn thống trị, Pulumi đang lên đều, còn Crossplane tuy nhỏ nhưng được giới platform team ưa chuộng cho IDP.
 
 ---
 
-## 6️⃣ Multi-cloud abstraction patterns
+## 6️⃣ Các pattern trừu tượng hoá đa cloud
 
 ### Vấn đề
 
-Same logical infra, different clouds:
-- "VPC" in AWS = "VPC" in GCP = "VNet" in Azure.
-- Different APIs, attributes, behaviors.
+Trừu tượng đa cloud nghe hấp dẫn, nhưng gốc rễ của nó là một bài toán khó: cùng một khối hạ tầng logic lại trông rất khác trên mỗi cloud. "VPC" của AWS tương đương "VPC" của GCP và "VNet" của Azure — nhưng API, thuộc tính và hành vi đều lệch nhau. Có ba cách thường gặp để xử lý chuyện này.
 
-### Pattern 1: Terraform per-provider modules
+### Pattern 1: Module Terraform riêng cho từng provider
+
+Cách thẳng tay nhất là viết một module cho mỗi cloud, rồi bật/tắt theo biến `cloud`:
 
 ```
 modules/
@@ -688,9 +728,11 @@ module "vpc_gcp" {
 }
 ```
 
-→ Tedious. Code duplication.
+Nhược điểm lộ ra ngay: lặp code, mỗi cloud một module phải tự bảo trì, và cái `count = ... ? 1 : 0` chỉ là mẹo bật/tắt chứ không phải trừu tượng thật.
 
-### Pattern 2: Pulumi abstraction class
+### Pattern 2: Lớp trừu tượng bằng Pulumi
+
+Vì Pulumi là ngôn ngữ thật nên bạn dùng được hướng đối tượng (*OO*) đúng nghĩa: định nghĩa một lớp `Network` trừu tượng, rồi mỗi cloud kế thừa và hiện thực hoá theo cách của mình:
 
 ```typescript
 abstract class Network {
@@ -717,9 +759,11 @@ const net: Network = config.cloud === "aws"
   : new GcpNetwork("main", "10.0.0.0/16");
 ```
 
-→ Real OO abstraction. Pulumi shines here.
+Phía gọi không cần biết đang ở cloud nào — đây là trừu tượng OO thật sự, và là chỗ Pulumi toả sáng hơn hẳn HCL.
 
-### Pattern 3: Crossplane Compositions
+### Pattern 3: Composition của Crossplane
+
+Crossplane giải cùng bài toán bằng cách định nghĩa một kiểu trừu tượng `XNetwork` (XRD), rồi viết một Composition cho mỗi cloud, gắn nhãn `cloud` để chọn đúng bản hiện thực:
 
 ```yaml
 # XRD: define abstract type
@@ -761,24 +805,25 @@ spec:
     - base: { kind: Network, apiVersion: compute.gcp.upbound.io/v1beta1 }
 ```
 
-→ Users create `XNetwork`. Composition selector matches cloud. Cloud-agnostic from user POV.
+Người dùng chỉ tạo một `XNetwork`; bộ chọn của Composition sẽ khớp đúng cloud. Từ góc nhìn người dùng, mọi thứ hoàn toàn cloud-agnostic.
 
-### Reality check
+### Một lần kiểm tra với thực tế
 
-Multi-cloud abstraction = **expensive**. Most teams:
-- 95% workload on 1 cloud (efficient).
-- 5% on backup cloud (DR).
-- Different teams for different clouds.
+Trước khi lao vào trừu tượng đa cloud, hãy tỉnh táo một nhịp: nó **đắt**. Thực tế ở phần lớn tổ chức là:
 
-Don't over-abstract. Lift-and-shift between clouds rarely happens; refactor when moves.
+- 95% workload nằm trên 1 cloud (vì hiệu quả).
+- 5% trên cloud dự phòng (cho *DR* — *Disaster Recovery*, khôi phục sau thảm hoạ).
+- Các cloud khác nhau thường do các team khác nhau phụ trách.
 
-→ Pulumi/Crossplane abstractions only when **realistic multi-cloud strategy**.
+Đừng trừu tượng quá tay. Chuyện bê nguyên hạ tầng từ cloud này sang cloud kia hiếm khi xảy ra; khi nào thật sự chuyển thì refactor lúc đó. Các trừu tượng đa cloud của Pulumi/Crossplane chỉ đáng làm khi bạn có **chiến lược đa cloud thực sự**.
 
 ---
 
-## 7️⃣ Migration paths between tools
+## 7️⃣ Các lối di cư giữa các tool
 
 ### Terraform → Pulumi
+
+Pulumi có công cụ tự động `tf2pulumi` để dịch HCL sang code Pulumi — nhưng kết quả chỉ là bản dịch máy, cần dọn dẹp lại bằng tay:
 
 ```bash
 # Tool: tf2pulumi
@@ -786,34 +831,36 @@ brew install pulumi/tap/tf2pulumi
 tf2pulumi --target typescript ./terraform-project
 ```
 
-→ Generates Pulumi TypeScript code from Terraform HCL. Manual cleanup needed.
-
-State migration: not automatic. Use `pulumi import` to bring resources.
+Riêng phần state thì không tự động: bạn phải dùng `pulumi import` để kéo các resource đang tồn tại vào quản lý của Pulumi.
 
 ### Terraform HCL → CDKTF
+
+Đây là lối di cư nhẹ nhất, vì CDKTF vẫn dùng đúng engine Terraform:
 
 ```bash
 cdktf convert --language typescript < main.tf
 ```
 
-→ Converts HCL to TypeScript using CDKTF constructs. State is **same** (still Terraform state).
-
-→ Easy migration: write code in TS, deploy via Terraform engine.
+Lệnh trên chuyển HCL thành code TypeScript dùng construct của CDKTF, và state **giữ nguyên** (vẫn là Terraform state). Bạn chỉ đổi cách viết sang TS, còn triển khai vẫn qua engine Terraform — gần như không rủi ro.
 
 ### Terraform → Crossplane
 
-No automated tool. Manual rewrite as CRDs + Compositions.
+Ngược lại, đây là con đường gập ghềnh nhất: không có công cụ tự động, phải viết lại thủ công thành CRD + Composition.
 
-→ Re-import each resource via Crossplane management. Lengthy.
+Mỗi resource phải được import lại vào quản lý của Crossplane — một quá trình dài và tốn công.
 
 ### CDK → CDKTF
+
+Tương tự, chuyển từ AWS CDK sang CDKTF cũng phải làm tay, nhưng phần lớn kiến thức TypeScript vẫn tái dùng được:
 
 ```bash
 # Migrate AWS CDK to CDKTF (multi-cloud capable)
 # No automated tool — manual rewrite, same TS knowledge applies
 ```
 
-### Lock-in considerations
+### Mức độ khoá chân (lock-in)
+
+Câu hỏi quan trọng khi chọn tool không chỉ là "dùng có sướng không" mà còn "thoát ra có dễ không". Bảng dưới xếp các tool theo mức khoá chân:
 
 | Tool | Lock-in level |
 |---|---|
@@ -824,21 +871,19 @@ No automated tool. Manual rewrite as CRDs + Compositions.
 | CDKTF | Low — outputs Terraform HCL |
 | Crossplane | Medium — K8s-native |
 
-→ Terraform/CDKTF lowest lock-in. CDK highest (AWS-only).
+Rõ ràng Terraform và CDKTF khoá chân thấp nhất (đầu ra là HCL portable), còn AWS CDK cao nhất vì gắn chặt với CloudFormation chỉ-AWS.
 
 ---
 
-## 8️⃣ Hands-on: Compare same VPC in 4 tools
+## 8️⃣ Hands-on: cùng một VPC viết bằng 4 tool
 
-### Goal
+### Mục tiêu
 
-Create same VPC + 2 subnets in:
-1. Terraform.
-2. Pulumi (Python).
-3. AWS CDK (TypeScript).
-4. Crossplane (YAML).
+Cách tốt nhất để cảm nhận khác biệt là viết đúng *một* khối hạ tầng — VPC + 2 subnet — bằng cả bốn tool, rồi đặt cạnh nhau. Ta sẽ làm lần lượt: Terraform, Pulumi (Python), AWS CDK (TypeScript), Crossplane (YAML).
 
 ### Terraform
+
+Bản tham chiếu quen thuộc nhất — HCL khai báo, dùng `count` để lặp 2 subnet:
 
 ```hcl
 resource "aws_vpc" "main" {
@@ -857,6 +902,8 @@ resource "aws_subnet" "public" {
 
 ### Pulumi (Python)
 
+Cùng logic, nhưng vòng lặp là `for` Python thật thay cho `count`:
+
 ```python
 import pulumi
 import pulumi_aws as aws
@@ -873,7 +920,9 @@ for i, az in enumerate(["us-east-1a", "us-east-1b"]):
         tags={"Name": f"public-{i}"})
 ```
 
-### AWS CDK (TypeScript L1 — equivalent)
+### AWS CDK (TypeScript L1 — tương đương)
+
+Ở mức L1, CDK ánh xạ 1:1 với CloudFormation nên dài hơn, nhưng vòng lặp lại là `.forEach()` của TypeScript:
 
 ```typescript
 import * as cdk from 'aws-cdk-lib';
@@ -899,7 +948,9 @@ class MyStack extends cdk.Stack {
 }
 ```
 
-### AWS CDK (TypeScript L2 — high-level)
+### AWS CDK (TypeScript L2 — mức cao)
+
+Cũng là CDK nhưng dùng construct L2: `ec2.Vpc` tự lo subnet + IGW + route table, nên cùng kết quả mà ngắn hơn hẳn:
 
 ```typescript
 const vpc = new ec2.Vpc(this, 'MainVpc', {
@@ -913,6 +964,8 @@ const vpc = new ec2.Vpc(this, 'MainVpc', {
 ```
 
 ### Crossplane (YAML)
+
+Cuối cùng là Crossplane — khai báo từng resource bằng YAML, dài dòng nhất nhưng đổi lại được quản lý hoàn toàn trong K8s:
 
 ```yaml
 apiVersion: ec2.aws.upbound.io/v1beta1
@@ -948,7 +1001,9 @@ spec:
     availabilityZone: us-east-1b
 ```
 
-### Side-by-side observation
+### Quan sát đặt cạnh nhau
+
+Bốn cách viết, bốn số dòng và bốn thế mạnh khác nhau. Bảng dưới tổng kết lại để thấy mỗi tool đánh đổi cái gì:
 
 | Tool | Lines | Strengths |
 |---|---|---|
@@ -958,22 +1013,24 @@ spec:
 | CDK L2 | 8 | Highest abstraction |
 | Crossplane | 22 | Declarative YAML, verbose |
 
-→ Each has trade-offs. CDK L2 wins line count but AWS-only. Pulumi wins readability for programmers.
+Mỗi tool có cái giá của nó: CDK L2 thắng về số dòng nhưng khoá chặt vào AWS; Pulumi thắng về độ dễ đọc với người làm lập trình; Terraform cân bằng; còn Crossplane dài nhưng đổi lấy mô hình K8s-native.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Choose tool based on hype
+### ❌ Cạm bẫy: Chọn tool theo trào lưu
 
-→ "Pulumi is new, let's switch from Terraform". Migrate 50K lines for marginal benefit. Months of work.
+Một câu hay nghe: *"Pulumi mới quá, đổi từ Terraform sang đi"* — rồi cả team lao vào di cư 50K dòng code chỉ để đổi lấy lợi ích cận biên. Hậu quả là một lượng công việc khổng lồ đổi lấy gần như không gì đáng kể.
 
-→ **Fix**: 
-- Stay with current tool unless **strong reason** (multi-cloud need, team language preference).
-- Greenfield project = evaluate fresh.
-- Don't migrate established repo without ROI calculation.
+→ **Khắc phục**:
+- Giữ tool hiện tại trừ khi có **lý do mạnh** (thực sự cần đa cloud, hoặc team có thiên hướng ngôn ngữ rõ rệt).
+- Project mới (*greenfield*) thì đánh giá lại từ đầu.
+- Đừng di cư một repo đã ổn định mà chưa tính ROI.
 
-### ❌ Pitfall: Mix tools in same repo
+### ❌ Cạm bẫy: Trộn nhiều tool trong cùng một repo
+
+Một sai lầm phổ biến là để hạ tầng nằm rải giữa nhiều tool trong một repo:
 
 ```
 infra/
@@ -982,67 +1039,71 @@ infra/
 └── cdk/          # legacy
 ```
 
-→ Cognitive overhead. Different states. Hard to onboard.
+→ Kết quả là gánh nặng nhận thức tăng vọt, state nằm rải mỗi nơi một kiểu, và người mới vào gần như không onboard nổi.
 
-→ **Fix**: Pick 1 primary tool per repo. Migration: full + delete old.
+→ **Khắc phục**: Mỗi repo chọn 1 tool chính. Khi di cư thì làm dứt điểm rồi xoá cái cũ.
 
-### ❌ Pitfall: Pulumi without programming discipline
+### ❌ Cạm bẫy: Dùng Pulumi mà thiếu kỷ luật lập trình
 
-→ Team writes Pulumi like script: 1000-line file, no functions, no types.
+Vì Pulumi là ngôn ngữ thật nên rất dễ sa vào viết như script: một file 1000 dòng, không hàm, không type. Cái tự do của ngôn ngữ thật trở thành con dao hai lưỡi.
 
-→ **Fix**:
-- Apply software engineering practices: small functions, types, tests.
-- Code review like app code.
-- Linter (ESLint, pylint).
+→ **Khắc phục**:
+- Áp dụng đúng kỹ thuật phần mềm: hàm nhỏ, có type, có test.
+- Code review hạ tầng như review code app.
+- Dùng linter (ESLint, pylint).
 
-### ❌ Pitfall: CDK L3 misuse
+### ❌ Cạm bẫy: Lạm dụng CDK L3
+
+Construct L3 tiện tới mức gây nghiện — một dòng dựng cả một dịch vụ:
 
 ```typescript
 new patterns.ApplicationLoadBalancedFargateService(this, 'App', { ... });
 ```
 
-→ Magic 30+ resources created. Hard to tune.
+→ Nhưng đằng sau "phép thuật" đó là 30+ resource được tạo ngầm, và khi cần tinh chỉnh thì rất khó can thiệp.
 
-→ **Fix**:
-- L2 for most cases (balance abstraction + control).
-- L3 only when defaults exactly fit.
-- L1 for fine-tuning.
+→ **Khắc phục**:
+- Dùng L2 cho phần lớn trường hợp (cân bằng giữa trừu tượng và kiểm soát).
+- L3 chỉ khi default khớp y hệt nhu cầu.
+- L1 khi cần tinh chỉnh chi tiết.
 
-### ❌ Pitfall: Crossplane CRD chaos
+### ❌ Cạm bẫy: Loạn CRD với Crossplane
 
-→ 100 CRDs in cluster. Hard to discover. Compositions un-versioned.
+Khi không quản lý, cluster nhanh chóng có cả trăm CRD, khó tìm, Composition không đánh version. Sự linh hoạt biến thành mớ bòng bong.
 
-→ **Fix**:
-- **Functions**: Crossplane v2 has Composition Functions (replacing patches with code) — better composition logic.
-- **XRDs versioned**: v1alpha1 → v1beta1 → v1.
-- **Documentation**: each XRD has README + examples.
+→ **Khắc phục**:
+- **Functions**: Crossplane v2 có Composition Functions (thay patch bằng code) — logic composition rõ ràng hơn.
+- **Đánh version XRD**: v1alpha1 → v1beta1 → v1.
+- **Tài liệu hoá**: mỗi XRD có README + ví dụ kèm theo.
 
-### ❌ Pitfall: Multi-cloud abstraction premature
+### ❌ Cạm bẫy: Trừu tượng đa cloud quá sớm
 
-→ Abstract Network/Compute/Storage upfront for multi-cloud "someday". Never use 2nd cloud. Wasted complexity.
+Một cám dỗ kinh điển: trừu tượng Network/Compute/Storage ngay từ đầu để "lỡ sau này dùng cloud thứ hai". Rồi cloud thứ hai không bao giờ đến, và bạn ôm trọn sự phức tạp vô ích.
 
-→ **Fix**:
-- YAGNI: build single-cloud first.
-- Refactor to multi-cloud when actually needed.
-- Pulumi/Crossplane multi-cloud abstractions = expensive to maintain.
+→ **Khắc phục**:
+- YAGNI (*You Aren't Gonna Need It*): xây single-cloud trước đã.
+- Refactor sang đa cloud khi thật sự cần.
+- Trừu tượng đa cloud của Pulumi/Crossplane rất tốn công bảo trì.
 
-### ✅ Best practice: Greenfield = evaluate Pulumi if team strong dev
+### ✅ Best practice: Greenfield + team mạnh dev → cân nhắc Pulumi
 
-Fresh project, team strong in Python/TS:
-- Pulumi: 50% faster development (real language).
-- Better testability.
-- Easier onboarding for new devs (Python = familiar).
+Với một project mới tinh và team mạnh Python/TS, Pulumi rất đáng thử:
 
-vs Terraform:
-- Larger community.
-- More providers/modules ready.
-- Established patterns.
+- Phát triển nhanh hơn rõ rệt nhờ ngôn ngữ thật.
+- Test dễ hơn.
+- Dev mới onboard nhanh hơn (Python = quen thuộc).
 
-→ Try Pulumi greenfield, stay Terraform brownfield.
+So với Terraform thì Terraform vẫn hơn ở:
 
-### ✅ Best practice: Platform team builds IDP with Crossplane
+- Cộng đồng lớn hơn.
+- Nhiều provider/module sẵn có.
+- Pattern đã được định hình.
 
-Platform engineer goal: devs self-service infra.
+→ Kinh nghiệm: thử Pulumi ở greenfield, giữ Terraform ở brownfield (dự án cũ đã chạy).
+
+### ✅ Best practice: Platform team xây IDP bằng Crossplane
+
+Mục tiêu của một platform engineer là để dev tự phục vụ hạ tầng. Với Crossplane, dev chỉ cần viết một YAML đơn giản:
 
 ```yaml
 # Dev writes simple YAML:
@@ -1056,25 +1117,23 @@ spec:
   scale: small
 ```
 
-→ Composition expands to: K8s Deployment + Service + Ingress + RDS Postgres + Secret + Network Policy + IAM role.
+→ Composition sẽ bung spec đó thành: K8s Deployment + Service + Ingress + RDS Postgres + Secret + Network Policy + IAM role.
 
-Dev needs nothing about AWS. **Platform abstracts complexity**.
+Dev không cần biết gì về AWS — **platform giấu trọn sự phức tạp**. Đây là chỗ Crossplane vượt Terraform (vốn là tool hướng tới dev trực tiếp).
 
-→ Crossplane shines here vs Terraform (which is dev-facing tool).
+### ✅ Best practice: Lai HCL + CDKTF
 
-### ✅ Best practice: HCL + CDKTF hybrid
+Một số team chia việc rất khéo: dùng HCL cho hạ tầng ổn định (network, IAM), và dùng CDKTF cho phần hạ tầng nhiều logic động (đa region với điều kiện phức tạp).
 
-Some teams:
-- HCL for stable infra (network, IAM).
-- CDKTF for dynamic logic-heavy infra (multi-region with conditionals).
-
-Both use same Terraform engine. Mix in different repos.
+Cả hai dùng chung engine Terraform, chỉ tách ra ở các repo khác nhau — nên vừa giữ được sự đơn giản của HCL, vừa có sức mạnh lập trình khi cần.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Pulumi vs Terraform — real production reason to switch?
+Năm câu dưới chạm vào đúng những quyết định khó nhất khi chọn và di cư tool IaC. Bạn thử tự trả lời trước khi mở đáp án — đây là cách nhanh nhất để biết mình đã nắm chắc hay mới thấy quen.
+
+**Q1.** Pulumi vs Terraform — đâu là lý do thật sự (production) để chuyển?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -1113,14 +1172,14 @@ Both use same Terraform engine. Mix in different repos.
 - 2026 market: Terraform ~65%, Pulumi ~15%.
 
 **Migration cost**:
-- Small (< 5K LoC): 1-2 weeks.
-- Medium (5-50K): 1-3 months.
-- Large (50K+): 6+ months + risk.
+- Small (< 5K LoC): low effort.
+- Medium (5-50K): significant effort.
+- Large (50K+): large effort + risk.
 
 → Don't migrate unless ROI > 1.5x.
 </details>
 
-**Q2.** AWS CDK vs CDKTF — which for AWS-only?
+**Q2.** AWS CDK vs CDKTF — nên chọn cái nào cho team chỉ làm AWS?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -1132,7 +1191,7 @@ Both use same Terraform engine. Mix in different repos.
 - CloudFormation state.
 - AWS support included.
 
-**Best for**:
+**Phù hợp khi**:
 - AWS-only forever.
 - Want L3 patterns (faster dev).
 - Trust CloudFormation maturity.
@@ -1144,7 +1203,7 @@ Both use same Terraform engine. Mix in different repos.
 - Terraform state.
 - Larger community (Terraform).
 
-**Best for**:
+**Phù hợp khi**:
 - "AWS now, maybe multi-cloud later".
 - Migrating from Terraform HCL but want TS code.
 - Want OSS Terraform engine (no CloudFormation lock-in).
@@ -1170,7 +1229,7 @@ Both use same Terraform engine. Mix in different repos.
 **Anti-pattern**: Use both CDK + CDKTF in same project. State systems different, debugging nightmare.
 </details>
 
-**Q3.** Crossplane vs Terraform for K8s-centric team?
+**Q3.** Crossplane vs Terraform cho team lấy K8s làm trung tâm?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -1224,13 +1283,13 @@ graph LR
 - Major adopters: Upbound (vendor), Microsoft, Spotify.
 - Still niche (~5% market 2026), growing.
 
-**Realistic timeline**:
-- Year 1: bootstrap with Terraform, K8s + ArgoCD.
-- Year 2: introduce Crossplane for new apps.
-- Year 3+: migrate stable resources to Crossplane (or stay hybrid).
+**Realistic rollout**:
+- Bootstrap with Terraform, K8s + ArgoCD first.
+- Introduce Crossplane for new apps next.
+- Migrate stable resources to Crossplane later (or stay hybrid).
 </details>
 
-**Q4.** Multi-cloud abstraction — when worth complexity?
+**Q4.** Trừu tượng đa cloud — khi nào đáng với sự phức tạp bỏ ra?
 
 <details>
 <summary>💡 Đáp án</summary>
@@ -1295,20 +1354,20 @@ graph LR
 → Multi-cloud is **organizational decision**, not technical default.
 </details>
 
-**Q5.** Migration Terraform → Pulumi — full guide?
+**Q5.** Di cư Terraform → Pulumi — hướng dẫn đầy đủ?
 
 <details>
 <summary>💡 Đáp án</summary>
 
 **Phases**:
 
-**Phase 0: Evaluation** (1 week):
+**Phase 0: Evaluation**:
 - POC: convert 1 module Terraform → Pulumi.
 - Team training (Python/TS Pulumi tutorial).
 - Estimate effort for full repo.
 - Decide: go / no-go.
 
-**Phase 1: Convert code** (variable, ~2-8 weeks):
+**Phase 1: Convert code**:
 
 ```bash
 # tf2pulumi automated conversion
@@ -1322,7 +1381,7 @@ tf2pulumi --target typescript ./terraform-project > pulumi-project/
 
 → Output is mechanical translation. Refactor to idiomatic Pulumi.
 
-**Phase 2: State migration** (1-2 weeks):
+**Phase 2: State migration**:
 
 Option A: **Big bang import**:
 ```bash
@@ -1337,28 +1396,26 @@ Option B: **Gradual**:
 - Move resources one-by-one (`pulumi import`, then `terraform state rm`).
 - Slower but safer.
 
-**Phase 3: Cutover** (1 week):
+**Phase 3: Cutover**:
 - Apply Pulumi → no changes (state matches reality).
 - Disable Terraform CI/CD.
 - Archive Terraform code.
 - Update docs.
 
-**Phase 4: Optimize** (ongoing):
+**Phase 4: Optimize**:
 - Refactor to Pulumi idioms.
 - Add tests.
 - Use Pulumi Cloud features (policy, audit).
 
-**Total**: 1-4 months depending on size.
-
 **Risks**:
 - **State corruption**: backup before each step.
 - **Pulumi provider feature lag**: some Terraform features missing in Pulumi.
-- **Team learning curve**: 2-4 weeks ramp-up.
+- **Team learning curve**: ramp-up needed.
 - **Drift during migration**: freeze infra changes during cutover.
 
 **Rollback plan**:
 - Keep Terraform state untouched until Pulumi cutover successful.
-- Both deployments parallel for 1 week (verify same outputs).
+- Run both deployments in parallel briefly (verify same outputs).
 - If Pulumi fails: re-enable Terraform CI.
 
 **Don't migrate if**:
@@ -1376,7 +1433,9 @@ Option B: **Gradual**:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Phần tra nhanh cho lúc làm việc thật — gom theo từng tool, rồi tới vài template Pulumi và Crossplane hay dùng nhất.
 
 ```bash
 # === Pulumi ===
@@ -1437,42 +1496,45 @@ spec:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Pulumi** | Multi-language IaC tool (TS/Python/Go/C#/Java) |
-| **AWS CDK** | AWS-native CDK synthesizing CloudFormation |
-| **CDKTF** | CDK for Terraform — TS/Python → Terraform HCL |
-| **Crossplane** | K8s-native IaC with CRDs for cloud resources |
-| **Composition (XRD)** | Crossplane abstraction: 1 CRD → multiple resources |
-| **Composite Resource Definition (XRD)** | Define new infrastructure type |
-| **Composition Functions** | Crossplane v2 logic for composition |
-| **L1/L2/L3 constructs** | AWS CDK abstraction levels |
-| **`pulumi import`** | Import existing cloud resource to Pulumi |
-| **`tf2pulumi`** | Tool converting Terraform HCL → Pulumi |
-| **`cdktf convert`** | Tool converting Terraform HCL → CDKTF code |
-| **Cloud-agnostic** | Code works across multiple clouds |
-| **OO abstraction** | Object-oriented design (classes, inheritance) |
-| **Pulumi Cloud** | Pulumi's SaaS state backend (default) |
-| **CloudFormation** | AWS-native IaC service (CDK synthesizes to this) |
-| **Provider** | Plugin connecting IaC tool to cloud API |
-| **IDP** | Internal Developer Platform |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Pulumi** | Pulumi | Tool IaC đa ngôn ngữ (TS/Python/Go/C#/Java), chạy engine riêng |
+| **AWS CDK** | AWS CDK | CDK của AWS, sinh ra template CloudFormation |
+| **CDKTF** | CDK cho Terraform | CDK với đầu ra là Terraform HCL (TS/Python → HCL) |
+| **Crossplane** | Crossplane | IaC chạy trong K8s, mô tả cloud bằng CRD |
+| **Composition** | Bản kết hợp | Cơ chế Crossplane: 1 kiểu trừu tượng → nhiều resource |
+| **Composite Resource Definition (XRD)** | Định nghĩa resource kết hợp | Khai báo một "kiểu hạ tầng" mới trong Crossplane |
+| **Composition Functions** | Hàm cho Composition | Logic composition bằng code (Crossplane v2) |
+| **L1/L2/L3 constructs** | Ba mức construct | Các mức trừu tượng của AWS CDK |
+| **`pulumi import`** | Lệnh import của Pulumi | Đưa resource cloud đang tồn tại vào quản lý của Pulumi |
+| **`tf2pulumi`** | Công cụ tf2pulumi | Dịch Terraform HCL → code Pulumi |
+| **`cdktf convert`** | Lệnh convert của CDKTF | Dịch Terraform HCL → code CDKTF |
+| **Cloud-agnostic** | Không phụ thuộc cloud | Code chạy được trên nhiều cloud |
+| **OO abstraction** | Trừu tượng hướng đối tượng | Thiết kế OO (class, kế thừa) |
+| **Pulumi Cloud** | Pulumi Cloud | Backend SaaS lưu state của Pulumi (mặc định) |
+| **CloudFormation** | CloudFormation | Dịch vụ IaC của AWS (CDK sinh ra template cho nó) |
+| **Provider** | Provider | Plugin kết nối tool IaC với API của cloud |
+| **IDP** | Nền tảng nội bộ cho dev | *Internal Developer Platform* |
+| **DR** | Khôi phục sau thảm hoạ | *Disaster Recovery* — cloud/môi trường dự phòng |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_state-advanced-and-drift.md](03_state-advanced-and-drift.md)
-- ↑ Cluster: [IaC README](../../README.md)
-- 🎯 Hoàn thành IaC intermediate cluster + **DevOps intermediate sprint complete (5/5 clusters)**!
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🏗️ [Basic best practices](../01_basic/04_best-practices-and-alternatives.md)
-- ☸️ [K8s intermediate Autoscaling+Operators](../../../kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md) — Crossplane is Operator pattern
+- ⬅️ **Bài trước:** [State management nâng cao + Drift detection — Cứu hạ tầng khỏi 200 resource bị xoá nhầm](03_state-advanced-and-drift.md)
+- ↑ **Về cụm:** [IaC — Infrastructure as Code](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🏗️ [IaC Best Practices & Alternatives](../01_basic/04_best-practices-and-alternatives.md) — nền tảng best practice + các tool thay thế
+- ☸️ [Autoscaling & Operators — HPA, VPA, KEDA, CRD + Controller](../../../kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md) — Crossplane chính là một dạng Operator pattern
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Pulumi docs](https://www.pulumi.com/docs/)
 - 📖 [AWS CDK docs](https://docs.aws.amazon.com/cdk/)
 - 📖 [CDKTF docs](https://developer.hashicorp.com/terraform/cdktf)
@@ -1485,8 +1547,8 @@ spec:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Setup + Sample TypeScript + Commands + Loops/Conditionals.
-
-- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 — **bài cuối DevOps intermediate sprint 25/25**. Pulumi (real languages) + AWS CDK (synthesize CloudFormation) + CDKTF (synthesize Terraform) + Crossplane (K8s-native CRDs + Compositions) + decision matrix + migration paths + multi-cloud abstraction patterns + hands-on so sánh same VPC trong 4 tools. 6 pitfall + 4 best practice + 5 self-check + cheatsheet. **🎉 DEVOPS INTERMEDIATE SPRINT 100% COMPLETE.**
+- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Pulumi (real languages) + AWS CDK (synthesize CloudFormation) + CDKTF (synthesize Terraform) + Crossplane (K8s-native CRDs + Compositions) + decision matrix + migration paths + multi-cloud abstraction patterns + hands-on so sánh same VPC trong 4 tools. 6 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in trước Setup + Sample TypeScript + Commands + Loops/Conditionals.
+- **v2.0.0 (07/06/2026)** — Viết lại toàn bộ phần prose sang tiếng Việt narrative theo gold-standard: thêm lời dẫn trước mỗi code/bảng/list + câu phân tích sau + câu bắc cầu giữa các section, Việt hoá các heading EN thuần (Concept/Setup/Sample/Commands/Benefits/When wins-loses... → tiêu đề tiếng Việt), giải thích thuật ngữ EN trong ngoặc lần đầu (IaC, CRD, XRD, IDP, DR, OO). Chuẩn hoá heading framework + nav (3 sub 🧭🧩🌐, marker ⬅️/↑, link-text = tiêu đề thực, xoá nhánh "sprint complete"), Glossary 3 cột, metadata "Yêu cầu trước". Bỏ ước tính thời lượng trong self-check Q1/Q3/Q5. Giữ nguyên 100% code/config/số liệu/flag và cấu trúc 8 phần + diagram.

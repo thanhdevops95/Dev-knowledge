@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [03_secret-management.md](03_secret-management.md), [CI/CD basic Deploy strategies](../01_basic/04_deploy-strategies.md)
 
 > 🎯 *Basic deploy = all-or-nothing risk (bài 04 basic). Production cần **progressive**: 5% → 25% → 50% → 100% với metric analysis + auto-rollback. **Argo Rollouts** + **Prometheus** analysis + **feature flags** runtime. Bài cuối CI/CD intermediate.*
@@ -844,9 +843,9 @@ else:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Canary metric not sensitive enough
+### ❌ Cạm bẫy: Canary metric not sensitive enough
 
 ```yaml
 successCondition: result[0] >= 0.5   # 50% success → too lenient
@@ -863,7 +862,7 @@ sum(rate(http_requests_total{deployment="fastapi-canary"}[2m]))
 
 → Compare canary alone vs stable, not aggregate.
 
-### ❌ Pitfall: Analysis interval too short
+### ❌ Cạm bẫy: Analysis interval too short
 
 ```yaml
 interval: 5s
@@ -874,7 +873,7 @@ count: 3
 
 → **Fix**: `interval: 30s, count: 6` minimum → 3 minutes data. Confidence high.
 
-### ❌ Pitfall: No analysis early step
+### ❌ Cạm bẫy: No analysis early step
 
 ```yaml
 steps:
@@ -888,7 +887,7 @@ steps:
 
 → **Fix**: Analysis at first step too.
 
-### ❌ Pitfall: Feature flag forgot to cleanup
+### ❌ Cạm bẫy: Feature flag forgot to cleanup
 
 → Flag `new-checkout` enabled 100% 6 months ago. Code still has if/else branches. Dead code = bug surface.
 
@@ -897,7 +896,7 @@ steps:
 - Linter detect unused flags.
 - Auto-expire flags after N days at 100% (Unleash supports).
 
-### ❌ Pitfall: Feature flag fallback inconsistent
+### ❌ Cạm bẫy: Feature flag fallback inconsistent
 
 ```python
 # Service A
@@ -915,7 +914,7 @@ return old_api()
 
 → **Fix**: Team convention — default value always same. Document. Audit code.
 
-### ❌ Pitfall: Canary without auto-rollback
+### ❌ Cạm bẫy: Canary without auto-rollback
 
 ```yaml
 steps:
@@ -927,7 +926,7 @@ steps:
 
 → **Fix**: Always include analysis with auto-rollback. Manual approval optional but not required.
 
-### ❌ Pitfall: Mixed traffic on canary header
+### ❌ Cạm bẫy: Mixed traffic on canary header
 
 ```
 # Header-based canary
@@ -978,7 +977,7 @@ steps:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng canary, blue-green, feature flag?
 
@@ -1170,7 +1169,7 @@ Like OpenTelemetry vs vendor monitoring SDK — vendor-neutral observability spe
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === Argo Rollouts ===
@@ -1230,7 +1229,7 @@ spec:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1262,17 +1261,17 @@ spec:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_secret-management.md](03_secret-management.md)
-- ↑ Cluster: [CI/CD README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Secret management — Vault + External Secrets Operator + 12-factor](03_secret-management.md)
+- ↑ **Về cụm:** [CI/CD README](../../README.md)
 - 🎯 Hoàn thành CI/CD intermediate cluster!
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🔁 [CI/CD basic Deploy strategies](../01_basic/04_deploy-strategies.md) — basic 5 strategies overview
 - ☸️ [K8s intermediate Autoscaling+Operators](../../../kubernetes/lessons/02_intermediate/04_autoscaling-and-operators.md) — HPA interact với canary
 - 📊 [Observability Prometheus](../../../observability/lessons/01_basic/01_metrics-prometheus.md) — metric source for analysis
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Argo Rollouts](https://argo-rollouts.readthedocs.io/)
 - 📖 [Flagger](https://flagger.app/)
 - 📖 [Argo Rollouts Analysis](https://argoproj.github.io/argo-rollouts/features/analysis/)
@@ -1286,8 +1285,7 @@ spec:
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Traditional vs Progressive + Argo Rollouts vs others + Install + Basic Rollout + Update image.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 — bài cuối CI/CD intermediate. Argo Rollouts canary + AnalysisTemplate metric-driven auto-rollback + traffic shifting (replica/ingress-nginx/Istio) + blue-green variant + Feature flags OpenFeature + Unleash + decision matrix canary vs FF + hands-on canary với Prometheus analysis. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Traditional vs Progressive + Argo Rollouts vs others + Install + Basic Rollout + Update image.

@@ -1,13 +1,12 @@
 # 🎓 Cross-cloud Network & Identity — Transit, VPN, Federation, Vault sync
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
-> **Prerequisites:** Đã đọc [01_vendor-lock-in-and-portability](01_vendor-lock-in-and-portability.md) ✅, biết VPC/VNet cơ bản
+> **Yêu cầu trước:** Đã đọc [Vendor Lock-in & Portability](01_vendor-lock-in-and-portability.md) ✅, biết VPC/VNet cơ bản
 
 > 🎯 *Bài 02 cluster Multi-cloud. Khi đã quyết multi-cloud rồi, vấn đề thực thi: **2 cloud nói chuyện với nhau qua đường nào** (network) + **ai được truy cập cái gì** (identity). Bài này: cross-cloud network (VPN, Transit Gateway, Megaport, Equinix Fabric, BGP private interconnect), Identity federation (Entra ID + AWS SSO + Workforce Identity), secrets sync (Vault + External Secrets Operator). Có hands-on Terraform.*
 
@@ -40,53 +39,54 @@ Vấn đề kép:
 
 🪞 **Ẩn dụ**: *Như **đường nối 2 thành phố** — đi đường công cộng (Internet) free nhưng kẹt + nguy hiểm; xa lộ riêng (VPN) qua công cộng nhưng có hộ tống; tàu hỏa riêng (Megaport) đường riêng tốc độ cao; sân bay tư nhân (Equinix Fabric) tốt nhất + đắt nhất.*
 
-### Option 1: Internet (default, miễn phí nhưng kém)
+### Option 1: Internet (mặc định, miễn phí nhưng kém)
 
-- **Cách**: GCP VM gọi `https://my-aws-app.com` qua Internet công cộng.
-- **Cost**: $0 setup, nhưng egress $0.09/GB.
-- **Pros**: dễ nhất, public endpoint.
-- **Cons**:
-  - Data đi qua Internet (compliance fail nếu yêu cầu private).
+Đây là cách dễ nhất: GCP VM gọi thẳng `https://my-aws-app.com` qua Internet công cộng. Setup tốn $0 nhưng phí *egress* (data đi ra ngoài cloud) vẫn $0.09/GB. Đổi lại sự tiện lợi, bạn phải chấp nhận hàng loạt điểm yếu:
+
+- **Điểm cộng**: dễ nhất, dùng được ngay với *public endpoint*.
+- **Điểm trừ**:
+  - Data đi qua Internet → fail compliance nếu yêu cầu private routing.
   - Latency cao (10-100ms+ thay vì <5ms).
-  - Throughput không guaranteed.
-  - Security: phải expose endpoint ra Internet.
+  - Throughput không được đảm bảo (*best-effort*).
+  - Phải *expose* endpoint ra Internet → tăng bề mặt tấn công.
 
-**Khi dùng**: prototype, traffic nhỏ, non-sensitive data, public-facing API.
+**Khi dùng**: prototype, traffic nhỏ, data không nhạy cảm, public-facing API.
 
 ### Option 2: Site-to-site VPN (IPSec over Internet)
 
-- **Cách**: Tunnel IPSec encrypted giữa 2 VPC qua Internet.
-- **Cost**: ~$36-72/tháng tunnel + $0.09/GB egress (vẫn qua Internet).
-- **Pros**:
-  - Encrypted in transit.
-  - Setup nhanh (vài giờ).
-  - Private IP routing.
-- **Cons**:
-  - Vẫn dùng Internet underlying → latency variable, throughput limit ~1.25 Gbps per tunnel.
-  - Single point: tunnel down = mất kết nối.
+Bước nâng cấp đầu tiên: dựng một *tunnel* IPSec mã hoá giữa 2 VPC, vẫn chạy trên hạ tầng Internet nhưng traffic được bọc kín. Chi phí khoảng $36-72/tháng cho tunnel cộng phí egress $0.09/GB (vì underlying vẫn là Internet). Đây là phương án cân bằng giữa tiện và an toàn:
 
-**Khi dùng**: dev/test multi-cloud, traffic 1-10 GB/ngày, không critical performance.
+- **Điểm cộng**:
+  - Mã hoá khi truyền (*encrypted in transit*).
+  - Setup nhanh (vài giờ).
+  - Định tuyến qua private IP, không lộ ra public.
+- **Điểm trừ**:
+  - Vẫn đi trên Internet → latency dao động, throughput giới hạn ~1.25 Gbps mỗi tunnel.
+  - Single point of failure: tunnel sập là mất kết nối.
+
+**Khi dùng**: môi trường dev/test multi-cloud, traffic 1-10 GB/ngày, hiệu năng không phải yếu tố sống còn.
 
 ### Option 3: Dedicated interconnect qua Megaport / Equinix / PacketFabric
 
 🪞 *Như **tàu hỏa cao tốc giữa 2 city** — đường riêng, nhanh, predictable.*
 
-- **Cách**: Provider thứ 3 (Megaport, Equinix Fabric, PacketFabric, AWS Direct Connect Partner) có cable physical kết nối tới mọi cloud lớn. Bạn thuê "port" trên hệ thống họ → tạo Virtual Cross-Connect (VXC) AWS ↔ GCP qua hệ thống đó.
-- **Cost**:
-  - Port: $100-1000/tháng tùy speed (1G/10G).
-  - VXC: $50-200/tháng per connection.
-  - Bandwidth: $0.01-0.04/GB egress (rẻ hơn Internet 50-70%).
-- **Pros**:
-  - Latency <5ms (datacenter trong cùng region).
-  - Throughput up to 100 Gbps.
-  - SLA 99.99%.
-  - Egress fee giảm mạnh.
-- **Cons**:
-  - Setup 1-2 tuần (physical cable + paperwork).
-  - Min commit 1 năm thường.
-  - Phải có account 3rd party.
+Ở tầng này, một provider thứ 3 (Megaport, Equinix Fabric, PacketFabric, AWS Direct Connect Partner) sở hữu *cable* vật lý kết nối tới mọi cloud lớn. Bạn thuê "port" trên hệ thống họ rồi tạo *Virtual Cross-Connect* (VXC) nối AWS ↔ GCP qua đường riêng đó. Cấu trúc chi phí và đánh đổi như sau:
 
-**Khi dùng**: production multi-cloud, traffic >1 TB/tháng, performance critical.
+- **Chi phí**:
+  - Port: $100-1000/tháng tùy tốc độ (1G/10G).
+  - VXC: $50-200/tháng mỗi kết nối.
+  - Bandwidth: egress $0.01-0.04/GB (rẻ hơn Internet 50-70%).
+- **Điểm cộng**:
+  - Latency <5ms (cùng datacenter trong region).
+  - Throughput lên tới 100 Gbps.
+  - SLA 99.99%.
+  - Phí egress giảm mạnh.
+- **Điểm trừ**:
+  - Setup mất 1-2 tuần (đi cable vật lý + thủ tục giấy tờ).
+  - Thường phải cam kết tối thiểu 1 năm.
+  - Phải có tài khoản bên thứ 3.
+
+**Khi dùng**: production multi-cloud, traffic >1 TB/tháng, hiệu năng là yêu cầu sống còn.
 
 ### Option 4: Direct cloud-to-cloud interconnect
 
@@ -643,33 +643,33 @@ acmeshop.io                   ← public (root)
 
 ---
 
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall 1: CIDR overlap giữa các VPC
+### ❌ Cạm bẫy 1: CIDR overlap giữa các VPC
 
 - **Triệu chứng**: VPN setup xong, ping không thông; route table loop.
 - **Nguyên nhân**: VPC AWS `10.0.0.0/16` và VPC GCP `10.0.0.0/24` overlap.
 - **Cách tránh**: Plan CIDR allocation trước: AWS `10.0.0.0/12`, GCP `10.16.0.0/12`, Azure `10.32.0.0/12`. Document trong IPAM (Cloud IPAM, Infoblox).
 
-### ❌ Pitfall 2: Asymmetric routing
+### ❌ Cạm bẫy 2: Asymmetric routing
 
 - **Triệu chứng**: TCP connection hang; ping OK nhưng curl không trả response.
 - **Nguyên nhân**: Outbound qua VPN, inbound qua Internet → firewall/security group block.
 - **Cách tránh**: Force symmetric — route table cả 2 chiều qua VPN tunnel.
 
-### ❌ Pitfall 3: NAT explosion cost
+### ❌ Cạm bẫy 3: NAT explosion cost
 
 - **Triệu chứng**: NAT Gateway cost tăng vọt khi multi-cloud.
 - **Nguyên nhân**: Mỗi VPC AWS có NAT GW ($45/tháng + $0.045/GB) → 3 cloud = 9-12 NAT GW chi phí ~$500-1000/tháng.
 - **Cách tránh**: Consolidate egress qua hub (Transit Gateway + central NAT), hoặc dùng PrivateLink endpoint cho AWS service.
 
-### ❌ Pitfall 4: Static AWS Access Key trong GCP secret
+### ❌ Cạm bẫy 4: Static AWS Access Key trong GCP secret
 
 - **Triệu chứng**: Engineer leak key trên GitHub → AWS bill $100K/đêm (crypto mining).
 - **Nguyên nhân**: Lười setup Workload Identity Federation, dùng static key.
 - **Cách tránh**: Tuyệt đối KHÔNG static cross-cloud key. Dùng OIDC trust như §4.
 
-### ❌ Pitfall 5: Federated identity logout không thật sự logout
+### ❌ Cạm bẫy 5: Federated identity logout không thật sự logout
 
 - **Triệu chứng**: User off-board, vẫn login được AWS qua SSO.
 - **Nguyên nhân**: Disable user ở Entra ID nhưng AWS session token vẫn valid đến hết TTL.
@@ -693,7 +693,7 @@ acmeshop.io                   ← public (root)
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** GCP service cần gọi AWS S3. Cách nào tốt nhất?
 
@@ -746,7 +746,7 @@ acmeshop.io                   ← public (root)
 - Setup nhanh (<1 ngày).
 - Budget tight.
 
-→ Rule of thumb: TGV cost-benefit cross at ~5 TB/tháng — trên đó Megaport rẻ hơn dù setup phí cao.
+→ Rule of thumb: điểm hoà vốn Megaport vs VPN ở ~5 TB/tháng — trên ngưỡng này Megaport rẻ hơn dù phí setup cao hơn.
 
 </details>
 
@@ -786,7 +786,7 @@ acmeshop.io                   ← public (root)
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Connectivity tiers
 
@@ -827,9 +827,9 @@ acmeshop.io                   ← public (root)
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Site-to-site VPN | VPN cố định 2 site | Tunnel IPSec encrypted giữa 2 VPC |
 | IPSec | Internet Protocol Security | Protocol encrypt traffic giữa 2 endpoint |
@@ -863,19 +863,23 @@ acmeshop.io                   ← public (root)
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [01_vendor-lock-in-and-portability.md](01_vendor-lock-in-and-portability.md)
-- → Tiếp: [03_kubernetes-multi-cloud-and-anthos-arc.md](03_kubernetes-multi-cloud-and-anthos-arc.md)
-- ↑ Cluster: [Multi-cloud-strategies README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS VPC + Networking](../../../aws/) — VPC basics
-- ☁️ [GCP Networking](../../../gcp/) — VPC GCP
-- 🔐 [Identity & Access](../../../../09_Security/iam/) — federated identity deep
-- 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Terraform multi-cloud
-- ☸️ [Kubernetes](../../../../10_devops/kubernetes/) — service mesh
+- ⬅️ **Bài trước:** [Vendor Lock-in & Portability — 4 chiều khoá, abstraction layer, exit cost](01_vendor-lock-in-and-portability.md)
+- ➡️ **Bài tiếp theo:** [Kubernetes Multi-cloud — Anthos, Azure Arc, Cluster API, Service Mesh](03_kubernetes-multi-cloud-and-anthos-arc.md)
+- ↑ **Về cụm:** [Multi-cloud Strategies](../../README.md)
 
-### Tài nguyên ngoài (2026)
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [AWS VPC + Networking](../../../aws/) — kiến thức nền về VPC trên AWS.
+- ☁️ [GCP Networking](../../../gcp/) — VPC và mạng trên GCP.
+- 🔐 [Cloud Security](../../../../12_security/cloud-security/) — đào sâu federated identity và IAM cross-cloud.
+- 🗝️ [Secrets Management](../../../../12_security/secrets-management/) — quản lý secret tập trung (Vault, ESO).
+- 🏗️ [IaC Terraform](../../../../10_devops/iac/) — Terraform cho hạ tầng multi-cloud.
+- ↑ **Về cụm:** [Kubernetes](../../../../10_devops/kubernetes/) — service mesh và mạng cross-cluster.
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [AWS Transit Gateway docs](https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html)
 - 📖 [GCP Network Connectivity Center](https://cloud.google.com/network-connectivity/docs/network-connectivity-center)
 - 📖 [Megaport Cloud Router](https://www.megaport.com/services/megaport-cloud-router/)
@@ -888,6 +892,7 @@ acmeshop.io                   ← public (root)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 02 cluster Multi-cloud basic. 4 kiểu cross-cloud connectivity (Internet, VPN, Megaport, dedicated) + hub-and-spoke pattern (TGW/NCC/vWAN) + hands-on Terraform VPN AWS↔GCP + Workload Identity Federation (OIDC trust, no static key) + HashiCorp Vault + External Secrets Operator + DNS multi-cloud + 5 pitfall (CIDR overlap, asymmetric routing, NAT explosion, static key, federated logout). Acme Shop ML pipeline GCP↔RDS AWS làm trục.
+- **v1.1.0 (01/06/2026)** — Việt hoá phần so sánh 4 kiểu connectivity (Option 1-3) cho mượt văn phong; đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa typo "TGV" → "điểm hoà vốn Megaport vs VPN"; sửa link gãy 09_Security/iam → 12_security/cloud-security + bổ sung link secrets-management; chuẩn hoá nav (⬅️/➡️/↑ + link-text = tiêu đề thực + 3 sub-heading chuẩn); đổi header Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích".

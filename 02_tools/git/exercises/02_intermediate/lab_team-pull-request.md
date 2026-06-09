@@ -211,5 +211,5 @@ rm -rf pull-request-lab
 
 ---
 
-## 🔗 Liên kết & Điều hướng
+## 🔗 Liên kết & Tài nguyên
 *   ➡️ Thử thách tiếp theo (Cấp độ Nâng cao): [00_undo-and-recovery.md](../../lessons/03_advanced/00_undo-and-recovery.md) — Sửa chữa các sai lầm nguy hiểm.

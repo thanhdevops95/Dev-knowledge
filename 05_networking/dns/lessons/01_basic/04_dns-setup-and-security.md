@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md), [DNS Tools](03_dns-tools.md)
 
 > 🎯 *Bài cuối cluster. Đi từ A-Z: đăng ký domain mới, đổi nameserver về Cloudflare, đợi propagation, bật DNSSEC, hiểu DoH/DoT, defend các attack DNS phổ biến.*
@@ -40,7 +39,7 @@ Bạn ngơ:
 - **DNSSEC** ai mới cần?
 - Setup xong có cần **security gì thêm** không?
 
-→ Bài này dạy bạn (và bạn) **đầy đủ flow từ mua domain → setup → bảo mật** cho domain production.
+→ Bài này dạy bạn **đầy đủ flow từ mua domain → setup → bảo mật** cho domain production.
 
 ---
 
@@ -86,7 +85,7 @@ Registrar = công ty bán domain. Khác nhau nhiều về **giá renewal**, **UX
 3. **Bỏ mọi upsell** (privacy đã miễn phí với Cloudflare/Namecheap; SSL miễn phí qua Let's Encrypt).
 4. Verify email từ ICANN trong 15 ngày (nếu không sẽ bị suspend).
 
-### Pitfall mua domain
+### Cạm bẫy mua domain
 
 4 cái bẫy phổ biến khi mua domain — gặp 1 trong số đó là **đắt thêm vài chục USD/năm** hoặc kẹt không transfer được. Đọc trước để tránh:
 
@@ -228,7 +227,7 @@ DNSSEC thêm **4 record mới** để build chain of trust. Mỗi record có vai
 
 → DNSSEC làm DNS chậm hơn ~5-10% (do verify chữ ký) và config phức tạp. Hầu hết domain không cần. Bank/crypto **phải**.
 
-### Pitfall DNSSEC
+### Cạm bẫy DNSSEC
 
 - ❌ **Bật DNSSEC ở Cloudflare nhưng quên thêm DS ở registrar** → site die vì resolver verify fail.
 - ❌ **Đổi DNS provider lúc DNSSEC đang on** → phải tắt DNSSEC trước (xóa DS), đợi 48h, rồi mới migrate.
@@ -368,7 +367,7 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Quên đổi nameserver thực sự** — Cloudflare báo "active" yêu cầu NS đã propagate. Nếu vẫn chưa, NS check fail. Check bằng `dig acmeshop.vn NS @1.1.1.1`.
 2. **DNSSEC bật 1 nơi quên nơi kia** — bật ở Cloudflare nhưng quên thêm DS record ở registrar = site die.
@@ -378,7 +377,7 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. Bạn mua `mydomain.com` ở Namecheap, muốn dùng Cloudflare DNS. Các bước?
 2. DNSSEC bật được ở Cloudflare nhưng `dig +dnssec mydomain.com` không thấy flag `ad` — vấn đề ở đâu?
@@ -402,7 +401,7 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Mua domain checklist
 
@@ -469,17 +468,17 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [DNS Tools](03_dns-tools.md)
-- ↑ Cluster: [dns README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [DNS Tools — `dig`, `nslookup`, `host`, `whois` & cách debug](03_dns-tools.md)
+- ↑ **Về cụm:** [dns README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTTPS & TLS](../../../http-https/lessons/01_basic/04_https-tls.md) — DNSSEC bổ trợ TLS chứ không thay
 - [HTTP headers — Security](../../../http-https/lessons/01_basic/03_http-headers.md) — HSTS bổ sung lớp bảo mật phía web
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Cloudflare: DNS security](https://www.cloudflare.com/learning/dns/dns-security/)
 - 📖 [DNSSEC Resolver Test — Verisign](https://dnssec-debugger.verisignlabs.com/)
 - 📖 [DoH vs DoT comparison — Cloudflare](https://blog.cloudflare.com/announcing-1111/)
@@ -493,10 +492,8 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## 📌 Changelog
-
-- **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Bước 1 TLD table + Bước 2 Registrar table + Pitfall mua domain list + §2 Best practice migration timeline + §3 DNSSEC "4 loại record" table. Thêm Changelog section.
-
-- **v1.1.0 (cherry-pick __Ref__)** — Thêm **DNSSEC 4 records** (DNSKEY/RRSIG/DS/NSEC) + **chain of trust flow** + adoption stats.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 5/5. Cover: đăng ký domain (TLD + registrar + pitfall) + đổi nameserver migration + DNSSEC chain of trust + DoH/DoT modern privacy + 5 attack/defense (cache poisoning, DNS hijack, NXDOMAIN attack, tunneling, zone transfer).
+- **v1.1.0** — Thêm **DNSSEC 4 records** (DNSKEY/RRSIG/DS/NSEC) + **chain of trust flow** + adoption stats.
+- **v1.2.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (TLD table, Registrar table, pitfall mua domain), §2 (migration timeline), §3 (DNSSEC "4 loại record"). Thêm Changelog section.

@@ -1,80 +1,90 @@
 # ⚡ Azure Functions + App Service + Container Apps
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~23 phút\
-> **Prerequisites:** Bài [03_azure-sql-and-cosmosdb](03_azure-sql-and-cosmosdb.md) ✅, Docker basic, HTTP/REST basic
+> **Yêu cầu trước:** Bài [Azure SQL + Cosmos DB](03_azure-sql-and-cosmosdb.md) ✅, Docker cơ bản, HTTP/REST cơ bản
 
-> 🎯 *Bài 04 (cuối basic). Serverless + PaaS trên Azure có 4 lựa chọn chính: **Azure Functions** (single function event-driven, analog Lambda), **App Service** (PaaS web app, analog Elastic Beanstalk), **Container Apps** (serverless container Knative + Dapr, analog Cloud Run + Fargate), **API Management** (managed API gateway). Bài này dạy: khi nào dùng cái nào, deploy step-by-step, cold start mitigation, Durable Functions cho workflow, custom domain + HTTPS auto, hands-on image processing pipeline.*
+> 🎯 *Bài cuối của cụm basic. Khi không muốn tự dựng và trông coi máy chủ, Azure cho bạn bốn cửa serverless/PaaS chính: **Azure Functions** (chạy từng *function* theo sự kiện, tương đương AWS Lambda), **App Service** (PaaS cho web app, tương đương Elastic Beanstalk), **Container Apps** (serverless container chuẩn Knative + Dapr, tương đương Cloud Run + Fargate), và **API Management** (cổng API quản lý sẵn). Bài này trả lời câu hỏi quan trọng nhất — khi nào dùng cái nào — rồi đi qua deploy từng bước, cách giảm *cold start* (độ trễ khi instance vừa khởi tạo), Durable Functions cho luồng nhiều bước, custom domain kèm HTTPS tự cấp, và khép lại bằng một pipeline xử lý ảnh chạy thật.*
 
 ## 🎯 Sau bài này bạn sẽ
 
 - [ ] Phân biệt **Azure Functions** vs **App Service** vs **Container Apps** vs **AKS**
-- [ ] Hiểu **3 Function plans**: Consumption / Premium / Dedicated (App Service Plan)
+- [ ] Hiểu **3 Function plan**: Consumption / Premium / Dedicated (App Service Plan)
 - [ ] Deploy **Function HTTP trigger** + **Blob trigger** + **Queue trigger**
-- [ ] **Durable Functions** — workflow orchestration (chain/fan-out/aggregator)
-- [ ] **App Service** — Web App Linux + custom domain + HTTPS auto + slot deployment
-- [ ] **Container Apps** — deploy container scale-to-zero + Dapr sidecar
-- [ ] **API Management** — managed gateway + product/subscription + rate limit + OpenAPI
-- [ ] **Cold start mitigation** — Premium plan, Always Ready instance, warm-up
-- [ ] Hands-on: image processing pipeline (Blob upload → Function resize → Container Apps API)
+- [ ] **Durable Functions** — điều phối luồng nhiều bước (chain / fan-out / aggregator)
+- [ ] **App Service** — Web App Linux + custom domain + HTTPS tự cấp + deployment slot
+- [ ] **Container Apps** — deploy container *scale-to-zero* + Dapr sidecar
+- [ ] **API Management** — cổng API quản lý sẵn + product/subscription + rate limit + OpenAPI
+- [ ] **Giảm cold start** — Premium plan, Always Ready instance, warm-up
+- [ ] Hands-on: pipeline xử lý ảnh (Blob upload → Function resize → Container Apps API)
 
 ---
 
-## Tình huống — Acme Shop image pipeline serverless
+## Tình huống — Acme Shop dựng pipeline ảnh không cần quản máy chủ
 
-Sếp:
+Cảnh quen thuộc với bất kỳ ai làm e-commerce: ảnh sản phẩm đổ về liên tục, và mỗi ảnh cần vài kích thước khác nhau cho thumbnail, trang chi tiết, ảnh phóng to. Sếp tóm gọn yêu cầu trong một đoạn:
 
 > *"User upload ảnh → tự động resize 3 size → lưu lại Blob. Backend API public `api.acmeshop.vn` cho mobile/web. Serverless để khỏi quản infra. Mùa sale traffic 100x — phải scale tự động. Cost minimal khi idle."*
 
-Bạn cần:
+Đọc kỹ thì mỗi câu của sếp ứng với một mảnh ghép cụ thể trên Azure, và việc của bạn là chọn đúng dịch vụ cho từng mảnh:
 
-- **Azure Function** Blob trigger khi upload → resize → save.
-- **Container Apps** chạy FastAPI cho REST API (scale-to-zero).
-- **API Management** front + auth API key + rate limit + OpenAPI spec.
-- **Cold start** chấp nhận được cho user-facing (Premium plan).
+- **Azure Function** bắt sự kiện Blob khi có ảnh upload → resize → lưu lại.
+- **Container Apps** chạy FastAPI làm REST API, để rảnh thì co về không (scale-to-zero) cho đỡ tốn tiền.
+- **API Management** đứng trước cùng, lo xác thực bằng API key, giới hạn tần suất gọi, và phát hành OpenAPI spec.
+- **Cold start** ở mức chấp nhận được cho phần giáp mặt người dùng (chọn Premium plan).
 
-Bài này dạy từng phần + hands-on full pipeline.
+Bài này tháo từng mảnh ra dạy riêng, rồi cuối cùng ráp lại thành một pipeline hoàn chỉnh ở phần hands-on.
 
 ---
 
-## 1️⃣ Compute decision tree — 4 lựa chọn
+## 1️⃣ Bốn lựa chọn compute — chọn cửa nào?
+
+Trước khi viết một dòng lệnh nào, bạn phải trả lời được câu hỏi nền tảng: workload này nên chạy ở đâu? Azure có bốn dịch vụ compute hay bị nhầm lẫn, và chọn sai ngay từ đầu thì về sau sửa rất mệt. Một phép so sánh đời thường giúp định hình nhanh sự khác biệt giữa chúng.
 
 🪞 **Ẩn dụ**: *4 dịch vụ như **4 loại phương tiện đi làm** — Functions là **xe máy** (nhỏ, 1 người, đi việc đơn lẻ nhanh); App Service là **xe hơi cá nhân** (chở team, chạy code framework mình quen); Container Apps là **xe ghép Grab** (gọi mới chạy, container bất kỳ); AKS là **đội xe taxi riêng** (full control, đủ chỗ ngồi, vận hành tốn công).*
 
-| Aspect | Functions | App Service | Container Apps | AKS |
-|---|---|---|---|---|
-| Unit | Function (1 file) | App (code/container) | Container (Docker) | Pod (Kubernetes) |
-| Runtime | Node/Python/Java/.NET/PowerShell | Same + Ruby | Any (Docker) | Any (Docker) |
-| Max duration | 10 phút (Consumption) / 30 phút (Premium) / unlimited (Dedicated) | Unlimited | Unlimited | Unlimited |
-| Scale to zero | ✅ (Consumption) | ❌ (always ≥1) | ✅ | ❌ (need KEDA) |
-| Cold start | 100-1000ms | None (warm) | 200-3000ms | None |
-| Pricing | Per request + GB-s | Per instance-hour | Per request + vCPU/RAM-s | Per node (VM) |
-| Best for | Event-driven, short tasks | Standard web app/API | Container microservices, scale-to-zero | Full K8s control |
-| Analog AWS | Lambda | Elastic Beanstalk | Fargate / App Runner | EKS |
-| Analog GCP | Cloud Functions | App Engine | Cloud Run | GKE |
+Bảng dưới đặt cả bốn cạnh nhau theo những tiêu chí mà bạn thực sự cần cân nhắc khi quyết định — đơn vị triển khai, khả năng co về không, độ trễ cold start, và cách tính tiền:
 
-→ **Decision rules 2026**:
-- Event-driven snippet → **Functions**.
-- Standard web app/API, ít care container → **App Service**.
-- Container microservice, scale-to-zero → **Container Apps**.
-- Full K8s, complex networking, custom controllers → **AKS**.
+| Khía cạnh | Functions | App Service | Container Apps | AKS |
+|---|---|---|---|---|
+| Đơn vị triển khai | Function (1 file) | App (code/container) | Container (Docker) | Pod (Kubernetes) |
+| Runtime | Node/Python/Java/.NET/PowerShell | Như trên + Ruby | Bất kỳ (Docker) | Bất kỳ (Docker) |
+| Thời gian chạy tối đa | 5 phút mặc định / 10 phút max (Consumption) · 30 phút (Premium) · không giới hạn (Dedicated) | Không giới hạn | Không giới hạn | Không giới hạn |
+| Scale to zero | ✅ (Consumption) | ❌ (luôn ≥1) | ✅ | ❌ (cần KEDA) |
+| Cold start | 100-1000ms | Không (luôn warm) | 200-3000ms | Không |
+| Cách tính tiền | Theo request + GB-s | Theo instance-hour | Theo request + vCPU/RAM-s | Theo node (VM) |
+| Hợp nhất cho | Event-driven, tác vụ ngắn | Web app/API tiêu chuẩn | Microservice container, scale-to-zero | Toàn quyền K8s |
+| Tương đương AWS | Lambda | Elastic Beanstalk | Fargate / App Runner | EKS |
+| Tương đương GCP | Cloud Functions | App Engine | Cloud Run | GKE |
+
+Đọc bảng theo chiều dọc sẽ thấy ngay quy tắc chọn: càng đi từ trái sang phải, bạn càng đổi sự đơn giản lấy sự kiểm soát. Gom lại thành mấy luật ngón tay cái cho 2026:
+
+- Một đoạn xử lý kích hoạt theo sự kiện → **Functions**.
+- Web app/API tiêu chuẩn, không bận tâm container → **App Service**.
+- Microservice đóng gói container, cần co về không → **Container Apps**.
+- Cần toàn quyền Kubernetes, networking phức tạp, custom controller → **AKS**.
 
 ---
 
-## 2️⃣ Azure Functions — Event-driven serverless
+## 2️⃣ Azure Functions — Serverless theo sự kiện
 
-### 3 hosting plans
+Quay lại nhu cầu đầu bài: bắt sự kiện ảnh upload rồi resize. Đây đúng là sân nhà của Functions — bạn chỉ viết phần xử lý, còn chuyện máy chủ ở đâu, scale ra sao thì Azure lo. Nhưng trước khi viết code, có một quyết định về tiền bạc và độ trễ phải chốt: chạy trên *plan* nào.
 
-| Plan | Scale | Cold start | Network | Use case |
+### 3 hosting plan
+
+Mỗi Function App phải gắn vào một hosting plan, và lựa chọn này quyết định ba thứ: có cold start hay không, scale tới đâu, và mạng có vào được VNet riêng tư không. Bảng dưới so ba plan để bạn khớp với từng nhu cầu:
+
+| Plan | Scale | Cold start | Network | Hợp cho |
 |---|---|---|---|---|
-| **Consumption** | Scale-to-zero, max 200 instance | 100-500ms | Public only | Pure event-driven, traffic bursty |
-| **Premium (EP1/EP2/EP3)** | Pre-warmed (always ready), unlimited | None | VNet, Private Endpoint | Production, low-latency requirement |
-| **Dedicated (App Service Plan)** | Manual (Standard/Premium AS plan) | None | VNet | Co-locate với App Service, long-running |
+| **Consumption** | Scale-to-zero, tối đa 200 instance | 100-500ms | Chỉ public | Thuần event-driven, traffic giật cục |
+| **Premium (EP1/EP2/EP3)** | Pre-warmed (always ready), không giới hạn | Không | VNet, Private Endpoint | Production, yêu cầu độ trễ thấp |
+| **Dedicated (App Service Plan)** | Thủ công (plan Standard/Premium) | Không | VNet | Chạy chung chỗ với App Service, tác vụ dài |
+
+Khác biệt mấu chốt: Consumption rẻ nhất nhưng có cold start và chỉ ra public; Premium trả tiền giữ sẵn instance để xoá hẳn cold start; Dedicated hợp khi bạn đã có sẵn App Service Plan và muốn tận dụng. Hai lệnh dưới tạo lần lượt một Function App Consumption (trả tiền theo lượt chạy) và một Premium plan (giữ sẵn instance + vào được VNet):
 
 ```bash
 # Consumption (pay per execution)
@@ -108,22 +118,26 @@ az functionapp create \
     --functions-version 4
 ```
 
-### Triggers
+### Trigger — function được đánh thức bởi cái gì?
+
+Một function không tự chạy; nó ngủ cho tới khi có một *trigger* (sự kiện kích hoạt) đánh thức. Sức mạnh của Functions nằm ở chỗ trigger phủ gần như mọi nguồn sự kiện trên Azure — từ một request HTTP, một file mới trong Blob, cho tới một dòng thay đổi trong Cosmos DB:
 
 | Trigger | Mô tả |
 |---|---|
 | **HTTP** | REST endpoint |
-| **Timer** | Cron schedule |
-| **Blob** | Storage Blob event |
+| **Timer** | Lịch chạy kiểu cron |
+| **Blob** | Sự kiện Storage Blob |
 | **Queue** | Storage Queue / Service Bus |
-| **Event Grid** | Pub-sub event |
+| **Event Grid** | Sự kiện pub-sub |
 | **Event Hub** | Streaming |
 | **Cosmos DB** | Change feed |
-| **Service Bus** | Enterprise messaging |
+| **Service Bus** | Messaging cấp doanh nghiệp |
 | **SignalR** | Real-time |
 | **Kafka** (preview) | Kafka topic |
 
 ### HTTP function (Python v2 model)
+
+Bắt đầu từ trigger đơn giản nhất để làm quen *Python v2 programming model* (mô hình lập trình mới, khai báo function bằng decorator thay vì file `function.json` rườm rà). Function dưới nhận một request GET, đọc tham số `name`, rồi trả lời:
 
 ```python
 # function_app.py
@@ -139,12 +153,16 @@ def hello(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(f"Hello, {name}!", status_code=200)
 ```
 
+Viết xong, đẩy lên cloud chỉ bằng một lệnh của Core Tools:
+
 ```bash
 # Deploy
 func azure functionapp publish func-api-prod
 ```
 
-### Blob trigger
+### Blob trigger — đúng nhu cầu resize ảnh đầu bài
+
+Giờ tới trigger giải quyết bài toán của sếp: cứ có ảnh mới rơi vào `uploads/originals/`, function tự thức dậy resize. Điểm đáng chú ý là nó kết nối Storage qua *Managed Identity* (danh tính do Azure quản lý) thay vì nhét chuỗi kết nối vào code — an toàn hơn hẳn:
 
 ```python
 @app.blob_trigger(
@@ -180,17 +198,21 @@ def resize_image(myblob: func.InputStream):
                         content_type="image/jpeg")
 ```
 
-### Cold start mitigation
+### Giảm cold start
 
-| Cách | Hiệu quả | Cost |
+Cold start là cái giá phải trả cho serverless: khi function ngủ lâu, request đầu tiên phải đợi instance khởi tạo. Với tác vụ nền thì không sao, nhưng với API giáp mặt người dùng thì 1-2 giây chờ là khó chấp nhận. Có năm hướng xử lý, đánh đổi giữa hiệu quả và chi phí:
+
+| Cách | Hiệu quả | Chi phí |
 |---|---|---|
-| Premium plan + min-instances | Zero cold start | Constant pay |
-| Always Ready instance (Premium) | Zero | Pay 1 instance always |
-| Code warm-up (timer trigger every 5 min) | Reduce frequency | Free |
-| Optimize package size | Faster cold | Free |
-| Right runtime (Python > Java cold time) | 30-70% faster | Free |
+| Premium plan + min-instances | Hết cold start | Trả tiền cố định |
+| Always Ready instance (Premium) | Hết | Trả 1 instance luôn |
+| Code warm-up (timer trigger mỗi 5 phút) | Giảm tần suất | Miễn phí |
+| Tối ưu kích thước package | Cold nhanh hơn | Miễn phí |
+| Chọn runtime hợp lý (Python cold nhanh hơn Java) | Nhanh 30-70% | Miễn phí |
 
-```bash
+Cách miễn phí dễ làm nhất là cài một timer trigger "đá" function dậy đều đặn, giữ instance luôn ấm:
+
+```python
 # Pre-warm: timer trigger every 5 min
 @app.schedule(schedule="0 */5 * * * *", arg_name="timer")
 def keep_warm(timer: func.TimerRequest):
@@ -199,18 +221,24 @@ def keep_warm(timer: func.TimerRequest):
 
 ---
 
-## 3️⃣ Durable Functions — Workflow orchestration
+## 3️⃣ Durable Functions — Điều phối luồng nhiều bước
+
+Function đơn lẻ giải quyết tốt việc "một sự kiện → một hành động". Nhưng đời thực thường là chuỗi nhiều bước phụ thuộc nhau: duyệt đơn → trừ tiền → tạo vận đơn, mà giữa các bước có thể phải chờ hàng giờ thậm chí hàng ngày. Viết tay luồng này bằng function thường rất rối state. Durable Functions sinh ra để gánh đúng phần đó.
 
 🪞 **Ẩn dụ**: *Durable Functions như **giấy ủy quyền cho thư ký** — bạn viết workflow tuần tự `Bước 1 → đợi → Bước 2 → ...`; thư ký (Azure runtime) lưu state, đợi event, gọi từng bước dù mất giờ/ngày, không tốn tiền compute trong lúc đợi.*
 
-### Use cases
+### Khi nào dùng
+
+Nhận diện được bốn dạng luồng dưới đây là lúc bạn nên nghĩ tới Durable Functions thay vì tự xoay xở:
 
 - Function chain: A → B → C (output A là input B).
-- Fan-out / fan-in: parallel execute N tasks, gom kết quả.
-- Async waiting: human approval flow.
-- Long-running workflow: order fulfillment 3 ngày.
+- Fan-out / fan-in: chạy song song N task, gom kết quả lại.
+- Chờ bất đồng bộ: luồng cần con người duyệt (human approval).
+- Workflow chạy dài: hoàn tất đơn hàng kéo dài 3 ngày.
 
 ### Pattern: Function chaining
+
+Dạng cơ bản nhất là nối các bước thành chuỗi. Hàm *orchestrator* đóng vai nhạc trưởng — nó dùng `yield` để gọi từng *activity* (bước xử lý thật) và đợi kết quả trước khi sang bước sau; Azure tự lưu state giữa các lần `yield` nên dù process restart, luồng vẫn chạy tiếp đúng chỗ:
 
 ```python
 import azure.functions as func
@@ -261,6 +289,8 @@ async def start(req: func.HttpRequest, client: df.DurableOrchestrationClient) ->
 
 ### Pattern: Fan-out / Fan-in
 
+Khi cần xử lý song song một lô việc rồi gộp kết quả — ví dụ resize cùng lúc cả trăm file — thì dùng fan-out/fan-in. Orchestrator phát N task một lúc rồi `task_all` đợi tất cả xong:
+
 ```python
 @app.orchestration_trigger(context_name="context")
 def batch_resize(context):
@@ -274,36 +304,44 @@ def batch_resize(context):
     return {"resized": len(results), "files": results}
 ```
 
-→ Cost: pay per activity invocation; state lưu trong Storage Table (cheap).
+Điểm dễ chịu về chi phí: bạn chỉ trả tiền theo mỗi lần activity chạy, còn state của luồng được lưu trong Storage Table (rất rẻ), nên thời gian "ngồi chờ" giữa các bước gần như không tốn gì.
 
 ---
 
-## 4️⃣ App Service — PaaS Web App
+## 4️⃣ App Service — PaaS cho Web App
 
-### Hierarchy
+Functions hợp với từng mẩu xử lý theo sự kiện. Nhưng cái backend API `api.acmeshop.vn` mà sếp nhắc tới — một web app đầy đủ, chạy framework quen thuộc — thì App Service mới là chỗ tự nhiên nhất. Đây là PaaS lâu đời và phổ biến nhất của Azure: bạn đẩy code lên, Azure lo phần còn lại.
 
-```
+### Cấu trúc phân tầng
+
+Điều đầu tiên cần nắm là quan hệ giữa *plan* và *app*, vì rất nhiều người mới nhầm hai khái niệm này. Sơ đồ dưới cho thấy nhiều app có thể cùng chạy trên một plan:
+
+```text
 App Service Plan: plan-prod-sea (S1, P1v3, ...)
 ├── Web App: app-api-prod-sea           ← Python FastAPI
 ├── Web App: app-admin-prod-sea         ← Vue admin
 └── Function App: func-cron-prod-sea    ← can co-locate Functions Dedicated
 ```
 
-→ Plan = compute (VM size + replica count). App = code/container chạy trên plan.
+Nói gọn: Plan là phần compute (cỡ VM + số replica) — bạn trả tiền cho nó; App là code/container chạy trên plan đó. Một plan có thể gánh nhiều app để chia sẻ tài nguyên.
 
-### Plan tiers
+### Các tier của plan
 
-| Tier | Use case |
+Chọn tier nào tuỳ vào việc bạn đang ở giai đoạn nào — nghịch thử, staging, hay production cần autoscale và deployment slot. Bảng dưới đi từ free tới isolated:
+
+| Tier | Hợp cho |
 |---|---|
-| **F1** (Free) | Sandbox, demo (60 CPU min/day) |
-| **B1/B2/B3** (Basic) | Dev/staging, no SLA |
-| **S1/S2/S3** (Standard) | Production, autoscale, deployment slots |
-| **P1v3/P2v3/P3v3** (Premium v3) | High perf, AMD, VNet, private endpoint |
-| **I1v2/I2v2/I3v2** (Isolated v2) | Dedicated ASE — compliance/PCI |
+| **F1** (Free) | Sandbox, demo (60 phút CPU/ngày) |
+| **B1/B2/B3** (Basic) | Dev/staging, không SLA |
+| **S1/S2/S3** (Standard) | Production, autoscale, deployment slot |
+| **P1v3/P2v3/P3v3** (Premium v3) | Hiệu năng cao, AMD, VNet, private endpoint |
+| **I1v2/I2v2/I3v2** (Isolated v2) | ASE dành riêng — compliance/PCI |
 
-→ Production default: **S1** small, **P1v3** medium.
+Mặc định cho production: bắt đầu nhỏ với **S1**, lên tầm trung thì **P1v3**.
 
-### Deploy options
+### Các cách deploy
+
+App Service nhận code theo nhiều đường, tuỳ thói quen của team — đẩy thẳng qua git, gửi file ZIP, hay trỏ vào một container image có sẵn. Ba cách phổ biến nhất:
 
 ```bash
 # A. Git deploy
@@ -328,7 +366,9 @@ az webapp create \
     --deployment-container-image-name myregistry.azurecr.io/api:v1
 ```
 
-### Deployment slots (zero-downtime deploy)
+### Deployment slot — deploy không downtime
+
+Deploy thẳng lên production là canh bạc: nếu bản mới lỗi, người dùng lãnh đủ. Deployment slot giải quyết bằng cách dựng một bản sao "staging" warm sẵn, test xong mới *swap* (hoán đổi) với production trong tích tắc:
 
 ```bash
 # Tạo staging slot
@@ -349,9 +389,11 @@ az webapp deployment slot swap \
     --slot staging --target-slot production
 ```
 
-→ Production app = warm instance staging, traffic switch instant. Rollback: swap ngược.
+Cơ chế đằng sau: code mới đã chạy ấm trên slot staging, lúc swap chỉ là chuyển hướng traffic nên gần như tức thì. Lỡ bản mới có vấn đề thì swap ngược lại là rollback ngay.
 
-### Custom domain + HTTPS auto
+### Custom domain + HTTPS tự cấp
+
+Sếp muốn API nằm ở `api.acmeshop.vn`, không phải cái URL `.azurewebsites.net` mặc định. App Service cho gắn custom domain và — quan trọng hơn — cấp luôn chứng chỉ HTTPS miễn phí tự gia hạn, đỡ phải mua cert bên ngoài:
 
 ```bash
 # Add custom domain (DNS phải CNAME tới <app>.azurewebsites.net)
@@ -374,13 +416,15 @@ az webapp config ssl bind \
     --ssl-type SNI
 ```
 
-→ Free managed cert (App Service Managed Certificate), auto-renew. HTTPS Only redirect:
+Đây là *App Service Managed Certificate* — miễn phí, tự gia hạn. Còn một bước nên làm: ép mọi truy cập về HTTPS để tránh ai đó vào qua HTTP:
 
 ```bash
 az webapp update --resource-group rg-prod-web --name app-api-prod-sea --https-only true
 ```
 
-### Authentication built-in (Easy Auth)
+### Xác thực có sẵn (Easy Auth)
+
+Thay vì tự viết code verify token, App Service có *Easy Auth* — bật lên là toàn bộ phần đăng nhập (Entra ID, Google, Facebook...) do nền tảng lo, code chỉ việc đọc thông tin user đã được xác thực:
 
 ```bash
 # Bật Entra ID auth — code không cần verify token
@@ -392,25 +436,33 @@ az webapp auth update \
     --aad-allowed-token-audiences https://app-api-prod-sea.azurewebsites.net
 ```
 
-→ App Service inject header `X-MS-CLIENT-PRINCIPAL` với user info. Code chỉ đọc header.
+Sau khi bật, App Service tự chèn header `X-MS-CLIENT-PRINCIPAL` chứa thông tin user vào mỗi request; code chỉ cần đọc header này. (Lưu ý một cái bẫy về phân quyền sẽ nói ở phần pitfall.)
 
 ---
 
-## 5️⃣ Container Apps — Serverless container
+## 5️⃣ Container Apps — Serverless cho container
 
-### Khác Container Apps vs App Service container vs AKS
+App Service tiện cho web app chạy code trực tiếp. Nhưng cái REST API của sếp đã đóng gói thành container Docker, lại cần co về không lúc rảnh để tiết kiệm — đó là lúc Container Apps toả sáng. Nó là lớp serverless dựng trên Kubernetes nhưng giấu hết độ phức tạp của K8s đi.
 
-| Aspect | App Service container | Container Apps | AKS |
+### Container Apps khác App Service container và AKS ở đâu?
+
+Cả ba đều chạy được container, nên dễ phân vân. Khác biệt nằm ở mấy tính năng then chốt — scale-to-zero, Dapr tích hợp sẵn, và mức độ lộ K8s API ra cho bạn:
+
+| Khía cạnh | App Service container | Container Apps | AKS |
 |---|---|---|---|
 | Scale to zero | ❌ | ✅ | ❌ (cần KEDA) |
-| Knative | ❌ | ✅ | manual |
-| Dapr sidecar | ❌ | ✅ built-in | manual |
-| Multi-container per app | ❌ | ✅ (sidecar pattern) | ✅ |
-| K8s API access | ❌ | ❌ | ✅ |
-| Pricing | Per plan-hour | Per request + vCPU/RAM-s | Per node-hour |
-| Use case | Simple containerized web app | Microservice, event-driven, scale-to-zero | Complex K8s workload |
+| Knative | ❌ | ✅ | thủ công |
+| Dapr sidecar | ❌ | ✅ tích hợp sẵn | thủ công |
+| Nhiều container/app | ❌ | ✅ (sidecar pattern) | ✅ |
+| Truy cập K8s API | ❌ | ❌ | ✅ |
+| Cách tính tiền | Theo plan-hour | Theo request + vCPU/RAM-s | Theo node-hour |
+| Hợp cho | Web app container đơn giản | Microservice, event-driven, scale-to-zero | K8s workload phức tạp |
 
-### Setup
+Cột giữa cho thấy Container Apps đứng đúng điểm ngọt: có scale-to-zero và Dapr mà không bắt bạn vận hành cả cụm K8s như AKS.
+
+### Khởi tạo
+
+Container Apps gom các app vào một *environment* (bản chất là một cụm K8s do Microsoft quản lý). Hai lệnh dưới tạo environment rồi đặt một Container App vào đó, với `min-replicas 0` để co về không khi rảnh:
 
 ```bash
 # Container Apps environment (= K8s cluster managed by Microsoft)
@@ -432,7 +484,9 @@ az containerapp create \
     --cpu 0.5 --memory 1Gi
 ```
 
-### Auto-scaling triggers (KEDA-based)
+### Quy tắc auto-scaling (dựa trên KEDA)
+
+Container Apps dùng KEDA (*K8s Event-Driven Autoscaler*) để scale theo tải thật chứ không chỉ theo CPU. Bạn có thể scale theo số request HTTP đồng thời, hoặc theo độ dài hàng đợi Service Bus — rất hợp với worker xử lý nền:
 
 ```bash
 # Scale theo HTTP concurrent request
@@ -453,7 +507,9 @@ az containerapp update \
     --scale-rule-auth "connection=service-bus-conn"
 ```
 
-### Revision + traffic split
+### Revision + chia traffic
+
+Mỗi lần update, Container Apps tạo một *revision* (bản chụp bất biến) mới. Bật chế độ nhiều revision rồi chia phần trăm traffic cho phép bạn làm *canary* — thả 10% người dùng sang bản mới để theo dõi trước khi mở hết:
 
 ```bash
 # Mỗi update tạo revision mới
@@ -477,7 +533,7 @@ az containerapp ingress traffic set \
 
 ### Dapr sidecar
 
-= state, pub-sub, secret, binding pattern qua HTTP sidecar.
+Dapr (*Distributed Application Runtime*) chạy như một sidecar cạnh app, cung cấp các pattern phân tán phổ biến — quản lý state, pub-sub, đọc secret, binding — qua một HTTP API thống nhất. Cái lợi: code gọi `localhost` thay vì gọi thẳng dịch vụ Azure, nên dễ chuyển sang cloud khác. Bật Dapr cho một Container App:
 
 ```bash
 az containerapp create \
@@ -490,33 +546,41 @@ az containerapp create \
     --dapr-app-port 8000
 ```
 
-App gọi `http://localhost:3500/v1.0/state/statestore` thay vì gọi Storage trực tiếp → portable cross-cloud.
+Cụ thể, app gọi `http://localhost:3500/v1.0/state/statestore` thay vì gọi Storage trực tiếp — nhờ vậy code không dính chặt vào một cloud nào, đổi backend chỉ cần đổi cấu hình Dapr.
 
 ---
 
-## 6️⃣ API Management — Managed gateway
+## 6️⃣ API Management — Cổng API quản lý sẵn
+
+Đến đây bạn đã có backend chạy trên Container Apps. Nhưng phơi nó thẳng ra Internet thì thiếu kiểm soát: ai cũng gọi được, không giới hạn tần suất, không xác thực. API Management đứng trước cùng làm "người gác cổng" lo hết những việc đó.
 
 🪞 **Ẩn dụ**: *API Management như **lễ tân tòa nhà cao cấp** — kiểm tra ID (auth, JWT), giới hạn khách vào/giờ (rate limit), chỉ phòng nào (route), ghi sổ chi tiết (analytics + monitoring), tự hiển thị bảng dịch vụ (developer portal).*
 
-### Tier comparison
+### So sánh các tier
 
-| Tier | Use case | Cost |
+Chi phí APIM nhảy bậc rất mạnh theo tier, nên chọn đúng từ đầu giúp tránh trả thừa. Bảng dưới đi từ Consumption (trả theo lượt gọi, hợp startup) tới Premium (production đa vùng):
+
+| Tier | Hợp cho | Chi phí |
 |---|---|---|
-| **Consumption** | Pay-per-request, dev/PoC | $0.04 per 10k call |
-| **Developer** | Single instance, dev/staging | $50/month |
-| **Basic / Standard / Premium** | Production scale, VNet, multi-region | $147 - $2,795/month |
+| **Consumption** | Trả theo request, dev/PoC | $0.04 / 10k call |
+| **Developer** | Single instance, dev/staging | $50/tháng |
+| **Basic / Standard / Premium** | Production scale, VNet, multi-region | $147 - $2,795/tháng |
 
-→ Consumption phù hợp startup. Production: Standard v2 (mới 2024+, VNet integration).
+Với một startup như Acme Shop, Consumption là điểm khởi đầu hợp lý. Khi lên production cần VNet, nên nhắm Standard v2 (ra từ 2024+, có VNet integration).
 
-### Workflow
+### Quy trình
 
-1. Create APIM instance.
+Dựng APIM đi theo năm bước có thứ tự, từ tạo instance tới gắn policy bảo vệ:
+
+1. Tạo APIM instance.
 2. Import backend (OpenAPI spec hoặc Function App / App Service).
-3. Define **Product** (collection of APIs).
-4. Define **Subscription** (API key per consumer).
-5. Apply **Policy** (rate limit, transform, auth).
+3. Định nghĩa **Product** (gom nhiều API thành một gói).
+4. Định nghĩa **Subscription** (cấp API key cho từng consumer).
+5. Gắn **Policy** (rate limit, transform, auth).
 
-### Setup APIM
+### Dựng APIM
+
+Hai lệnh dưới tạo một instance Consumption rồi import một OpenAPI spec làm API đầu tiên:
 
 ```bash
 # Consumption tier
@@ -538,7 +602,9 @@ az apim api import \
     --specification-format OpenApi
 ```
 
-### Policy ví dụ — rate limit + JWT validate
+### Ví dụ policy — rate limit + JWT validate
+
+Sức mạnh thật của APIM nằm ở *policy* — các luật XML chèn vào luồng request/response. Policy dưới minh hoạa một cấu hình production điển hình: kiểm JWT ở đầu vào, giới hạn 100 request/phút và 10000 request/ngày mỗi subscription, rồi thêm CORS header ở đầu ra:
 
 ```xml
 <!-- Policy XML -->
@@ -572,6 +638,8 @@ az apim api import \
 
 ### Custom domain
 
+Giống App Service, APIM cũng cho gắn domain riêng; điểm khác là chứng chỉ thường lấy từ Key Vault để quản lý tập trung:
+
 ```bash
 az apim hostname configuration create \
     --resource-group rg-prod-apim \
@@ -583,13 +651,17 @@ az apim hostname configuration create \
 
 ---
 
-## 🛠️ Hands-on — Image resize pipeline end-to-end
+## 🛠️ Hands-on — Pipeline resize ảnh chạy từ đầu đến cuối
+
+Lý thuyết từng phần đã đủ; giờ ráp tất cả thành một thứ chạy thật, đúng yêu cầu của sếp ở đầu bài.
 
 ### Mục tiêu
 
-User upload `originals/<file>` → Function resize tự động → save `resized/{thumb,medium,full}/<file>`. Container Apps API trả URL các size. APIM front với API key + rate limit.
+User upload `originals/<file>` → Function tự resize → lưu `resized/{thumb,medium,full}/<file>`. Container Apps API trả về URL các size. APIM đứng trước, chặn bằng API key kèm rate limit. Đi từng bước một.
 
 ### Bước 1 — Storage Account + Container
+
+Trước tiên dựng nơi chứa ảnh. Tạo resource group, một Storage Account (tắt public access cho an toàn), và một container tên `uploads`:
 
 ```bash
 az group create --name rg-prod-pipeline --location southeastasia
@@ -607,6 +679,8 @@ az storage container create \
 ```
 
 ### Bước 2 — Function App (Consumption)
+
+Tiếp theo dựng Function App chạy Consumption (rẻ, scale-to-zero) và cấp cho nó danh tính hệ thống. Sau đó gán quyền `Storage Blob Data Contributor` để function ghi được ảnh đã resize mà không cần chuỗi kết nối:
 
 ```bash
 az functionapp create \
@@ -626,11 +700,13 @@ az role assignment create \
     --scope "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-prod-pipeline/providers/Microsoft.Storage/storageAccounts/stacmeprodpipe"
 ```
 
-### Bước 3 — Function code
+### Bước 3 — Code Function
+
+Giờ viết code thật cho function. Đoạn dưới khởi tạo project Python v2 model, viết Blob trigger resize ra ba size, khai báo dependency, rồi deploy:
 
 ```bash
 mkdir resize-fn && cd resize-fn
-func init --python --worker-runtime python -m V2
+func init --worker-runtime python --model V2
 
 cat > function_app.py <<'EOF'
 import azure.functions as func
@@ -679,6 +755,8 @@ func azure functionapp publish func-resize-prod-001
 ```
 
 ### Bước 4 — Container Apps API
+
+Function lo phần resize; giờ dựng REST API trả URL ảnh. Tạo registry (ACR), build và push image FastAPI, rồi deploy lên Container Apps với scale-to-zero:
 
 ```bash
 # ACR (Azure Container Registry)
@@ -736,6 +814,8 @@ az containerapp create \
 
 ### Bước 5 — API Management
 
+Đặt APIM trước Container App để quản lý truy cập. Tạo instance Consumption, lấy FQDN của Container App làm backend, rồi tạo API yêu cầu subscription key:
+
 ```bash
 az apim create \
     --name apim-acmeshop-prod \
@@ -761,6 +841,8 @@ az apim api create \
 
 ### Bước 6 — Test pipeline
 
+Khâu cuối: kiểm chứng cả dây chuyền. Upload một ảnh original, đợi function tự kích hoạt, liệt kê các file đã resize, rồi gọi API qua APIM (cần subscription key):
+
 ```bash
 # Upload ảnh original
 echo "binary-data" > test.jpg
@@ -779,14 +861,25 @@ az storage blob list \
     --prefix resized/ --auth-mode login --output table
 # → resized/thumb/test.jpg, resized/medium/test.jpg, resized/full/test.jpg
 
+# Lấy subscription id rồi lấy primary key
+SUB_ID=$(az apim subscription list \
+    --resource-group rg-prod-pipeline \
+    --service-name apim-acmeshop-prod \
+    --query "[0].name" -o tsv)
+SUB_KEY=$(az apim subscription show \
+    --resource-group rg-prod-pipeline \
+    --service-name apim-acmeshop-prod \
+    --sid "$SUB_ID" --query primaryKey -o tsv)
+
 # Call API qua APIM (cần subscription key)
-SUB_KEY=$(az apim subscription show ... --query primaryKey -o tsv)
 APIM_URL=$(az apim show -n apim-acmeshop-prod -g rg-prod-pipeline --query gatewayUrl -o tsv)
 curl "$APIM_URL/images/products/test/images" \
     -H "Ocp-Apim-Subscription-Key: $SUB_KEY"
 ```
 
-### Bước 7 — Cleanup
+### Bước 7 — Dọn dẹp
+
+Xoá toàn bộ resource group là cách nhanh và sạch nhất để khỏi tốn tiền sau khi thử xong:
 
 ```bash
 az group delete --name rg-prod-pipeline --yes --no-wait
@@ -796,160 +889,167 @@ az group delete --name rg-prod-pipeline --yes --no-wait
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### 1. Cold start lâu cho user-facing Functions
+Phần này gom những chỗ dễ vấp nhất khi vận hành thật. Mỗi mục theo công thức quen thuộc: nêu cái bẫy, rồi cách chữa.
 
-**Bẫy**: Consumption plan + user-facing API → P95 latency 1-2s.
+### ❌ Cạm bẫy: Cold start lâu cho Functions giáp mặt người dùng
+
+**Bẫy**: Consumption plan + API giáp mặt người dùng → P95 latency lên 1-2s.
 
 **Fix**:
 - Premium plan + min-instances ≥ 1.
 - Always Ready instance trong Premium.
-- Optimize package size (remove dev dependencies).
-- Health check endpoint cron mỗi 5 phút.
+- Tối ưu kích thước package (gỡ dev dependency).
+- Health check endpoint chạy cron mỗi 5 phút.
 
-### 2. Function timeout
+### ❌ Cạm bẫy: Function hết giờ giữa chừng
 
-**Bẫy**: Consumption max 10 phút → image processing dài bị cut.
+**Bẫy**: Consumption mặc định 5 phút, tối đa 10 phút → tác vụ xử lý ảnh dài bị cắt ngang.
 
 **Fix**:
 - Premium: 30 phút.
-- Dedicated (App Service Plan): unlimited.
-- Hoặc dùng **Durable Functions** + activity nhỏ.
+- Dedicated (App Service Plan): không giới hạn.
+- Hoặc dùng **Durable Functions** + chia thành activity nhỏ.
 - Hoặc dùng **Container Apps Job** cho batch.
 
-### 3. Blob trigger missing event (poll-based)
+### ❌ Cạm bẫy: Blob trigger bỏ sót sự kiện (do polling)
 
-**Bẫy**: Consumption Blob trigger dùng polling — có thể delay 1-10 phút khi storage có nhiều blob.
-
-**Fix**:
-- Dùng **Event Grid** trigger thay vì Blob trigger → event-driven sub-second.
-- Hoặc Premium plan với Event Grid.
-
-### 4. App Service auto-rebuild khi deploy
-
-**Bẫy**: Deploy code Python → App Service auto-rebuild → 5-10 phút downtime (single instance).
+**Bẫy**: Blob trigger trên Consumption dùng polling — có thể trễ 1-10 phút khi storage có nhiều blob.
 
 **Fix**:
-- **Deployment slot** + swap (zero-downtime).
-- Multi-instance từ B1 trở lên.
-- Container deploy không rebuild.
+- Dùng **Event Grid** trigger thay Blob trigger → event-driven, độ trễ dưới một giây.
+- Hoặc Premium plan kết hợp Event Grid.
 
-### 5. Custom domain không HTTPS auto
+### ❌ Cạm bẫy: App Service rebuild lúc deploy gây downtime
 
-**Bẫy**: Map domain `api.acmeshop.vn` → HTTP work, HTTPS error (no cert).
-
-**Fix**:
-- Bật **App Service Managed Certificate** (free, auto-renew).
-- Hoặc bring own cert qua Key Vault.
-- Check: `--https-only true`.
-
-### 6. Container Apps cold start lớn
-
-**Bẫy**: `min-replicas=0` → request đầu chờ 1-3s pull image.
+**Bẫy**: Deploy code Python → App Service tự rebuild → downtime 5-10 phút (nếu chạy single instance).
 
 **Fix**:
-- `min-replicas=1` cho user-facing endpoint.
-- Smaller image (Alpine, distroless).
-- Use ACR same region (faster pull).
+- **Deployment slot** + swap (không downtime).
+- Chạy multi-instance từ B1 trở lên.
+- Deploy bằng container thì không rebuild.
 
-### 7. APIM Consumption tier không VNet
+### ❌ Cạm bẫy: Custom domain không tự có HTTPS
 
-**Bẫy**: APIM Consumption rẻ nhưng không hỗ trợ VNet integration → không call backend private endpoint.
-
-**Fix**:
-- Backend qua public endpoint + APIM IP whitelist.
-- Hoặc upgrade Standard v2 (mới 2024+, support VNet).
-
-### 8. Easy Auth không validate token claim
-
-**Bẫy**: Easy Auth chỉ verify signature; không check `role` claim → user không phải admin vẫn vào admin endpoint.
+**Bẫy**: Map domain `api.acmeshop.vn` → HTTP chạy được, HTTPS báo lỗi (chưa có cert).
 
 **Fix**:
-- App logic check role từ header `X-MS-CLIENT-PRINCIPAL`.
+- Bật **App Service Managed Certificate** (miễn phí, tự gia hạn).
+- Hoặc mang cert riêng vào qua Key Vault.
+- Kiểm: bật `--https-only true`.
+
+### ❌ Cạm bẫy: Container Apps cold start lớn
+
+**Bẫy**: `min-replicas=0` → request đầu phải chờ 1-3s pull image.
+
+**Fix**:
+- `min-replicas=1` cho endpoint giáp mặt người dùng.
+- Image nhỏ hơn (Alpine, distroless).
+- Dùng ACR cùng region (pull nhanh hơn).
+
+### ❌ Cạm bẫy: APIM Consumption không có VNet
+
+**Bẫy**: APIM Consumption rẻ nhưng không hỗ trợ VNet integration → không gọi được backend qua private endpoint.
+
+**Fix**:
+- Để backend qua public endpoint + whitelist IP của APIM.
+- Hoặc nâng lên Standard v2 (ra từ 2024+, hỗ trợ VNet).
+
+### ❌ Cạm bẫy: Easy Auth không kiểm claim của token
+
+**Bẫy**: Easy Auth chỉ verify chữ ký; không kiểm claim `role` → user không phải admin vẫn vào được admin endpoint.
+
+**Fix**:
+- App tự kiểm role từ header `X-MS-CLIENT-PRINCIPAL`.
 - Hoặc dùng APIM với `validate-jwt` + `required-claims`.
 
-### 9. Function App share Storage Account = race
+### ❌ Cạm bẫy: Nhiều Function App share một Storage Account
 
-**Bẫy**: Nhiều Function App share 1 Storage Account → lease conflict, slow.
+**Bẫy**: Nhiều Function App dùng chung 1 Storage Account → tranh chấp lease, chậm.
 
 **Fix**:
-- 1 Storage Account riêng cho mỗi Function App (default tạo qua portal đã correct).
-- Tách `AzureWebJobsStorage` (internal state) vs data storage.
+- Mỗi Function App một Storage Account riêng (tạo qua portal mặc định đã đúng).
+- Tách `AzureWebJobsStorage` (state nội bộ) khỏi storage chứa data.
 
-### 10. Cost runaway no max-replicas
+### ❌ Cạm bẫy: Không set max-replicas khiến chi phí phình to
 
-**Bẫy**: Container Apps không set `max-replicas` → bot attack → 1000 replica → $$$.
+**Bẫy**: Container Apps không set `max-replicas` → bị tấn công bot → bung 1000 replica → hoá đơn khổng lồ.
 
 **Fix**:
 - Luôn set `--max-replicas`.
-- Front WAF (Front Door / APIM) rate limit.
-- Budget alert.
+- Đặt WAF (Front Door / APIM) phía trước để rate limit.
+- Bật budget alert.
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
+
+Tự trả lời được mười câu dưới nghĩa là bạn đã nắm được phần xương sống của bài. Câu nào còn lăn tăn thì quay lại đúng section tương ứng:
 
 - [ ] So sánh Functions vs App Service vs Container Apps vs AKS cho 4 use case khác nhau?
-- [ ] Function plan Consumption vs Premium vs Dedicated — chọn cho event-driven, user-facing, long-running?
-- [ ] Deploy Function với Blob trigger + Managed Identity access Storage — flow?
-- [ ] Durable Function pattern chain vs fan-out — code example?
-- [ ] App Service deployment slot swap — zero-downtime deploy như thế nào?
-- [ ] Container Apps min-replicas=0 vs 1 — trade-off cost vs latency?
+- [ ] Function plan Consumption vs Premium vs Dedicated — chọn cho event-driven, giáp mặt người dùng, chạy dài?
+- [ ] Deploy Function với Blob trigger + Managed Identity truy cập Storage — luồng thế nào?
+- [ ] Durable Function pattern chain vs fan-out — ví dụ code?
+- [ ] App Service deployment slot swap — deploy không downtime ra sao?
+- [ ] Container Apps min-replicas=0 vs 1 — đánh đổi chi phí vs độ trễ?
 - [ ] Container Apps Dapr sidecar — lợi ích gì?
-- [ ] APIM policy `validate-jwt` + `rate-limit-by-key` — bảo vệ backend như thế nào?
-- [ ] Cold start mitigation 4 cách — chọn theo budget?
-- [ ] Cost estimate: 1M req/tháng Function Consumption vs Container Apps?
+- [ ] APIM policy `validate-jwt` + `rate-limit-by-key` — bảo vệ backend thế nào?
+- [ ] Bốn cách giảm cold start — chọn theo budget?
+- [ ] Ước lượng chi phí: 1 triệu request/tháng trên Function Consumption vs Container Apps?
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Azure Functions** | Serverless function — event-driven |
-| **Consumption plan** | Pay-per-execution, scale-to-zero |
-| **Premium plan** | Always-ready, VNet, no cold start |
-| **App Service** | PaaS web app (code or container) |
-| **App Service Plan** | Compute layer (VM size + count) |
-| **Web App** | App chạy trên Plan |
-| **Deployment slot** | Pre-prod copy, swap zero-downtime |
-| **App Service Managed Certificate** | Free SSL auto-renew |
-| **Easy Auth** | Built-in auth (Entra ID, Google, Facebook) |
-| **Container Apps** | Serverless container, Knative + Dapr |
-| **Container Apps Environment** | Group container apps share VNet + Log Analytics |
-| **Revision** | Immutable snapshot Container App |
-| **Traffic split** | % traffic cross revision (canary) |
-| **KEDA** | K8s Event-Driven Autoscaler |
-| **Dapr** | Distributed application runtime (sidecar) |
-| **AKS** | Azure Kubernetes Service |
-| **API Management (APIM)** | Managed API gateway |
-| **Product / Subscription** | APIM hierarchy: nhóm API + key per consumer |
-| **Policy** | APIM XML rule (auth, rate, transform) |
-| **Durable Functions** | Function workflow orchestration (chain/fan-out) |
-| **Cold start** | Latency khi instance khởi tạo |
-| **Always Ready instance** | Premium plan pre-warmed |
-| **ACR** | Azure Container Registry |
-| **Blob trigger** | Function trigger khi Blob create/update |
-| **Event Grid trigger** | Event-driven sub-second latency |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Azure Functions** | Hàm serverless | Chạy từng function theo sự kiện |
+| **Consumption plan** | Gói trả theo lượt | Pay-per-execution, scale-to-zero |
+| **Premium plan** | Gói cao cấp | Always-ready, VNet, không cold start |
+| **App Service** | Dịch vụ web PaaS | PaaS cho web app (code hoặc container) |
+| **App Service Plan** | Gói compute | Lớp compute (cỡ VM + số lượng) |
+| **Web App** | Ứng dụng web | App chạy trên Plan |
+| **Deployment slot** | Khe triển khai | Bản pre-prod, swap không downtime |
+| **App Service Managed Certificate** | Chứng chỉ tự quản | SSL miễn phí, tự gia hạn |
+| **Easy Auth** | Xác thực có sẵn | Auth tích hợp (Entra ID, Google, Facebook) |
+| **Container Apps** | Container serverless | Container serverless, Knative + Dapr |
+| **Container Apps Environment** | Môi trường Container Apps | Nhóm app dùng chung VNet + Log Analytics |
+| **Revision** | Bản chụp | Snapshot bất biến của Container App |
+| **Traffic split** | Chia traffic | Chia % traffic giữa các revision (canary) |
+| **KEDA** | Bộ autoscale theo sự kiện | K8s Event-Driven Autoscaler |
+| **Dapr** | Runtime ứng dụng phân tán | Distributed application runtime (sidecar) |
+| **AKS** | Kubernetes của Azure | Azure Kubernetes Service |
+| **API Management (APIM)** | Cổng API quản lý sẵn | Managed API gateway |
+| **Product / Subscription** | Gói API / Đăng ký | Phân tầng APIM: nhóm API + key cho consumer |
+| **Policy** | Luật xử lý | Luật XML của APIM (auth, rate, transform) |
+| **Durable Functions** | Function điều phối luồng | Orchestration luồng (chain/fan-out) |
+| **Cold start** | Khởi động nguội | Độ trễ khi instance vừa khởi tạo |
+| **Always Ready instance** | Instance giữ sẵn | Instance pre-warmed của Premium plan |
+| **ACR** | Registry container Azure | Azure Container Registry |
+| **Blob trigger** | Kích hoạt theo Blob | Function chạy khi Blob được tạo/cập nhật |
+| **Event Grid trigger** | Kích hoạt theo Event Grid | Event-driven, độ trễ dưới một giây |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_azure-sql-and-cosmosdb](03_azure-sql-and-cosmosdb.md)
-- ↑ Cluster Azure: [Azure README](../../README.md)
-- 🔜 Intermediate (sắp viết): AKS, Bicep, ARM, Service Bus deep, Front Door + WAF, Cost optimization
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — analog Functions + APIM
-- ☁️ [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — analog
-- 🐳 [Docker basic](../../../../10_devops/docker/) — image build cho Container Apps
+- ⬅️ **Bài trước:** [Azure SQL + Cosmos DB](03_azure-sql-and-cosmosdb.md)
+- ↑ **Về cụm:** [Azure](../../README.md)
+- 🔜 **Tiếp theo (sắp viết):** Cụm Intermediate — AKS, Bicep, ARM, Service Bus deep, Front Door + WAF, Cost optimization
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- ☁️ [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — tương đương Functions + APIM
+- ☁️ [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — đối chiếu
+- 🐳 [Docker basic](../../../../10_devops/docker/) — build image cho Container Apps
 - 🔁 [CI/CD basic](../../../../10_devops/ci-cd/) — deploy serverless từ pipeline
 - 🧭 [Cloud Engineer roadmap](../../../../00_roadmaps/career/cloud-engineer_career-roadmap.md)
 
-### Tài nguyên ngoài (2026)
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Azure Functions docs](https://learn.microsoft.com/azure/azure-functions/)
 - 📖 [Python v2 programming model](https://learn.microsoft.com/azure/azure-functions/functions-reference-python)
 - 📖 [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/)
@@ -963,6 +1063,7 @@ az group delete --name rg-prod-pipeline --yes --no-wait
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bài 04 (cuối basic) Azure. Functions (Consumption/Premium/Dedicated) + 10+ trigger + Durable Functions chain/fan-out + App Service Plan + Web App + deployment slot + custom domain + Easy Auth + Container Apps Knative + Dapr + revision traffic split + APIM Consumption + policy JWT/rate-limit + decision tree 4 compute options + hands-on image pipeline Blob→Function→Container Apps→APIM + 10 pitfalls. Hoàn thành Azure basic cluster 5/5.
+- **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thêm lời dẫn trước mỗi bảng/code/list và câu bắc cầu giữa các section, giữ nguyên ẩn dụ. Sửa lỗi QA: `func init` đúng cú pháp (`--worker-runtime python --model V2`, bỏ `--python` thừa); viết đủ lệnh lấy APIM subscription key (bỏ `...` cắt giữa lệnh, lấy `--sid` từ `az apim subscription list`); làm rõ Consumption timeout (mặc định 5 phút, tối đa 10 phút) ở bảng decision và pitfall. Chuẩn hoá heading framework, metadata field "Yêu cầu trước", Glossary 3 cột, nav marker `⬅️/↑/🔜` + 3 sub-heading chuẩn. Giữ nguyên 100% code/số liệu/cấu trúc 8 phần.

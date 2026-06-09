@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~17 phút\
 > **Prerequisites:** [Indexes & Performance](02_indexes-and-performance.md)
 
 > 🎯 *Master 3 feature làm Postgres khác biệt: **JSONB** (binary JSON với index GIN), **arrays** native, **full-text search** (tsvector). Plus glance **pgvector** (AI embedding). Sau bài này hiểu tại sao 2026 Postgres thay được nhiều specialized DB.*
@@ -489,7 +488,7 @@ CREATE INDEX idx_docs_embedding
 
 ---
 
-## 7️⃣ bạn lưu user preferences modern
+## 7️⃣ Lưu user preferences kiểu modern
 
 ```sql
 -- Schema
@@ -505,7 +504,7 @@ CREATE INDEX idx_users_theme ON users((preferences ->> 'theme'));
 
 -- Insert
 INSERT INTO users (email, name, preferences) VALUES
-('nguyenvana@ex.com', 'bạn', '{
+('nguyenvana@ex.com', 'Nguyen Van A', '{
   "theme": "dark",
   "language": "vi",
   "notifications": {"email": true, "push": false},
@@ -557,7 +556,7 @@ WHERE id = 1;
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`->` vs `->>`** — `->` returns JSONB, `->>` returns TEXT. Compare text: `preferences ->> 'theme' = 'dark'`. Compare JSONB: `preferences -> 'theme' = '"dark"'::jsonb`.
 2. **Index `jsonb` mà query `->>`** → không dùng index GIN. GIN cho `@>`/`?`. B-tree expression cho `->>= X`.
@@ -567,7 +566,7 @@ WHERE id = 1;
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. JSON vs JSONB — chọn cái nào 2026, tại sao?
 2. `->` vs `->>` — khác sao? Cho ví dụ.
@@ -595,7 +594,7 @@ WHERE id = 1;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### JSONB operators
 
@@ -683,14 +682,14 @@ SELECT * FROM t ORDER BY emb <=> '[...]' LIMIT 10;
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [Indexes & Performance](02_indexes-and-performance.md)
-- → Tiếp: [Backup & Replication](04_backup-and-replication.md)
-- ↑ Cluster: [postgresql README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Indexes & Performance — EXPLAIN ANALYZE, B-tree, GIN, BRIN](02_indexes-and-performance.md)
+- ➡️ **Bài tiếp theo:** [Backup & Replication — Production essentials](04_backup-and-replication.md)
+- ↑ **Về cụm:** [postgresql README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Postgres JSONB docs](https://www.postgresql.org/docs/current/datatype-json.html)
 - 📖 [Postgres FTS docs](https://www.postgresql.org/docs/current/textsearch.html)
 - 📖 [pgvector docs](https://github.com/pgvector/pgvector)
@@ -703,8 +702,7 @@ SELECT * FROM t ORDER BY emb <=> '[...]' LIMIT 10;
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 JSON vs JSONB + Create+insert + `'{}'::jsonb` cast + §2 `->` vs `->>` + path `#>` + `#>>`. Fix residue `'bạn'` (Long character) → `'Nguyen Van A'` trong INSERT example. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 4/5. Cover: JSON vs JSONB + 7 operator (`->`, `->>`, `#>`, `#>>`, `?`, `@>`, `<@`) + GIN index cho JSONB + Arrays (1D, multi-D) + ANY/ALL + Full-text search (tsvector, tsquery, ranking) + GIN cho FTS.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 JSON vs JSONB + Create+insert + `'{}'::jsonb` cast + §2 `->` vs `->>` + path `#>` + `#>>`. Chuẩn hoá tên trong INSERT example + tiêu đề §7. Thêm Changelog section.

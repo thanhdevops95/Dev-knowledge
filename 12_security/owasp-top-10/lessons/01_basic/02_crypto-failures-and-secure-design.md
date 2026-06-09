@@ -1,15 +1,16 @@
-# 🔐🏗️ A02 Cryptographic Failures + A04 Insecure Design
+# 🔐🏗️ A04 Cryptographic Failures + A06 Insecure Design
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [01_injection-and-access-control](01_injection-and-access-control.md) ✅, biết HTTPS cơ bản
 
-> 🎯 *Bài 02. **A02 Crypto Failures** (rename từ "Sensitive Data Exposure") — vuln về encryption, hashing, TLS. **A04 Insecure Design** (new 2021) — flaw từ thiết kế chứ không phải implementation. Bài này dạy: symmetric vs asymmetric, password hashing (Argon2/bcrypt), TLS proper setup, JWT signing pitfalls, secure design patterns (threat-driven, secure by default), abuse case. Hands-on migrate Acme Shop password từ MD5 sang Argon2.*
+> 🎯 *Bài 02. **A04 Cryptographic Failures** (OWASP Top 10:2025 — bản hiện hành; rename từ "Sensitive Data Exposure", từng đứng A02 ở 2021) — vuln về encryption, hashing, TLS. **A06 Insecure Design** (giới thiệu từ 2021, ở 2025 đứng A06) — flaw từ thiết kế chứ không phải implementation. Bài này dạy: symmetric vs asymmetric, password hashing (Argon2/bcrypt), TLS proper setup, JWT signing pitfalls, secure design patterns (threat-driven, secure by default), abuse case. Hands-on migrate Acme Shop password từ MD5 sang Argon2.*
+
+> ⚠️ **Cập nhật chuẩn:** Bài đã chuyển sang **OWASP Top 10:2025** (final release). Trong bản này thứ tự thay đổi lớn: **A02 Security Misconfiguration** lên #2, **A03 Software Supply Chain Failures** là category MỚI (mở rộng từ "Vulnerable & Outdated Components"), **Injection** rớt xuống **A05**, **Insecure Design** xuống **A06**, **A10 Mishandling of Exceptional Conditions** là category MỚI, và **SSRF không còn category riêng — đã gộp vào A01 Broken Access Control**. Xem bảng mapping 2021↔2025 ở bài [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md).
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -39,7 +40,7 @@ Sếp tiếp tục pen-test report:
 
 ---
 
-## 1️⃣ A02 — Cryptographic Failures
+## 1️⃣ A04 — Cryptographic Failures
 
 🪞 **Ẩn dụ**: *Crypto như **két sắt ngân hàng** — chìa khóa (key) phải đủ chắc, ổ khóa (algorithm) không bị hỏng, két phải đặt đúng vị trí (in transit / at rest), người giữ chìa key phải đúng. Mỗi điểm yếu là 1 lỗi crypto.*
 
@@ -240,7 +241,7 @@ eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.abc123
 - **Payload**: claims (sub, exp, iat, iss, aud, custom).
 - **Signature**: HMAC/RSA signature.
 
-### Pitfall 1 — `alg=none` attack
+### Cạm bẫy 1 — `alg=none` attack
 
 **Vuln**: Library accept `alg=none` → no signature verify → attacker tạo JWT bất kỳ.
 
@@ -259,13 +260,13 @@ except jwt.InvalidTokenError:
     raise HTTPException(401)
 ```
 
-### Pitfall 2 — HMAC vs RSA confusion
+### Cạm bẫy 2 — HMAC vs RSA confusion
 
 **Vuln**: Server expects RS256 (public key verify), attacker switch to HS256 và dùng **public key as HMAC secret** → server tự verify đúng.
 
 **Fix**: Same — explicit `algorithms=` list.
 
-### Pitfall 3 — Weak secret HS256
+### Cạm bẫy 3 — Weak secret HS256
 
 **Vuln**: Secret = `"secret"` → brute-force JWT crack online.
 
@@ -275,7 +276,7 @@ import secrets
 SECRET = secrets.token_urlsafe(32)  # store env / Vault
 ```
 
-### Pitfall 4 — Expiration missing
+### Cạm bẫy 4 — Expiration missing
 
 **Vuln**: Token không có `exp` → valid forever; leak = permanent compromise.
 
@@ -290,15 +291,15 @@ payload = {
 }
 ```
 
-Pattern: short access token (15p) + refresh token (long, opaque, stored DB) — revocation possible.
+Pattern: short access token + refresh token (long, opaque, stored DB) — revocation possible.
 
-### Pitfall 5 — Sensitive data trong payload
+### Cạm bẫy 5 — Sensitive data trong payload
 
 **Vuln**: JWT payload base64 encoded **không phải** encrypted → ai có token đọc được.
 
 **Fix**: Không put password, full PII, secret vào claims. Dùng `JWE` (encrypted JWT) nếu thực sự cần.
 
-### Pitfall 6 — JWT in localStorage
+### Cạm bẫy 6 — JWT in localStorage
 
 **Vuln**: XSS → `document.localStorage` → token stolen.
 
@@ -306,7 +307,7 @@ Pattern: short access token (15p) + refresh token (long, opaque, stored DB) — 
 
 ---
 
-## 3️⃣ A04 — Insecure Design
+## 3️⃣ A06 — Insecure Design
 
 🪞 **Ẩn dụ**: *Insecure Design như **xây nhà cửa sổ hướng ra phố đông đúc** — không phải lỗi thợ xây (implementation), mà lỗi kiến trúc sư (design). Phải xem lại bản vẽ, không phải fix gạch.*
 
@@ -314,9 +315,9 @@ Pattern: short access token (15p) + refresh token (long, opaque, stored DB) — 
 
 | Vuln type | Khi nào sinh | Fix ở đâu |
 |---|---|---|
-| Implementation (A03 Injection) | Code | Code |
-| Misconfig (A05) | Deploy/config | Config |
-| **Insecure Design (A04)** | **Architecture/Design** | **Architecture (re-design)** |
+| Implementation (A05 Injection) | Code | Code |
+| Misconfig (A02) | Deploy/config | Config |
+| **Insecure Design (A06)** | **Architecture/Design** | **Architecture (re-design)** |
 
 ### Examples thực tế
 
@@ -536,7 +537,7 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. "Encryption = security"
 
@@ -566,9 +567,10 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ### 5. PBKDF2 với low iteration
 
-**Bẫy**: PBKDF2 với 1000 iteration (NIST 2017) → modern GPU break.
+**Bẫy**: PBKDF2 với 1000 iteration → modern GPU break.
 
-**Fix**: Argon2id; if PBKDF2 (compliance), iteration ≥ 600k (2026 NIST).
+**Fix**: Argon2id; nếu buộc dùng PBKDF2 (compliance), iteration ≥ **600.000** (khuyến nghị **OWASP** Password Storage Cheat Sheet cho PBKDF2-HMAC-SHA256, ngữ cảnh FIPS-140).
+> 📝 *Đừng gán nhầm con số này cho NIST. NIST SP 800-63B chỉ yêu cầu iteration tối thiểu 10.000, "chọn càng cao càng tốt theo hiệu năng" — không nêu con số 600k. 600k là của OWASP.*
 
 ### 6. JWT trong URL
 
@@ -590,7 +592,7 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Symmetric vs Asymmetric — chọn cho 3 use case?
 - [ ] Tại sao Argon2id > bcrypt > PBKDF2 > SHA-256?
@@ -603,7 +605,7 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -633,21 +635,22 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_injection-and-access-control](01_injection-and-access-control.md)
-- → Tiếp: [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) *(sắp viết)*
-- ↑ Cluster OWASP: [OWASP README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [A01 Broken Access Control (gồm SSRF) + A05 Injection](01_injection-and-access-control.md)
+- ➡️ **Bài tiếp theo:** [A02 Misconfig + A03 Software Supply Chain Failures](03_misconfig-vulnerable-components-supply-chain.md) *(sắp viết)*
+- ↑ **Về cụm:** [OWASP README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🔒 [Cryptography](../../../cryptography/) — deep
 - 📡 [TLS/SSL](../../../tls-ssl/)
 - 🌐 [HTTPS lesson](../../../../05_networking/http-https/lessons/01_basic/04_https-tls.md)
 - 🐍 [FastAPI auth JWT](../../../../07_web/backend/python-fastapi/lessons/01_basic/04_auth-and-middleware.md)
-- 🔐 [Authentication cluster](../../../authentication/)
+- ↑ **Về cụm:** [Authentication cluster](../../../authentication/)
 
 ### Tài nguyên ngoài (2026)
-- 📖 [OWASP A02](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
-- 📖 [OWASP A04](https://owasp.org/Top10/A04_2021-Insecure_Design/)
+- 📖 [OWASP Top 10:2025 (bản hiện hành)](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A04:2025 — Cryptographic Failures](https://owasp.org/Top10/2025/A04_2025-Cryptographic_Failures/)
+- 📖 [OWASP A06:2025 — Insecure Design](https://owasp.org/Top10/2025/A06_2025-Insecure_Design/)
 - 📖 [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)
 - 📖 [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 - 📖 [OWASP Transport Layer Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html)
@@ -662,6 +665,7 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 OWASP basic. A02 Crypto Failures (symmetric/asymmetric, algorithm 2026, password hashing Argon2id, TLS proper, HSTS, JWT pitfalls) + A04 Insecure Design (threat-driven design, abuse cases, secure patterns) + hands-on migrate MD5→Argon2 Acme Shop + 8 pitfalls.
+- **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (final release). Đổi numbering: Cryptographic Failures A02→**A04**, Insecure Design A04→**A06**; bảng phân biệt vuln type dùng số hiệu 2025 (Injection A05, Misconfig A02). Thêm ghi chú thay đổi chuẩn (A02 Misconfig lên #2, A03 Software Supply Chain mới, A10 Mishandling mới, SSRF gộp A01) + link bài 00 cho mapping 2021↔2025. Sửa nav bài trước/sau theo numbering 2025. Cập nhật link tài nguyên OWASP sang URL 2025. Sửa attribution sai: PBKDF2 ≥ 600.000 iteration là khuyến nghị **OWASP** (không phải NIST) — bổ sung làm rõ NIST SP 800-63B chỉ yêu cầu tối thiểu 10.000.

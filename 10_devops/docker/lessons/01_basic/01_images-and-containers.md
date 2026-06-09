@@ -1,17 +1,16 @@
-# 🎓 Làm Chủ 8 Lệnh Điều Khiển Image Và Container Cơ Bản
+# 🎓 Các Lệnh Điều Khiển Image & Container Theo Vòng Đời
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.0  
+> **Phiên bản:** v3.2.0  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 26/05/2026  
+> **Cập nhật:** 01/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
-> **Thời lượng đọc:** ~25 phút (kèm thực hành)  
 > **Yêu cầu trước:** [Bài 00: Bản chất của Docker](./00_what-is-docker.md), đã [Cài đặt Docker](../../setup/install-docker.md) chạy được.
 
 > [!NOTE]
 > **Mục tiêu bài học:**  
-> Sau khi đã nắm rõ bản chất lý thuyết của Container, việc mở Docker Desktop lên và đứng trước một cửa sổ dòng lệnh trống trơn sẽ khiến bạn bối rối không biết gõ gì tiếp theo. Bài học này sẽ giúp bạn làm chủ **8 câu lệnh điều khiển cốt lõi (bộ CRUD)** được sử dụng hàng ngày trong công việc thực tế của một kỹ sư DevOps: *pull*, *run*, *ps*, *stop*, *rm*, *logs*, *exec*, *images*.
+> Sau khi đã nắm rõ bản chất lý thuyết của Container, việc mở Docker Desktop lên và đứng trước một cửa sổ dòng lệnh trống trơn sẽ khiến bạn bối rối không biết gõ gì tiếp theo. Bài học này giúp bạn làm chủ **nhóm lệnh điều khiển Image và Container** dùng hàng ngày, sắp xếp theo **vòng đời của container**: tải image → tạo & chạy → quản lý vòng đời (`start`/`stop`/`restart`) → quan sát & tương tác (`logs`/`exec`/`inspect`/`stats`).
 
 ---
 
@@ -21,7 +20,7 @@
 - [x] Khởi chạy Container với đầy đủ cấu hình thực tế chuyên nghiệp (Port mapping, detached mode, env, volume, auto remove).
 - [x] Giám sát trạng thái hoạt động và theo dõi log thời gian thực của container để debug lỗi.
 - [x] Chui vào bên trong Container đang chạy để thực thi lệnh trực tiếp.
-- [x] Thành thạo quy trình dừng, xóa container và dọn dẹp đĩa cứng sạch sẽ để tối ưu hóa tài nguyên.
+- [x] Thành thạo quy trình dừng, bật lại (`start`/`restart`), xóa container và dọn dẹp đĩa cứng để tối ưu tài nguyên.
 
 ---
 
@@ -40,22 +39,24 @@ Bạn quay sang hỏi người đàn anh đi trước (Leader DevOps):
 
 > *"Anh ơi, hệ thống Docker có tới hơn 100 câu lệnh và hàng trăm tham số đi kèm, em nên bắt đầu học từ đâu để có thể làm việc được ngay ạ?"*
 
-Anh Leader mỉm cười và vỗ vai bạn: *"Thực tế mỗi ngày đi làm, anh chỉ sử dụng xoay quanh đúng 8 câu lệnh cốt lõi. Em chỉ cần làm chủ thật vững vàng 8 câu lệnh đó là đã có thể xử lý được 80% công việc Docker hàng ngày rồi!"*
+Anh Leader mỉm cười và vỗ vai bạn: *"Thực tế mỗi ngày đi làm, anh chỉ xoay quanh khoảng một chục lệnh cốt lõi — và tất cả đều bám theo **vòng đời của container**. Nắm được vòng đời đó là em xử lý được 80% công việc Docker hàng ngày rồi!"*
 
-Bài học này chính là **"bộ lệnh CRUD thần thánh"** dành cho Container mà anh Leader đã truyền lại cho bạn!
+Bài học này chính là **bộ lệnh thiết yếu bám theo vòng đời container** mà anh Leader đã truyền lại cho bạn!
 
 ---
 
-## 1️⃣ Tám Lệnh "CRUD Container" Kinh Điển Chiếm 80% Công Việc Hàng Ngày
+## 1️⃣ Bản Đồ Lệnh Theo Vòng Đời Container
 
-Tương tự như các thao tác thêm, sửa, xóa dữ liệu trong cơ sở dữ liệu (CRUD), việc quản lý vòng đời của các Container trong Docker cũng xoay quanh một bộ lệnh tương tự:
+Hơn 100 lệnh Docker nghe thật đáng sợ, nhưng phần dùng hàng ngày chỉ xoay quanh **4 nhóm bám theo vòng đời** của Image và Container. Nắm được bản đồ này, bạn biết ngay mỗi lệnh "sống" ở giai đoạn nào:
 
-| Thao tác | Câu lệnh Docker tương ứng | Ý nghĩa thực tế |
+| Nhóm | Lệnh | Vai trò |
 | :--- | :--- | :--- |
-| **Create** (Tạo lập) | `docker pull` <br> `docker run` | Tải bản vẽ thiết kế (Image) về máy. <br> Khởi dựng và kích hoạt container hoạt động. |
-| **Read** (Giám sát) | `docker ps` <br> `docker images` <br> `docker logs` <br> `docker inspect` | Xem các container đang chạy. <br> Xem danh sách image có sẵn trên máy. <br> Xem log nhật ký hoạt động. <br> Xem chi tiết cấu hình mạng/ổ đĩa. |
-| **Update** (Chỉnh sửa) | `docker exec` <br> `docker restart` | Chui vào container đang chạy để sửa. <br> Khởi động lại container. |
-| **Delete** (Xóa bỏ) | `docker stop` <br> `docker rm` <br> `docker rmi` | Dừng hoạt động của container một cách an toàn. <br> Xóa container khỏi bộ nhớ. <br> Xóa image khỏi đĩa cứng. |
+| 🖼️ **Image** | `pull` · `images` · `rmi` | Tải bản thiết kế về máy, xem danh sách, xóa |
+| 🚀 **Tạo & chạy** | `run` | Dựng + bật container từ image (= `create` + `start`) |
+| ♻️ **Vòng đời container** | `ps` · `stop` · `start` · `restart` · `rm` | Liệt kê, dừng, bật lại, khởi động lại, xóa container |
+| 🔍 **Quan sát & tương tác** | `logs` · `exec` · `inspect` · `stats` | Xem log, chui vào trong, soi cấu hình, theo dõi tài nguyên |
+
+→ Phần Thực hành (mục 3) sẽ đi lần lượt qua đúng 4 nhóm này. Đừng học vẹt từng lệnh rời rạc — hãy gắn mỗi lệnh vào giai đoạn vòng đời của nó.
 
 ---
 
@@ -89,7 +90,7 @@ stateDiagram-v2
 
 ---
 
-## 3️⃣ Thực Hành: Làm Chủ 8 Lệnh Điều Khiển Cốt Lõi
+## 3️⃣ Thực Hành: Đi Qua Bốn Nhóm Lệnh
 
 ---
 
@@ -103,8 +104,8 @@ docker pull nginx:latest
 ```
 
 Cấu trúc định dạng tên Image: `<tên_image>:<thẻ_tag>`.  
-*   Nếu bạn bỏ qua phần thẻ tag, Python/Docker sẽ tự động hiểu bạn muốn tải bản `:latest` (mới nhất).
-*   Thẻ tag có vai trò như số phiên bản để bạn kiểm soát chính xác môi trường:
+- Nếu bạn bỏ qua phần thẻ tag, Docker sẽ tự động hiểu bạn muốn tải bản `:latest` (mới nhất).
+- Thẻ tag có vai trò như số phiên bản để bạn kiểm soát chính xác môi trường:
 
 ```bash
 docker pull nginx:1.25         # Tải chính xác phiên bản Nginx 1.25
@@ -133,10 +134,10 @@ nginx        alpine    def789ghi012   1 month ago    23MB
 python       3.12      ghi345jkl678   3 weeks ago    1.02GB
 hello-world  latest    jkl901mno234   6 months ago   13.3kB
 ```
-*   `REPOSITORY`: Tên của ứng dụng.
-*   `TAG`: Số hiệu phiên bản.
-*   `IMAGE ID`: Mã băm SHA độc nhất đại diện cho file Image tĩnh trong RAM.
-*   `SIZE`: Dung lượng thực tế chiếm dụng trên đĩa cứng (Hãy chú ý bản `alpine` nhẹ hơn bản `latest` thông thường tới 8 lần!).
+- `REPOSITORY`: Tên của ứng dụng.
+- `TAG`: Số hiệu phiên bản.
+- `IMAGE ID`: Mã băm SHA độc nhất đại diện cho file Image tĩnh lưu trên đĩa cứng.
+- `SIZE`: Dung lượng thực tế chiếm dụng trên đĩa cứng (Hãy chú ý bản `alpine` nhẹ hơn bản `latest` thông thường tới 8 lần!).
 
 ---
 
@@ -288,6 +289,39 @@ docker rmi nginx:alpine
 
 ---
 
+### 🛠️ 3.9 Hoàn thiện vòng đời: `start`, `restart`, `inspect`, `stats`
+
+Bốn lệnh dưới đây bù nốt **nhóm Vòng đời** và **nhóm Quan sát** trong bản đồ ở mục 1 — bạn sẽ gặp chúng mỗi ngày.
+
+**`docker start` / `docker restart` — đánh thức & khởi động lại**
+
+Có `stop` thì phải có `start`. Sau khi `docker stop` (hoặc tắt máy), container chuyển sang trạng thái *Stopped* nhưng **vẫn còn nguyên dữ liệu và cấu hình**. Đừng `docker run` lại (sẽ tạo ra container MỚI, mất dữ liệu cũ) — hãy đánh thức đúng container cũ:
+
+```bash
+docker start web-cong-ty     # Bật lại container đã dừng (giữ nguyên dữ liệu + cấu hình)
+docker restart web-cong-ty   # = stop rồi start liền nhau, dùng khi app treo cần "khởi động lại"
+```
+
+**`docker inspect` — soi toàn bộ cấu hình chi tiết**
+
+Khi cần biết container đang dùng IP nào, gắn volume nào, có biến môi trường gì:
+
+```bash
+docker inspect web-cong-ty                          # In toàn bộ metadata dạng JSON
+docker inspect -f '{{.State.Status}}' web-cong-ty   # Lọc đúng 1 trường (vd: trạng thái)
+```
+
+**`docker stats` — theo dõi tài nguyên thời gian thực**
+
+Xem CPU/RAM/network mỗi container đang ngốn (giống lệnh `top` của Linux, nhưng dành cho Docker):
+
+```bash
+docker stats              # Mọi container đang chạy (nhấn Ctrl+C để thoát)
+docker stats web-cong-ty  # Chỉ theo dõi 1 container
+```
+
+---
+
 ## 4️⃣ Bảo Trì Hệ Thống: Nghệ Thuật Dọn Dẹp Tài Nguyên Dư Thừa
 
 Sau một thời gian học tập, máy tính của bạn sẽ tích tụ hàng tá Image nháp và container mồ côi chiếm hàng chục GB ổ cứng. Hãy dọn dẹp hệ thống sạch sẽ bằng lệnh dọn dẹp tổng lực:
@@ -302,9 +336,9 @@ docker system prune -a
 
 ---
 
-## 🛠️ Giải Quyết Bài Toán Thực Tế: Quy Trình Vận Hành 8 Lệnh Thực Chiến
+## 🛠️ Giải Quyết Bài Toán Thực Tế: Quy Trình Vận Hành Khép Kín
 
-Hãy tưởng tượng bạn được giao nhiệm vụ triển khai một trang web tĩnh Nginx làm trang chủ giới thiệu dự án. Chúng ta sẽ áp dụng trọn vẹn 8 lệnh vừa học theo một quy trình thực tế khép kín sau:
+Hãy tưởng tượng bạn được giao nhiệm vụ triển khai một trang web tĩnh Nginx làm trang chủ giới thiệu dự án. Chúng ta sẽ áp dụng các lệnh vừa học theo một quy trình thực tế khép kín sau:
 
 ### Bước 1: Kéo Image chính thức từ Docker Hub về máy
 ```bash
@@ -317,7 +351,7 @@ docker pull nginx:alpine
 # Chạy nền (-d), map cổng 8080 (-p), đặt tên dễ nhớ (--name), tự động restart nếu sập
 docker run -d -p 8080:80 --name web-intro --restart=unless-stopped nginx:alpine
 ```
-*   *Xác minh:* Mở trình duyệt truy cập `http://localhost:8080` để thấy trang mặc định của Nginx.
+- *Xác minh:* Mở trình duyệt truy cập `http://localhost:8080` để thấy trang mặc định của Nginx.
 
 ### Bước 3: Kiểm tra trạng thái hoạt động của Container
 ```bash
@@ -342,12 +376,12 @@ Chạy các lệnh sau bên trong container để thay đổi trang chủ Nginx 
 cd /usr/share/nginx/html
 
 # Ghi đè trang index bằng nội dung mới
-echo "<h1>Chao mung ban den voi DevOps master cung Mr.Rom!</h1>" > index.html
+echo "<h1>Chao mung ban den voi Docker!</h1>" > index.html
 
 # Thoát ra ngoài container
 exit
 ```
-*   *Xác minh:* Nhấn F5 lại trình duyệt `http://localhost:8080` và tận hưởng trang chủ mới do chính tay bạn sửa!
+- *Xác minh:* Nhấn F5 lại trình duyệt `http://localhost:8080` và tận hưởng trang chủ mới do chính tay bạn sửa!
 
 ### Bước 6: Kiểm tra các thông số tài nguyên tiêu thụ
 ```bash
@@ -370,39 +404,39 @@ docker rmi nginx:alpine
 
 ---
 
-## ⚡ Những "Cạm Bẫy" Vận Hành Và Tiêu Chuẩn Thực Chiến Của Kỹ Sư DevOps
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### ❌ Cạm bẫy 1: Sự nhầm lẫn tai hại giữa `docker run` và `docker start`
-*   **Sai lầm:** Rất nhiều người mới, mỗi khi muốn bật lại máy chủ database sau khi tắt máy tính, lại gõ lại lệnh `docker run -d -p 5432:5432 postgres`. Việc này sẽ tạo ra một container hoàn toàn mới tinh trong ổ cứng, làm mất sạch dữ liệu đã ghi ở phiên làm việc trước!
-*   **Quy chuẩn chuẩn mực:** 
-    *   Chỉ dùng `docker run` đúng **1 lần duy nhất** để khởi tạo container.
-    *   Những lần sau, hãy dùng lệnh `docker start <tên_container>` để đánh thức lại container cũ hoạt động trở lại mà không mất dữ liệu.
+- **Sai lầm:** Rất nhiều người mới, mỗi khi muốn bật lại máy chủ database sau khi tắt máy tính, lại gõ lại lệnh `docker run -d -p 5432:5432 postgres`. Việc này sẽ tạo ra một container hoàn toàn mới tinh trong ổ cứng, làm mất sạch dữ liệu đã ghi ở phiên làm việc trước!
+- **Quy chuẩn chuẩn mực:** 
+    - Chỉ dùng `docker run` đúng **1 lần duy nhất** để khởi tạo container.
+    - Những lần sau, hãy dùng lệnh `docker start <tên_container>` để đánh thức lại container cũ hoạt động trở lại mà không mất dữ liệu.
 
 ### ❌ Cạm bẫy 2: Quên không đặt tên cho Container bằng cờ `--name`
 Việc quên đặt tên khiến hệ thống tự động gán các tên ngẫu nhiên rất khó nhớ. Bạn sẽ phải mất thêm bước gõ `docker ps` để dò tìm ID của container mỗi khi muốn dừng hoặc xem log.
-*   **Quy chuẩn:** Luôn luôn khai báo `--name <tên_gợi_nhớ>` cho mọi container dịch vụ.
+- **Quy chuẩn:** Luôn luôn khai báo `--name <tên_gợi_nhớ>` cho mọi container dịch vụ.
 
 ---
 
-## 🧠 Thử Thách Trí Tuệ: Kiểm Tra Kiến Thức Của Bạn
+## 🧠 Tự kiểm tra (Self-check)
 
 **Câu hỏi 1:** Khi bạn xóa một container bằng lệnh `docker rm -f my-postgres` mà không cấu hình Volume Mount (cờ `-v`), điều gì sẽ xảy ra với dữ liệu bên trong database?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 Dữ liệu sẽ bị **xóa sạch vĩnh viễn** và không thể khôi phục lại được! Container trong Docker được thiết kế theo triết lý *Ephemeral* (tạm thời, có thể vứt bỏ thoải mái). Dữ liệu muốn bền vững bắt buộc phải được gắn ra ổ cứng máy chủ thông qua cơ chế Volume Mount `-v`.
 </details>
 
 **Câu hỏi 2:** Cờ `-d` (Detached mode) có vai trò gì trong lệnh `docker run`?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 Cờ `-d` đẩy container chạy ngầm dưới nền hệ thống như một dịch vụ (Daemon), giúp trả lại quyền điều khiển cửa sổ dòng lệnh Terminal để bạn có thể tiếp tục gõ các câu lệnh khác mà không bị khóa màn hình bởi log của container.
 </details>
 
 ---
 
-## 📋 Bảng Tra Cứu Nhanh (Cheatsheet) 8 Lệnh Cốt Lõi
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # 1. Quản lý Image
@@ -415,33 +449,45 @@ docker run -d -p 8080:80 --name web nginx   # Tạo mới và chạy ngầm cont
 docker ps -a                                # Xem toàn bộ container (cả đã stop)
 docker stop web                             # Dừng container một cách êm ái
 docker start web                            # Kích hoạt lại container cũ đã stop
+docker restart web                          # Khởi động lại (stop + start) khi app treo
 docker rm -f web                            # Cưỡng bức dừng và xóa container lập tức
 
 # 3. Gỡ lỗi và tương tác
 docker logs -f --tail 100 web               # Xem log follow 100 dòng cuối realtime
 docker exec -it web sh                      # Chui vào terminal bên trong container đang chạy
+docker inspect web                          # Soi toàn bộ cấu hình JSON (IP, volume, env...)
 docker stats                                # Xem hiệu năng CPU/RAM của container thời gian thực
 ```
 
 ---
 
-## 📚 Thuật Ngữ Cần Nhớ (Glossary)
-
-*   **Detached mode (-d):** Chế độ chạy ngầm dưới nền hệ thống, giải phóng Terminal.
-*   **Port Mapping (-p):** Kỹ thuật ánh xạ thông cổng kết nối mạng từ máy chủ vật lý đi vào bên trong container.
-*   **Volume Mount (-v):** Kỹ thuật gắn ổ đĩa ngoài của máy chủ vào container để lưu trữ dữ liệu bền vững.
-*   **Interactive / TTY (-it):** Chế độ tương tác dòng lệnh hai chiều trực tiếp với container.
-*   **Prune (Dọn dẹp):** Lệnh dọn dẹp các tài nguyên dư thừa, rác hệ thống của Docker để giải phóng ổ cứng.
+## 📚 Từ Điển Thuật Ngữ (Glossary)
+- **Detached mode (-d):** Chế độ chạy ngầm dưới nền hệ thống, giải phóng Terminal.
+- **Port Mapping (-p):** Kỹ thuật ánh xạ thông cổng kết nối mạng từ máy chủ vật lý đi vào bên trong container.
+- **Volume Mount (-v):** Kỹ thuật gắn ổ đĩa ngoài của máy chủ vào container để lưu trữ dữ liệu bền vững.
+- **Interactive / TTY (-it):** Chế độ tương tác dòng lệnh hai chiều trực tiếp với container.
+- **Prune (Dọn dẹp):** Lệnh dọn dẹp các tài nguyên dư thừa, rác hệ thống của Docker để giải phóng ổ cứng.
 
 ---
 
-## 🔗 Liên kết & Tài nguyên học tập tiếp theo
+## 🔗 Liên kết & Tài nguyên
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Docker là gì?](./00_what-is-docker.md)
+- ➡️ **Bài tiếp theo:** [Tự đóng gói ứng dụng với Dockerfile](./02_dockerfile-basics.md)
 
-### 🧭 Định hướng lộ trình học:
-*   ⬅️ **Bài trước:** [Bài 00: Bản chất của Docker và Cuộc cách mạng Container hóa](./00_what-is-docker.md)
-*   ➡️ **Bài tiếp theo:** [Bài 02: Tự đóng gói Image tùy biến với Dockerfile](./02_dockerfile-basics.md)
-*   🧭 **Tấm bản đồ sự nghiệp:** [DevOps Engineer Career Roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
+### 🧩 Các chủ đề có thể bạn quan tâm
+- 🛠️ **Công cụ hỗ trợ:** [Hướng dẫn cấu hình môi trường lập trình tối ưu trên VS Code](../../../../02_tools/ide/vs-code.md)
+- 🧭 **Tấm bản đồ sự nghiệp:** [DevOps Engineer Career Roadmap](../../../../00_roadmaps/career/devops-engineer_career-roadmap.md)
 
-### 🌐 Tài nguyên học tập chất lượng bên ngoài:
-*   [Docker Command Line Reference](https://docs.docker.com/engine/reference/commandline/cli/) — Toàn bộ cẩm nang tra cứu lệnh đầy đủ của Docker.
-*   [Play with Docker Classroom](https://training.play-with-docker.com/) — Môi trường tương tác thực hành Docker trực tuyến miễn phí.
+### 🌐 Tài nguyên tham khảo khác
+- [Docker Command Line Reference](https://docs.docker.com/engine/reference/commandline/cli/) — Toàn bộ cẩm nang tra cứu lệnh đầy đủ của Docker.
+- [Play with Docker Classroom](https://training.play-with-docker.com/) — Môi trường tương tác thực hành Docker trực tuyến miễn phí.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên: giới thiệu bộ 8 lệnh CRUD điều khiển Image và Container.
+- **v3.0.0 (26/05/2026)** — Viết lại theo cấu trúc chuẩn: mở bài bằng tình huống, sơ đồ vòng đời container, hands-on 8 lệnh, pitfall, cheatsheet.
+- **v3.1.0 (01/06/2026)** — Chuẩn hoá theo bài mẫu của cụm Docker: đồng bộ heading Glossary/Liên kết/Changelog, bỏ cá nhân hoá.
+- **v3.1.1 (01/06/2026)** — Sửa lỗi QA: sửa "Python/Docker" thành "Docker" ở phần thẻ tag; sửa mô tả IMAGE ID từ "lưu trong RAM" thành "lưu trên đĩa cứng"; đồng bộ version metadata với changelog.
+- **v3.2.0 (01/06/2026)** — Tái cấu trúc theo **vòng đời container** thay cho khung cứng "8 lệnh": mục 1 thành bản đồ 4 nhóm lệnh (Image / Tạo & chạy / Vòng đời / Quan sát & tương tác); bổ sung hands-on `start`, `restart`, `inspect`, `stats` (mục 3.9) cho khớp sơ đồ vòng đời; gỡ mọi nhãn "8 lệnh" rải rác (tiêu đề, mục tiêu, mục 5, cheatsheet).

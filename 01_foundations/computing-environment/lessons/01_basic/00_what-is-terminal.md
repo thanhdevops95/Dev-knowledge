@@ -6,7 +6,6 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~10 phút\
 > **Prerequisites:** Không cần
 
 > 🎯 *Bài INTRO — chỉ giới thiệu terminal/shell là gì + cách mở. **KHÔNG dạy lệnh chi tiết** (dành cho các bài 01, 02, 03 kế tiếp).*
@@ -133,7 +132,7 @@ Output mẫu:
 
 ## 🗺️ Lộ trình học tiếp theo
 
-Sau khi mở được terminal, học **lệnh Linux/Unix** ở folder `04_os/linux/` (đây là lệnh hệ điều hành, không phải shell-tool feature — xem Blueprint v0.5 §3.2ter):
+Sau khi mở được terminal, học **lệnh Linux/Unix** ở folder `04_os/linux/` (đây là lệnh hệ điều hành, không phải shell-tool feature):
 
 | # | Bài | Học gì | Vị trí |
 |---|---|---|---|
@@ -156,7 +155,7 @@ Sau khi vững lệnh Linux, học **shell-as-tool features** ở chính folder 
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -180,23 +179,20 @@ Sau khi vững lệnh Linux, học **shell-as-tool features** ở chính folder 
 |---|---|
 | ⬅️ Bài trước | (đây là bài đầu tiên) |
 | ➡️ Bài tiếp | [Linux Navigation](../../../../04_os/linux/lessons/01_basic/01_navigation.md) — bắt đầu học lệnh Linux ở `04_os/linux/` |
-| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md#stage-1--tools-tối-thiểu-2-3-tuần) |
+| 🧭 Roadmap | [Zero to Coder — Stage 1](../../../../00_roadmaps/career/zero-to-coder_career-roadmap.md) |
 | 🛠️ Setup terminal app | [Tool guide terminal emulators](../../../../02_tools/terminal-emulators/) — cài iTerm2/Kitty/Alacritty/Warp (chưa có) |
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 
 - [The Missing Semester (MIT)](https://missing.csail.mit.edu/) — khoá miễn phí terminal/shell/tooling
 - [Learn Shell (interactive)](https://www.learnshell.org/) — học trong browser
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.2.0 (24/05/2026)** — Apply Blueprint v0.5.4. Thêm 2 ẩn dụ mở rộng (gọi món ăn vs miêu tả; tài xế taxi cho prompt), bổ sung lead-in 2-3 câu trước 2 bảng so sánh GUI/Terminal + bảng OS, Việt hoá thêm trong bảng.
-- **v2.1.0 (21/05/2026)** — **Move** từ `02_tools/shell/lessons/01_basic/` → `01_foundations/computing-environment/lessons/01_basic/`. Lý do: terminal/shell là **concept tính toán nền tảng**, thuộc Foundations chứ không phải Tools. Tool guide cho từng terminal emulator (iTerm/Kitty/...) ở `02_tools/terminal-emulators/`. Update 2 internal refs từ `../../setup/terminal-apps.md` (cũ, không tồn tại) sang `../../../../02_tools/terminal-emulators/`. Sweep 6 external refs sang path mới.
-- **v2.0.0 (21/05/2026)** — Restructure theo writing-style v0.5.1:
-  - Mở bằng **tình huống follow tutorial Python**, tutorial bảo "mở terminal" mà beginner không biết terminal ở đâu
-  - Headers đổi: `1️⃣ (WHY)` / `2️⃣ Terminal là gì (WHAT)` / `3️⃣ Cách mở (HOW)` → câu hỏi/mô tả tự nhiên ("Vì sao coder phải học terminal?", "Vậy Terminal thực sự là gì?", "Cách mở terminal trên 3 OS")
-  - Content kỹ thuật KHÔNG đổi
-- **v1.1.0 (16/05/2026)** — Cập nhật lộ trình: link tới `04_os/linux/` cho 3 bài lệnh (đã move ra theo Blueprint v0.5 §3.2ter — 02_tools KHÔNG chứa lệnh OS). Folder này (`02_tools/shell/`) giờ focus shell-as-tool.
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên. Tách từ `00_terminal-fundamentals.md` (gộp intro + lesson) → INTRO only. Quy ước phân biệt Intro vs Lesson chi tiết theo `_blueprint/02_folder-structure.md` §3.0.
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên. Tách phần intro thành bài riêng (giới thiệu terminal, không dạy lệnh chi tiết).
+- **v1.1.0 (16/05/2026)** — Cập nhật lộ trình: link tới `04_os/linux/` cho 3 bài lệnh hệ điều hành.
+- **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống follow tutorial Python; đổi headers sang câu hỏi tự nhiên ("Vì sao coder phải học terminal?", "Vậy Terminal thực sự là gì?", "Cách mở terminal trên 3 OS"). Nội dung kỹ thuật giữ nguyên.
+- **v2.1.0 (21/05/2026)** — Chuyển bài về `01_foundations/computing-environment/` (terminal/shell là concept nền tảng). Cập nhật link sang `02_tools/terminal-emulators/` cho phần tool guide.
+- **v2.2.0 (24/05/2026)** — Thêm 2 ẩn dụ mở rộng (gọi món ăn vs miêu tả; tài xế taxi cho prompt), bổ sung lead-in 2-3 câu trước 2 bảng so sánh GUI/Terminal + bảng OS, Việt hoá thêm trong bảng.

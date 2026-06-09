@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~16 phút\
 > **Prerequisites:** [HTML & CSS là gì](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
 
 > 🎯 *Bài INTRO. Hiểu **JavaScript là gì** (browser + Node), **ECMAScript** evolution (ES6 → ES2025), **JS engine** (V8/JSCore), **single-thread + event loop**, **TypeScript** so sánh, **3 cách chạy JS**, và **console.log** debug. KHÔNG dạy syntax chi tiết (bài 01 trở đi).*
@@ -48,7 +47,7 @@ Bạn thử:
 - **TypeScript** đáng học không?
 - JS chạy thế nào trong browser?
 
-→ Bài này dạy bạn (và bạn) overview + lộ trình JS.
+→ Bài này dạy bạn overview + lộ trình JS.
 
 ---
 
@@ -368,7 +367,7 @@ console.info("info");               // Same as log but icon (i)
 console.warn("warning");            // Yellow
 console.error("error");             // Red
 
-console.log({ name: "bạn", age: 28 });    // Object expandable
+console.log({ name: "Nguyen Van A", age: 28 });    // Object expandable
 console.table([{a:1, b:2}, {a:3, b:4}]);   // Tabular
 console.group("Section");
   console.log("Inside group");
@@ -401,7 +400,7 @@ DevTools → Sources tab → file `.js` → click line number → breakpoint. Re
 
 ### Network tab — Xem fetch
 
-DevTools → Network → reload → thấy mọi HTTP request (xem [bài HTTP](../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md)).
+DevTools → Network → reload → thấy mọi HTTP request (xem [bài HTTP](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md)).
 
 ---
 
@@ -410,7 +409,7 @@ DevTools → Network → reload → thấy mọi HTTP request (xem [bài HTTP](.
 ### `app.js`
 
 ```javascript
-console.log('Hello from bạn Shop!');
+console.log('Hello from Acme Shop!');
 
 // Lấy button
 const btn = document.querySelector('#cta');
@@ -441,11 +440,11 @@ loadProducts();
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>bạn Shop</title>
+  <title>Acme Shop</title>
   <script src="/app.js" defer></script>
 </head>
 <body>
-  <h1>bạn Shop</h1>
+  <h1>Acme Shop</h1>
   <button id="cta">Mua ngay</button>
 </body>
 </html>
@@ -457,7 +456,7 @@ loadProducts();
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Dùng `==` thay `===`** → type coercion bug. **Luôn `===`** (`!==`).
 2. **Dùng `var`** → function-scoped + hoisting confuse. **Dùng `let`/`const`** (block-scoped, ES6).
@@ -467,7 +466,7 @@ loadProducts();
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **ES6** ra năm nào? 3 feature quan trọng nhất?
 2. Khác **JavaScript** (browser) và **Node.js** (server)?
@@ -491,7 +490,7 @@ loadProducts();
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Include JS
 
@@ -557,18 +556,18 @@ debugger;   // ← stops if DevTools open
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [Variables, Functions, Types](01_variables-functions-types.md)
-- ↑ Cluster: [javascript-dom README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Variables, Functions, Types — JS core syntax](01_variables-functions-types.md)
+- ↑ **Về cụm:** [javascript-dom README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [HTML & CSS là gì](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md) — JS làm việc với HTML/CSS
-- [HTTP là gì](../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — JS fetch HTTP
-- [FastAPI](../../../backend/python-fastapi/) — backend Bạn gọi từ JS
+- [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) — JS fetch HTTP
+- [FastAPI](../../../../backend/python-fastapi/) — backend bạn gọi từ JS
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
 - 📖 [javascript.info](https://javascript.info/) — best free book
 - 📖 [Eloquent JavaScript — Marijn Haverbeke](https://eloquentjavascript.net/) — free online book
@@ -582,8 +581,7 @@ debugger;   // ← stops if DevTools open
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 Lịch sử (đổi "History — Years that matter" → "Lịch sử — Các mốc quan trọng" theo §3.7 Vietnamese-first) + §2 Inline event + Internal script + External file + Đặt script ở đâu. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 1/5. Cover: JS là gì + history 30 năm + ECMAScript spec vs JS implementation + 3 cách include + script placement + ES6+ modern features overview + run JS (browser console + Node.js).
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục Lịch sử (Việt hoá tiêu đề thành "Lịch sử — Các mốc quan trọng") và các mục Inline event, Internal script, External file, Đặt script ở đâu. Thêm mục Changelog.

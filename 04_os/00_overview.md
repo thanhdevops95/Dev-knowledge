@@ -5,7 +5,7 @@
 > **Tạo lúc:** 16/05/2026\
 > **Cập nhật:** 16/05/2026
 
-> 🚧 *Skeleton — chưa có content. Khi viết, dùng template [`../_blueprint/templates/overview_template.md`](../_blueprint/templates/overview_template.md).*
+> 🚧 *Skeleton — chưa có content.*
 
 ## Dự kiến nội dung
 
@@ -17,6 +17,6 @@
 - Lộ trình học đề xuất (Beginner → Advanced)
 - Câu hỏi thường gặp
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Skeleton.

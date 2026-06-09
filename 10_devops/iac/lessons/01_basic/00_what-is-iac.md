@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [Docker](../../../docker/), [K8s](../../../kubernetes/)
 
 > 🎯 *Bài INTRO. Hiểu **IaC** là gì, **declarative vs imperative**, **landscape 2026** (Terraform/OpenTofu/Pulumi/CDK/CloudFormation), **state management**, **why IaC** (reproducibility, version control, auto), **GitOps adjacent**.*
@@ -478,7 +477,7 @@ Week 4 — Production
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **Click-ops + Terraform mix** → drift, IaC code wrong. **No click-ops** for resources Terraform manages.
 2. **Commit `.tfstate` to git** → secrets exposed (DB passwords, keys). **Remote state** + `.gitignore`.
@@ -488,7 +487,7 @@ Week 4 — Production
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Click-ops** vs **IaC** — pros/cons mỗi cái?
 2. **Declarative** vs **Imperative** — chọn cái nào cho IaC?
@@ -512,7 +511,7 @@ Week 4 — Production
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Terraform/OpenTofu workflow
 
@@ -580,18 +579,18 @@ Terragrunt   Multi-env DRY
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- → Tiếp: [Terraform Basics](01_terraform-basics.md)
-- ↑ Cluster: [iac README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ➡️ **Bài tiếp theo:** [Terraform Basics — Providers, Resources, Variables](01_terraform-basics.md)
+- ↑ **Về cụm:** [iac README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - [Docker](../../../docker/) — immutable container images
 - [Kubernetes](../../../kubernetes/) — K8s YAML = IaC for containers
 - [CI/CD](../../../ci-cd/) — Terraform in pipeline
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [Terraform docs](https://developer.hashicorp.com/terraform)
 - 📖 [OpenTofu docs](https://opentofu.org/docs/)
 - 📖 [Pulumi docs](https://www.pulumi.com/docs/)
@@ -606,8 +605,7 @@ Terragrunt   Multi-env DRY
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Why IaC + Without IaC + With IaC + §3 Declarative + Imperative.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 1/5. Cover: IaC concept + 8 benefits + Without/With IaC + Declarative vs Imperative + tool landscape (Terraform/OpenTofu/Pulumi/CDK/Ansible/Crossplane).
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước §2 Why IaC, ví dụ Without/With IaC và phần Declarative vs Imperative.

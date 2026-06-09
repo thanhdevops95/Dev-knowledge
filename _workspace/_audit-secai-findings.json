@@ -1,0 +1,416 @@
+[
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/00_what-is-owasp-and-application-security.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "Dòng 63-70 (bảng 'Releases history' + dòng kết) + lan ra cả 5 bài: mọi chỗ ghi 'A01-A10 (2021 release)', '2026 reality: dùng 2021 release (vẫn là current released)', '2025 (preview)... Expected: rename A04... AI security separate'",
+    "description": "Sai sự thật 2026. OWASP Top 10:2025 ĐÃ phát hành chính thức (công bố 11/2025 tại Global AppSec DC, bản final 01/2026). Bài vẫn coi 2021 là 'current' và 2025 chỉ là 'preview/expected/draft'. Các dự đoán 2025 ở dòng 68 đều SAI so với bản thật: 2025 thêm 2 category mới (A03 Software Supply Chain Failures, A09/A10 Mishandling of Exceptional Conditions), KHÔNG có 'AI security separate' trong Top 10 web, và A04 vẫn tên 'Insecure Design'. Đặc biệt nghiêm trọng: SSRF (A10:2021) đã bị GỘP vào Broken Access Control, Injection rớt khỏi top 3 — tức là cách bài tổ chức A01/A03/A10 thành các bài học theo numbering 2021 nay đã lệch với chuẩn hiện hành.",
+    "suggestedFix": "Cập nhật toàn cluster sang OWASP Top 10:2025 (nguồn: https://owasp.org/Top10/2025/). Thứ tự final 2025: A01 Broken Access Control (SSRF gộp vào đây), A02 Security Misconfiguration, A03 Software Supply Chain Failures (mới), A04 Cryptographic Failures, A05 Injection, A06 Insecure Design, A07 Authentication Failures, A08 Software or Data Integrity Failures, A09 Security Logging and Alerting Failures, A10 Mishandling of Exceptional Conditions (mới). Tối thiểu: sửa dòng 70 thành '2025 release là current 2026', cập nhật bảng tổng A01-A10 (dòng 78-89), và thêm ghi chú SSRF nay thuộc A01. Giữ song song 2021↔2025 mapping nếu muốn nhưng phải nói rõ 2025 là chuẩn hiện hành.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/00_what-is-owasp-and-application-security.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Dòng 276-284, bảng 'Cost of bug — Theo IBM 2024 report', dòng 'Post-breach | 1000x+ (data breach avg $4.45M global)'",
+    "description": "Số liệu sai so với nhãn 'IBM 2024'. $4.45M là con số IBM Cost of a Data Breach REPORT 2023. Bản 2024 là $4.88M global average (tăng 10%). Trong bài security trích sai năm/số liệu làm giảm độ tin cậy.",
+    "suggestedFix": "Đổi '$4.45M' thành '$4.88M' (IBM 2024), hoặc nếu muốn giữ $4.45M thì sửa nhãn thành 'IBM 2023'. Nguồn: IBM Cost of a Data Breach Report 2024 (https://www.ibm.com/reports/data-breach).",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Dòng 335-339, mục 'Time to detect — IBM Cost of Breach 2024': 'Average time to detect: 204 days' và 'Average time to contain: 73 days'",
+    "description": "Số ngày sai so với IBM 2024. Bản 2024 cho biết trung bình 194 ngày để identify + 64 ngày để contain (tổng lifecycle 258 ngày, mức thấp nhất 7 năm). Con số 204/73 không khớp năm nào của IBM. Dòng 339 '< 200 days = 23% less' cũng không chính xác — IBM 2024 nói lifecycle <200 ngày rẻ hơn ~$1.39M.",
+    "suggestedFix": "Sửa '204 days' → '194 days (identify)', '73 days' → '64 days (contain)', tổng 258 ngày. Cập nhật dòng giảm chi phí: 'lifecycle <200 ngày rẻ hơn trung bình ~$1.39M'. Nguồn: IBM Cost of a Data Breach Report 2024.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/02_crypto-failures-and-secure-design.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Dòng 566-570, pitfall '5. PBKDF2 với low iteration': 'if PBKDF2 (compliance), iteration ≥ 600k (2026 NIST)'",
+    "description": "Sai attribution trong nội dung crypto. Con số 600,000 iteration (PBKDF2-HMAC-SHA256) là khuyến nghị của OWASP Password Storage Cheat Sheet (cho ngữ cảnh FIPS-140), KHÔNG phải NIST. NIST SP 800-63B chỉ nói iteration count 'as large as performance allows, ít nhất 10,000'. Gán nhầm 600k cho NIST gây hiểu lầm về nguồn chuẩn.",
+    "suggestedFix": "Sửa thành 'iteration ≥ 600.000 (khuyến nghị OWASP, PBKDF2-HMAC-SHA256)'. Nếu muốn nhắc NIST, ghi riêng 'NIST 800-63B: tối thiểu 10.000, chọn càng cao càng tốt theo hiệu năng'. Nguồn: OWASP Password Storage Cheat Sheet + NIST SP 800-63B.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Dòng 346-354, bảng 'SLSA framework', dòng 'L4 | (deprecated 2023, merged with L3) — two-person review + hermetic build'",
+    "description": "Mô tả SLSA L4 sai. SLSA v1.0 (2023) định nghĩa 3 build level production (L1-L3) cộng L0. L4 KHÔNG bị 'deprecated/merged vào L3' — nó được DEFER thành mục tiêu tương lai (hermetic + reproducible build). Two-person review thuộc về source track của bản v0.1, không gộp vào build L3. Nói L4 'merged with L3' sai về mặt kỹ thuật.",
+    "suggestedFix": "Sửa dòng L4 thành: 'L4 | Mục tiêu tương lai (deferred ở v1.0) — hermetic + reproducible build'. Làm rõ v1.0 hiện chỉ chuẩn hoá build track L1-L3. Nguồn: https://slsa.dev/spec/v1.0/levels và whats-new.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 533-541, Fix 7 login: 'if not user or not ph.verify(user.password_hash, data.password):'",
+    "description": "Code không chạy đúng. argon2-cffi PasswordHasher.verify() trả về True khi đúng nhưng RAISE argon2.exceptions.VerifyMismatchError khi sai password — KHÔNG trả False. Vì vậy 'not ph.verify(...)' khi password sai sẽ ném exception (không bị bắt ở đây), thoát khỏi nhánh log 'login.fail' dự định, và trả 500 thay vì 401. Mâu thuẫn với chính bài 02 (dòng 114-119, 480-486) vốn đã bọc verify trong try/except đúng cách.",
+    "suggestedFix": "Bọc verify trong try/except: 'try: ph.verify(user.password_hash, data.password) except (VerifyMismatchError, ...): <log login.fail + raise 401>'. Hoặc kiểm tra 'if not user:' trước rồi verify riêng trong try/except. Đồng bộ với pattern đã dùng ở bài 02.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/03_misconfig-vulnerable-components-supply-chain.md",
+    "category": "broken-content",
+    "severity": "low",
+    "locator": "Dòng 300-306, bảng 'Auto-upgrade strategy'; dòng 305 '| **Recommend 2026**: auto patch + minor (with tests) + manual major'",
+    "description": "Bảng vỡ. Bảng có 3 cột (Strategy | Pros | Cons) nhưng dòng 305 chỉ có 1 cell và thiếu dấu | đóng đúng số cột → renderer Markdown hiển thị lệch/hỏng hàng cuối.",
+    "suggestedFix": "Tách khuyến nghị ra khỏi bảng thành 1 dòng text bên dưới bảng (vd: '→ **Khuyến nghị 2026:** auto-merge patch + minor (kèm test), major review thủ công.'), hoặc viết đủ 3 cell: '| **Recommend 2026** | Cân bằng velocity/an toàn | Cần test tốt |'.",
+    "target": "04_Knowledge/dev-knowledge/12_security/owasp-top-10/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/03_jwt-and-sessions-deep.md",
+    "category": "code-error",
+    "severity": "high",
+    "locator": "Hands-on, function verify_token, dòng 617-626: `claims = jwt.decode(token, PUBLIC_KEYS[claims_kid_from(token)], ...)`",
+    "description": "Code không chạy được: (1) biến `PUBLIC_KEYS` chưa bao giờ được định nghĩa — phần issuer side ở trên dùng dict tên `KEYS` (chứa private key), không có `PUBLIC_KEYS`. (2) Hàm `claims_kid_from(token)` được gọi nhưng không tồn tại ở đâu trong bài. Người học copy nguyên block này sẽ gặp NameError ngay. Ngoài ra dùng raw private/public dict ở đây mâu thuẫn với phần JWKS/PyJWKClient đã dạy ở section 3 (lẽ ra nên verify qua JWKS cho nhất quán).",
+    "suggestedFix": "Đổi sang dùng PyJWKClient đã setup ở section 3 cho nhất quán: `signing_key = jwks_client.get_signing_key_from_jwt(token); claims = jwt.decode(token, signing_key.key, algorithms=[\"RS256\"], audience=\"api.acmeshop.vn\", issuer=\"https://auth.acmeshop.vn\")`. Hoặc nếu muốn giữ verify bằng public key cục bộ thì phải định nghĩa `PUBLIC_KEYS` dict + một helper `kid_from_header(token)` thực sự (đọc header chưa verify bằng `jwt.get_unverified_header(token)[\"kid\"]`).",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/02_oauth-and-oidc.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Section 2 PKCE, dòng 117: `code_verifier = secrets.token_urlsafe(64)[:128]  # 43-128 chars`",
+    "description": "Comment gây hiểu lầm + slice vô nghĩa. `secrets.token_urlsafe(64)` luôn trả ~86 ký tự (4*ceil(64/3)), nên `[:128]` không bao giờ cắt gì — verifier luôn cố định 86 ký tự, không phải 'random 43-128 chars' như comment và như Note trong sequence diagram (dòng 90) ngụ ý. Code vẫn hợp lệ về mặt RFC 7636 (86 nằm trong [43,128]) nhưng dạy sai cơ chế: người học tưởng đang sinh độ dài ngẫu nhiên trong khoảng.",
+    "suggestedFix": "Bỏ slice gây nhầm: `code_verifier = secrets.token_urlsafe(96)` (cho ~128 ký tự) và sửa comment thành '~128 ký tự, hợp lệ RFC 7636 (43-128)'. Hoặc nếu muốn ~43-128 thì nêu rõ độ dài cố định mình chọn, đừng để comment ám chỉ random range.",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/01_password-and-mfa.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Section 3, function validate_mat_khau dòng 269 + 277: `COMMON_PASSWORDS = set(open(...).read().splitlines())` rồi `if mk.lower() in COMMON_PASSWORDS`",
+    "description": "Bug logic so khớp: file `top10k_breached.txt` được nạp nguyên văn (giữ nguyên case), nhưng khi check lại dùng `mk.lower()`. Nếu file chứa các mật khẩu có chữ hoa (vd `Password1`, `Qwerty123`) thì `mk.lower()` sẽ không bao giờ khớp -> bypass danh sách chặn. Đây là lỗi an toàn ngầm (false negative), beginner copy về sẽ tưởng đã chặn top-10k nhưng thực tế hụt các entry có hoa.",
+    "suggestedFix": "Chuẩn hoá case nhất quán cả 2 đầu: nạp `COMMON_PASSWORDS = {l.strip().lower() for l in open(\"top10k_breached.txt\")}` rồi giữ `mk.lower() in COMMON_PASSWORDS`. (Hoặc bỏ `.lower()` cả 2 nếu muốn so khớp chính xác.)",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/04_federation-sso-and-idp.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Section 3 'Why Keycloak' dòng 151 ('OSS (Red Hat)') + Glossary dòng 554 ('Keycloak | Red Hat OSS IdP') + Docker tag dòng 168 `quay.io/keycloak/keycloak:25.0`",
+    "description": "Sai/lỗi thời 2026: (1) Keycloak đã được Red Hat donate cho CNCF (incubating từ 2023), không còn là dự án 'của Red Hat' theo nghĩa sở hữu — mô tả 'Red Hat OSS IdP' nay không chính xác (Red Hat vẫn là contributor chính nhưng governance là CNCF). (2) Tag `25.0` đã quá cũ: bản phát hành hiện tại giữa 2026 là dòng 26.6.x (26.6.2, tháng 5/2026). Dạy người học pin `25.0` là hướng họ tới bản đã hết hỗ trợ.",
+    "suggestedFix": "Đổi mô tả thành 'OSS, CNCF incubating (Red Hat khởi xướng, vẫn là maintainer chính)'. Cập nhật Docker tag sang dòng hiện hành `quay.io/keycloak/keycloak:26.6` (hoặc nói rõ 'dùng tag major mới nhất, kiểm tra keycloak.org/downloads'). Sync cả Glossary.",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/01_password-and-mfa.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Section 3 'Chính sách mật khẩu — NIST 2024' dòng 249-262, cột tiêu đề 'Quy tắc mới (NIST SP 800-63B 2024)' và hàng 'Tối thiểu 8, khuyến nghị 15+'",
+    "description": "Trích dẫn chưa thật chuẩn xác. Bản final là NIST SP 800-63B-4 (xuất bản 9/2024). Con số '15+' không phải 'khuyến nghị chung' mà là ngưỡng SHALL cho mật khẩu single-factor trong B-4; min 8 áp dụng cho memorized secret nói chung. Bài gộp thành 'tối thiểu 8, khuyến nghị 15+' dễ gây hiểu lệch ngữ cảnh. Link tài nguyên (dòng 1135) vẫn trỏ pages.nist.gov/800-63-3 (bộ -3 cũ), trong khi đang viện dẫn bộ -4.",
+    "suggestedFix": "Ghi rõ phiên bản: 'NIST SP 800-63B-4 (final 09/2024)'. Diễn giải lại: 'min 8 ký tự (memorized secret); với single-factor password, verifier SHALL yêu cầu >= 15; SHOULD hỗ trợ tới >= 64'. Cập nhật link tài nguyên sang bộ -4 (nvlpubs.nist.gov/.../NIST.SP.800-63B-4.pdf).",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/03_jwt-and-sessions-deep.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Section 2 'HS256 vs RS256 — critical pitfall' dòng 150-154",
+    "description": "Mô tả đúng về bản chất tấn công algorithm confusion (RS256->HS256 dùng public key làm HMAC secret) và fix `algorithms=[\"RS256\"]` là đúng. Tuy nhiên ví dụ 'vulnerable' `jwt.decode(token, public_key)` thực tế sẽ raise ngay với PyJWT đời mới (>=2.0) vì `algorithms` là tham số bắt buộc — bỏ trống không 'auto-detect' mà ném `DecodeError`. Comment '# Algorithm auto-detect from header' không còn đúng với PyJWT 2026, dễ làm người học hiểu sai hành vi thư viện hiện tại.",
+    "suggestedFix": "Sửa comment để phản ánh PyJWT hiện đại: nêu rằng PyJWT >=2.0 BẮT BUỘC truyền `algorithms=`; minh hoạ algorithm-confusion bằng đoạn cố tình truyền `algorithms=[\"HS256\",\"RS256\"]` (cho phép cả 2) thay vì ví dụ bỏ trống đã không còn chạy. Nhấn mạnh: nguy hiểm là khi allowlist trộn HMAC + RSA, không phải khi 'auto-detect'.",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/02_oauth-and-oidc.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Section 'Validate ID Token' dòng 178-195 (verify_google_id_token): tham chiếu `GOOGLE_CLIENT_ID` và `stored_nonce` là biến tự do",
+    "description": "Hàm dùng `GOOGLE_CLIENT_ID` và `stored_nonce` mà không nhận qua tham số/định nghĩa, nên copy ra ngoài context sẽ NameError. Đây là minh hoạ nên có thể chấp nhận, nhưng vì bài có cả ví dụ Authlib (tự lo nonce) ngay phía trên, để hàm thủ công này lẫn lộn biến global dễ gây nhầm. Riêng issuer Google: code chỉ chấp nhận `https://accounts.google.com`, trong khi Google còn phát hành iss `accounts.google.com` (không có scheme) cho một số luồng — nên nêu rõ chấp nhận cả 2 để tránh false-reject.",
+    "suggestedFix": "Truyền `client_id` và `expected_nonce` làm tham số hàm. Với issuer, chấp nhận cả `https://accounts.google.com` và `accounts.google.com` (PyJWT: dùng `issuer=` đơn lẻ thì verify thủ công, hoặc check `claims[\"iss\"] in {...}` sau khi decode với `options={\"verify_iss\": False}`).",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "/Users/rom/Library/CloudStorage/OneDrive-Personal/Desktop/Dev/04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/03_jwt-and-sessions-deep.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Hands-on, function logout dòng 605: `claims = jwt.decode(access_token, options={\"verify_signature\": False})`",
+    "description": "Decode access token với `verify_signature=False` để lấy `jti`/`exp` rồi đưa vào denylist. Vấn đề: attacker có thể gửi token tự chế (chữ ký sai) với `jti` của token nạn nhân + `exp` rất xa -> server tạo entry denylist rác/độc, hoặc dùng exp âm để bỏ qua. Vì đây là endpoint logout của chính user, rủi ro thấp, nhưng dạy pattern decode-không-verify rồi tin `exp`/`jti` là thói quen xấu cần cảnh báo.",
+    "suggestedFix": "Verify chữ ký trước khi tin claims (gọi `verify_token` đã có), hoặc tối thiểu thêm chú thích cảnh báo + clamp TTL: `ttl = max(0, min(claims.get(\"exp\",0) - now, 900))`. Nêu rõ chỉ dùng `verify_signature=False` khi đã verify ở bước khác.",
+    "target": "04_Knowledge/dev-knowledge/12_security/authentication/lessons/01_basic/"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/authorization/lessons/01_basic/00_what-is-authorization.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "L16: \"Hiểu Authorization là gì? là gì và tại sao nó quan trọng\"; L18: \"Hiểu khi nào nên sử dụng Authorization là gì?\"",
+    "description": "Artifact của generator: template ghép tên bài (đã chứa 'là gì?') vào câu mẫu, tạo ra bullet vỡ nghĩa — lặp 'là gì? là gì' (L16) và 'nên sử dụng Authorization là gì?' (L18, vô nghĩa — phải là 'nên dùng Authorization', không phải 'dùng ... là gì?'). Đây là lỗi nội dung thân bài, không phải nav/heading/meta.",
+    "suggestedFix": "Sửa template phần '🎯 Sau bài này bạn sẽ' dùng tên chủ đề trần (bỏ hậu tố 'là gì?'). L16 → 'Hiểu Authorization (Phân quyền) là gì và tại sao quan trọng'; L18 → 'Hiểu khi nào cần dùng Authorization'.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/cloud-security/lessons/01_basic/00_what-is-cloud-security.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "L16: \"Hiểu Cloud Security là gì? là gì và tại sao nó quan trọng\"; L18: \"Hiểu khi nào nên sử dụng Cloud Security là gì?\"",
+    "description": "Cùng artifact generator: lặp 'là gì? là gì' (L16) và câu 'nên sử dụng Cloud Security là gì?' vỡ nghĩa (L18).",
+    "suggestedFix": "L16 → 'Hiểu Cloud Security là gì và tại sao quan trọng'; L18 → 'Hiểu khi nào cần áp dụng Cloud Security'.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/container-security/lessons/01_basic/00_what-is-container-security.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "L16: \"Hiểu Container Security là gì? là gì và tại sao nó quan trọng\"; L18: \"Hiểu khi nào nên sử dụng Container Security là gì?\"",
+    "description": "Cùng artifact generator: lặp 'là gì? là gì' (L16) và câu L18 vỡ nghĩa.",
+    "suggestedFix": "L16 → 'Hiểu Container Security là gì và tại sao quan trọng'; L18 → 'Hiểu khi nào cần áp dụng Container Security'.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/cryptography/lessons/01_basic/00_what-is-cryptography.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "L16: \"Hiểu Cryptography là gì? là gì và tại sao nó quan trọng\"; L18: \"Hiểu khi nào nên sử dụng Cryptography là gì?\"",
+    "description": "Cùng artifact generator: lặp 'là gì? là gì' (L16) và câu L18 vỡ nghĩa.",
+    "suggestedFix": "L16 → 'Hiểu Cryptography (Mật mã học) là gì và tại sao quan trọng'; L18 → 'Hiểu khi nào cần dùng Cryptography'.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/pentesting-fundamentals/lessons/01_basic/00_what-is-pentesting-fundamentals.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "L16: \"Hiểu Pentesting Fundamentals là gì? là gì và tại sao nó quan trọng\"; L18: \"Hiểu khi nào nên sử dụng Pentesting Fundamentals là gì?\"",
+    "description": "Cùng artifact generator: lặp 'là gì? là gì' (L16) và câu L18 vỡ nghĩa.",
+    "suggestedFix": "L16 → 'Hiểu Penetration Testing là gì và tại sao quan trọng'; L18 → 'Hiểu khi nào cần thực hiện pentest'.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/12_security/authorization/lessons/01_basic/00_what-is-authorization.md",
+    "category": "content-gap",
+    "severity": "low",
+    "locator": "L25: \"...sẽ được bổ sung theo chuẩn\"; L28: \"📚 Tài liệu chính thức của Authorization là gì?\"",
+    "description": "Câu L25 cụt mid-sentence ('theo chuẩn' — chuẩn gì?). L28 dán tên bài thành 'Tài liệu chính thức của Authorization là gì?' — vô nghĩa và không có link thật. Pattern lặp ở cả 5 file placeholder (cloud-security, container-security, cryptography, pentesting-fundamentals).",
+    "suggestedFix": "Sửa template chung: L25 hoàn chỉnh câu ('...bổ sung theo chuẩn dev-knowledge.'); L28 thay bằng link tài liệu chính thức thật cho từng chủ đề (vd authorization → OWASP Authorization Cheat Sheet; cryptography → NIST/IETF; pentesting → PTES/OWASP WSTG; container → CIS Docker/K8s Benchmark; cloud → CSA/AWS/Azure security docs) hoặc bỏ bullet nếu chưa có link.",
+    "target": "04_Knowledge/dev-knowledge/12_security — sub-clusters with 1 lesson intro + README (authorization, cloud-security, container-security, cryptography, pentesting-fundamentals); excluded owasp-top-10/authentication/llm + compliance/secrets-management/tls-ssl (README-only, no lesson) + __Ref__"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "Dòng 168-177, bảng 'Limits 2026' + dòng 60 'Claude 4'",
+    "description": "Context window Claude sai hệ. Theo dữ liệu Anthropic 2026: Claude Opus 4.6/4.7/4.8 và Sonnet 4.6 đều có context 1M token (Haiku 4.5 = 200K). Bài ghi tất cả Claude = 200k, GPT-5 = 256k, Gemini 2 Pro = 2M. 200k là context cũ của Claude 3.x/4.0, không còn đúng. Output limit cũng sai: Opus/Sonnet 4.6+ hỗ trợ tới 128K/64K output (cần streaming), bài ghi 8k. Ngoài ra tên thế hệ 'Claude 4 Opus/Sonnet/Haiku' không tồn tại như một dòng riêng — thực tế là Opus 4.6/4.7/4.8, Sonnet 4.6, Haiku 4.5.",
+    "suggestedFix": "Cập nhật bảng: Claude Opus (4.6/4.7/4.8) context 1M / output tối đa 128K (cần streaming); Claude Sonnet 4.6 context 1M / output 64K; Claude Haiku 4.5 context 200K / output 64K. Sửa mốc lịch sử 2025/2026 cho khớp tên model thật.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "Dòng 188-197, bảng 'Cost theo token' + dòng 205-206 cost calc",
+    "description": "Giá Claude sai so với pricing 2026. Thực tế: Opus $5 input / $25 output per 1M; Sonnet $3 / $15; Haiku $1 / $5. Bài ghi Opus $15/$75 (đây là giá Claude 3 Opus cũ, đã nghỉ hưu), Haiku $0.80/$4 (giá Haiku 3.5 cũ). Pitfall #3 dòng 502 cũng lặp lại '$75/M output' sai. Cost calc dòng 205-206 dựa trên giá sai nên kết quả $45/ngày, $12/ngày đều lệch.",
+    "suggestedFix": "Sửa giá: Opus $5/$25, Sonnet $3/$15, Haiku $1/$5 per 1M token. Tính lại ví dụ cost: Sonnet 5M×$3 + 2M×$15 = $15+$30 = $45/ngày (trùng hợp vẫn đúng vì giá Sonnet không đổi); Haiku 5M×$1 + 2M×$5 = $5+$10 = $15/ngày (không phải $12). Sửa pitfall #3 thành '$25/M output'.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 348, 386, 397, 409, 416, 441 — model='claude-sonnet-4-6' (đúng) nhưng pattern API có vấn đề khác",
+    "description": "Model ID 'claude-sonnet-4-6' là hợp lệ 2026. Tuy nhiên các ví dụ async streaming dòng 414-420 có lỗi: tạo AsyncAnthropic rồi gọi async_client.messages.create(...) với '...' placeholder không có tham số bắt buộc (model, max_tokens, messages) — đoạn này chỉ minh hoạ nhưng dễ gây hiểu lầm là call hợp lệ. Quan trọng hơn: bài không nhắc max_tokens là tham số BẮT BUỘC của Anthropic SDK (mọi messages.create phải có max_tokens), trong khi ví dụ OpenAI dòng 369 không có max_tokens (OpenAI cho phép) — người học dễ tưởng hai SDK giống nhau.",
+    "suggestedFix": "Thêm ghi chú: với Anthropic SDK, max_tokens là tham số bắt buộc (khác OpenAI). Hoàn thiện ví dụ async với tham số đầy đủ thay vì '...'.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 100-104 Parameters + dòng 293 Llama 4 size + dòng 296 DeepSeek",
+    "description": "Một số số liệu model open-source không kiểm chứng được và có vẻ phỏng đoán: 'GPT-4 ~1.7T (rumored)' là tin đồn không xác nhận; 'Llama 4: 8B-70B-400B' và 'Llama 4 405B' (dòng 177) không nhất quán (Llama 4 thực tế dùng kiến trúc MoE Scout/Maverick/Behemoth, không phải 8B/70B/405B như Llama 3). Bài trộn lẫn size Llama 3 với tên Llama 4.",
+    "suggestedFix": "Đánh dấu rõ các con số là 'ước lượng/tin đồn' hoặc cập nhật theo thông số Llama 4 thật (Scout ~109B, Maverick ~400B MoE). Bỏ '405B' nếu không chắc — đó là size Llama 3.1.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/00_what-is-llm-and-tokenization.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 214 'Temperature (0-2, default 1.0)'",
+    "description": "Với Anthropic Claude, temperature range là 0-1 (không phải 0-2; truyền >1 sẽ lỗi). Range 0-2 đúng cho OpenAI. Bài trình bày chung như thể mọi LLM dùng 0-2. Thêm nữa: trên Opus 4.7/4.8, tham số temperature/top_p/top_k đã bị gỡ hoàn toàn (truyền vào → 400 error) — bài không nhắc.",
+    "suggestedFix": "Ghi rõ: temperature 0-1 cho Claude, 0-2 cho OpenAI. Bổ sung lưu ý các model Claude đời mới (Opus 4.7+) không còn nhận temperature/top_p/top_k — điều khiển bằng prompt + effort param thay thế.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/01_prompt-engineering-and-context.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 274-279, OpenAI structured output: client.chat.completions.parse(... response_format=Person)",
+    "description": "API OpenAI structured output dùng client.beta.chat.completions.parse(...) (namespace beta) trong SDK openai Python, không phải client.chat.completions.parse trực tiếp ở thời điểm tính năng ra mắt. Tùy phiên bản SDK; bài nên xác nhận. Đoạn dòng 263 'response.content[0].input' của Anthropic tool use đúng nhưng thiếu kiểm tra block.type == 'tool_use' trước khi lấy .input (content[0] có thể là text block), dễ crash trong thực tế.",
+    "suggestedFix": "Anthropic: lấy tool input bằng cách lặp tìm block có type=='tool_use' rồi .input, đừng giả định content[0]. OpenAI: xác nhận đường dẫn parse (beta vs GA) theo phiên bản SDK đang dùng.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/01_prompt-engineering-and-context.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 334 'if total_tokens(messages) > 100_000' (giả định Claude limit ~) và dòng 304 ẩn dụ '100 turn = 50k token = approach limit'",
+    "description": "Ngưỡng minh hoạ dựa trên giả định context Claude ~200k (cũ). Với context 1M (Claude 4.6+), '100 turn = 50k = approach limit' không còn đúng — 50k còn cách xa 1M. Gây hiểu lầm về thời điểm cần truncate.",
+    "suggestedFix": "Cập nhật ẩn dụ/ngưỡng cho khớp context 1M, hoặc nói rõ ngưỡng tùy model; nhấn mạnh nguyên tắc (truncate/summarize khi gần limit) thay vì con số tuyệt đối lỗi thời.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/02_function-calling-and-tools.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 633, 640-641 output sample: link 'kubernetes.io/blog/2026/08/13/kubernetes-v1-31-release/' + nội dung K8s 1.31",
+    "description": "Sai sự thật + lỗi thời gian: Kubernetes 1.31 phát hành tháng 8/2024 (không phải 2026), và tại thời điểm bài (06/2026) k8s đã ở ~1.33-1.34. Link bịa ngày 2026/08/13 cho v1.31 là vô lý (ngày tương lai cho version cũ). Nội dung 'AppArmor GA, Pod-level resources, PV Last Phase Transition Time' trộn lẫn feature của nhiều version. Đây là output mẫu của research agent — nếu người học chạy sẽ không khớp.",
+    "suggestedFix": "Ghi rõ đây là output GIẢ ĐỊNH (mock), hoặc thay bằng query/version trung lập không gắn ngày cụ thể. Sửa link/ngày cho hợp lý hoặc đánh dấu là minh hoạ.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/02_function-calling-and-tools.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Dòng 192-225 OpenAI function calling + dòng 218 'import json' chưa khai báo",
+    "description": "Đoạn OpenAI dùng json.loads(call.function.arguments) (dòng 221) nhưng không có 'import json' ở đầu snippet. Tương tự đoạn Anthropic agent loop dòng 345 dùng json.dumps cũng cần import. Lỗi nhỏ nhưng người học copy chạy sẽ NameError.",
+    "suggestedFix": "Thêm 'import json' vào các snippet có dùng json.loads/json.dumps, hoặc ghi chú giả định đã import.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/02_function-calling-and-tools.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 20, 432-438 'MCP — Anthropic standard 2024'",
+    "description": "MCP (Model Context Protocol) được Anthropic giới thiệu cuối 11/2024 — ghi '2024' chấp nhận được nhưng nên ghi rõ '11/2024' để chính xác. Phần MCP server config (dòng 471-481) dùng transport stdio + path Python — đúng pattern. Riêng dòng 760 link spec.modelcontextprotocol.io đúng nhưng nội dung 'mcp.run(transport=\"stdio\")' với FastMCP là API hợp lệ. Không phải lỗi nặng, chỉ cần làm rõ mốc thời gian.",
+    "suggestedFix": "Ghi 'MCP — Anthropic open-source 11/2024' cho chính xác. Phần còn lại OK.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/03_rag-fundamentals.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 270, 497, 543 — qdrant client.search(...) / recreate_collection(...)",
+    "description": "API qdrant-client đã đổi: 'client.search(...)' bị deprecated, thay bằng 'client.query_points(...)' trong phiên bản mới (1.10+). 'recreate_collection(...)' (dòng 497) cũng deprecated, khuyến nghị dùng delete_collection + create_collection. Bài dùng API cũ; người học cài qdrant-client mới 2026 sẽ gặp DeprecationWarning hoặc lỗi.",
+    "suggestedFix": "Cập nhật sang query_points() cho search và bỏ recreate_collection (dùng create_collection, kiểm tra tồn tại trước). Hoặc ghi chú phiên bản qdrant-client tương thích.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/03_rag-fundamentals.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 92 'voyage-3 ... Anthropic recommend 2024+' + dòng 351-353 reranker, dòng 360 rerank-multilingual-v3.0",
+    "description": "voyage-3 dimension 1024/context 32k — hợp lý, nhưng 2026 đã có voyage-3.5 / voyage-3-large; nên đánh dấu là 'ví dụ' vì embedding model đổi nhanh. Cohere rerank: model 'rerank-multilingual-v3.0' đúng tại thời điểm cũ nhưng Cohere đã ra rerank-v3.5; bài dùng v3.0 có thể lỗi thời. Đây là vùng AI/ML thay đổi nhanh nên cần lưu ý 'kiểm tra model mới nhất'.",
+    "suggestedFix": "Thêm lưu ý: tên embedding/reranker model thay đổi nhanh, kiểm tra docs nhà cung cấp; cân nhắc voyage-3.5, cohere rerank-v3.5 (2025+).",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/03_rag-fundamentals.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Dòng 569 model='claude-sonnet-4-6' trong rag_qa + dòng 444 ragas import context_relevancy",
+    "description": "Model ID OK. Nhưng import RAGAS dòng 444 'from ragas.metrics import faithfulness, answer_relevancy, context_relevancy' — RAGAS đã đổi tên metric: 'context_relevancy' bị deprecated/đổi thành 'context_precision'/'context_recall' / 'ContextRelevance' trong phiên bản mới. Người học cài ragas mới sẽ ImportError.",
+    "suggestedFix": "Cập nhật tên metric RAGAS theo phiên bản hiện tại (context_precision, context_recall, faithfulness, answer_relevancy) hoặc ghi rõ phiên bản ragas.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+    "category": "factual-error",
+    "severity": "high",
+    "locator": "Dòng 47-49, 79-84 prompt caching + dòng 724 glossary 'Prompt caching ... 10% normal cost'",
+    "description": "Số liệu prompt caching không khớp Anthropic 2026. Thực tế: cache READ ≈ 0.1× giá input (đúng ~10% như bài nói cho phần đọc), NHƯNG cache WRITE tốn 1.25× (TTL 5 phút) hoặc 2× (TTL 1 giờ) — bài hoàn toàn bỏ qua chi phí ghi cache, khiến ví dụ savings dòng 82-85 sai (chỉ tính phần đọc 10%, không tính write premium lần đầu). Ngoài ra dòng 89 '1-hour (Anthropic 2024+ beta)' — TTL 1h đã GA, không còn beta.",
+    "suggestedFix": "Bổ sung: cache write = 1.25× (5 phút) / 2× (1 giờ) giá input; cache read ≈ 0.1×. Tính lại break-even (5-phút: hòa vốn sau 2 request; 1-giờ: cần ≥3 request). Bỏ chữ 'beta' cho TTL 1h.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+    "category": "code-error",
+    "severity": "medium",
+    "locator": "Dòng 104-108 model routing: 'claude-haiku-4-5', 'claude-sonnet-4-6', 'claude-opus-4-7'",
+    "description": "Model ID hỗn hợp thế hệ: dùng opus-4-7 + sonnet-4-6 + haiku-4-5 trong cùng router — các ID này hợp lệ 2026, nhưng KHÔNG nhất quán với bài 00 (vốn gọi là 'Claude 4 Opus/Sonnet/Haiku' và model ID 'claude-sonnet-4-6'). Toàn cluster cần thống nhất tên/ID model. Opus mới nhất 2026 là claude-opus-4-8 (bài dùng 4-7 — vẫn active nhưng không phải mới nhất).",
+    "suggestedFix": "Thống nhất model ID xuyên suốt 5 bài. Cân nhắc dùng claude-opus-4-8 (mới nhất) hoặc ghi chú 'model ID minh hoạ, kiểm tra docs cho bản mới nhất'.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+    "category": "factual-error",
+    "severity": "medium",
+    "locator": "Dòng 116-118 'Before all Sonnet ... After routing avg ~$1.5/M input + $7/M output = −50%'",
+    "description": "Phép tính routing savings dựa trên giá Sonnet $3/$15 (đúng) nhưng kết quả blended chỉ minh hoạ thô, không khớp tỉ lệ 70/25/5 đã nêu. Với 70% Haiku ($1/$5), 25% Sonnet ($3/$15), 5% Opus ($5/$25): blended input ≈ 0.7×1 + 0.25×3 + 0.05×5 = $1.70/M; output ≈ 0.7×5 + 0.25×15 + 0.05×25 = $8.50/M. Bài ghi $1.5/$7 — lệch nhẹ và dựa giá Opus/Haiku cũ. Không phải −50% so với all-Sonnet input ($3) mà là ~−43%.",
+    "suggestedFix": "Tính lại blended với giá 2026 đúng: ~$1.70 input / $8.50 output per 1M (giảm ~43% input, ~43% output so với all-Sonnet). Sửa con số ví dụ cho khớp tỉ lệ.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 121 'Batch API ... 50% discount' + dòng 192-198 latency table",
+    "description": "Batch API 50% discount đúng (khớp Anthropic). Bảng latency dòng 192-198 (TTFT, tok/s) là ước lượng không nguồn — chấp nhận được cho minh hoạ nhưng nên đánh dấu là 'ước lượng, thay đổi theo tải'. Dòng 196 'Claude Haiku 0.3-0.5s / 100-150 tok/s' và 'Groq Llama 500+' là số phỏng đoán.",
+    "suggestedFix": "Đánh dấu bảng latency là số liệu ước lượng/minh hoạ, không phải benchmark chính thức; khuyến khích đo thực tế.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/04_llm-app-cost-eval-and-production.md",
+    "category": "code-error",
+    "severity": "low",
+    "locator": "Dòng 433-434 langfuse import 'from langfuse.decorators import observe' + 'from langfuse.openai import openai'",
+    "description": "API Langfuse đã đổi ở v3 (2025): 'langfuse.decorators.observe' chuyển thành 'from langfuse import observe'; decorators module bị deprecate. Người học cài langfuse mới sẽ ImportError. Tương tự phoenix dòng 462 'from phoenix.trace.openai import OpenAIInstrumentor' — Arize Phoenix đã chuyển sang openinference-instrumentation-openai, đường dẫn cũ deprecated.",
+    "suggestedFix": "Cập nhật import Langfuse v3 ('from langfuse import observe') và Phoenix/OpenInference theo API mới; hoặc ghi rõ phiên bản tương thích.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/llm/lessons/01_basic/ (5 lessons)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/deep-learning/lessons/01_basic/00_what-is-deep-learning.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "Dòng 16 & 18 (mục '🎯 Sau bài này bạn sẽ'): 'Hiểu Deep Learning là gì? là gì và tại sao nó quan trọng' và 'Hiểu khi nào nên sử dụng Deep Learning là gì?'",
+    "description": "Artifact templating: tiêu đề cluster ('Deep Learning là gì?') bị nhét nguyên cả dấu '?' vào khung câu, tạo ra '...là gì? là gì...' (lặp 'là gì') và '...sử dụng Deep Learning là gì?' (câu vô nghĩa). Lỗi cơ học do auto-gen, không phải nav/heading.",
+    "suggestedFix": "Dòng 16 → 'Hiểu Deep Learning là gì và tại sao nó quan trọng'. Dòng 18 → 'Hiểu khi nào nên dùng Deep Learning'. Bỏ cụm 'là gì?' thừa khi tên chủ đề chèn vào giữa câu.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/deep-learning/lessons/01_basic/00_what-is-deep-learning.md",
+    "category": "broken-content",
+    "severity": "low",
+    "locator": "Dòng 28: '📚 Tài liệu chính thức của Deep Learning là gì?'",
+    "description": "Template chèn cả tiêu đề-có-dấu-hỏi vào chỗ chỉ cần tên chủ đề → 'Tài liệu chính thức của [câu hỏi]' nghe vô lý, lại còn là placeholder không link thật.",
+    "suggestedFix": "Sửa thành 'Tài liệu chính thức của Deep Learning' kèm link thật (vd PyTorch/TensorFlow/d2l.ai), hoặc xoá bullet placeholder cho tới khi có nguồn cụ thể.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/math-for-ml/lessons/01_basic/00_what-is-math-for-ml.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "Dòng 16 & 18: 'Hiểu Toán cho Machine Learning là gì? là gì và tại sao...' / 'Hiểu khi nào nên sử dụng Toán cho Machine Learning là gì?'; dòng 28: 'Tài liệu chính thức của Toán cho Machine Learning là gì?'",
+    "description": "Cùng artifact templating: lặp 'là gì? là gì', câu 'sử dụng ... là gì?' vô nghĩa, và bullet tài liệu placeholder gắn cả dấu hỏi.",
+    "suggestedFix": "Dòng 16 → 'Hiểu Toán cho Machine Learning là gì và tại sao nó quan trọng'; dòng 18 → 'Hiểu khi nào cần Toán cho ML'; dòng 28 → link thật (vd mathematics-for-ml book / Khan Academy) hoặc bỏ placeholder.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/ml-fundamentals/lessons/01_basic/00_what-is-ml-fundamentals.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "Dòng 16 & 18: 'Hiểu Machine Learning Fundamentals là gì? là gì và...' / 'Hiểu khi nào nên sử dụng Machine Learning Fundamentals là gì?'; dòng 28: 'Tài liệu chính thức của Machine Learning Fundamentals là gì?'",
+    "description": "Cùng artifact templating (lặp 'là gì?', câu vô nghĩa, placeholder tài liệu gắn dấu hỏi).",
+    "suggestedFix": "Dòng 16 → 'Hiểu Machine Learning là gì và tại sao quan trọng'; dòng 18 → 'Hiểu khi nào nên dùng ML'; dòng 28 → link thật (scikit-learn docs) hoặc bỏ.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/rag-and-ai-agent/lessons/01_basic/00_what-is-rag-and-ai-agent.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "Dòng 16 & 18: 'Hiểu RAG & AI Agent là gì? là gì và...' / 'Hiểu khi nào nên sử dụng RAG & AI Agent là gì?'; dòng 28: 'Tài liệu chính thức của RAG & AI Agent là gì?'",
+    "description": "Cùng artifact templating. Lưu ý thêm: '&' trong text Markdown render bình thường nhưng cụm 'Tài liệu chính thức của RAG & AI Agent' là 2 chủ đề khác nhau (RAG ≠ AI Agent) nên 1 link gộp cũng không phù hợp.",
+    "suggestedFix": "Dòng 16 → 'Hiểu RAG và AI Agent là gì và tại sao quan trọng'; dòng 18 → 'Hiểu khi nào nên dùng RAG / AI Agent'; dòng 28 → tách 2 link (vd LangChain/LlamaIndex cho RAG, Anthropic agents guide cho Agent) hoặc bỏ placeholder.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/vector-search-and-embeddings/lessons/01_basic/00_what-is-vector-search-and-embeddings.md",
+    "category": "broken-content",
+    "severity": "medium",
+    "locator": "Dòng 16 & 18: 'Hiểu Vector Search & Embeddings là gì? là gì và...' / 'Hiểu khi nào nên sử dụng Vector Search & Embeddings là gì?'; dòng 28: 'Tài liệu chính thức của Vector Search & Embeddings là gì?'",
+    "description": "Cùng artifact templating (lặp 'là gì?', câu vô nghĩa, placeholder tài liệu gắn dấu hỏi).",
+    "suggestedFix": "Dòng 16 → 'Hiểu Vector Search và Embeddings là gì và tại sao quan trọng'; dòng 18 → 'Hiểu khi nào nên dùng vector search'; dòng 28 → link thật (vd pgvector/FAISS/sentence-transformers) hoặc bỏ.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  },
+  {
+    "file": "04_Knowledge/dev-knowledge/13_ai-ml/README.md",
+    "category": "factual-error",
+    "severity": "low",
+    "locator": "Dòng 7 (Status) + bảng Sub-clusters dòng 24-32 vs blurb dòng 9/15",
+    "description": "Bất nhất nội bộ về số lượng cluster: Status nói '1/10 cluster', bảng liệt kê đúng 10 dòng, nhưng blurb intro (dòng 9) và '🎯 Chủ đề này có gì' (dòng 15) liệt kê 12 hạng mục (tách Deep Learning, Math for ML, NLP, Computer Vision...). Người đọc dễ tưởng thiếu cluster. Ngoài ra 5 cluster (rag-and-ai-agent, vector-search-and-embeddings, math-for-ml, ml-fundamentals, deep-learning) NAY đã có bài intro 00 nhưng bảng vẫn để 'Basic ⏳' + 'Status Skeleton' → status không khớp thực tế thư mục.",
+    "suggestedFix": "Thống nhất con số (đếm theo bảng = 10 cluster, gộp đúng tên); cập nhật cột Basic của 5 cluster đã có bài 00 intro thành '🚧 1 intro' (hoặc tương tự) thay vì '⏳', và đổi Status các cluster đó từ 'Skeleton' nếu đã có intro lesson.",
+    "target": "04_Knowledge/dev-knowledge/13_ai-ml/ (sub-clusters with 1 intro lesson + README/overview; excluded owasp-top-10, authentication, llm, __Ref__)"
+  }
+]

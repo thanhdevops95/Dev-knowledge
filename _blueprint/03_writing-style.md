@@ -1,9 +1,9 @@
 # ✍️ Writing Style — Chuẩn viết nội dung
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.5.8\
+> **Phiên bản:** v0.7.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 25/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *File này định nghĩa **cách viết** một bài (lesson, exercise, project, recipe...) — từ cấu trúc bài, văn phong, đến cách dùng diagram và emoji. Khi viết bài mới, copy template từ `templates/` rồi follow file này.*
 
@@ -19,7 +19,7 @@ Khung 8 phần này **áp dụng cho `lessons/`** (bài học lý thuyết). Cá
 | 🧪 `exercises/` | Đề bài → Gợi ý ẩn → Đáp án ẩn → Verify → Mở rộng — template `exercise_template.md` |
 | 📚 `recipes/` | Problem → Cause → Solution → Verify → Prevention — template `recipe_template.md` |
 | 🎯 `projects/` | README chính + step files đánh số — template `topic-readme_template.md` cho README; step file thường ngắn 500-1500 từ |
-| ⚙️ `setup/` | Prerequisites → Steps → Verify → Common issues — không có template riêng (đơn giản, dùng cấu trúc tự nhiên) |
+| ⚙️ `setup/` | Yêu cầu trước → Các bước → Kiểm chứng → Lỗi thường gặp — không có template riêng (đơn giản, dùng cấu trúc tự nhiên) |
 | 🗺️ Roadmap | Career hoặc lab-series — template `roadmap_template.md` |
 
 Mọi bài trong `lessons/` tuân khung 8 phần. Phần `✅ REQUIRED` bắt buộc có; phần `🟡 OPTIONAL` chỉ thêm khi cần — không "chế cháo" cho đủ.
@@ -29,22 +29,22 @@ Mọi bài trong `lessons/` tuân khung 8 phần. Phần `✅ REQUIRED` bắt bu
 | 1 | 📋 **Metadata** | ✅ | Tất cả |
 | 2 | 🎯 **Câu dẫn + Mục tiêu** | ✅ | Tất cả |
 | 3 | 📖 **Nội dung chính** (lý thuyết + diagram + hands-on tích hợp) | ✅ | Beginner |
-| 4 | 💡 **Pitfall & Best practice** | 🟡 | Intermediate |
-| 5 | 🧠 **Self-check** (Q&A) | 🟡 | Beginner/Inter |
-| 6 | ⚡ **Cheatsheet** | 🟡 | Senior/tra cứu |
-| 7 | 📚 **Glossary** (nếu có thuật ngữ EN) | ✅ (có điều kiện) | Tất cả |
+| 4 | 💡 **Cạm bẫy thường gặp & Best practice** | 🟡 | Intermediate |
+| 5 | 🧠 **Tự kiểm tra (Self-check)** (Q&A) | 🟡 | Beginner/Inter |
+| 6 | ⚡ **Tra cứu nhanh (Cheatsheet)** | 🟡 | Senior/tra cứu |
+| 7 | 📚 **Từ Điển Thuật Ngữ (Glossary)** (nếu có thuật ngữ EN) | ✅ (có điều kiện) | Tất cả |
 | 8 | 🔗 **Liên kết & Tài nguyên** | 🟡 | Tất cả |
 
 ### Khi nào dùng OPTIONAL
 
 | Phần | Áp dụng khi… |
 |---|---|
-| Pitfall | Có khái niệm dễ nhầm / lệnh dễ sai cú pháp |
-| Self-check | Bài đủ sâu để có nội dung kiểm tra (>10 phút đọc) |
-| Cheatsheet | Có nhiều lệnh / cú pháp người đọc sẽ tra |
+| Cạm bẫy thường gặp | Có khái niệm dễ nhầm / lệnh dễ sai cú pháp |
+| Tự kiểm tra (Self-check) | Bài đủ sâu để có nội dung kiểm tra (≥ 3 concept chính, hoặc > 1000 từ) |
+| Tra cứu nhanh (Cheatsheet) | Có nhiều lệnh / cú pháp người đọc sẽ tra |
 | Liên kết | Có bài liên quan / tài nguyên ngoài đáng tin |
 
-> ⚠️ Bài ngắn (quick note, <5 phút đọc) có thể chỉ dùng 3 phần REQUIRED.
+> ⚠️ Bài ngắn (quick note, ~1 concept đơn / < 800 từ) có thể chỉ dùng 3 phần REQUIRED.
 
 ---
 
@@ -61,8 +61,7 @@ Mọi bài trong `lessons/` tuân khung 8 phần. Phần `✅ REQUIRED` bắt bu
 > **Cập nhật:** DD/MM/YYYY\
 > **Level:** Basic | Intermediate | Advanced\
 > **Tags:** [MUST-KNOW] (nếu áp dụng)\
-> **Thời lượng đọc:** ~X phút\
-> **Prerequisites:** [link bài tiên quyết](...) (nếu có)
+> **Yêu cầu trước:** [link bài tiên quyết](...) (nếu có)
 ```
 
 | Field | Ghi chú |
@@ -72,8 +71,7 @@ Mọi bài trong `lessons/` tuân khung 8 phần. Phần `✅ REQUIRED` bắt bu
 | Ngày | Format `DD/MM/YYYY` |
 | Level | 1 trong 3 (chỉ áp dụng cho `lessons/`) |
 | Tags | `[MUST-KNOW]` — bài bắt buộc trong lộ trình tương ứng. Có thể bỏ nếu không áp dụng. Tag khác (vd `[DEPRECATED]`, `[ADVANCED-ONLY]`) thêm sau khi nhu cầu rõ |
-| Thời lượng | Ước tính đọc (không tính làm exercise) |
-| Prerequisites | Link tới bài tiên quyết — quan trọng cho navigation |
+| Yêu cầu trước | Link tới bài tiên quyết — quan trọng cho navigation |
 
 #### Cách dùng tag `[MUST-KNOW]`
 
@@ -115,10 +113,10 @@ Mọi bài trong `lessons/` tuân khung 8 phần. Phần `✅ REQUIRED` bắt bu
 |---|---|---|
 | Mục tiêu | ❌ | `## 🎯 Sau bài này bạn sẽ` |
 | Nội dung chính | ✅ Có số (1️⃣ 2️⃣ 3️⃣) HOẶC ❌ không số — tuỳ bài | `## 1️⃣ Vậy K8s là gì?` HOẶC `## Vậy K8s là gì?` |
-| Pitfall | ❌ | `## 💡 Pitfall thường gặp` |
-| Self-check | ❌ | `## 🧠 Self-check` |
-| Cheatsheet | ❌ | `## ⚡ Cheatsheet` |
-| Glossary | ❌ | `## 📚 Glossary` |
+| Cạm bẫy thường gặp | ❌ | `## 💡 Cạm bẫy thường gặp & Best practice` |
+| Tự kiểm tra (Self-check) | ❌ | `## 🧠 Tự kiểm tra (Self-check)` |
+| Tra cứu nhanh (Cheatsheet) | ❌ | `## ⚡ Tra cứu nhanh (Cheatsheet)` |
+| Từ điển thuật ngữ (Glossary) | ❌ | `## 📚 Từ Điển Thuật Ngữ (Glossary)` |
 | Liên kết | ❌ | `## 🔗 Liên kết & Tài nguyên` |
 
 **Mẫu H2 cho nội dung chính** (chọn theo ngữ cảnh):
@@ -360,14 +358,14 @@ là đủ rồi sao?
 
 - **Bắt buộc giải thích các dòng trạng thái quan trọng trong Output mẫu:** Đối với các lệnh Terminal phức tạp hoặc lệnh kiểm tra trạng thái (như `git status`, `git commit`, `docker ps`, `kubectl describe`), bên dưới Output mẫu **bắt buộc phải có 2-3 câu giải thích ngắn gọn ý nghĩa của các dòng trạng thái hoặc mã màu quan trọng** (ví dụ: giải thích tại sao có chữ màu đỏ, chữ màu xanh, hoặc ý nghĩa cột STATUS/READY). Điều này giúp người học tự tin đối chiếu kết quả thực tế trên máy tính của họ mà không bị hoang mang.
 
-### 2.4 💡 Pitfall & Best practice (OPTIONAL)
+### 2.4 💡 Cạm bẫy thường gặp & Best practice (OPTIONAL)
 
 Format chuẩn:
 
 ```markdown
-## 💡 Pitfall thường gặp & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: <tên cạm bẫy>
+### ❌ Cạm bẫy: <tên cạm bẫy>
 - **Triệu chứng**: ...
 - **Nguyên nhân**: ...
 - **Cách tránh**: ...
@@ -377,12 +375,12 @@ Format chuẩn:
 - **Cách áp dụng**: ...
 ```
 
-### 2.5 🧠 Self-check (OPTIONAL)
+### 2.5 🧠 Tự kiểm tra (Self-check) (OPTIONAL)
 
 3-5 câu hỏi ôn tập với **đáp án ẩn** dùng `<details>`:
 
 ```markdown
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Pod khác Container như thế nào?
 
@@ -403,12 +401,12 @@ Có. Khi 2 container cần chia sẻ data tightly (vd: sidecar pattern — main 
 </details>
 ```
 
-### 2.6 ⚡ Cheatsheet (OPTIONAL)
+### 2.6 ⚡ Tra cứu nhanh (Cheatsheet) (OPTIONAL)
 
 Bảng lệnh/cú pháp tra cứu nhanh. Đặt CUỐI BÀI (trước Glossary/Liên kết).
 
 ```markdown
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Lệnh |
 |---|---|
@@ -419,12 +417,12 @@ Bảng lệnh/cú pháp tra cứu nhanh. Đặt CUỐI BÀI (trước Glossary/L
 | Xóa | `kubectl delete pod mypod` |
 ```
 
-### 2.7 📚 Glossary (REQUIRED nếu có thuật ngữ EN)
+### 2.7 📚 Từ Điển Thuật Ngữ (Glossary) (REQUIRED nếu có thuật ngữ EN)
 
 Bảng `EN | VN | Giải thích` cho mọi thuật ngữ EN xuất hiện trong bài:
 
 ```markdown
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | EN | VN | Giải thích |
 |---|---|---|
@@ -435,17 +433,36 @@ Bảng `EN | VN | Giải thích` cho mọi thuật ngữ EN xuất hiện trong 
 
 ### 2.8 🔗 Liên kết & Tài nguyên (OPTIONAL)
 
+Section này gồm **3 sub-section cố định** (theo thứ tự) + **nav bullet** điều hướng trước/sau/về cụm. Link text **luôn là tiêu đề thật của bài**, KHÔNG dùng tên file.
+
 ```markdown
 ## 🔗 Liên kết & Tài nguyên
 
-### Bài tiếp theo trong kho
-- [Deployment — quản lý nhiều Pod](../02_deployment.md)
-- [Service — expose Pod ra ngoài](../04_service.md)
+⬅️ **Bài trước:** [Container — đóng gói ứng dụng](../01_basic/03_container.md)
+➡️ **Bài tiếp theo:** [Deployment — quản lý nhiều Pod](../02_deployment.md)
+↑ **Về cụm:** [Kubernetes cơ bản](../README.md)
 
-### Tài nguyên ngoài
+### 🧭 Định hướng lộ trình học
+- [DevOps Engineer — lộ trình nghề](../../../_roadmaps/devops-engineer_career-roadmap.md) — bài này là MUST-KNOW chặng K8s
+- [Container Orchestration — cụm chủ đề](../README.md)
+
+### 🧩 Các chủ đề có thể bạn quan tâm
+- [Service — expose Pod ra ngoài](../04_service.md)
+- [Volume — lưu trữ bền vững cho Pod](../05_volume.md)
+
+### 🌐 Tài nguyên tham khảo khác
 - [Official K8s docs — Pod](https://kubernetes.io/docs/concepts/workloads/pods/) — chi tiết spec
 - [Kubernetes the Hard Way (GitHub)](https://github.com/kelseyhightower/kubernetes-the-hard-way) — build cluster from scratch
 ```
+
+| Sub-section | Mục đích | Nội dung |
+|---|---|---|
+| nav bullet `⬅️ ➡️ ↑` | Điều hướng tuyến tính trong cụm | Bài trước / bài tiếp theo / về README cụm — link text = tiêu đề thật |
+| 🧭 **Định hướng lộ trình học** | Đặt bài trong bức tranh lớn | Link về roadmap nghề/series chứa bài này |
+| 🧩 **Các chủ đề có thể bạn quan tâm** | Mở rộng theo chiều ngang | Bài liên quan trong kho, không nằm trên tuyến chính |
+| 🌐 **Tài nguyên tham khảo khác** | Nguồn ngoài đáng tin | Doc gốc, GitHub, sách — kèm 1 câu mô tả vì sao đáng đọc |
+
+> ⚠️ **Link text = tiêu đề thật của bài**, KHÔNG dùng đường dẫn file (`../02_deployment.md`) làm text. Sai: `[../02_deployment.md](...)`. Đúng: `[Deployment — quản lý nhiều Pod](...)`.
 
 #### Khi nào skip section này
 
@@ -1008,11 +1025,41 @@ GitHub Markdown **chỉ hỗ trợ duy nhất 5 từ khóa** ở trên (`NOTE`, 
 > [!NOTE]
 > Con số tỷ lệ này không cần phải chính xác tuyệt đối ở mức đếm từng dòng chữ, mà là **kim chỉ nam để phân bổ trọng tâm**. Người viết bài cần tự đánh giá sau khi hoàn thành: nếu bài học có tới 90% là code block và không giải thích WHY/WHAT, bài viết đó vi phạm nghiêm trọng triết lý giáo dục của repo và sẽ bị từ chối phê duyệt.
 
+### 3.15 🚫 De-meta — vùng cấm trong file học (lesson/exercise/recipe/project)
+
+**Nguyên tắc**: File học là sản phẩm cho **người đọc cuối** — họ vào để học kiến thức kỹ thuật, KHÔNG phải để nghe kho tự nói về phương pháp biên soạn của mình. Mọi "ghi chú nội bộ" về cách viết, đối tượng phục vụ, hay quy trình sản xuất phải **ở lại trong Blueprint** (file này) — KHÔNG được rò rỉ (leak) vào thân bài học.
+
+> [!IMPORTANT]
+> Phân biệt 2 loại file:
+> - **AUTHOR-FACING** (`_blueprint/0X_*.md` như file này): ĐƯỢC PHÉP bàn về phương pháp, đối tượng, triết lý — vì người đọc là người biên soạn.
+> - **READER-FACING** (mọi file trong `lessons/`, `exercises/`, `recipes/`, `projects/`, kể cả `EXAMPLES/` và `templates/` mô phỏng file học): PHẢI sạch meta-leak theo bảng dưới.
+
+#### Bảng vùng cấm — KHÔNG xuất hiện trong file học
+
+| ❌ Cấm trong file học | Lý do | ✅ Viết thay thế |
+|---|---|---|
+| "Bài này viết bằng tiếng Việt / cho người Việt" | Người đọc đang đọc tiếng Việt rồi — thừa | Vào thẳng nội dung |
+| "Phục vụ 4 nhóm đối tượng / zero-base / beginner-friendly" | Đó là tiêu chí biên soạn nội bộ | Viết đúng độ khó, không cần tuyên bố |
+| "Theo phong cách Narrative / triết lý giáo dục của repo" | Meta về phương pháp | Cứ kể chuyện tự nhiên, không gọi tên kỹ thuật |
+| "Áp dụng WHY/WHAT/HOW / tỷ lệ 30-20-40-10" | Tiêu chí review nội bộ | Nội dung tự cover, không nêu công thức |
+| Nhắc "Mr.Rom" trong thân bài / code / summary / `<summary>` tag | Bài học không ký tên tác giả trong nội dung | Chỉ để `Mr.Rom` ở **field metadata** (Tác giả) |
+| Link tới `_blueprint/`, `__Ref__/`, `templates/` | Đó là file nội bộ, người đọc không cần | Chỉ link bài học / roadmap / tài nguyên ngoài |
+| "Bài này tuân khung 8 phần / dùng template X" | Meta về cấu trúc | Cấu trúc tự thể hiện, không tự mô tả |
+
+#### Quy tắc cụ thể về "Mr.Rom"
+
+| Vị trí | Cho phép? |
+|---|---|
+| Field `Tác giả:` trong metadata block-quote | ✅ Có — đây là attribution chuẩn |
+| Thân bài, đoạn giải thích, lead-in | ❌ Không — viết "mình"/"ta" hoặc bỏ chủ ngữ |
+| Comment trong code / output mẫu | ❌ Không |
+| Phần tổng kết / summary cuối bài | ❌ Không |
+| Trong `<summary>` của thẻ `<details>` | ❌ Không — dùng "Xem giải thích" (không "của Mr.Rom") |
+
+> [!WARNING]
+> Lỗi hay gặp nhất: dán "ghi chú cho chính mình" (kiểu *"Bài này dành cho người mới, viết theo phương pháp kể chuyện..."*) vào đầu file học. Đây là rò rỉ Blueprint. Người đọc cuối không cần biết — xoá sạch trước khi xuất bản.
+
 ---
-
-
-
-
 
 ## 4️⃣ Diagram & Visualization
 
@@ -1268,7 +1315,7 @@ Chi tiết quy ước link → xem `05_linking-strategy.md`.
 
 Mọi bài Lab thực hành gõ lệnh trên Terminal bắt buộc phải tuân thủ bộ khung 7 phần sau đây để tránh bừa bãi hệ điều hành của người học và hướng dẫn họ tự tin sửa lỗi:
 
-1. **📋 Metadata (Bắt buộc):** Giống bài học lý thuyết nhưng có thêm trường `Độ khó: ⭐ | ⭐⭐ | ⭐⭐⭐` và `Thời gian ước tính: ~X phút làm bài`.
+1. **📋 Metadata (Bắt buộc):** Giống bài học lý thuyết nhưng có thêm trường `Độ khó: ⭐ | ⭐⭐ | ⭐⭐⭐`.
 2. **🎯 Mục tiêu của bài Lab (Bắt buộc):** Trình bày rõ ràng sau khi hoàn thành bài Lab, người học sẽ tự tay xây dựng được sản phẩm/tính năng gì thực tế.
 3. **🔍 Kiểm tra môi trường (Environment Check) (BẮT BUỘC):** Đặt ngay đầu bài thực hành. Là một bảng Markdown so sánh cụ thể:
    - *Cột 1:* Công cụ cần kiểm tra
@@ -1297,10 +1344,10 @@ Mọi bài Lab thực hành gõ lệnh trên Terminal bắt buộc phải tuân 
 2. **🎯 Hướng dẫn làm bài (Bắt buộc):** Lời nhắc khích lệ người học tự suy nghĩ trước khi xem đáp án.
 3. **🧠 Các câu hỏi tình huống tự đánh giá (Bắt buộc):**
    - Đặt câu hỏi dưới dạng các tình huống thực tế hoặc so sánh bản chất (ví dụ: *"Tại sao dùng Staging Area thay vì commit trực tiếp?"*).
-   - Đáp án và giải thích chuyên sâu của `Mr.Rom` **bắt buộc phải ẩn hoàn toàn** bên trong thẻ `<details>` và `<summary>`:
+   - Đáp án và giải thích chuyên sâu **bắt buộc phải ẩn hoàn toàn** bên trong thẻ `<details>` và `<summary>`:
      ```markdown
      <details>
-     <summary>💡 Xem giải thích của Mr.Rom</summary>
+     <summary>💡 Xem giải thích</summary>
 
      [Nội dung giải thích sâu sắc, sử dụng ẩn dụ sư phạm dễ hiểu]
 
@@ -1324,24 +1371,33 @@ Mọi bài Lab thực hành gõ lệnh trên Terminal bắt buộc phải tuân 
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v0.6.0 (26/05/2026)** — **Thêm §11**: Đặc tả cấu trúc bắt buộc cho bài thực hành (Labs) với Environment Check/Cleanup và Trắc nghiệm tự đánh giá (Quizzes) với details tag giải thích sâu từ di sản `__Ref__`.
-- **v0.5.8 (25/05/2026)** — **Soften §3.5**: đổi từ "CẤM" → "**hạn chế, không ép**". User feedback: *"các ví dụ bạn muốn đưa data sao cũng được, miễn sao hạn chế tên riêng là được. Hạn chế, chứ không ép không dùng nhé."* Quy tắc cập nhật:
-  - Title: "Nhân vật và tên riêng — **Hạn chế, không ép**" (thay vì "KHÔNG tự bịa").
-  - Bảng so sánh: `✅ Default` / `⚠️ Hạn chế` (thay vì `✅ Dùng` / `❌ Tránh`) — phản ánh "hạn chế" không "cấm".
-  - Placeholder `Nguyen Van A`/`Le Van B`/`Tran Van C`/... vẫn là **default ưu tiên** cho code sample multi-row.
-  - **Cho phép linh hoạt**: ví dụ ngắn 1-2 lần với tên riêng (`name = "Alice"`) OK nếu không lạm dụng cross-lesson. Cryptography convention ("Alice ↔ Bob") giữ nguyên không Việt hoá ép. Story arc xuyên cluster vẫn tránh fictional character.
-  - Bảng "Áp dụng" thêm cột "✅ Preferred" / "⚠️ Hạn chế" với ghi chú cụ thể "(OK ngắn nhưng đừng lạm dụng)" thay vì cấm hoàn toàn.
-  - **KHÔNG bulk-revert** các fix Alice→Nguyen Van A đã chạy (placeholder VN vẫn là default). Chỉ soften principle để tránh ép linh hoạt khi đáng ra cần.
+> ⚠️ **Quy ước changelog của repo này**: sắp xếp **tăng dần** (cũ → mới), bản đầu tiên `v0.1.0` trên cùng, bản mới nhất dưới cùng. Quy ước này **override** global skill `naming/metadata-headers.md` (global mặc định là reverse-chronological — mới nhất trên cùng). Toàn bộ file trong repo `dev-knowledge` dùng thứ tự tăng dần để đọc lịch sử tiến hoá từ trên xuống như đọc truyện.
 
-- **v0.5.7 (24/05/2026)** — **Siết chặt §3.5**: cấm DÙNG TẤT CẢ TÊN RIÊNG — bất kể ngôn ngữ. Alice/Bob/Charlie/David/Eve/Frank/Grace **VẪN LÀ tên riêng** (tiếng Anh) → vi phạm rule. User feedback (lúc đó): *"không nên dùng tên riêng bất cứ tiếng gì... bạn A bạn B Nguyen Van A Le Van B Tran Van C kiểu vậy"*. Quy chuẩn placeholder chính thức:
-  - **Dạng dài (code sample)**: `Nguyen Van A` / `Le Van B` / `Tran Van C` / `Pham Van D` / `Hoang Van E` / `Vu Van F` / `Bui Van G` (7 họ phổ biến VN + A-G, không dấu để code-safe)
-  - **Dạng ngắn (narrative)**: `bạn A` / `bạn B` / `bạn C` / ...
-  - Tương đương "John Doe" quốc tế — reader Việt nhận ra ngay là placeholder.
-  - Áp dụng cho mọi SQL INSERT data, Python dict, JSON, React props, ví dụ multi-user.
-  - Bulk-fix Alice→Nguyen Van A, Bob→Le Van B, ... đang được apply.
-
+- **v0.1.0 (15/05/2026)** — Bản đầu tiên.
+- **v0.2.0 (15/05/2026)** — Apply 2 recommendations:
+  - §2.1: thêm field `Tags` trong metadata với tag `[MUST-KNOW]` — đánh dấu bài bắt buộc trong roadmap tương ứng
+  - §2.3: chính thức hóa framework **WHY → WHAT → HOW** (high-level cho toàn bài) + flow 4 bước (low-level cho mỗi section). Thêm ví dụ mapping cụ thể
+- **v0.3.0 (15/05/2026)** — Apply 5 fixes sau dogfood:
+  - §1: làm rõ khung 8 phần **chỉ áp dụng cho `lessons/`** — exercise/recipe/project có template riêng (thêm bảng đối chiếu)
+  - §2.2: làm rõ "1 câu dẫn duy nhất" (tránh 2 block quote chồng chéo) + độ dài 1-2 câu
+  - §2.2bis: thêm bảng quy ước đánh số H2 — chỉ Nội dung chính có 1️⃣ 2️⃣ 3️⃣, các phần khung khác không số
+  - §2.8: thêm bảng "khi nào skip Liên kết" — bỏ khi không có gì đáng link, không vì kho chưa có content
+- **v0.4.0 (16/05/2026)** — Apply 1 fix sau khi review reports `_Ref/`:
+  - §2.3: thêm **quy tắc ẩn dụ (metaphor) bắt buộc** trong WHAT section — kèm bảng 8 ví dụ metaphor (Pod, Service, Container, ...) + format viết. Bài thiếu metaphor ở WHAT → fail quality. Skip được nếu concept quá đơn giản (vd `git status`).
+- **v0.5.0 (19/05/2026)** — **Đổi nguyên tắc lớn**: WHY/WHAT/HOW từ "tiêu đề bắt buộc" → "tiêu chí đánh giá nội dung". Header nội dung chính dùng **câu hỏi tự nhiên** ("Vậy K8s là gì?", "Nó làm được gì?") thay vì khuôn `1️⃣ Vì sao cần X (WHY)`. Thêm §2.3 khung 3 kiểu mở bài (tình huống / câu hỏi gợi mở / so sánh) + cấm mở bằng định nghĩa khô. Update §2.2bis với mẫu H2 tự nhiên + ví dụ Pod redesign.
+- **v0.5.1 (19/05/2026)** — Siết lại §2.3: khẳng định **bố cục KHÔNG ràng buộc**, tiêu chí duy nhất là bài có giải đáp WHY/WHAT/HOW questions không — cách thể hiện tuỳ bản chất bài. Thêm §2.3 "Định nghĩa kiểu trả lời tình huống" — quy tắc 4 bước (tình huống → "X ra đời giải quyết..." → ẩn dụ → định nghĩa kỹ thuật). Định nghĩa khô không bị cấm tuyệt đối, chỉ cấm đứng cô đơn ở đầu bài.
+- **v0.5.2 (24/05/2026)** — Thêm §3.5 "Nhân vật và tên riêng — KHÔNG tự bịa". Lý do: đã tự tạo nhân vật fictional "Long"/"Mai" + brand "longshop" xuyên suốt 24 lesson DevOps (May 2026) mà không có document chính thức trong Blueprint, khiến reader confused ("Long là ai?"). Đã phải bulk-replace 95+ files qua 3 pass. Rule mới: dùng `"bạn"`/`"sếp"`/`"đồng nghiệp"`/`"team"` generic; nếu cần character riêng → phải document trong Blueprint trước. Brand placeholder thống nhất: `"Acme Shop"`/`"acmeshop.vn"`.
+- **v0.5.3 (24/05/2026)** — Thêm §3.6 "Anti-pattern: Header → Code ngay (CẤM)" + §3.7 "Vietnamese-first principle". Lý do: audit 60 bài viết phiên 24/05 phát hiện pattern lặp đi lặp lại: header → code block ngay không lead-in, bảng EN-only không Việt hoá, comments code English-heavy. Rule cũ §2.3 đã ngầm yêu cầu "câu dẫn liền mạch" nhưng không siết đủ chặt — bổ sung anti-pattern cụ thể + Vietnamese-first principle để rõ ràng hơn. Reader zero-base Việt là priority #1 của repo.
+- **v0.5.4 (24/05/2026)** — Mining __Ref__ folder để tìm pattern viết tốt cho zero-base reader. Thêm 5 rule mới:
+  - §3.8 "Comments code đánh số bước (`# 1.`, `# 2.`, `# 3.`)" — học từ `07_web/backend/__Ref__/caching/01-caching-strategies.md`
+  - §3.9 "Mở bài bằng vấn đề thực tế relatable" với 3 pattern (Bạn đã bao giờ gặp, Tình huống đời thường, Câu chuyện sự cố) — học từ `01_foundations/__Ref__/cs/05-character-encoding-fundamentals.md` + `programming/03-async-programming-fundamentals.md`
+  - §3.10 "Ẩn dụ liên tục — không chỉ 1 lần ở định nghĩa" với ví dụ K8s chung cư xuyên 4 concept — học từ `kubernetes/__Ref__/K8s/`
+  - §3.11 "✅❌ format cho so sánh — Anti-pattern vs Pattern" — học từ `kubernetes/__Ref__/K8s/13_Imperative-vs-Declarative.md`
+  - §3.12 "Bảng trade-off thay paragraph tường thuật" — học từ `01_foundations/__Ref__/cs/01-how-computers-work-fundamentals.md`
+  - Mục đích: siết chuẩn cho zero-base reader (người chưa biết gì) — repo priority #1.
+- **v0.5.5 (24/05/2026)** — Mở rộng §3.5: cấm dùng tên riêng (`rom`, `long`, `mai`, ...) kể cả lowercase trong username/hostname ví dụ shell/Linux. Dùng generic: `user`, `admin`, `dev`, `deploy`, `app`. Lý do: residue fictional character "Long" trước đây bulk-fix sang lowercase `long`, sau đó tôi đổi sang `rom` — vẫn là tên riêng. User feedback: dùng generic role để đảm bảo bài tiếp cận zero-base + không lệ thuộc tên cá nhân.
 - **v0.5.6 (24/05/2026)** — **Sweep hoàn tất** residue fictional names theo §3.5 v0.5.5. Tổng cộng 7 pass bulk-fix:
   - Pass 1 (fix-username-generic): 12 files, 93 subs (`/Users/rom/`, `chown rom`, `rom@laptop` → generic)
   - Pass 2 (fix-username-pass2): 11 files, 29 subs (residual narrative paths, ls -l output)
@@ -1352,26 +1408,26 @@ Mọi bài Lab thực hành gõ lệnh trên Terminal bắt buộc phải tuân 
   - Python Rom aggressive: 4 files, 29 subs (whole-word Rom in code samples)
   - Plus manual rewrites: git remote-and-github.md (Mai story arc → đồng nghiệp), 2 Docker lessons, OAuth JWT example
   - **Total: 367+ replacements across 47+ files**. Grep verified 0 fictional names remain (Mai/Hùng/Lan/Hoa/Bình/Hung/Rom/Long all clear in non-changelog content). Code placeholders standardized to Alice/Bob/Charlie/David/Eve/Frank/Grace international convention.
-- **v0.5.5 (24/05/2026)** — Mở rộng §3.5: cấm dùng tên riêng (`rom`, `long`, `mai`, ...) kể cả lowercase trong username/hostname ví dụ shell/Linux. Dùng generic: `user`, `admin`, `dev`, `deploy`, `app`. Lý do: residue fictional character "Long" trước đây bulk-fix sang lowercase `long`, sau đó tôi đổi sang `rom` — vẫn là tên riêng. User feedback: dùng generic role để đảm bảo bài tiếp cận zero-base + không lệ thuộc tên cá nhân.
-- **v0.5.4 (24/05/2026)** — Mining __Ref__ folder để tìm pattern viết tốt cho zero-base reader. Thêm 5 rule mới:
-  - §3.8 "Comments code đánh số bước (`# 1.`, `# 2.`, `# 3.`)" — học từ `07_web/backend/__Ref__/caching/01-caching-strategies.md`
-  - §3.9 "Mở bài bằng vấn đề thực tế relatable" với 3 pattern (Bạn đã bao giờ gặp, Tình huống đời thường, Câu chuyện sự cố) — học từ `01_foundations/__Ref__/cs/05-character-encoding-fundamentals.md` + `programming/03-async-programming-fundamentals.md`
-  - §3.10 "Ẩn dụ liên tục — không chỉ 1 lần ở định nghĩa" với ví dụ K8s chung cư xuyên 4 concept — học từ `kubernetes/__Ref__/K8s/`
-  - §3.11 "✅❌ format cho so sánh — Anti-pattern vs Pattern" — học từ `kubernetes/__Ref__/K8s/13_Imperative-vs-Declarative.md`
-  - §3.12 "Bảng trade-off thay paragraph tường thuật" — học từ `01_foundations/__Ref__/cs/01-how-computers-work-fundamentals.md`
-  - Mục đích: siết chuẩn cho zero-base reader (người chưa biết gì) — repo priority #1.
-- **v0.5.3 (24/05/2026)** — Thêm §3.6 "Anti-pattern: Header → Code ngay (CẤM)" + §3.7 "Vietnamese-first principle". Lý do: audit 60 bài viết phiên 24/05 phát hiện pattern lặp đi lặp lại: header → code block ngay không lead-in, bảng EN-only không Việt hoá, comments code English-heavy. Rule cũ §2.3 đã ngầm yêu cầu "câu dẫn liền mạch" nhưng không siết đủ chặt — bổ sung anti-pattern cụ thể + Vietnamese-first principle để rõ ràng hơn. Reader zero-base Việt là priority #1 của repo.
-- **v0.5.2 (24/05/2026)** — Thêm §3.5 "Nhân vật và tên riêng — KHÔNG tự bịa". Lý do: đã tự tạo nhân vật fictional "Long"/"Mai" + brand "longshop" xuyên suốt 24 lesson DevOps (May 2026) mà không có document chính thức trong Blueprint, khiến reader confused ("Long là ai?"). Đã phải bulk-replace 95+ files qua 3 pass. Rule mới: dùng `"bạn"`/`"sếp"`/`"đồng nghiệp"`/`"team"` generic; nếu cần character riêng → phải document trong Blueprint trước. Brand placeholder thống nhất: `"Acme Shop"`/`"acmeshop.vn"`.
-- **v0.5.1 (19/05/2026)** — Siết lại §2.3: khẳng định **bố cục KHÔNG ràng buộc**, tiêu chí duy nhất là bài có giải đáp WHY/WHAT/HOW questions không — cách thể hiện tuỳ bản chất bài. Thêm §2.3 "Định nghĩa kiểu trả lời tình huống" — quy tắc 4 bước (tình huống → "X ra đời giải quyết..." → ẩn dụ → định nghĩa kỹ thuật). Định nghĩa khô không bị cấm tuyệt đối, chỉ cấm đứng cô đơn ở đầu bài.
-- **v0.5.0 (19/05/2026)** — **Đổi nguyên tắc lớn**: WHY/WHAT/HOW từ "tiêu đề bắt buộc" → "tiêu chí đánh giá nội dung". Header nội dung chính dùng **câu hỏi tự nhiên** ("Vậy K8s là gì?", "Nó làm được gì?") thay vì khuôn `1️⃣ Vì sao cần X (WHY)`. Thêm §2.3 khung 3 kiểu mở bài (tình huống / câu hỏi gợi mở / so sánh) + cấm mở bằng định nghĩa khô. Update §2.2bis với mẫu H2 tự nhiên + ví dụ Pod redesign.
-- **v0.4.0 (16/05/2026)** — Apply 1 fix sau khi review reports `_Ref/`:
-  - §2.3: thêm **quy tắc ẩn dụ (metaphor) bắt buộc** trong WHAT section — kèm bảng 8 ví dụ metaphor (Pod, Service, Container, ...) + format viết. Bài thiếu metaphor ở WHAT → fail quality. Skip được nếu concept quá đơn giản (vd `git status`).
-- **v0.3.0 (15/05/2026)** — Apply 5 fixes sau dogfood:
-  - §1: làm rõ khung 8 phần **chỉ áp dụng cho `lessons/`** — exercise/recipe/project có template riêng (thêm bảng đối chiếu)
-  - §2.2: làm rõ "1 câu dẫn duy nhất" (tránh 2 block quote chồng chéo) + độ dài 1-2 câu
-  - §2.2bis: thêm bảng quy ước đánh số H2 — chỉ Nội dung chính có 1️⃣ 2️⃣ 3️⃣, các phần khung khác không số
-  - §2.8: thêm bảng "khi nào skip Liên kết" — bỏ khi không có gì đáng link, không vì kho chưa có content
-- **v0.2.0 (15/05/2026)** — Apply 2 recommendations:
-  - §2.1: thêm field `Tags` trong metadata với tag `[MUST-KNOW]` — đánh dấu bài bắt buộc trong roadmap tương ứng
-  - §2.3: chính thức hóa framework **WHY → WHAT → HOW** (high-level cho toàn bài) + flow 4 bước (low-level cho mỗi section). Thêm ví dụ mapping cụ thể
-- **v0.1.0 (15/05/2026)** — Bản đầu tiên.
+- **v0.5.7 (24/05/2026)** — **Siết chặt §3.5**: cấm DÙNG TẤT CẢ TÊN RIÊNG — bất kể ngôn ngữ. Alice/Bob/Charlie/David/Eve/Frank/Grace **VẪN LÀ tên riêng** (tiếng Anh) → vi phạm rule. User feedback (lúc đó): *"không nên dùng tên riêng bất cứ tiếng gì... bạn A bạn B Nguyen Van A Le Van B Tran Van C kiểu vậy"*. Quy chuẩn placeholder chính thức:
+  - **Dạng dài (code sample)**: `Nguyen Van A` / `Le Van B` / `Tran Van C` / `Pham Van D` / `Hoang Van E` / `Vu Van F` / `Bui Van G` (7 họ phổ biến VN + A-G, không dấu để code-safe)
+  - **Dạng ngắn (narrative)**: `bạn A` / `bạn B` / `bạn C` / ...
+  - Tương đương "John Doe" quốc tế — reader Việt nhận ra ngay là placeholder.
+  - Áp dụng cho mọi SQL INSERT data, Python dict, JSON, React props, ví dụ multi-user.
+  - Bulk-fix Alice→Nguyen Van A, Bob→Le Van B, ... đang được apply.
+- **v0.5.8 (25/05/2026)** — **Soften §3.5**: đổi từ "CẤM" → "**hạn chế, không ép**". User feedback: *"các ví dụ bạn muốn đưa data sao cũng được, miễn sao hạn chế tên riêng là được. Hạn chế, chứ không ép không dùng nhé."* Quy tắc cập nhật:
+  - Title: "Nhân vật và tên riêng — **Hạn chế, không ép**" (thay vì "KHÔNG tự bịa").
+  - Bảng so sánh: `✅ Default` / `⚠️ Hạn chế` (thay vì `✅ Dùng` / `❌ Tránh`) — phản ánh "hạn chế" không "cấm".
+  - Placeholder `Nguyen Van A`/`Le Van B`/`Tran Van C`/... vẫn là **default ưu tiên** cho code sample multi-row.
+  - **Cho phép linh hoạt**: ví dụ ngắn 1-2 lần với tên riêng (`name = "Alice"`) OK nếu không lạm dụng cross-lesson. Cryptography convention ("Alice ↔ Bob") giữ nguyên không Việt hoá ép. Story arc xuyên cluster vẫn tránh fictional character.
+  - Bảng "Áp dụng" thêm cột "✅ Preferred" / "⚠️ Hạn chế" với ghi chú cụ thể "(OK ngắn nhưng đừng lạm dụng)" thay vì cấm hoàn toàn.
+  - **KHÔNG bulk-revert** các fix Alice→Nguyen Van A đã chạy (placeholder VN vẫn là default). Chỉ soften principle để tránh ép linh hoạt khi đáng ra cần.
+- **v0.6.0 (26/05/2026)** — **Thêm §11**: Đặc tả cấu trúc bắt buộc cho bài thực hành (Labs) với Environment Check/Cleanup và Trắc nghiệm tự đánh giá (Quizzes) với details tag giải thích sâu từ di sản `__Ref__`.
+- **v0.7.0 (01/06/2026)** — **Đồng bộ governance toàn repo** (3 quyết định đã duyệt + alignment quy ước nền). Lý do: file self-desync version (header v0.5.8 vs changelog đầu list v0.6.0) + cần thống nhất chuẩn trình bày toàn repo:
+  - **Đồng bộ version**: header bump v0.5.8 → **v0.7.0** khớp với changelog (sửa self-desync).
+  - **(A) Changelog tăng dần**: đảo toàn bộ list cũ → mới (v0.1.0 trên cùng, v0.7.0 dưới cùng). Đổi heading `## 📌 Changelog` → `## 📌 Nhật ký thay đổi (Changelog)`. Thêm note **override** global skill `naming/metadata-headers.md` (global = reverse-chronological).
+  - **(B) Việt hoá heading kỹ thuật + giữ EN trong ngoặc**: §1 + §2.2bis bảng spec đổi `Self-check` → `Tự kiểm tra (Self-check)`, `Cheatsheet` → `Tra cứu nhanh (Cheatsheet)`, `Pitfall & Best practice` → `Cạm bẫy thường gặp & Best practice` (`### ❌ Pitfall:` → `### ❌ Cạm bẫy:`, giữ `### ✅ Best practice:`), `Glossary` → `Từ Điển Thuật Ngữ (Glossary)`. §2.4–2.7 đổi heading section tương ứng.
+  - **(B) §2.1**: field `Prerequisites` → `Yêu cầu trước` (khung mẫu + bảng field). §1: tiêu chí OPTIONAL bỏ mốc thời gian đọc (">10 phút"/"<5 phút") → đổi sang số concept/số từ (≥ 3 concept / > 1000 từ; quick note ~1 concept / < 800 từ).
+  - **(C) Bỏ hết ước tính thời gian**: §11.1 metadata Lab bỏ trường `Thời gian ước tính: ~X phút làm bài`. Không còn con số thời gian ước tính nào trong file.
+  - **(Quy ước nền) §2.8**: thay block Liên kết bằng **3 sub-section cố định** (🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác) + nav bullet `⬅️ Bài trước` / `➡️ Bài tiếp theo` / `↑ Về cụm`. Quy tắc cứng: link text = tiêu đề thật, KHÔNG dùng tên file.
+  - **(Quy ước nền) Thêm §3.15 De-meta**: định nghĩa vùng cấm meta-leak cho file học (ngôn ngữ/đối tượng/phương pháp/khung-template/link `_blueprint`-`__Ref__`-`templates`/nhắc "Mr.Rom" trong thân bài-code-summary). Phân biệt rõ AUTHOR-FACING (`_blueprint/0X_*.md`) được bàn phương pháp vs READER-FACING phải sạch.
+  - **(De-meta) §11.2**: `<summary>💡 Xem giải thích của Mr.Rom</summary>` → `<summary>💡 Xem giải thích</summary>`; "giải thích chuyên sâu của `Mr.Rom`" → bỏ "của Mr.Rom".

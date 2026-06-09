@@ -1,9 +1,9 @@
 # 🗺️ Concept Map — Single Source of Truth (SSOT)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 15/05/2026\
-> **Cập nhật:** 26/05/2026
+> **Cập nhật:** 01/06/2026
 
 > 🎯 *File này declare **canonical owner** cho mọi concept trong Blueprint. Khi cần biết "concept X định nghĩa ở đâu" → tra map này. Khi muốn sửa concept → chỉ sửa canonical + bump version của file đó.*
 
@@ -45,6 +45,10 @@
 | 28 | **Setup template** (9 section chi tiết) | `templates/setup_template.md` | (mới — instance, không spec) |
 | 29 | **Phân biệt Intro vs Lesson chi tiết** — tránh lẫn lộn 2 vai trò trong 1 bài | `02_folder-structure.md` §3.0 | (mới v0.4.0) |
 | 30 | **Scope của 02_tools** — chứa gì (setup + tool features), KHÔNG chứa gì (lệnh OS thuộc 04_os) | `02_folder-structure.md` §3.2ter | (mới v0.5.0) |
+| 31 | **De-meta — vùng cấm file học** (không lộ ngôn ngữ/đối tượng/phương pháp/Mr.Rom-thân-bài/link _blueprint) | `03_writing-style.md` §3.15 | `07_quality-checklist.md` §De-meta link |
+| 32 | **Changelog tăng dần** (cũ→mới) — override global skill (reverse-chronological) | `07_quality-checklist.md` | README §6 + mọi file ghi note |
+| 33 | **KHÔNG dùng ước tính thời gian** (reading-time / tháng-tuần-giờ / phút làm bài) | `07_quality-checklist.md` §De-meta | `03_writing-style.md` §1 |
+| 34 | **Heading chuẩn + nav 3-sub** (Glossary/Changelog song ngữ; Liên kết 🧭/🧩/🌐; nav ⬅️/➡️/↑ link-text=tiêu đề) | `03_writing-style.md` §2.7–2.8 | `05_linking-strategy.md` §4 |
 
 ## 2️⃣ Quy trình khi sửa Blueprint
 
@@ -84,17 +88,20 @@ Nếu concept mới rơi vào 1 trong 7 mảng trên → thêm section vào file
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.0.0 (26/05/2026)** — **Tái cấu trúc lớn (Đồng bộ hóa gộp file)**:
-  - Cập nhật danh sách file Blueprint còn 7 file chính sau khi gộp Quy ước đặt tên (`04_naming-convention.md`) vào `02_folder-structure.md`.
-- **v0.6.0 (16/05/2026)** — Thêm #30: Scope của 02_tools (canonical `02_folder-structure.md` §3.2ter).
-- **v0.5.0 (16/05/2026)** — Thêm #29: Phân biệt Intro vs Lesson chi tiết (canonical `02_folder-structure.md` §3.0).
-- **v0.4.0 (16/05/2026)** — Thêm 2 concept:
-  - #27: `02_tools/` Central Setup Hub (canonical `02_folder-structure.md` §3.2bis)
-  - #28: Setup template (canonical `templates/setup_template.md`)
-- **v0.3.0 (16/05/2026)** — Rename #26 từ "Migration workflow" → "**Reference workflow**" sau feedback user. `_Ref/` là REFERENCE cherry-pick, không phải migration source.
+> 📌 Thứ tự **tăng dần** (cũ → mới) — repo này override global skill `naming/metadata-headers.md` (global mặc định reverse-chronological).
+
+- **v0.1.0 (15/05/2026)** — Bản đầu tiên. Map 24 concept → canonical owner. Quy trình sửa/thêm.
 - **v0.2.0 (16/05/2026)** — Thêm 2 concept mới:
   - #25: Metaphor rule (canonical `03_writing-style.md` §2.3)
   - #26: Migration workflow *(đã rename ở v0.3.0)*
-- **v0.1.0 (15/05/2026)** — Bản đầu tiên. Map 24 concept → canonical owner. Quy trình sửa/thêm.
+- **v0.3.0 (16/05/2026)** — Rename #26 từ "Migration workflow" → "**Reference workflow**" sau feedback user. `_Ref/` là REFERENCE cherry-pick, không phải migration source.
+- **v0.4.0 (16/05/2026)** — Thêm 2 concept:
+  - #27: `02_tools/` Central Setup Hub (canonical `02_folder-structure.md` §3.2bis)
+  - #28: Setup template (canonical `templates/setup_template.md`)
+- **v0.5.0 (16/05/2026)** — Thêm #29: Phân biệt Intro vs Lesson chi tiết (canonical `02_folder-structure.md` §3.0).
+- **v0.6.0 (16/05/2026)** — Thêm #30: Scope của 02_tools (canonical `02_folder-structure.md` §3.2ter).
+- **v1.0.0 (26/05/2026)** — **Tái cấu trúc lớn (Đồng bộ hóa gộp file)**:
+  - Cập nhật danh sách file Blueprint còn 7 file chính sau khi gộp Quy ước đặt tên (`04_naming-convention.md`) vào `02_folder-structure.md`.
+- **v1.1.0 (01/06/2026)** — Đổi heading changelog sang song ngữ + đảo thứ tự tăng dần (đồng bộ quyết định A toàn repo). Thêm concept #31–#34 cho các quy ước chốt phiên 01/06 (de-meta, changelog tăng dần, bỏ ước tính thời gian, heading chuẩn + nav 3-sub).

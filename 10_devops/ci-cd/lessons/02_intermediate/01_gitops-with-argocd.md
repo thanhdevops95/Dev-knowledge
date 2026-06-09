@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~25 phút\
 > **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), [K8s Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md)
 
 > 🎯 *Push model (GitHub Actions kubectl apply) không scale — drift + audit khó + multi-cluster ám ảnh. **GitOps pull model**: ArgoCD chạy trong cluster, watch Git, sync. Bài này dạy ArgoCD architecture, Application, ApplicationSet, multi-cluster, drift detection, sync waves, RBAC. So sánh Flux. Real war story.*
@@ -924,9 +923,9 @@ PR workflow:
 
 ---
 
-## 💡 Pitfall & Best practice
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: `automated.prune: true` + accidentally remove file
+### ❌ Cạm bẫy: `automated.prune: true` + accidentally remove file
 
 → Dev xoá file YAML từ Git accident → ArgoCD prune → delete resource from cluster.
 
@@ -935,7 +934,7 @@ PR workflow:
 - `prune: false` cho production cho deliberate cleanup.
 - `argocd.argoproj.io/sync-options: "Prune=false"` per resource for sensitive ones.
 
-### ❌ Pitfall: ArgoCD `selfHeal` but emergency `kubectl edit` needed
+### ❌ Cạm bẫy: ArgoCD `selfHeal` but emergency `kubectl edit` needed
 
 → Production incident, SRE phải edit deployment tay. selfHeal revert sau 3 phút → cycle.
 
@@ -947,7 +946,7 @@ PR workflow:
 
 Document break-glass trong runbook.
 
-### ❌ Pitfall: Secret leak qua Git
+### ❌ Cạm bẫy: Secret leak qua Git
 
 → Commit `database.env` → leak forever (Git history immutable).
 
@@ -957,7 +956,7 @@ Document break-glass trong runbook.
 - ExternalSecret (bài 03).
 - Branch protection + secret scanning (GitHub Security tab).
 
-### ❌ Pitfall: Helm chart values committed but not all values used
+### ❌ Cạm bẫy: Helm chart values committed but not all values used
 
 ```yaml
 helm:
@@ -969,7 +968,7 @@ helm:
 
 → **Fix**: Use `valueFiles:` pointer to file in Git, validate locally with `helm template`.
 
-### ❌ Pitfall: ApplicationSet matrix explosion
+### ❌ Cạm bẫy: ApplicationSet matrix explosion
 
 ```yaml
 generators:
@@ -989,13 +988,13 @@ generators:
         env: production
 ```
 
-### ❌ Pitfall: Sync wave annotation in template but conflict timing
+### ❌ Cạm bẫy: Sync wave annotation in template but conflict timing
 
 → Helm template render annotation **after** Helm hooks. Timing mixed.
 
 → **Fix**: Use `argocd.argoproj.io/sync-wave` for ordering. Don't mix with Helm hooks (`pre-install`/`post-install`) unless careful.
 
-### ❌ Pitfall: PR approver = same as PR author
+### ❌ Cạm bẫy: PR approver = same as PR author
 
 → GitOps "approval" rỗng nghĩa.
 
@@ -1057,7 +1056,7 @@ data:
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Khi nào dùng `prune: true` vs `prune: false`?
 
@@ -1219,7 +1218,7 @@ roles:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```bash
 # === ArgoCD CLI ===
@@ -1285,7 +1284,7 @@ spec:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -1312,17 +1311,17 @@ spec:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_intermediate-overview.md](00_intermediate-overview.md)
-- → Tiếp: [02_supply-chain-security.md](02_supply-chain-security.md) *(sắp viết)*
-- ↑ Cluster: [CI/CD README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [CI/CD Intermediate — Từ "deploy được" đến "supply chain secure"](00_intermediate-overview.md)
+- ➡️ **Bài tiếp theo:** [Supply chain security — SLSA Level 3 pipeline + admission verify](02_supply-chain-security.md) *(sắp viết)*
+- ↑ **Về cụm:** [CI/CD README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - ☸️ [K8s intermediate Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md) — chart deploy qua ArgoCD
 - 🐳 [Docker intermediate Registry](../../../docker/lessons/02_intermediate/04_registry-production-patterns.md) — image source cho deploy
 - 🏗️ [IaC basic Terraform](../../../iac/lessons/01_basic/01_terraform-basics.md) — provision infra layer
 
-### Tài nguyên ngoài
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [ArgoCD docs](https://argo-cd.readthedocs.io/)
 - 📖 [ApplicationSet docs](https://argocd-applicationset.readthedocs.io/)
 - 📖 [Flux docs](https://fluxcd.io/)
@@ -1334,8 +1333,7 @@ spec:
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Architecture + Install + Access UI + §3 Application CRD basic.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. GitOps 4 principles + ArgoCD architecture + Application + Helm/Kustomize + App-of-Apps + ApplicationSet (4 generators) + multi-cluster + sync waves/hooks + AppProject + RBAC + ArgoCD vs Flux. Apply insight `__Ref__/`: GitOps anti-pattern war story (kubectl apply + ArgoCD drift). 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Architecture + Install + Access UI + §3 Application CRD basic.

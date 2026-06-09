@@ -1,13 +1,12 @@
 # 🎓 Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 01/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~20 phút\
-> **Prerequisites:** [01_function-as-a-service-deep.md](01_function-as-a-service-deep.md)
+> **Yêu cầu trước:** [FaaS đào sâu — Cold start, isolate vs container, runtime & duration](01_function-as-a-service-deep.md)
 
 > 🎯 *Serverless function chỉ giá trị khi có **trigger** gọi nó. Bài này gom hết các loại trigger phổ biến (HTTP, queue, storage, DB stream, schedule, webhook), hiểu **event source mapping** dưới capo, vì sao **idempotency** bắt buộc, và "exactly-once delivery" thực chất là gì (myth or fact?). Bạn cũng học DLQ — nơi message fail đi về.*
 
@@ -618,12 +617,13 @@ def lambda_handler(event, context):
 
 ```python
 # Update by primary key — duplicate calls overwrite, không tạo row mới
+# 'status' là reserved word của DynamoDB → phải alias qua ExpressionAttributeNames
 ddb.update_item(
     TableName='orders',
     Key={'order_id': order_id},
-    UpdateExpression='SET status = :s',
-    ExpressionAttributeValues={':s': 'PAID'},
-    ConditionExpression='status <> :paid',  # only if not already PAID
+    UpdateExpression='SET #st = :paid',
+    ConditionExpression='#st <> :paid',  # only if not already PAID
+    ExpressionAttributeNames={'#st': 'status'},
     ExpressionAttributeValues={':paid': 'PAID'}
 )
 ```
@@ -780,39 +780,39 @@ Events:
 
 ---
 
-## 💡 Pitfall thường gặp
+## 💡 Cạm bẫy thường gặp & Best practice
 
-### ❌ Pitfall: Không idempotent → trùng side-effect
+### ❌ Cạm bẫy: Không idempotent → trùng side-effect
 
 - **Triệu chứng**: Charge user 3 lần, gửi email 5 lần.
 - **Nguyên nhân**: Async trigger (SQS, S3, SNS) là **at-least-once**, retry tự động.
 - **Cách tránh**: Idempotency key + dedup table, hoặc DDB conditional update, hoặc Powertools decorator.
 
-### ❌ Pitfall: Throw exception giữa batch SQS → retry toàn bộ batch
+### ❌ Cạm bẫy: Throw exception giữa batch SQS → retry toàn bộ batch
 
 - **Triệu chứng**: 1 message fail → 9 message khác bị retry → trùng xử lý.
 - **Nguyên nhân**: SQS xem cả batch là fail nếu Lambda exception.
 - **Cách tránh**: Return `{batchItemFailures: [...]}` với chỉ message fail. Yêu cầu `ReportBatchItemFailures` enabled.
 
-### ❌ Pitfall: Visibility timeout < Lambda timeout
+### ❌ Cạm bẫy: Visibility timeout < Lambda timeout
 
 - **Triệu chứng**: SQS message re-deliver khi Lambda vẫn đang xử lý → trùng.
 - **Nguyên nhân**: VisibilityTimeout SQS phải >= Lambda timeout × 6 (rule of thumb).
 - **Cách tránh**: VisibilityTimeout = 6 × Lambda timeout (theo AWS doc).
 
-### ❌ Pitfall: Không có DLQ → fail message biến mất
+### ❌ Cạm bẫy: Không có DLQ → fail message biến mất
 
 - **Triệu chứng**: Message fail xử lý sau N retry → SQS xoá → mất data.
 - **Nguyên nhân**: Không cấu hình DLQ.
 - **Cách tránh**: Mọi async Lambda + queue trigger phải có DLQ. CloudWatch alarm DLQ depth > 0.
 
-### ❌ Pitfall: Webhook không verify signature
+### ❌ Cạm bẫy: Webhook không verify signature
 
 - **Triệu chứng**: Attacker giả lập Stripe webhook → trigger refund $1M.
 - **Nguyên nhân**: Endpoint public không check HMAC.
 - **Cách tránh**: Luôn verify webhook signature trước khi xử lý. Stripe, GitHub, Slack đều cung cấp.
 
-### ❌ Pitfall: S3 trigger filter conflict
+### ❌ Cạm bẫy: S3 trigger filter conflict
 
 - **Triệu chứng**: 2 Lambda đăng ký cùng prefix `uploads/` → 1 bị reject.
 - **Nguyên nhân**: S3 chỉ cho phép **1 destination per prefix overlap**.
@@ -838,7 +838,7 @@ S3 → EventBridge → Lambda A (resize)
 
 ---
 
-## 🧠 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 **Q1.** Push trigger vs Pull/poll trigger khác nhau ở đâu? Cho 2 ví dụ mỗi loại.
 
@@ -1199,7 +1199,7 @@ for order in duplicates:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 6 nhóm trigger
 
@@ -1265,9 +1265,9 @@ ddb.update_item(..., ConditionExpression='status = :pending')
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
-| EN | VN | Giải thích |
+| Thuật ngữ | Tiếng Việt | Giải thích |
 |---|---|---|
 | Event source | Nguồn sự kiện | Thứ phát event (S3, queue, DB, ...) |
 | Event source mapping (ESM) | — | AWS managed poller giữa source và Lambda |
@@ -1295,16 +1295,20 @@ ddb.update_item(..., ConditionExpression='status = :pending')
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_function-as-a-service-deep.md](01_function-as-a-service-deep.md)
-- → Tiếp theo: [03_serverless-patterns-and-anti-patterns.md](03_serverless-patterns-and-anti-patterns.md)
+### 🧭 Định hướng lộ trình học
 
-### Cross-reference
-- 🟧 [AWS Lambda + API Gateway](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — SAM template chi tiết
-- 🟦 [GCP Cloud Run + Pub/Sub](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md)
-- 🟧 [AWS DynamoDB Streams](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md) — DDB stream trigger
+- ⬅️ **Bài trước:** [FaaS đào sâu — Cold start, isolate vs container, runtime & duration](01_function-as-a-service-deep.md)
+- ➡️ **Bài tiếp theo:** [Serverless Patterns & Anti-patterns — Khi nào dùng, khi nào tránh](03_serverless-patterns-and-anti-patterns.md)
+- ↑ **Về cụm:** [Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn](00_what-is-serverless-overview.md)
 
-### Tài nguyên ngoài
+### 🧩 Các chủ đề có thể bạn quan tâm
+
+- 🟧 [Lambda + API Gateway — Nhập môn Serverless](../../../aws/lessons/01_basic/04_lambda-and-api-gateway.md) — SAM template chi tiết
+- 🟦 [GCP Cloud Functions + Cloud Run + API Gateway](../../../gcp/lessons/01_basic/04_cloud-functions-cloud-run-and-api-gateway.md) — Pub/Sub trigger + Cloud Run
+- 🟧 [RDS + DynamoDB — Managed databases](../../../aws/lessons/01_basic/03_rds-and-dynamodb.md) — DynamoDB Streams trigger
+
+### 🌐 Tài nguyên tham khảo khác
+
 - 📖 [AWS Lambda Event Source Mappings](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html)
 - 📖 [AWS Lambda Powertools (Python)](https://docs.powertools.aws.dev/lambda/python/)
 - 📖 [AWS EventBridge Pattern Matching](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html)
@@ -1314,6 +1318,7 @@ ddb.update_item(..., ConditionExpression='status = :pending')
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Event-driven & triggers cho Basic cluster. 6 nhóm trigger (HTTP/Queue/Storage/DB stream/Schedule/Webhook) + push vs pull invocation + exactly-once myth + idempotency patterns + DLQ + event filtering. Acme Shop scenario charge trùng + fix step-by-step. 6 pitfall + 2 best practice + 5 self-check.
+- **v1.1.0 (01/06/2026)** — Sửa QA: vá lỗi code Cách 2 (ddb.update_item truyền ExpressionAttributeValues hai lần → mất ':s', và 'status' là reserved word) bằng cách gộp dict + alias #st qua ExpressionAttributeNames; đổi field "Prerequisites" → "Yêu cầu trước"; chuẩn hoá header Glossary sang "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (marker ⬅️/➡️/↑, link-text = tiêu đề H1 thực, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên).

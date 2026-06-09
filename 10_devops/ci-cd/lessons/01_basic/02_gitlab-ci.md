@@ -6,7 +6,6 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~15 phút\
 > **Prerequisites:** [What is CI/CD](00_what-is-cicd.md)
 
 > 🎯 *Master GitLab CI: **`.gitlab-ci.yml`** syntax, **stages + jobs**, **runners** (shared + self-hosted), **rules + only/except**, **variables + secrets**, **cache + artifacts**, **services** (DB containers), **environments + manual approve**, **GitLab vs GitHub Actions** compare.*
@@ -631,7 +630,7 @@ deploy-prod:
 
 ---
 
-## ⚠️ 5 pitfall hay vướng
+## 💡 Cạm bẫy thường gặp & Best practice
 
 1. **`only/except` legacy** → replaced by `rules`. Migrate.
 2. **Forget `needs`** → all jobs wait stage progression. Use `needs: [job]` for DAG speedup.
@@ -641,7 +640,7 @@ deploy-prod:
 
 ---
 
-## ✅ Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 1. **Stages** vs **needs** — khác sao?
 2. **`rules`** thay thế **`only/except`** — ưu điểm?
@@ -665,7 +664,7 @@ deploy-prod:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Minimal `.gitlab-ci.yml`
 
@@ -745,14 +744,14 @@ docker exec -it gitlab-runner gitlab-runner register
 
 ---
 
-## 🔗 Links
+## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ← Trước: [GitHub Actions](01_github-actions.md)
-- → Tiếp: [Pipeline Patterns](03_pipeline-patterns.md)
-- ↑ Cluster: [ci-cd README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [GitHub Actions — Default CI/CD 2026](01_github-actions.md)
+- ➡️ **Bài tiếp theo:** [Pipeline Patterns — Common patterns + best practices](03_pipeline-patterns.md)
+- ↑ **Về cụm:** [ci-cd README](../../README.md)
 
-### External
+### 🌐 Tài nguyên tham khảo khác
 - 📖 [GitLab CI docs](https://docs.gitlab.com/ee/ci/)
 - 📖 [GitLab CI variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html)
 - 📖 [GitLab Runner docs](https://docs.gitlab.com/runner/)
@@ -764,8 +763,7 @@ docker exec -it gitlab-runner gitlab-runner register
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Stages + needs DAG + §3 Full job syntax.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 3/5. Cover: anatomy .gitlab-ci.yml + stages parallel/sequential + needs DAG + jobs syntax + cache/artifacts + rules + environments + GitLab vs GitHub Actions compare.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Stages + needs DAG + §3 Full job syntax.

@@ -1,12 +1,11 @@
 # 💬 Prompt Engineering + Context Strategies
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [00_what-is-llm-and-tokenization](00_what-is-llm-and-tokenization.md) ✅
 
 > 🎯 *Bài 01. Prompt engineering = nghệ thuật + kỹ thuật giao tiếp với LLM. Bài này dạy: zero-shot vs few-shot, chain-of-thought (CoT), structured output (JSON schema), system vs user role, prompt template, context management (truncation, summary), test + iterate. Không phải "magic" — có pattern + framework.*
@@ -151,7 +150,7 @@ Category:"""
 
 - Task simple, zero-shot đủ.
 - Context window precious — few-shot ăn token.
-- Model strong (Claude 4 Opus, GPT-5) — thường zero-shot tốt.
+- Model strong (Claude Opus 4.x, GPT-5) — thường zero-shot tốt.
 
 ---
 
@@ -261,7 +260,10 @@ response = client.messages.create(
     tool_choice={"type": "tool", "name": "extract_person"},
     messages=[{"role": "user", "content": "John is 25 years old"}],
 )
-data = response.content[0].input  # ✅ guaranteed valid JSON
+# Lặp tìm block type=="tool_use" — đừng giả định content[0] là tool_use
+# (content có thể chứa text block trước đó tùy model/response).
+tool_block = next(b for b in response.content if b.type == "tool_use")
+data = tool_block.input  # ✅ guaranteed valid JSON theo input_schema
 ```
 
 **OpenAI — Structured Outputs (2024)**:
@@ -272,7 +274,7 @@ class Person(BaseModel):
     name: str
     age: int
 
-response = client.chat.completions.parse(
+response = client.beta.chat.completions.parse(  # SDK openai Python: helper parse nằm ở namespace beta
     model="gpt-4o",
     messages=[{"role": "user", "content": "John is 25 years old"}],
     response_format=Person,
@@ -302,7 +304,9 @@ except ValidationError as e:
 
 ## 5️⃣ Conversation context management
 
-🪞 **Ẩn dụ**: *Conversation history như **xếp giấy lên bàn** — bàn lớn (context window) lớn nhưng không phải vô hạn. 100 turn = 50k token = approach limit. Phải có chiến lược "dọn bàn" mà không mất context quan trọng.*
+🪞 **Ẩn dụ**: *Conversation history như **xếp giấy lên bàn** — bàn lớn (context window) lớn nhưng không phải vô hạn. Context window tùy model (Claude Opus/Sonnet 4.6+ ~1M token, nhiều model khác 128k-200k), nhưng dù lớn cỡ nào thì history vẫn phình theo thời gian + cost tăng linear theo token. Phải có chiến lược "dọn bàn" mà không mất context quan trọng.*
+
+> ⚠️ Đừng bám một con số tuyệt đối — nguyên tắc là **truncate/summarize khi gần ngưỡng của model đang dùng** (vd > 70-80% context window), không phải chờ "đủ 50k token".
 
 ### Problem
 
@@ -332,7 +336,12 @@ def summarize_history(messages):
     )
     return [{"role": "system", "content": f"Tóm tắt: {response}"}]
 
-if total_tokens(messages) > 100_000:
+# Ngưỡng = % context window của model, không phải số tuyệt đối.
+# Ví dụ với model context 200k → trigger ~150k; model 1M → trigger ~750k.
+CONTEXT_WINDOW = 200_000      # đổi theo model đang dùng
+SUMMARIZE_AT = int(CONTEXT_WINDOW * 0.75)
+
+if total_tokens(messages) > SUMMARIZE_AT:
     old = messages[:-10]
     summary = summarize_history(old)
     messages = summary + messages[-10:]
@@ -607,7 +616,7 @@ class Classification(BaseModel):
     reasoning: str
 
 # OpenAI structured
-response = client.chat.completions.parse(
+response = client.beta.chat.completions.parse(  # parse helper ở namespace beta
     model="gpt-4o",
     messages=[
         {"role": "system", "content": system_prompt_with_examples},
@@ -661,7 +670,7 @@ for r in results:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. "Just write better prompt" magic mindset
 
@@ -713,7 +722,7 @@ for r in results:
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Cấu trúc system prompt 5 thành phần?
 - [ ] Khi nào zero-shot vs few-shot vs CoT?
@@ -726,7 +735,7 @@ for r in results:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -755,12 +764,12 @@ for r in results:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [00_what-is-llm-and-tokenization](00_what-is-llm-and-tokenization.md)
-- → Tiếp: [02_function-calling-and-tools](02_function-calling-and-tools.md) *(sắp viết)*
-- ↑ Cluster LLM: [LLM README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [LLM là gì + Tokenization + Models 2026](00_what-is-llm-and-tokenization.md)
+- ➡️ **Bài tiếp theo:** [Function Calling + Tool Use + Agent Loop](02_function-calling-and-tools.md) *(sắp viết)*
+- ↑ **Về cụm:** [LLM README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🧠 [RAG + AI Agent](../../../rag-and-ai-agent/) — bài 03 deep
 - 🛡️ [OWASP LLM Top 10](../../../../12_security/owasp-top-10/) — prompt injection
 - 🐍 [FastAPI](../../../../07_web/backend/python-fastapi/) — host LLM endpoint
@@ -780,6 +789,7 @@ for r in results:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 LLM basic. Prompt anatomy + zero/few-shot + CoT + self-consistency + ReAct + reflection + structured output (Anthropic tool use, OpenAI parse) + conversation context management (truncation, summary, sliding, pin) + 6 prompt patterns + prompt injection 8 mitigation + hands-on classifier 95%+ accuracy + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Sửa lỗi kỹ thuật: Anthropic tool use lấy `.input` qua block `type=="tool_use"` (không giả định `content[0]`); OpenAI structured output dùng `client.beta.chat.completions.parse` (đúng namespace SDK); ngưỡng context management chuyển sang tương đối theo context window model (1M cho Claude 4.6+) thay vì hardcode 50k/100k; cập nhật tên model "Claude Opus 4.x".

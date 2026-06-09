@@ -1,15 +1,14 @@
-# ⚙️📦 A05 Misconfig + A06 Vulnerable Components + A08 Supply Chain Integrity
+# ⚙️📦 A02 Security Misconfiguration + A03 Software Supply Chain Failures + A08 Integrity
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v2.0.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md) ✅
 
-> 🎯 *Bài 03. 3 vuln liên quan: **A05 Misconfig** (server config sai, headers thiếu, debug bật trong prod), **A06 Vulnerable Components** (dep CVE chưa patch), **A08 Software/Data Integrity** (supply chain attack, unsigned package). Bài này dạy: security headers đầy đủ, CORS đúng, dependency scanning (Snyk/Dependabot/Trivy), SBOM, cosign + SLSA. Hands-on harden Acme Shop từ A → A+ trên Mozilla Observatory.*
+> 🎯 *Bài 03 (chuẩn **OWASP Top 10:2025**). 3 vuln liên quan: **A02 Security Misconfiguration** (server config sai, headers thiếu, debug bật trong prod — lên #2 trong 2025), **A03 Software Supply Chain Failures** (category MỚI 2025, mở rộng từ "Vulnerable and Outdated Components" 2021 — dep CVE chưa patch + toàn bộ chuỗi cung ứng phần mềm), **A08 Software or Data Integrity Failures** (supply chain attack, unsigned package). Bài này dạy: security headers đầy đủ, CORS đúng, dependency scanning (Snyk/Dependabot/Trivy), SBOM, cosign + SLSA. Hands-on harden Acme Shop từ A → A+ trên Mozilla Observatory.*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -28,17 +27,17 @@
 
 Pen-test report tiếp tục:
 
-**A05 Misconfig**:
+**A02 Security Misconfiguration**:
 - `/api/docs` Swagger UI public — leak full API + admin endpoints.
 - Django `DEBUG=True` trong prod — stack trace lộ DB password.
 - S3 bucket public read — backup `users.csv` ai cũng download.
 
-**A06 Components**:
+**A03 Software Supply Chain Failures** (component lỗi/CVE):
 - `lodash@4.17.4` (2017) — CVE prototype pollution.
 - `log4j@2.14` — log4shell (chỉ Java component cũ).
 - Docker image base `python:3.8` 2 năm chưa update.
 
-**A08 Supply chain**:
+**A08 Integrity / supply chain (build & deploy)**:
 - Image build push không sign → ai có thể push image giả vào registry.
 - `package-lock.json` không pin → mỗi build dep version khác.
 
@@ -46,7 +45,9 @@ Pen-test report tiếp tục:
 
 ---
 
-## 1️⃣ A05 — Security Misconfiguration
+## 1️⃣ A02:2025 — Security Misconfiguration
+
+> 📌 *Trong OWASP Top 10:2025, Misconfiguration **leo lên #2** (từ A05:2021) — phản ánh thực tế hệ thống ngày càng nhiều cấu hình (cloud, container, headers) và lỗi cấu hình là nguồn rò rỉ phổ biến nhất.*
 
 🪞 **Ẩn dụ**: *Misconfig như **chìa khóa nhà cắm trong ổ ngoài cửa** — không phải khóa hỏng (broken design), mà do quên rút (config sai). Mọi default insecure, mỗi service mới mỗi quên check là 1 lỗ hổng.*
 
@@ -201,7 +202,9 @@ location ~ /\.(git|env|aws|ssh) {
 
 ---
 
-## 2️⃣ A06 — Vulnerable and Outdated Components
+## 2️⃣ A03:2025 — Software Supply Chain Failures (component lỗi/lỗi thời)
+
+> 📌 *Category **MỚI** trong OWASP Top 10:2025, leo thẳng lên #3. Đây là bản **mở rộng** từ "A06:2021 Vulnerable and Outdated Components": không chỉ là dep dính CVE, mà bao trùm **toàn bộ chuỗi cung ứng phần mềm** — nguồn package, registry, build pipeline, transitive dependency, maintainer bị takeover. Phần dưới đây tập trung vào "component lỗi/lỗi thời" (lõi cũ của A06); phần build/deploy integrity nằm ở mục A08 tiếp theo và cũng là một phần của câu chuyện supply chain này.*
 
 🪞 **Ẩn dụ**: *Dependencies như **bộ máy lái xe nhập từ nhiều nhà cung cấp** — mỗi nhà có thể recall (CVE). Không biết xe có recall = không biết phanh có hỏng hôm nay không.*
 
@@ -303,7 +306,8 @@ updates:
 | Auto-merge patch (`x.y.Z`) | Velocity | Risk regression rare |
 | Auto-merge minor (`x.Y.z`) | Velocity | Higher regression risk |
 | Manual major (`X.y.z`) | Safe | Slow |
-| **Recommend 2026**: auto patch + minor (with tests) + manual major
+
+→ **Khuyến nghị 2026:** auto-merge patch + minor (kèm test xanh), major review thủ công.
 
 ```yaml
 # Renovate config
@@ -328,7 +332,9 @@ Tool: **EOL.date**, **endoflife.date** — check support status.
 
 ---
 
-## 3️⃣ A08 — Software and Data Integrity Failures
+## 3️⃣ A08:2025 — Software or Data Integrity Failures
+
+> 📌 *Giữ nguyên vị trí #8 trong OWASP Top 10:2025 (đổi tên nhẹ "and" → "or"). Liên quan chặt với A03 Software Supply Chain Failures: A03 lo "component nào đang dùng có an toàn không", còn A08 lo "artifact build ra/dữ liệu nhận về có bị tráo, có verify integrity không".*
 
 🪞 **Ẩn dụ**: *Supply chain integrity như **chuỗi giao bưu kiện** — kiện đến tay bạn có nguyên seal nhà cung cấp không? Có ai tráo giữa đường không? Cosign + SLSA = **seal vô hình chứng minh nguồn gốc**.*
 
@@ -350,7 +356,9 @@ Tool: **EOL.date**, **endoflife.date** — check support status.
 | **L1** | Build process documented + provenance |
 | **L2** | Hosted build service (GitHub Actions) + signed provenance |
 | **L3** | Hardened build platform + non-falsifiable provenance |
-| **L4** | (deprecated 2023, merged with L3) — two-person review + hermetic build |
+| **L4** | Mục tiêu tương lai (deferred ở v1.0) — hermetic + reproducible build |
+
+> ⚠️ *SLSA v1.0 (2023) hiện chỉ chuẩn hoá **build track L0–L3**. L4 KHÔNG bị bỏ và cũng không "gộp vào L3" — nó được **defer** thành mục tiêu tương lai (hermetic + reproducible build). Nguồn: [slsa.dev/spec/v1.0/levels](https://slsa.dev/spec/v1.0/levels).*
 
 → 2026 realistic target: **SLSA L3** for production critical.
 
@@ -591,7 +599,7 @@ SSL Labs: **A+**.
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. CSP `'unsafe-inline'` cho convenience
 
@@ -643,7 +651,7 @@ SSL Labs: **A+**.
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] 9 security headers + giá trị recommend 2026?
 - [ ] CORS allowlist vs wildcard — code FastAPI?
@@ -656,7 +664,7 @@ SSL Labs: **A+**.
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -675,7 +683,8 @@ SSL Labs: **A+**.
 | **SPDX** | SBOM format Linux Foundation |
 | **cosign** | Sigstore CLI to sign artifacts |
 | **Sigstore** | Open-source signing infra (cosign, fulcio, rekor) |
-| **SLSA** | Supply-chain Levels for Software Artifacts (L1-L4) |
+| **Software Supply Chain Failures** | Category MỚI A03:2025 — mở rộng từ "Vulnerable & Outdated Components" 2021, bao trùm toàn bộ chuỗi cung ứng phần mềm |
+| **SLSA** | Supply-chain Levels for Software Artifacts — v1.0 chuẩn hoá build track L0–L3 (L4 deferred) |
 | **Provenance** | Verifiable record of build (who, when, what) |
 | **Attestation** | Signed statement về artifact (predicate type) |
 | **Pin (dep)** | Lock to exact version (with hash) |
@@ -685,12 +694,12 @@ SSL Labs: **A+**.
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md)
-- → Tiếp: [04_auth-failures-logging-and-ssrf](04_auth-failures-logging-and-ssrf.md) *(sắp viết)*
-- ↑ Cluster OWASP: [OWASP README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [A04 Cryptographic Failures + A06 Insecure Design](02_crypto-failures-and-secure-design.md)
+- ➡️ **Bài tiếp theo:** [A07 Authentication Failures + A09 Logging & Alerting Failures + SSRF (gộp A01)](04_auth-failures-logging-and-ssrf.md)
+- ↑ **Về cụm:** [OWASP README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🐳 [Docker security](../../../../10_devops/docker/lessons/02_intermediate/02_image-security-supply-chain.md)
 - 🔁 [CI/CD supply chain](../../../../10_devops/ci-cd/lessons/02_intermediate/02_supply-chain-security.md)
 - 🔐 [Secrets management](../../../secrets-management/)
@@ -698,9 +707,10 @@ SSL Labs: **A+**.
 - 🐳 [Container security](../../../container-security/)
 
 ### Tài nguyên ngoài (2026)
-- 📖 [OWASP A05](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
-- 📖 [OWASP A06](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
-- 📖 [OWASP A08](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/)
+- 📖 [OWASP Top 10:2025 (bản hiện hành)](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A02:2025 — Security Misconfiguration](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A03:2025 — Software Supply Chain Failures](https://owasp.org/Top10/2025/)
+- 📖 [OWASP A08:2025 — Software or Data Integrity Failures](https://owasp.org/Top10/2025/)
 - 📖 [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
 - 📖 [Mozilla Observatory](https://observatory.mozilla.org/)
 - 📖 [securityheaders.com](https://securityheaders.com/)
@@ -715,6 +725,7 @@ SSL Labs: **A+**.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 OWASP basic. A05 Misconfig (9 security headers, CORS, debug, default creds, S3 misconfig) + A06 Components (Dependabot, Trivy, Snyk, OSV-Scanner, triage workflow) + A08 Integrity (SLSA L1-L3, cosign, SBOM CycloneDX, pin dep, deserialize) + hands-on harden Acme Shop A → A+ + 8 pitfalls.
+- **v2.0.0 (07/06/2026)** — Cập nhật chuẩn **OWASP Top 10:2025** (bản hiện hành). Đổi numbering + tên category: A05 Misconfig → **A02 Security Misconfiguration** (lên #2); A06 Vulnerable Components → **A03 Software Supply Chain Failures** (category MỚI, mở rộng); A08 → **A08 Software or Data Integrity Failures**. Cập nhật title, lời dẫn, 3 heading section, mục Tình huống, nav text (A04 Crypto/A06 Insecure Design ở bài trước; SSRF nay gộp A01 ở bài sau), link tài nguyên OWASP sang Top 10:2025. Sửa factual: SLSA L4 là **deferred ở v1.0** (không phải "merged with L3"). Sửa broken-content: tách dòng "Khuyến nghị 2026" ra khỏi bảng Auto-upgrade (bảng vỡ). Bổ sung Glossary "Software Supply Chain Failures".

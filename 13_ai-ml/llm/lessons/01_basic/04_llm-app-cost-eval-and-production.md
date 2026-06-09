@@ -1,12 +1,11 @@
 # 💰📊 LLM App — Cost, Evaluation, Production
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [03_rag-fundamentals](03_rag-fundamentals.md) ✅
 
 > 🎯 *Bài 04 (cuối basic). PoC chạy → production khác biệt: cost balloon, latency vấn đề, eval, guardrails, prompt injection live, caching. Bài này dạy: cost optimization, prompt caching, model routing, latency budget, eval harness, guardrails (input/output), production observability (Helicone/Langfuse), prompt injection live mitigation, A/B test. Đóng cluster LLM basic.*
@@ -47,7 +46,12 @@ Bài này map từng vấn đề + fix.
 
 ### 1.1 Prompt caching (game-changer 2024+)
 
-Anthropic + OpenAI 2024 support **prompt caching** — system prompt + context được cache, charge **10% normal price** cho subsequent calls.
+Anthropic + OpenAI support **prompt caching** — system prompt + context được cache. Hai loại chi phí cần nhớ (theo pricing Anthropic 2026):
+
+- **Cache read** ≈ **0.1×** giá input (đọc lại phần đã cache, rẻ ~90%).
+- **Cache write** = **1.25×** giá input (TTL 5 phút) hoặc **2×** (TTL 1 giờ) — lần đầu ghi cache phải trả thêm premium này.
+
+→ Caching chỉ lợi khi **đọc lại nhiều lần**: với TTL 5 phút, hòa vốn sau ~2 request; với TTL 1 giờ, cần ≥3 request mới bù được phí ghi.
 
 ```python
 # Anthropic prompt caching
@@ -77,17 +81,18 @@ response = client.messages.create(
 )
 ```
 
-→ First call: full price. Subsequent (within 5 min): cached portion = 10% input price.
+→ First call: ghi cache (1.25× input price). Subsequent (within TTL): đọc cache = ~0.1× input price.
 
-**Savings example**:
+**Savings example** (giá Sonnet $3/M input):
 - 5k system + 50k context = 55k tokens cached.
-- Normal: 55k × $3/M = $0.165/call.
-- Cached: 55k × $0.30/M = $0.0165/call.
-- **−90% on cached part**.
+- Không cache: 55k × $3/M = $0.165/call (mọi call đều full price).
+- Lần đầu (ghi cache): 55k × $3.75/M = $0.206/call (1.25× premium).
+- Các call sau (đọc cache): 55k × $0.30/M = $0.0165/call.
+- **−90% trên phần cached** kể từ call thứ 2 → càng nhiều request lặp lại càng lời.
 
 Cache lifetime:
-- **Ephemeral**: 5 phút TTL.
-- **1-hour** (Anthropic 2024+ beta).
+- **Ephemeral**: 5 phút TTL (write 1.25×).
+- **1-hour**: TTL 1 giờ, đã GA (write 2×).
 
 ### 1.2 Model routing
 
@@ -96,7 +101,7 @@ Không phải mọi query cần Claude Opus.
 ```python
 def route(query: str) -> str:
     # Classify intent với small model
-    intent = small_llm_classify(query)  # Haiku, $0.80/M
+    intent = small_llm_classify(query)  # Haiku, $1/M input
 
     # Route
     if intent == "simple_faq":
@@ -109,13 +114,17 @@ def route(query: str) -> str:
         return "claude-haiku-4-5"  # default cheap
 ```
 
-**Savings example** Acme Shop:
+> 💡 Các model ID trên là minh hoạ tại thời điểm viết — Opus mới nhất 2026 là `claude-opus-4-8`. Luôn kiểm tra docs nhà cung cấp cho bản mới nhất trước khi pin cứng ID.
+
+**Savings example** Acme Shop (giá 2026: Haiku $1/$5, Sonnet $3/$15, Opus $5/$25 per 1M):
 - 70% queries = simple (FAQ, order status) → Haiku.
 - 25% = medium (recommendation, comparison) → Sonnet.
 - 5% = complex → Opus.
 
-Before all Sonnet: 100% × $3/M input + $15/M output.
-After routing: avg ~$1.5/M input + $7/M output = **−50%**.
+Before all Sonnet: $3/M input + $15/M output.
+After routing (blended theo tỉ lệ 70/25/5):
+- Input: 0.7×$1 + 0.25×$3 + 0.05×$5 = **$1.70/M** (≈ −43% so với $3).
+- Output: 0.7×$5 + 0.25×$15 + 0.05×$25 = **$8.50/M** (≈ −43% so với $15).
 
 ### 1.3 Batch API
 
@@ -197,6 +206,8 @@ User-facing chat:
 | Claude Haiku | 0.3-0.5s | 100-150 |
 | Gemini Flash | 0.3-0.5s | 100-200 |
 | Groq Llama | 0.1-0.3s | 500+ |
+
+> ⚠️ Số liệu bảng trên là **ước lượng minh hoạ**, không phải benchmark chính thức — TTFT và tok/s thay đổi theo tải, region, độ dài prompt. Hãy **tự đo thực tế** trên workload của bạn.
 
 → Groq chip = fastest inference 2026 cho Llama. Use cho high-volume.
 
@@ -431,7 +442,9 @@ pip install langfuse
 ```
 
 ```python
-from langfuse.decorators import observe
+# Langfuse v3 (2025+): observe import trực tiếp từ langfuse,
+# module langfuse.decorators cũ đã deprecated
+from langfuse import observe
 from langfuse.openai import openai  # auto-instrument
 
 @observe()
@@ -460,7 +473,9 @@ client = openai.OpenAI(
 
 ```python
 import phoenix as px
-from phoenix.trace.openai import OpenAIInstrumentor
+# Phoenix (2025+) chuyển instrumentation sang package openinference,
+# đường dẫn cũ phoenix.trace.openai đã deprecated
+from openinference.instrumentation.openai import OpenAIInstrumentor
 
 session = px.launch_app()
 OpenAIInstrumentor().instrument()
@@ -653,7 +668,7 @@ Next options:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. PoC cost ≠ production cost
 
@@ -705,7 +720,7 @@ Next options:
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] 5 cost optimization tactic + ước lượng savings?
 - [ ] Latency budget chat UI + 5 tactic giảm?
@@ -718,11 +733,11 @@ Next options:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
-| **Prompt caching** | Cache system + context tokens, 10% normal cost (Anthropic/OpenAI 2024+) |
+| **Prompt caching** | Cache system + context tokens — read ~0.1× input, write 1.25× (5 phút) / 2× (1 giờ) (Anthropic/OpenAI 2024+) |
 | **Model routing** | Dispatch query to right model by complexity |
 | **Batch API** | Async batch, 50% discount, < 24h SLA |
 | **TTFT** | Time To First Token |
@@ -747,12 +762,12 @@ Next options:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [03_rag-fundamentals](03_rag-fundamentals.md)
-- ↑ Cluster LLM: [LLM README](../../README.md)
-- ↑ 13_ai-ml: [README](../../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [RAG — Retrieval Augmented Generation](03_rag-fundamentals.md)
+- ↑ **Về cụm:** [LLM README](../../README.md)
+- ↑ **Về cụm:** [README](../../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🧠 [RAG + AI Agent](../../../rag-and-ai-agent/) — agent intermediate
 - 📊 [Observability](../../../../10_devops/observability/) — monitoring general
 - 💰 [Cloud cost management](../../../../11_cloud/cloud-cost-management/) — FinOps
@@ -779,6 +794,7 @@ Next options:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) LLM. Cost optimization (prompt caching, model routing, batch API, structured output, context compression) + latency (streaming, smaller model, parallel, edge cache) + eval harness (offline + online, LLM-as-judge, RAGAS) + 6-layer guardrail (input/output/refusal/escalation) + observability (Langfuse/Helicone/Phoenix) + prompt injection 6-layer defense + A/B test + 30-item production checklist + 8 pitfalls. **Đóng LLM basic cluster 5/5.**
+- **v1.1.0 (07/06/2026)** — Sửa lỗi kiểm chứng theo pricing/API Anthropic 2026: bổ sung chi phí cache write (1.25× / 2×) bên cạnh read 0.1× (trước chỉ nói "10%"), bỏ "beta" cho TTL 1h (đã GA); tính lại blended routing cost theo giá đúng (Haiku $1/$5, Sonnet $3/$15, Opus $5/$25) → ~$1.70 input / $8.50 output (≈ −43%, không phải −50%); sửa comment giá Haiku $0.80→$1/M; cập nhật import deprecated (Langfuse v3 `from langfuse import observe`, Phoenix → `openinference.instrumentation.openai`); đánh dấu bảng latency là ước lượng; thêm lưu ý model ID mới nhất là `claude-opus-4-8`. Lý do: bảo đảm số liệu/code chạy đúng năm 2026.

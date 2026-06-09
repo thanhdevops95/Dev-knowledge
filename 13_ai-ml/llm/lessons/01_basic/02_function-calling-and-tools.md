@@ -1,12 +1,11 @@
 # 🛠️ Function Calling + Tool Use + Agent Loop
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Thời lượng đọc:** ~22 phút\
 > **Prerequisites:** Bài [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md) ✅
 
 > 🎯 *Bài 02. LLM standalone = brain trong jar — không thể action. **Tool use / function calling** = LLM cầm điện thoại + tay → tự call API, query DB, search web, write file. Bài này dạy: schema khai báo tool, parallel calls, agentic loop ReAct, error handling, multi-step task. Foundation cho RAG + Agent (bài 03-04).*
@@ -18,7 +17,7 @@
 - [ ] Implement **parallel tool calls** (Claude/GPT call N function 1 lượt)
 - [ ] Build **agentic loop** ReAct (Thought → Action → Observation → ...)
 - [ ] Handle **error + retry + max iteration** trong loop
-- [ ] Apply **MCP** (Model Context Protocol) — Anthropic standard 2024 cho tool
+- [ ] Apply **MCP** (Model Context Protocol) — Anthropic standard (11/2024) cho tool
 - [ ] Compare với LangChain / OpenAI Assistants / native SDK
 - [ ] Hands-on: build "research agent" với web search + summarize
 
@@ -192,6 +191,7 @@ LLM tự decide tool nào phù hợp với query.
 ## 3️⃣ OpenAI function calling
 
 ```python
+import json
 from openai import OpenAI
 client = OpenAI()
 
@@ -310,6 +310,8 @@ while not done:
 ### Complete implementation
 
 ```python
+import json
+
 def agent_loop(user_query: str, tools: list, max_iter: int = 10):
     messages = [{"role": "user", "content": user_query}]
     iteration = 0
@@ -430,13 +432,13 @@ async def execute_with_timeout(tool_use, timeout=30):
 
 ---
 
-## 7️⃣ MCP — Model Context Protocol (2024+)
+## 7️⃣ MCP — Model Context Protocol (11/2024+)
 
 🪞 **Ẩn dụ**: *MCP như **chuẩn USB cho LLM tool** — trước đây mỗi vendor tool format khác (LangChain, OpenAI Assistants, native SDK). MCP standardize → tool viết 1 lần dùng được nhiều client (Claude Desktop, Cursor, your app).*
 
 ### What MCP
 
-Anthropic open standard 2024 — protocol cho LLM client (Claude Desktop, Cursor, custom app) connect tool servers.
+Anthropic open standard (giới thiệu 11/2024) — protocol cho LLM client (Claude Desktop, Cursor, custom app) connect tool servers.
 
 ```
 [Claude Desktop] ←--MCP--→ [filesystem MCP server]
@@ -578,6 +580,8 @@ TOOL_HANDLERS = {"web_search": web_search, "fetch_url": fetch_url}
 ### Agent loop
 
 ```python
+import json
+
 def research_agent(query: str) -> str:
     system = """Bạn là research assistant. Workflow:
 1. Search web với query phù hợp.
@@ -628,17 +632,19 @@ print(answer)
 
 ### Output sample
 
+> ⚠️ **Lưu ý**: đây là output **giả định (mock)** để minh hoạ format — link/ngày tháng/nội dung là minh hoạ, không phải dữ liệu thật. Khi chạy với web search API thật, agent sẽ trả về kết quả khác (và phải cite đúng nguồn nó thực sự fetch). Ví dụ: Kubernetes 1.31 thực tế phát hành 08/2024.
+
 ```markdown
 # Kubernetes 1.31 — Tính năng mới
 
-Theo [release notes](https://kubernetes.io/blog/2026/08/13/kubernetes-v1-31-release/):
+Theo [release notes](https://kubernetes.io/blog/2024/08/13/kubernetes-v1-31-release/):
 
 1. **AppArmor support GA** — bảo mật container ở Linux.
 2. **Pod-level resources** — set request/limit ở pod thay vì từng container.
 3. **PersistentVolume Last Phase Transition Time** — track lifecycle.
 
 Source:
-- https://kubernetes.io/blog/2026/08/13/kubernetes-v1-31-release/
+- https://kubernetes.io/blog/2024/08/13/kubernetes-v1-31-release/
 - https://github.com/kubernetes/kubernetes/releases/tag/v1.31.0
 ```
 
@@ -651,7 +657,7 @@ Source:
 
 ---
 
-## ⚠️ Pitfalls
+## 💡 Cạm bẫy thường gặp & Best practice
 
 ### 1. Tool description quá sơ sài
 
@@ -703,7 +709,7 @@ Source:
 
 ---
 
-## 🎯 Self-check
+## 🧠 Tự kiểm tra (Self-check)
 
 - [ ] Flow function calling 4-step end-to-end?
 - [ ] Anthropic tool definition vs OpenAI function — diff?
@@ -716,7 +722,7 @@ Source:
 
 ---
 
-## 📚 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Term | Vietnamese / Explanation |
 |---|---|
@@ -731,7 +737,7 @@ Source:
 | **Agent loop** | While loop: think → act → observe → ... |
 | **ReAct** | Reasoning + Acting pattern |
 | **MAX_ITER** | Safety cap iteration |
-| **MCP** | Model Context Protocol — Anthropic standard tool 2024 |
+| **MCP** | Model Context Protocol — Anthropic standard tool (11/2024) |
 | **MCP server** | Process exposes tools via MCP |
 | **MCP client** | Claude Desktop, Cursor, app consume tools |
 | **LangChain** | Python framework chain LLM ops |
@@ -744,12 +750,12 @@ Source:
 
 ## 🔗 Liên kết & Tài nguyên
 
-### Trong cluster
-- ↶ Trước: [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md)
-- → Tiếp: [03_rag-fundamentals](03_rag-fundamentals.md) *(sắp viết)*
-- ↑ Cluster LLM: [LLM README](../../README.md)
+### 🧭 Định hướng lộ trình học
+- ⬅️ **Bài trước:** [Prompt Engineering + Context Strategies](01_prompt-engineering-and-context.md)
+- ➡️ **Bài tiếp theo:** [RAG — Retrieval Augmented Generation](03_rag-fundamentals.md) *(sắp viết)*
+- ↑ **Về cụm:** [LLM README](../../README.md)
 
-### Cross-reference
+### 🧩 Các chủ đề có thể bạn quan tâm
 - 🧠 [RAG + AI Agent](../../../rag-and-ai-agent/) — agent deep
 - 🔢 [Vector search](../../../vector-search-and-embeddings/) — retrieval tool
 - 🛡️ [OWASP LLM Top 10](../../../../12_security/owasp-top-10/) — tool security
@@ -770,6 +776,7 @@ Source:
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 LLM basic. Function calling flow + Anthropic/OpenAI schema + parallel tool calls + force tool choice + agent loop ReAct + error handling (schema/timeout/retry/MAX_ITER) + MCP standard 2024 + framework compare (LangChain/LangGraph/Assistants/Pydantic AI/CrewAI) + hands-on research agent + 8 pitfalls.
+- **v1.1.0 (07/06/2026)** — Sửa lỗi (QA audit): thêm `import json` vào 3 snippet dùng json.loads/json.dumps (OpenAI function calling, agent loop, research agent) để chạy được khi copy; ghi rõ mốc MCP là 11/2024 (thay vì "2024" chung); đánh dấu output sample K8s 1.31 là mock + sửa ngày link 2026→2024 cho hợp lý (K8s 1.31 thật phát hành 08/2024).
