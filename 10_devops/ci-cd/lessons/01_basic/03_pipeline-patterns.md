@@ -1,9 +1,9 @@
 # 🎓 Pipeline Patterns — Common patterns + best practices
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [GitHub Actions](01_github-actions.md), [GitLab CI](02_gitlab-ci.md)
@@ -24,7 +24,7 @@
 
 ---
 
-## 1️⃣ PR validation pattern
+## 1️⃣ Pattern PR validation
 
 **Goal**: every PR validated before merge.
 
@@ -49,7 +49,7 @@ jobs:
     steps: [...]
 ```
 
-### Required checks (block merge)
+### Required check (chặn merge)
 
 GitHub Settings → Branches → main → **Require status checks**:
 - ✅ lint
@@ -58,7 +58,7 @@ GitHub Settings → Branches → main → **Require status checks**:
 
 → PR cannot merge until all green. Devs see check status on PR page.
 
-### CODEOWNERS — Auto-assign reviewers
+### CODEOWNERS — Tự gán reviewer
 
 File `.github/CODEOWNERS` map path pattern → team — GitHub auto-assign reviewer khi PR touches matching files. Tránh việc PR ngồi chờ random người review:
 
@@ -74,7 +74,7 @@ File `.github/CODEOWNERS` map path pattern → team — GitHub auto-assign revie
 
 → PR touches `backend/` → `backend-team` auto-required reviewer.
 
-### Auto-label by path
+### Tự gắn label theo path
 
 Auto-label PR theo file path giúp routing + filtering. Setup 2 file: `.github/labeler.yml` (rules) + workflow gọi `actions/labeler@v5`. Useful cho dashboard "frontend PRs pending":
 
@@ -110,13 +110,13 @@ jobs:
 
 ---
 
-## 2️⃣ Monorepo — Selective build
+## 2️⃣ Monorepo — Build chọn lọc
 
 **Problem**: monorepo có 20 apps. Push code 1 app → CI build all = slow.
 
 **Solution**: detect changes → build only affected.
 
-### Simple — Path filter
+### Đơn giản — Path filter
 
 Cách đơn giản nhất cho monorepo — `if: contains(...)` filter từng job theo path. Hạn chế: chỉ check `head_commit` (single commit), không tính cumulative changes trong PR multi-commit:
 
@@ -133,7 +133,7 @@ jobs:
 
 → Limited — chỉ check head_commit, không full PR diff.
 
-### Pattern with `paths` filter
+### Pattern dùng `paths` filter
 
 Pattern `paths` ở event level — skip toàn bộ workflow nếu không match. Glob syntax + negation (`!`) support. Tốt cho workflow dedicated 1 path:
 
@@ -145,7 +145,7 @@ on:
 
 → Skip workflow nếu paths không match.
 
-### Advanced — Path-filter action
+### Nâng cao — Path-filter action
 
 `dorny/paths-filter@v3` cho full PR diff (không chỉ head_commit) + multiple filters cùng lúc + output để conditional jobs. Pattern production cho monorepo 5+ apps:
 
@@ -180,7 +180,7 @@ jobs:
     steps: [test frontend]
 ```
 
-### Monorepo tools
+### Công cụ monorepo
 
 | Tool | Language | Notes |
 |---|---|---|
@@ -198,7 +198,7 @@ nx affected --target=test --base=main
 
 ---
 
-## 3️⃣ Release pipeline
+## 3️⃣ Pipeline release
 
 **Goal**: on tag `v1.2.3` → build, test, package, publish, GitHub Release.
 
@@ -248,7 +248,7 @@ jobs:
         draft: false
 ```
 
-### Semver tagging
+### Gắn tag theo semver
 
 ```bash
 # Conventional Commits → semver bump
@@ -262,7 +262,7 @@ semantic-release / standard-version / cocogitto
 
 → Push commits → tool analyze → tag + push → trigger release pipeline.
 
-### Auto changelog — Conventional Commits
+### Tự tạo changelog — Conventional Commits
 
 ```bash
 # Install
@@ -276,9 +276,9 @@ git cliff -o CHANGELOG.md
 
 ---
 
-## 4️⃣ Scheduled jobs — Nightly tasks
+## 4️⃣ Scheduled jobs — Tác vụ chạy đêm
 
-### Nightly E2E tests
+### Nightly E2E test
 
 ```yaml
 on:
@@ -297,7 +297,7 @@ jobs:
         text: "🚨 Nightly E2E failed"
 ```
 
-### Security scan
+### Quét bảo mật
 
 ```yaml
 on:
@@ -314,7 +314,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
 ```
 
-### Cleanup old artifacts
+### Dọn artifact cũ
 
 ```yaml
 on:
@@ -335,7 +335,7 @@ jobs:
 
 ---
 
-## 5️⃣ Approval gates — Manual deploy
+## 5️⃣ Approval gate — Deploy thủ công
 
 ### GitHub Environments
 
@@ -353,7 +353,7 @@ jobs:
 
 Workflow: pipeline pause at this job → reviewer click "Approve and deploy" → continue.
 
-### Plus wait timer
+### Thêm wait timer
 
 ```
 Environment "production":
@@ -377,7 +377,7 @@ deploy-prod:
 
 → Click "Play" trong GitLab UI.
 
-### Multi-stage approval pattern
+### Pattern phê duyệt nhiều bước
 
 ```
 push main
@@ -391,9 +391,9 @@ roll out 100%           ← approve 2
 
 ---
 
-## 6️⃣ Security scanning
+## 6️⃣ Quét bảo mật
 
-### 5 layers
+### 5 lớp
 
 | Layer | Tool examples |
 |---|---|
@@ -403,7 +403,7 @@ roll out 100%           ← approve 2
 | **Secrets scan** | gitleaks, trufflehog, GitHub Secret Scanning |
 | **DAST** (runtime) | OWASP ZAP, Burp Suite |
 
-### Example: All-in-one workflow
+### Ví dụ: Workflow all-in-one
 
 ```yaml
 jobs:
@@ -445,7 +445,7 @@ jobs:
 
 → Results show trong GitHub **Security tab**.
 
-### Block PR if critical CVE
+### Chặn PR nếu có CVE critical
 
 ```yaml
 - uses: aquasecurity/trivy-action@master
@@ -456,7 +456,7 @@ jobs:
 
 ---
 
-## 7️⃣ Dependabot / Renovate — Auto-update
+## 7️⃣ Dependabot / Renovate — Tự cập nhật dependency
 
 ### Dependabot (GitHub built-in)
 
@@ -487,7 +487,7 @@ updates:
 
 → Dependabot tự PR weekly cập nhật deps. PR pass CI → merge.
 
-### Renovate (more powerful)
+### Renovate (mạnh hơn)
 
 ```json
 // renovate.json
@@ -505,11 +505,11 @@ updates:
 
 ---
 
-## 8️⃣ Flaky test handling
+## 8️⃣ Xử lý flaky test
 
 **Flaky test** = same code, sometimes pass sometimes fail. Bad signal!
 
-### Detect
+### Phát hiện
 
 ```yaml
 - name: Run tests with retry
@@ -518,7 +518,7 @@ updates:
 
 → Test fail → retry 2x. Track which tests need retry → mark as flaky.
 
-### Quarantine
+### Cách ly (Quarantine)
 
 ```python
 # pytest.ini
@@ -539,7 +539,7 @@ def test_unstable():
   continue-on-error: true        # Don't fail pipeline
 ```
 
-### Root causes
+### Nguyên nhân gốc
 
 - ❌ Timing (race condition, sleep) — fix with proper wait.
 - ❌ Shared state — isolate, fixture per test.
@@ -550,9 +550,9 @@ def test_unstable():
 
 ---
 
-## 9️⃣ Fast feedback — Optimize CI time
+## 9️⃣ Fast feedback — Tối ưu thời gian CI
 
-### Cardinal rule: **fail fast, fail clear**
+### Nguyên tắc cốt lõi: **fail fast, fail clear**
 
 ```
 ✅ Lint (5s)          fail first if bad
@@ -562,7 +562,7 @@ def test_unstable():
 ✅ E2E (10 min)        slowest, only if all above pass
 ```
 
-### Parallel where possible
+### Chạy song song khi có thể
 
 ```yaml
 jobs:
@@ -586,7 +586,7 @@ jobs:
 
 → 4 jobs parallel test 1/4 each. 10min test → 2.5min wall clock.
 
-### Cache aggressively
+### Cache triệt để
 
 | Cache | Saves |
 |---|---|
@@ -595,13 +595,13 @@ jobs:
 | **Pre-built images** for CI deps | 30s |
 | **Test result cache** (jest, pytest) | rerun changes only |
 
-### Self-host for hot path
+### Self-host cho hot path
 
 If CI is bottleneck (>1500 min/mo), self-host runner saves money + supports caching better.
 
 ---
 
-## 1️⃣0️⃣ Real-world: Full PR pipeline của bạn
+## 1️⃣0️⃣ Thực tế: Full PR pipeline của bạn
 
 ```yaml
 name: PR Pipeline
@@ -758,7 +758,7 @@ jobs:
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Pattern checklist
+### Checklist pattern
 
 ```
 [ ] Required status checks
@@ -774,7 +774,7 @@ jobs:
 [ ] Slack on failure
 ```
 
-### Security tools
+### Công cụ bảo mật
 
 ```
 SAST       CodeQL, Semgrep, SonarQube
@@ -784,7 +784,7 @@ Secrets    gitleaks, trufflehog
 DAST       OWASP ZAP
 ```
 
-### Monorepo tools
+### Công cụ monorepo
 
 ```
 Nx          JS/TS — smart caching
@@ -840,3 +840,4 @@ Pants       Polyglot — Twitter
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 4/5. Cover: branch protection + CODEOWNERS + monorepo path filter (3 cấp) + matrix build + reusable workflow + caching (deps + Docker layer) + secrets + OIDC + custom action.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước CODEOWNERS + Auto-label + Monorepo Simple path + Pattern paths + Path-filter action.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

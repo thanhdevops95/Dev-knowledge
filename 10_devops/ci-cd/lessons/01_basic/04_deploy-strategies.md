@@ -1,9 +1,9 @@
 # 🎓 Deploy Strategies — Rolling, Blue-Green, Canary, Feature flags
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Pipeline Patterns](03_pipeline-patterns.md), [Kubernetes basics](../../../kubernetes/)
@@ -23,7 +23,7 @@
 
 ---
 
-## 1️⃣ 5 Strategies overview
+## 1️⃣ Tổng quan 5 strategy
 
 5 chiến lược deploy chính 2026 — mỗi cái trade-off khác nhau giữa downtime, resource, risk, complexity. Quy tắc: production user-facing tuyệt đối tránh Recreate; default Rolling cho 80% case:
 
@@ -53,7 +53,7 @@ Khác biệt cốt lõi: Blue-Green chuyển toàn bộ 100% traffic trong một
 
 ---
 
-## 2️⃣ Recreate — Simple but downtime
+## 2️⃣ Recreate — Đơn giản nhưng có downtime
 
 Strategy đơn giản nhất: **kill all old, start all new**. Downtime trong khoảng pod restart. Chỉ dùng cho dev/staging hoặc schema migration breaking (DB lock anyway):
 
@@ -70,7 +70,7 @@ spec:
 
 → Stop all v1 → start all v2. Downtime = (time to start v2).
 
-### When OK?
+### Khi nào dùng được?
 
 Khi nào pick Recreate dù có downtime? 3 trường hợp cụ thể — KHÔNG bao giờ dùng cho production user-facing:
 
@@ -81,7 +81,7 @@ Khi nào pick Recreate dù có downtime? 3 trường hợp cụ thể — KHÔNG
 
 ---
 
-## 3️⃣ Rolling — Default K8s
+## 3️⃣ Rolling — Mặc định của K8s
 
 Strategy default của K8s — **gradual replacement** từng pod 1. Luôn có pod serve traffic → zero downtime. Trade-off: mixed version trong thời gian transition:
 
@@ -98,7 +98,7 @@ Step 6: v2 v2 v2
 
 → Gradual replace. Always 3 pods serving traffic. Zero downtime.
 
-### K8s config
+### Cấu hình K8s
 
 `maxSurge` + `maxUnavailable` điều khiển tốc độ rolling. Production safe: `maxSurge: 1, maxUnavailable: 0` — luôn có extra pod, không bao giờ giảm capacity:
 
@@ -117,19 +117,19 @@ spec:
 | `maxUnavailable: 25%` | Default — allow 25% Pods down |
 | `maxSurge: 1, maxUnavailable: 0` | **Production safe** — extra Pod, 0 disruption |
 
-### Pros
+### Ưu điểm
 
 - ✅ Zero downtime.
 - ✅ K8s built-in.
 - ✅ Auto rollback if probes fail.
 
-### Cons
+### Nhược điểm
 
 - ❌ Mixed versions briefly (v1 + v2 serving concurrent traffic).
 - ❌ Can't test v2 fully before exposing all users.
 - ❌ Rollback = another rolling update (slow).
 
-### Mixed version pitfall
+### Cạm bẫy mixed version
 
 ```
 User session A → server v1 → call API on server v2 (new endpoint structure)
@@ -140,7 +140,7 @@ User session A → server v1 → call API on server v2 (new endpoint structure)
 
 ---
 
-## 4️⃣ Blue-Green — Instant switch
+## 4️⃣ Blue-Green — Chuyển đổi tức thì
 
 ```
 Blue env (v1)           Green env (v2)
@@ -150,14 +150,14 @@ Blue env (v1)           Green env (v2)
                           ↑ instant
 ```
 
-### Approach
+### Cách tiếp cận
 
 1. Deploy v2 to **separate environment** ("green").
 2. **Smoke test** v2 without users.
 3. **Switch traffic** (update Service selector or DNS).
 4. v1 environment **idle** — keep for instant rollback.
 
-### K8s implementation
+### Triển khai trên K8s
 
 ```yaml
 # Blue Deployment
@@ -190,7 +190,7 @@ spec:
     version: blue                  # ← Switch this to "green"
 ```
 
-### Switch
+### Chuyển đổi (Switch)
 
 ```bash
 # Currently blue. Test green internally:
@@ -208,20 +208,20 @@ curl https://app.com/version
 kubectl patch service app -p '{"spec":{"selector":{"version":"blue"}}}'
 ```
 
-### Pros
+### Ưu điểm
 
 - ✅ **Instant rollback** (1 service patch).
 - ✅ Test v2 fully isolated.
 - ✅ Zero mixed-version traffic.
 
-### Cons
+### Nhược điểm
 
 - ❌ **2x resources** (both envs running).
 - ❌ Cost $$$$.
 - ❌ DB schema migration tricky (both versions access same DB).
 - ❌ Cache invalidation across switch.
 
-### When use?
+### Khi nào dùng?
 
 - High-stakes deploy (payment, banking).
 - Need instant rollback.
@@ -230,7 +230,7 @@ kubectl patch service app -p '{"spec":{"selector":{"version":"blue"}}}'
 
 ---
 
-## 5️⃣ Canary — Gradual traffic shift
+## 5️⃣ Canary — Dịch traffic từng bước
 
 ```
 Initial: 100% → v1
@@ -244,7 +244,7 @@ Step 5:   0%          100% → v2
 
 → Slow ramp. Monitor metrics each step. Rollback if regression.
 
-### Approach 1 — K8s Deployments + ingress weight
+### Cách 1 — K8s Deployments + ingress weight
 
 ```yaml
 # Stable Deployment
@@ -274,7 +274,7 @@ spec:
 
 → K8s round-robin → ~10% canary traffic. Crude but works.
 
-### Approach 2 — Ingress weighted routing
+### Cách 2 — Ingress weighted routing
 
 ```yaml
 # nginx-ingress annotation
@@ -297,7 +297,7 @@ spec:
 
 → 5% traffic → canary. Increase weight gradually.
 
-### Approach 3 — Service mesh (Istio, Linkerd)
+### Cách 3 — Service mesh (Istio, Linkerd)
 
 ```yaml
 # Istio VirtualService
@@ -316,7 +316,7 @@ spec:
 
 → Fine-grained: route by header, user ID, geography.
 
-### Approach 4 — Argo Rollouts (K8s-native canary)
+### Cách 4 — Argo Rollouts (canary K8s-native)
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -344,19 +344,19 @@ spec:
 
 → Argo Rollouts auto-pause, auto-analyze (Prometheus metrics), auto-rollback if SLO breach. **Best K8s canary tool**.
 
-### Pros
+### Ưu điểm
 
 - ✅ **Lowest risk** — bug affect only 5%.
 - ✅ Test prod traffic real.
 - ✅ Roll back early.
 
-### Cons
+### Nhược điểm
 
 - ❌ Setup complex.
 - ❌ Need observability (metrics, alerts).
 - ❌ Mixed version longer time.
 
-### When use?
+### Khi nào dùng?
 
 - Large user base, can't afford bug for all.
 - Have observability + alerting.
@@ -364,7 +364,7 @@ spec:
 
 ---
 
-## 6️⃣ Feature flags — Decouple deploy from release
+## 6️⃣ Feature flags — Tách deploy khỏi release
 
 ```
 Deploy code (v2 with feature X behind flag, default OFF)
@@ -382,7 +382,7 @@ Remove feature flag in next code release (cleanup)
 
 → **Deploy code != release feature**. Code ship safely (small PRs, fast deploy), feature toggle independently.
 
-### Tools
+### Công cụ
 
 | Tool | Type | Notes |
 |---|---|---|
@@ -393,7 +393,7 @@ Remove feature flag in next code release (cleanup)
 | **Split.io** | SaaS | A/B testing focus |
 | **OpenFeature** | Standard | SDK abstraction |
 
-### Code example
+### Ví dụ code
 
 ```python
 # FastAPI with Unleash
@@ -416,14 +416,14 @@ async def get_products(user: User = Depends(get_user)):
 
 → Old engine 90% users, new 10%. Toggle in Unleash dashboard.
 
-### Pros
+### Ưu điểm
 
 - ✅ Deploy daily, release weekly.
 - ✅ Kill switch — disable broken feature instantly.
 - ✅ A/B test.
 - ✅ Targeted release (beta users only).
 
-### Cons
+### Nhược điểm
 
 - ❌ Code complexity (`if flag` branching).
 - ❌ Flag cleanup debt — old flags pile up.
@@ -433,9 +433,9 @@ async def get_products(user: User = Depends(get_user)):
 
 ---
 
-## 7️⃣ Rollback strategy
+## 7️⃣ Chiến lược rollback
 
-### Manual rollback
+### Rollback thủ công
 
 ```bash
 # K8s
@@ -465,7 +465,7 @@ spec:
 
 → Pipeline check Prometheus → error rate > 5% → auto-rollback to previous.
 
-### Database migration constraint
+### Ràng buộc khi migration database
 
 → **Forward-only DB migrations** (no down migrations easily).
 
@@ -510,7 +510,7 @@ deploy-prod:
 
 → Check critical paths post-deploy. Failure → auto rollback.
 
-### Production probes
+### Probe trên production
 
 K8s **readiness probe** = automatic smoke test:
 
@@ -523,7 +523,7 @@ readinessProbe:
 
 → Pod not ready → not added to Service. Deploy continues until enough ready.
 
-### Synthetic monitoring
+### Synthetic monitoring (giám sát tổng hợp)
 
 Tools like **Pingdom**, **Datadog Synthetics**, **Uptime Kuma**: every minute check from multiple regions.
 
@@ -531,7 +531,7 @@ Tools like **Pingdom**, **Datadog Synthetics**, **Uptime Kuma**: every minute ch
 
 ---
 
-## 9️⃣ Deploy strategy decision của bạn
+## 9️⃣ Quyết định deploy strategy của bạn
 
 ### Setup của bạn
 
@@ -540,7 +540,7 @@ Tools like **Pingdom**, **Datadog Synthetics**, **Uptime Kuma**: every minute ch
 - 10K daily users.
 - 1-2 deploys per day.
 
-### Strategy choice
+### Lựa chọn strategy
 
 | Env | Strategy | Why |
 |---|---|---|
@@ -550,7 +550,7 @@ Tools like **Pingdom**, **Datadog Synthetics**, **Uptime Kuma**: every minute ch
 
 → Don't need blue-green/canary for 10K users + 1-2 deploys/day. Move complex when scale demands.
 
-### Future scale (1M users)
+### Khi scale lên (1M users)
 
 - production → **Canary với Argo Rollouts** + Prometheus.
 - DB migration → expand-contract strict.
@@ -558,7 +558,7 @@ Tools like **Pingdom**, **Datadog Synthetics**, **Uptime Kuma**: every minute ch
 
 ---
 
-## 1️⃣0️⃣ Full deploy pipeline example
+## 1️⃣0️⃣ Ví dụ full deploy pipeline
 
 ```yaml
 deploy:
@@ -657,7 +657,7 @@ deploy:
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Strategy choice
+### Lựa chọn strategy
 
 ```
 Recreate     → dev, staging (downtime OK)
@@ -760,3 +760,4 @@ kubectl argo rollouts undo app
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 5/5. Cover: 5 strategies (Recreate/Rolling/Blue-Green/Canary/Feature Flags) + decision matrix + K8s implementation + DB migration backward compat + rollback patterns.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 5 Strategies + §2 Recreate + When OK + §3 Rolling + K8s config.
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ so sánh Blue-Green vs Canary cho trực quan.
+- **v1.1.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

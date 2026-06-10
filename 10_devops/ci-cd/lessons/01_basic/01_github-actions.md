@@ -1,9 +1,9 @@
 # 🎓 GitHub Actions — Default CI/CD 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is CI/CD](00_what-is-cicd.md)
@@ -24,7 +24,7 @@
 
 ---
 
-## 1️⃣ Anatomy workflow
+## 1️⃣ Giải phẫu workflow
 
 GitHub Actions workflow là YAML file ở `.github/workflows/`. Structure cốt lõi: **on** (trigger) + **env** (vars) + **jobs** (parallel, mỗi job nhiều steps tuần tự). Template đầy đủ tham khảo:
 
@@ -68,7 +68,7 @@ jobs:
       run: npm test
 ```
 
-### Hierarchy
+### Cấu trúc phân tầng
 
 3 cấp hierarchy quan trọng — Workflow chứa nhiều Job (chạy parallel default), Job chứa nhiều Step (sequential), Step có `uses` (gọi Action) hoặc `run` (shell command):
 
@@ -84,7 +84,7 @@ Workflow
 
 ## 2️⃣ Events — Khi pipeline chạy
 
-### Common events
+### Các event thường gặp
 
 GitHub Actions hỗ trợ **~30 event** trigger — phổ biến nhất: push/pull_request (code event), schedule (cron), workflow_dispatch (manual), workflow_call (reusable). Phần `on:` định nghĩa:
 
@@ -141,7 +141,7 @@ on:
 
 → Workflow chạy chỉ khi files match. Skip docs change save CI minutes.
 
-### Manual với inputs
+### Kích hoạt thủ công với inputs
 
 `workflow_dispatch` cho phép trigger thủ công với **inputs từ UI** — useful cho deploy command, hotfix, rollback. User pick từ dropdown (`choice`) hoặc nhập text:
 
@@ -168,9 +168,9 @@ jobs:
 
 ---
 
-## 3️⃣ Jobs + Steps deep
+## 3️⃣ Jobs + Steps chuyên sâu
 
-### Job dependencies
+### Phụ thuộc giữa job
 
 ```yaml
 jobs:
@@ -190,7 +190,7 @@ jobs:
     steps: [...]
 ```
 
-### Conditional
+### Chạy có điều kiện
 
 ```yaml
 jobs:
@@ -211,7 +211,7 @@ steps:
   run: ./success.sh
 ```
 
-### Run conditions
+### Điều kiện chạy
 
 ```
 success()    job/step success
@@ -222,11 +222,11 @@ cancelled()  job cancelled
 
 ---
 
-## 4️⃣ Actions — Building blocks
+## 4️⃣ Actions — Khối xây dựng
 
 **Action** = pre-built reusable unit. Marketplace: github.com/marketplace.
 
-### 3 types
+### 3 loại
 
 | Type | Description |
 |---|---|
@@ -234,7 +234,7 @@ cancelled()  job cancelled
 | **Docker** | Container, language-agnostic | hashicorp/setup-terraform |
 | **Composite** | YAML wrap multiple steps | Custom org actions |
 
-### Use action
+### Dùng action
 
 ```yaml
 - name: Checkout
@@ -259,7 +259,7 @@ cancelled()  job cancelled
 | **aws-actions/configure-aws-credentials** | AWS auth (OIDC) |
 | **google-github-actions/auth** | GCP auth (OIDC) |
 
-### Pin to SHA (security)
+### Pin theo SHA (bảo mật)
 
 ```yaml
 - uses: actions/checkout@v4              # Tag — can be updated maliciously
@@ -272,7 +272,7 @@ cancelled()  job cancelled
 
 ## 5️⃣ Secrets + OIDC
 
-### Repository secrets
+### Repository secret
 
 GitHub UI: Settings → Secrets → Actions → New secret.
 
@@ -286,7 +286,7 @@ steps:
 
 → Secrets **masked** trong logs. Never echo to print.
 
-### Environment secrets
+### Environment secret
 
 ```yaml
 jobs:
@@ -299,11 +299,11 @@ jobs:
 
 → Environment = scoped secrets + approval rules.
 
-### Organization secrets
+### Organization secret
 
 GitHub Org settings → Secrets → Actions. Share secrets across repos.
 
-### OIDC — Modern auth to cloud (no long-lived secrets!)
+### OIDC — Auth hiện đại lên cloud (không cần long-lived secret!)
 
 **Old way**: AWS_ACCESS_KEY in secret → leak risk + rotation pain.
 
@@ -331,7 +331,7 @@ jobs:
 
 ## 6️⃣ Caching — Speed up builds
 
-### Built-in cache (setup-* actions)
+### Cache có sẵn (setup-* actions)
 
 ```yaml
 - uses: actions/setup-node@v4
@@ -350,7 +350,7 @@ jobs:
     cache: true                            # Auto cache modules
 ```
 
-### Manual cache
+### Cache thủ công
 
 ```yaml
 - uses: actions/cache@v4
@@ -380,9 +380,9 @@ jobs:
 
 ---
 
-## 7️⃣ Matrix — Multi-config testing
+## 7️⃣ Matrix — Test nhiều cấu hình
 
-### Basic
+### Cơ bản
 
 ```yaml
 jobs:
@@ -401,7 +401,7 @@ jobs:
 
 → Generates 9 jobs (3 OS × 3 Node).
 
-### Include / exclude
+### Include / exclude (thêm/bớt tổ hợp)
 
 ```yaml
 matrix:
@@ -416,7 +416,7 @@ matrix:
     node: 18                                # Skip combo
 ```
 
-### Output between jobs
+### Truyền output giữa các job
 
 ```yaml
 jobs:
@@ -437,7 +437,7 @@ jobs:
 
 ## 8️⃣ Reusable workflows — DRY
 
-### Define reusable
+### Định nghĩa reusable workflow
 
 ```yaml
 # .github/workflows/reusable-deploy.yml
@@ -463,7 +463,7 @@ jobs:
     - run: ./deploy.sh ${{ inputs.environment }}
 ```
 
-### Use it
+### Cách dùng
 
 ```yaml
 # .github/workflows/cd.yml
@@ -486,7 +486,7 @@ jobs:
 
 → DRY across repos: `uses: org/repo/.github/workflows/x.yml@v1`.
 
-### Composite actions
+### Composite action
 
 ```yaml
 # .github/actions/setup-app/action.yml
@@ -517,9 +517,9 @@ runs:
 
 ---
 
-## 9️⃣ Environments + Deployment protection
+## 9️⃣ Environments + Bảo vệ deployment
 
-### Define environment
+### Định nghĩa environment
 
 GitHub UI: Settings → Environments → New.
 
@@ -529,7 +529,7 @@ Settings per environment:
 - **Deployment branches** — only certain branches.
 - **Environment secrets** — scoped.
 
-### Use in workflow
+### Dùng trong workflow
 
 ```yaml
 jobs:
@@ -543,7 +543,7 @@ jobs:
 
 → Action **wait** for approval. Click "Approve and deploy" trong GitHub UI. Plus `url` show "View deployment" link.
 
-### Pattern: staging auto, prod manual
+### Pattern: staging tự động, prod thủ công
 
 ```yaml
 jobs:
@@ -559,16 +559,16 @@ jobs:
 
 ---
 
-## 1️⃣0️⃣ Debug workflows
+## 1️⃣0️⃣ Debug workflow
 
-### Show variable
+### Hiển thị biến
 
 ```yaml
 - name: Show context
   run: echo "${{ toJSON(github) }}"
 ```
 
-### Enable debug logs
+### Bật debug logs
 
 GitHub UI: Settings → Secrets → Actions →
 
@@ -579,7 +579,7 @@ ACTIONS_STEP_DEBUG = true
 
 → Re-run with debug. Logs verbose.
 
-### `act` — Run locally
+### `act` — Chạy workflow ở local
 
 ```bash
 brew install act
@@ -589,7 +589,7 @@ act -j test                              # Run specific job
 
 → Fast iterate without push.
 
-### Workflow tracing
+### Trace workflow
 
 ```yaml
 - name: Trace
@@ -784,7 +784,7 @@ jobs:
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Minimal workflow
+### Workflow tối thiểu
 
 ```yaml
 name: CI
@@ -810,7 +810,7 @@ strategy:
     os: [ubuntu, macos]
 ```
 
-### Conditional
+### Điều kiện
 
 ```yaml
 if: github.event_name == 'push'
@@ -902,3 +902,4 @@ uses: ./.github/workflows/reusable.yml
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 2/5. Cover: workflow YAML structure + events (push/PR/schedule/dispatch) + jobs/steps + matrix + actions/setup-* + secrets + OIDC + reusable workflow + composite actions + caching.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Common events + Path filter + Manual inputs.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

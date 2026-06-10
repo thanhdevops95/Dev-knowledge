@@ -1,9 +1,9 @@
 # 🎓 GitOps với ArgoCD — Git = Single Source of Truth
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [00_intermediate-overview.md](00_intermediate-overview.md), [K8s Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md)
@@ -80,7 +80,7 @@ Push CI (basic):                        GitOps pull (intermediate):
 
 ---
 
-## 2️⃣ ArgoCD architecture
+## 2️⃣ Kiến trúc ArgoCD
 
 ArgoCD gồm **4 component chính** chạy trong K8s — argocd-server (UI/API), repo-server (clone Git + render), application-controller (reconcile loop), Redis (cache). 3 CRD: Application, ApplicationSet, AppProject. Diagram đầy đủ:
 
@@ -103,14 +103,14 @@ graph TB
     Ctrl -->|status| AppCRD
 ```
 
-**Components**:
+**Các thành phần**:
 - **argocd-server**: web UI + gRPC API.
 - **repo-server**: clone Git repo, render Helm/Kustomize/plain YAML.
 - **application-controller**: core reconciliation — watch Application CRD, compare desired vs actual, apply.
 - **Redis**: cache rendered manifests + cluster state.
 - **dex** (optional): SSO integration.
 
-### Install
+### Cài đặt
 
 Cài ArgoCD vào K8s cluster — 2 cách phổ biến: kubectl apply official manifest (quick), hoặc Helm chart (customize được). Production thường Helm + custom `values.yaml`:
 
@@ -122,7 +122,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 helm install argocd argo/argo-cd -n argocd --create-namespace -f values.yaml
 ```
 
-### Access UI
+### Truy cập UI
 
 Lấy admin password từ secret tự generate khi install + port-forward để access UI local. Production: expose qua Ingress với TLS:
 
@@ -147,9 +147,9 @@ argocd login localhost:8080
 
 ---
 
-## 3️⃣ Application CRD — first GitOps app
+## 3️⃣ Application CRD — GitOps app đầu tiên
 
-### Basic Application
+### Application cơ bản
 
 `Application` CRD là object chính ArgoCD reconcile — point đến Git source (repo + path + revision) và K8s destination (server + namespace). Setup tối thiểu:
 
@@ -201,7 +201,7 @@ argocd app create fastapi-prod \
   --auto-prune
 ```
 
-### Verify
+### Kiểm tra (Verify)
 
 ```bash
 argocd app list
@@ -214,7 +214,7 @@ argocd app get fastapi-prod
 # UI: https://localhost:8080
 ```
 
-### sync options explained
+### Giải thích các sync option
 
 | Option | Behavior |
 |---|---|
@@ -275,7 +275,7 @@ spec:
 
 → Wait — secret hardcode. Bài 03 sẽ dùng ExternalSecret + ArgoCD.
 
-### Kustomize overlay
+### Kustomize overlay (lớp phủ Kustomize)
 
 ```yaml
 spec:
@@ -323,7 +323,7 @@ spec:
 
 10+ Applications → manually `kubectl apply` 10 file = scale kém.
 
-### Solution: 1 Application manage other Applications
+### Giải pháp: 1 Application quản lý các Application khác
 
 ```yaml
 # parent-app.yaml
@@ -365,7 +365,7 @@ gitops-config/
 
 ---
 
-## 6️⃣ ApplicationSet — Generate Applications
+## 6️⃣ ApplicationSet — Sinh ra Applications
 
 ### Vấn đề App-of-Apps
 
@@ -478,7 +478,7 @@ spec:
 
 → Generate apps × cluster matrix.
 
-### ApplicationSet rollout strategy
+### Chiến lược rollout của ApplicationSet
 
 ```yaml
 spec:
@@ -506,7 +506,7 @@ spec:
 
 ## 7️⃣ Multi-cluster ArgoCD
 
-### Pattern: 1 ArgoCD manages N clusters
+### Pattern: 1 ArgoCD quản lý N cluster
 
 ```mermaid
 graph LR
@@ -516,7 +516,7 @@ graph LR
     Hub -->|API| C4[Cluster dev]
 ```
 
-### Register cluster
+### Đăng ký cluster
 
 ```bash
 # Add cluster to ArgoCD
@@ -530,7 +530,7 @@ argocd cluster list
 # https://prod-eu-west.eks.amazonaws.com            prod-eu-west      1.28     Successful
 ```
 
-### Destination cluster in Application
+### Destination cluster trong Application
 
 ```yaml
 spec:
@@ -649,7 +649,7 @@ spec:
 
 ## 9️⃣ AppProject + RBAC
 
-### AppProject — Logical grouping
+### AppProject — Nhóm logic
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -697,7 +697,7 @@ spec:
         - acme:all-readers
 ```
 
-### Apply Project to Application
+### Gán Project cho Application
 
 ```yaml
 spec:
@@ -749,21 +749,21 @@ data:
 | Learning curve | Medium (centralized) | Steeper (multi-CRD) |
 | Popularity 2026 | ~55% | ~30% |
 
-### Choose ArgoCD when
+### Chọn ArgoCD khi
 
 - Need UI for ops/dev teams.
 - Multi-cluster from central hub.
 - Strong RBAC requirements.
 - ApplicationSet matrix patterns.
 
-### Choose Flux when
+### Chọn Flux khi
 
 - Pure git-centric (no UI necessary).
 - Per-cluster autonomy.
 - Image automation in cluster (auto-update Git when new image).
 - Microservices controller architecture.
 
-### Migration ArgoCD ↔ Flux
+### Di chuyển ArgoCD ↔ Flux
 
 Both honor declarative state from Git → migration straightforward:
 1. Disable auto-sync ở 1 system.
@@ -778,7 +778,7 @@ Both honor declarative state from Git → migration straightforward:
 
 ## 1️⃣1️⃣ Hands-on: GitOps cho FastAPI multi-env
 
-### Step 1: Git repo structure
+### Bước 1: Cấu trúc Git repo
 
 ```
 gitops-config/
@@ -801,7 +801,7 @@ gitops-config/
 └── README.md
 ```
 
-### Step 2: Bootstrap ArgoCD
+### Bước 2: Bootstrap ArgoCD
 
 ```bash
 # Install
@@ -819,7 +819,7 @@ PASSWORD=$(kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath=
 argocd login localhost:8080 --username admin --password "$PASSWORD" --insecure
 ```
 
-### Step 3: Create root ApplicationSet
+### Bước 3: Tạo root ApplicationSet
 
 ```yaml
 # bootstrap.yaml
@@ -869,7 +869,7 @@ kubectl apply -f bootstrap.yaml
 
 → ArgoCD tự generate 3 Applications: `fastapi-dev`, `fastapi-staging`, `fastapi-prod`.
 
-### Step 4: CI update image tag
+### Bước 4: CI cập nhật image tag
 
 `.github/workflows/ci.yml`:
 ```yaml
@@ -911,7 +911,7 @@ jobs:
 
 → CI build image + push registry + **update Git** (not deploy direct). ArgoCD watch Git → sync new tag.
 
-### Step 5: Promotion dev → staging → prod
+### Bước 5: Promotion dev → staging → prod
 
 PR workflow:
 1. CI auto-update `dev` overlay.
@@ -1337,3 +1337,4 @@ spec:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. GitOps 4 principles + ArgoCD architecture + Application + Helm/Kustomize + App-of-Apps + ApplicationSet (4 generators) + multi-cluster + sync waves/hooks + AppProject + RBAC + ArgoCD vs Flux. Apply insight `__Ref__/`: GitOps anti-pattern war story (kubectl apply + ArgoCD drift). 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Architecture + Install + Access UI + §3 Application CRD basic.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

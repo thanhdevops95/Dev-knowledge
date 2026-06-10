@@ -1,9 +1,9 @@
 # 🎓 Supply chain security — SLSA Level 3 pipeline + admission verify
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_gitops-with-argocd.md](01_gitops-with-argocd.md), [Docker intermediate Security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md)
@@ -39,13 +39,13 @@ SOC2 audit, auditor questions:
 
 ---
 
-## 1️⃣ SLSA framework deep
+## 1️⃣ SLSA framework chuyên sâu
 
 🪞 **Ẩn dụ**: *Supply chain security như **kiểm dịch hàng hóa cảng biển** — provenance là tờ khai hải quan (ai sản xuất, ngày nào, lô nào), cosign là tem chống giả niêm phong, SBOM là danh sách hàng hóa chi tiết, Rekor là sổ đăng ký công khai. Mỗi container đi qua = phải đầy đủ giấy tờ.*
 
 **SLSA** (Supply-chain Levels for Software Artifacts) — Google + OpenSSF maturity framework.
 
-### Levels detail
+### Chi tiết các level
 
 SLSA định nghĩa **4 level** (1-4) đi từ basic đến defense-grade. Mỗi level thêm requirement về source, build isolation, provenance. Effort/level tăng từ vài ngày đến vài quý. Production thực tế 2026:
 
@@ -56,7 +56,7 @@ SLSA định nghĩa **4 level** (1-4) đi từ basic đến defense-grade. Mỗi
 | **3** | + Source verified at build | + Isolated, hermetic | + Non-falsifiable, service-generated | Months |
 | **4** | + Two-party review | + Hermetic + reproducible | + Cryptographic chain | Quarters |
 
-### Production reality 2026
+### Thực tế production 2026
 
 Bảng decision: pick level theo industry + compliance. Level 2 đủ cho 80% startup; Level 3 cho finance/healthcare; Level 4 cho defense/FedRAMP. Bài này nhắm **Level 3** (realistic + production-grade):
 
@@ -66,7 +66,7 @@ Bảng decision: pick level theo industry + compliance. Level 2 đủ cho 80% st
 
 → This lesson aim **SLSA Level 3**.
 
-### SLSA Level 3 requirements explained
+### Giải thích yêu cầu của SLSA Level 3
 
 1. **Source**: 
    - Git-managed, retained, two-party verified (PR review by different person).
@@ -90,7 +90,7 @@ Bảng decision: pick level theo industry + compliance. Level 2 đủ cho 80% st
 
 ## 2️⃣ Provenance attestation (in-toto)
 
-### What's in provenance?
+### Trong provenance có gì?
 
 Provenance là **JSON document** theo chuẩn in-toto/SLSA — chứa info về artifact, build source, who built, when, how. Mỗi field có purpose riêng. Example đầy đủ với 10+ key fields:
 
@@ -149,7 +149,7 @@ Provenance là **JSON document** theo chuẩn in-toto/SLSA — chứa info về 
 
 → Verifier can answer: "Image X built FROM repo Y, commit Z, BY GitHub Actions, at time T, by actor A."
 
-### Generate in GitHub Actions (SLSA Level 3)
+### Tạo trong GitHub Actions (SLSA Level 3)
 
 Use reusable workflow [slsa-framework/slsa-github-generator](https://github.com/slsa-framework/slsa-github-generator):
 
@@ -210,7 +210,7 @@ jobs:
 
 → Reusable workflow run in isolated context, generates non-falsifiable provenance, signs with Sigstore, publishes to registry.
 
-### Inspect provenance
+### Kiểm tra provenance
 
 Sau khi pipeline tạo provenance, dùng cosign để **download + verify**. Verify cần check 2 thứ: certificate identity (workflow ref) + OIDC issuer (GitHub Actions). Fail = artifact không trusted:
 
@@ -227,11 +227,11 @@ cosign verify-attestation \
 
 ---
 
-## 3️⃣ Cosign sign full chain
+## 3️⃣ Cosign ký toàn bộ chain
 
 Image (đã làm Docker bài 02). Đây thêm sign **artifacts khác**:
 
-### Sign image
+### Ký image
 
 Cosign sign image bằng keyless (OIDC) — 1 lệnh đơn giản, không cần manage key file. Cert ngắn hạn ký theo identity GitHub Actions, ghi vào Rekor public log:
 
@@ -239,7 +239,7 @@ Cosign sign image bằng keyless (OIDC) — 1 lệnh đơn giản, không cần 
 cosign sign --yes ghcr.io/acme/fastapi@sha256:abc...
 ```
 
-### Sign Helm chart
+### Ký Helm chart
 
 ```bash
 # Package
@@ -253,7 +253,7 @@ helm push fastapi-chart-1.2.3.tgz oci://ghcr.io/acme/charts
 cosign sign --yes ghcr.io/acme/charts/fastapi-chart:1.2.3
 ```
 
-### Sign SBOM as separate artifact
+### Ký SBOM thành artifact riêng
 
 ```bash
 # Generate
@@ -273,7 +273,7 @@ cosign verify-attestation \
   ghcr.io/acme/fastapi@sha256:abc...
 ```
 
-### Sign custom attestation (e.g., vuln scan result)
+### Ký custom attestation (vd kết quả vuln scan)
 
 ```bash
 trivy image --format cyclonedx ghcr.io/acme/fastapi@sha256:abc... > vuln-report.json
@@ -290,13 +290,13 @@ cosign attest --yes \
 
 ## 4️⃣ Rekor — Transparency log
 
-### What's Rekor?
+### Rekor là gì?
 
 **Rekor** = append-only public log of signatures (Sigstore project).
 
 Like CT logs cho HTTPS certificate. Signatures recorded → public, immutable, time-stamped.
 
-### Query Rekor
+### Truy vấn Rekor
 
 ```bash
 # Search by image hash
@@ -309,7 +309,7 @@ rekor-cli get --uuid <uuid>
 rekor-cli search --email developer@acme.com
 ```
 
-### Verify Rekor inclusion
+### Xác minh việc ghi vào Rekor
 
 ```bash
 cosign verify \
@@ -325,7 +325,7 @@ cosign verify \
 
 → Anyone (auditor, customer) can verify your image was signed at specific time, by specific identity, using public Rekor log.
 
-### Self-host Rekor
+### Tự host Rekor
 
 ```bash
 # Sigstore stack self-host: Rekor + Fulcio + Trillian
@@ -342,7 +342,7 @@ cd scaffolding
 
 (Doc bài 02 đã chạm. Đây deep.)
 
-### Policy: only allow signed images from your org
+### Policy: chỉ cho phép image đã ký từ org của bạn
 
 ```yaml
 apiVersion: kyverno.io/v1
@@ -423,7 +423,7 @@ kubectl run test --image=ghcr.io/acme/fastapi@sha256:abc...
 # pod/test created
 ```
 
-### Block CVE CRITICAL
+### Chặn CVE CRITICAL
 
 ```yaml
 - name: block-critical-cve
@@ -450,9 +450,9 @@ kubectl run test --image=ghcr.io/acme/fastapi@sha256:abc...
 
 ---
 
-## 6️⃣ Vulnerability lifecycle workflow
+## 6️⃣ Workflow vòng đời vulnerability
 
-### Phases
+### Các pha
 
 ```mermaid
 graph LR
@@ -469,7 +469,7 @@ graph LR
     Ignore -.->|expiry| Triage
 ```
 
-### Triage criteria
+### Tiêu chí triage
 
 | Severity | Exploit in wild | Action |
 |---|---|---|
@@ -483,7 +483,7 @@ graph LR
 
 → Severity ≠ priority. Exploit context matters.
 
-### Daily scan + alert
+### Quét hằng ngày + cảnh báo
 
 ```yaml
 # .github/workflows/daily-scan.yml
@@ -511,7 +511,7 @@ jobs:
             --label security,priority-high
 ```
 
-### Exception management — `.trivyignore`
+### Quản lý ngoại lệ — `.trivyignore`
 
 ```
 # CVE-2024-12345 — affects libxml2 parser, but our app doesn't parse user XML
@@ -531,11 +531,11 @@ CVE-2024-67890 exp:2026-06-15
 
 ## 7️⃣ Signed Helm chart
 
-### Why sign chart?
+### Vì sao phải ký chart?
 
 Image signed (bài 02 Docker), but chart itself not — attacker could publish malicious chart with same name as Bitnami.
 
-### Push + sign chart to OCI
+### Push + ký chart lên OCI
 
 ```bash
 # Package
@@ -554,7 +554,7 @@ cosign attest --yes \
   ghcr.io/acme/charts/fastapi-chart:1.2.3
 ```
 
-### Verify before install
+### Xác minh trước khi install
 
 ```bash
 # Cosign verify
@@ -567,7 +567,7 @@ cosign verify \
 helm install fastapi oci://ghcr.io/acme/charts/fastapi-chart --version 1.2.3
 ```
 
-### ArgoCD verify chart signature
+### ArgoCD xác minh chữ ký chart
 
 ```yaml
 # Application
@@ -589,7 +589,7 @@ Plus Kyverno policy verify chart digest in ArgoCD repo-server. (Outside scope ba
 
 ## 8️⃣ Hands-on: Full SLSA L3 pipeline
 
-### Pipeline goals
+### Mục tiêu pipeline
 
 1. CI build image với SLSA L3 provenance.
 2. SBOM generated + attached.
@@ -728,7 +728,7 @@ jobs:
 
 → Full SLSA L3 chain + ArgoCD sync new tag → Kyverno admit only if chain valid → Pod runs.
 
-### Verify post-deploy
+### Xác minh sau deploy
 
 ```bash
 # Image digest deployed
@@ -1106,3 +1106,4 @@ kubectl get policyreport -A   # results
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. SLSA framework deep (4 levels) + provenance attestation in-toto + cosign sign full chain (image/chart/SBOM/vuln) + Rekor transparency log + Kyverno admission verify chain + vulnerability lifecycle workflow + signed Helm chart + full SLSA L3 pipeline. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước SLSA Levels + Production reality + What's in provenance + Inspect + Sign image.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

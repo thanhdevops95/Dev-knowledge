@@ -1,9 +1,9 @@
 # 🎓 Secret management — Vault + External Secrets Operator + 12-factor
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [02_supply-chain-security.md](02_supply-chain-security.md), [K8s basic ConfigMap+Secret](../../../kubernetes/lessons/01_basic/03_configmaps-and-secrets.md)
@@ -50,7 +50,7 @@ Sếp: *"Tuần này setup: Vault + ESO + pre-commit gitleaks. Cấm secret in G
 
 ---
 
-## 1️⃣ 12-Factor App #3 — Store config in environment
+## 1️⃣ 12-Factor App #3 — Lưu config trong environment
 
 [The Twelve-Factor App](https://12factor.net/) — Heroku's principles (2011, still relevant 2026).
 
@@ -88,7 +88,7 @@ kubectl create secret generic mysec --from-literal=key=xxx
 # Base64-encoded, NOT encrypted
 ```
 
-### Right pattern
+### Pattern đúng
 
 ✅ Config from environment at runtime:
 ```python
@@ -111,7 +111,7 @@ Environment populated from:
 
 ---
 
-## 2️⃣ Secret store options 2026
+## 2️⃣ Các lựa chọn secret store 2026
 
 8 tool secret management chính 2026 — chia 3 nhóm: self-host (Vault, Infisical OSS), cloud-native (AWS SM, GCP SM, Azure KV), multi-cloud SaaS (Doppler, 1Password). Cost + features khác nhau lớn:
 
@@ -126,7 +126,7 @@ Environment populated from:
 | **Infisical** | OSS / SaaS | Open source alternative to Doppler | Free OSS; $5/user/month cloud |
 | **1Password Secrets Automation** | SaaS | Familiar password manager UX | $20/user/month + |
 
-### Comparison matrix
+### Bảng so sánh
 
 So sánh 4 tool đầu bảng theo 8 trục — multi-cloud, dynamic creds, K8s integration, audit, self-host, compliance. Vault thắng feature; cloud-native thắng UX/cost cho single-cloud:
 
@@ -148,9 +148,9 @@ So sánh 4 tool đầu bảng theo 8 trục — multi-cloud, dynamic creds, K8s 
 
 ---
 
-## 3️⃣ HashiCorp Vault setup
+## 3️⃣ Cài đặt HashiCorp Vault
 
-### Vault concepts
+### Khái niệm Vault
 
 Vault gồm **3 layer chính** — Auth methods (identity verification), Secret engines (KV/Database/PKI/Transit), Policies (HCL access rules). Diagram architecture:
 
@@ -173,7 +173,7 @@ graph TB
     Policy --> Auth
 ```
 
-**Concepts**:
+**Khái niệm**:
 - **Auth methods**: how clients prove identity (Kubernetes ServiceAccount, OIDC, AppRole, AWS IAM, ...).
 - **Secret engines**: backend storing/generating secrets:
   - **KV** (key-value): static secrets.
@@ -182,7 +182,7 @@ graph TB
   - **Transit**: encryption-as-a-service (encrypt without storing).
 - **Policies**: HCL — control what auth identity can access.
 
-### Install (dev mode)
+### Cài đặt (dev mode)
 
 Vault dev mode: in-memory, single replica — chỉ dùng để **học/test** (NOT production!). Production cần HA setup với storage backend (Consul/Raft) + unseal keys + audit log:
 
@@ -205,7 +205,7 @@ vault status
 # ...
 ```
 
-### KV engine — Static secret
+### KV engine — Secret tĩnh
 
 KV engine (Key-Value v2) là engine cơ bản nhất — lưu **static secrets** (DB password, API key, JWT secret). Support versioning + soft delete. Workflow: enable engine → put/get/list:
 
@@ -225,7 +225,7 @@ vault kv get secret/myapp/prod
 vault kv list secret/myapp
 ```
 
-### Production install (Helm in K8s)
+### Cài đặt production (Helm trong K8s)
 
 ```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
@@ -257,7 +257,7 @@ kubectl exec -n vault vault-0 -- vault operator unseal <key3>
 
 → Vault sealed after restart → must unseal manually unless **auto-unseal** (AWS KMS, GCP KMS, Azure Key Vault).
 
-### Auth method: Kubernetes ServiceAccount
+### Auth method: Kubernetes ServiceAccount (xác thực qua ServiceAccount)
 
 ```bash
 # Enable
@@ -288,7 +288,7 @@ vault write auth/kubernetes/role/myapp-role \
 
 ## 4️⃣ External Secrets Operator (ESO)
 
-### Concept
+### Khái niệm
 
 ```mermaid
 graph LR
@@ -301,7 +301,7 @@ graph LR
 
 ESO watches `ExternalSecret` CRD → pull from secret store → create K8s Secret. Refresh periodically.
 
-### Install
+### Cài đặt
 
 ```bash
 helm repo add external-secrets https://charts.external-secrets.io
@@ -310,7 +310,7 @@ helm install external-secrets external-secrets/external-secrets \
   --create-namespace
 ```
 
-### SecretStore — Define backend
+### SecretStore — Định nghĩa backend
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -332,7 +332,7 @@ spec:
             name: myapp-sa
 ```
 
-### ExternalSecret — Sync rule
+### ExternalSecret — Quy tắc đồng bộ
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -385,7 +385,7 @@ spec:
             name: myapp-secret
 ```
 
-### ClusterSecretStore — Shared backend
+### ClusterSecretStore — Backend dùng chung
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -401,7 +401,7 @@ spec:
 
 → `ClusterSecretStore` cross-namespace. `ExternalSecret` reference cluster-scoped store.
 
-### Refresh on Vault update
+### Refresh khi Vault cập nhật
 
 ESO poll Vault every `refreshInterval`. To trigger immediate refresh:
 ```bash
@@ -414,13 +414,13 @@ kubectl annotate externalsecret myapp-secret \
 
 ## 5️⃣ Dynamic credentials — Vault Database Engine
 
-### Use case
+### Tình huống dùng
 
 Static DB password: 1 password forever → if leaked, attacker access until rotate.
 
 Dynamic: Vault generates **temporary Postgres user** with TTL (1 hour) → leak = 1h damage window.
 
-### Setup Postgres database engine
+### Cài đặt Postgres database engine
 
 ```bash
 # Enable
@@ -443,7 +443,7 @@ vault write database/roles/myapp-role \
   max_ttl="24h"
 ```
 
-### Get dynamic credential
+### Lấy dynamic credential
 
 ```bash
 vault read database/creds/myapp-role
@@ -458,7 +458,7 @@ vault read database/creds/myapp-role
 
 → Postgres user `v-token-myapp-AbCdEf123-1234567890` valid 1 hour. After expire, Vault revoke user.
 
-### ESO with dynamic credential
+### ESO với dynamic credential
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -479,7 +479,7 @@ spec:
 
 → ESO call `database/creds/myapp-role` → Vault generate fresh user → K8s Secret update → Pod restart pick new credentials. Old user auto-revoked after TTL.
 
-### Auto-rotation workflow
+### Workflow tự xoay vòng (auto-rotation)
 
 ```mermaid
 sequenceDiagram
@@ -513,14 +513,14 @@ GitOps: everything in Git. But secret? Plain Secret base64 → leak if Git publi
 
 Encrypt K8s Secret with **cluster's public key** → only **specific cluster** can decrypt → safe to commit Git.
 
-### Install
+### Cài đặt
 
 ```bash
 helm install sealed-secrets sealed-secrets/sealed-secrets \
   --namespace kube-system
 ```
 
-### Encrypt secret
+### Mã hoá secret
 
 ```bash
 # Install kubeseal CLI
@@ -553,7 +553,7 @@ spec:
 
 → Commit `sealedsecret.yaml` to Git safely. No one (except cluster) can decrypt.
 
-### Apply
+### Áp dụng
 
 ```bash
 kubectl apply -f sealedsecret.yaml
@@ -562,13 +562,13 @@ kubectl apply -f sealedsecret.yaml
 kubectl get secret mysecret -n production
 ```
 
-### Limitations
+### Hạn chế
 
 - **Cluster-specific**: SealedSecret encrypted for **cluster A** can't decrypt at cluster B. Multi-cluster: encrypt N times.
 - **Key rotation pain**: rotate cluster key → re-encrypt all SealedSecrets.
 - **Less suited for dynamic credentials**: static encrypted value.
 
-### When use Sealed Secrets vs ESO
+### Khi nào dùng Sealed Secrets vs ESO
 
 | Scenario | Sealed Secrets | ESO + Vault |
 |---|---|---|
@@ -585,17 +585,17 @@ kubectl get secret mysecret -n production
 
 ## 7️⃣ SOPS — File-level encryption
 
-### Concept
+### Khái niệm
 
 **SOPS** (Mozilla) = encrypt **values** trong YAML/JSON file (keys plain). Encryption với cloud KMS (AWS KMS, GCP KMS, Azure KV, PGP).
 
-### Install
+### Cài đặt
 
 ```bash
 brew install sops
 ```
 
-### Encrypt file
+### Mã hoá file
 
 ```yaml
 # secrets.yaml (plain)
@@ -625,7 +625,7 @@ sops:
 
 → Keys (`database_url`, `api_key`) plaintext, values encrypted. Safe to commit.
 
-### With ArgoCD via Helm Secrets plugin
+### Dùng với ArgoCD qua Helm Secrets plugin
 
 ```yaml
 # Application
@@ -642,7 +642,7 @@ spec:
 
 → ArgoCD render Helm chart, SOPS decrypt values inline.
 
-### When SOPS vs Sealed Secrets vs ESO
+### Khi nào dùng SOPS vs Sealed Secrets vs ESO
 
 | Aspect | SOPS | Sealed Secrets | ESO |
 |---|---|---|---|
@@ -657,16 +657,16 @@ spec:
 
 ---
 
-## 8️⃣ Pre-commit hook — Prevent secret leak
+## 8️⃣ Pre-commit hook — Ngăn rò rỉ secret
 
-### gitleaks — Open source secret scanner
+### gitleaks — Secret scanner mã nguồn mở
 
 ```bash
 # Install
 brew install gitleaks
 ```
 
-### Pre-commit setup
+### Cài đặt pre-commit
 
 ```yaml
 # .pre-commit-config.yaml
@@ -685,7 +685,7 @@ pre-commit install
 
 → Every `git commit` runs gitleaks scan. Detects AWS keys, GitHub tokens, Stripe keys, SSH keys, etc.
 
-### Bypass option (rare)
+### Tuỳ chọn bỏ qua (hiếm dùng)
 
 ```bash
 git commit --no-verify -m "skip hook"
@@ -693,7 +693,7 @@ git commit --no-verify -m "skip hook"
 
 → Should be banned by team policy. Audit if used.
 
-### CI scan
+### Quét trong CI
 
 ```yaml
 # .github/workflows/security.yml
@@ -703,7 +703,7 @@ git commit --no-verify -m "skip hook"
     GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 ```
 
-### Backup: TruffleHog
+### Dự phòng: TruffleHog
 
 ```bash
 trufflehog git https://github.com/acme/repo --since-commit HEAD~10
@@ -715,7 +715,7 @@ trufflehog git https://github.com/acme/repo --since-commit HEAD~10
 
 ## 9️⃣ Hands-on: Setup ESO + Vault end-to-end
 
-### Step 1: Install Vault
+### Bước 1: Cài Vault
 
 ```bash
 helm install vault hashicorp/vault \
@@ -724,7 +724,7 @@ helm install vault hashicorp/vault \
   --set server.dev.enabled=true   # dev mode for hands-on
 ```
 
-### Step 2: Configure Vault KV + Kubernetes auth
+### Bước 2: Cấu hình Vault KV + Kubernetes auth
 
 ```bash
 kubectl exec -it -n vault vault-0 -- /bin/sh
@@ -756,7 +756,7 @@ vault write auth/kubernetes/role/fastapi-role \
   ttl=24h
 ```
 
-### Step 3: Install ESO
+### Bước 3: Cài ESO
 
 ```bash
 helm install external-secrets external-secrets/external-secrets \
@@ -764,7 +764,7 @@ helm install external-secrets external-secrets/external-secrets \
   --create-namespace
 ```
 
-### Step 4: ServiceAccount + SecretStore
+### Bước 4: ServiceAccount + SecretStore
 
 ```yaml
 # fastapi-sa.yaml
@@ -797,7 +797,7 @@ spec:
 kubectl apply -f fastapi-sa.yaml
 ```
 
-### Step 5: ExternalSecret
+### Bước 5: ExternalSecret
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -831,7 +831,7 @@ kubectl get externalsecret -n production
 kubectl get secret fastapi-secret -n production -o yaml | yq '.data'
 ```
 
-### Step 6: Use in Deployment
+### Bước 6: Dùng trong Deployment
 
 ```yaml
 apiVersion: apps/v1
@@ -853,7 +853,7 @@ spec:
 
 → Pod read env from K8s Secret. Behind scenes: ESO sync from Vault every hour. Vault is source of truth.
 
-### Step 7: Test rotation
+### Bước 7: Test rotation
 
 ```bash
 # Update value in Vault
@@ -872,7 +872,7 @@ kubectl get secret fastapi-secret -n production -o yaml | yq '.data.DATABASE_URL
 kubectl rollout restart deployment/fastapi -n production
 ```
 
-### Step 8: Stimulus reloader (auto restart on secret change)
+### Bước 8: Reloader (tự restart khi secret đổi)
 
 ```bash
 # Install Stakater Reloader
@@ -1245,3 +1245,4 @@ trufflehog filesystem .
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 intermediate. 12-Factor App #3 + secret store landscape 2026 + Vault deep (KV/DB/Transit engines, K8s auth) + ESO sync workflow + Sealed Secrets vs SOPS vs ESO comparison + dynamic credentials + pre-commit gitleaks + Reloader auto-restart. Apply insight `__Ref__/` (12-factor violations). 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Secret store options + Comparison matrix + §3 Vault concepts + Install dev mode + KV engine.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

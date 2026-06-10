@@ -1,9 +1,9 @@
 # 🎓 GitLab CI — Pipeline cho GitLab + self-host
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is CI/CD](00_what-is-cicd.md)
@@ -44,7 +44,7 @@ Senior:
 
 ---
 
-## 1️⃣ Anatomy `.gitlab-ci.yml`
+## 1️⃣ Giải phẫu `.gitlab-ci.yml`
 
 File `.gitlab-ci.yml` ở repo root — GitLab CI tự detect và chạy. Structure cơ bản: **stages → jobs → scripts**. Concept giống GitHub Actions nhưng cú pháp khác. Skeleton đầy đủ:
 
@@ -87,7 +87,7 @@ deploy:
     url: https://acmeshop.vn
 ```
 
-### Hierarchy
+### Cấu trúc phân tầng
 
 Cấu trúc phân tầng giúp hình dung relationship giữa stages, jobs, scripts. Quy tắc: **stages tuần tự, jobs trong stage parallel, scripts trong job tuần tự**:
 
@@ -101,7 +101,7 @@ Cấu trúc phân tầng giúp hình dung relationship giữa stages, jobs, scri
 
 ---
 
-## 2️⃣ Stages — Sequential phases
+## 2️⃣ Stages — Các pha tuần tự
 
 `stages` định nghĩa **thứ tự thực thi cấp pipeline**. Mỗi stage chứa nhiều job — jobs trong stage chạy **parallel**, stage chạy **sequential**. Pattern điển hình 4 stage: lint → build → test → deploy:
 
@@ -146,9 +146,9 @@ deploy:
 
 ---
 
-## 3️⃣ Jobs deep
+## 3️⃣ Jobs chuyên sâu
 
-### Full job syntax
+### Cú pháp job đầy đủ
 
 Job GitLab CI có **~15 field** điều khiển — image, before/after script, services, cache, artifacts, retry, rules, environment. Job production-grade thường dùng 8-10 field:
 
@@ -188,7 +188,7 @@ test:
 
 ---
 
-## 4️⃣ Rules — When job runs
+## 4️⃣ Rules — Khi nào job chạy
 
 ### `rules` (modern, recommended)
 
@@ -227,7 +227,7 @@ deploy:
 
 → Replaced by `rules` since GitLab 12+. Don't use new code.
 
-### Common rules
+### Rules thường gặp
 
 ```yaml
 rules:
@@ -243,7 +243,7 @@ rules:
 
 ## 5️⃣ Variables + Secrets
 
-### Predefined CI variables
+### CI variable định nghĩa sẵn
 
 ```
 $CI_PROJECT_NAME       # myapp
@@ -288,7 +288,7 @@ deploy:
     - kubectl get pods
 ```
 
-### `protected` + `masked` flags
+### Cờ `protected` + `masked`
 
 | Flag | Meaning |
 |---|---|
@@ -301,7 +301,7 @@ deploy:
 
 ## 6️⃣ Cache + Artifacts
 
-### Cache — Speed up builds
+### Cache — Tăng tốc build
 
 ```yaml
 cache:
@@ -325,7 +325,7 @@ cache:
     paths: [target/]
 ```
 
-### Artifacts — Pass files between jobs
+### Artifacts — Truyền file giữa các job
 
 ```yaml
 build:
@@ -342,7 +342,7 @@ deploy:
 
 → Cache = local to runner, can be lost. Artifacts = uploaded to GitLab, durable.
 
-### Reports — Special artifacts
+### Reports — Artifacts đặc biệt
 
 ```yaml
 test:
@@ -380,7 +380,7 @@ test:
 
 → GitLab spin Postgres + Redis container alongside test container. Use hostname `db` and `cache`.
 
-### Custom services
+### Service tuỳ chỉnh
 
 ```yaml
 services:
@@ -391,7 +391,7 @@ services:
 
 ---
 
-## 8️⃣ Environments + Manual approve
+## 8️⃣ Environments + Phê duyệt thủ công
 
 ```yaml
 deploy-staging:
@@ -426,15 +426,15 @@ stop-prod:
 
 → Manual prod = click button trong UI. Environments visible: Deployments → Environments.
 
-### Protected environment
+### Protected environment (môi trường được bảo vệ)
 
 GitLab UI: Settings → CI/CD → Protected environments → Only specific users/roles can deploy.
 
 ---
 
-## 9️⃣ GitLab Runner — Where jobs run
+## 9️⃣ GitLab Runner — Nơi job chạy
 
-### 3 types
+### 3 loại
 
 | Type | Source | Notes |
 |---|---|---|
@@ -442,7 +442,7 @@ GitLab UI: Settings → CI/CD → Protected environments → Only specific users
 | **Group runners** | Self-hosted, group-level | Share across group's projects |
 | **Project runners** | Self-hosted, project-only | |
 
-### Install self-hosted
+### Cài self-hosted runner
 
 ```bash
 # Docker-based runner
@@ -466,7 +466,7 @@ docker exec -it gitlab-runner gitlab-runner register
 | `kubernetes` | Schedule jobs as K8s pods |
 | `virtualbox` / `parallels` | Mac builds |
 
-### Tag jobs to runner
+### Gán job cho runner bằng tag
 
 ```yaml
 build-arm:
@@ -494,7 +494,7 @@ build-image:
 
 → Push to `registry.gitlab.com/group/project:tag`. Free for public repos.
 
-### Or use Docker buildx
+### Hoặc dùng Docker buildx
 
 ```yaml
 build-image:
@@ -666,7 +666,7 @@ deploy-prod:
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Minimal `.gitlab-ci.yml`
+### `.gitlab-ci.yml` tối thiểu
 
 ```yaml
 stages: [build, test, deploy]
@@ -767,3 +767,4 @@ docker exec -it gitlab-runner gitlab-runner register
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 3/5. Cover: anatomy .gitlab-ci.yml + stages parallel/sequential + needs DAG + jobs syntax + cache/artifacts + rules + environments + GitLab vs GitHub Actions compare.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Stages + needs DAG + §3 Full job syntax.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
