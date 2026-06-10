@@ -154,7 +154,8 @@
   - SQL/Git/PG: SELECT logical execution-order + Git merge gitGraph + undo decision-tree + B-tree.
   - K8s/CI-CD/Sec/Cloud: 4 Service types + rolling-update + deploy strategies (Blue-Green/Canary) + STRIDE map + Region/AZ/Edge + VPC 3-tier.
   - Mỗi sơ đồ kèm lead-in + câu phân tích (§3.6). Verify fence cân bằng.
-- ⚠️ **Còn lại / follow-up:** (1) `10_devops/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md` đếm fence lẻ (87) — pre-existing, KHÔNG đụng phiên này, nghi nested-fence demo, cần kiểm tay. (2) Changelog **thứ tự giảm dần** có thể còn ở vài file khác (chỉ mới sửa `01_select-and-filter`); chưa sweep toàn kho. (3) Coverage gap (09_architecture 0%, 16_career 0%, ngôn ngữ/DB còn thiếu) — defer theo quyết định user.
+- ✅ **Follow-up (11/06, commit `8554562`):** (1) atlantis nested-fence **ĐÃ FIX** — bọc 2 ví dụ comment GitHub bằng fence 4-backtick (trước đó "Apply complete!" rớt ra ngoài block + 1 block rỗng); 0 file lessons còn fence lẻ. (2) Changelog **giảm dần ĐÃ sweep toàn kho** — đảo 19 bài (git/web/sql/networking) về tăng dần; detector `cl_order.py` = 0 descending / 184 bài có changelog đa-entry.
+- ⏳ **Còn defer (theo quyết định user — đánh bóng, KHÔNG viết bài mới):** Coverage gap — 09_architecture 0%, 16_career 0%, nhiều ngôn ngữ (Go/Rust/Java...) + DB (Mongo/Redis/MySQL...) còn trống. Đây là roadmap dài hạn, cần user chốt scope trước khi mở.
 
 ### 01/06/2026 (phiên review — blueprint + sweep cơ học + docker re-align)
 
