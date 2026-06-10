@@ -433,7 +433,7 @@ LIMIT 3;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Aggregation functions
 

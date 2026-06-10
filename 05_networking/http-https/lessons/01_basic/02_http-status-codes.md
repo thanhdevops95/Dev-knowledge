@@ -564,7 +564,7 @@ Content-Type: application/json
 
 ---
 
-## ⚡ Cheatsheet — 11 mã MUST-KNOW
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Code | Group | Action |
 |---|---|---|

@@ -543,7 +543,7 @@ Bạn dùng `tuple` khi:
 
 ---
 
-## 📋 Bảng Tra Cứu Nhanh (Cheatsheet) Dành Cho Dev
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```python
 # 1. Khai báo các biến Primitive sơ cấp (kèm Type Hint chuyên nghiệp)

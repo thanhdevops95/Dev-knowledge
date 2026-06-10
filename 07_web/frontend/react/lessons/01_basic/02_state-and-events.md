@@ -709,7 +709,7 @@ export default App;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### useState
 

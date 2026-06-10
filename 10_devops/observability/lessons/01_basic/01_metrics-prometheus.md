@@ -690,7 +690,7 @@ alerting:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Install K8s
 

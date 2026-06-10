@@ -875,7 +875,7 @@ Hãy trả lời nhanh các câu hỏi sau để tự kiểm tra độ thấu su
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Phân Quyền K8s
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Thao tác nhanh với Namespace
 

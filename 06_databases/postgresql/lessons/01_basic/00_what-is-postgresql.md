@@ -479,7 +479,7 @@ fastapi dev main.py
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Install Docker
 

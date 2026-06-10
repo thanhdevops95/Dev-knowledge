@@ -503,7 +503,7 @@ Khối lệnh `else` của vòng lặp `for` chỉ hoạt động khi và chỉ 
 
 ---
 
-## 📋 Bảng Tra Cứu Nhanh (Cheatsheet) Về Vòng Lặp
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```python
 # 1. Cấu trúc rẽ nhánh if/elif/else tiêu chuẩn

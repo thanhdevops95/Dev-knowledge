@@ -528,7 +528,7 @@ docker run --rm -it ubuntu:24.04 bash      # Test trong env clean
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### apt — Daily
 

@@ -572,7 +572,7 @@ DROP TABLE old_users_archive;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### DML quick
 

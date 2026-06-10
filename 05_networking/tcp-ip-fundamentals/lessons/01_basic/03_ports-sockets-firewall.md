@@ -414,7 +414,7 @@ ss -tlnp | grep 5432
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Well-known port phải thuộc
 

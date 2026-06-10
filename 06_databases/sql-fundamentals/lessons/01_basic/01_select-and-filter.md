@@ -553,7 +553,7 @@ LIMIT  20;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### SELECT pattern
 

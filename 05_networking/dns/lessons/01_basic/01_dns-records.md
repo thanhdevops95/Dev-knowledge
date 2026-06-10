@@ -439,7 +439,7 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 | Mục đích | Record loại | Ví dụ |
 |---|---|---|

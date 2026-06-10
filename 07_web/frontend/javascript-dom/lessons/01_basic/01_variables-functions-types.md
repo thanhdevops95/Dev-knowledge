@@ -725,7 +725,7 @@ console.log(`Total: ${total.toLocaleString()}đ`);
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Variables
 

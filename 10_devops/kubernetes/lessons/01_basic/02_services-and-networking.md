@@ -555,7 +555,7 @@ Bạn hãy cố gắng trả lời nhanh 5 câu hỏi sau để tổng ôn kiế
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Và Manifest Mẫu
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cú pháp viết Service tối giản
 ```yaml

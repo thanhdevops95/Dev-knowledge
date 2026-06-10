@@ -641,7 +641,7 @@ function Layout() {
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Routing setup
 

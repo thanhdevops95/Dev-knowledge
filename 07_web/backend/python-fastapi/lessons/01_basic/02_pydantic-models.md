@@ -518,7 +518,7 @@ def hash_password(p: str) -> str:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Pattern 3-model
 

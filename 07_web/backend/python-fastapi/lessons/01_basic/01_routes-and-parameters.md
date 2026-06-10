@@ -522,7 +522,7 @@ def delete_product(id: int):
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### 4 loại param
 

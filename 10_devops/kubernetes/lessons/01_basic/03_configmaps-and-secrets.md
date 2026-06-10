@@ -502,7 +502,7 @@ Bạn hãy tự kiểm tra kiến thức bằng cách trả lời nhanh 5 câu h
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Và Manifest Mẫu
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Cấu pháp tạo ConfigMap và Secret nhanh từ CLI
 ```bash

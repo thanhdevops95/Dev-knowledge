@@ -553,7 +553,7 @@ export default App;
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Setup Vite
 

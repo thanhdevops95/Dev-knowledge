@@ -487,7 +487,7 @@ Bạn hãy cố gắng suy ngẫm và trả lời nhanh 5 câu hỏi cốt lõi 
 
 ---
 
-## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Bỏ Túi
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### Khởi tạo môi trường ảo nhanh với `kind`
 ```bash

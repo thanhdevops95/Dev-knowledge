@@ -461,7 +461,7 @@ Khi một hàm không có lệnh `return` cụ thể (hoặc chỉ có từ khó
 
 ---
 
-## 📋 Bảng Tra Cứu Nhanh (Cheatsheet) Về Thiết Kế Hàm
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ```python
 # 1. Khai báo hàm chuẩn mực đầy đủ Docstring và Type Hints

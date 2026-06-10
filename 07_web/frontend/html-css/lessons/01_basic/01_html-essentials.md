@@ -564,7 +564,7 @@ Lỗi thường gặp:
 
 ---
 
-## ⚡ Cheatsheet
+## ⚡ Tra cứu nhanh (Cheatsheet)
 
 ### HTML5 boilerplate
 
