@@ -1,9 +1,9 @@
 # 🎓 S3 chuyên sâu + Nền tảng IAM
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [EC2 + EBS — Compute foundation](01_ec2-and-ebs-compute.md), [Cloud Security & Shared Responsibility Model](../../../cloud-fundamentals/lessons/01_basic/04_cloud-security-and-shared-responsibility.md)
@@ -585,7 +585,7 @@ Nhớ: cấu hình CORS một lần cho mỗi bucket, và luôn kiểm chứng t
 
 ---
 
-## 7️⃣ Static website hosting
+## 7️⃣ Host web tĩnh (Static website hosting)
 
 S3 không chỉ để chứa file — nó còn có thể *phục vụ* luôn một website tĩnh (HTML/CSS/JS) mà bạn không cần dựng server nào cả.
 
@@ -676,7 +676,7 @@ S3 + CloudFront vẫn chạy tốt, chỉ là cần thiết lập nhiều bướ
 
 ---
 
-## 8️⃣ Encryption
+## 8️⃣ Mã hoá (Encryption)
 
 Câu hỏi cuối về S3: dữ liệu nằm trong bucket có được mã hoá không, và ai giữ chìa khoá? S3 có nhiều kiểu encryption, khác nhau chủ yếu ở chỗ *ai quản lý key*.
 
@@ -1825,3 +1825,4 @@ resource "aws_s3_bucket_lifecycle_configuration" "main" {
 
 - **v1.0.0 (24/05/2026)** — Bài 02 AWS basic cluster. S3 deep (bucket policy + IAM policy + presigned URL + lifecycle + versioning + MFA delete + CORS + encryption + static hosting) + IAM fundamentals (users/roles/policies + EC2 instance profile + cross-account) + hands-on static blog + secure file upload pattern. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín tiếng Anh" sang tiếng Việt narrative (lời dẫn trước mỗi code/bảng/list, câu phân tích sau, câu bắc cầu giữa các section, ẩn dụ giữ nguyên); giữ nguyên 100% code/lệnh/config/số liệu và cấu trúc 8 phần + diagram. Sửa lỗi QA: bỏ comment `//` không hợp lệ trong 2 fence JSON (lifecycle `2555` và policy structure `Effect`) — chuyển chú thích ra prose để JSON parse được; Việt hoá field metadata "Prerequisites" → "Yêu cầu trước" + cập nhật link-text yêu cầu trước theo H1 thực; chuẩn hoá Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (`⬅️/➡️/↑` + 3 sub-heading chuẩn, link-text = H1 thực bài đích), xoá nhãn "(sắp viết)" cho bài 03 RDS đã tồn tại; đổi fence URL formats sang `text`.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

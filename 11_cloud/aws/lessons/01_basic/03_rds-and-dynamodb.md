@@ -1,9 +1,9 @@
 # 🎓 RDS + DynamoDB — Managed databases
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md), [PostgreSQL basic](../../../../06_databases/postgresql/)
@@ -88,7 +88,7 @@ db.r7i.24xlarge = 96 vCPU, 768 GB    (huge)
 
 → Quy ước họ máy giống EC2: **T (burstable)** cho tải nhẹ, **M (general)** cho tải đều, **R (memory)** cho workload ngốn RAM.
 
-### Storage
+### Storage (Lưu trữ)
 
 Phần lưu trữ quyết định IOPS (số thao tác đọc/ghi mỗi giây) bạn có. Ba loại chính:
 
@@ -150,7 +150,7 @@ Read replica hợp với các tình huống sau:
 - Báo cáo và phân tích (chạy trên replica để không đụng vào primary).
 - Phương án dự phòng thảm hoạ (DR): khi cần, *promote* (nâng cấp) replica thành primary.
 
-### Backups
+### Backups (Sao lưu)
 
 Mất dữ liệu là cơn ác mộng, nên RDS cho hai lớp backup. **Automated backup** chạy tự động:
 
@@ -172,7 +172,7 @@ Bên cạnh đó là **manual snapshot** do bạn chủ động chụp:
 - Giữ mãi cho tới khi bạn xoá.
 - Copy được sang region khác.
 
-### Encryption
+### Encryption (Mã hoá)
 
 RDS mã hoá ở hai lớp. Mã hoá *at-rest* (lúc nằm trên đĩa) dùng AES-256 với khoá KMS; mã hoá *in-transit* (lúc truyền) dùng kết nối SSL/TLS. Đoạn dưới ép kết nối Postgres phải đi qua SSL:
 
@@ -669,7 +669,7 @@ table.query(
 
 ---
 
-## 5️⃣ Decision matrix — RDS vs DynamoDB vs Aurora
+## 5️⃣ Ma trận quyết định (Decision matrix) — RDS vs DynamoDB vs Aurora
 
 Biết cả hai rồi, câu hỏi thực tế là: với một bài toán cụ thể thì chọn cái nào? Sơ đồ dưới gói gọn logic quyết định — bắt đầu từ câu hỏi "có cần join/transaction không":
 
@@ -1580,3 +1580,4 @@ with table.batch_writer() as batch:
 
 - **v1.0.0 (24/05/2026)** — Bài 03 AWS basic cluster. RDS deep (instances, Multi-AZ, read replicas, snapshots, PITR, Performance Insights) + Aurora vs RDS + DynamoDB deep (PK/SK, indexes, on-demand/provisioned, Streams, DAX, TTL, single-table design) + decision matrix RDS vs DynamoDB vs Aurora + hands-on e-commerce DB stack. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín tiếng Anh" sang narrative tiếng Việt (lời dẫn trước bảng/code/list, câu phân tích sau, câu bắc cầu giữa section, dịch trọn 5 self-check answer); giữ nguyên 100% code/số liệu/lệnh/cấu trúc 8 phần. Sửa lỗi factual: bỏ từ "bucket" sai ngữ cảnh ở phần encryption RDS (RDS không có bucket — mã hoá at-rest chỉ bật lúc tạo instance, sau phải snapshot + restore). Sửa lỗi code: bỏ comment `//` trong block JSON (item Users) để JSON parse được. Chuẩn hoá QA: metadata "Prerequisites" → "Yêu cầu trước"; Glossary 3 cột; nav dùng marker ⬅️/➡️/↑ + link-text theo H1 thực + bỏ nhãn "(sắp viết)"; 3 sub-heading nav chuẩn.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

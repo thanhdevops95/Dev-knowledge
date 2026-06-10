@@ -1,9 +1,9 @@
 # 🎓 FaaS đào sâu — Cold start, isolate vs container, runtime & duration
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn](00_what-is-serverless-overview.md)
@@ -43,7 +43,7 @@ Bài này dạy bạn trả lời cả 2 — hiểu **bên dưới ngầm chạy
 
 🪞 **Ẩn dụ**: *Lambda như **chuỗi nhà hàng fast food chuẩn hoá**. Mỗi đơn (request) cần 1 "bếp dã chiến" (container). Khi không có khách, bếp đóng (idle). Khách đến bất ngờ → AWS dựng bếp mới: kéo công thức từ kho (download code) → bật bếp + chuẩn bị nguyên liệu (init runtime) → bắt đầu nấu (run handler). Lần đầu tốn time setup. Khách thứ 2 vào ngay sau → bếp còn nóng, nấu liền. Sau 5-15 phút không khách → bếp tắt, tiết kiệm điện.*
 
-### Anatomy của 1 Lambda invocation
+### Giải phẫu 1 Lambda invocation
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -183,7 +183,7 @@ Hiểu engine rồi, giờ chọn ngôn ngữ. Mỗi runtime có trade-off cold 
 - **Heavy business logic** (enterprise): Java + Snapstart, .NET.
 - **Beginner friendly**: Python, Node — bắt đầu nhanh nhất.
 
-### Khi nào chọn ngôn ngữ nào — quick guide
+### Khi nào chọn ngôn ngữ nào — hướng dẫn nhanh
 
 | Nhu cầu | Khuyến nghị |
 |---|---|
@@ -687,7 +687,7 @@ def lambda_handler(event, context):
 
 → Module-level cache reuse giữa warm invocation, init chỉ 1 lần.
 
-### ✅ Best practice: Choose runtime theo workload
+### ✅ Best practice: Chọn runtime theo workload
 
 | Workload | Runtime tốt |
 |---|---|
@@ -867,7 +867,7 @@ Default 80, max 1000.
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### FaaS execution model
+### Mô hình thực thi FaaS
 
 ```
 Cold path: provision (~100ms) → download code → init runtime → init code → handler
@@ -983,3 +983,4 @@ gcloud run services logs read SVC --region us-central1
 
 - **v1.0.0 (24/05/2026)** — FaaS deep cho Basic cluster. Execution model + 3 engine sandbox (container/microVM/V8 isolate) + runtime comparison + memory↔CPU coupling + concurrency Lambda vs Cloud Run + max duration + hands-on đo cold start. 6 pitfall + 3 best practice + 5 self-check. Cross-link AWS/GCP serverless lessons.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text = tiêu đề thực); header Glossary sang `| Thuật ngữ | Tiếng Việt | Giải thích |`; chuẩn hoá nav (marker `⬅️/➡️/↑`, 3 sub `🧭/🧩/🌐`, link-text khớp H1 bài đích). Giữ nguyên toàn bộ nội dung kỹ thuật, số liệu, code.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

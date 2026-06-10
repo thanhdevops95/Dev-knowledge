@@ -37,7 +37,7 @@ Bài này dạy decision framework + tooling.
 
 ---
 
-## 1️⃣ Pricing model 4 vendor
+## 1️⃣ Mô hình giá 4 vendor
 
 🪞 **Ẩn dụ**: *Pricing serverless như **đi taxi tính tiền**: 4 hãng có cách tính khác nhau — Lambda tính theo "thời gian × hộc đèn taxi" (memory size), Cloud Functions tương tự, Cloud Run linh hoạt hơn (chỉ tính khi xe có khách = concurrent request), Cloudflare Workers tính theo "số chuyến" (request count) — chuyến rất rẻ, mỗi request được tới 30s CPU trên gói Standard.*
 
@@ -93,7 +93,7 @@ Break-even Lambda: **~$73/$12/M × 10M** ≈ 60M req/tháng. Trên ngưỡng đ�
 
 ---
 
-## 2️⃣ Hidden cost — Những thứ ít người để ý
+## 2️⃣ Chi phí ẩn — Những thứ ít người để ý
 
 | Hidden cost | Tác động | Mitigation |
 |---|---|---|
@@ -106,7 +106,7 @@ Break-even Lambda: **~$73/$12/M × 10M** ≈ 60M req/tháng. Trên ngưỡng đ�
 | **Provisioned concurrency** | $0.0000041/GB-s (chưa kể execution) | Chỉ provision cho hot path |
 | **Cold start "wasted time"** | Lambda tính từ lúc init → 200-1000ms billed | Optimize bundle size, dùng SnapStart (Java), Arm Graviton |
 
-### NAT Gateway trap (war story)
+### Bẫy NAT Gateway (chuyện thực chiến)
 
 Acme Shop có 100M Lambda invocation/tháng, mỗi invocation gọi 1 lần DB qua VPC. NAT Gateway xử lý:
 - 100M × ~5 KB data = ~500 GB processed
@@ -117,11 +117,11 @@ Acme Shop có 100M Lambda invocation/tháng, mỗi invocation gọi 1 lần DB q
 
 ---
 
-## 3️⃣ Cold start — Mechanics + Mitigation
+## 3️⃣ Cold start — Cơ chế + Cách giảm thiểu
 
 🪞 **Ẩn dụ**: *Cold start như **xe taxi chưa nổ máy** — khách gọi, tài xế phải mở cửa, nổ máy, làm nóng (10-30 giây) rồi mới chạy. Mỗi lần "nguội" lại tốn từng đó. Provisioned concurrency = thuê tài xế đứng sẵn, máy nổ liên tục.*
 
-### Cold start anatomy
+### Giải phẫu cold start
 
 ```
 User request → API Gateway → Lambda
@@ -138,7 +138,7 @@ Response
 
 → Cold start = INIT phase + EXEC phase. Warm = chỉ EXEC.
 
-### Cold start time theo language
+### Thời gian cold start theo ngôn ngữ
 
 | Language | Init time (avg) | Note |
 |---|---|---|
@@ -150,7 +150,7 @@ Response
 | **.NET** | 500-1500ms | Native AOT giảm |
 | **Cloudflare Workers** (V8 isolate) | 5-50ms | Vô địch |
 
-### 4 chiến lược mitigation
+### 4 chiến lược giảm thiểu
 
 **1. Provisioned Concurrency (Lambda) / Min instances (Cloud Run/Functions)**
 
@@ -224,11 +224,11 @@ def handler(event, context):
 
 ---
 
-## 4️⃣ Observability — 3 pillars trong serverless context
+## 4️⃣ Observability — 3 trụ cột trong ngữ cảnh serverless
 
 🪞 **Ẩn dụ**: *Observability serverless như **hộp đen máy bay**: log = transcript phi công, metric = đồng hồ, trace = đường bay GPS. Không có 1/3 = mù khi máy bay rơi.*
 
-### Pillar 1 — Structured logging
+### Trụ cột 1 — Structured logging
 
 ```python
 import json, logging
@@ -248,7 +248,7 @@ def handler(event, context):
 
 → JSON log dễ filter trong CloudWatch Logs Insights / Cloud Logging.
 
-### Pillar 2 — Metric custom
+### Trụ cột 2 — Metric custom
 
 ```python
 # AWS Embedded Metric Format (EMF)
@@ -270,7 +270,7 @@ print(json.dumps({
 
 → CloudWatch auto-extract → dashboard + alert.
 
-### Pillar 3 — Distributed tracing
+### Trụ cột 3 — Distributed tracing
 
 **Lambda + X-Ray**:
 ```python
@@ -319,7 +319,7 @@ else:
     force_sample = random.random() < 0.01  # 1%
 ```
 
-### Tools 2026
+### Công cụ 2026
 
 | Pillar | Native AWS | Native GCP | Native Azure | Vendor (multi) |
 |---|---|---|---|---|
@@ -330,9 +330,9 @@ else:
 
 ---
 
-## 5️⃣ Debug serverless — Workflow
+## 5️⃣ Debug serverless — Quy trình
 
-### Local emulator
+### Giả lập local
 
 ```bash
 # AWS SAM local
@@ -345,7 +345,7 @@ functions-framework --target=hello
 wrangler dev
 ```
 
-### Replay production event
+### Phát lại event production
 
 ```bash
 # CloudWatch Logs → extract event payload
@@ -356,7 +356,7 @@ aws logs filter-log-events --log-group-name /aws/lambda/api --filter-pattern "ER
 sam local invoke --event error-events.txt
 ```
 
-### Common issues
+### Lỗi thường gặp
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
@@ -369,7 +369,7 @@ sam local invoke --event error-events.txt
 
 ---
 
-## 🛠️ Hands-on — Audit Acme Shop Lambda + optimize
+## 🛠️ Hands-on — Audit Acme Shop Lambda + tối ưu
 
 ### Mục tiêu
 
@@ -392,7 +392,7 @@ Output cho thấy:
 - `Lambda-Edge` (CloudFront@Edge): 25%
 - `Lambda-Provisioned-Concurrency`: 15%
 
-### Bước 2 — Identify top function
+### Bước 2 — Xác định function tốn nhiều nhất
 
 ```bash
 aws logs describe-log-groups --log-group-name-prefix /aws/lambda/ \
@@ -407,7 +407,7 @@ aws logs filter-log-events --log-group-name /aws/lambda/checkout-handler \
     | sort -n | tail -10
 ```
 
-### Bước 3 — Optimization checklist
+### Bước 3 — Checklist tối ưu
 
 | Action | Expected saving |
 |---|---|

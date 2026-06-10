@@ -94,7 +94,7 @@ Vấn đề: bạn chưa biết DO khác AWS chỗ nào, "Project" trong DO khá
 
 DO có ~30 services. **Tier 1** (cần biết ngay) = nhóm services chiếm 95% workload, liệt kê đầy đủ theo 5 mảng bên dưới (Compute / Storage / Database / Network / Identity & Ops).
 
-### Compute
+### Compute (tính toán)
 
 | Service | Mô tả | Analog AWS | Khi dùng |
 |---|---|---|---|
@@ -103,7 +103,7 @@ DO có ~30 services. **Tier 1** (cần biết ngay) = nhóm services chiếm 95%
 | **Functions** | Serverless function | Lambda | Event-driven, ngắn (< 15 phút) |
 | **Kubernetes (DOKS)** | Managed K8s | EKS | Microservices, K8s team |
 
-### Storage
+### Storage (lưu trữ)
 
 | Service | Mô tả | Analog AWS |
 |---|---|---|

@@ -1,9 +1,9 @@
 # 🎓 Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [FaaS đào sâu — Cold start, isolate vs container, runtime & duration](01_function-as-a-service-deep.md)
@@ -721,7 +721,7 @@ ProcessFn:
 
 → Lambda async (SNS/S3/EventBridge) fail 2 lần → message đẩy vào DLQ.
 
-### Workflow xử lý DLQ
+### Luồng xử lý DLQ
 
 ```
 1. Alarm: CloudWatch alarm khi DLQ có message
@@ -1228,7 +1228,7 @@ Reality:     Exactly-once không tồn tại ở infra
 Practice:    At-least-once + idempotency = Exactly-once effective
 ```
 
-### Idempotency patterns
+### Các pattern Idempotency
 
 ```python
 # Pattern 1: DDB dedup
@@ -1322,3 +1322,4 @@ ddb.update_item(..., ConditionExpression='status = :pending')
 
 - **v1.0.0 (24/05/2026)** — Event-driven & triggers cho Basic cluster. 6 nhóm trigger (HTTP/Queue/Storage/DB stream/Schedule/Webhook) + push vs pull invocation + exactly-once myth + idempotency patterns + DLQ + event filtering. Acme Shop scenario charge trùng + fix step-by-step. 6 pitfall + 2 best practice + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Sửa QA: vá lỗi code Cách 2 (ddb.update_item truyền ExpressionAttributeValues hai lần → mất ':s', và 'status' là reserved word) bằng cách gộp dict + alias #st qua ExpressionAttributeNames; đổi field "Prerequisites" → "Yêu cầu trước"; chuẩn hoá header Glossary sang "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (marker ⬅️/➡️/↑, link-text = tiêu đề H1 thực, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

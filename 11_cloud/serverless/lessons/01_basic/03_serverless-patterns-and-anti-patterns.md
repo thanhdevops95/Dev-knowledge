@@ -1,9 +1,9 @@
 # 🎓 Serverless Patterns & Anti-patterns — Khi nào dùng, khi nào tránh
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule](02_event-driven-and-triggers.md)
@@ -721,7 +721,7 @@ def stream_handler(event, context):
 
 → Event-driven: low latency, ít invocation rỗng, đúng nguyên tắc serverless.
 
-### ✅ Best practice 3: Idempotent always
+### ✅ Best practice 3: Luôn idempotent
 
 - Mọi function async phải idempotent.
 - Dùng AWS Powertools `@idempotent` hoặc DDB conditional.
@@ -1114,7 +1114,7 @@ ETL stream (DDB Streams)        → Lambda
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### 8 Pattern map
+### Bản đồ 8 Pattern
 
 | Pattern | Trigger | Vendor service |
 |---|---|---|
@@ -1202,3 +1202,4 @@ Workflow > 2 step? → Step Functions
 
 - **v1.0.0 (24/05/2026)** — Patterns + Anti-patterns cho Basic cluster. 8 pattern (API/File/ETL/Cron/Webhook/Chatbot/Fanout/Saga) + 6 anti-pattern (chatty/monolith/sync-long/no-version/no-monitor/serverless-cho-mọi-thứ) + Acme Shop feature mapping + Step Functions saga template. 5 best practice + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá khung: heading best-practice gộp thành "Cạm bẫy thường gặp & Best practice"; field metadata "Yêu cầu trước"; Glossary header 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; nav đồng bộ marker ⬅️/➡️/↑ với link-text là tiêu đề bài thực + 3 sub-heading chuẩn. Sửa số liệu mở bài "5 feature" → "8 feature" cho khớp danh sách 8 mục và bảng map cuối bài.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

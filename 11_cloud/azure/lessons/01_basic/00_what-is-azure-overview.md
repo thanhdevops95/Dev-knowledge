@@ -1,9 +1,9 @@
 # ☁️ Azure — Tổng quan + account setup + az CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
@@ -294,7 +294,7 @@ az monitor diagnostic-settings subscription create \
 - Tạo user thường + role granular: `Owner`, `Contributor`, `Reader`, hoặc role custom.
 - Bật **Privileged Identity Management (PIM)** nếu có Entra ID P2 — admin role chỉ active khi cần (just-in-time).
 
-### Day 1 cost estimate
+### Ước tính chi phí ngày đầu (Day 1)
 
 | Service | Cost/tháng |
 |---|---|
@@ -311,7 +311,7 @@ az monitor diagnostic-settings subscription create \
 
 ## 5️⃣ Naming conventions Azure
 
-### Resource ID format
+### Định dạng Resource ID
 
 Mỗi resource Azure có 1 **Resource ID** unique:
 
@@ -329,7 +329,7 @@ Examples:
 
 → Phức tạp hơn AWS ARN, nhưng predictable: subscription → RG → provider → type → name.
 
-### Region naming
+### Đặt tên region
 
 | Region code | Location | Tier |
 |---|---|---|
@@ -351,7 +351,7 @@ Examples:
 
 → Convention: `<geo><direction><number>`. Một số region là **pair** (eastus + eastus2 = disaster recovery cặp).
 
-### Resource naming pattern (CAF — Cloud Adoption Framework)
+### Mẫu đặt tên resource (CAF — Cloud Adoption Framework)
 
 ```
 Convention:
@@ -482,7 +482,7 @@ alias az-prod='az account set --subscription acmeshop-prod && az'
 alias az-dev='az account set --subscription acmeshop-dev && az'
 ```
 
-### Common commands
+### Lệnh thường dùng
 
 ```bash
 # Identity
@@ -511,7 +511,7 @@ az functionapp list --output table
 az consumption usage list --start-date 2026-05-01 --end-date 2026-05-24
 ```
 
-### Output formats + query (JMESPath)
+### Định dạng output + query (JMESPath)
 
 ```bash
 # Default: json
@@ -986,3 +986,4 @@ Bảng quy đổi nhanh tên service tier 1 sang AWS/GCP (dùng để chuyển k
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cụm Azure basic. Overview Azure + so sánh AWS/GCP + 20 services tier 1 + Management Group → Subscription → Resource Group hierarchy + `az` CLI + Service Principal/Managed Identity + Free Tier 2026 + Entra ID & RBAC cơ bản + hands-on tạo VM B1s + 8 pitfalls.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ Claude khỏi mô tả Azure OpenAI (Azure OpenAI chỉ phục vụ model OpenAI; Claude qua Bedrock/Vertex AI); đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá bảng Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, 3 sub-heading canonical, link-text = tiêu đề thực của bài đích).
 - **v1.1.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.
+- **v1.1.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

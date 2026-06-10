@@ -1,9 +1,9 @@
 # 🎓 Cloud computing là gì? — IaaS / PaaS / SaaS + landscape 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Hiểu cơ bản server/network (xem [Networking basics](../../../../05_networking/))
@@ -326,7 +326,7 @@ Số liệu thị phần chỉ cho biết "ai to", chưa nói "ai hợp với vi
 
 ---
 
-## 6️⃣ Cost model
+## 6️⃣ Mô hình chi phí (Cost model)
 
 Cloud hấp dẫn vì trả theo mức dùng, nhưng đúng cái đó cũng là nơi tiền âm thầm rò rỉ. Phần này gồm ba mảnh: các kiểu định giá để chọn đúng, các khoản chi phí ẩn dễ bị bỏ qua, và các đòn tối ưu chi phí cơ bản.
 
@@ -663,3 +663,4 @@ Bốn bài kế tiếp trong cụm tiếp tục đào sâu từng mảng nền t
 - **v1.0.0 (24/05/2026)** — Bài đầu tiên của `11_cloud/`. Cloud definition NIST + IaaS/PaaS/SaaS + 4 deployment models (public/private/hybrid/multi-cloud) + history 1999-2026 + vendor comparison (AWS/GCP/Azure/DO/Cloudflare/Vercel) + cost models + cloud vs on-prem + anti-patterns. Foundation cho 4 bài kế tiếp.
 - **v1.1.0 (25/05/2026)** — Thêm lời dẫn trước phần Bonus models, Stack diagram, Timeline, Market share 2026 và Decision matrix.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative (gỡ "điện tín" EN: You manage/Vendor manages, Pros/Cons/Best for, Half-truth); thêm lời dẫn trước và câu phân tích sau mỗi bảng/list/diagram, câu bắc cầu giữa các section. Bổ sung 3 section chuẩn cụm: Cạm bẫy & Best practice, Tự kiểm tra (Self-check) dạng <details>, Tra cứu nhanh (Cheatsheet). Chuẩn hoá metadata (Yêu cầu trước), Glossary 3 cột, nav (⬅️/➡️/↑ + tiêu đề thực) và bỏ nhãn "(sắp viết)". Sửa "5GB S3" của GCP thành "5GB Cloud Storage (GCS)". Giữ nguyên 100% số liệu/code/tên dịch vụ.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

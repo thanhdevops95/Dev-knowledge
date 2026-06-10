@@ -1,9 +1,9 @@
 # 🖥️ Azure VM + Managed Disks — Compute foundation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Azure — Tổng quan + account setup + az CLI](00_what-is-azure-overview.md) ✅, hiểu VPC/Region/AZ cơ bản
@@ -419,7 +419,7 @@ Phần cuối trong yêu cầu của sếp là bỏ thói quen mở port SSH 24/
 
 Port 22 (SSH) / 3389 (RDP) mở 24/7 sẽ liên tục bị dò tìm mật khẩu. JIT chỉ mở **khi cần** và **chỉ cho IP của bạn**, nên thu hẹp tối đa bề mặt tấn công.
 
-### Setup
+### Cài đặt
 
 Bật JIT thường đi kèm Defender for Cloud, hoặc tự dựng workaround miễn phí bằng NSG + Logic App:
 
@@ -872,3 +872,4 @@ az group delete --name rg-prod-web --yes --no-wait
 
 - **v1.0.0 (24/05/2026)** — Bài 01 cụm Azure basic. VM size families (B/D/E/F/L/N) + Managed Disks (Standard/Premium/Ultra) + AZ/Availability Set/VMSS + Spot/RI/Hybrid Benefit pricing + cloud-init + JIT/Bastion + Snapshot/Backup + hands-on VMSS FastAPI auto-scale + 9 pitfalls. Mirror bài AWS EC2+EBS.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín" sang tiếng Việt narrative (lời dẫn trước mỗi bảng/code/list, câu phân tích sau bảng, câu bắc cầu giữa các section); giữ nguyên toàn bộ nội dung kỹ thuật, số liệu và code. Chuẩn hoá heading framework (Self-check/Cheatsheet/Cạm bẫy) + thêm mục Cheatsheet mới; đổi metadata "Prerequisites" → "Yêu cầu trước"; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích) + bổ sung IOPS; nav theo marker ⬅️/➡️/↑ với link-text là tiêu đề thật của bài đích + 3 sub chuẩn; fence output gắn ngôn ngữ `text`/`yaml`.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
