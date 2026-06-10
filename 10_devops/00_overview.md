@@ -90,7 +90,7 @@ Học DevOps là học cách làm chủ các mảnh ghép sau:
 
 ## 6️⃣ Lộ trình học đề xuất cho DevOps Core
 
-Để không bị ngợp trong ma trận công cụ (Landscape), Mr.Rom đề xuất lộ trình học cuốn chiếu theo 5 giai đoạn sau:
+Để không bị ngợp trong ma trận công cụ (Landscape), mình đề xuất lộ trình học cuốn chiếu theo 5 giai đoạn sau:
 
 ```mermaid
 graph LR

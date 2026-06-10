@@ -490,7 +490,7 @@ echo "=== HOÀN TẤT KIỂM TOÁN: HỆ THỐNG AN TOÀN TUYỆT ĐỐI ==="
 
 ---
 
-## 🏆 Lời Khuyên Gửi Bạn Từ Mr.Rom
+## 🏆 Lời Khuyên Gửi Bạn
 
 Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ thử thách lý thuyết và thực hành của chuyên đề **Kubernetes Basic**! 
 

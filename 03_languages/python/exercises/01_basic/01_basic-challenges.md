@@ -9,7 +9,7 @@
 > **Yêu cầu trước:** Đã đọc xong 4 bài học lý thuyết cơ bản từ [Bài 00](./../../lessons/01_basic/00_what-is-python.md) đến [Bài 03](./../../lessons/01_basic/03_functions.md) và có môi trường Python chạy được.
 
 > [!IMPORTANT]
-> **Lời khuyên từ Mr.Rom:**  
+> **Lời khuyên:**  
 > Lập trình không phải là việc ghi nhớ lý thuyết suông bằng mắt, lập trình là nghệ thuật giải quyết vấn đề bằng đôi bàn tay. Hãy tự mình mở trình soạn thảo code lên, tự gõ từng dòng lệnh cho các thử thách bên dưới. Đừng ngần ngại gặp lỗi, vì mỗi lần sửa lỗi (debug) thành công là một lần tư duy lập trình của bạn được nâng lên một tầm cao mới!
 
 ---
@@ -36,7 +36,7 @@ list_b.append("Python")
 print(len(list_a))
 ```
 <details>
-<summary>💡 Xem đáp án và giải thích chi tiết từ Mr.Rom</summary>
+<summary>💡 Xem đáp án và giải thích chi tiết</summary>
 
 *   **Kết quả in ra:** `3`
 *   **Giải thích:** Vì `list` là kiểu dữ liệu khả biến (Mutable), phép gán `list_b = list_a` không tạo ra một danh sách mới độc lập trong bộ nhớ RAM, mà cả hai biến `list_a` và `list_b` đều đang trỏ chung vào cùng một địa chỉ vùng nhớ. Khi bạn gọi `list_b.append()`, danh sách chung này được thêm phần tử mới, do đó `list_a` cũng bị thay đổi theo. Độ dài danh sách lúc này là 3.
@@ -55,7 +55,7 @@ print(active_user("rom_dev"))
 print(active_user("nam_coder"))
 ```
 <details>
-<summary>💡 Xem đáp án và giải thích chi tiết từ Mr.Rom</summary>
+<summary>💡 Xem đáp án và giải thích chi tiết</summary>
 
 *   **Kết quả in ra ở dòng thứ hai:** `['rom_dev', 'nam_coder']`
 *   **Giải thích:** Đây là cạm bẫy "Mutable Default Parameter" kinh điển trong Python. Danh sách mặc định `[]` chỉ được khởi tạo một lần duy nhất khi hàm được nạp vào bộ nhớ. Lần gọi hàm thứ hai không truyền danh sách mới vào nên nó tiếp tục tái sử dụng danh sách của lần gọi đầu tiên và thêm tiếp phần tử vào đó.
@@ -71,7 +71,7 @@ x = 0.1 + 0.1 + 0.1
 print(x == 0.3)
 ```
 <details>
-<summary>💡 Xem đáp án và giải thích chi tiết từ Mr.Rom</summary>
+<summary>💡 Xem đáp án và giải thích chi tiết</summary>
 
 *   **Kết quả in ra:** `False`
 *   **Giải thích:** Do số thực được lưu trữ dưới dạng nhị phân theo chuẩn IEEE 754, phép cộng `0.1 + 0.1 + 0.1` thực tế sẽ trả về kết quả là `0.30000000000000004` chứ không bằng `0.3` tròn trịa. Phép so sánh bằng `==` sẽ trả về `False`.
