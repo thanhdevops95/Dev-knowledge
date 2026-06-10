@@ -1,9 +1,9 @@
 # 🎓 Terraform Basics — Providers, Resources, Variables
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is IaC](00_what-is-iac.md)
@@ -24,7 +24,7 @@
 
 ---
 
-## 1️⃣ Install
+## 1️⃣ Cài đặt
 
 2 lựa chọn — Terraform (HashiCorp, license BSL từ 2023) hoặc OpenTofu (OSS fork). API compatible 100%, command interchangeable. 2026 community trend dùng OpenTofu cho production:
 
@@ -44,9 +44,9 @@ tofu -version
 
 ---
 
-## 2️⃣ First project — Hello AWS
+## 2️⃣ Project đầu tiên — Hello AWS
 
-### Folder structure
+### Cấu trúc thư mục
 
 Project Terraform tối thiểu gồm **3 file `.tf` cốt lõi** — main (resources), variables (input), outputs (output). Optional: `terraform.tfvars` (values, **gitignore vì chứa secrets**) và `.terraform/` (provider cache):
 
@@ -83,7 +83,7 @@ resource "aws_s3_bucket" "logs" {
 }
 ```
 
-### Workflow
+### Luồng làm việc
 
 Workflow Terraform chuẩn **5 lệnh** — init (download providers), fmt+validate (lint), plan (preview changes), apply (execute), destroy (tear down). Đây là loop bạn lặp daily:
 
@@ -112,7 +112,7 @@ terraform destroy
 
 ---
 
-## 3️⃣ HCL syntax
+## 3️⃣ Cú pháp HCL
 
 ### Blocks
 
@@ -138,7 +138,7 @@ HCL (HashiCorp Configuration Language) dùng **block syntax** — type + labels 
 | `locals { }` | Local values |
 | `module "name" { }` | Reusable module |
 
-### Values + types
+### Giá trị + kiểu dữ liệu
 
 ```hcl
 # String
@@ -172,7 +172,7 @@ config = {
 }
 ```
 
-### References
+### Tham chiếu (references)
 
 ```hcl
 # Reference other resource
@@ -193,7 +193,7 @@ ami_id = data.aws_ami.ubuntu.id
 db_endpoint = module.database.endpoint
 ```
 
-### Comments
+### Chú thích (comments)
 
 ```hcl
 # Single line
@@ -210,7 +210,7 @@ db_endpoint = module.database.endpoint
 
 **Provider** = plugin for specific cloud/service.
 
-### Major providers
+### Các provider chính
 
 | Provider | Resources |
 |---|---|
@@ -227,7 +227,7 @@ db_endpoint = module.database.endpoint
 
 → 3000+ providers in Terraform Registry. Almost every SaaS has one.
 
-### Version pinning
+### Ghim version (version pinning)
 
 ```hcl
 terraform {
@@ -252,7 +252,7 @@ terraform {
 
 → Production: pin `~> 5.0` to allow patches but block major bumps.
 
-### Provider config
+### Cấu hình provider
 
 ```hcl
 provider "aws" {
@@ -278,7 +278,7 @@ resource "aws_s3_bucket" "eu" {
 }
 ```
 
-### Authentication
+### Xác thực (authentication)
 
 ```bash
 # AWS — use any of:
@@ -298,7 +298,7 @@ export AWS_PROFILE=acmeshop-prod
 
 ---
 
-## 5️⃣ Resources — Core building block
+## 5️⃣ Resources — Khối dựng cốt lõi
 
 ```hcl
 resource "<TYPE>" "<NAME>" {
@@ -307,7 +307,7 @@ resource "<TYPE>" "<NAME>" {
 }
 ```
 
-### Example — EC2 instance
+### Ví dụ — EC2 instance
 
 ```hcl
 resource "aws_instance" "web" {
@@ -326,7 +326,7 @@ resource "aws_instance" "web" {
 }
 ```
 
-### Resource address
+### Địa chỉ resource (resource address)
 
 `<TYPE>.<NAME>` — used to reference + import + destroy specific.
 
@@ -338,7 +338,7 @@ terraform state list
 terraform destroy -target=aws_instance.web    # Destroy 1 resource
 ```
 
-### Resource ID
+### Resource ID (định danh resource)
 
 ```hcl
 output "instance_id" {
@@ -353,7 +353,7 @@ subnet_cidr = aws_subnet.public.cidr_block
 
 ---
 
-## 6️⃣ Data sources — Read existing
+## 6️⃣ Data sources — Đọc resource có sẵn
 
 ```hcl
 # Find latest Ubuntu AMI
@@ -376,7 +376,7 @@ resource "aws_instance" "web" {
 
 → **Data sources** read state at apply time. Never modify external resources.
 
-### Common data sources
+### Các data source hay dùng
 
 ```hcl
 data "aws_availability_zones" "available" { state = "available" }
@@ -389,7 +389,7 @@ data "aws_region" "current" {}
 
 ## 7️⃣ Variables (input)
 
-### Declaration
+### Khai báo
 
 ```hcl
 # variables.tf
@@ -438,7 +438,7 @@ variable "subnets" {
 }
 ```
 
-### Set values
+### Gán giá trị
 
 **1. CLI flag** (highest priority):
 ```bash
@@ -461,7 +461,7 @@ terraform apply
 
 **4. Prompt** (interactive if no default).
 
-### Best practice
+### Best practice cho variables
 
 - Sensitive in env vars or vault, NOT in committed tfvars.
 - `terraform.tfvars` for dev defaults (gitignore if sensitive).
@@ -510,7 +510,7 @@ terraform output -json | jq '.instance_ip.value'
 
 ---
 
-## 9️⃣ Locals — Temporary values
+## 9️⃣ Locals — Giá trị tạm
 
 ```hcl
 locals {
@@ -540,7 +540,7 @@ resource "aws_s3_bucket" "logs" {
 
 ## 1️⃣0️⃣ Expressions + Functions
 
-### Operators
+### Toán tử (operators)
 
 ```hcl
 sum = a + b
@@ -550,7 +550,7 @@ combined = "${prefix}-${suffix}"             # String interpolation
 inline = a > 0 ? "positive" : "non-positive" # Ternary
 ```
 
-### 50+ built-in functions
+### 50+ hàm dựng sẵn (built-in functions)
 
 ```hcl
 length(var.list)                              # 3
@@ -584,9 +584,9 @@ cidrsubnet("10.0.0.0/16", 8, 0)                # 10.0.0.0/24
 
 ---
 
-## 1️⃣1️⃣ Dependencies
+## 1️⃣1️⃣ Dependencies (phụ thuộc)
 
-### Implicit (auto)
+### Implicit — tự động
 
 ```hcl
 resource "aws_subnet" "public" {
@@ -597,7 +597,7 @@ resource "aws_subnet" "public" {
 
 → Terraform parse references → build DAG → create VPC first, then subnet.
 
-### Explicit — `depends_on`
+### Explicit — `depends_on` (khai báo tường minh)
 
 ```hcl
 resource "aws_instance" "web" {
@@ -609,7 +609,7 @@ resource "aws_instance" "web" {
 
 → Use when dependency not auto-detected (e.g., IAM eventual consistency).
 
-### Visualize
+### Trực quan hoá (visualize)
 
 ```bash
 terraform graph | dot -Tpng > graph.png
@@ -647,9 +647,9 @@ resource "aws_instance" "web" {
 
 ---
 
-## 1️⃣3️⃣ Count + for_each — Loops
+## 1️⃣3️⃣ Count + for_each — Vòng lặp
 
-### `count` — Numeric
+### `count` — Theo số
 
 ```hcl
 resource "aws_instance" "web" {
@@ -668,7 +668,7 @@ aws_instance.web[*].id          # All
 length(aws_instance.web)
 ```
 
-### `for_each` — Set or Map
+### `for_each` — Theo set hoặc map
 
 ```hcl
 resource "aws_instance" "web" {
@@ -715,7 +715,7 @@ aws_instance.web["api"].id
 
 ---
 
-## 1️⃣4️⃣ Conditional resources
+## 1️⃣4️⃣ Resource có điều kiện (conditional resources)
 
 ```hcl
 # Create only in production
@@ -731,7 +731,7 @@ resource "aws_cloudwatch_alarm" "high_cpu" {
 }
 ```
 
-### Conditional expression
+### Biểu thức điều kiện (conditional expression)
 
 ```hcl
 instance_type = var.environment == "production" ? "t3.large" : "t3.small"
@@ -885,7 +885,7 @@ output "public_ips"  { value = aws_instance.web[*].public_ip }
 output "subnet_ids"  { value = [for s in aws_subnet.public : s.id] }
 ```
 
-### Apply
+### Chạy apply
 
 ```bash
 terraform init
@@ -938,7 +938,7 @@ curl http://54.234.1.5/        # nginx default page
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Workflow
+### Luồng làm việc
 
 ```bash
 terraform init       # Download providers
@@ -984,7 +984,7 @@ TF_VAR_x=value terraform apply
 # or terraform.tfvars file
 ```
 
-### Loops
+### Vòng lặp
 
 ```hcl
 count = 3
@@ -996,7 +996,7 @@ aws_instance.x[*].id         # all (count)
 [for k, v in map : v.id]     # for expression
 ```
 
-### Useful functions
+### Hàm hữu ích
 
 ```
 length, lookup, merge, contains
@@ -1053,3 +1053,4 @@ cidrsubnet, formatdate, timestamp
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 2/5. Cover: install Terraform/OpenTofu + folder structure + HCL blocks + resources + providers + variables + outputs + data sources + 5-command workflow + first AWS VPC.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 Install, §2 Folder structure, main.tf, Workflow và §3 Blocks.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

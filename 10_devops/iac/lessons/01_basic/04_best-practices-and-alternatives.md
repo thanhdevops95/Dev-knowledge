@@ -1,9 +1,9 @@
 # 🎓 IaC Best Practices & Alternatives
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Modules & Multi-env](03_modules-and-workspaces.md)
@@ -23,7 +23,7 @@
 
 ---
 
-## 1️⃣ Security scanning — tfsec, checkov
+## 1️⃣ Quét bảo mật (security scanning) — tfsec, checkov
 
 Tools scan `.tf` files for security issues.
 
@@ -67,7 +67,7 @@ snyk iac test
 
 → Commercial, integrate Snyk platform.
 
-### CI integration
+### Tích hợp CI
 
 Integrate scan vào CI/CD pipeline với GitHub Actions — `tfsec-action` output SARIF format, upload vào GitHub Security tab. Block merge nếu có CRITICAL finding:
 
@@ -89,7 +89,7 @@ jobs:
 
 → PR scanned. Findings show in Security tab. Block merge if critical.
 
-### Common findings
+### Các lỗi hay gặp
 
 8 lỗi security phổ biến nhất tfsec/checkov catch — đặc biệt S3 public, RDS no encryption, security group 0.0.0.0/0. Đây là baseline mọi infra production phải pass:
 
@@ -108,18 +108,18 @@ jobs:
 
 ---
 
-## 2️⃣ Cost estimation — Infracost
+## 2️⃣ Ước tính chi phí (cost estimation) — Infracost
 
 Estimate AWS/GCP/Azure cost from Terraform plan.
 
-### Install
+### Cài đặt
 
 ```bash
 brew install infracost
 infracost auth login
 ```
 
-### Run
+### Chạy
 
 ```bash
 terraform plan -out=plan.out
@@ -135,7 +135,7 @@ infracost breakdown --path plan.json
 # OVERALL TOTAL (USD)                                    $283
 ```
 
-### CI integration
+### Tích hợp CI
 
 ```yaml
 - uses: infracost/actions/setup@v3
@@ -214,7 +214,7 @@ main = rule {
 
 → Built-in TFC. Cloud paid feature.
 
-### Policy patterns
+### Các pattern policy
 
 ```
 Network:
@@ -244,7 +244,7 @@ K8s:
 
 ---
 
-## 4️⃣ Drift detection automation
+## 4️⃣ Tự động hoá drift detection
 
 ```yaml
 # .github/workflows/drift.yml
@@ -277,7 +277,7 @@ jobs:
 
 → Daily check 3 envs. Alert Slack if reality diverges from code.
 
-### Investigate drift
+### Điều tra drift
 
 ```bash
 terraform plan
@@ -300,9 +300,9 @@ terraform plan -detailed-exitcode -no-color > plan.txt
 
 ---
 
-## 5️⃣ Secrets management — Vault, AWS SM
+## 5️⃣ Quản lý secrets (secrets management) — Vault, AWS SM
 
-### Anti-pattern — Secrets in tfvars
+### Anti-pattern (cách làm sai) — Secrets trong tfvars
 
 ```hcl
 # ❌ terraform.tfvars
@@ -311,7 +311,7 @@ db_password = "supersecret123"
 
 → Commit git = leak. Use external secrets store.
 
-### Vault integration
+### Tích hợp Vault
 
 ```hcl
 # Provider
@@ -343,7 +343,7 @@ resource "aws_db_instance" "main" {
 }
 ```
 
-### Random + manage in Terraform
+### Sinh ngẫu nhiên + quản lý trong Terraform
 
 ```hcl
 resource "random_password" "db" {
@@ -365,7 +365,7 @@ resource "aws_secretsmanager_secret_version" "db" {
 
 → Terraform generate + store. App fetch from Secrets Manager (not from Terraform state).
 
-### Marking sensitive
+### Đánh dấu sensitive
 
 ```hcl
 variable "api_key" {
@@ -383,7 +383,7 @@ output "db_password" {
 
 ---
 
-## 6️⃣ CI/CD pattern — Production-grade
+## 6️⃣ CI/CD pattern — Cấp production
 
 ```yaml
 # .github/workflows/terraform.yml
@@ -490,11 +490,11 @@ jobs:
 
 ---
 
-## 7️⃣ Pulumi — Alternative #1
+## 7️⃣ Pulumi — Lựa chọn thay thế #1
 
 **Pulumi** (2018) = IaC in **real programming languages** (Python, TypeScript, Go, C#).
 
-### Python example
+### Ví dụ bằng Python
 
 ```python
 # __main__.py
@@ -519,7 +519,7 @@ pulumi.export("vpc_id", vpc.id)
 pulumi up        # = terraform apply
 ```
 
-### Vs Terraform
+### So với Terraform
 
 | Aspect | Pulumi | Terraform |
 |---|---|---|
@@ -536,7 +536,7 @@ pulumi up        # = terraform apply
 
 ---
 
-## 8️⃣ AWS CDK — Alternative #2
+## 8️⃣ AWS CDK — Lựa chọn thay thế #2
 
 **CDK** = AWS official, TypeScript/Python → CloudFormation.
 
@@ -560,7 +560,7 @@ app.synth();
 cdk deploy
 ```
 
-### Vs Terraform
+### So với Terraform
 
 | Aspect | CDK | Terraform |
 |---|---|---|
@@ -599,7 +599,7 @@ kubectl apply -f vpc.yaml
 # Crossplane controller provision AWS VPC
 ```
 
-### Vs Terraform
+### So với Terraform
 
 | Aspect | Crossplane | Terraform |
 |---|---|---|
@@ -616,9 +616,9 @@ kubectl apply -f vpc.yaml
 
 ---
 
-## 1️⃣0️⃣ Anti-patterns to avoid
+## 1️⃣0️⃣ Anti-pattern (cách làm sai) cần tránh
 
-### 1. Click-ops mix with IaC
+### 1. Trộn click-ops với IaC
 
 ```
 Click console → create thing
@@ -628,7 +628,7 @@ Terraform manage same thing
 
 → **Rule**: Terraform owns resource exclusively. No manual changes.
 
-### 2. Mega monorepo (1 state file all resources)
+### 2. Mega monorepo (1 state file cho mọi resource)
 
 ```
 1 state file: VPC + EKS + RDS + Lambda + ALB + Route53
@@ -639,7 +639,7 @@ Terraform manage same thing
 
 → **Rule**: split state by "blast radius". Per-env + per-domain (network/compute/data).
 
-### 3. Hardcode environment vars
+### 3. Hardcode biến môi trường
 
 ```hcl
 # ❌
@@ -649,7 +649,7 @@ provider "aws" { region = "us-east-1" }       # Stuck
 provider "aws" { region = var.region }
 ```
 
-### 4. No automated tests
+### 4. Không có test tự động
 
 ```
 Apply → break production → "oops"
@@ -657,7 +657,7 @@ Apply → break production → "oops"
 
 → Tests + plan in PR review.
 
-### 5. Big bang apply
+### 5. Apply một phát lớn (big bang apply)
 
 ```
 20 PRs accumulated → 1 huge apply
@@ -666,7 +666,7 @@ Apply → break production → "oops"
 
 → Apply each PR after merge. Small batches.
 
-### 6. Ignore output of `terraform plan`
+### 6. Bỏ qua output của `terraform plan`
 
 ```
 20 lines changes → assume "OK, looks like usual"
@@ -675,7 +675,7 @@ Apply → break production → "oops"
 
 → **Read every line plan**. If unsure, ask.
 
-### 7. No tagging strategy
+### 7. Không có chiến lược tagging
 
 ```
 $10K AWS bill, no tags
@@ -686,7 +686,7 @@ $10K AWS bill, no tags
 
 ---
 
-## 1️⃣1️⃣ Production setup của bạn — Summary
+## 1️⃣1️⃣ Production setup của bạn — Tổng kết
 
 ```
 Codebase:
@@ -760,7 +760,7 @@ Operations:
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Production checklist
+### Checklist production
 
 ```
 [ ] Remote backend (S3 + DynamoDB lock + versioning + encrypt)
@@ -778,7 +778,7 @@ Operations:
 [ ] Module README auto-gen (terraform-docs)
 ```
 
-### Tools
+### Công cụ
 
 ```
 Security:   tfsec, checkov, snyk-iac
@@ -791,7 +791,7 @@ Multi-env:   Terragrunt, separate dirs
 Automation: Atlantis, Spacelift, env0
 ```
 
-### Alternatives
+### Các lựa chọn thay thế
 
 ```
 Pulumi      TS/Python/Go/C#, real lang
@@ -850,3 +850,4 @@ Crossplane   K8s-native IaC
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 5/5. Cover: security scan (tfsec/checkov/snyk) + cost (Infracost) + policy (OPA/Sentinel) + alternatives (Pulumi/CDK/Crossplane decision matrix) + tagging strategy + naming convention.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước tfsec, Checkov, CI integration và Common findings.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
