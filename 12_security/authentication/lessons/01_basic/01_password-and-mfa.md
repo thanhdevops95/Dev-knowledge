@@ -1,9 +1,9 @@
 # 🔑 Mật khẩu + Xác thực 2 lớp (MFA)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [00 - Authentication là gì](00_what-is-authentication.md) ✅. Không cần biết crypto trước, mình sẽ giới thiệu khi đến.
@@ -1150,3 +1150,4 @@ Lần login kế tiếp dùng hash mới luôn. Sau 6 tháng, ~95% user (active)
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên (đã bị thay thế bởi v2.0.0 do vi phạm Blueprint).
 - **v2.0.0 (24/05/2026)** — Rewrite hoàn toàn theo Blueprint v0.5.3. Lý do: bản v1.0.0 vi phạm §3.6 (header → code ngay không lead-in) + §3.7 (English-heavy, comments code English). Bản này: mỗi code block có 2-3 câu lead-in giải thích "vì sao" + "expect gì", comments code tiếng Việt, mọi thuật ngữ EN xuất hiện lần đầu đều italic + dịch + giải thích, định nghĩa "trả lời tình huống" thay định nghĩa khô. Nội dung kỹ thuật giữ nguyên (Argon2id, TOTP, Passkey, recovery flow, migration pattern).
 - **v2.1.0 (07/06/2026)** — Fix QA: (1) sửa bug case-mismatch trong `COMMON_PASSWORDS` — nạp file `top10k_breached.txt` đã lower-case để khớp với `mk.lower()` lúc check (tránh lọt mật khẩu phổ biến có chữ hoa, false negative); (2) chuẩn hoá trích dẫn NIST: ghi rõ **SP 800-63B-4 (final 09/2024)**, tách ngữ cảnh "min 8 cho memorized secret / SHALL ≥ 15 cho single-factor password / SHOULD ≥ 64", sửa link tài nguyên từ bộ -3 cũ sang bản -4 chính thức.
+- **v2.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

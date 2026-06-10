@@ -1,9 +1,9 @@
 # 🔄 OAuth 2.1 + OIDC
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [01_password-and-mfa](01_password-and-mfa.md) ✅
@@ -63,7 +63,7 @@ Bài này map.
 
 → **Mostly together**: "Sign in with Google" = OIDC (uses OAuth 2.0 underneath).
 
-### Key roles
+### Các vai trò chính
 
 | Role | What | Example |
 |---|---|---|
@@ -79,7 +79,7 @@ Bài này map.
 
 🪞 **Ẩn dụ**: *Auth Code Flow như **3-bên hẹn nhau**: User ↔ Acme Shop ↔ Google. Google không gửi token thẳng cho browser (vì browser công khai), mà gửi 1 code; Acme Shop server đổi code lấy token (server-server, safe). PKCE = chữ ký ngăn man-in-middle steal code.*
 
-### Flow (Auth Code + PKCE)
+### Luồng hoạt động (Auth Code + PKCE)
 
 ```mermaid
 sequenceDiagram
@@ -130,7 +130,7 @@ code_challenge = base64.urlsafe_b64encode(
 
 **OAuth 2.1**: PKCE **required for all clients** (public + confidential).
 
-### Server-side example (Python with Authlib)
+### Ví dụ phía server (Python với Authlib)
 
 ```python
 from authlib.integrations.starlette_client import OAuth
@@ -167,7 +167,7 @@ async def callback(request: Request):
     return create_session(user)
 ```
 
-### Validate ID Token (OIDC)
+### Xác minh ID Token (OIDC)
 
 ```python
 import jwt
@@ -207,7 +207,7 @@ def verify_google_id_token(id_token: str, client_id: str, expected_nonce: str):
 
 ---
 
-## 3️⃣ Other flows
+## 3️⃣ Các luồng khác
 
 ### Device Authorization Flow (CLI, TV, IoT)
 
@@ -287,7 +287,7 @@ new_token = response.json()
 
 ## 4️⃣ Scopes + Consent
 
-### Standard OIDC scopes
+### Scope OIDC chuẩn
 
 | Scope | Returns in ID token / userinfo |
 |---|---|
@@ -298,7 +298,7 @@ new_token = response.json()
 | `phone` | phone_number, phone_number_verified |
 | `offline_access` | Get refresh token |
 
-### Custom scopes (OAuth resources)
+### Scope tùy chỉnh (OAuth resources)
 
 ```
 read:users
@@ -308,7 +308,7 @@ admin:everything
 
 → Define scopes for your API.
 
-### Incremental consent
+### Consent tăng dần
 
 Don't ask for everything upfront. Request more scopes as needed.
 
@@ -322,7 +322,7 @@ oauth.google.authorize_redirect(request, redirect_uri, scope="openid email https
 
 ---
 
-## 5️⃣ Token formats
+## 5️⃣ Định dạng token
 
 ### Access Token
 
@@ -337,7 +337,7 @@ access_token = "act_aBc123XyZ..."
 access_token = "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMjMiLCJzY29wZSI6InJlYWQ6dXNlciB3cml0ZTpvcmRlciIsImV4cCI6MTcxNjU1MDQwMH0.signature..."
 ```
 
-### ID Token (always JWT)
+### ID Token (luôn là JWT)
 
 ```json
 {
@@ -362,7 +362,7 @@ access_token = "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMjMiLCJzY29wZSI6InJlYWQ6dXNlciB
 
 ---
 
-## 6️⃣ Common providers + setup
+## 6️⃣ Các provider phổ biến + cài đặt
 
 ### Google
 
@@ -415,7 +415,7 @@ Same OIDC standard. Discovery: `<base>/realms/<realm>/.well-known/openid-configu
 
 🪞 **Ẩn dụ**: *State + nonce như **mã tag riêng** trên giấy ủy quyền — mỗi lần Yêu cầu mới có tag mới; nếu nhận lại tag khác = giả mạo.*
 
-### `state` — CSRF protection
+### `state` — chống CSRF
 
 ```python
 # Client generates random state, stores in session
@@ -432,7 +432,7 @@ if request.args["state"] != session.pop("oauth_state", None):
 
 → Prevent attacker init OAuth flow + tricking user to callback URL.
 
-### `nonce` — Replay protection (OIDC)
+### `nonce` — chống replay (OIDC)
 
 ```python
 nonce = secrets.token_urlsafe(32)
@@ -449,7 +449,7 @@ if claims["nonce"] != session.pop("oauth_nonce"):
 
 → Prevent reuse of ID token.
 
-### `redirect_uri` validation
+### Xác minh `redirect_uri`
 
 Server **must validate redirect_uri exactly matches registered**. Allow wildcard subdomain is dangerous.
 
@@ -467,7 +467,7 @@ Rejected:   https://acmeshop.vn.attacker.com/auth/callback ❌
 
 ## 🛠️ Hands-on — Acme Shop Google login
 
-### Setup
+### Cài đặt
 
 ```bash
 pip install authlib starlette
@@ -525,7 +525,7 @@ async def google_callback(request: Request):
     return {"success": True, "user": user_info}
 ```
 
-### Multi-provider abstraction
+### Trừu tượng hoá đa provider
 
 ```python
 oauth.register(name="google", ...)
@@ -540,7 +540,7 @@ async def login(provider: str, request: Request):
     return await client.authorize_redirect(request, f"https://acmeshop.vn/auth/{provider}/callback")
 ```
 
-### Account linking
+### Liên kết tài khoản
 
 ```python
 def upsert_user_oauth(provider: str, sub: str, email: str, **kwargs):
@@ -578,49 +578,49 @@ CREATE TABLE oauth_identities (
 
 ## 💡 Cạm bẫy thường gặp & Best practice
 
-### 1. Skip state validation
+### 1. Bỏ qua xác minh state
 
 **Bẫy**: Library auto-handles, you skip check.
 
 **Fix**: Always verify state on callback. (Authlib does this.)
 
-### 2. Skip nonce validation
+### 2. Bỏ qua xác minh nonce
 
 **Bẫy**: For OIDC, nonce in ID token not checked.
 
 **Fix**: Match claims["nonce"] with session-stored nonce.
 
-### 3. Trust `email` claim without verification
+### 3. Tin claim `email` mà không xác minh
 
 **Bẫy**: Google return email — assume verified.
 
 **Fix**: Check `email_verified == true`.
 
-### 4. Wildcard redirect_uri
+### 4. Dùng wildcard cho redirect_uri
 
 **Bẫy**: Register `https://*.acmeshop.vn/callback`.
 
 **Fix**: Exact match. Multiple URIs allowed but each strict.
 
-### 5. Use Implicit flow
+### 5. Dùng Implicit flow
 
 **Bẫy**: Older tutorial say Implicit for SPA.
 
 **Fix**: OAuth 2.1 deprecates Implicit. Use Auth Code + PKCE.
 
-### 6. ROPC for "convenience"
+### 6. Dùng ROPC cho "tiện lợi"
 
 **Bẫy**: App ask user enter Google password directly.
 
 **Fix**: Never. Defeats OAuth purpose. Use Auth Code flow.
 
-### 7. Access token stored in localStorage long-lived
+### 7. Lưu access token dài hạn trong localStorage
 
 **Bẫy**: XSS → token leak.
 
 **Fix**: httpOnly cookie or in-memory + refresh token in httpOnly cookie.
 
-### 8. Refresh token no rotation
+### 8. Refresh token không xoay vòng
 
 **Bẫy**: Refresh token never invalidates → leak = permanent.
 
@@ -700,3 +700,4 @@ CREATE TABLE oauth_identities (
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 Authentication basic. OAuth 2.0/2.1 + OIDC + 5 flows (Auth Code+PKCE, Device, Client Creds, Implicit deprecated, ROPC deprecated) + JWKS + ID token validation + state+nonce+redirect_uri + Google/Apple setup + account linking + Acme Shop hands-on + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Fix code: PKCE `code_verifier` bỏ slice `[:128]` vô nghĩa (token_urlsafe(64) chỉ ra ~86 ký tự), đổi sang `token_urlsafe(96)` cho ~128 ký tự đúng RFC 7636. `verify_google_id_token` nhận `client_id` + `expected_nonce` qua tham số (hết biến tự do gây NameError) và chấp nhận cả 2 dạng issuer Google (`accounts.google.com` có/không scheme).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

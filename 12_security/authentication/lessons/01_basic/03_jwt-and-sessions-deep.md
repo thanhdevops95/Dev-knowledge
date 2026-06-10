@@ -1,9 +1,9 @@
 # 🎫 JWT + Sessions Deep
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [02_oauth-and-oidc](02_oauth-and-oidc.md) ✅
@@ -39,11 +39,11 @@ Bài này map.
 
 ---
 
-## 1️⃣ JWT/JWS/JWE — Anatomy đúng
+## 1️⃣ JWT/JWS/JWE — Giải phẫu đúng
 
 🪞 **Ẩn dụ**: *JWT như **vé** — JWS = vé có chữ ký xác thực (ai cũng đọc được nội dung); JWE = vé bỏ trong phong bì niêm phong (cần khóa giải). Người dùng thường thấy "JWT" = JWS signed.*
 
-### Term clarification
+### Làm rõ thuật ngữ
 
 | Term | Description |
 |---|---|
@@ -55,7 +55,7 @@ Bài này map.
 | **JWKS** | JSON Web Key Set — multiple JWK (for rotation) |
 | **JWA** | JSON Web Algorithm — list valid algorithms |
 
-### JWS structure
+### Cấu trúc JWS
 
 ```
 header.payload.signature
@@ -82,7 +82,7 @@ base64  base64   base64
 // Signature = sign(base64(header) + "." + base64(payload), private_key)
 ```
 
-### Standard claims (RFC 7519)
+### Claims chuẩn (RFC 7519)
 
 | Claim | Meaning |
 |---|---|
@@ -94,7 +94,7 @@ base64  base64   base64
 | `nbf` (not before) | Valid from |
 | `jti` (JWT ID) | Unique token ID (revocation) |
 
-### Custom claims (per app)
+### Claims tùy chỉnh (theo app)
 
 ```json
 {
@@ -122,7 +122,7 @@ base64  base64   base64
 | **EdDSA (Ed25519)** | Ed25519 | 256 bit | Very fast | Best modern signature |
 | **`none`** | No signature | — | — | **NEVER USE** |
 
-### Decision tree
+### Cây quyết định
 
 ```
 Same service issue + verify (monolith)?
@@ -138,7 +138,7 @@ Bandwidth-sensitive (mobile, low-bw)?
   No → RS256
 ```
 
-### HS256 vs RS256 — critical pitfall
+### HS256 vs RS256 — lỗi nghiêm trọng
 
 **Vuln**: Server expects RS256, verifies với public key. Attacker craft JWT alg=HS256 + dùng public key as HMAC secret → server verify success.
 
@@ -158,7 +158,7 @@ claims = jwt.decode(token, public_key, algorithms=["HS256", "RS256"])
 claims = jwt.decode(token, public_key, algorithms=["RS256"])
 ```
 
-### `alg=none` attack
+### Tấn công `alg=none`
 
 ```
 header = {"alg": "none"}
@@ -167,7 +167,7 @@ signature = ""  // empty
 
 **Fix**: Library 2026+ reject `alg=none` by default. Still — specify `algorithms=` allowlist explicit.
 
-### Key generation
+### Sinh khoá
 
 ```bash
 # RS256 (2048-bit)
@@ -189,13 +189,13 @@ openssl pkey -in ed25519-private.pem -pubout -out ed25519-public.pem
 
 🪞 **Ẩn dụ**: *Key rotation như **đổi chìa khóa định kỳ** — vẫn dùng được cả 2 chìa (old + new) trong thời gian transition; sau khi mọi token cũ expire → bỏ chìa cũ.*
 
-### Why rotate
+### Vì sao cần xoay vòng
 
 - Compromise risk (key leak in code repo, log).
 - Cryptographic hygiene (NIST recommend rotation 1-2 years).
 - Forced reset of token base (force everyone re-login).
 
-### Rotation strategy
+### Chiến lược xoay vòng
 
 ```
 Time:    [old key only] → [old + new] → [new only]
@@ -207,7 +207,7 @@ Action:  - new key generated
          - remove old from JWKS
 ```
 
-### `kid` header
+### Header `kid`
 
 Each key has unique `kid` (key ID). JWT header includes `kid` so verifier picks right key.
 
@@ -244,7 +244,7 @@ Each key has unique `kid` (key ID). JWT header includes `kid` so verifier picks 
 
 → Verifier fetch + cache. Refresh periodic (every hour).
 
-### Implementation (Python)
+### Triển khai (Python)
 
 ```python
 import jwt
@@ -265,7 +265,7 @@ def verify_token(token: str):
     )
 ```
 
-### Issuer side
+### Phía issuer
 
 ```python
 # Multiple keys for rotation
@@ -299,13 +299,13 @@ def jwks():
 
 🪞 **Ẩn dụ**: *Refresh rotation như **đổi giấy ủy quyền mỗi lần dùng** — giấy cũ vô hiệu ngay. Attacker dùng giấy stolen 1 lần → bạn dùng = giấy đã đổi → bạn fail = server detect compromise → revoke cả family.*
 
-### Why rotate
+### Vì sao cần xoay vòng
 
 - Refresh token long-lived (30+ days).
 - Leak risk (XSS, log, browser cache).
 - Need detect compromise.
 
-### Rotation flow
+### Luồng xoay vòng
 
 ```
 Login → issue access (15min) + refresh-v1 (30 days)
@@ -401,9 +401,9 @@ def revoke_family(family_id):
 
 ---
 
-## 5️⃣ Revocation strategies
+## 5️⃣ Chiến lược thu hồi (Revocation)
 
-### Strategy 1 — Short TTL only
+### Chiến lược 1 — Chỉ dùng TTL ngắn
 
 JWT TTL 5-15 min. No denylist. Revoke = wait for expire.
 
@@ -412,7 +412,7 @@ JWT TTL 5-15 min. No denylist. Revoke = wait for expire.
 
 → Phù hợp non-sensitive workload.
 
-### Strategy 2 — Denylist (blacklist)
+### Chiến lược 2 — Denylist (blacklist)
 
 ```python
 # On logout
@@ -432,7 +432,7 @@ def verify(token):
 
 → Add 1 Redis lookup per request — fast (~1ms).
 
-### Strategy 3 — Token version per user
+### Chiến lược 3 — Token version theo user
 
 ```python
 # In DB: users.token_version (incrementable)
@@ -452,7 +452,7 @@ def verify(token):
 
 → 1 DB query per request (cache to mitigate).
 
-### Strategy 4 — Hybrid
+### Chiến lược 4 — Hybrid
 
 - **Access token**: stateless JWT 15 min TTL (no denylist check).
 - **Refresh token**: opaque, DB-stored, fully revocable.
@@ -462,11 +462,11 @@ def verify(token):
 
 ---
 
-## 6️⃣ Session management — Server-side
+## 6️⃣ Quản lý session — phía server
 
 🪞 **Ẩn dụ**: *Session như **chìa khóa khách sạn** — không phải JWT (giấy chứng nhận có dấu mộc), mà là chìa cấp từ quầy lễ tân (server-side state). Lễ tân control: cấp, rút lại, hỗ trợ.*
 
-### Session storage
+### Lưu trữ session
 
 | Backend | Pros | Cons |
 |---|---|---|
@@ -478,7 +478,7 @@ def verify(token):
 
 → **2026 default**: Redis.
 
-### Session lifecycle
+### Vòng đời session
 
 ```python
 # Create
@@ -525,7 +525,7 @@ def logout_all(user_id):
     redis.delete(f"user_sessions:{user_id}")
 ```
 
-### Session rotation
+### Xoay vòng session
 
 After privilege change (login, password change, role change):
 
@@ -539,7 +539,7 @@ def rotate_session(old_sid, user_id):
 
 → Prevent session fixation attack.
 
-### Cookie attributes
+### Thuộc tính cookie
 
 ```python
 response.set_cookie(
@@ -570,7 +570,7 @@ CREATE TABLE refresh_tokens (...);  -- xem section 4
 -- Stored in Redis as 'deny:{jti}' with TTL = remaining lifetime
 ```
 
-### Auth service
+### Dịch vụ auth
 
 ```python
 from datetime import datetime, timedelta
@@ -654,7 +654,7 @@ def me(claims = Depends(auth_required)):
     return {"user_id": claims["sub"]}
 ```
 
-### Key rotation cron
+### Cron xoay vòng khoá
 
 ```python
 # Monthly: generate new key, add to JWKS, update CURRENT_KID
@@ -672,35 +672,35 @@ def rotate_keys():
 
 ## 💡 Cạm bẫy thường gặp & Best practice
 
-### 1. JWT alg=none accepted
+### 1. Chấp nhận JWT alg=none
 
 **Fix**: Always `algorithms=` allowlist.
 
-### 2. HS256 with public key as secret
+### 2. HS256 dùng public key làm secret
 
 **Fix**: Don't allow alg switching; key tied to algorithm.
 
-### 3. JWT in URL
+### 3. Đặt JWT trong URL
 
 **Fix**: Always Authorization header or httpOnly cookie. URL logged everywhere.
 
-### 4. No `kid` in header
+### 4. Thiếu `kid` trong header
 
 **Fix**: Use `kid` for key rotation, refresh JWKS cache.
 
-### 5. JWKS no cache → DDoS auth server
+### 5. JWKS không cache → DDoS auth server
 
 **Fix**: Cache 1h + lazy refresh on cache miss.
 
-### 6. Refresh no rotation
+### 6. Refresh token không xoay vòng
 
 **Fix**: Rotate every use + family detection.
 
-### 7. Session no rotation
+### 7. Session không xoay vòng
 
 **Fix**: Rotate on login + privilege change.
 
-### 8. Sensitive data in JWT payload
+### 8. Dữ liệu nhạy cảm trong JWT payload
 
 **Fix**: Payload = identity + scope only. PII/secrets → separate fetch by sub.
 
@@ -779,3 +779,4 @@ def rotate_keys():
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 Authentication basic. JWT/JWS/JWE clarify + 5 signing algorithms (HS/RS/PS/ES/EdDSA) + key rotation + JWKS endpoint + refresh token rotation + family compromise detection + 4 revocation strategies + session lifecycle + cookie attributes + Acme Shop production-grade implementation + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Fix code Hands-on: `verify_token` dùng `jwks_client.get_signing_key_from_jwt` (gỡ `PUBLIC_KEYS`/`claims_kid_from` không tồn tại → NameError); `logout` verify chữ ký + clamp TTL thay vì decode `verify_signature=False` rồi tin claims; cập nhật ví dụ algorithm-confusion theo PyJWT >= 2.0 (`algorithms=` bắt buộc, nguy hiểm khi trộn HMAC+RSA).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

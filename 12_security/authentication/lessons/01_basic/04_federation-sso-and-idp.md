@@ -1,9 +1,9 @@
 # 🏢 Federation + SSO + Identity Providers
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md) ✅
@@ -41,11 +41,11 @@ Bài này map.
 
 ---
 
-## 1️⃣ SSO architecture
+## 1️⃣ Kiến trúc SSO
 
 🪞 **Ẩn dụ**: *SSO như **thẻ employee chung** — 1 thẻ vào mọi tòa nhà (tool). Mất thẻ = lock 1 lần, không phải lock từng cửa. IdP là **central security office** issue + revoke thẻ.*
 
-### Architecture
+### Kiến trúc
 
 ```mermaid
 graph LR
@@ -65,7 +65,7 @@ graph LR
     SP4 <--> IdP
 ```
 
-### Components
+### Các thành phần
 
 | Component | Role |
 |---|---|
@@ -80,7 +80,7 @@ graph LR
 
 ## 2️⃣ SAML 2.0 vs OIDC
 
-### Compare
+### So sánh
 
 | Aspect | SAML 2.0 (2005) | OIDC (2014) |
 |---|---|---|
@@ -93,7 +93,7 @@ graph LR
 | Stateful | Often (cookie at IdP) | Stateless tokens |
 | Backwards compat | Wide enterprise | Growing |
 
-### When to use which
+### Khi nào dùng cái nào
 
 | Need | Pick |
 |---|---|
@@ -103,7 +103,7 @@ graph LR
 | Greenfield 2026 | **OIDC** preferred |
 | Workday HR / Salesforce / SAP / Old enterprise | **SAML** (often only option) |
 
-### SAML flow (simplified)
+### Luồng SAML (rút gọn)
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +122,7 @@ sequenceDiagram
     SP->>U: Authenticated session
 ```
 
-### SAML pitfalls
+### Lỗi thường gặp với SAML
 
 - **XML canonicalization** (c14n) — must match between IdP + SP.
 - **Signature validation** — entire assertion must be verified.
@@ -131,7 +131,7 @@ sequenceDiagram
 
 → Use **mature library** (python-saml, pysaml2). Don't roll own.
 
-### OIDC flow (recall bài 02)
+### Luồng OIDC (nhắc lại bài 02)
 
 ```
 User → SP → Redirect to IdP → Login → Redirect to SP with code
@@ -142,11 +142,11 @@ Simpler, JSON-based, mobile-friendly.
 
 ---
 
-## 3️⃣ Keycloak — Self-host IdP
+## 3️⃣ Keycloak — IdP self-host
 
 🪞 **Ẩn dụ**: *Keycloak như **văn phòng bảo vệ trung tâm** cho công ty bạn — bạn tự xây + kiểm soát, không phụ thuộc Auth0 ($$$). Có Realm (chia tổ chức), Client (apps), Role/Group, User Federation (LDAP/AD).*
 
-### Why Keycloak
+### Vì sao chọn Keycloak
 
 - **OSS**, CNCF incubating project (Red Hat khởi xướng, vẫn là maintainer chính).
 - Support **OIDC + SAML + OAuth 2.0** ra-of-the-box.
@@ -154,7 +154,7 @@ Simpler, JSON-based, mobile-friendly.
 - Built-in MFA, social login, password policy, audit.
 - Production-grade scale.
 
-### Setup (Docker)
+### Cài đặt (Docker)
 
 ```bash
 docker run -d --name keycloak \
@@ -173,7 +173,7 @@ docker run -d --name keycloak \
 
 For production: behind nginx/HAProxy with TLS, Postgres backing, multi-instance.
 
-### Concepts
+### Khái niệm
 
 | Term | Meaning |
 |---|---|
@@ -185,15 +185,15 @@ For production: behind nginx/HAProxy with TLS, Postgres backing, multi-instance.
 | **Identity Provider** (inside Keycloak) | External IdP for federation (Google, Microsoft) |
 | **User Federation** | Sync from LDAP/AD |
 
-### Setup admin SSO for Acme Shop
+### Cài đặt admin SSO cho Acme Shop
 
-#### 1. Create realm
+#### 1. Tạo realm
 
 ```
 Admin Console → Add realm → name: acmeshop-internal
 ```
 
-#### 2. Federate from Google Workspace
+#### 2. Federate từ Google Workspace
 
 ```
 Identity Providers → Add provider → OpenID Connect v1.0
@@ -206,7 +206,7 @@ Identity Providers → Add provider → OpenID Connect v1.0
   Default scopes: openid email profile
 ```
 
-#### 3. Map Google claims to user
+#### 3. Map claims Google sang user
 
 ```
 Identity Providers → google-workspace → Mappers
@@ -215,7 +215,7 @@ Identity Providers → google-workspace → Mappers
   - Add mapper: hd (hosted domain) check = acmeshop.vn (restrict to company domain)
 ```
 
-#### 4. Create client for Acme Admin Panel
+#### 4. Tạo client cho Acme Admin Panel
 
 ```
 Clients → Create
@@ -234,7 +234,7 @@ Credentials tab:
   Secret: <copy this>
 ```
 
-#### 5. Admin Panel code
+#### 5. Code Admin Panel
 
 ```python
 # Same as bài 02 OIDC pattern, but with Keycloak as IdP
@@ -253,7 +253,7 @@ Now: admin click login → redirect to Keycloak → Keycloak redirect to Google 
 
 ---
 
-## 4️⃣ SCIM — User provisioning
+## 4️⃣ SCIM — Provisioning user
 
 🪞 **Ẩn dụ**: *SCIM như **HR system kết nối tất cả tool** — onboard nhân viên: HR thêm tên → mọi tool tự create account; offboard: HR đánh dấu nghỉ → mọi tool tự disable.*
 
@@ -263,7 +263,7 @@ Now: admin click login → redirect to Keycloak → Keycloak redirect to Google 
 - Endpoint: `/scim/v2/Users`, `/scim/v2/Groups`.
 - Operations: Create, Read, Update, Delete (CRUD).
 
-### Flow
+### Luồng hoạt động
 
 ```
 IdP (Okta) ─SCIM─→ Slack
@@ -274,7 +274,7 @@ IdP (Okta) ─SCIM─→ Slack
 
 When user added to "Engineering" group in Okta → Okta SCIM POST to each SP → SP create/update user.
 
-### Acme Admin Panel SCIM endpoint
+### SCIM endpoint cho Acme Admin Panel
 
 ```python
 @app.post("/scim/v2/Users")
@@ -366,12 +366,12 @@ def callback(request):
 
 🪞 **Ẩn dụ**: *Break-glass account như **chìa khóa dự phòng cất tủ kính** — chỉ đập kính khi cấp cứu (IdP down, key compromised, ...). Audit log mọi lần sử dụng.*
 
-### Scenario
+### Tình huống
 
 - Keycloak server crash → SSO không work → admin không vào được Console để fix.
 - Need backup local admin account.
 
-### Setup
+### Cài đặt
 
 - 2-3 local admin account (not in IdP).
 - Strong password + hardware MFA (Yubikey).
@@ -396,7 +396,7 @@ def bg_login(email, password, hardware_mfa):
 
 ## 7️⃣ Audit + Compliance
 
-### Audit log events
+### Các sự kiện audit log
 
 | Event | Log |
 |---|---|
@@ -409,13 +409,13 @@ def bg_login(email, password, hardware_mfa):
 | Session start/end | actor, sid, ip |
 | SSO callback | actor, idp, claims |
 
-### Storage
+### Lưu trữ
 
 - **WORM** (Write Once Read Many): S3 Object Lock / GCS Retention Policy.
 - Retention: 1+ year (SOC2), 6+ year (SOX), 10 năm (HIPAA).
 - Forward to SIEM (Splunk, Elastic, Datadog).
 
-### Compliance frameworks 2026
+### Các framework compliance 2026
 
 | Framework | Auth requirement |
 |---|---|
@@ -430,7 +430,7 @@ def bg_login(email, password, hardware_mfa):
 
 ## 🛠️ Hands-on — Acme Shop full SSO stack
 
-### Architecture
+### Kiến trúc
 
 ```
 Google Workspace (HR source) ──→ Keycloak (IdP)
@@ -441,7 +441,7 @@ Google Workspace (HR source) ──→ Keycloak (IdP)
               (SCIM)          (OIDC)         (OIDC + SCIM)
 ```
 
-### Steps
+### Các bước
 
 1. **Keycloak setup** (section 3).
 2. **Realm** `acmeshop-internal` + federate Google.
@@ -456,7 +456,7 @@ Google Workspace (HR source) ──→ Keycloak (IdP)
 6. **Break-glass**: local admin Keycloak with Yubikey.
 7. **Audit**: Keycloak event log → Loki / Splunk.
 
-### Verify
+### Xác minh
 
 ```bash
 # Onboard new employee in Google Workspace
@@ -493,35 +493,35 @@ Next:
 
 ## 💡 Cạm bẫy thường gặp & Best practice
 
-### 1. SAML signature wrapping
+### 1. Tấn công SAML signature wrapping
 
 **Fix**: Use library (python-saml, pysaml2) — verifies entire response, not just sub-element.
 
-### 2. SAML replay
+### 2. Tấn công replay SAML
 
 **Fix**: Track Assertion ID in DB short-term, reject duplicate.
 
-### 3. Open redirect after SSO callback
+### 3. Open redirect sau SSO callback
 
 **Fix**: Validate post-login redirect URL allowlist.
 
-### 4. SCIM no auth
+### 4. SCIM không xác thực
 
 **Fix**: Bearer token from IdP only; IP allowlist optionally.
 
-### 5. JIT create user no role/group
+### 5. JIT tạo user không có role/group
 
 **Fix**: Map IdP groups → SP roles immediately, not "user with no permission".
 
-### 6. Break-glass account no MFA
+### 6. Break-glass account không có MFA
 
 **Fix**: Strong hardware MFA (Yubikey); 2-person access (split secret).
 
-### 7. Federate Google but no domain restriction
+### 7. Federate Google nhưng không giới hạn domain
 
 **Fix**: `hd=acmeshop.vn` check; otherwise any Google account can login.
 
-### 8. IdP single point of failure
+### 8. IdP là điểm lỗi đơn (single point of failure)
 
 **Fix**: HA Keycloak (multi-instance + DB cluster); break-glass for full IdP outage.
 
@@ -603,3 +603,4 @@ Next:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Authentication. SAML vs OIDC + Keycloak self-host setup + federation Google + Client/Realm/Group/Role + SCIM provisioning + JIT + break-glass account + audit log + compliance frameworks + 500-employee SSO architecture hands-on + 8 pitfalls. **Đóng Authentication basic cluster 5/5.**
 - **v1.1.0 (07/06/2026)** — Sửa lỗi thời (factual): mô tả Keycloak là "Red Hat OSS IdP" → "OSS, CNCF incubating (Red Hat khởi xướng + maintainer chính)" (Keycloak gia nhập CNCF incubating từ 04/2023); cập nhật Docker tag `25.0` → `26.6` + thêm ghi chú pin theo bản hiện hành. Sync cả Glossary.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

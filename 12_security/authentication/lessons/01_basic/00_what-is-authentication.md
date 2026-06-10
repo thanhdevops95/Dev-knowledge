@@ -1,9 +1,9 @@
 # 🔐 Authentication — Foundation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** OWASP basic [bài 04](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) ✅, HTTP cơ bản
@@ -59,7 +59,7 @@ Bài này map overall picture. Bài 01-04 dạy chi tiết.
 
 🪞 **Ẩn dụ**: *Identity như **bạn là ai** (tên + ngày sinh + số CMND). Credential như **giấy tờ chứng minh** (CMND, hộ chiếu). Factor như **cách chứng minh** (giấy bạn cầm + dấu vân tay + mật khẩu thẻ).*
 
-### Definitions
+### Định nghĩa
 
 | Term | Description | Example |
 |---|---|---|
@@ -70,7 +70,7 @@ Bài này map overall picture. Bài 01-04 dạy chi tiết.
 | **Authenticator** | Tool execute factor | Yubikey, Google Authenticator app, Touch ID sensor |
 | **Identity provider (IdP)** | Service quản identity + issue credentials | Auth0, Keycloak, Entra ID, Google |
 
-### 3 Authentication Factors
+### 3 yếu tố xác thực (Authentication Factors)
 
 | Factor | What | Example | Strength |
 |---|---|---|---|
@@ -80,7 +80,7 @@ Bài này map overall picture. Bài 01-04 dạy chi tiết.
 
 → **MFA** = combine ≥ 2 factor **khác loại**. "Password + security question" = chỉ 1 factor (knowledge) — KHÔNG phải MFA.
 
-### Factor strength trend 2026
+### Xu hướng độ mạnh của factor 2026
 
 ```
 Weakest → Strongest
@@ -95,7 +95,7 @@ SMS OTP → Email link → TOTP → Push notification → WebAuthn/Passkey → H
 
 🪞 **Ẩn dụ**: *Session như **thẻ ra vào số seri** — server giữ database thẻ ai cấp cho ai. Token (JWT) như **giấy chứng nhận có dấu mộc** — server không cần lưu, chỉ verify dấu mộc đúng. Mỗi cái có trade-off.*
 
-### Session (stateful)
+### Session (có trạng thái — stateful)
 
 ```
 Login →
@@ -116,7 +116,7 @@ Server: lookup Redis → {user_id} → continue
 - Server stateful (Redis dependency).
 - Cross-domain (subdomain.acmeshop.vn) cần cookie config + CORS.
 
-### Token (JWT — stateless)
+### Token (JWT — không trạng thái — stateless)
 
 ```
 Login →
@@ -138,7 +138,7 @@ Server: verify signature → trust claims (no DB lookup)
 - Cannot update permissions until re-issue.
 - Larger payload (base64 JWT).
 
-### Decision
+### Cách chọn
 
 | Use case | Pick |
 |---|---|
@@ -149,7 +149,7 @@ Server: verify signature → trust claims (no DB lookup)
 | Admin panel (immediate revoke) | Session |
 | Hybrid | Both: short JWT access + refresh stored DB |
 
-### Hybrid pattern (recommend 2026)
+### Hybrid pattern (khuyến nghị 2026)
 
 - **Access token** (JWT, 15p exp, stateless).
 - **Refresh token** (opaque random, stored DB, long TTL).
@@ -165,7 +165,7 @@ Server: verify signature → trust claims (no DB lookup)
 
 🪞 **Ẩn dụ**: *Auth lifecycle như **vòng đời nhân viên** — gia nhập (register), được cấp thẻ (verify), vào làm hàng ngày (login), gia hạn thẻ (refresh), nghỉ phép (logout), nghỉ việc (account close), quên mật khẩu thẻ (recovery).*
 
-### Full lifecycle
+### Vòng đời đầy đủ
 
 ```mermaid
 graph LR
@@ -183,7 +183,7 @@ graph LR
     E --> J[Account Close/Delete]
 ```
 
-### Each phase challenges
+### Thách thức của từng giai đoạn
 
 | Phase | Threat | Mitigation |
 |---|---|---|
@@ -213,7 +213,7 @@ graph LR
 | 7 | **Account recovery abuse** | Reset email/SMS social engineer | MFA mandatory in recovery, behavioral check |
 | 8 | **Privilege escalation in session** | Login as user, change to admin via vuln | Rotate session on privilege change, audit |
 
-### Combined threat model — Acme Shop checkout user
+### Threat model tổng hợp — user checkout Acme Shop
 
 ```
 Asset: User account (PII + payment method + order history)
@@ -240,7 +240,7 @@ Mitigations:
 
 🪞 **Ẩn dụ**: *Self-host auth như **tự xây bếp ở nhà** — control, custom, nhưng phải bảo trì. IDaaS như **đặt ăn ngoài** — nhanh, ngon, nhưng chi phí + vendor lock.*
 
-### Compare 2026
+### So sánh 2026
 
 | Aspect | Self-host (Keycloak, Authelia, Casdoor) | IDaaS (Auth0, Clerk, WorkOS, Stytch) |
 |---|---|---|
@@ -253,7 +253,7 @@ Mitigations:
 | Lock-in | Low | High (migration painful) |
 | Cost @ 100k MAU | ~$200/month server | ~$2k-15k/month |
 
-### Decision
+### Cách chọn
 
 | Profile | Pick |
 |---|---|
@@ -263,7 +263,7 @@ Mitigations:
 | OpenSource project | **Self-host** (Authentik, Casdoor) |
 | Cost-sensitive at scale (> 1M MAU) | **Self-host** (avoid $15k+/month bill) |
 
-### Popular IDaaS
+### Các IDaaS phổ biến
 
 | Provider | Strength |
 |---|---|
@@ -275,7 +275,7 @@ Mitigations:
 | **Firebase Auth** | Google ecosystem, mobile |
 | **AWS Cognito** | AWS-native (rough UX but cheap) |
 
-### Popular self-host
+### Các self-host phổ biến
 
 | Tool | Strength |
 |---|---|
@@ -335,7 +335,7 @@ Mitigations:
 
 Viết spec auth Acme Shop dựa trên framework bài này.
 
-### Spec template
+### Mẫu spec
 
 ```markdown
 # Acme Shop — Authentication Spec v1.0
@@ -516,3 +516,4 @@ Viết spec auth Acme Shop dựa trên framework bài này.
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Authentication. AuthN vs AuthZ + identity/credential/factor + 3 factors + session vs token + hybrid pattern + lifecycle 9-phase + threat model top 8 attacks + self-host vs IDaaS + 7 popular tools + decision tree + Acme Shop spec hands-on + 8 pitfalls.
+- **v1.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
