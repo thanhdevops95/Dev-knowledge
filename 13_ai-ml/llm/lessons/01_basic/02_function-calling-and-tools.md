@@ -1,9 +1,9 @@
 # 🛠️ Function Calling + Tool Use + Agent Loop
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md) ✅
@@ -48,7 +48,7 @@ Bạn cần:
 
 🪞 **Ẩn dụ**: *Function calling như **trợ lý gọi cho phòng ban khác** — bạn hỏi "Sếp B đang ở đâu?", trợ lý không biết → call HR → HR trả lời → trợ lý báo lại bạn. LLM giống vậy — đối mặt câu hỏi cần data ngoài, "call" function (HR), get result, trả lời user.*
 
-### Flow
+### Luồng hoạt động
 
 ```
 User: "Order #12345 status?"
@@ -91,7 +91,7 @@ sequenceDiagram
 
 → **Key insight**: LLM **không tự execute** — chỉ "propose" function call. App control execution.
 
-### Anatomy of tool definition
+### Giải phẫu một tool definition
 
 ```python
 tool = {
@@ -116,7 +116,7 @@ tool = {
 
 ## 2️⃣ Anthropic tool use
 
-### Basic example
+### Ví dụ cơ bản
 
 ```python
 import anthropic
@@ -191,7 +191,7 @@ print(response.content[0].text)
 # → "Order #12345 của bạn đã ship, dự kiến đến 26/05/2026. Mã tracking: VN1234567."
 ```
 
-### Multiple tools
+### Nhiều tool
 
 ```python
 tools = [
@@ -243,7 +243,7 @@ if message.tool_calls:
         ...
 ```
 
-### Comparison
+### So sánh
 
 | Aspect | Anthropic | OpenAI |
 |---|---|---|
@@ -287,7 +287,7 @@ messages.append({
 
 → Faster latency vs sequential.
 
-### Force tool use
+### Ép model gọi tool
 
 ```python
 # Anthropic
@@ -323,7 +323,7 @@ flowchart TD
 
 Vòng lặp chỉ kết thúc khi LLM đủ thông tin để trả lời, hoặc bị chặn bởi MAX_ITER để tránh loop vô hạn.
 
-### Pattern
+### Mẫu code
 
 ```
 while not done:
@@ -340,7 +340,7 @@ while not done:
         break  # safety
 ```
 
-### Complete implementation
+### Triển khai đầy đủ
 
 ```python
 import json
@@ -402,7 +402,7 @@ answer = agent_loop(
 2. Decide chưa ship → call `send_email(to=..., subject="Order delay")`.
 3. Reply user: "Order còn processing. Mình đã gửi email update cho bạn."
 
-### MAX_ITER safety
+### An toàn với MAX_ITER
 
 | Reason | Mitigation |
 |---|---|
@@ -415,7 +415,7 @@ answer = agent_loop(
 
 ## 6️⃣ Error handling
 
-### Tool error
+### Lỗi tool
 
 ```python
 def execute_safe(tool_name, args):
@@ -432,7 +432,7 @@ def execute_safe(tool_name, args):
 
 LLM thấy `{"error": ...}` → understand + retry với args khác hoặc giải thích user.
 
-### Schema mismatch (LLM call sai args)
+### Sai schema (LLM gọi sai tham số)
 
 ```python
 from jsonschema import validate, ValidationError
@@ -469,7 +469,7 @@ async def execute_with_timeout(tool_use, timeout=30):
 
 🪞 **Ẩn dụ**: *MCP như **chuẩn USB cho LLM tool** — trước đây mỗi vendor tool format khác (LangChain, OpenAI Assistants, native SDK). MCP standardize → tool viết 1 lần dùng được nhiều client (Claude Desktop, Cursor, your app).*
 
-### What MCP
+### MCP là gì
 
 Anthropic open standard (giới thiệu 11/2024) — protocol cho LLM client (Claude Desktop, Cursor, custom app) connect tool servers.
 
@@ -481,7 +481,7 @@ Anthropic open standard (giới thiệu 11/2024) — protocol cho LLM client (Cl
 [Your app]       ←--MCP--→ [Slack MCP server]
 ```
 
-### Server example (Python)
+### Ví dụ server (Python)
 
 ```python
 from mcp.server.fastmcp import FastMCP
@@ -502,7 +502,7 @@ if __name__ == "__main__":
     mcp.run(transport="stdio")
 ```
 
-### Client (Claude Desktop config)
+### Client (cấu hình Claude Desktop)
 
 ```json
 // ~/Library/Application Support/Claude/claude_desktop_config.json
@@ -518,7 +518,7 @@ if __name__ == "__main__":
 
 → Restart Claude Desktop → tool auto-available trong chat.
 
-### Existing MCP servers (2026 ecosystem)
+### Các MCP server sẵn có (hệ sinh thái 2026)
 
 - **filesystem** — read/write files
 - **github** — repo, PR, issue
@@ -533,7 +533,7 @@ if __name__ == "__main__":
 
 ---
 
-## 8️⃣ Frameworks compare
+## 8️⃣ So sánh framework
 
 | Framework | When |
 |---|---|
@@ -557,7 +557,7 @@ if __name__ == "__main__":
 
 Agent nhận query → web search → fetch top 3 result → summarize → cite source.
 
-### Tools
+### Công cụ
 
 ```python
 import requests
@@ -578,7 +578,7 @@ def fetch_url(url: str) -> str:
     return soup.get_text()[:5000]  # limit
 ```
 
-### Tool definitions
+### Khai báo tool
 
 ```python
 tools = [
@@ -663,7 +663,7 @@ answer = research_agent("Kubernetes 1.31 có tính năng mới gì?")
 print(answer)
 ```
 
-### Output sample
+### Ví dụ output
 
 > ⚠️ **Lưu ý**: đây là output **giả định (mock)** để minh hoạ format — link/ngày tháng/nội dung là minh hoạ, không phải dữ liệu thật. Khi chạy với web search API thật, agent sẽ trả về kết quả khác (và phải cite đúng nguồn nó thực sự fetch). Ví dụ: Kubernetes 1.31 thực tế phát hành 08/2024.
 
@@ -681,7 +681,7 @@ Source:
 - https://github.com/kubernetes/kubernetes/releases/tag/v1.31.0
 ```
 
-### Estimate cost per query
+### Ước tính chi phí mỗi query
 
 - Iteration ~3 (search + 2 fetch + summarize).
 - Tokens per iter: ~3000 input + 500 output.
@@ -814,3 +814,4 @@ Source:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 LLM basic. Function calling flow + Anthropic/OpenAI schema + parallel tool calls + force tool choice + agent loop ReAct + error handling (schema/timeout/retry/MAX_ITER) + MCP standard 2024 + framework compare (LangChain/LangGraph/Assistants/Pydantic AI/CrewAI) + hands-on research agent + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Sửa lỗi (QA audit): thêm `import json` vào 3 snippet dùng json.loads/json.dumps (OpenAI function calling, agent loop, research agent) để chạy được khi copy; ghi rõ mốc MCP là 11/2024 (thay vì "2024" chung); đánh dấu output sample K8s 1.31 là mock + sửa ngày link 2026→2024 cho hợp lý (K8s 1.31 thật phát hành 08/2024).
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ function calling round-trip + agent loop ReAct cho trực quan.
+- **v1.1.2 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.

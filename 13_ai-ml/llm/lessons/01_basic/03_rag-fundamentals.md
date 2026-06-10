@@ -1,9 +1,9 @@
 # 📚 RAG — Retrieval Augmented Generation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [02_function-calling-and-tools](02_function-calling-and-tools.md) ✅
@@ -41,7 +41,7 @@ Sếp: *"Bot không biết policy riêng của mình. Mình có 200 trang intern
 
 🪞 **Ẩn dụ**: *RAG như **học sinh có sách giáo khoa mở** khi làm bài thi — câu hỏi đến, em đọc nhanh chương liên quan trong sách, rồi viết đáp án. LLM không cần "thuộc lòng" toàn bộ Acme Shop data — chỉ cần biết cách tra cứu.*
 
-### Flow
+### Luồng hoạt động
 
 ```
 [Indexing — offline, chạy 1 lần / khi update]
@@ -113,7 +113,7 @@ Vector DB là cầu nối giữa 2 pha: index ghi vào, query đọc ra — nên
 
 > ⚠️ Embedding/reranker model đổi nhanh — tên trong bảng là ví dụ thời điểm viết. Trước khi build, kiểm tra docs nhà cung cấp + [MTEB Leaderboard](https://huggingface.co/spaces/mteb/leaderboard) cho bản mới nhất.
 
-### Embed text
+### Nhúng text (embed)
 
 ```python
 # OpenAI
@@ -136,7 +136,7 @@ result = vo.embed(["Hello"], model="voyage-3", input_type="document")
 embedding = result.embeddings[0]
 ```
 
-### Similarity
+### Độ tương đồng (similarity)
 
 ```python
 import numpy as np
@@ -153,7 +153,7 @@ top_idx = np.argsort(scores)[-3:]  # top 3
 
 → Production: dùng vector DB cho millions of docs, sub-millisecond search.
 
-### Embedding dimension trade-off
+### Trade-off số chiều embedding
 
 - Higher dim (3072) = quality cao + storage/compute cao.
 - **Matryoshka embedding** (2024+): có thể truncate dim mà ít loss quality. OpenAI `text-embedding-3` support → store 256 dim, expand khi cần.
@@ -164,7 +164,7 @@ top_idx = np.argsort(scores)[-3:]  # top 3
 
 🪞 **Ẩn dụ**: *Chunking như **cắt sách thành các trang nhỏ tự đứng được** — quá to → 1 trang chứa nhiều topic, search noise. Quá nhỏ → mất context. Cắt đúng = mỗi chunk là 1 "ý hoàn chỉnh".*
 
-### Strategies
+### Các chiến lược
 
 | Strategy | Mô tả | Khi dùng |
 |---|---|---|
@@ -177,7 +177,7 @@ top_idx = np.argsort(scores)[-3:]  # top 3
 | **Code-aware** | Cắt theo function/class (AST) | Code documentation |
 | **Markdown-aware** | Cắt theo heading | Structured docs |
 
-### Fixed size + overlap (most common)
+### Fixed size + overlap (phổ biến nhất)
 
 ```python
 def chunk_fixed(text, chunk_size=500, overlap=50):
@@ -208,7 +208,7 @@ chunks = splitter.split_text(doc)
 
 → "Recursive" — try big separator first; nếu chunk còn quá to → split smaller.
 
-### Chunk size choice
+### Chọn chunk size
 
 | Use case | Chunk size |
 |---|---|
@@ -219,7 +219,7 @@ chunks = splitter.split_text(doc)
 
 → Test với eval set; chunk size là hyperparameter tune.
 
-### Metadata per chunk
+### Metadata cho mỗi chunk
 
 ```python
 chunk = {
@@ -242,7 +242,7 @@ chunk = {
 
 🪞 **Ẩn dụ**: *Vector DB như **Google cho vector** — index hàng triệu vector, query "nearest neighbor" trong < 50ms. Khác SQL DB ở chỗ "đo distance" thay vì "match exact".*
 
-### Compare 2026
+### So sánh 2026
 
 | DB | Type | Hosted | Pros | Cons |
 |---|---|---|---|---|
@@ -258,7 +258,7 @@ chunk = {
 
 → **2026 starter**: pgvector nếu đã có Postgres; Qdrant cho dedicated; Pinecone cho không muốn ops.
 
-### Qdrant example
+### Ví dụ Qdrant
 
 ```python
 from qdrant_client import QdrantClient
@@ -295,7 +295,7 @@ for r in response.points:
     print(r.score, r.payload["text"][:100])
 ```
 
-### pgvector example
+### Ví dụ pgvector
 
 ```sql
 CREATE EXTENSION vector;
@@ -324,7 +324,7 @@ LIMIT 5;
 
 🪞 **Ẩn dụ**: *Pure vector search như **tìm bằng "ý nghĩa"** — recall tốt nhưng đôi khi miss exact keyword (model name, code). **BM25** như **tìm bằng "keyword exact"** — precision tốt cho proper noun. Hybrid = combine.*
 
-### Pure vector — Problem
+### Pure vector — Vấn đề
 
 ```
 Query: "iPhone 16 Pro Max"
@@ -389,7 +389,7 @@ top_chunks = [candidates[r.index] for r in results.results]
 
 ## 6️⃣ RAG prompt + Citation
 
-### Standard RAG prompt
+### RAG prompt chuẩn
 
 ```python
 def build_rag_prompt(question: str, chunks: list[dict]) -> str:
@@ -425,7 +425,7 @@ Bot: "Acme Shop cho phép return trong 30 ngày kể từ ngày nhận hàng
 
 → User verify được source.
 
-### Structured citation (better)
+### Structured citation (tốt hơn)
 
 ```python
 class Citation(BaseModel):
@@ -444,7 +444,7 @@ class Answer(BaseModel):
 
 ## 7️⃣ RAG evaluation
 
-### Metrics
+### Các chỉ số (metrics)
 
 | Metric | Mô tả | Tool |
 |---|---|---|
@@ -749,3 +749,4 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 LLM basic. RAG flow + embedding 2026 (text-embedding-3, voyage-3, BGE-M3, Cohere) + chunking 8 strategy + vector DB compare 9 (Pinecone/Qdrant/Weaviate/Milvus/pgvector/Chroma) + hybrid search RRF + reranker (Cohere/Voyage) + citation pattern + RAG vs Long context vs Fine-tune decision + RAGAS eval + hands-on Acme Shop Q&A bot + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Cập nhật API lỗi thời: qdrant-client `search()`→`query_points()`, `recreate_collection()`→`collection_exists`+`delete`+`create`; RAGAS `context_relevancy`→`context_precision`+`context_recall` (0.2+). Cập nhật reranker Cohere `rerank-v3.5`, embedding voyage-3.5 + thêm lưu ý kiểm tra model mới nhất.
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ 2 pha RAG (index offline vs query online) cho trực quan.
+- **v1.1.2 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.

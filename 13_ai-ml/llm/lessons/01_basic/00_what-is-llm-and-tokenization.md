@@ -1,9 +1,9 @@
 # 🤖 LLM là gì + Tokenization + Models 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Biết Python cơ bản + HTTP API; không cần học ML trước
@@ -81,7 +81,7 @@ Bài này map foundation — bài 01-04 sẽ dạy app patterns.
 
 🪞 **Ẩn dụ**: *Transformer như **đội phiên dịch đa người nhìn cả câu cùng lúc** — mỗi từ (token) "chú ý" (attention) đến mọi từ khác → hiểu context tốt hơn RNN cũ (đọc tuần tự).*
 
-### Key concepts
+### Khái niệm chính
 
 | Concept | Mô tả ngắn |
 |---|---|
@@ -95,7 +95,7 @@ Bài này map foundation — bài 01-04 sẽ dạy app patterns.
 
 → **LLM chat** (GPT/Claude/Gemini) = decoder-only, generative.
 
-### Parameters
+### Tham số
 
 - **GPT-3**: 175B params.
 - **GPT-4**: ~1.7T (rumored, mixture of experts).
@@ -145,7 +145,7 @@ Common pattern:
 2. **Context window limit**: model có max token (e.g., 1M Claude Opus/Sonnet 4.6+, 128k GPT-4o, 1M Gemini 1.5/2).
 3. **Latency**: nhiều token = chậm hơn.
 
-### Token counting
+### Đếm token
 
 | Text | Tokens (GPT-4) | Note |
 |---|---|---|
@@ -156,7 +156,7 @@ Common pattern:
 | `"AAAAAAAAAA"` (10 chars) | 4-6 tokens | repeated chars OK |
 | Code Python 100 dòng | ~800-1500 tokens | depends content |
 
-### Vietnamese tokenizer pitfall
+### Cạm bẫy tokenizer với tiếng Việt
 
 Vietnamese có dấu + đa âm tiết → tokenizer English-trained chia nhỏ:
 
@@ -175,7 +175,7 @@ enc.encode("Chào bạn, hôm nay khỏe không?")
 
 🪞 **Ẩn dụ**: *Context window như **bàn làm việc trước mặt** — model chỉ nhìn vào những gì trên bàn. Bàn lớn (1M token) chứa nhiều giấy tờ hơn (cả cuốn sách), nhưng tìm 1 chi tiết cũng chậm hơn ("needle in haystack" problem).*
 
-### Limits 2026
+### Giới hạn 2026
 
 | Model | Context window | Input limit | Output limit |
 |---|---|---|---|
@@ -208,7 +208,7 @@ Model có 1M context không = retrieve đều khắp. Research shows:
 | Gemini 2 Pro | $3.50 | $10.50 | |
 | Llama 4 (host) | self-host | self-host | GPU cost |
 
-### Cost calc example
+### Ví dụ tính chi phí
 
 App Acme Shop chatbot:
 - 1000 user/ngày × 10 message/user = 10k message.
@@ -288,7 +288,7 @@ for chunk in client.messages.stream(...):
 
 🪞 **Ẩn dụ**: *Chọn LLM như **chọn ô tô** — Claude Opus là **Mercedes S** (cao cấp, đắt), Claude Sonnet là **Camry** (balanced), Haiku là **Yaris** (rẻ, nhanh), Llama open là **xe tự lắp ráp** (kiểm soát, công ops, có thể customize hơn).*
 
-### Proprietary (API only)
+### Mô hình đóng (proprietary, chỉ API)
 
 | Model | Strength | Weakness | When |
 |---|---|---|---|
@@ -300,7 +300,7 @@ for chunk in client.messages.stream(...):
 | **Gemini 2 Pro** | 2M context, Google ecosystem | Hallucination concerns | bạn doc analysis |
 | **Gemini 2 Flash** | Free tier rộng, multimodal | — | Beginner, prototyping |
 
-### Open-source (self-host or via API providers)
+### Open-source (tự host hoặc qua nhà cung cấp API)
 
 | Model | Size | Strength | When |
 |---|---|---|---|
@@ -310,7 +310,7 @@ for chunk in client.messages.stream(...):
 | **DeepSeek V3** | 671B MoE | Math + code | Code task, cheap (cùng FP) |
 | **Gemma 3** (Google open) | 2B/9B/27B | Small, on-device | Edge, mobile |
 
-### Hosted open-source
+### Open-source hosted (qua nhà cung cấp)
 
 Không tự host? Dùng:
 - **Together.ai** — multi-model hosting
@@ -319,7 +319,7 @@ Không tự host? Dùng:
 - **Fireworks.ai** — fast inference
 - **Hugging Face Inference API** — community
 
-### Decision matrix
+### Ma trận quyết định
 
 | Need | Pick |
 |---|---|
@@ -389,7 +389,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-### Multi-turn
+### Hội thoại nhiều lượt
 
 ```python
 messages = [
@@ -448,7 +448,7 @@ asyncio.run(main())
 
 CLI nhận file Python, gọi Claude explain → output Vietnamese explanation.
 
-### Code
+### Code minh hoạ
 
 ```python
 #!/usr/bin/env python3
@@ -479,7 +479,7 @@ if __name__ == "__main__":
     print(explain_code(code))
 ```
 
-### Test
+### Kiểm thử
 
 ```bash
 # Tạo file test
@@ -494,7 +494,7 @@ python explain.py sample.py
 # → "Hàm fib() tính số Fibonacci bằng đệ quy..."
 ```
 
-### Estimate cost
+### Ước tính chi phí
 
 - Input: ~50 lines code = ~600 tokens.
 - Output: ~300 tokens.
@@ -630,3 +630,4 @@ python explain.py sample.py
 - **v1.1.0 (07/06/2026)** — Sửa số liệu Claude 2026: context window Opus/Sonnet 4.6+ lên 1M (output 128k/64k); giá Opus $5/$25, Sonnet $3/$15, Haiku $1/$5; tính lại cost Haiku $15/ngày; pitfall #3 sửa $25/M output; temperature range Claude 0-1 vs OpenAI 0-2 + lưu ý Opus 4.7+ gỡ temperature/top_p/top_k; Llama 4 sửa sang kiến trúc MoE (Scout/Maverick); hoàn thiện ví dụ async + ghi chú max_tokens bắt buộc.
 - **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.
 - **v1.1.2 (10/06/2026)** — Bổ sung sơ đồ pipeline text → token → embedding → model cho trực quan.
+- **v1.1.3 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.
