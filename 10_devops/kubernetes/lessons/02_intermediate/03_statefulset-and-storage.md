@@ -1,9 +1,9 @@
 # 🎓 StatefulSet & Storage — Postgres trong K8s, không mất data
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md), [K8s basic ConfigMap+Secret](../01_basic/03_configmaps-and-secrets.md)
@@ -88,7 +88,7 @@ Sếp: *"Stateful workload **không dùng Deployment**. Dùng **StatefulSet** + 
 
 ## 1️⃣ StatefulSet vs Deployment — Vì sao khác
 
-### Deployment design
+### Thiết kế Deployment
 
 Deployment giả định **mọi Pod đều bình đẳng** — không pod nào "đặc biệt" hơn pod khác. K8s tạo song song, kill ngẫu nhiên, hostname random. Triết lý này tuyệt vời cho stateless workload (web, API) nhưng phá hỏng database vì DB cần identity ổn định:
 
@@ -99,7 +99,7 @@ Deployment giả định **mọi Pod đều bình đẳng** — không pod nào 
 
 → Tốt cho FastAPI, web app, worker.
 
-### StatefulSet design
+### Thiết kế StatefulSet
 
 StatefulSet lật ngược giả định trên: mỗi Pod là **một thực thể riêng biệt** có hostname cố định, PVC riêng, thứ tự khởi động/tắt được kiểm soát. Pod `postgres-0` luôn là chính nó, không bao giờ "trở thành" `postgres-1`. Đây là điều DB cluster cần để bầu primary, replicate, recover:
 
@@ -155,9 +155,9 @@ App connect specific pod (primary vs replica) bằng DNS này.
 
 ---
 
-## 2️⃣ PV / PVC / StorageClass — Storage abstraction
+## 2️⃣ PV / PVC / StorageClass — Lớp trừu tượng Storage
 
-### Concepts
+### Khái niệm
 
 K8s tách storage thành 4 lớp abstraction để cho phép app yêu cầu storage mà không cần biết backend là EBS, GCP PD hay NFS. Admin quản hạ tầng (StorageClass + CSI), developer chỉ khai báo "cần 100Gi SSD" (PVC). Hiểu rõ 4 khái niệm dưới đây là điều kiện làm việc với DB trên K8s:
 
@@ -166,7 +166,7 @@ K8s tách storage thành 4 lớp abstraction để cho phép app yêu cầu stor
 - **StorageClass**: template "loại disk" — defines provisioner + parameters.
 - **CSI driver** (Container Storage Interface): plugin storage backend (EBS CSI, GCP PD CSI, Longhorn CSI).
 
-### Static vs Dynamic provisioning
+### Static vs Dynamic provisioning (cấp phát tĩnh vs động)
 
 **Static**: Admin create PV manually, user PVC bind PV.
 ```yaml
@@ -213,7 +213,7 @@ spec:
 
 → CSI driver tạo EBS volume + PV + bind PVC. 100% auto.
 
-### StorageClass examples
+### Ví dụ StorageClass
 
 **AWS EBS gp3**:
 ```yaml
@@ -264,7 +264,7 @@ volumeBindingMode: Immediate
 allowVolumeExpansion: true
 ```
 
-### Access modes
+### Access modes (chế độ truy cập)
 
 | Mode | Mô tả | Khi dùng |
 |---|---|---|
@@ -295,7 +295,7 @@ allowVolumeExpansion: true
 
 ---
 
-## 3️⃣ StatefulSet anatomy
+## 3️⃣ Giải phẫu StatefulSet
 
 ### Full example — Postgres 3 replica
 
@@ -373,7 +373,7 @@ spec:
             storage: 100Gi
 ```
 
-### Resulting resources
+### Các tài nguyên được tạo ra
 
 After apply:
 ```bash
@@ -392,7 +392,7 @@ kubectl get sts,pvc,pod -n production
 # pod/postgres-2   1/1     Running   3m
 ```
 
-### Key behaviors
+### Các hành vi chính
 
 - **Pod startup order**: `postgres-0` start first, wait Ready → `postgres-1` start → wait Ready → `postgres-2`.
 - **Pod restart**: nếu `postgres-1` chết, K8s recreate `postgres-1` **same name + same PVC**. Data preserved.
@@ -414,7 +414,7 @@ spec:
 
 ## 4️⃣ Hands-on: Deploy Postgres 3-replica với primary-replica
 
-### Step 1: StorageClass (assume EBS CSI installed)
+### Bước 1: StorageClass (giả định đã cài EBS CSI)
 
 ```yaml
 apiVersion: storage.k8s.io/v1
@@ -430,7 +430,7 @@ volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 ```
 
-### Step 2: Secret
+### Bước 2: Secret
 
 ```bash
 kubectl create secret generic postgres-secret \
@@ -438,7 +438,7 @@ kubectl create secret generic postgres-secret \
   -n production
 ```
 
-### Step 3: Headless Service
+### Bước 3: Headless Service
 
 ```yaml
 apiVersion: v1
@@ -468,7 +468,7 @@ spec:
       name: postgres
 ```
 
-### Step 4: ConfigMap (Postgres config + init script)
+### Bước 4: ConfigMap (config Postgres + script init)
 
 ```yaml
 apiVersion: v1
@@ -502,7 +502,7 @@ data:
 
 (Simplified — production dùng Postgres Operator hoặc patroni cho HA proper)
 
-### Step 5: StatefulSet (Postgres official, simplified)
+### Bước 5: StatefulSet (Postgres official, rút gọn)
 
 ```yaml
 apiVersion: apps/v1
@@ -565,7 +565,7 @@ kubectl get pods -n production -l app=postgres -w
 # postgres-2   1/1 Running
 ```
 
-### Step 6: Test data persistence
+### Bước 6: Kiểm thử tính bền vững của dữ liệu
 
 ```bash
 # Connect to postgres-0 (primary)
@@ -602,7 +602,7 @@ kubectl exec -it postgres-0 -n production -- psql -U postgres -c "SELECT count(*
 
 ## 5️⃣ VolumeSnapshot — Backup + Restore
 
-### Setup snapshot class
+### Cài đặt snapshot class
 
 ```yaml
 apiVersion: snapshot.storage.k8s.io/v1
@@ -615,7 +615,7 @@ parameters:
   encrypted: "true"
 ```
 
-### Create snapshot
+### Tạo snapshot
 
 ```yaml
 apiVersion: snapshot.storage.k8s.io/v1
@@ -640,7 +640,7 @@ kubectl get volumesnapshot -n production
 
 → EBS snapshot created in AWS. Cost storage thấp (incremental).
 
-### Restore from snapshot
+### Khôi phục từ snapshot
 
 ```yaml
 apiVersion: v1
@@ -662,7 +662,7 @@ spec:
 
 → Mount PVC này vào pod mới → data từ snapshot.
 
-### Automated backup with CronJob
+### Backup tự động bằng CronJob
 
 ```yaml
 apiVersion: batch/v1
@@ -710,12 +710,12 @@ spec:
 
 ## 6️⃣ Resize PVC khi đầy
 
-### Pre-condition
+### Điều kiện tiên quyết
 
 - StorageClass có `allowVolumeExpansion: true`.
 - CSI driver hỗ trợ resize (EBS, GCP PD, Longhorn yes).
 
-### Resize
+### Resize (thay đổi kích thước)
 
 ```bash
 # Edit PVC, tăng size
@@ -748,7 +748,7 @@ kubectl exec postgres-0 -- df -h /var/lib/postgresql/data
 
 ---
 
-## 7️⃣ When NOT use StatefulSet — Operator pattern preview
+## 7️⃣ Khi nào KHÔNG dùng StatefulSet — Giới thiệu Operator pattern
 
 StatefulSet là building block, nhưng setup database production cần:
 - Primary-replica replication.
@@ -761,7 +761,7 @@ StatefulSet là building block, nhưng setup database production cần:
 
 **Solution**: Database **Operator**.
 
-### Postgres Operator examples
+### Ví dụ Postgres Operator
 
 - **Zalando Postgres Operator** — Patroni-based HA.
 - **CloudNativePG (CNCF)** — Postgres-native, no Patroni dependency.
@@ -1154,3 +1154,4 @@ parameters: { numberOfReplicas: "3" }
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 của intermediate. StatefulSet vs Deployment + PV/PVC/StorageClass + dynamic provisioning (EBS/PD/Longhorn) + headless Service + Postgres 3-replica hands-on + VolumeSnapshot backup + resize PVC + Operator pattern preview (CloudNativePG). 6 pitfall + 2 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Deployment design + StatefulSet design + Bảng so sánh + Headless Service + Concepts (PV/PVC/StorageClass).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

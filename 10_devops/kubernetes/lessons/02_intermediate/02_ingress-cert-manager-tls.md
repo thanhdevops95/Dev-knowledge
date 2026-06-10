@@ -1,9 +1,9 @@
 # 🎓 Ingress Production — cert-manager + external-dns + Gateway API
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_helm-package-manager.md](01_helm-package-manager.md), [basic Ingress](../01_basic/02_services-and-networking.md)
@@ -57,7 +57,7 @@ Sếp: *"Setup cert-manager + external-dns. Cert tự renew, DNS tự sync. Manu
 
 🪞 **Ẩn dụ**: *Ingress production như **reception + bảo vệ + bảng hiệu cao ốc** — basic Ingress chỉ chỉ đường (route). Production Ingress còn check ID (TLS qua cert-manager auto Let's Encrypt), kiểm danh sách (WAF block bot), tự gắn biển báo (external-dns auto DNS record), giới hạn người vào (rate limit).*
 
-### Install qua Helm
+### Cài đặt qua Helm
 
 Cài ingress-nginx bằng `kubectl apply` raw manifest cũng được, nhưng production luôn dùng **Helm chart** vì cấu hình phức tạp (replica, resource, TLS, metrics). Tối thiểu 3 replica + ServiceMonitor scrape Prometheus + LoadBalancer service public ra Internet:
 
@@ -126,7 +126,7 @@ controller:
     targetCPUUtilizationPercentage: 70
 ```
 
-### Verify
+### Kiểm chứng (Verify)
 
 Sau khi Helm install xong, check 3 thứ: (1) controller Pod đã `Running`, (2) Service type `LoadBalancer` đã được cloud provider gán external IP/hostname, (3) endpoint port 80/443 đã mở. Nếu external IP còn `<pending>` quá 5 phút → có vấn đề với cloud provider quota hoặc IAM role:
 
@@ -144,7 +144,7 @@ kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.
 # a1b2c3d4.us-east-1.elb.amazonaws.com
 ```
 
-### ingress-nginx vs Traefik vs HAProxy
+### So sánh ingress-nginx vs Traefik vs HAProxy
 
 3 ingress controller phổ biến nhất 2026. Mỗi cái có triết lý cấu hình khác nhau — ingress-nginx dựa vào **annotations**, Traefik dùng **CRD** với middleware chain, HAProxy thiên về low-latency. Bảng dưới so sánh để chọn đúng cái cho team:
 
@@ -168,7 +168,7 @@ kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.
 
 **Let's Encrypt** miễn phí TLS cert, renew 90 ngày. Manual = cron job + ACME client + Secret update + Ingress reload. **cert-manager** automate hết.
 
-### Install
+### Cài đặt
 
 cert-manager cũng cài qua Helm. Tham số quan trọng: `installCRDs=true` (cài CRD `Certificate`, `Issuer`, `ClusterIssuer`) + `prometheus.enabled` (xuất metric cho Grafana). Sau install kiểm tra 3 Pod `cert-manager-*`, `cainjector`, `webhook` đều Running:
 
@@ -368,7 +368,7 @@ Tạo Ingress mới `app.acmeshop.vn` → phải vào AWS Console add A record p
 
 **external-dns** watch K8s Ingress/Service → auto create DNS records.
 
-### Install (Route53 example)
+### Cài đặt (ví dụ Route53)
 
 ```yaml
 # values.yaml
@@ -402,7 +402,7 @@ txtOwnerId: acmeshop-prod
 helm install external-dns external-dns/external-dns -f values.yaml -n external-dns --create-namespace
 ```
 
-### Test
+### Kiểm thử (Test)
 
 Tạo Ingress mới:
 ```yaml
@@ -428,7 +428,7 @@ kubectl logs -n external-dns deploy/external-dns
 # time="..." level=info msg="Creating record"
 ```
 
-### Annotation control
+### Điều khiển bằng annotation
 
 ```yaml
 metadata:
@@ -438,7 +438,7 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"                        # Cloudflare proxy
 ```
 
-### Provider support
+### Provider được hỗ trợ
 
 external-dns hỗ trợ: AWS Route53, GCP Cloud DNS, Azure DNS, Cloudflare, DigitalOcean, Hetzner, GoDaddy, Linode, OVH, ... ~30+ provider.
 
@@ -446,7 +446,7 @@ external-dns hỗ trợ: AWS Route53, GCP Cloud DNS, Azure DNS, Cloudflare, Digi
 
 ## 4️⃣ Hands-on: Setup TLS auto cho FastAPI
 
-### Step 1: Prerequisites
+### Bước 1: Điều kiện tiên quyết
 
 - K8s cluster (EKS/GKE/kind với cloud LB).
 - Domain `acmeshop.vn` managed bởi Route53/Cloudflare.
@@ -454,7 +454,7 @@ external-dns hỗ trợ: AWS Route53, GCP Cloud DNS, Azure DNS, Cloudflare, Digi
 - cert-manager installed.
 - external-dns installed (optional, có thể manual DNS).
 
-### Step 2: Deploy FastAPI
+### Bước 2: Triển khai FastAPI
 
 ```bash
 helm install fastapi ./fastapi-chart \
@@ -462,7 +462,7 @@ helm install fastapi ./fastapi-chart \
   --namespace production --create-namespace
 ```
 
-### Step 3: Apply ClusterIssuer
+### Bước 3: Apply ClusterIssuer
 
 (Đã làm ở §2 — kubectl apply clusterissuer-prod.yaml)
 
@@ -515,7 +515,7 @@ Apply:
 kubectl apply -f fastapi-ingress.yaml
 ```
 
-### Step 5: Watch chain
+### Bước 5: Theo dõi chuỗi cấp cert
 
 ```bash
 # Ingress
@@ -543,7 +543,7 @@ curl -v https://api.acmeshop.vn
 
 ## 5️⃣ Rate limiting + Auth + WAF annotations
 
-### Rate limit per IP
+### Rate limit theo IP
 
 ```yaml
 metadata:
@@ -553,7 +553,7 @@ metadata:
     nginx.ingress.kubernetes.io/limit-connections: "20"   # max 20 concurrent conn
 ```
 
-### Basic Auth
+### Basic Auth (xác thực cơ bản)
 
 ```bash
 # Tạo htpasswd
@@ -604,7 +604,7 @@ annotations:
 
 ---
 
-## 6️⃣ Gateway API — Successor of Ingress
+## 6️⃣ Gateway API — Kế nhiệm của Ingress
 
 ### Vấn đề với Ingress
 
@@ -613,7 +613,7 @@ Ingress design 2017, limitations:
 - Không support: TCP/UDP, gRPC native, traffic splitting cố định.
 - 1 person team manage cả Ingress + cert + DNS thường.
 
-### Gateway API design
+### Thiết kế Gateway API
 
 **Gateway API** (sigs.k8s.io, GA 2024) — chuẩn 2026, role-based:
 
@@ -630,7 +630,7 @@ graph LR
     HR2 --> S2[Service B]
 ```
 
-### Example Gateway
+### Ví dụ Gateway
 
 ```yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -690,7 +690,7 @@ spec:
 - Portable (cùng API across controller).
 - Built-in features: traffic split, mirror, retry, timeout.
 
-### Migration strategy
+### Chiến lược migration
 
 1. **Hiện tại 2026**: Ingress still works, mature ecosystem.
 2. **Mới setup**: dùng Gateway API ngay (Cilium, Istio Ambient native).
@@ -748,7 +748,7 @@ cilium status
 # \__/       ClusterMesh:    disabled
 ```
 
-### NetworkPolicy example
+### Ví dụ NetworkPolicy
 
 ```yaml
 # Default deny all ingress
@@ -1209,3 +1209,4 @@ nginx.ingress.kubernetes.io/enable-owasp-modsecurity-crs: "true"
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 của intermediate cluster. ingress-nginx production setup + cert-manager + Let's Encrypt + external-dns + Gateway API intro + NetworkPolicy + Cilium CNI replacement. Apply insight từ `__Ref__/`: CNI default Minikube không enforce NetworkPolicy → demo enable Cilium kind cluster. 6 pitfall + 4 best practice + 5 self-check + cheatsheet với 15+ common annotations.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install qua Helm + Verify + ingress-nginx vs Traefik vs HAProxy + cert-manager Install + Add annotation cert tự generate.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

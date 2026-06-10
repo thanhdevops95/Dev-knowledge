@@ -1,9 +1,9 @@
 # 🎓 Kubernetes Intermediate — Production cluster vận hành thật
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [K8s basic cluster](../01_basic/) ✅, deploy được Pod/Deployment/Service/Ingress trên kind/minikube
@@ -43,7 +43,7 @@ Promote lên EKS production. Vấn đề bật ra liên tục:
 
 → Mỗi vấn đề là 1 ô của intermediate. Cluster này lấp 4 mảng quan trọng nhất.
 
-### Real-world incidents — Vì sao intermediate là baseline 2026
+### Sự cố thực tế — Vì sao intermediate là baseline 2026
 
 5 sự cố thực tế 2021-2025 cho thấy mảng intermediate (StatefulSet, autoscaling, cert-manager, operator) không phải "nice to have" mà là **baseline phải có**. Bảng tổng hợp + nguyên nhân gốc:
 
@@ -269,7 +269,7 @@ graph TB
 
 ---
 
-## 7️⃣ Learning timeline — Day 1 → Day 90
+## 7️⃣ Lộ trình học — Day 1 → Day 90
 
 Roadmap 90 ngày từ beginner đến production-ready operator. Chia làm 5 mốc theo bài học. Đây không phải tối thiểu — mà là pace **thực tế** học part-time có deadline:
 
@@ -443,3 +443,4 @@ Sau cluster này, nếu bạn cần đi sâu thêm:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO của intermediate cluster. Map 4 mảng (Helm/Ingress/StatefulSet/Autoscaling+Operator) + tool stack 2026 + roadmap 4 bài kế tiếp + cross-link DevOps stack. Apply insight quan trọng từ `__Ref__/`: CNI default Minikube không enforce NetworkPolicy → war story team enforce policy bị break Istio sidecar webhook.
 - **v1.1.0 (24/05/2026)** — Bổ sung: §"Real-world incidents" (Tesla mining, Postgres emptyDir data loss, Acme Black Friday, Let's Encrypt cert expire, Postgres operator failover), §6 ROI table 9 metric trước/sau, §7 Learning timeline Day 1 → 90, §8 Anti-patterns 10 mục K8s-specific, +3 câu hỏi beginner (DB in K8s, large values.yaml, K8s upgrade cadence). Lý do: user feedback yêu cầu mở rộng chiều sâu cho overview, đặc biệt anti-patterns vì K8s footgun nhiều.
 - **v1.2.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Real-world incidents + §2 DevOps stack + §5 Lộ trình 4 bài + §6 ROI table + §7 Learning timeline.
+- **v1.2.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

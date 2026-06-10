@@ -1,9 +1,9 @@
 # 🎓 Helm — Package manager cho K8s, deploy 50 service không copy-paste
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [00_intermediate-overview.md](00_intermediate-overview.md), K8s basic cluster
@@ -88,7 +88,7 @@ graph LR
 
 🪞 **Ẩn dụ**: *Helm chart như **công thức nấu ăn template hóa** — `values.yaml` là "khẩu phần và gia vị" bạn truyền vào. 1 công thức = nhiều dish cho nhiều dịp (dev/staging/prod). `helm install` = nấu ăn theo công thức + khẩu phần này.*
 
-### Install Helm
+### Cài đặt Helm
 
 Helm CLI cài standalone — không cần server. Mọi OS support, dưới 1 phút. Verify version sau khi cài để đảm bảo Helm 3 (KHÔNG dùng Helm 2 nữa):
 
@@ -340,7 +340,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 ## 3️⃣ Helm release lifecycle
 
-### Install
+### Cài đặt
 
 ```bash
 # Install chart từ folder local
@@ -377,7 +377,7 @@ helm install myapp ./myapp -f values-prod.yaml
 helm install myapp ./myapp -f values-prod.yaml --set replicaCount=10
 ```
 
-### Upgrade
+### Nâng cấp
 
 ```bash
 # Sửa values rồi upgrade
@@ -390,7 +390,7 @@ helm upgrade myapp ./myapp --set image.tag=v1.2.4 --atomic
 helm upgrade myapp ./myapp -f values-prod.yaml --wait --timeout 5m
 ```
 
-### Rollback
+### Rollback (quay lại bản trước)
 
 ```bash
 # List history
@@ -407,7 +407,7 @@ helm rollback myapp 2
 helm rollback myapp 0
 ```
 
-### Uninstall
+### Gỡ cài đặt
 
 ```bash
 helm uninstall myapp
@@ -417,7 +417,7 @@ helm uninstall myapp
 helm uninstall myapp --keep-history
 ```
 
-### List releases
+### Liệt kê các release
 
 ```bash
 helm list                      # current namespace
@@ -433,7 +433,7 @@ helm get manifest myapp        # rendered YAML
 
 ## 4️⃣ Multi-env pattern — dev/staging/prod
 
-### Folder structure
+### Cấu trúc thư mục
 
 ```
 helm-deploys/
@@ -539,7 +539,7 @@ podDisruptionBudget:
   minAvailable: 80%
 ```
 
-### Deploy
+### Triển khai (Deploy)
 
 ```bash
 helm install myapp ./myapp -f envs/values-dev.yaml --namespace dev
@@ -553,7 +553,7 @@ helm install myapp ./myapp -f envs/values-prod.yaml --namespace production
 
 ## 5️⃣ Template functions — Sprig + built-in
 
-### Built-in objects
+### Built-in objects (đối tượng dựng sẵn)
 
 | Object | Mô tả | Ví dụ |
 |---|---|---|
@@ -568,7 +568,7 @@ helm install myapp ./myapp -f envs/values-prod.yaml --namespace production
 | `.Files.Get` | Đọc file trong chart | `{{ .Files.Get "config.json" }}` |
 | `.Capabilities` | K8s/Helm version info | `{{ .Capabilities.KubeVersion }}` |
 
-### Sprig functions (string/math/list/dict)
+### Sprig functions (xử lý string/math/list/dict)
 
 ```yaml
 # String
@@ -603,7 +603,7 @@ helm install myapp ./myapp -f envs/values-prod.yaml --namespace production
 {{ end }}
 ```
 
-### Pipe operations
+### Pipe operations (toán tử nối ống)
 
 ```yaml
 # Read file content, base64 encode, indent
@@ -613,7 +613,7 @@ config.json: {{ .Files.Get "configs/config.json" | b64enc | quote }}
 {{ toYaml .Values.resources | nindent 12 }}
 ```
 
-### `range` over dictionary
+### Lặp `range` qua dictionary
 
 ```yaml
 data:
@@ -644,7 +644,7 @@ data:
 
 Helm hook = template với annotation special, chạy thời điểm cụ thể trong release lifecycle.
 
-### Available hooks
+### Các hook có sẵn
 
 | Hook | Khi chạy |
 |---|---|
@@ -688,7 +688,7 @@ spec:
 
 → Mỗi `helm upgrade`, chạy migration trước khi deploy version mới.
 
-### Hook annotations explained
+### Giải thích các hook annotation
 
 - **`hook-weight`**: thứ tự thực thi (low → high). `-5` chạy trước hook `0`.
 - **`hook-delete-policy`**:
@@ -696,7 +696,7 @@ spec:
   - `hook-succeeded`: xoá sau khi thành công.
   - `hook-failed`: xoá sau khi fail.
 
-### Helm test
+### Helm test (kiểm thử chart)
 
 ```yaml
 # templates/tests/test-connection.yaml
@@ -729,7 +729,7 @@ helm test myapp
 
 [https://artifacthub.io/](https://artifacthub.io/) — search hàng nghìn chart.
 
-### Bitnami charts (most popular)
+### Bitnami charts (phổ biến nhất)
 
 ```bash
 # Add repo (legacy way)
@@ -751,7 +751,7 @@ helm install my-postgres bitnami/postgresql \
   --create-namespace
 ```
 
-### kube-prometheus-stack (monitor cluster all-in-one)
+### kube-prometheus-stack (giám sát cluster all-in-one)
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -778,7 +778,7 @@ helm install cert-manager jetstack/cert-manager \
 
 → Bài 02 dùng cert-manager cho TLS auto.
 
-### Sub-chart dependency
+### Sub-chart dependency (chart phụ thuộc)
 
 Trong `Chart.yaml`:
 ```yaml
@@ -833,7 +833,7 @@ helm install myapp oci://harbor.acmeshop.vn/charts/myapp --version 1.2.3
 
 → **2026 default**: dùng OCI registry (Harbor, ECR, GHCR) cho cả image + chart. Single source of truth.
 
-### GitHub Pages chart repo
+### Chart repo trên GitHub Pages
 
 ```bash
 # Trong repo helm-charts
@@ -877,7 +877,7 @@ git push origin gh-pages
 - Không muốn template DSL: Kustomize plain YAML.
 - ArgoCD/Flux native support: cả 2 OK.
 
-### Hybrid (popular pattern)
+### Hybrid (pattern phổ biến)
 
 Dùng Helm cho **public chart** (postgres-operator, cert-manager), Kustomize cho **business app config** (overlay per env):
 
@@ -895,14 +895,14 @@ kustomize build overlays/prod | kubectl apply -f -
 
 ## 🔟 Hands-on: Viết chart cho FastAPI từ đầu
 
-### Step 1: Generate skeleton
+### Bước 1: Tạo khung chart (skeleton)
 
 ```bash
 helm create fastapi-chart
 cd fastapi-chart
 ```
 
-### Step 2: Customize `Chart.yaml`
+### Bước 2: Tùy biến `Chart.yaml`
 
 ```yaml
 apiVersion: v2
@@ -919,7 +919,7 @@ dependencies:
     condition: postgresql.enabled
 ```
 
-### Step 3: Customize `values.yaml`
+### Bước 3: Tùy biến `values.yaml`
 
 ```yaml
 replicaCount: 2
@@ -975,7 +975,7 @@ postgresql:
       size: 10Gi
 ```
 
-### Step 4: Add custom ConfigMap template
+### Bước 4: Thêm template ConfigMap tùy biến
 
 `templates/configmap.yaml`:
 ```yaml
@@ -991,7 +991,7 @@ data:
   {{- end }}
 ```
 
-### Step 5: Add Secret template
+### Bước 5: Thêm template Secret
 
 `templates/secret.yaml`:
 ```yaml
@@ -1008,7 +1008,7 @@ stringData:
 {{- end }}
 ```
 
-### Step 6: Lint + render + install
+### Bước 6: Lint + render + cài đặt
 
 ```bash
 # Lint
@@ -1029,7 +1029,7 @@ helm list -n production
 kubectl get all -n production -l app.kubernetes.io/instance=fastapi
 ```
 
-### Step 7: Upgrade
+### Bước 7: Nâng cấp
 
 Sửa `values.yaml`:
 ```yaml
@@ -1042,7 +1042,7 @@ replicaCount: 3
 helm upgrade fastapi . --namespace production --atomic --wait
 ```
 
-### Step 8: Rollback
+### Bước 8: Rollback
 
 ```bash
 helm history fastapi -n production
@@ -1463,3 +1463,4 @@ labels:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 của intermediate cluster. Chart anatomy + template (Sprig) + `_helpers.tpl` + values multi-env + release lifecycle (install/upgrade/rollback) + hooks + sub-chart dependency + ChartMuseum/OCI registry + Helm vs Kustomize + ArgoCD integration. Hands-on viết chart FastAPI từ đầu. 6 pitfall + 3 best practice + 5 self-check + cheatsheet đầy đủ.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Kiến trúc + Install + §2 Tạo chart + Chart.yaml + values.yaml.
 - **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.
+- **v1.1.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
