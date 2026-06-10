@@ -1,12 +1,12 @@
 # 🛠️ Function Calling + Tool Use + Agent Loop
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md) ✅
+> **Yêu cầu trước:** Bài [01_prompt-engineering-and-context](01_prompt-engineering-and-context.md) ✅
 
 > 🎯 *Bài 02. LLM standalone = brain trong jar — không thể action. **Tool use / function calling** = LLM cầm điện thoại + tay → tự call API, query DB, search web, write file. Bài này dạy: schema khai báo tool, parallel calls, agentic loop ReAct, error handling, multi-step task. Foundation cho RAG + Agent (bài 03-04).*
 
@@ -61,6 +61,24 @@ LLM: "Order của bạn đã ship, dự kiến đến 26/05."
   ↓
 User: receive answer
 ```
+
+Sơ đồ dưới minh hoạ một vòng round-trip function calling — ai gửi gì cho ai qua từng bước.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant L as LLM
+    participant A as App
+    participant T as Tool/API
+    U->>L: "Order #12345 ở đâu?"
+    L->>A: tool_use: get_order_status(12345)
+    A->>T: gọi hàm thật
+    T-->>A: {status, eta}
+    A->>L: tool_result
+    L-->>U: "Đã ship, ETA 26/05"
+```
+
+Điểm mấu chốt: LLM không tự chạm vào Tool/API — App mới là bên thực thi và trả `tool_result` về cho LLM.
 
 ### Vai trò mỗi bên
 
@@ -289,6 +307,21 @@ tool_choice="none"  # never call
 ## 5️⃣ Agentic loop — ReAct pattern
 
 🪞 **Ẩn dụ**: *Agent loop như **detective điều tra** — không đủ data → call witness 1 → còn thiếu → call witness 2 → đủ → conclusion. Mỗi vòng loop, LLM "think next step" + "act" + "observe result".*
+
+Sơ đồ dưới minh hoạ vòng lặp Think → Act → Observe và đường thoát an toàn khi vượt quá MAX_ITER.
+
+```mermaid
+flowchart TD
+    Start([User request]) --> Think[Think: cần tool nào?]
+    Think --> Act[Act: gọi tool]
+    Act --> Obs[Observe: đọc kết quả]
+    Obs --> Done{Đủ thông tin?}
+    Done -->|Chưa| Think
+    Done -->|Rồi| Answer([Trả lời user])
+    Think -.->|quá MAX_ITER| Stop([Dừng an toàn])
+```
+
+Vòng lặp chỉ kết thúc khi LLM đủ thông tin để trả lời, hoặc bị chặn bởi MAX_ITER để tránh loop vô hạn.
 
 ### Pattern
 
@@ -752,7 +785,7 @@ Source:
 
 ### 🧭 Định hướng lộ trình học
 - ⬅️ **Bài trước:** [Prompt Engineering + Context Strategies](01_prompt-engineering-and-context.md)
-- ➡️ **Bài tiếp theo:** [RAG — Retrieval Augmented Generation](03_rag-fundamentals.md) *(sắp viết)*
+- ➡️ **Bài tiếp theo:** [RAG — Retrieval Augmented Generation](03_rag-fundamentals.md)
 - ↑ **Về cụm:** [LLM README](../../README.md)
 
 ### 🧩 Các chủ đề có thể bạn quan tâm
@@ -780,3 +813,4 @@ Source:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 LLM basic. Function calling flow + Anthropic/OpenAI schema + parallel tool calls + force tool choice + agent loop ReAct + error handling (schema/timeout/retry/MAX_ITER) + MCP standard 2024 + framework compare (LangChain/LangGraph/Assistants/Pydantic AI/CrewAI) + hands-on research agent + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Sửa lỗi (QA audit): thêm `import json` vào 3 snippet dùng json.loads/json.dumps (OpenAI function calling, agent loop, research agent) để chạy được khi copy; ghi rõ mốc MCP là 11/2024 (thay vì "2024" chung); đánh dấu output sample K8s 1.31 là mock + sửa ngày link 2026→2024 cho hợp lý (K8s 1.31 thật phát hành 08/2024).
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ function calling round-trip + agent loop ReAct cho trực quan.

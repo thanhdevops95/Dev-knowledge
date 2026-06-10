@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Không có — đây là bài intro mọi developer cần đọc
+> **Yêu cầu trước:** Không có — đây là bài intro mọi developer cần đọc
 
 > 🎯 *Bài INTRO. Hiểu **SQL là gì**, **RDBMS** vs **NoSQL**, **table/row/column**, 5 nhóm câu lệnh (DDL/DML/DQL/DCL/TCL), 5 hệ phổ biến (PostgreSQL/MySQL/SQLite/SQL Server/Oracle), và **cài SQLite trong 1 phút** để chạy thử. KHÔNG dạy SELECT chi tiết (sẽ học từ bài 01 trở đi).*
 
@@ -431,7 +431,7 @@ DELETE FROM t WHERE id = 1;                   -- DML
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

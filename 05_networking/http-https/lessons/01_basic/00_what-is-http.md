@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Đã biết terminal cơ bản ([what-is-terminal](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md))
+> **Yêu cầu trước:** Đã biết terminal cơ bản ([what-is-terminal](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md))
 
 > 🎯 *Bài INTRO — hiểu **HTTP là gì**, **mô hình request/response**, **stateless** protocol, các version (1.0/1.1/2/3). KHÔNG dạy methods/status/headers chi tiết (sẽ học từ bài 01 trở đi). Sau bài này bạn đọc được Network tab của Chrome DevTools.*
 

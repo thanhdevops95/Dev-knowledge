@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md)
+> **Yêu cầu trước:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md)
 
 > 🎯 *Học 4 lệnh CLI để query/debug DNS thật. Sau bài này bạn debug được "vì sao DNS sai" trong 2 phút thay vì 2 giờ.*
 
@@ -533,7 +533,7 @@ whois 8.8.8.8                         # WHOIS IP (ai sở hữu IP)
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

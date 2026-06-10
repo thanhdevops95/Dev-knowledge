@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Modules & Multi-env](03_modules-and-workspaces.md)
+> **Yêu cầu trước:** [Modules & Multi-env](03_modules-and-workspaces.md)
 
 > 🎯 *Production best practices: **security scanning** (tfsec, checkov), **cost estimation** (Infracost), **policy as code** (OPA, Sentinel), **drift detection** automation, **CI/CD integration**, **secrets management**. Plus **alternatives** to Terraform: Pulumi, CDK, Crossplane.*
 
@@ -802,7 +802,7 @@ Crossplane   K8s-native IaC
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

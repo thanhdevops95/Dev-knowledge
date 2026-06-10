@@ -1,12 +1,12 @@
 # 🤖 LLM là gì + Tokenization + Models 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Biết Python cơ bản + HTTP API; không cần học ML trước
+> **Yêu cầu trước:** Biết Python cơ bản + HTTP API; không cần học ML trước
 
 > 🎯 *Bài đầu tiên của LLM cluster. Bạn nghe nhiều về ChatGPT/Claude/Gemini nhưng chưa hiểu **trong** nó hoạt động sao. Bài này dạy: LLM là gì + transformer cơ bản + tokenization + context window + temperature + top-p + models 2026 (Claude 4 / GPT-5 / Gemini 2 / Llama 4) + so sánh khi nào dùng cái nào. Không deep architecture (đó là deep-learning cluster).*
 
@@ -121,6 +121,18 @@ tokens = enc.encode("Hello, world!")
 
 text = enc.decode([13225])  # → "Hello"
 ```
+
+Sơ đồ dưới minh hoạ pipeline biến văn bản thô thành dự đoán token tiếp theo của model.
+
+```mermaid
+flowchart LR
+    Text["Văn bản: 'Hello, world!'"] --> Tok[Tokenizer]
+    Tok --> Tokens["Tokens: [13225, 11, 1917, 0]"]
+    Tokens --> Emb[Embedding vectors]
+    Emb --> Model[Transformer] --> Next[Predict next token]
+```
+
+Mỗi token được ánh xạ thành embedding vector trước khi vào transformer, nên đếm token (không phải đếm ký tự) mới quyết định cost và context.
 
 Common pattern:
 - Common word = 1 token: `"hello"`, `"the"`, `"is"`.
@@ -440,7 +452,7 @@ CLI nhận file Python, gọi Claude explain → output Vietnamese explanation.
 
 ```python
 #!/usr/bin/env python3
-# explain.py — Mr.Rom
+# explain.py
 import sys
 import anthropic
 
@@ -587,7 +599,7 @@ python explain.py sample.py
 ## 🔗 Liên kết & Tài nguyên
 
 ### 🧭 Định hướng lộ trình học
-- ➡️ **Bài tiếp theo:** [Prompt Engineering + Context Strategies](01_prompt-engineering-and-context.md) *(sắp viết)*
+- ➡️ **Bài tiếp theo:** [Prompt Engineering + Context Strategies](01_prompt-engineering-and-context.md)
 - ↑ **Về cụm:** [LLM README](../../README.md)
 
 ### 🧩 Các chủ đề có thể bạn quan tâm
@@ -616,3 +628,5 @@ python explain.py sample.py
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 LLM basic cluster. LLM định nghĩa + transformer cơ bản + tokenization (token vs char) + context window 2026 (200k-2M) + parameters (temperature/top-p/seed/streaming) + models 2026 compare (Claude 4 / GPT-5 / Gemini 2 / Llama 4) + decision matrix + first API call Anthropic + OpenAI + hands-on "explain code" CLI + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Sửa số liệu Claude 2026: context window Opus/Sonnet 4.6+ lên 1M (output 128k/64k); giá Opus $5/$25, Sonnet $3/$15, Haiku $1/$5; tính lại cost Haiku $15/ngày; pitfall #3 sửa $25/M output; temperature range Claude 0-1 vs OpenAI 0-2 + lưu ý Opus 4.7+ gỡ temperature/top_p/top_k; Llama 4 sửa sang kiến trúc MoE (Scout/Maverick); hoàn thiện ví dụ async + ghi chú max_tokens bắt buộc.
+- **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.
+- **v1.1.2 (10/06/2026)** — Bổ sung sơ đồ pipeline text → token → embedding → model cho trực quan.

@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-terminal.md](./00_what-is-terminal.md) — đã mở được terminal
+> **Yêu cầu trước:** [00_what-is-terminal.md](./00_what-is-terminal.md) — đã mở được terminal
 
 > 🎯 *Tiếp bài terminal: hiểu **shell là gì** (khác terminal ra sao), 3 shell phổ biến (bash/zsh/fish), cách check shell đang dùng, khi nào nên đổi. KHÔNG dạy customize shell chi tiết (xem [02_tools/shell/](../../../../02_tools/shell/) chưa có).*
 
@@ -68,7 +68,7 @@ graph LR
 Câu hỏi tự nhiên: tại sao không có **1 shell duy nhất**? Trả lời ngắn: lịch sử + sở thích.
 
 ```
-1971 — sh (Bourne Shell) — bản đầu của Unix
+1979 — sh (Bourne Shell) — shell chuẩn của Unix V7 (bản sơ khai Thompson shell có từ 1971)
 1989 — bash (Bourne Again Shell) — GNU rewrite, mở rộng sh
 1990 — zsh (Z Shell) — thừa kế bash + thêm nhiều tính năng
 2005 — fish (Friendly Interactive Shell) — viết lại từ đầu, hiện đại

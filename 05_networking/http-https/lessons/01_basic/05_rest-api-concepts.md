@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTTP methods](01_http-methods.md), [HTTP status codes](02_http-status-codes.md), [HTTP headers](03_http-headers.md)
+> **Yêu cầu trước:** [HTTP methods](01_http-methods.md), [HTTP status codes](02_http-status-codes.md), [HTTP headers](03_http-headers.md)
 
 > 🎯 *Bài cuối HTTP basic. Học **REST là gì**, **6 ràng buộc Roy Fielding**, **cách design URL theo resource**, **HATEOAS** (sơ lược), **REST vs GraphQL vs gRPC**, **versioning**, và **best practices**. Sau bài này bạn design API không bị sếp phán "không RESTful".*
 
@@ -417,7 +417,7 @@ GET /users/42?version=2
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

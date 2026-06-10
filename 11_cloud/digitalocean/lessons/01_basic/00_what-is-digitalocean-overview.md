@@ -1,9 +1,9 @@
 # 🌊 DigitalOcean — Tổng quan + Team/Project + doctl CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
@@ -13,7 +13,7 @@
 ## 🎯 Sau bài này bạn sẽ
 
 - [ ] Hiểu **DO khác AWS/GCP** ở điểm nào, vì sao chọn DO
-- [ ] Biết **10-12 services tier 1** của DO và analog với AWS
+- [ ] Biết **các services tier 1** của DO (nhóm Compute/Storage/Database/Network/Ops) và analog với AWS
 - [ ] Tạo **DO account** an toàn (2FA, billing alert, Team setup)
 - [ ] Hiểu **Team → Project → Resource** hierarchy
 - [ ] Cài đặt **doctl CLI** + auth + context
@@ -92,7 +92,7 @@ Vấn đề: bạn chưa biết DO khác AWS chỗ nào, "Project" trong DO khá
 
 ## 2️⃣ DO Services tier 1 (must-know)
 
-DO có ~30 services. **Tier 1** (cần biết ngay) = ~12 services chiếm 95% workload.
+DO có ~30 services. **Tier 1** (cần biết ngay) = nhóm services chiếm 95% workload, liệt kê đầy đủ theo 5 mảng bên dưới (Compute / Storage / Database / Network / Identity & Ops).
 
 ### Compute
 
@@ -679,3 +679,4 @@ doctl compute droplet list
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Bài 00 cluster DigitalOcean basic. Overview DO + niche developer/SMB + so sánh AWS/GCP + 12 services tier 1 + Team→Project hierarchy + doctl setup + Tier Pricing flat + hands-on Droplet + 8 pitfalls. Pattern theo AWS/GCP lesson 00.
 - **v1.1.0 (01/06/2026)** — Đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá Glossary header sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (⬅️/➡️/↑ + link text = tiêu đề thực, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên). Sửa mâu thuẫn nội bộ: DOKS control plane free (bỏ "$12"), DO có Functions serverless (gỡ ý "không có Lambda equivalent"). Làm mềm free credit signup (bỏ số cứng $200/60 ngày); cập nhật doctl v1.104.0 → v1.160.1 + ghi chú dùng bản mới nhất.
+- **v1.1.1 (10/06/2026)** — Sửa mâu thuẫn số đếm services tier 1: bảng §2 liệt kê ~22 mục (4 Compute + 4 Storage + 5 Database + 5 Network + 4 Identity & Ops) nhưng văn bản ghi "10-12 services" / "~12 services". Bỏ con số cứng, đổi sang "các services tier 1 theo 5 nhóm" ở mục tiêu và lời dẫn §2.

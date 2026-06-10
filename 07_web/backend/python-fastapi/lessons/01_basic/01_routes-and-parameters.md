@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [FastAPI là gì](00_what-is-fastapi.md)
+> **Yêu cầu trước:** [FastAPI là gì](00_what-is-fastapi.md)
 
 > 🎯 *Làm chủ 3 loại parameter: **path** (`/users/{id}`), **query** (`?page=2`), **body** (JSON POST). Plus **header**, **cookie**. Phân biệt 5 loại + control 200/201/204/400 status code + chia router thành nhiều file (APIRouter).*
 
@@ -574,7 +574,7 @@ app.include_router(router)
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -611,7 +611,7 @@ app.include_router(router)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.
 

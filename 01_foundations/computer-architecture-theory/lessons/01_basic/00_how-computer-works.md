@@ -1,12 +1,12 @@
 # 🎓 Máy tính hoạt động thế nào? — Từ dòng điện đến dòng code
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.0.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Không có (bài đầu tiên cho người mới bắt đầu)
+> **Yêu cầu trước:** Không có (bài đầu tiên cho người mới bắt đầu)
 
 > 🎯 *Trước khi bắt tay học lập trình, bạn cần hiểu thực sự "chiếc hộp sắt" trước mặt bạn hoạt động như thế nào. Bài này giúp bạn hiểu từ dòng điện nhị phân 0 và 1, cấu trúc phần cứng CPU/RAM, đến cách mã nguồn (code) của bạn được biên dịch thành mệnh lệnh cho máy tính chạy.*
 
@@ -30,7 +30,7 @@ Bạn đã bao giờ tự hỏi: **Điều gì thực sự xảy ra bên trong c
 - Tại sao người ta lại bảo máy tính chỉ hiểu hai con số `0` và `1`? Nếu nó ngốc nghếch thế, làm sao nó chạy được các AI thông minh như ChatGPT hay Cursor?
 - Khi bạn viết dòng chữ `print("Hello World")`, chiếc máy tính làm cách nào để biến dòng chữ tiếng Anh đó thành hành động cụ thể trên màn hình?
 
-Nếu bạn bắt đầu học lập trình mà bỏ qua những câu hỏi này, bạn giống như một người tập lái xe mà không hề biết bên dưới nắp ca-pô có động cơ. Hãy cùng Mr.Rom mở chiếc "nắp ca-pô" của máy tính ra để khám phá nhé!
+Nếu bạn bắt đầu học lập trình mà bỏ qua những câu hỏi này, bạn giống như một người tập lái xe mà không hề biết bên dưới nắp ca-pô có động cơ. Hãy cùng mình mở chiếc "nắp ca-pô" của máy tính ra để khám phá nhé!
 
 ---
 
@@ -57,7 +57,7 @@ Hiểu được cách máy tính số hóa mọi thứ thành hệ nhị phân r
 
 Để chạy được bất kỳ chương trình nào, máy tính luôn cần sự phối hợp nhịp nhàng của ba linh kiện cốt lõi: CPU, RAM và Ổ cứng. 
 
-Để dễ hình dung nhất, **Mr.Rom mời bạn bước vào một căn bếp nhà hàng**:
+Để dễ hình dung nhất, **mình mời bạn bước vào một căn bếp nhà hàng**:
 
 ```mermaid
 graph TD
@@ -150,7 +150,7 @@ Vì hai lý do cốt lõi:
 
 ---
 
-## 📚 Glossary (Từ điển thuật ngữ)
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ EN | Dịch / Hiểu tiếng Việt | Giải thích ngắn |
 |---|---|---|

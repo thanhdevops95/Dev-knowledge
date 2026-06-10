@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [03_statefulset-and-storage.md](03_statefulset-and-storage.md)
+> **Yêu cầu trước:** [03_statefulset-and-storage.md](03_statefulset-and-storage.md)
 
 > 🎯 *Bài cuối intermediate. Manual `kubectl scale` không kịp với load spike. **HPA** scale pod, **VPA** adjust limits, **Cluster Autoscaler** add node, **KEDA** scale theo external event. Setup Postgres production 30+ YAML = pain — **Operator** abstract complex stateful workload. Bài này dạy cả 2 + viết simple operator.*
 

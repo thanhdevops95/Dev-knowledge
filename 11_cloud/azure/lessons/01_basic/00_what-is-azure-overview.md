@@ -1,9 +1,9 @@
 # ☁️ Azure — Tổng quan + account setup + az CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu Region/AZ/IaaS-PaaS-SaaS
@@ -879,6 +879,42 @@ Sau Azure basic:
 
 ---
 
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Gom các lệnh `az` nền tảng hay dùng nhất ngay từ bài đầu (login, chọn subscription, resource group, config) cùng bảng quy đổi nhanh tên service Azure sang AWS/GCP.
+
+| Mục đích | Lệnh |
+|---|---|
+| Login (browser/device code) | `az login` · `az login --use-device-code` |
+| Liệt kê subscription | `az account list --output table` |
+| Chọn subscription mặc định | `az account set --subscription "acmeshop-prod"` |
+| Xem context hiện tại | `az account show --output table` |
+| Liệt kê region | `az account list-locations --output table` |
+| Tạo / xoá Resource Group | `az group create --name rg-test --location southeastasia` · `az group delete --name rg-test --yes` |
+| Đặt default location + group + output | `az configure --defaults location=southeastasia group=rg-prod-web output=table` |
+| Tạo Service Principal cho CI/CD | `az ad sp create-for-rbac --name sp-ci-deployer --role Contributor --scopes <scope>` |
+| Bật Managed Identity cho VM | `az vm identity assign --resource-group <rg> --name <vm>` |
+| Gán RBAC role granular | `az role assignment create --assignee <user> --role "Storage Blob Data Reader" --scope <scope>` |
+| Query JMESPath + output table | `az vm list --query "[?powerState=='VM running'].[name,location]" --output table` |
+
+Bảng quy đổi nhanh tên service tier 1 sang AWS/GCP (dùng để chuyển kiến thức cũ sang Azure):
+
+| Azure | AWS | GCP |
+|---|---|---|
+| Virtual Machines (VM) | EC2 | Compute Engine |
+| Blob Storage | S3 | Cloud Storage |
+| Azure SQL Database | RDS SQL Server | Cloud SQL |
+| Cosmos DB | DynamoDB | Firestore |
+| Azure Functions | Lambda | Cloud Functions |
+| App Service | Elastic Beanstalk | App Engine |
+| Container Apps | Fargate / App Runner | Cloud Run |
+| AKS | EKS | GKE |
+| Virtual Network (VNet) | VPC | VPC |
+| Entra ID | IAM Identity Center | Cloud Identity |
+| Key Vault | Secrets Manager + KMS | Secret Manager + KMS |
+
+---
+
 ## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Tiếng Việt | Giải thích |
@@ -949,3 +985,4 @@ Sau Azure basic:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cụm Azure basic. Overview Azure + so sánh AWS/GCP + 20 services tier 1 + Management Group → Subscription → Resource Group hierarchy + `az` CLI + Service Principal/Managed Identity + Free Tier 2026 + Entra ID & RBAC cơ bản + hands-on tạo VM B1s + 8 pitfalls.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ Claude khỏi mô tả Azure OpenAI (Azure OpenAI chỉ phục vụ model OpenAI; Claude qua Bedrock/Vertex AI); đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá bảng Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, 3 sub-heading canonical, link-text = tiêu đề thực của bài đích).
+- **v1.1.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [TCP/IP là gì](00_what-is-tcp-ip.md)
+> **Yêu cầu trước:** [TCP/IP là gì](00_what-is-tcp-ip.md)
 
 > 🎯 *Hiểu **IP address** là gì, **IPv4 vs IPv6**, đọc được **subnet mask + CIDR notation**, phân biệt **public/private/loopback**, biết **NAT** vì sao quan trọng, và đọc được output `ip a` / `ipconfig`.*
 
@@ -493,7 +493,7 @@ ping 8.8.8.8               # Test connectivity
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

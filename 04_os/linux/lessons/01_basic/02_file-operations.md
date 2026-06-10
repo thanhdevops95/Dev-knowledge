@@ -6,7 +6,7 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_navigation.md](./01_navigation.md)\
+> **Yêu cầu trước:** [01_navigation.md](./01_navigation.md)\
 > **Áp dụng cho:** Linux • macOS • WSL • Git Bash
 
 > 🎯 *Sau bài navigation, bạn biết "đi đâu". Bài này dạy "làm gì khi đến" — tạo, copy, đổi tên, xóa file/folder. Đặc biệt cảnh báo `rm` vì không có Undo.*

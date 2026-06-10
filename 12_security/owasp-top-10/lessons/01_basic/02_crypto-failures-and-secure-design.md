@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [01_injection-and-access-control](01_injection-and-access-control.md) ✅, biết HTTPS cơ bản
+> **Yêu cầu trước:** Bài [01_injection-and-access-control](01_injection-and-access-control.md) ✅, biết HTTPS cơ bản
 
 > 🎯 *Bài 02. **A04 Cryptographic Failures** (OWASP Top 10:2025 — bản hiện hành; rename từ "Sensitive Data Exposure", từng đứng A02 ở 2021) — vuln về encryption, hashing, TLS. **A06 Insecure Design** (giới thiệu từ 2021, ở 2025 đứng A06) — flaw từ thiết kế chứ không phải implementation. Bài này dạy: symmetric vs asymmetric, password hashing (Argon2/bcrypt), TLS proper setup, JWT signing pitfalls, secure design patterns (threat-driven, secure by default), abuse case. Hands-on migrate Acme Shop password từ MD5 sang Argon2.*
 

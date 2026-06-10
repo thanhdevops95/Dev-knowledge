@@ -323,7 +323,7 @@ Rename theo tool category naming chuẩn.
 
 ### 10_devops
 
-#### docker/ ✅ **Bộ basic đầu tiên** (6 bài)
+#### docker/ ✅ **Bộ basic đầu tiên** (4 bài + setup + bài tập)
 - ✅ 🆕 [`setup/install-docker.md`](10_devops/docker/setup/install-docker.md)
 - ✅ 🌟 🆕 [`lessons/01_basic/00_what-is-docker.md`](10_devops/docker/lessons/01_basic/00_what-is-docker.md)
 - ✅ 🌟 🆕 [`lessons/01_basic/01_images-and-containers.md`](10_devops/docker/lessons/01_basic/01_images-and-containers.md)

@@ -1,9 +1,9 @@
 # 🗃️ Managed Databases — Postgres / MySQL / Redis / MongoDB / Kafka
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Spaces — Object Storage + CDN built-in](02_spaces-object-storage-and-cdn.md), hiểu SQL cơ bản, đã dùng Postgres/Redis
@@ -111,7 +111,7 @@ DO không chỉ có Postgres. Trong cùng một giao diện Managed Databases, b
 
 ## 3️⃣ Pricing — Tier matrix
 
-Giá managed DB chia làm hai nhóm: **Basic** (1 node, không HA — hợp dev/staging) và **Pro** (kèm standby, hợp production). Càng nhiều RAM/vCPU/standby thì giá càng lên. Bảng dưới giúp bạn ướm ngân sách $30-100/tháng mà sếp đưa ra rơi vào tier nào.
+Giá managed DB chia làm hai nhóm: **Basic** (1 node, không HA — hợp dev/staging) và **Pro** (kèm standby, hợp production). Càng nhiều RAM/vCPU/standby thì giá càng lên. Bảng dưới giúp bạn ướm ngân sách $30-100/tháng mà sếp đưa ra rơi vào tier nào. (Các con số giá bên dưới là *tính đến 2026* — DO điều chỉnh bảng giá theo thời gian, luôn đối chiếu trang pricing chính thức trước khi quyết.)
 
 ### Postgres (tương tự MySQL/MongoDB)
 
@@ -709,3 +709,4 @@ Combined: zero attack surface từ internet.
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Managed DB rationale + 5 engine (Postgres/MySQL/Redis/MongoDB/Kafka) + tier matrix + standby vs read replica + PgBouncer pool mode + backup PITR + Trusted Sources + VPC private + user RBAC + hands-on Postgres production + 10 pitfalls.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước) + Glossary header 3 cột + nav theo gold-standard (⬅️/➡️/↑ Về cụm, link-text = tiêu đề thực, 3 sub Định hướng/Chủ đề/Tài nguyên). Thêm lời dẫn trước các bảng (5 engine, tier matrix) và viết mượt đoạn connection pooling. Giữ nguyên toàn bộ nội dung kỹ thuật + số liệu (đã verify max_connections=22 cho Basic 1GB là đúng: 25/GB trừ 3 reserved).
+- **v1.1.1 (10/06/2026)** — Gắn mốc thời gian *tính đến 2026* cho bảng giá managed DB ở §3 (giá biến động theo thời gian) + nhắc đối chiếu trang pricing chính thức. Không đổi con số.

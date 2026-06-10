@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md) ✅
+> **Yêu cầu trước:** Bài [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md) ✅
 
 > 🎯 *Bài 03 (chuẩn **OWASP Top 10:2025**). 3 vuln liên quan: **A02 Security Misconfiguration** (server config sai, headers thiếu, debug bật trong prod — lên #2 trong 2025), **A03 Software Supply Chain Failures** (category MỚI 2025, mở rộng từ "Vulnerable and Outdated Components" 2021 — dep CVE chưa patch + toàn bộ chuỗi cung ứng phần mềm), **A08 Software or Data Integrity Failures** (supply chain attack, unsigned package). Bài này dạy: security headers đầy đủ, CORS đúng, dependency scanning (Snyk/Dependabot/Trivy), SBOM, cosign + SLSA. Hands-on harden Acme Shop từ A → A+ trên Mozilla Observatory.*
 

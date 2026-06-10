@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [00 - Authentication là gì](00_what-is-authentication.md) ✅. Không cần biết crypto trước, mình sẽ giới thiệu khi đến.
+> **Yêu cầu trước:** Bài [00 - Authentication là gì](00_what-is-authentication.md) ✅. Không cần biết crypto trước, mình sẽ giới thiệu khi đến.
 
 > 🎯 *Bài trước bạn đã biết 3 yếu tố xác thực (mật khẩu, vật bạn cầm, sinh trắc học). Bài này đi sâu vào 2 yếu tố đầu — vì sao mật khẩu plain text là thảm hoạ, dùng "băm" (hashing) thế nào cho đúng, làm sao thêm lớp xác thực thứ 2 (TOTP/Passkey) để chống bị chiếm tài khoản. Cuối bài: bạn migrate được DB user từ mật khẩu cũ sang chuẩn 2026, thêm được Passkey cho admin.*
 

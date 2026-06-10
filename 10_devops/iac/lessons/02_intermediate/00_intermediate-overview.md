@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [IaC basic](../01_basic/), [CI/CD intermediate GitOps](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md)
+> **Yêu cầu trước:** [IaC basic](../01_basic/), [CI/CD intermediate GitOps](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md)
 
 > 🎯 *Bài INTRO cuối DevOps intermediate sprint. Basic dạy Terraform basics + state + modules + best practices. Production scale cần: **Terragrunt DRY**, **Atlantis GitOps workflow**, **drift detection automation**, **multi-language alternatives** (Pulumi/CDK/Crossplane). Bài này map landscape.*
 

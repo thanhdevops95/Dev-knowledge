@@ -1,12 +1,11 @@
 # 🧪 Bài thực hành: Người hùng giải cứu code — Conflict Hero
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Độ khó:** 🟡\
-> **Thời gian ước tính:** ~30 phút\
-> **Prerequisites:** Đã học xong bài học [01_resolving-conflicts.md](../../lessons/02_intermediate/01_resolving-conflicts.md) ✅
+> **Yêu cầu trước:** Đã học xong bài [Giải quyết xung đột gộp code](../../lessons/02_intermediate/01_resolving-conflicts.md) ✅
 
 ---
 
@@ -55,7 +54,7 @@ Output thực tế hiển thị:
 ```
 Initialized empty Git repository in /Users/user/Desktop/conflict-hero-playground/.git/
 ```
-*   **Giải thích output:** Thư mục ẩn `.git/` đã được khởi tạo thành công làm cơ sở dữ liệu ngầm để lưu giữ lịch sử phân nhánh của dũng sĩ.
+-   **Giải thích output:** Thư mục ẩn `.git/` đã được khởi tạo thành công làm cơ sở dữ liệu ngầm để lưu giữ lịch sử phân nhánh của dũng sĩ.
 
 ---
 
@@ -83,7 +82,7 @@ Output thực tế hiển thị:
  1 file changed, 6 insertions(+)
  create mode 100644 hero.py
 ```
-*   **Giải thích output:** Git tạo thành công commit gốc `f1e2d3c` trên nhánh chính `main` ghi nhận sự khai sinh của class Hero.
+-   **Giải thích output:** Git tạo thành công commit gốc `f1e2d3c` trên nhánh chính `main` ghi nhận sự khai sinh của class Hero.
 
 ---
 
@@ -96,7 +95,7 @@ Output thực tế:
 ```
 Switched to a new branch 'feature/magic-sword'
 ```
-*   **Giải thích output:** Trạng thái chuyển nhánh thành công sang dòng thời gian song song mang tên `feature/magic-sword`. Mọi code gõ ở đây sẽ hoàn toàn độc lập với `main`.
+-   **Giải thích output:** Trạng thái chuyển nhánh thành công sang dòng thời gian song song mang tên `feature/magic-sword`. Mọi code gõ ở đây sẽ hoàn toàn độc lập với `main`.
 
 Mở file `hero.py` ra sửa đổi dòng số 3 thành kỹ năng kiếm thuật:
 ```bash
@@ -126,7 +125,7 @@ Output thực tế:
 ```
 Switched to branch 'main'
 ```
-*   **Giải thích output:** Quay trở về nhánh chính. File `hero.py` lập tức quay về trạng thái thô sơ ban đầu *"Độc hành (Basic)"* nhờ cơ chế khôi phục kỳ diệu của Git.
+-   **Giải thích output:** Quay trở về nhánh chính. File `hero.py` lập tức quay về trạng thái thô sơ ban đầu *"Độc hành (Basic)"* nhờ cơ chế khôi phục kỳ diệu của Git.
 
 Tách nhánh phụ thứ hai để học phép thuật lửa:
 ```bash
@@ -169,7 +168,7 @@ Fast-forward
  hero.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 ```
-*   **Giải thích output:** Git tiến hành gộp nhanh kiểu **Fast-forward** không tạo commit mới vì nhánh `main` chưa bị chỉnh sửa gì kể từ khi tách nhánh Kiếm thuật. Nhánh `main` lúc này chính thức sở hữu kỹ năng *"Vạn Kiếm Quy Tông ⚔️"*.
+-   **Giải thích output:** Git tiến hành gộp nhanh kiểu **Fast-forward** không tạo commit mới vì nhánh `main` chưa bị chỉnh sửa gì kể từ khi tách nhánh Kiếm thuật. Nhánh `main` lúc này chính thức sở hữu kỹ năng *"Vạn Kiếm Quy Tông ⚔️"*.
 
 **Gộp tiếp nhánh thứ hai (Phép thuật lửa) đè lên:**
 ```bash
@@ -181,7 +180,7 @@ Auto-merging hero.py
 CONFLICT (content): Merge conflict in hero.py
 Automatic merge failed; fix conflicts and then commit the result.
 ```
-*   **Giải thích output:** Git thông báo quá trình tự động gộp file `hero.py` thất bại vì phát hiện hai thay đổi đè lên cùng một dòng số 3. Hệ thống bị kẹt lại để chờ bạn hòa giải.
+-   **Giải thích output:** Git thông báo quá trình tự động gộp file `hero.py` thất bại vì phát hiện hai thay đổi đè lên cùng một dòng số 3. Hệ thống bị kẹt lại để chờ bạn hòa giải.
 
 ---
 
@@ -201,8 +200,8 @@ Mở tệp `hero.py` lên. Bạn sẽ thấy VS Code bôi đậm vùng màu xung
 ```
 
 Bản chất của một người anh hùng không phải là triệt tiêu đối thủ, mà là **hòa hợp sức mạnh**. 
-*   Hãy dùng chuột click chọn **`Accept Both Changes`** (Nhận cả hai thay đổi) trong VS Code.
-*   Sau đó tự tay biên soạn lại dòng code số 3 để dung hợp hai sức mạnh thành chiêu thức độc nhất vô nhị. Nội dung file `hero.py` sau khi hòa giải tuyệt đối:
+-   Hãy dùng chuột click chọn **`Accept Both Changes`** (Nhận cả hai thay đổi) trong VS Code.
+-   Sau đó tự tay biên soạn lại dòng code số 3 để dung hợp hai sức mạnh thành chiêu thức độc nhất vô nhị. Nội dung file `hero.py` sau khi hòa giải tuyệt đối:
 
 ```python
 class Hero:
@@ -223,7 +222,7 @@ Output thực tế hiển thị thành công:
 ```
 [main e7f8g9h] merge: resolve conflict, combine sword and fire magic into hybrid skill
 ```
-*   **Giải thích output:** Merge Commit `e7f8g9h` đã được tạo ra ghi nhận sự hòa hợp tuyệt vời của hai nhánh kỹ năng.
+-   **Giải thích output:** Merge Commit `e7f8g9h` đã được tạo ra ghi nhận sự hòa hợp tuyệt vời của hai nhánh kỹ năng.
 
 ---
 
@@ -263,4 +262,12 @@ rm -rf conflict-hero-playground
 ---
 
 ## 🔗 Liên kết & Tài nguyên
-*   ➡️ Thử thách tiếp theo: [lab_team-pull-request.md](./lab_team-pull-request.md) — Thực hành quy trình Pull Request chuyên nghiệp.
+
+-   ➡️ Thử thách tiếp theo: [Lab — Quy trình Pull Request](./lab_team-pull-request.md) — Thực hành quy trình Pull Request chuyên nghiệp.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v2.1.0 (26/05/2026)** — Lab thực hành tạo & giải quyết Merge Conflict thực chiến (Conflict Hero).
+- **v2.1.1 (10/06/2026)** — Bỏ field "Thời gian ước tính" (theo quy ước bỏ ước tính thời gian); đổi `Prerequisites` → `Yêu cầu trước`; bullet `*` → `-`; link text theo tiêu đề bài.

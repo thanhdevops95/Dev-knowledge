@@ -1,18 +1,17 @@
----
-title: Services Và Ingress: Định Tuyến Mạng Và Cổng Vào An Toàn Cho Hệ Thống Kubernetes
-author: Mr.Rom
-version: v2.0.0
-date: 2026-05-26
-level: Basic
-tags: [MUST-KNOW, DEVOPS, KUBERNETES]
----
-
 # 🎓 Services Và Ingress: Định Tuyến Mạng Và Cổng Vào An Toàn Cho Hệ Thống Kubernetes
 
-> 🎯 **Lời dẫn của Mr.Rom:**
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v2.0.2\
+> **Tạo lúc:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
+> **Level:** Basic\
+> **Tags:** [MUST-KNOW]\
+> **Yêu cầu trước:** [Khởi tạo Pods và Deployments chuyên sâu](./01_pods-and-deployments.md)
+
+> 🎯 **Lời dẫn:**
 > Chào bạn, khi bạn đã chạy thành công các bản sao container của mình bằng Deployment, một thử thách to lớn khác lập tức xuất hiện: Làm sao để các container tìm thấy nhau khi địa chỉ IP của chúng liên tục thay đổi sau mỗi lần restart? Và làm thế nào để expose (mở cổng) đưa ứng dụng của bạn ra ngoài Internet một cách an toàn, bảo mật HTTPS mà không tốn quá nhiều chi phí thuê Load Balancer? Bài học thực chiến này sẽ đồng hành cùng bạn làm chủ trọn vẹn hạ tầng mạng của Kubernetes thông qua bộ đôi công cụ đắc lực: **Service** và **Ingress**!
 
-## 🎯 Sau bài học này, bạn sẽ làm chủ:
+## 🎯 Sau bài học này, bạn sẽ làm chủ
 
 - [x] Bản chất của địa chỉ IP tạm thời (**Pod IP ephemeral**) và lý do vì sao hệ thống bắt buộc phải cần tới K8s Service.
 - [x] Phân biệt rõ rệt và sử dụng đúng lúc **4 loại hình Service**: ClusterIP, NodePort, LoadBalancer, ExternalName.
@@ -143,6 +142,22 @@ $ wget -O- http://fastapi-service:80
 
 Để đáp ứng các nhu cầu phân tách mạng khác nhau, K8s cung cấp cho bạn 4 sự lựa chọn loại hình Service cực kỳ linh hoạt:
 
+Sơ đồ dưới đây cho thấy lưu lượng từ các nguồn khác nhau (Internet, nội bộ) đi qua từng loại Service rồi mới chạm tới Pod:
+
+```mermaid
+flowchart TD
+    Ext["Client ngoài Internet"] --> LB["LoadBalancer (cloud LB)"]
+    Ext --> NP["NodePort (port 30000-32767)"]
+    LB --> SVC["Service (ClusterIP ảo)"]
+    NP --> SVC
+    Internal["Pod khác trong cluster"] --> SVC
+    SVC -->|chọn theo label| P1[Pod 1]
+    SVC --> P2[Pod 2]
+    EN["ExternalName"] -.->|CNAME ra DNS ngoài| Out["dịch vụ ngoài cluster"]
+```
+
+Điểm mấu chốt: cả LoadBalancer lẫn NodePort đều đổ về ClusterIP rồi mới chọn Pod theo label, riêng ExternalName chỉ là bí danh DNS không hề định tuyến qua Pod.
+
 ### 1. ClusterIP (Mặc định - Chỉ hoạt động nội bộ)
 Đây là loại hình phổ biến nhất. Service chỉ nhận một địa chỉ IP nội bộ bên trong cluster. Thế giới bên ngoài Internet hoàn toàn không thể kết nối tới IP này.
 
@@ -195,7 +210,7 @@ Kubernetes tích hợp sẵn một máy chủ tên miền thông minh mang tên 
 <tên-service>.<tên-namespace>.svc.cluster.local
 ```
 
-### Các ví dụ truy cập thực chiến:
+### Các ví dụ truy cập thực chiến
 
 Giả sử bạn có một Service mang tên `payment-service` nằm trong namespace `production`:
 
@@ -528,7 +543,7 @@ Bạn hãy cố gắng trả lời nhanh 5 câu hỏi sau để tổng ôn kiế
 5. Vai trò cốt lõi của `kube-proxy` chạy trên Worker Node là làm nhiệm vụ gì?
 
 <details>
-<summary><b>💡 Bấm để xem gợi ý đáp án từ Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem gợi ý đáp án</b></summary>
 
 1. **Bản chất Ephemeral:** Pod IP sẽ bị thay đổi và cấp mới hoàn toàn mỗi khi Pod bị crash hoặc cập nhật mới. Service giải quyết bằng cách tạo ra một địa chỉ IP ảo tĩnh cố định và duy nhất đại diện cho cả nhóm Pod, tự động cập nhật danh sách IP Pod thực tế chạy dưới nền mà không làm gián đoạn kết nối của khách hàng.
 2. **Ưu tiên Ingress:** Để tối ưu hóa chi phí vận hành. 1 Ingress chỉ cần thuê **duy nhất 1 thiết bị Load Balancer vật lý** phía ngoài đám mây để định tuyến thông minh cho hàng chục dịch vụ ClusterIP chạy bên trong. Nếu dùng LoadBalancer Service riêng lẻ, bạn sẽ phải trả tiền thuê hàng chục Load Balancer cực kỳ lãng phí.
@@ -542,7 +557,7 @@ Bạn hãy cố gắng trả lời nhanh 5 câu hỏi sau để tổng ôn kiế
 
 ## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Và Manifest Mẫu
 
-### Cú pháp viết Service tối giản:
+### Cú pháp viết Service tối giản
 ```yaml
 apiVersion: v1
 kind: Service
@@ -553,7 +568,7 @@ spec:
   type: ClusterIP
 ```
 
-### Bộ lệnh kubectl gỡ lỗi mạng cực kỳ hữu dụng:
+### Bộ lệnh kubectl gỡ lỗi mạng cực kỳ hữu dụng
 ```bash
 kubectl get svc                         # Xem danh sách các Service trong namespace
 kubectl get endpoints <tên-service>     # Xem danh sách IP thực tế của các Pod đang liên kết
@@ -564,7 +579,7 @@ kubectl get certificates                # Kiểm tra trạng thái cấp phát S
 
 ---
 
-## 📘 Từ Điển Thuật Ngữ (Glossary) Chuyên Ngành
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 - **Service Discovery (Khám phá dịch vụ):** Cơ chế tự động phát hiện, định tuyến và kết nối giữa các thành phần dịch vụ trong mạng ảo mà không cần cấu hình IP cứng.
 - **ClusterIP:** Loại hình Service mặc định, chỉ cấp phát IP nội bộ an toàn bên trong cluster.
@@ -576,11 +591,11 @@ kubectl get certificates                # Kiểm tra trạng thái cấp phát S
 
 ## 🔗 Liên Kết & Tài Nguyên Học Tập Bổ Sung
 
-### Các bài học liên quan trực tiếp:
+### Các bài học liên quan trực tiếp
 - [⬅️ Bài học trước: Khởi tạo Pods và Deployments chuyên sâu](./01_pods-and-deployments.md)
 - [➡️ Bài học tiếp theo: Quản lý biến cấu hình với ConfigMaps và Secrets](./03_configmaps-and-secrets.md)
 
-### Tài liệu chính hãng tham khảo thêm:
+### Tài liệu chính hãng tham khảo thêm
 - [Tài liệu hướng dẫn chuyên sâu về cấu trúc mạng của Kubernetes](https://kubernetes.io/docs/concepts/services-networking/service/)
 - [ cert-manager — Hướng dẫn cài đặt và cấu hình Let's Encrypt chính thức](https://cert-manager.io/docs/)
 
@@ -588,7 +603,7 @@ kubectl get certificates                # Kiểm tra trạng thái cấp phát S
 
 ## 📌 Lịch Sử Thay Đổi (Changelog)
 
-- **v2.0.0 (26/05/2026)** — **Mr.Rom nâng cấp Premium chuẩn 5 sao:**
+- **v2.0.0 (26/05/2026)** — **Nâng cấp Premium chuẩn 5 sao:**
   - Viết lại toàn diện bài viết đạt chuẩn chất lượng Premium 5 sao của Blueprint mới.
   - Cấu trúc lại tiêu đề H1 và metadata block YAML chuẩn chỉnh chuyên nghiệp.
   - Chuyển đổi 100% tiêu đề H2 thành câu hỏi mở kích thích tư duy sâu sắc.
@@ -597,3 +612,5 @@ kubectl get certificates                # Kiểm tra trạng thái cấp phát S
   - Nâng cấp chương thực hành thực chiến: Bản thiết kế sơ đồ mạng hoàn chỉnh cho FastAPI + React tích hợp định tuyến Ingress đa Domain và tự động kích hoạt HTTPS Let's Encrypt.
 - **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4+ §3.6: bổ sung lời dẫn trước các phần sơ đồ định tuyến Service.
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên về Service và Ingress.
+- **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.
+- **v2.0.2 (10/06/2026)** — Bổ sung sơ đồ 4 loại Service cho trực quan.

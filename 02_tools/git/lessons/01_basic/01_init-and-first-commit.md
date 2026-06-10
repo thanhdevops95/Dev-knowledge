@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is Git](./00_what-is-git.md), đã [cài Git](../../setup/git.md) + config xong
+> **Yêu cầu trước:** [What is Git](./00_what-is-git.md), đã [cài Git](../../setup/git.md) + config xong
 
 > 🎯 *Tiếp nối bài intro — bạn đọc xong, mở terminal lần đầu. Bài này dạy 4 lệnh cốt lõi (`init`, `add`, `commit`, `log`) qua project thực tế của bạn. Cuối bài bạn có repo local đầu tiên với 2-3 commit lịch sử.*
 

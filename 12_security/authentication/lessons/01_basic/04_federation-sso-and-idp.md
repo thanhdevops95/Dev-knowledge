@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md) ✅
+> **Yêu cầu trước:** Bài [03_jwt-and-sessions-deep](03_jwt-and-sessions-deep.md) ✅
 
 > 🎯 *Bài 04 (cuối basic). Enterprise identity: **SAML 2.0** (legacy nhưng vẫn dominant trong enterprise) + **OIDC SSO** + **SCIM** (provisioning) + IdP setup (Keycloak, Entra ID, Okta) + Just-in-Time provisioning + **break-glass account** + audit. Hands-on Keycloak self-host + SAML/OIDC SSO Acme Shop admin. Đóng cluster Authentication basic.*
 

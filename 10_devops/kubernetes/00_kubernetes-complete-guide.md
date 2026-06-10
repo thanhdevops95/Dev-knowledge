@@ -1,8 +1,8 @@
 # Kubernetes — Hiểu sâu, viết được, vận hành được
 
-> **Author:** Mr.Rom\
-> **Version:** v1.0.0\
-> **Created:** 20/05/2026\
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v1.0.0\
+> **Tạo lúc:** 20/05/2026\
 > **Last updated:** 20/05/2026
 
 > File này là **1 tài liệu duy nhất** đi từ "K8s là gì" đến "biết deploy app production-grade". Đọc theo thứ tự lần đầu, dùng làm reference về sau. Mỗi section có 6 phần cố định: **🎯 Vấn đề → 🧠 Khái niệm → 📊 Diagram → 📝 YAML → 🔧 Lệnh → ⚠️ Pitfall → ✅ Tự kiểm tra**.

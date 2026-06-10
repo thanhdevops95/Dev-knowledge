@@ -1,11 +1,11 @@
 # 🎮 15_specialized
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v0.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 10/06/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> 🚧 **Status:** Đang xây — đã có **1 bài intro** (`blockchain/lessons/01_basic/00`). Các nhánh còn lại (game-dev, embedded-iot, quantum-computing, ar-vr, robotics) chưa có bài.
 
 ## 🎯 Chủ đề này có gì
 
@@ -13,7 +13,7 @@ Game dev, Embedded/IoT, Blockchain, Quantum, AR/VR, Robotics
 
 ## 📂 L2 dự kiến (chủ đề con)
 
--game-dev
+- game-dev
 - embedded-iot
 - blockchain
 - quantum-computing
@@ -33,10 +33,11 @@ Game dev, Embedded/IoT, Blockchain, Quantum, AR/VR, Robotics
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+- Tham khảo `__Ref__/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
 
 ---
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+- **v0.2.0 (10/06/2026)** — Cập nhật trạng thái: đã có 1 bài intro (blockchain); sửa bullet `-game-dev` thiếu khoảng trắng + mục "Muốn viết bài".

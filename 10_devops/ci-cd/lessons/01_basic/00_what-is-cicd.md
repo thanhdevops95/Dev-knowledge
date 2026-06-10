@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Git basics](../../../../02_tools/git/), [Docker](../../../docker/)
+> **Yêu cầu trước:** [Git basics](../../../../02_tools/git/), [Docker](../../../docker/)
 
 > 🎯 *Bài INTRO. Hiểu **CI/CD** (Continuous Integration + Continuous Delivery/Deployment), **why** + **lịch sử**, **landscape 2026** (GitHub Actions / GitLab CI / CircleCI / Jenkins / Drone), **anatomy pipeline**, **trunk-based vs Gitflow**, **DORA metrics**.*
 
@@ -556,7 +556,7 @@ Failure:     0-15%
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

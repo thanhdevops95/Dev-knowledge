@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Không có — đây là bài intro frontend đầu tiên
+> **Yêu cầu trước:** Không có — đây là bài intro frontend đầu tiên
 
 > 🎯 *Bài INTRO. Hiểu **browser model** (Server → HTML → Browser → render), **3 ngôn ngữ trụ cột** (HTML + CSS + JS), **HTML/CSS evolution** (HTML4 → 5, CSS1 → 3+), **framework landscape** 2026 (React/Vue/Svelte/HTMX), **build tools** (Vite/Webpack). KHÔNG dạy syntax HTML/CSS chi tiết (sẽ học từ bài 01 trở đi).*
 
@@ -488,7 +488,7 @@ Backend dev?           → HTMX
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_helm-package-manager.md](01_helm-package-manager.md), [basic Ingress](../01_basic/02_services-and-networking.md)
+> **Yêu cầu trước:** [01_helm-package-manager.md](01_helm-package-manager.md), [basic Ingress](../01_basic/02_services-and-networking.md)
 
 > 🎯 *Basic Ingress chỉ route traffic. Production cần TLS auto Let's Encrypt + DNS auto-record + rate limiting + WAF + multi-host. Bài này dạy: setup ingress-nginx production-grade, cert-manager auto TLS, external-dns auto DNS, Gateway API (successor 2026), NetworkPolicy với Cilium/Calico CNI.*
 

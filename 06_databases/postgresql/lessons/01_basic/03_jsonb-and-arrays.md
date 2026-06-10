@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Indexes & Performance](02_indexes-and-performance.md)
+> **Yêu cầu trước:** [Indexes & Performance](02_indexes-and-performance.md)
 
 > 🎯 *Master 3 feature làm Postgres khác biệt: **JSONB** (binary JSON với index GIN), **arrays** native, **full-text search** (tsvector). Plus glance **pgvector** (AI embedding). Sau bài này hiểu tại sao 2026 Postgres thay được nhiều specialized DB.*
 
@@ -658,7 +658,7 @@ SELECT * FROM t ORDER BY emb <=> '[...]' LIMIT 10;
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

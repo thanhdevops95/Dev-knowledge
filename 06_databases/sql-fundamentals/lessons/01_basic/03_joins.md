@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [SELECT & Filter](01_select-and-filter.md), [Aggregations](02_aggregations.md)
+> **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md), [Aggregations](02_aggregations.md)
 
 > 🎯 *Học **5 loại JOIN** (INNER/LEFT/RIGHT/FULL/CROSS), khi nào dùng cái nào, **alias bảng**, **self-join**, **3 JOIN bảng**, và 4 sai lầm phổ biến (Cartesian, ambiguous column, NULL trong LEFT JOIN). Sau bài này bạn ghép được data từ mọi schema relational.*
 
@@ -630,7 +630,7 @@ WHERE u.status = 'active'
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -667,7 +667,7 @@ WHERE u.status = 'active'
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
 

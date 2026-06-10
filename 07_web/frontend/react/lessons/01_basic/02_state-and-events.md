@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Components & Props](01_components-and-props.md)
+> **Yêu cầu trước:** [Components & Props](01_components-and-props.md)
 
 > 🎯 *Master **`useState`** — state lifecycle, **event handlers**, **controlled inputs** (form with state), **lifting state up** (share between siblings), **immutable update** (đừng mutate). Sau bài này build cart/form/counter — interactive React app.*
 
@@ -761,7 +761,7 @@ dispatch({ type: 'ACTION', payload });
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -800,7 +800,7 @@ dispatch({ type: 'ACTION', payload });
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục useState cú pháp, Quy tắc Hooks, Multiple state, Initial lazy, onClick handler. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 

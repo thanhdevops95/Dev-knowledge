@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [State & Events](02_state-and-events.md), [Fetch API](../../../javascript-dom/lessons/01_basic/04_fetch-and-modules.md)
+> **Yêu cầu trước:** [State & Events](02_state-and-events.md), [Fetch API](../../../javascript-dom/lessons/01_basic/04_fetch-and-modules.md)
 
 > 🎯 *Master **`useEffect`** — side effect lifecycle, **dependency array**, **cleanup**, **fetch data** từ FastAPI, **loading + error** states, **AbortController** cleanup, **custom hooks** intro. Sau bài này React app dùng data thật từ backend.*
 
@@ -643,7 +643,7 @@ function useThing(arg) {
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

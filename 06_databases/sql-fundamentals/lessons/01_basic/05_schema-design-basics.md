@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [JOINs](03_joins.md), [INSERT/UPDATE/DELETE](04_insert-update-delete.md)
+> **Yêu cầu trước:** [JOINs](03_joins.md), [INSERT/UPDATE/DELETE](04_insert-update-delete.md)
 
 > 🎯 *Học thiết kế schema từ A-Z: chọn **data types** đúng, **PRIMARY KEY** + **FOREIGN KEY**, **constraints** (NOT NULL/UNIQUE/CHECK), **indexes** (when + how), **normalization** 1NF→3NF, và 5 anti-pattern beginner. Sau bài này bạn không sợ "schema sai sau 1 năm vứt cả app".*
 
@@ -748,7 +748,7 @@ EXPLAIN ANALYZE SELECT * FROM t WHERE col = 'x';
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [TCP/IP là gì](00_what-is-tcp-ip.md), [IP Addressing](01_ip-addressing.md)
+> **Yêu cầu trước:** [TCP/IP là gì](00_what-is-tcp-ip.md), [IP Addressing](01_ip-addressing.md)
 
 > 🎯 *Hiểu **TCP** (reliable + ordered) vs **UDP** (fast + lossy), **3-way handshake** TCP, **flow + congestion control**, khi nào dùng cái nào, và **QUIC/HTTP3** mới — vì sao Google chọn UDP làm nền tảng HTTP/3.*
 
@@ -432,7 +432,7 @@ nmap -sU host               # UDP scan ports
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -1,12 +1,12 @@
 # 🎓 Cứu hộ thảm họa mã nguồn với Git Reflog
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Advanced\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_undo-and-recovery.md](./00_undo-and-recovery.md) ✅
+> **Yêu cầu trước:** [Quy tắc undo và sửa sai](./00_undo-and-recovery.md) ✅
 
 > 🎯 *Bài học "hồi sinh" tối thượng — Khám phá sức mạnh của chiếc hộp đen ghi lại mọi vết tích hoạt động của HEAD trong Git. Sau bài học này, bạn sẽ nắm giữ trong tay tấm bùa hộ mệnh tối cao để cứu vãn mọi thảm họa mất code tồi tệ nhất, ngay cả khi bạn nghĩ rằng dữ liệu đã bị xóa vĩnh viễn khỏi ổ cứng!*
 
@@ -41,7 +41,7 @@ Bạn gõ cuống cuồng lệnh `git log` để tìm lại. Trống trơn. Nhá
 [Xóa nhánh local chưa push] ───x───> [git log không thấy] ───> [Tuyệt vọng]
 ```
 
-Lúc này, hãy nhớ đến lời khuyên của Mr.Rom: **"Trong Git, dữ liệu đã từng được commit hầu như không bao giờ biến mất thật sự. Hãy dùng Reflog!"**
+Lúc này, hãy nhớ một nguyên tắc cốt lõi: **"Trong Git, dữ liệu đã từng được commit hầu như không bao giờ biến mất thật sự. Hãy dùng Reflog!"**
 
 ---
 
@@ -158,7 +158,8 @@ Output thực tế:
 
 ---
 
-## 💡 Lời khuyên vàng của Mr.Rom về Reflog
+## 💡 Lời khuyên vàng về Reflog
+
 *   ⚠️ **Reflog chỉ tồn tại ở máy local của bạn.** GitHub hoàn toàn không lưu trữ reflog của bạn. Do đó, nếu bạn làm mất code và làm hỏng cả máy tính vật lý trước khi dùng reflog, dữ liệu sẽ mất thật sự.
 *   **Reflog có tính hữu hạn:** Hãy cứu hộ càng sớm càng tốt. Đừng để quá 90 ngày.
 *   **Giữ cái đầu lạnh:** Khi gặp tai nạn mã nguồn, hành vi tệ nhất là gõ loạn xạ các lệnh reset, xóa file trên ổ cứng. Hãy dừng tay gõ phím, gọi `git reflog` và bình tĩnh phân tích dòng thời gian.
@@ -211,4 +212,6 @@ Output thực tế:
 ---
 
 ## 📌 Nhật ký thay đổi (Changelog)
-- **v2.0.0 (26/05/2026)** — Mr.Rom biên soạn chi tiết bài học nâng cao về Reflog, giải thích cơ chế Garbage Collection ngầm, commit mồ côi và kịch bản hồi sinh dữ liệu thực tế theo chuẩn Blueprint v0.2.0.
+
+- **v2.0.0 (26/05/2026)** — Bài học nâng cao về Reflog: cơ chế Garbage Collection ngầm, commit mồ côi (dangling), và 2 kịch bản hồi sinh dữ liệu (commit bị reset, nhánh bị xoá).
+- **v2.0.1 (10/06/2026)** — Chuẩn hoá xưng hô: gỡ tên tác giả khỏi thân bài và heading; đổi field metadata `Prerequisites` → `Yêu cầu trước`, link text theo tiêu đề bài.

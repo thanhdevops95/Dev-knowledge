@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is PostgreSQL](00_what-is-postgresql.md)
+> **Yêu cầu trước:** [What is PostgreSQL](00_what-is-postgresql.md)
 
 > 🎯 *Master **psql** CLI — kết nối, **meta-commands** (`\d`, `\du`, `\timing`), **system catalog** queries (size table, locks, active queries), **\\copy** import/export CSV, **pgcli** alternative, scripting `psql -c` + `-f`, **DevOps queries** (slow queries, table bloat). Sau bài này dùng Postgres CLI thuần thục như Linux power user.*
 
@@ -652,7 +652,7 @@ psql -d db -f file.sql -v ON_ERROR_STOP=1
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

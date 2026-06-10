@@ -1,12 +1,12 @@
 # 🎓 SELECT & WHERE — Câu lệnh SQL bạn dùng 90% thời gian
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [SQL là gì](00_what-is-sql.md)
+> **Yêu cầu trước:** [SQL là gì](00_what-is-sql.md)
 
 > 🎯 *Học **SELECT** đầy đủ: cột cụ thể vs `*`, alias, **WHERE** filter (AND/OR/NOT/IN/BETWEEN/LIKE/NULL), **ORDER BY** sort, **LIMIT/OFFSET** paginate, **DISTINCT** unique. Sau bài này bạn query 80% câu hỏi data thực tế.*
 
@@ -217,14 +217,14 @@ WHERE city IN ('Hanoi', 'Saigon', 'Danang')
 
 | Pattern | Match |
 |---|---|
-| `'A%'` | Bắt đầu bằng A (Nguyen Van A) |
-| `'%e'` | Kết thúc bằng e (Nguyen Van A, Tran Van C, Hoang Van E, Bui Van G) |
-| `'%a%'` | Chứa a — case-sensitive tuỳ DB (Pham Van D, Vu Van F, Bui Van G) |
-| `'_l%'` | Ký tự 2 là l (Nguyen Van A) — `_` = đúng 1 ký tự |
-| `'D____'` | Đúng 5 ký tự, bắt đầu D (Pham Van D) |
+| `'N%'` | Bắt đầu bằng N (Nguyen Van A) |
+| `'%C'` | Kết thúc bằng C (Tran Van C) |
+| `'%Van%'` | Chứa "Van" (cả 7 placeholder đều có "Van" ở giữa) |
+| `'_e%'` | Ký tự thứ 2 là e (Le Van B) — `_` = đúng 1 ký tự |
+| `'Pham%'` | Bắt đầu bằng "Pham" (Pham Van D) |
 
 ```sql
-SELECT name FROM users WHERE name LIKE 'A%';
+SELECT name FROM users WHERE name LIKE 'N%';
 ```
 
 → ⚠️ `LIKE '%abc%'` (wildcard đầu) **không dùng được index** → chậm trên bảng lớn. Cần full-text search (Postgres `tsvector`, Elasticsearch).
@@ -438,6 +438,20 @@ LIMIT  n            8. LIMIT / OFFSET
 (SELECT thực ra số 6 — SAU GROUP BY/HAVING, TRƯỚC ORDER BY/LIMIT)
 ```
 
+Sơ đồ dưới vẽ lại **thứ tự DB thực thi từng clause** (khác thứ tự bạn viết). Đây chính là lý do `WHERE` không dùng được alias định nghĩa ở `SELECT` — vì `SELECT` chạy SAU `WHERE`.
+
+```mermaid
+flowchart TD
+    F["FROM / JOIN — chọn bảng"] --> W["WHERE — lọc dòng"]
+    W --> G["GROUP BY — gom nhóm"]
+    G --> H["HAVING — lọc nhóm"]
+    H --> S["SELECT — chọn cột, alias"]
+    S --> O["ORDER BY — sắp xếp"]
+    O --> L["LIMIT / OFFSET — phân trang"]
+```
+
+Theo dòng chảy này, alias chỉ "ra đời" ở bước `SELECT` nên các clause trước đó (`WHERE`, `GROUP BY`, `HAVING`) chưa thấy được, còn `ORDER BY`/`LIMIT` đứng sau nên dùng alias thoải mái.
+
 ### Tại sao quan trọng?
 
 ```sql
@@ -607,7 +621,7 @@ SELECT * FROM users WHERE name ILIKE '%nguyen%';
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -644,8 +658,9 @@ SELECT * FROM users WHERE name ILIKE '%nguyen%';
 
 ---
 
-## 📌 Changelog
-
-- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §2 Syntax tổng + Lấy tất cả cột + Lấy cột cụ thể + Alias + Biểu thức tính toán. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 2/6. Cover: SELECT đầy đủ (cột cụ thể vs *, alias) + WHERE 8 operator + AND/OR/NOT priority + ORDER BY multi-column + LIMIT/OFFSET pagination + DISTINCT + LIKE pattern + thứ tự thực thi logical SQL.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §2 Syntax tổng + Lấy tất cả cột + Lấy cột cụ thể + Alias + Biểu thức tính toán. Chuẩn hoá tên + email trong ví dụ.
+- **v1.1.1 (10/06/2026)** — Sửa bảng ví dụ `LIKE`: pattern và tên placeholder không khớp sau đợt đổi tên (vd `'D____'` chú thích "Pham Van D"). Viết lại 5 pattern khớp đúng dữ liệu (`N%`/`%C`/`%Van%`/`_e%`/`Pham%`).
+- **v1.1.2 (10/06/2026)** — Bổ sung sơ đồ thứ tự thực thi logic SELECT cho trực quan.

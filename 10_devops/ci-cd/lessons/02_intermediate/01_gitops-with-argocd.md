@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), [K8s Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md)
+> **Yêu cầu trước:** [00_intermediate-overview.md](00_intermediate-overview.md), [K8s Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md)
 
 > 🎯 *Push model (GitHub Actions kubectl apply) không scale — drift + audit khó + multi-cluster ám ảnh. **GitOps pull model**: ArgoCD chạy trong cluster, watch Git, sync. Bài này dạy ArgoCD architecture, Application, ApplicationSet, multi-cluster, drift detection, sync waves, RBAC. So sánh Flux. Real war story.*
 

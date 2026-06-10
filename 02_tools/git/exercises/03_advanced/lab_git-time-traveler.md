@@ -1,12 +1,11 @@
 # 🧪 Bài thực hành: Du hành thời gian gỡ rối mã nguồn — Git Time Traveler
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Độ khó:** 🔴\
-> **Thời gian ước tính:** ~30 phút\
-> **Prerequisites:** Đã học xong bài học [00_undo-and-recovery.md](../../lessons/03_advanced/00_undo-and-recovery.md) và [02_rebase-and-cherry-pick.md](../../lessons/03_advanced/02_rebase-and-cherry-pick.md) ✅
+> **Yêu cầu trước:** Đã học xong bài [Quy tắc undo và sửa sai](../../lessons/03_advanced/00_undo-and-recovery.md) và [Rebase & Cherry-pick](../../lessons/03_advanced/02_rebase-and-cherry-pick.md) ✅
 
 ---
 
@@ -55,7 +54,7 @@ Output thực tế hiển thị:
  1 file changed, 1 insertion(+)
  create mode 100644 app.py
 ```
-*   **Giải thích output:** Commit sai chính tả cũ đã bị Git xóa bỏ vật lý và ghi đè bằng commit mới `e7d8c9b` với tin nhắn đã được chuẩn hóa đẹp đẽ.
+-   **Giải thích output:** Commit sai chính tả cũ đã bị Git xóa bỏ vật lý và ghi đè bằng commit mới `e7d8c9b` với tin nhắn đã được chuẩn hóa đẹp đẽ.
 
 ---
 
@@ -86,7 +85,7 @@ Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         modified:   app.py
 ```
-*   **Giải thích output:** Commit chứa lỗi đã bị bốc hơi khỏi lịch sử, nhưng dòng code bạn viết vẫn nằm nguyên vẹn, an toàn trong **Staging Area** (màu xanh). Bạn có thể mở file sửa lại code lỗi và thực hiện commit lại!
+-   **Giải thích output:** Commit chứa lỗi đã bị bốc hơi khỏi lịch sử, nhưng dòng code bạn viết vẫn nằm nguyên vẹn, an toàn trong **Staging Area** (màu xanh). Bạn có thể mở file sửa lại code lỗi và thực hiện commit lại!
 
 ---
 
@@ -144,7 +143,7 @@ Output hiển thị sạch sẽ tuyệt đối:
 On branch main
 nothing to commit, working tree clean
 ```
-*   **Giải thích output:** Toàn bộ đống code lỗi bừa bộn đã bị dọn sạch bong kin kít. Dự án của bạn đã quay trở về trạng thái an toàn tuyệt đối của commit gần nhất!
+-   **Giải thích output:** Toàn bộ đống code lỗi bừa bộn đã bị dọn sạch bong kin kít. Dự án của bạn đã quay trở về trạng thái an toàn tuyệt đối của commit gần nhất!
 
 ---
 
@@ -170,4 +169,13 @@ Chúc mừng bạn! Bạn đã hoàn thành xuất sắc khóa huấn luyện ph
 
 ---
 
-*   ➡️ Thử thách cuối cùng: [lab_emergency-reflog-rescue.md](./lab_emergency-reflog-rescue.md) — Cứu hộ dữ liệu khẩn cấp qua Reflog.
+## 🔗 Liên kết & Tài nguyên
+
+-   ➡️ Thử thách cuối cùng: [Lab — Cứu hộ dữ liệu khẩn cấp qua Reflog](./lab_emergency-reflog-rescue.md) — Cứu hộ dữ liệu khẩn cấp qua Reflog.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v2.0.0 (26/05/2026)** — Lab thực hành nâng cao: các kịch bản "du hành thời gian" gỡ rối mã nguồn với reset/reflog/rebase.
+- **v2.0.1 (10/06/2026)** — Bỏ field "Thời gian ước tính"; đổi `Prerequisites` → `Yêu cầu trước`; bổ sung heading "Liên kết & Tài nguyên"; bullet `*` → `-`; link text theo tiêu đề.

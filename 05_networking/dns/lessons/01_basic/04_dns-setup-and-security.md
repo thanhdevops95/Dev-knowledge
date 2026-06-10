@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md), [DNS Tools](03_dns-tools.md)
+> **Yêu cầu trước:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md), [DNS Tools](03_dns-tools.md)
 
 > 🎯 *Bài cuối cluster. Đi từ A-Z: đăng ký domain mới, đổi nameserver về Cloudflare, đợi propagation, bật DNSSEC, hiểu DoH/DoT, defend các attack DNS phổ biến.*
 
@@ -441,7 +441,7 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

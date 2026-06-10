@@ -1,12 +1,12 @@
 # 🎓 Indexes & Performance — EXPLAIN ANALYZE, B-tree, GIN, BRIN
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [psql & Meta-commands](01_psql-and-meta-commands.md), [SQL schema design](../../../sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
+> **Yêu cầu trước:** [psql & Meta-commands](01_psql-and-meta-commands.md), [SQL schema design](../../../sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
 
 > 🎯 *Master index Postgres: **5 loại index** (B-tree default, GIN cho text/JSONB, GiST cho range/geo, BRIN cho time-series, Hash), **partial + multicolumn + expression** indexes, **EXPLAIN ANALYZE** đọc query plan, **5 common slow query patterns** + fix, **VACUUM + ANALYZE** tuning.*
 
@@ -142,6 +142,20 @@ CREATE INDEX CONCURRENTLY idx_x ON huge_table(col);
 ---
 
 ## 3️⃣ B-tree — 90% case
+
+B-tree là cây cân bằng nhiều tầng: từ **root** (1 node trên cùng) đi xuống các node **branch**, rồi tới **leaf** chứa key đã sắp xếp + con trỏ về row trong bảng. Sơ đồ dưới minh hoạ cách Postgres đi từ root xuống leaf để tìm 1 giá trị.
+
+```mermaid
+flowchart TD
+    Root["Root: [50]"] --> B1["[10 30]"]
+    Root --> B2["[70 90]"]
+    B1 --> L1["Leaf: 5,10,20 → row ptr"]
+    B1 --> L2["Leaf: 30,40 → row ptr"]
+    B2 --> L3["Leaf: 60,70 → row ptr"]
+    B2 --> L4["Leaf: 80,90,99 → row ptr"]
+```
+
+→ Vì sao tìm theo index nhanh: mỗi tầng cây loại bỏ một nửa (hoặc nhiều hơn) không gian tìm kiếm, nên độ phức tạp là **O(log n)** — chỉ đi vài bước từ root xuống leaf rồi nhảy thẳng tới row, thay vì **full table scan O(n)** quét lần lượt từng row của bảng.
 
 ### Single column
 
@@ -571,7 +585,7 @@ SELECT relname, n_dead_tup FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIM
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -623,3 +637,4 @@ SELECT relname, n_dead_tup FROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIM
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 3/5. Cover: index là gì + trade-off + 6 loại Postgres (B-tree/Hash/GIN/GiST/BRIN/SP-GiST) + B-tree composite + partial + expression + EXPLAIN ANALYZE + index size + bloat + VACUUM + pg_stat_user_indexes monitor.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Phân tích trade-off + §2 6 loại index + Cú pháp tạo + CONCURRENTLY + §3 Single column. Chuẩn hoá ví dụ email + tiêu đề §9. Thêm Changelog section.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ cấu trúc B-tree index cho trực quan.

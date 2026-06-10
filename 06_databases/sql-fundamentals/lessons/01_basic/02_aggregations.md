@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [SELECT & Filter](01_select-and-filter.md)
+> **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md)
 
 > 🎯 *Học **5 hàm aggregation** (COUNT/SUM/AVG/MIN/MAX), **GROUP BY** chia nhóm, **HAVING** filter sau GROUP, và phân biệt **WHERE vs HAVING** (lỗi #1 của beginner). Sau bài này bạn trả lời được mọi câu hỏi thống kê data.*
 
@@ -490,7 +490,7 @@ FROM orders;
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -523,7 +523,7 @@ FROM orders;
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.
 

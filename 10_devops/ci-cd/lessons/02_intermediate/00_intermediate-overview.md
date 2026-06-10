@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [CI/CD basic cluster](../01_basic/), [Docker intermediate](../../../docker/lessons/02_intermediate/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
+> **Yêu cầu trước:** [CI/CD basic cluster](../01_basic/), [Docker intermediate](../../../docker/lessons/02_intermediate/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
 
 > 🎯 *Bài INTRO của intermediate. Bạn đã setup GitHub Actions / GitLab CI ở basic. Production scale cần: **GitOps** (Git = source of truth), **supply chain security** (SLSA + provenance), **secret management** (Vault + ESO), **progressive delivery** (canary + feature flags). Bài này map 4 mảng + chuẩn bị 4 bài kế tiếp.*
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Linux Navigation](../01_basic/01_navigation.md), [File Operations](../01_basic/02_file-operations.md)
+> **Yêu cầu trước:** [Linux Navigation](../01_basic/01_navigation.md), [File Operations](../01_basic/02_file-operations.md)
 
 > 🎯 *Hiểu **user/group**, **3 quyền rwx** + **octal 755**, **chmod/chown/umask**, **sudo** vs root, **SUID/SGID/sticky bit**, và **capabilities** (modern alternative SUID). Sau bài này bạn đọc/viết được `ls -l` output + config permission server an toàn.*
 
@@ -513,7 +513,7 @@ setcap -r /path/binary
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

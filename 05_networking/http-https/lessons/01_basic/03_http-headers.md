@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
+> **Yêu cầu trước:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Headers là **metadata** kèm theo HTTP request/response. Bài này dạy **4 nhóm headers** chính: Content (type/length/encoding), Auth (Bearer/Basic/JWT), Cache (Cache-Control/ETag), **CORS** (giải thích vì sao browser block cross-origin). Sau bài này bạn config CORS không cần Google nữa.*
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is React](00_what-is-react.md)
+> **Yêu cầu trước:** [What is React](00_what-is-react.md)
 
 > 🎯 *Master **function component**, **JSX rules** sâu, **props** (pass data, destructure, default), **children prop**, **conditional render** (`&&`, ternary), **list render** + **key**, **composition pattern**. Sau bài này chia UI thành component reusable.*
 
@@ -734,7 +734,7 @@ function Layout({ children }) {
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

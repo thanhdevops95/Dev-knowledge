@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is JavaScript](00_what-is-javascript.md)
+> **Yêu cầu trước:** [What is JavaScript](00_what-is-javascript.md)
 
 > 🎯 *Master core JS: **`let`/`const`/`var`** (chọn cái nào), **function** (regular vs arrow), **object** + **array** + **string** methods, **template literal**, **destructure + spread + rest**, **truthy/falsy**, **optional chaining `?.`** + **nullish `??`**. Sau bài này code JS hiện đại đúng chuẩn.*
 
@@ -788,7 +788,7 @@ Truthy: everything else (including [], {}, "0")
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -830,7 +830,7 @@ Truthy: everything else (including [], {}, "0")
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Modern let/const, var legacy, So sánh, Block scope, Hoisting. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 

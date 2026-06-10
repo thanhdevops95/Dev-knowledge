@@ -1,12 +1,12 @@
 # 🎓 Deploy Strategies — Rolling, Blue-Green, Canary, Feature flags
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Pipeline Patterns](03_pipeline-patterns.md), [Kubernetes basics](../../../kubernetes/)
+> **Yêu cầu trước:** [Pipeline Patterns](03_pipeline-patterns.md), [Kubernetes basics](../../../kubernetes/)
 
 > 🎯 *Master 5 deployment strategies: **Recreate**, **Rolling**, **Blue-Green**, **Canary**, **Feature flags**. Each strategy có pros/cons. Plus **rollback** + **smoke tests** + **DB migration** challenges. Sau bài này pick + implement đúng strategy cho team.*
 
@@ -34,6 +34,22 @@
 | **Blue-Green** | ✅ No | **2x** | Low | Medium |
 | **Canary** | ✅ No | 1.1x | **Lowest** | High |
 | **Feature flag** | ✅ No (decoupled) | 1x | Low | Medium |
+
+Hai chiến lược "zero-downtime" đáng chú ý nhất là Blue-Green (đổi toàn bộ traffic tức thì) và Canary (chia traffic dần theo %). Sơ đồ dưới đây đặt cạnh nhau cách router điều phối traffic của từng cái:
+
+```mermaid
+flowchart TD
+    subgraph BlueGreen["Blue-Green"]
+        Router1{Router} -->|100%| Blue["Blue v1 (đang chạy)"]
+        Router1 -.->|switch| Green["Green v2 (chờ sẵn)"]
+    end
+    subgraph Canary["Canary"]
+        Router2{Router} -->|95%| Old["v1"]
+        Router2 -->|5% thử nghiệm| New["v2"]
+    end
+```
+
+Khác biệt cốt lõi: Blue-Green chuyển toàn bộ 100% traffic trong một cú switch (rollback tức thì), còn Canary nhỏ giọt 5% sang v2 để giảm thiểu rủi ro nếu bản mới có lỗi.
 
 ---
 
@@ -696,7 +712,7 @@ kubectl argo rollouts undo app
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -743,3 +759,4 @@ kubectl argo rollouts undo app
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 5/5. Cover: 5 strategies (Recreate/Rolling/Blue-Green/Canary/Feature Flags) + decision matrix + K8s implementation + DB migration backward compat + rollback patterns.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 5 Strategies + §2 Recreate + When OK + §3 Rolling + K8s config.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ so sánh Blue-Green vs Canary cho trực quan.

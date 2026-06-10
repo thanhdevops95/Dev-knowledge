@@ -1,12 +1,12 @@
 # 🎓 Giải quyết xung đột gộp code — Resolving Conflicts
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_branching-and-merging.md](./00_branching-and-merging.md) ✅
+> **Yêu cầu trước:** [Phân nhánh & Gộp nhánh](./00_branching-and-merging.md) ✅
 
 > 🎯 *Bài học sống còn trong làm việc nhóm — Trang bị tư duy thép và kỹ thuật gỡ rối cực kỳ khoa học để giải quyết các "cuộc xung đột" (Merge Conflicts) của dòng code. Sau bài học này, bạn sẽ không bao giờ còn cảm thấy sợ hãi hay ngợp trước thông báo lỗi đỏ choét của Terminal nữa!*
 
@@ -45,7 +45,7 @@ Automatic merge failed; fix conflicts and then commit the result.
 
 Nam hoảng hốt gọi bạn: *"Ông ơi cứu tôi! Git nó báo lỗi xung đột gì rồi, có bị mất code không ông? Tôi có nên xoá thư mục cài lại từ đầu không?!"*.
 
-Bạn cười bình tĩnh: *"Không sao đâu bạn, đây là chuyện bình thường khi làm nhóm. Để Mr.Rom chỉ cách gỡ rối chỉ trong 1 phút!"*.
+Bạn cười bình tĩnh: *"Không sao đâu bạn, đây là chuyện bình thường khi làm nhóm. Để mình chỉ cho cách gỡ rối chỉ trong 1 phút!"*.
 
 ---
 
@@ -77,7 +77,7 @@ port = 9000
 >>>>>>> feature/api-port
 ```
 
-Hãy cùng Mr.Rom giải mã 3 thành phần mật thư này:
+Hãy cùng giải mã 3 thành phần mật thư này:
 
 | Ký tự | Ý nghĩa kỹ thuật | Ẩn dụ thực tế |
 |---|---|---|
@@ -185,7 +185,7 @@ port = 8080
 
 Đôi khi, bạn merge một nhánh quá lớn chứa hàng chục file xung đột phức tạp đè lên nhau. Màn hình Terminal hiện đỏ lòm, code của bạn bị rối tung và bạn cảm thấy hoàn toàn mất kiểm soát.
 
-> ⚠️ **Lời khuyên vàng của Mr.Rom:** Tuyệt đối không được hoảng sợ gõ bừa bãi các lệnh reset hay xóa file. Hãy sử dụng câu thần chú quay ngược thời gian:
+> ⚠️ **Lời khuyên vàng:** Tuyệt đối không được hoảng sợ gõ bừa bãi các lệnh reset hay xóa file. Hãy sử dụng câu thần chú quay ngược thời gian:
 
 ```bash
 git merge --abort
@@ -242,4 +242,6 @@ Khi bạn đang ở giữa quá trình merge bị conflict và chạy lệnh `gi
 ---
 
 ## 📌 Nhật ký thay đổi (Changelog)
-- **v2.0.0 (26/05/2026)** — Mr.Rom biên soạn hoàn chỉnh bài học trung cấp về Merge Conflict, hướng dẫn giải mã mật thư Git, các bước resolve thủ công/VS Code và cơ chế rút lui an toàn theo chuẩn Blueprint v0.2.0.
+
+- **v2.0.0 (26/05/2026)** — Bài học trung cấp về Merge Conflict: giải mã ký tự xung đột, 4 bước resolve thủ công, công cụ VS Code, lệnh rút lui an toàn `git merge --abort`.
+- **v2.0.1 (10/06/2026)** — Chuẩn hoá xưng hô: gỡ tên tác giả khỏi thân bài (dùng "mình"); đổi field metadata `Prerequisites` → `Yêu cầu trước`, link text theo tiêu đề bài.

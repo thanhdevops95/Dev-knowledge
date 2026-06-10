@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Routes & Parameters](01_routes-and-parameters.md)
+> **Yêu cầu trước:** [Routes & Parameters](01_routes-and-parameters.md)
 
 > 🎯 *Sâu vào **Pydantic v2** — viết model đúng cách: **separate Request vs Response model**, **nested model**, **validator custom**, **`response_model` exclude/include**, **Field()** validation, **alias**. Sau bài này bạn type-safe toàn API.*
 
@@ -577,7 +577,7 @@ UserRead.model_validate(data)  # dict → object
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -614,7 +614,7 @@ UserRead.model_validate(data)  # dict → object
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
 

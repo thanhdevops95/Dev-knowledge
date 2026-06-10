@@ -1,12 +1,12 @@
 # 🎓 Text Processing — grep, sed, awk + pipe combos
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Linux View File Content](../01_basic/03_view-file-content.md), [IO Redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md)
+> **Yêu cầu trước:** [Linux View File Content](../01_basic/03_view-file-content.md), [IO Redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md)
 
 > 🎯 *Master 3 tool **Unix power**: **`grep`** (search), **`sed`** (substitute), **`awk`** (process). Plus `sort`/`uniq`/`cut`/`tr`/`wc`/`xargs`. Sau bài này bạn cào log production 10GB, transform JSON, parse CSV trong terminal — không cần script.*
 
@@ -87,6 +87,8 @@ grep -P "(?<=user_id=)\d+" file           # Perl regex (lookbehind) — `-P`
 # Inverse search nhiều pattern
 grep -vE "test|debug" file                # Skip test + debug
 ```
+
+> ⚠️ **Lưu ý nền tảng**: `-P` (PCRE) **chỉ có ở GNU grep** (Linux). Trên macOS (BSD grep) cờ `-P` không tồn tại — cài GNU grep qua `brew install grep` rồi dùng `ggrep -P ...`, hoặc thay bằng `perl -ne 'print if /(?<=user_id=)\d+/'`.
 
 ### Search file ignoring binary
 
@@ -605,7 +607,7 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -651,3 +653,4 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "kính lúp" cho `grep`, 2 lời dẫn trước ví dụ (cơ bản + regex), chuẩn hóa tiêu đề các case thực tế.
+- **v1.1.1 (10/06/2026)** — Thêm ghi chú tương thích nền tảng cho `grep -P` (PCRE): chỉ có ở GNU grep (Linux); trên macOS/BSD grep dùng `ggrep` (`brew install grep`) hoặc `perl -ne`.

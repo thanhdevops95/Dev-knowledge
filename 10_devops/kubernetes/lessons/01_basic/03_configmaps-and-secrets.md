@@ -1,18 +1,17 @@
----
-title: ConfigMaps Và Secrets: Tách Biệt Cấu Hình Và Bảo Mật Tuyệt Đối Môi Trường
-author: Mr.Rom
-version: v2.0.0
-date: 2026-05-26
-level: Basic
-tags: [MUST-KNOW, DEVOPS, KUBERNETES]
----
-
 # 🎓 ConfigMaps Và Secrets: Tách Biệt Cấu Hình Và Bảo Mật Tuyệt Đối Môi Trường
 
-> 🎯 **Lời dẫn của Mr.Rom:**
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v2.0.1\
+> **Tạo lúc:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
+> **Level:** Basic\
+> **Tags:** [MUST-KNOW]\
+> **Yêu cầu trước:** [Cấu hình định tuyến dịch vụ với Services và Ingress](./02_services-and-networking.md)
+
+> 🎯 **Lời dẫn:**
 > Chào bạn, một trong những triết lý quan trọng nhất của việc xây dựng ứng dụng chuẩn đám mây (12-Factor App) là: **Tách biệt hoàn toàn mã nguồn (Code) khỏi cấu hình môi trường (Config)**. Việc hardcode mật khẩu, API key hay chuỗi kết nối Database trực tiếp vào file code hoặc file YAML deploy là một "thảm họa bảo mật" vô cùng nghiêm trọng. Bài học thực chiến này sẽ trang bị cho bạn tư duy thiết kế bảo mật đỉnh cao thông qua bộ đôi công cụ đắc lực: **ConfigMap** (cho thông tin cấu hình mở) và **Secret** (cho dữ liệu nhạy cảm), giúp hệ thống của bạn an toàn tuyệt đối trước mọi nguy cơ rò rỉ thông tin!
 
-## 🎯 Sau bài học này, bạn sẽ làm chủ:
+## 🎯 Sau bài học này, bạn sẽ làm chủ
 
 - [x] Triết lý 12-Factor App trong thiết kế cấu hình và vai trò khác biệt giữa ConfigMap và Secret.
 - [x] Phương pháp viết tệp YAML khai báo **ConfigMap** và **Secret** chuẩn chỉ.
@@ -49,7 +48,7 @@ Bạn gõ lệnh apply, container chạy mượt mà. Tuy nhiên, 10 phút sau s
 
 Bạn ngơ ngác hỏi: *"Vậy làm thế nào để em có thể truyền các thông số cấu hình và mật khẩu bí mật vào container một cách an toàn mà không phải ghi trực tiếp vào file YAML deploy?"*
 
-Mr.Rom vỗ vai bạn và chia sẻ:
+Mình muốn chia sẻ với bạn:
 
 > [!NOTE]
 > *"Đó chính là lý do vì sao Kubernetes phân tách rạch ròi thành hai tài nguyên độc lập: **ConfigMap** chuyên lưu cấu hình mở không nhạy cảm (như Port, Log Level, Domain), và **Secret** chuyên bảo mật dữ liệu nhạy cảm (như Mật khẩu, API Token, Private Key). Mọi thông số sẽ được lưu trữ an toàn trong RAM của cluster và chỉ được 'bơm' vào container khi khởi chạy!"*
@@ -128,7 +127,7 @@ data:
 ### Cảnh báo quan trọng: Base64 KHÔNG PHẢI là mã hóa bảo mật!
 
 > [!CAUTION]
-> **Hố đen chết người từ Mr.Rom:**
+> **Hố đen chết người:**
 > Rất nhiều bạn mới học DevOps lầm tưởng rằng dữ liệu đã đổi sang Base64 (ví dụ `c3VwZXJzZWNyZXQyMDI2`) là đã được mã hóa an toàn và có thể thoải mái push tệp Secret YAML này lên GitHub. **Đây là một sai lầm chết người!**
 > 
 > Base64 chỉ là một chuẩn **mã hóa định dạng truyền tải dữ liệu (Encoding)** nhằm giúp bảo toàn ký tự đặc biệt khi truyền mạng. Bất kỳ ai có chuỗi Base64 đều có thể dễ dàng giải mã (Decode) ngược lại thành mật khẩu gốc trong vòng 0.1 giây chỉ bằng 1 câu lệnh đơn giản:
@@ -489,7 +488,7 @@ Bạn hãy tự kiểm tra kiến thức bằng cách trả lời nhanh 5 câu h
 5. Làm thế nào để giải quyết lỗi `ImagePullBackOff` khi tải image từ một Docker registry riêng tư bảo mật?
 
 <details>
-<summary><b>💡 Bấm để xem gợi ý đáp án từ Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem gợi ý đáp án</b></summary>
 
 1. **Khi nào dùng gì:** ConfigMap dùng cho thông số cấu hình mở không nhạy cảm (URLs, Ports, Log Levels). Secret bắt buộc dùng cho các dữ liệu nhạy cảm cần bảo vệ an toàn (Mật khẩu DB, Token, private SSH keys).
 2. **Triết lý 12-Factor App:** Giúp mã nguồn của bạn hoàn toàn độc lập với môi trường chạy. Bạn có thể mang 1 file code đó deploy lên Dev, Staging hay Production mà không cần sửa đổi một dòng code nào, chỉ cần nạp tệp Config tương ứng của môi trường đó.
@@ -505,13 +504,13 @@ Bạn hãy tự kiểm tra kiến thức bằng cách trả lời nhanh 5 câu h
 
 ## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Và Manifest Mẫu
 
-### Cấu pháp tạo ConfigMap và Secret nhanh từ CLI:
+### Cấu pháp tạo ConfigMap và Secret nhanh từ CLI
 ```bash
 kubectl create configmap app-cfg --from-env-file=.env.production
 kubectl create secret generic app-sec --from-literal=DB_PASSWORD=my-secure-password
 ```
 
-### Cách thức mount Secret an toàn dưới dạng file readonly (Volume Mount):
+### Cách thức mount Secret an toàn dưới dạng file readonly (Volume Mount)
 ```yaml
 volumeMounts:
 - name: secrets-volume
@@ -526,7 +525,7 @@ volumes:
 
 ---
 
-## 📘 Từ Điển Thuật Ngữ (Glossary) Chuyên Ngành
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 - **ConfigMap:** Tài nguyên lưu trữ cấu hình mở không nhạy cảm dưới dạng các cặp Key-Value hoặc tệp văn bản.
 - **Secret:** Tài nguyên lưu trữ dữ liệu mật nhạy cảm bắt buộc được mã hóa dạng Base64.
@@ -538,11 +537,11 @@ volumes:
 
 ## 🔗 Liên Kết & Tài Nguyên Học Tập Bổ Sung
 
-### Các bài học liên quan trực tiếp:
+### Các bài học liên quan trực tiếp
 - [⬅️ Bài học trước: Cấu hình định tuyến dịch vụ với Services và Ingress](./02_services-and-networking.md)
 - [➡️ Bài học tiếp theo: Phân chia biên giới an ninh với Namespaces và RBAC](./04_namespaces-and-rbac.md)
 
-### Tài liệu chính hãng tham khảo thêm:
+### Tài liệu chính hãng tham khảo thêm
 - [Tài liệu chính thức về quản lý ConfigMap trong Kubernetes](https://kubernetes.io/docs/concepts/configuration/configmap/)
 - [Tài liệu chính thức về bảo mật Secret trong Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/)
 
@@ -550,7 +549,7 @@ volumes:
 
 ## 📌 Lịch Sử Thay Đổi (Changelog)
 
-- **v2.0.0 (26/05/2026)** — **Mr.Rom nâng cấp Premium chuẩn 5 sao:**
+- **v2.0.0 (26/05/2026)** — **Nâng cấp Premium chuẩn 5 sao:**
   - Viết lại toàn diện bài học đạt chuẩn chất lượng Premium 5 sao của Blueprint mới.
   - Cấu trúc lại tiêu đề H1 và metadata block YAML chuẩn chỉnh chuyên nghiệp.
   - Chuyển đổi 100% tiêu đề H2 thành câu hỏi mở kích thích tư duy sâu sắc.
@@ -559,3 +558,4 @@ volumes:
   - Nâng cấp chương thực hành thực chiến: Bản thiết kế cấu hình an toàn cho FastAPI tách biệt cấu hình mở (ConfigMap), mật khẩu nhạy cảm (Secret) và inject an toàn bằng cờ `envFrom`.
 - **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4+ §3.6: bổ sung lời dẫn trước phần phân biệt ConfigMap và Secret.
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên về ConfigMap và Secret.
+- **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTML Essentials](01_html-essentials.md)
+> **Yêu cầu trước:** [HTML Essentials](01_html-essentials.md)
 
 > 🎯 *Master **form** trong HTML: 15+ input types, **validation tự động** browser, **label** + accessibility, **submit/GET vs POST**, **ARIA attributes**, **a11y checklist**. Sau bài này viết được form login/signup/checkout đúng chuẩn — keyboard navigate được, screen reader đọc được.*
 
@@ -655,7 +655,7 @@ role="alert"            khi cần dynamic announce
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -1,9 +1,9 @@
 # 🗄️ Spaces — Object Storage kèm CDN miễn phí
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Droplet và Volume](01_droplets-and-volumes.md), hiểu HTTP/REST cơ bản; nếu từng dùng *S3* hoặc *GCS* thì càng dễ theo.
@@ -79,7 +79,7 @@ Nắm được "object storage hợp với việc gì" rồi, giờ ta xem Digit
 
 **Spaces** là dịch vụ object storage của DigitalOcean, ra mắt năm 2017 với điểm bán hàng cốt lõi: **API tương thích S3**. Trong thuật ngữ Spaces, mỗi "Space" chính là một "bucket" của S3 — cùng một khái niệm, chỉ khác cái tên.
 
-Vì sao "tương thích S3" lại quan trọng đến vậy? Bởi S3 của Amazon ra đời từ 2006 và đã trở thành chuẩn de-facto của ngành: hầu hết mọi thư viện, SDK, CLI về object storage đều nói được "ngôn ngữ S3". Khi Spaces nói cùng ngôn ngữ đó, bạn không phải học API mới, không phải đổi code — chỉ trỏ endpoint sang DigitalOcean là chạy. Bảng dưới tóm tắt những đặc điểm bạn cần nhớ khi tính toán cho năm 2026.
+Vì sao "tương thích S3" lại quan trọng đến vậy? Bởi S3 của Amazon ra đời từ 2006 và đã trở thành chuẩn de-facto của ngành: hầu hết mọi thư viện, SDK, CLI về object storage đều nói được "ngôn ngữ S3". Khi Spaces nói cùng ngôn ngữ đó, bạn không phải học API mới, không phải đổi code — chỉ trỏ endpoint sang DigitalOcean là chạy. Bảng dưới tóm tắt những đặc điểm bạn cần nhớ khi tính toán cho năm 2026 (các con số giá là *tính đến 2026*, DO có thể đổi bảng giá — đối chiếu trang pricing chính thức trước khi quyết).
 
 | Đặc điểm | Mô tả |
 |---|---|
@@ -119,7 +119,7 @@ Sự khác biệt một chữ này lại là khác biệt về tốc độ: URL 
 
 ## 3️⃣ Spaces, S3 và R2 — chọn cái nào cho ví tiền của bạn
 
-Spaces không phải lựa chọn duy nhất. Trên thị trường còn AWS S3 (ông tổ của thể loại này) và Cloudflare R2 (kẻ thách thức trẻ với chiêu bài "egress miễn phí"). Vì giá object storage có thể chênh nhau cả chục lần tùy workload, chọn sai vendor là đốt tiền oan hàng tháng. Bảng dưới so ba lựa chọn trên những tiêu chí thực sự ảnh hưởng tới hóa đơn.
+Spaces không phải lựa chọn duy nhất. Trên thị trường còn AWS S3 (ông tổ của thể loại này) và Cloudflare R2 (kẻ thách thức trẻ với chiêu bài "egress miễn phí"). Vì giá object storage có thể chênh nhau cả chục lần tùy workload, chọn sai vendor là đốt tiền oan hàng tháng. Bảng dưới so ba lựa chọn trên những tiêu chí thực sự ảnh hưởng tới hóa đơn (mọi đơn giá ở đây là *tính đến 2026* — cả ba vendor đều chỉnh giá theo thời gian, kiểm tra lại trước khi tính toán thật).
 
 | | DO Spaces | AWS S3 | Cloudflare R2 |
 |---|---|---|---|
@@ -831,3 +831,4 @@ Cho phép mọi origin upload/read → attacker site có thể CSRF (lừa user 
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Object storage concept + Spaces S3-compatible + comparison S3/R2 + Access Key + s3cmd/boto3 + presigned URL + CDN built-in + Lifecycle + CORS + hands-on static site + private invoice + 10 pitfalls.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang văn phong narrative tiếng Việt theo gold-standard (lời dẫn trước mỗi bảng/code, câu phân tích sau, ẩn dụ, câu bắc cầu giữa các phần); chuẩn hoá heading framework, field "Yêu cầu trước", Glossary 3 cột, nav (⬅️/➡️/↑ + link-text = tiêu đề thực); pitfall chuyển sang dạng ❌ Cạm bẫy / ✅ Best practice; sửa lỗi số đếm region (bỏ "4 region" mâu thuẫn với danh sách) và diễn đạt mềm số PoP CDN cho khớp tài liệu hiện hành; bổ sung thuật ngữ Egress vào Glossary. Giữ nguyên toàn bộ code/lệnh/config và số liệu kỹ thuật.
+- **v2.0.1 (10/06/2026)** — Gắn mốc *tính đến 2026* cho bảng giá Spaces (§2) và bảng so giá Spaces/S3/R2 (§3) vì đơn giá biến động theo thời gian. Không đổi con số.

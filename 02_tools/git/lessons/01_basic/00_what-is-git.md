@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Đã [cài Git](../../setup/git.md) ✅
+> **Yêu cầu trước:** Đã [cài Git](../../setup/git.md) ✅
 
 > 🎯 *Bài INTRO — hiểu **Git là gì**, **vì sao mọi coder cần biết**, **mô hình tinh thần** trước khi học lệnh. KHÔNG dạy lệnh chi tiết (sẽ học ở [bài 01](./01_init-and-first-commit.md) trở đi).*
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Observability basic](../01_basic/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
+> **Yêu cầu trước:** [Observability basic](../01_basic/), [K8s intermediate](../../../kubernetes/lessons/02_intermediate/)
 
 > 🎯 *Bài INTRO. Basic đã setup Prometheus + Grafana + Loki + Tempo. Production cần đi sâu: **PromQL fluent + recording rules + alerting strategy**, **LogQL + cardinality management**, **OTel instrumentation thật**, **SRE practices** (SLO, error budget, postmortem, on-call). Bài cuối DevOps intermediate sprint, prep cho IaC intermediate.*
 

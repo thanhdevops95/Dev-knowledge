@@ -1,12 +1,12 @@
 # 🎓 JavaScript là gì? — Ngôn ngữ chính của browser
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTML & CSS là gì](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
+> **Yêu cầu trước:** [HTML & CSS là gì](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
 
 > 🎯 *Bài INTRO. Hiểu **JavaScript là gì** (browser + Node), **ECMAScript** evolution (ES6 → ES2025), **JS engine** (V8/JSCore), **single-thread + event loop**, **TypeScript** so sánh, **3 cách chạy JS**, và **console.log** debug. KHÔNG dạy syntax chi tiết (bài 01 trở đi).*
 
@@ -215,6 +215,20 @@ JS chạy **1 thread duy nhất** (main thread). Nhưng vẫn handle async (netw
               ↑
          Event loop (đường lặp)
 ```
+
+JS đẩy tác vụ async sang Web APIs, callback xong xếp vào queue, rồi event loop đưa lại Call Stack khi stack rỗng. Sơ đồ dưới mô tả vòng lặp này (microtask ưu tiên hơn macrotask):
+
+```mermaid
+flowchart LR
+    Stack[Call Stack] -->|gọi async| WebAPI[Web APIs: setTimeout, fetch]
+    WebAPI -->|callback xong| MacroQ[Callback/Macrotask Queue]
+    Promise[Promise .then] --> MicroQ[Microtask Queue]
+    MicroQ -->|ưu tiên cao hơn| Loop[Event Loop]
+    MacroQ --> Loop
+    Loop -->|khi stack rỗng| Stack
+```
+
+→ Nhờ vòng lặp này, JS 1 thread vẫn xử lý async mà không block UI.
 
 ### Code minh hoạ
 
@@ -536,7 +550,7 @@ debugger;   // ← stops if DevTools open
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -585,3 +599,4 @@ debugger;   // ← stops if DevTools open
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 1/5. Cover: JS là gì + history 30 năm + ECMAScript spec vs JS implementation + 3 cách include + script placement + ES6+ modern features overview + run JS (browser console + Node.js).
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục Lịch sử (Việt hoá tiêu đề thành "Lịch sử — Các mốc quan trọng") và các mục Inline event, Internal script, External file, Đặt script ở đâu. Thêm mục Changelog.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ JS event loop cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 Serverless là gì — Bức tranh tổng thể & 4 nhà cung cấp lớn
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** đã đọc [cloud-fundamentals](../../../cloud-fundamentals/) — IaaS/PaaS/SaaS, region/AZ, billing model
@@ -213,7 +213,7 @@ Mọi vendor lớn đều có offering serverless. So sánh ở mặt **basics 2
 #### Cloudflare Workers
 
 ✅ **Mạnh**:
-- **V8 isolate** thay vì container → cold start ~5ms (gần như không có).
+- **V8 isolate** thay vì container → cold start ~5ms *(tính đến 2026)* (gần như không có).
 - Chạy ở **300+ edge location** mặc định → latency thấp toàn cầu.
 - Pricing siêu rẻ ($5/10M req).
 - Durable Objects = state ở edge (unique).
@@ -584,3 +584,4 @@ Constant high traffic (>1B/tháng) → VM / ASG / container
 
 - **v1.0.0 (24/05/2026)** — Bài mở màn cluster Serverless vendor-neutral. Định nghĩa 4 tiêu chí + 2 nhánh FaaS/container + so sánh 4 vendor (AWS/GCP/Azure/Cloudflare) + decision tree + Acme Shop migration plan + 4 pitfall + 2 best practice + 5 self-check. Cross-link AWS Lambda + GCP Cloud Run lessons đã có.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ meta nội bộ trong thân bài ("vendor-neutral cluster", "không bias"); đổi field "Prerequisites" → "Yêu cầu trước"; thêm ngôn ngữ `text` cho 4 code fence (timeline/migration/cheatsheet); chuẩn hoá header Glossary sang `| Thuật ngữ | Tiếng Việt | Giải thích |`; chuẩn hoá nav (marker `➡️/↑`, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên khác, link-text = tiêu đề H1 thực); mềm hoá số liệu "V8 isolate nhẹ hơn 1000x" thành mô tả footprint định tính.
+- **v1.1.1 (10/06/2026)** — Gắn mốc *tính đến 2026* cho con số cold start Cloudflare Workers "~5ms" (mặt mạnh vendor) vì đây là chỉ số có thể thay đổi theo thời gian. Không đổi con số.

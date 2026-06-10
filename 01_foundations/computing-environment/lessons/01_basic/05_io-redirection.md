@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [03_process-and-pid.md](./03_process-and-pid.md), [04_env-variables.md](./04_env-variables.md)
+> **Yêu cầu trước:** [03_process-and-pid.md](./03_process-and-pid.md), [04_env-variables.md](./04_env-variables.md)
 
 > 🎯 *Bài CONCEPT cuối cluster computing-environment — hiểu **3 luồng I/O** (stdin/stdout/stderr) + **redirect** (`>`, `<`, `2>&1`) + **pipe** (`|`) + `/dev/null` + `tee`. Sau bài này bạn đọc được mọi lệnh shell phức tạp như `cmd1 | cmd2 > out.txt 2>&1`.*
 

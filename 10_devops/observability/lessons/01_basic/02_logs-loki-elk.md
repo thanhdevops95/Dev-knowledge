@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Metrics with Prometheus](01_metrics-prometheus.md)
+> **Yêu cầu trước:** [Metrics with Prometheus](01_metrics-prometheus.md)
 
 > 🎯 *Logs deep: **structured logging** (JSON), **Loki** (Grafana's, label-based, cheap), **ELK** (Elasticsearch + Logstash + Kibana, full-text), **Promtail/Fluent Bit** agents, **LogQL** query, **log retention** strategies, **cost control**. Sau bài này centralize logs production.*
 
@@ -661,7 +661,7 @@ ELK     Full-text + mature
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

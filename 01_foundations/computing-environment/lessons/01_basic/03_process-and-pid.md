@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-terminal.md](./00_what-is-terminal.md), [02_filesystem-concept.md](./02_filesystem-concept.md)
+> **Yêu cầu trước:** [00_what-is-terminal.md](./00_what-is-terminal.md), [02_filesystem-concept.md](./02_filesystem-concept.md)
 
 > 🎯 *Bài CONCEPT — hiểu **process là gì** + **PID** + **parent/child tree** + **trạng thái** + **signal** (SIGTERM/SIGKILL). KHÔNG dạy lệnh (`ps`/`kill`/`top` cụ thể xem [`04_os/linux/lessons/01_basic/`](../../../../04_os/linux/lessons/01_basic/) — bài chưa có). Bài này dạy bạn HIỂU vì sao có "process zombie", vì sao `Ctrl+C` đôi khi không hoạt động.*
 

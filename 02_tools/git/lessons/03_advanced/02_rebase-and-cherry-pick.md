@@ -6,7 +6,7 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Advanced\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_branching-and-merging.md](../02_intermediate/00_branching-and-merging.md), [01_advanced-recovery-reflog.md](./01_advanced-recovery-reflog.md) ✅
+> **Yêu cầu trước:** [00_branching-and-merging.md](../02_intermediate/00_branching-and-merging.md), [01_advanced-recovery-reflog.md](./01_advanced-recovery-reflog.md) ✅
 
 > 🎯 *Bài học nghệ thuật lịch sử Git — Khám phá hai công cụ quyền lực tối thượng giúp tái định vị nền tảng nhánh và chọn lọc chính xác các mảnh ghép thay đổi. Bạn sẽ học cách "phẫu thuật thẩm mỹ" cho lịch sử Git bừa bộn trở nên thẳng thớm, đẹp đẽ như một tác phẩm nghệ thuật.*
 

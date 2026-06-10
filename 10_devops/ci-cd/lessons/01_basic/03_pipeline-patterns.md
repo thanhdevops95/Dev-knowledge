@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [GitHub Actions](01_github-actions.md), [GitLab CI](02_gitlab-ci.md)
+> **Yêu cầu trước:** [GitHub Actions](01_github-actions.md), [GitLab CI](02_gitlab-ci.md)
 
 > 🎯 *Tool-agnostic patterns: **PR validation**, **monorepo**, **release tagging**, **scheduled jobs**, **manual approval gates**, **secret scanning**, **dependency updates**, **container vulnerability scan**, **flaky test handling**, **fast feedback** optimization. Sau bài này design pipeline production-grade.*
 
@@ -795,7 +795,7 @@ Pants       Polyglot — Twitter
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

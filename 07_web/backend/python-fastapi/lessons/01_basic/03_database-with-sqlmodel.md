@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
+> **Yêu cầu trước:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
 
 > 🎯 *Ghép FastAPI + database thật. Học **SQLModel** (Sebastián Ramírez, kết hợp SQLAlchemy + Pydantic), **Dependency Injection** (`Depends`), **session lifecycle**, viết CRUD đầy đủ với **PostgreSQL/SQLite**. Migration với **Alembic**.*
 
@@ -582,7 +582,7 @@ alembic downgrade -1
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

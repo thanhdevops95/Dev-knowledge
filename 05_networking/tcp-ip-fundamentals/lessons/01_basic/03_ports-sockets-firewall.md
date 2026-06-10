@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [TCP vs UDP](02_tcp-vs-udp.md)
+> **Yêu cầu trước:** [TCP vs UDP](02_tcp-vs-udp.md)
 
 > 🎯 *Hiểu **port** (số cổng), **well-known ports**, **socket** = (IP, port) tuple, ephemeral port range, và **firewall** cơ bản (`ufw`, `iptables`, AWS Security Group). Sau bài này bạn fix được 80% lỗi "Connection refused".*
 
@@ -472,7 +472,7 @@ curl -v https://host            # L7 (HTTP)
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -515,7 +515,7 @@ curl -v https://host            # L7 (HTTP)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 ("3 vùng port"), §2 (TCP/UDP well-known), §3 ("Xem sockets ss/netstat" + "Bind 0.0.0.0 vs 127.0.0.1"). Thêm Changelog section.
 

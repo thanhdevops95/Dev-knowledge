@@ -1,9 +1,9 @@
 # 💾 Cloudflare R2 + D1 + Queues — Storage & data layer ở edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Xong [02_workers-and-pages](02_workers-and-pages.md), biết SQL cơ bản, đã từng dùng S3 (hoặc bất kỳ object storage)
@@ -78,7 +78,7 @@ Bài này tính chi tiết + hướng dẫn migrate. Spoiler: R2 zero egress →
 | Stack đã AWS-only | Inter-service S3 → Lambda zero egress trong region |
 | Cần Glacier deep archive | R2 chưa có cold tier deep |
 | Cần S3 Object Lambda / Replication features | R2 thiếu |
-| Compliance bắt region cụ thể (VN data residency) | R2 không control region (Q1 2026) |
+| Compliance bắt region cụ thể (VN data residency) | R2 ít quyền control region (tình trạng *tính đến Q1 2026*; Jurisdictional Restrictions/Location Hints là tính năng dự kiến/đã ra tuỳ thời điểm — kiểm tra docs hiện hành) |
 
 ### Tạo R2 bucket
 
@@ -1032,3 +1032,4 @@ Dùng **Sessions API** (`db.withSession('first-primary')`). Session sticky 1 rep
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 cluster Cloudflare basic. R2 S3-compatible + zero egress + cost comparison + presigned URL + multipart + D1 SQLite edge replica + migrations + Sessions API + Queues producer/consumer + DLQ + Hyperdrive Postgres pool + hands-on Acme Shop upload pipeline (R2 + D1 + Queue) + 8 pitfalls. Pattern theo AWS lesson 02-03.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa typo "Triệu chextual" → "Triệu chứng" ở pitfall D1 SELECT 6MB; Glossary chuyển sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; đồng bộ nav (⬅️/➡️/↑) với link-text là tiêu đề thật của bài đích và 3 sub-heading chuẩn (🧭 Định hướng / 🧩 Chủ đề liên quan / 🌐 Tài nguyên).
+- **v1.1.1 (10/06/2026)** — Làm rõ tuyên bố "R2 không control region (Q1 2026)" ở bảng "Khi R2 KHÔNG thắng": gắn mốc *tính đến Q1 2026* và ghi chú khả năng control region (Jurisdictional Restrictions/Location Hints) là dự kiến/đã ra tuỳ thời điểm, nên kiểm tra docs hiện hành.

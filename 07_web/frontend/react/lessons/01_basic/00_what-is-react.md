@@ -1,12 +1,12 @@
 # 🎓 React là gì? — Component framework #1 cho frontend
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [JavaScript modern](../../../javascript-dom/lessons/01_basic/01_variables-functions-types.md), [HTML+CSS](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
+> **Yêu cầu trước:** [JavaScript modern](../../../javascript-dom/lessons/01_basic/01_variables-functions-types.md), [HTML+CSS](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
 
 > 🎯 *Bài INTRO. Hiểu **React là gì**, **JSX**, **Virtual DOM**, **declarative vs imperative**, **component philosophy**, **React vs Vue vs Svelte**, setup Vite + Hello World. KHÔNG dạy hooks chi tiết (bài 02 trở đi).*
 
@@ -304,6 +304,18 @@ DOM manipulation **chậm** (layout reflow + paint). Update 100 items = 100 refl
 4. Apply ONLY diff to real DOM
 ```
 
+Vì sao React nhanh: không vẽ lại toàn bộ DOM, chỉ patch phần khác biệt sau khi diff 2 cây Virtual DOM. Sơ đồ dưới mô tả luồng này:
+
+```mermaid
+flowchart LR
+    State["State thay đổi"] --> VNew["Virtual DOM mới"]
+    VOld["Virtual DOM cũ"] --> Diff{Diff / so sánh}
+    VNew --> Diff
+    Diff -->|chỉ phần khác| Patch["Cập nhật DOM thật (tối thiểu)"]
+```
+
+→ Chỉ phần thực sự đổi mới chạm tới DOM thật, nên tránh được reflow + paint thừa.
+
 ### Ví dụ minh hoạ
 
 ```jsx
@@ -592,7 +604,7 @@ Angular = enterprise + TS
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -639,7 +651,9 @@ Angular = enterprise + TS
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ Virtual DOM diffing cho trực quan.
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Library vs Framework, Vanilla JS verbose, React JSX, JSX quirks, JSX compile, Component props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
 

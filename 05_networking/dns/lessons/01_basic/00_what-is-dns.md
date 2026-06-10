@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (nên hiểu sơ HTTP để biết DNS là bước đầu của 1 request)
+> **Yêu cầu trước:** [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (nên hiểu sơ HTTP để biết DNS là bước đầu của 1 request)
 
 > 🎯 *Bài INTRO. Hiểu **DNS là gì**, **vì sao cần**, **flow domain → IP**, **3 thành phần chính**. KHÔNG đi sâu records hay resolution chi tiết (sẽ học từ bài 01 trở đi). Sau bài này bạn biết khi gõ `google.com` máy tính làm gì trước khi gửi HTTP request.*
 
@@ -340,7 +340,7 @@ host google.com              # Linux — gọn nhất
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

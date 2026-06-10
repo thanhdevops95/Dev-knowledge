@@ -1,11 +1,11 @@
 # 📊 14_data-engineering
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v0.1.0 (skeleton)\
+> **Phiên bản:** v0.2.0\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 16/05/2026
+> **Cập nhật:** 10/06/2026
 
-> 🚧 **Status:** Skeleton — folder mới tạo, chưa có content viết. Đang chờ người viết bài.
+> 🚧 **Status:** Đang xây — đã có **4 bài intro** (`airflow-and-orchestration`, `data-lake`, `dbt`, `streaming` — mỗi nhánh 1 bài `lessons/01_basic/00`). Các nhánh còn lại (ETL/ELT, data-warehouse, Spark, data-modeling, real-time-analytics) chưa có bài.
 
 ## 🎯 Chủ đề này có gì
 
@@ -13,7 +13,7 @@ ETL/ELT, Data warehouse, Data lake, Streaming (Kafka), Spark, Airflow, DBT
 
 ## 📂 L2 dự kiến (chủ đề con)
 
--etl-elt
+- etl-elt
 - data-warehouse
 - data-lake
 - streaming
@@ -36,10 +36,11 @@ ETL/ELT, Data warehouse, Data lake, Streaming (Kafka), Spark, Airflow, DBT
 
 ## 🤝 Muốn viết bài cho chủ đề này?
 
-6. Tham khảo `_Ref/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
+- Tham khảo `__Ref__/` (nếu có content liên quan) — cherry-pick, KHÔNG copy
 
 ---
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v0.1.0 (16/05/2026)** — Skeleton — folder mới tạo, chưa có content.
+- **v0.2.0 (10/06/2026)** — Cập nhật trạng thái: đã có 4 bài intro (airflow, data-lake, dbt, streaming); sửa bullet `-etl-elt` thiếu khoảng trắng + mục "Muốn viết bài".

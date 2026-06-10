@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Variables & Functions](01_variables-functions-types.md), [HTML Essentials](../../../html-css/lessons/01_basic/01_html-essentials.md)
+> **Yêu cầu trước:** [Variables & Functions](01_variables-functions-types.md), [HTML Essentials](../../../html-css/lessons/01_basic/01_html-essentials.md)
 
 > 🎯 *Master **DOM** — JS đại diện HTML trong memory. **`querySelector`** + family, **modify text/HTML/attribute/class**, **create + insert + remove element**, **`dataset`** (data-*), **forms**. Sau bài này JS làm trang động: add/remove/update element, không cần reload.*
 
@@ -627,7 +627,7 @@ parent.append(clone);
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -670,7 +670,7 @@ parent.append(clone);
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Anatomy node, querySelector, Legacy methods, Query trong element con, Iterate NodeList. Thêm mục Changelog.
 

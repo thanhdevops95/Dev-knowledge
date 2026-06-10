@@ -1,12 +1,11 @@
 # 🧪 Bài thực hành: Xây dựng & Đẩy Trang Portfolio Cá Nhân lên GitHub
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Độ khó:** ⭐\
-> **Thời gian ước tính:** ~30 phút\
-> **Prerequisites:** Đã học xong bài học [02_remote-and-github-basic.md](../../lessons/01_basic/02_remote-and-github-basic.md) ✅
+> **Yêu cầu trước:** Đã học xong bài [Remote, origin & xác thực GitHub](../../lessons/01_basic/02_remote-and-github-basic.md) ✅
 
 ---
 
@@ -95,9 +94,9 @@ Output thực tế:
 ```
 Initialized empty Git repository in /Users/user/Desktop/my-first-portfolio/.git/
 ```
-*   **Giải thích output:** 
-    *   Git đã khởi tạo thành công một kho chứa rỗng trên máy của bạn.
-    *   Thư mục ẩn `.git/` đã được sinh ra ngầm bên trong dự án để ghi nhận mọi biến động thay đổi file từ lúc này trở đi.
+-   **Giải thích output:** 
+    -   Git đã khởi tạo thành công một kho chứa rỗng trên máy của bạn.
+    -   Thư mục ẩn `.git/` đã được sinh ra ngầm bên trong dự án để ghi nhận mọi biến động thay đổi file từ lúc này trở đi.
 
 ---
 
@@ -129,9 +128,9 @@ Untracked files:
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
-*   **Giải thích output:** 
-    *   Trạng thái `Untracked files:` màu đỏ báo hiệu các tệp mới xuất hiện và chưa được Git đưa vào lịch sử lưu vết.
-    *   Git chỉ hiển thị `.gitignore` và `index.html`. Hai tệp nhạy cảm `.env` và `draft-notes.txt` hoàn toàn biến mất khỏi radar theo dõi của Git nhờ cấu hình loại trừ chuẩn xác!
+-   **Giải thích output:** 
+    -   Trạng thái `Untracked files:` màu đỏ báo hiệu các tệp mới xuất hiện và chưa được Git đưa vào lịch sử lưu vết.
+    -   Git chỉ hiển thị `.gitignore` và `index.html`. Hai tệp nhạy cảm `.env` và `draft-notes.txt` hoàn toàn biến mất khỏi radar theo dõi của Git nhờ cấu hình loại trừ chuẩn xác!
 
 ---
 
@@ -157,9 +156,9 @@ Changes to be committed:
         new file:   .gitignore
         new file:   index.html
 ```
-*   **Giải thích output:** 
-    *   Trạng thái `Changes to be committed:` chuyển sang màu xanh lá cây báo hiệu các tệp đã nằm sẵn sàng trong **Staging Area**.
-    *   Lúc này, bạn có thể tự tin chạy lệnh commit để chụp ảnh lịch sử mà không sợ bị lẫn các file nháp.
+-   **Giải thích output:** 
+    -   Trạng thái `Changes to be committed:` chuyển sang màu xanh lá cây báo hiệu các tệp đã nằm sẵn sàng trong **Staging Area**.
+    -   Lúc này, bạn có thể tự tin chạy lệnh commit để chụp ảnh lịch sử mà không sợ bị lẫn các file nháp.
 
 Tạo commit đầu tiên tuân thủ Conventional Commits:
 ```bash
@@ -172,9 +171,9 @@ Output thực tế hiển thị:
  create mode 100644 .gitignore
  create mode 100644 index.html
 ```
-*   **Giải thích output:** 
-    *   Mã commit gốc `f1e2d3c` (root-commit) đã được sinh ra đại diện cho trạng thái lưu trữ đầu tiên của dự án.
-    *   Git thông báo ghi nhận thay đổi của 2 tệp tin và tạo thành công cơ sở dữ liệu lưu vết local.
+-   **Giải thích output:** 
+    -   Mã commit gốc `f1e2d3c` (root-commit) đã được sinh ra đại diện cho trạng thái lưu trữ đầu tiên của dự án.
+    -   Git thông báo ghi nhận thay đổi của 2 tệp tin và tạo thành công cơ sở dữ liệu lưu vết local.
 
 ---
 
@@ -207,9 +206,9 @@ To https://github.com/your-username/my-first-portfolio.git
  * [new branch]      main -> main
 branch 'main' set up to track 'origin/main'.
 ```
-*   **Giải thích output:**
-    *   Trạng thái `Writing objects: 100%` báo hiệu gói dữ liệu code đã được nén và đẩy thành công qua Internet lên server đám mây.
-    *   Dòng cuối khẳng định nhánh `main` ở máy local đã được liên kết đồng bộ mặc định với nhánh `main` trên GitHub.
+-   **Giải thích output:**
+    -   Trạng thái `Writing objects: 100%` báo hiệu gói dữ liệu code đã được nén và đẩy thành công qua Internet lên server đám mây.
+    -   Dòng cuối khẳng định nhánh `main` ở máy local đã được liên kết đồng bộ mặc định với nhánh `main` trên GitHub.
 
 ---
 
@@ -238,4 +237,12 @@ rm -rf my-first-portfolio
 ---
 
 ## 🔗 Liên kết & Tài nguyên
-*   ➡️ Thử thách tiếp theo (Cấp độ Trung cấp): [00_branching-and-merging.md](../../lessons/02_intermediate/00_branching-and-merging.md) — Phân tách các nhánh tính năng song song an toàn.
+
+-   ➡️ Thử thách tiếp theo (Cấp độ Trung cấp): [Phân nhánh & Gộp nhánh](../../lessons/02_intermediate/00_branching-and-merging.md) — Phân tách các nhánh tính năng song song an toàn.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v2.1.0 (26/05/2026)** — Lab thực hành: tạo trang portfolio cá nhân và đẩy lên GitHub lần đầu.
+- **v2.1.1 (10/06/2026)** — Bỏ field "Thời gian ước tính"; đổi `Prerequisites` → `Yêu cầu trước`; bullet `*` → `-`; link text theo tiêu đề bài.

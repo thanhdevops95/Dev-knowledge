@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Docker](../../../docker/), [K8s](../../../kubernetes/)
+> **Yêu cầu trước:** [Docker](../../../docker/), [K8s](../../../kubernetes/)
 
 > 🎯 *Bài INTRO. Hiểu **IaC** là gì, **declarative vs imperative**, **landscape 2026** (Terraform/OpenTofu/Pulumi/CDK/CloudFormation), **state management**, **why IaC** (reproducibility, version control, auto), **GitOps adjacent**.*
 
@@ -555,7 +555,7 @@ Terragrunt   Multi-env DRY
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

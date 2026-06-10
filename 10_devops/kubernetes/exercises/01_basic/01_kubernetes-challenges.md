@@ -1,11 +1,11 @@
 # 🧪 Kubernetes Basic Challenges: Bộ Bài Tập Rèn Luyện Tư Duy Và Lab Thực Hành Thực Chiến
 
-> **Author:** Mr.Rom\
+> **Tác giả:** Mr.Rom\
 > **Phiên bản:** v1.0.0\
 > **Tạo lúc:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [PRACTICAL, LAB, EXERCISE, K8S-BASIC]\
-> **Prerequisites:** [Kubernetes Basic Module (Lessons 00 - 04)](../../lessons/01_basic/00_what-is-kubernetes.md)
+> **Yêu cầu trước:** [Kubernetes Basic Module (Lessons 00 - 04)](../../lessons/01_basic/00_what-is-kubernetes.md)
 
 > 🎯 **Mục tiêu cốt lõi:** Chuyển hóa toàn bộ lý thuyết về Pod, Deployment, Service, ConfigMap, Secret, Namespace và RBAC thành kỹ năng thực tế. Bạn sẽ được rèn luyện tư duy thông qua 5 câu hỏi trắc nghiệm phản biện sâu sắc, và trực tiếp bắt tay vào xây dựng 3 dự án Lab thực chiến hoàn chỉnh, có khả năng chạy ngay trên các Cluster local như `kind` hay `minikube`.
 

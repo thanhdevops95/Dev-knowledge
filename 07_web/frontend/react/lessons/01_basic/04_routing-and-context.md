@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [useEffect & Fetch](03_useeffect-and-fetch.md)
+> **Yêu cầu trước:** [useEffect & Fetch](03_useeffect-and-fetch.md)
 
 > 🎯 *Master **React Router v6** — multi-page SPA, route params, navigation. Plus **Context API** — global state without prop drilling. Plus glance **state management library** landscape (Zustand, Redux, Jotai). Sau bài này build SPA hoàn chỉnh nhiều trang.*
 
@@ -711,7 +711,7 @@ const count = useStore(s => s.count);
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -756,7 +756,7 @@ const count = useStore(s => s.count);
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 React Router Setup (Cài + main.jsx + App.jsx + Pages structure) + §2 Link/NavLink. Thêm Changelog section.
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Kubernetes basics](../../../kubernetes/), [HTTP](../../../../05_networking/http-https/)
+> **Yêu cầu trước:** [Kubernetes basics](../../../kubernetes/), [HTTP](../../../../05_networking/http-https/)
 
 > 🎯 *Bài INTRO. Hiểu **observability** (3 pillars: metrics + logs + traces), **vs monitoring** (passive vs proactive), **landscape 2026** (Prometheus + Grafana + Loki + Tempo + Jaeger + Datadog + Honeycomb), **SLI/SLO/SLA**, **OpenTelemetry**. KHÔNG dạy Prometheus deep (bài 01).*
 
@@ -546,7 +546,7 @@ Error budget = SLO - actual
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_gitops-with-argocd.md](01_gitops-with-argocd.md), [Docker intermediate Security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md)
+> **Yêu cầu trước:** [01_gitops-with-argocd.md](01_gitops-with-argocd.md), [Docker intermediate Security](../../../docker/lessons/02_intermediate/02_image-security-supply-chain.md)
 
 > 🎯 *Docker intermediate bài 02 đã dạy Trivy + cosign + SBOM ở mức image. Bài này dạy **CI/CD pipeline-level**: SLSA Level 3 implementation, provenance attestation cho **build chain**, in-toto, Kyverno admission verify production, vulnerability lifecycle management, signed Helm chart.*
 

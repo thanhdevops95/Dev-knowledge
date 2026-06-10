@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Database với SQLModel](03_database-with-sqlmodel.md), [HTTP Headers](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
+> **Yêu cầu trước:** [Database với SQLModel](03_database-with-sqlmodel.md), [HTTP Headers](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
 
 > 🎯 *Hoàn chỉnh backend production: **password hash** (bcrypt), **JWT tokens**, **OAuth2 Password Flow**, **`Depends()` chain** cho `get_current_user`, **CORS** middleware, **custom middleware** (logging, request_id). Sau bài này backend bảo mật + production-ready.*
 
@@ -577,7 +577,7 @@ async def log_requests(req, call_next):
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
+> **Yêu cầu trước:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Hiểu **5 nhóm status code** (1xx-5xx) + **20 mã phổ biến** nhất + **khi nào dùng cái nào**. Sau bài này bạn đọc HTTP error nhìn 1 phát biết lỗi ai, fix ở đâu — không phải google "401 nghĩa là gì".*
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [03_rag-fundamentals](03_rag-fundamentals.md) ✅
+> **Yêu cầu trước:** Bài [03_rag-fundamentals](03_rag-fundamentals.md) ✅
 
 > 🎯 *Bài 04 (cuối basic). PoC chạy → production khác biệt: cost balloon, latency vấn đề, eval, guardrails, prompt injection live, caching. Bài này dạy: cost optimization, prompt caching, model routing, latency budget, eval harness, guardrails (input/output), production observability (Helicone/Langfuse), prompt injection live mitigation, A/B test. Đóng cluster LLM basic.*
 

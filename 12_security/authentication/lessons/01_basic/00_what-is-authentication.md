@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** OWASP basic [bài 04](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) ✅, HTTP cơ bản
+> **Yêu cầu trước:** OWASP basic [bài 04](../../../owasp-top-10/lessons/01_basic/04_auth-failures-logging-and-ssrf.md) ✅, HTTP cơ bản
 
 > 🎯 *Bài 00 cluster Authentication. OWASP A07 đã surface-level — cluster này deep. Bài này dạy: AuthN vs AuthZ, identity, credential, 3 factor (something you know/have/are), session vs token, lifecycle (register → login → refresh → logout), threat model. Foundation cho 4 bài deep (Password/MFA, OAuth, JWT, Federation/SSO).*
 

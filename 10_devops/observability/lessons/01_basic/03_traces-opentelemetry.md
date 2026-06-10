@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Logs](02_logs-loki-elk.md)
+> **Yêu cầu trước:** [Logs](02_logs-loki-elk.md)
 
 > 🎯 *Master distributed tracing: **OpenTelemetry** (CNCF standard), **spans + trace**, **context propagation** across services, **sampling** strategy, **Tempo vs Jaeger vs Honeycomb**, instrument FastAPI + auto-instrument, correlate **traces ↔ logs ↔ metrics**.*
 
@@ -674,7 +674,7 @@ Datadog APM  $$$
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

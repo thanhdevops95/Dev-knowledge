@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is IaC](00_what-is-iac.md)
+> **Yêu cầu trước:** [What is IaC](00_what-is-iac.md)
 
 > 🎯 *Master Terraform/OpenTofu core: **HCL** syntax, **providers**, **resources**, **data sources**, **variables** + **outputs**, **locals**, **expressions**, **functions**, **dependencies**, **lifecycle**. Sau bài này provision real cloud infra.*
 
@@ -1007,7 +1007,7 @@ cidrsubnet, formatdate, timestamp
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

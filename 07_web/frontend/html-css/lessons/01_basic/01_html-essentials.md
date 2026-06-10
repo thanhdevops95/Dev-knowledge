@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTML & CSS là gì](00_what-is-html-and-css.md)
+> **Yêu cầu trước:** [HTML & CSS là gì](00_what-is-html-and-css.md)
 
 > 🎯 *Master HTML thực sự: **document structure**, **20 common tag** thường gặp, **semantic tags** (`<header>`, `<article>`, `<nav>`...), **inline vs block**, **attributes** (id, class, data-), **embedding media** (img, video, iframe), **links + navigation**. Sau bài này viết được trang web đầy đủ structure.*
 
@@ -622,7 +622,7 @@ defer / async (script)
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -663,7 +663,7 @@ defer / async (script)
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục HTML5 structure, Vai trò meta, Anti-pattern div, Semantic HTML5, Bảng semantic tags. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.
 

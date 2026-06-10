@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md), basic obs cluster done
+> **Yêu cầu trước:** [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md), basic obs cluster done
 
 > 🎯 *Bài cuối Observability intermediate + cuối DevOps intermediate sprint. Tools alone không reliable production — cần **process**: SLI/SLO numerical commitment, error budget trade reliability vs velocity, blameless postmortem learn from incidents, sustainable on-call rotation. Apply Google SRE book principles.*
 

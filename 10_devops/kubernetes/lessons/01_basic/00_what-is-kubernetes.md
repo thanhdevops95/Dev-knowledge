@@ -1,18 +1,16 @@
----
-title: Tổng Quan Về Kubernetes: Giải Pháp Điều Phối Container Trách Nhiệm Cao
-author: Mr.Rom
-version: v2.0.0
-date: 2026-05-26
-level: Basic
-tags: [MUST-KNOW, DEVOPS, KUBERNETES]
----
-
 # 🎓 Tổng Quan Về Kubernetes: Giải Pháp Điều Phối Container Trách Nhiệm Cao
 
-> 🎯 **Lời dẫn của Mr.Rom:**
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v2.0.1\
+> **Tạo lúc:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
+> **Level:** Basic\
+> **Tags:** [MUST-KNOW]
+
+> 🎯 **Lời dẫn:**
 > Chào bạn, bài học nhập môn này sẽ đưa bạn bước chân vào thế giới của **Kubernetes** (thường viết tắt là K8s) — tiêu chuẩn vàng và là "vua" trong lĩnh vực điều phối container hiện đại. Ở các bài học trước, bạn đã biết cách đóng gói app bằng Docker và ghép nối bằng Compose. Nhưng khi hệ thống mở rộng quy mô lên hàng chục server, Compose sẽ bộc lộ giới hạn. Bài học này sẽ giúp bạn hiểu rõ bản chất K8s, phân tích kiến trúc bên trong và tự tay dựng một cluster thử nghiệm tại local!
 
-## 🎯 Sau bài học này, bạn sẽ làm chủ:
+## 🎯 Sau bài học này, bạn sẽ làm chủ
 
 - [x] Bản chất cốt lõi của **Kubernetes** và hành trình phát triển lịch sử từ nội bộ Google đến tiêu chuẩn ngành 2026.
 - [x] Tư duy so sánh sắc bén giữa **Docker Compose** vs **Kubernetes** để lựa chọn đúng công nghệ phù hợp với quy mô dự án.
@@ -47,7 +45,7 @@ Nhưng đối với người mới bắt đầu, K8s giống như một "ngọn 
 - **Năm 2026:** K8s chính thức trở thành **de-facto standard (tiêu chuẩn bắt buộc)** của ngành điện toán đám mây. Mọi nhà cung cấp đám mây lớn (AWS, GCP, Azure, DigitalOcean) đều cung cấp dịch vụ Managed Kubernetes riêng biệt.
 
 > [!NOTE]
-> **Ẩn dụ sư phạm từ Mr.Rom:**
+> **Ẩn dụ sư phạm:**
 > - **Chạy trên 1 server đơn lẻ:** Hệ điều hành máy chủ (như Linux) đóng vai trò trực tiếp quản lý các tiến trình (processes) cục bộ của máy tính đó.
 > - **Chạy trên N servers (Cluster):** Kubernetes đóng vai trò như một "hệ điều hành ảo" bao trùm toàn bộ cluster, tự đưa ra quyết định: "Pod này chạy trên node nào, tự động khởi động lại khi crash, tự scale lên nhiều bản sao khi tải CPU cao".
 
@@ -92,7 +90,7 @@ Dưới đây là 8 năng lực cốt lõi giúp K8s trở thành bá chủ tron
 | **Môi trường phù hợp nhất** | Phát triển ở local, chạy demo, dự án nhỏ | Hệ thống microservices lớn của doanh nghiệp |
 
 > [!TIP]
-> **Bí quyết thực chiến từ Mr.Rom:**
+> **Bí quyết thực chiến:**
 > Đừng bao giờ vội vã đưa Kubernetes vào dự án quá sớm. Đối với 99% các dự án Startup trong năm đầu tiên, Docker Compose kết hợp với 1 máy chủ VPS duy nhất và Nginx là quá đủ để phục vụ hàng ngàn người dùng với chi phí tối thiểu. Hãy chỉ cân nhắc Kubernetes khi hệ thống của bạn xuất hiện 3 tín hiệu: đội ngũ lập trình viên trên 5 người, số lượng microservices lớn hơn 5, và cần chạy đa vùng (multi-region) để đảm bảo High Availability.
 
 ---
@@ -159,7 +157,7 @@ Worker Node là các máy chủ vật lý hoặc máy ảo thực tế chịu tr
 
 Để học tập K8s mà không mất tiền mua máy chủ đám mây, bạn có thể tự khởi tạo các cluster mini siêu gọn ngay trên máy laptop cá nhân của mình bằng 4 công cụ sau:
 
-### Cách 1: kind (Kubernetes IN Docker) — Mr.Rom Khuyên Dùng Cho Học Tập & CI/CD
+### Cách 1: kind (Kubernetes IN Docker) — Khuyên dùng Cho Học Tập & CI/CD
 `kind` hoạt động bằng cách biến các container Docker thành các node K8s giả lập. Cực kỳ nhanh, nhẹ và hỗ trợ kiểm thử cụm nhiều node (multi-node) hoàn hảo.
 
 ```bash
@@ -205,7 +203,7 @@ k3d cluster create my-k3d-cluster --servers 1 --agents 2
 
 `kubectl` là công cụ giao diện dòng lệnh (CLI) chính thức để bạn gửi các mệnh lệnh đến API Server của Control Plane. Hãy học thuộc lòng và sử dụng thành thạo bộ lệnh cơ bản sau:
 
-### Nhóm lệnh truy vấn thông tin (Get):
+### Nhóm lệnh truy vấn thông tin (Get)
 ```bash
 # Liệt kê toàn bộ các máy chủ node trong cluster kèm theo trạng thái
 kubectl get nodes
@@ -220,7 +218,7 @@ kubectl get pods -A
 kubectl get pods -o wide
 ```
 
-### Nhóm lệnh kiểm tra chi tiết và gỡ lỗi (Troubleshooting):
+### Nhóm lệnh kiểm tra chi tiết và gỡ lỗi (Troubleshooting)
 ```bash
 # Hiển thị toàn bộ thông tin chi tiết và lịch sử các sự kiện xảy ra của Pod
 kubectl describe pod <tên-pod>
@@ -235,7 +233,7 @@ kubectl logs -f <tên-pod>
 kubectl exec -it <tên-pod> -- bash
 ```
 
-### Nhóm lệnh ánh xạ và kiểm thử nhanh:
+### Nhóm lệnh ánh xạ và kiểm thử nhanh
 ```bash
 # Ánh xạ cổng dịch vụ trực tiếp từ container ra cổng máy local để test nhanh không cần Ingress
 kubectl port-forward pod/<tên-pod> 8080:80
@@ -314,7 +312,7 @@ Do đó, trên môi trường Production thực tế, hầu hết các doanh ngh
 
 ## 8️⃣ Tấm Bản Đồ 4 Tuần Chinh Phục Kubernetes Từ Con Số 0
 
-Kubernetes là một hệ sinh thái khổng lồ. Để không bị "ngộp" kiến thức, Mr.Rom đề xuất lộ trình học tập khoa học chia làm 4 tuần như sau:
+Kubernetes là một hệ sinh thái khổng lồ. Để không bị "ngộp" kiến thức, mình đề xuất lộ trình học tập khoa học chia làm 4 tuần như sau:
 
 ```text
 Tuần 1: Nền tảng cốt lõi (Basics)
@@ -477,7 +475,7 @@ Bạn hãy cố gắng suy ngẫm và trả lời nhanh 5 câu hỏi cốt lõi 
 5. Sự khác biệt giữa `kind` và `minikube` khi chạy thử nghiệm K8s ở local là gì?
 
 <details>
-<summary><b>💡 Bấm để xem gợi ý đáp án từ Mr.Rom</b></summary>
+<summary><b>💡 Bấm để xem gợi ý đáp án</b></summary>
 
 1. **Khác biệt cốt lõi:** Docker Compose chỉ quản lý container trên duy nhất **1 máy host vật lý**, không hỗ trợ auto-scale tự động. Trong khi Kubernetes quản lý cả một **cụm nhiều máy host (Cluster)**, tự động điều phối, phục hồi lỗi và tự động co giãn.
 2. **Lưu trữ trạng thái:** Thành phần **`etcd`** (cơ sở dữ liệu key-value) là nơi lưu trữ toàn bộ trạng thái mong muốn của cluster.
@@ -491,13 +489,13 @@ Bạn hãy cố gắng suy ngẫm và trả lời nhanh 5 câu hỏi cốt lõi 
 
 ## ⚡ Bảng Tra Cứu Nhanh (Cheatsheet) Lệnh Bỏ Túi
 
-### Khởi tạo môi trường ảo nhanh với `kind`:
+### Khởi tạo môi trường ảo nhanh với `kind`
 ```bash
 brew install kubectl kind k9s          # Cài đặt bộ 3 công cụ thần thánh
 kind create cluster --name sandbox    # Tạo cluster sandbox nhanh
 ```
 
-### Các câu lệnh `kubectl` cực kỳ thông dụng:
+### Các câu lệnh `kubectl` cực kỳ thông dụng
 ```bash
 kubectl get nodes                      # Kiểm tra danh sách node máy chủ
 kubectl get pods                       # Xem danh sách Pod ở namespace mặc định
@@ -511,7 +509,7 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
 
 ---
 
-## 📘 Từ Điển Thuật Ngữ (Glossary) Chuyên Ngành
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 - **Control Plane:** Bộ phận điều khiển chỉ huy trung tâm của Kubernetes Cluster, chịu trách nhiệm ra quyết định xếp lịch và giám sát trạng thái hệ thống.
 - **Worker Node:** Các máy chủ vật lý hoặc máy ảo chịu trách nhiệm trực tiếp chạy các container ứng dụng.
@@ -523,11 +521,11 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
 
 ## 🔗 Liên Kết & Tài Nguyên Học Tập Bổ Sung
 
-### Các bài học liên quan trực tiếp:
+### Các bài học liên quan trực tiếp
 - [➡️ Bài học tiếp theo: Khởi tạo Pods và Deployments chuyên sâu](./01_pods-and-deployments.md)
 - [🐳 Nền tảng bổ trợ: Cẩm nang làm chủ Docker từ cơ bản cho nhà phát triển](../../../docker/)
 
-### Tài liệu chính hãng tham khảo thêm:
+### Tài liệu chính hãng tham khảo thêm
 - [Trang tài liệu hướng dẫn chính thức cực kỳ đầy đủ của Kubernetes](https://kubernetes.io/docs/)
 - [Kelsey Hightower — Kubernetes the Hard Way (Học K8s bằng cách tự cài đặt thủ công từng component)](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 - [ k9s — Trình quản lý giao diện Terminal (TUI) cho Kubernetes đỉnh cao nhất](https://k9scli.io/)
@@ -545,3 +543,4 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
   - Sửa đường dẫn chéo trỏ chính xác về lộ trình DevOps Career Roadmap.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các phần sơ đồ kiến trúc.
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản giới thiệu K8s.
+- **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.

@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
+> **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *Hiểu **systemd** thay init, viết **unit file** (`.service`), dùng `systemctl` start/stop/enable, đọc log với `journalctl`, biến FastAPI thành service auto-restart, hardening (`User=`, `NoNewPrivileges=`, `ProtectSystem=`). Sau bài này backend chạy 24/7 production-grade.*
 
@@ -617,7 +617,7 @@ WantedBy=timers.target
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

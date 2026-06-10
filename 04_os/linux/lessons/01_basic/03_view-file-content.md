@@ -6,7 +6,7 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_navigation.md](./01_navigation.md), [02_file-operations.md](./02_file-operations.md)\
+> **Yêu cầu trước:** [01_navigation.md](./01_navigation.md), [02_file-operations.md](./02_file-operations.md)\
 > **Áp dụng cho:** Linux • macOS • WSL • Git Bash
 
 > 🎯 *Học 4 lệnh đọc file trong terminal: `cat` (in cả file), `less` (xem từng trang), `head`/`tail` (đầu/cuối file). Cực kỳ hữu ích khi follow tutorial, debug log, kiểm tra config.*

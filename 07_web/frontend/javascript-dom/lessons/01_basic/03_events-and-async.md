@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [DOM Manipulation](02_dom-manipulation.md)
+> **Yêu cầu trước:** [DOM Manipulation](02_dom-manipulation.md)
 
 > 🎯 *Master events: **`addEventListener`** + 20+ event types, **bubbling + delegation**, **`preventDefault`/`stopPropagation`**. Plus async: **`setTimeout`/`setInterval`**, **Promise**, **`async/await`** + error handling. Sau bài này write JS interactive đầy đủ.*
 
@@ -770,7 +770,7 @@ const throttled = throttle(fn, 100);    // max 1/100ms
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Đã xong [K8s basic cluster](../01_basic/) ✅, deploy được Pod/Deployment/Service/Ingress trên kind/minikube
+> **Yêu cầu trước:** Đã xong [K8s basic cluster](../01_basic/) ✅, deploy được Pod/Deployment/Service/Ingress trên kind/minikube
 
 > 🎯 *Bài INTRO. Bạn deploy được first Pod, expose Service, hardcode ConfigMap, share cluster RBAC ở basic. Production thật cần gì khác? Bài này map 4 mảng intermediate (Helm + Ingress production + StatefulSet + Autoscaling+Operator) — chuẩn bị tâm thế cho 4 bài kế tiếp.*
 

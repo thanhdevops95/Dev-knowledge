@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
+> **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *Hiểu **`apt`** (Debian/Ubuntu) vs **`dnf`** (RHEL/Fedora) vs **snap/flatpak** (universal), **dependency resolution**, **repositories + PPA**, **security updates** + unattended-upgrades, lock file `dpkg`, build từ source khi cần.*
 
@@ -578,7 +578,7 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -619,6 +619,6 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 > 🎯 *Sau bài này bạn quản lý package, repo, security updates thuần thục. Bài cuối cluster — `grep`/`sed`/`awk` — power text processing.*
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "app store + thợ sửa nhà combo", 3 lời dẫn trước bảng vai trò + update vs upgrade + install/remove.

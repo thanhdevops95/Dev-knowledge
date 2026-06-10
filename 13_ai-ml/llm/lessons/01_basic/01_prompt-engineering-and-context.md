@@ -1,12 +1,12 @@
 # 💬 Prompt Engineering + Context Strategies
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [00_what-is-llm-and-tokenization](00_what-is-llm-and-tokenization.md) ✅
+> **Yêu cầu trước:** Bài [00_what-is-llm-and-tokenization](00_what-is-llm-and-tokenization.md) ✅
 
 > 🎯 *Bài 01. Prompt engineering = nghệ thuật + kỹ thuật giao tiếp với LLM. Bài này dạy: zero-shot vs few-shot, chain-of-thought (CoT), structured output (JSON schema), system vs user role, prompt template, context management (truncation, summary), test + iterate. Không phải "magic" — có pattern + framework.*
 
@@ -383,7 +383,7 @@ system = f"""Bạn là trợ lý Acme Shop. User context:
 ### Pattern 1 — Persona
 
 ```
-Bạn là Mr.Rom, senior backend dev 10 năm kinh nghiệm Python.
+Bạn là một senior backend dev 10 năm kinh nghiệm Python.
 Trả lời câu hỏi như mentor cho junior.
 ```
 
@@ -766,7 +766,7 @@ for r in results:
 
 ### 🧭 Định hướng lộ trình học
 - ⬅️ **Bài trước:** [LLM là gì + Tokenization + Models 2026](00_what-is-llm-and-tokenization.md)
-- ➡️ **Bài tiếp theo:** [Function Calling + Tool Use + Agent Loop](02_function-calling-and-tools.md) *(sắp viết)*
+- ➡️ **Bài tiếp theo:** [Function Calling + Tool Use + Agent Loop](02_function-calling-and-tools.md)
 - ↑ **Về cụm:** [LLM README](../../README.md)
 
 ### 🧩 Các chủ đề có thể bạn quan tâm
@@ -793,3 +793,4 @@ for r in results:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 LLM basic. Prompt anatomy + zero/few-shot + CoT + self-consistency + ReAct + reflection + structured output (Anthropic tool use, OpenAI parse) + conversation context management (truncation, summary, sliding, pin) + 6 prompt patterns + prompt injection 8 mitigation + hands-on classifier 95%+ accuracy + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Sửa lỗi kỹ thuật: Anthropic tool use lấy `.input` qua block `type=="tool_use"` (không giả định `content[0]`); OpenAI structured output dùng `client.beta.chat.completions.parse` (đúng namespace SDK); ngưỡng context management chuyển sang tương đối theo context window model (1M cho Claude 4.6+) thay vì hardcode 50k/100k; cập nhật tên model "Claude Opus 4.x".
+- **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.

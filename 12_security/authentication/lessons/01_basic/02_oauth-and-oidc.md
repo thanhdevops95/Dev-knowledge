@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [01_password-and-mfa](01_password-and-mfa.md) ✅
+> **Yêu cầu trước:** Bài [01_password-and-mfa](01_password-and-mfa.md) ✅
 
 > 🎯 *Bài 02. **OAuth 2.0/2.1** = framework delegated authorization (Login with Google). **OIDC** = OAuth + identity layer (who is the user). Bài này dạy: 5 grant flows (Auth Code+PKCE, Device, Client Credentials, ROPC deprecated, Implicit deprecated), social login implementation, IdP setup, common mistakes (state, nonce, redirect URI). Hands-on Acme Shop Google login + Apple Sign In.*
 

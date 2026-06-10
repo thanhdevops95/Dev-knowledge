@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md), [K8s basic ConfigMap+Secret](../01_basic/03_configmaps-and-secrets.md)
+> **Yêu cầu trước:** [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md), [K8s basic ConfigMap+Secret](../01_basic/03_configmaps-and-secrets.md)
 
 > 🎯 *Deployment design cho **stateless** — Postgres/Redis/Kafka cần stable identity + persistent storage + ordered start = **StatefulSet**. Bài này dạy StatefulSet vs Deployment, PV/PVC/StorageClass, dynamic provisioning EBS/Longhorn, deploy Postgres 3-replica, backup/restore với VolumeSnapshot.*
 

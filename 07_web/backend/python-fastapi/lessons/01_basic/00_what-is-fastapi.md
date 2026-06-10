@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Python cơ bản (variables, functions, decorators) + [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) + [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
+> **Yêu cầu trước:** Python cơ bản (variables, functions, decorators) + [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) + [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
 
 > 🎯 *Bài INTRO. Hiểu **FastAPI là gì**, **so sánh Flask/Django/FastAPI**, **vì sao type hints + Pydantic**, **OpenAPI auto-docs**, **sync vs async**, cài + chạy Hello World, mở Swagger UI.*
 
@@ -500,7 +500,7 @@ http://localhost:8000/openapi.json
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

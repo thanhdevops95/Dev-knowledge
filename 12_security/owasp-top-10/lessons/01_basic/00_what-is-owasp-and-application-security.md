@@ -1,12 +1,12 @@
 # 🛡️ OWASP Top 10 + Application Security cơ bản
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Đã viết được app web cơ bản (FastAPI hoặc Node), hiểu HTTP request/response
+> **Yêu cầu trước:** Đã viết được app web cơ bản (FastAPI hoặc Node), hiểu HTTP request/response
 
 > 🎯 *Bài đầu tiên của OWASP cluster. Bạn đã build app, đẩy ra production — câu hỏi tiếp theo: app này có bị hack không? Bài này dạy: OWASP là gì, vì sao Top 10, threat modeling cơ bản (STRIDE), defense-in-depth, security mindset. Không deep từng vuln (bài 01-04 sẽ làm).*
 
@@ -146,6 +146,20 @@ Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái ph
 | **I** | Information disclosure | Leak data nhạy cảm (token, PII) |
 | **D** | Denial of service | DDoS, resource exhaustion |
 | **E** | Elevation of privilege | User thường → admin |
+
+Mỗi chữ cái trong STRIDE tấn công đúng vào một thuộc tính bảo mật. Sơ đồ dưới đây map từng mối đe doạ sang thuộc tính mà nó phá vỡ:
+
+```mermaid
+flowchart LR
+    S["Spoofing → giả danh"] --> Auth[Authentication]
+    T["Tampering → sửa dữ liệu"] --> Integrity[Integrity]
+    R["Repudiation → chối bỏ"] --> NonRepud[Non-repudiation]
+    I["Information Disclosure → lộ dữ liệu"] --> Confid[Confidentiality]
+    D["Denial of Service → từ chối dịch vụ"] --> Avail[Availability]
+    E["Elevation of Privilege → leo thang quyền"] --> Authz[Authorization]
+```
+
+Nhìn theo cách này, STRIDE chính là mặt trái của 6 thuộc tính bảo mật cần bảo vệ — chống lại mối đe doạ nào tức là củng cố thuộc tính tương ứng.
 
 ### DREAD scoring — 5 dimensions
 
@@ -565,4 +579,5 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster OWASP basic. Foundation: OWASP project + Top 10 2021 release + STRIDE + DREAD + Defense-in-depth + Shift-left + OWASP families (Web/API/Mobile/LLM/Cloud) + threat modeling hands-on Acme Shop + 8 pitfalls. Pattern theo AWS lesson 00.
+- **v2.0.1 (10/06/2026)** — Bổ sung sơ đồ map STRIDE sang thuộc tính bảo mật cho trực quan.
 - **v2.0.0 (07/06/2026)** — Cập nhật lên **OWASP Top 10:2025** (bản hiện hành, final release). Đổi toàn bộ numbering + tên category 2021→2025: A02 Security Misconfiguration lên #2, A03 Software Supply Chain Failures (mới), Injection→A05, Insecure Design→A06, A04 Cryptographic Failures, A07 Authentication Failures, A09 đổi Monitoring→Alerting, A10 Mishandling of Exceptional Conditions (mới), SSRF gộp vào A01. Thêm bảng mapping 2021↔2025 + box "4 thay đổi then chốt". Cập nhật real-world examples, roadmap 4 bài, mermaid + bảng cross-reference, glossary (thêm SSRF), self-check, tài nguyên ngoài (link 2025). Sửa số liệu IBM: $4.45M (2023) → $4.88M (2024) cho khớp nhãn năm. Bỏ mọi câu coi 2021 là "current"/2025 là "preview".

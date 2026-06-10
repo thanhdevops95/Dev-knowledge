@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_branching-and-merging.md](./00_branching-and-merging.md), đã có account [GitHub](https://github.com)
+> **Yêu cầu trước:** [00_branching-and-merging.md](./00_branching-and-merging.md), đã có account [GitHub](https://github.com)
 
 > 🎯 *Nối tiếp bài trước: project chạy ngon, sếp gửi thêm 1 đồng nghiệp junior vào team. Bạn phải share code với họ. Bài này dạy push/clone/pull/Pull Request — cách 2 người (hoặc 200) code chung 1 project.*
 

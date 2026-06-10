@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [DNS là gì](00_what-is-dns.md), [DNS Records](01_dns-records.md)
+> **Yêu cầu trước:** [DNS là gì](00_what-is-dns.md), [DNS Records](01_dns-records.md)
 
 > 🎯 *Đi sâu vào **flow query**: từng layer cache, recursive vs iterative, root → TLD → authoritative, negative caching, TTL propagation. Sau bài này bạn debug được "vì sao site vẫn vào IP cũ" khi đã đổi DNS.*
 
@@ -410,7 +410,7 @@ T+1h:  nâng TTL lại 3600 (giảm tải auth)
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [SELECT & Filter](01_select-and-filter.md)
+> **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md)
 
 > 🎯 *Học **DML**: `INSERT`, `UPDATE`, `DELETE` đúng cách + **transaction** với `BEGIN/COMMIT/ROLLBACK` đảm bảo nguyên tử (ACID). Sau bài này bạn sửa data tự tin, không sợ "lỡ tay DROP" hay "UPDATE quên WHERE".*
 
@@ -647,7 +647,7 @@ DROP TABLE t;                   -- xóa cả bảng
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -684,7 +684,7 @@ DROP TABLE t;                   -- xóa cả bảng
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Cú pháp INSERT + INSERT nhiều rows + INSERT từ SELECT + Default & AUTO-INCREMENT + RETURNING. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
 

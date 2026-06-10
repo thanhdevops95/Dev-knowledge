@@ -1,9 +1,9 @@
 # 🎓 Làm Chủ Cấu Trúc Rẽ Nhánh Và Vòng Lặp Trong Python
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.0  
+> **Phiên bản:** v3.0.2  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 26/05/2026  
+> **Cập nhật:** 10/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
 > **Yêu cầu trước:** [Bài 01: Làm chủ Biến và Kiểu dữ liệu](./01_variables-and-types.md)
@@ -390,7 +390,7 @@ so_binh_phuong_dict = {x: x ** 2 for x in range(4)}
 ```
 
 > [!TIP]
-> **Quy tắc vàng của Mr.Rom:**  
+> **Quy tắc vàng:**  
 > Kỹ thuật Comprehension chỉ thực sự đẹp và dễ đọc khi logic của nó đơn giản. Nếu bạn cần viết những vòng lặp lồng nhau phức tạp (Nested loop) hoặc chứa quá nhiều điều kiện rẽ nhánh phức tạp, hãy quay lại sử dụng vòng lặp `for` thông thường viết nhiều dòng để giữ cho code luôn sạch sẽ và dễ hiểu cho người sau đọc lại.
 
 ---
@@ -403,7 +403,6 @@ Hãy tạo file `tinh_thue_nhan_vien.py` và chạy đoạn code chuyên nghiệ
 
 ```python
 # tinh_thue_nhan_vien.py - Hệ thống tính lương và áp thuế bậc thang tự động
-# Tác giả: Mr.Rom
 
 # Bước 1: Chuẩn bị danh sách hồ sơ nhân viên thực tế dưới dạng List of Dicts
 danh_sach_nhan_vien = [
@@ -489,7 +488,7 @@ if vai_tro in ("admin", "owner", "moderator"):
 
 **Câu hỏi 1:** Sự khác nhau cơ bản giữa lệnh `break` và `continue` là gì?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 *   `break` sẽ ngay lập tức **kết thúc và nhảy ra khỏi hoàn toàn** vòng lặp hiện tại. Vòng lặp dừng hẳn.
 *   `continue` chỉ **bỏ qua các dòng lệnh còn lại của lượt lặp hiện tại** để ngay lập tức chuyển hướng lên đầu vòng lặp bắt đầu lượt lặp tiếp theo. Vòng lặp vẫn tiếp tục chạy.
@@ -497,7 +496,7 @@ if vai_tro in ("admin", "owner", "moderator"):
 
 **Câu hỏi 2:** Khối lệnh `else` đi kèm với vòng lặp `for` sẽ hoạt động khi nào?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 Khối lệnh `else` của vòng lặp `for` chỉ hoạt động khi và chỉ khi vòng lặp đó hoàn thành toàn bộ lượt chạy từ đầu đến cuối một cách trơn tru mà **không hề bị ngắt quãng bởi bất kỳ lệnh `break` nào**. Nếu trong vòng lặp có lệnh `break` được thực thi, khối `else` sẽ bị bỏ qua hoàn toàn.
 </details>
@@ -531,7 +530,7 @@ if not danh_sach_cho:
 
 ---
 
-## 📚 Thuật Ngữ Cần Nhớ (Glossary)
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 *   **Control Flow (Luồng điều khiển):** Hướng chạy logic của code được điều hướng bởi các câu lệnh điều kiện và vòng lặp.
 *   **Indentation (Thụt lề):** Khoảng trắng ở đầu dòng code, Python dùng để xác định phạm vi của các khối lệnh logic.
@@ -553,3 +552,11 @@ if not danh_sach_cho:
 *   [Python Control Flow Tools - Official Docs](https://docs.python.org/3/tutorial/controlflow.html) — Hướng dẫn chuẩn hóa từ trang chủ Python.
 *   [Real Python - Conditional Statements](https://realpython.com/python-conditional-statements/) — Phân tích chi tiết rẽ nhánh.
 *   [Real Python - `for` Loops in Python](https://realpython.com/python-for-loop/) — Tất tần tật về vòng lặp for.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v3.0.0 (26/05/2026)** — Bản viết lại hoàn chỉnh: cấu trúc rẽ nhánh `if/elif/else` và vòng lặp `for`/`while` trong Python.
+- **v3.0.1 (10/06/2026)** — Bổ sung mục Nhật ký thay đổi (trước đây thiếu) để đủ khung 8 phần.
+- **v3.0.2 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài, callout và code mẫu (chỉ giữ ở metadata); dùng "mình"/placeholder trung tính.

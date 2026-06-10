@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [02_oauth-and-oidc](02_oauth-and-oidc.md) ✅
+> **Yêu cầu trước:** Bài [02_oauth-and-oidc](02_oauth-and-oidc.md) ✅
 
 > 🎯 *Bài 03. JWT thực thi đúng + Session management — 2 paradigm core. Bài này dạy: JWT anatomy + JWS/JWE/JWT khác nhau, signing algorithms (RS256 vs HS256 vs ES256 vs EdDSA), key rotation + JWKS, refresh token rotation + family detection, revocation strategies (denylist/short TTL), session lifecycle production-grade. Hands-on JWT auth + session rotation Acme Shop.*
 

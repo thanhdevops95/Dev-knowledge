@@ -1,12 +1,11 @@
 # 🧪 Bài thực hành: Cứu hộ dữ liệu khẩn cấp — Reflog Rescue Hero
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Độ khó:** 🔴\
-> **Thời gian ước tính:** ~30 phút\
-> **Prerequisites:** Đã học xong bài học [01_advanced-recovery-reflog.md](../../lessons/03_advanced/01_advanced-recovery-reflog.md) ✅
+> **Yêu cầu trước:** Đã học xong bài [Cứu hộ thảm họa mã nguồn với Git Reflog](../../lessons/03_advanced/01_advanced-recovery-reflog.md) ✅
 
 ---
 
@@ -50,7 +49,7 @@ Output thực tế hiển thị:
 ```
 Initialized empty Git repository in /Users/user/Desktop/emergency-rescue-playground/.git/
 ```
-*   **Giải thích output:** Thư mục ẩn `.git/` đã được sinh ra để sẵn sàng làm chiếc hộp đen ghi nhận mọi tọa độ bay của con trỏ HEAD.
+-   **Giải thích output:** Thư mục ẩn `.git/` đã được sinh ra để sẵn sàng làm chiếc hộp đen ghi nhận mọi tọa độ bay của con trỏ HEAD.
 
 Tạo một tệp nền tảng `core.py` trên nhánh `main` và commit gốc:
 ```bash
@@ -74,7 +73,7 @@ Output thực tế:
 ```
 Switched to a new branch 'feature/shopping-cart'
 ```
-*   **Giải thích output:** Trạng thái switch thành công sang cành mọc mới `feature/shopping-cart`.
+-   **Giải thích output:** Trạng thái switch thành công sang cành mọc mới `feature/shopping-cart`.
 
 Giả lập viết code giỏ hàng cực kỳ phức tạp qua 2 commit liên tục:
 
@@ -100,7 +99,7 @@ a1b2c3d (HEAD -> feature/shopping-cart) feat: add checkout logic and pricing cal
 e4f5g6h feat: implement basic cart class structure
 z9y8x7w chore: init core system
 ```
-*   **Giải thích output:** Nhánh shopping-cart đang sở hữu 3 commit, với commit mới nhất trên đỉnh là `a1b2c3d`.
+-   **Giải thích output:** Nhánh shopping-cart đang sở hữu 3 commit, với commit mới nhất trên đỉnh là `a1b2c3d`.
 
 ---
 
@@ -122,7 +121,7 @@ Output thực tế hiển thị lạnh lùng:
 ```
 Deleted branch feature/shopping-cart (was a1b2c3d).
 ```
-*   **Giải thích output:** Git thông báo đã xóa sổ con trỏ nhánh `feature/shopping-cart`. Toàn bộ lịch sử các commit giỏ hàng đã bốc hơi khỏi lệnh `git log` thông thường.
+-   **Giải thích output:** Git thông báo đã xóa sổ con trỏ nhánh `feature/shopping-cart`. Toàn bộ lịch sử các commit giỏ hàng đã bốc hơi khỏi lệnh `git log` thông thường.
 
 ---
 
@@ -140,9 +139,9 @@ a1b2c3d HEAD@{1}: commit: feat: add checkout logic and pricing calculation     <
 e4f5g6h HEAD@{2}: commit: feat: implement basic cart class structure
 z9y8x7w (HEAD -> main) HEAD@{3}: checkout: moving from main to feature/shopping-cart
 ```
-*   **Phân tích nhật ký cứu hộ:**
-    *   Dòng `HEAD@{0}` ghi nhận bạn vừa switch từ nhánh `feature/shopping-cart` về `main`.
-    *   Dòng `HEAD@{1}` ghi nhận commit cuối cùng của bạn trên nhánh phụ mang mã SHA-1 **`a1b2c3d`** chứa nội dung *"add checkout logic"*. Đây chính là tọa độ vàng để cứu hộ!
+-   **Phân tích nhật ký cứu hộ:**
+    -   Dòng `HEAD@{0}` ghi nhận bạn vừa switch từ nhánh `feature/shopping-cart` về `main`.
+    -   Dòng `HEAD@{1}` ghi nhận commit cuối cùng của bạn trên nhánh phụ mang mã SHA-1 **`a1b2c3d`** chứa nội dung *"add checkout logic"*. Đây chính là tọa độ vàng để cứu hộ!
 
 ---
 
@@ -162,7 +161,7 @@ Output thực tế hiển thị:
   feature/shopping-cart    <-- ĐÃ HỒI SINH KỲ DIỆU!
 * main
 ```
-*   **Giải thích output:** Nhánh phụ `feature/shopping-cart` đã được phục sinh tuyệt đối trên bản đồ phân nhánh, chấm dứt thảm họa mất code!
+-   **Giải thích output:** Nhánh phụ `feature/shopping-cart` đã được phục sinh tuyệt đối trên bản đồ phân nhánh, chấm dứt thảm họa mất code!
 
 ---
 
@@ -195,3 +194,10 @@ rm -rf emergency-rescue-playground
 ---
 
 Chúc mừng bạn! Bạn đã hoàn thành xuất sắc thử thách khó khăn nhất của một chuyên gia Git thực chiến. Từ nay về sau, bạn chính là "người hùng giải cứu code" của bất kỳ đội ngũ công nghệ nào bạn tham gia! 🚀
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v2.1.0 (26/05/2026)** — Lab thực hành cứu hộ dữ liệu khẩn cấp bằng `git reflog` (commit và nhánh bị xoá).
+- **v2.1.1 (10/06/2026)** — Bỏ field "Thời gian ước tính"; đổi `Prerequisites` → `Yêu cầu trước`; bullet `*` → `-`; link text theo tiêu đề bài.

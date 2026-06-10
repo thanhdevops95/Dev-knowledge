@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Events & Async](03_events-and-async.md), [REST API](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
+> **Yêu cầu trước:** [Events & Async](03_events-and-async.md), [REST API](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
 
 > 🎯 *Master **Fetch API** — GET/POST/PUT/DELETE, JSON body, headers, error handling, abort, retry. Plus **ES modules** — `import/export`, default vs named, dynamic import, tree-shaking. Sau bài này gọi FastAPI từ frontend hoàn chỉnh, code chia file modular.*
 
@@ -786,7 +786,7 @@ try {
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

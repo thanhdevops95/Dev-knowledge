@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is CI/CD](00_what-is-cicd.md)
+> **Yêu cầu trước:** [What is CI/CD](00_what-is-cicd.md)
 
 > 🎯 *Master GitLab CI: **`.gitlab-ci.yml`** syntax, **stages + jobs**, **runners** (shared + self-hosted), **rules + only/except**, **variables + secrets**, **cache + artifacts**, **services** (DB containers), **environments + manual approve**, **GitLab vs GitHub Actions** compare.*
 
@@ -722,7 +722,7 @@ docker exec -it gitlab-runner gitlab-runner register
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -1,9 +1,9 @@
 # 📦 Azure Blob Storage + RBAC
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_virtual-machines-and-disks](01_virtual-machines-and-disks.md) ✅, hiểu RBAC concept cơ bản
@@ -878,6 +878,28 @@ Kết quả mong đợi: upload qua SAS thành công, container vẫn private, l
 
 ---
 
+## ⚡ Tra cứu nhanh (Cheatsheet)
+
+Gom các lệnh `az storage ...` và `az role assignment ...` hay dùng nhất trong bài — từ tạo account/container, sinh SAS, gán RBAC data plane, tới firewall, CMK và static website.
+
+| Mục đích | Lệnh |
+|---|---|
+| Tạo Storage Account an toàn | `az storage account create --name <st> -g <rg> --sku Standard_ZRS --kind StorageV2 --allow-blob-public-access false --allow-shared-key-access false --min-tls-version TLS1_2 --default-action Deny` |
+| Tắt Shared Key access | `az storage account update --name <st> -g <rg> --allow-shared-key-access false` |
+| Tắt anonymous public access | `az storage account update --name <st> -g <rg> --allow-blob-public-access false` |
+| Tạo container | `az storage container create --account-name <st> --name <container> --auth-mode login` |
+| Sinh User Delegation SAS (read 1h) | `az storage blob generate-sas --account-name <st> --container-name <c> --name <blob> --permissions r --expiry <ISO8601> --auth-mode login --as-user --https-only -o tsv` |
+| Áp lifecycle policy | `az storage account management-policy create --account-name <st> -g <rg> --policy @lifecycle.json` |
+| Gán RBAC data plane reader | `az role assignment create --assignee <user> --role "Storage Blob Data Reader" --scope <container-scope>` |
+| Gán RBAC data plane contributor | `az role assignment create --assignee <user> --role "Storage Blob Data Contributor" --scope <account-scope>` |
+| Firewall: deny all + allow IP | `az storage account update --name <st> -g <rg> --default-action Deny` · `az storage account network-rule add --account-name <st> -g <rg> --ip-address <ip>` |
+| Tạo Private Endpoint cho blob | `az network private-endpoint create --name <pe> -g <rg> --vnet-name <vnet> --subnet <snet> --private-connection-resource-id <st-id> --group-id blob --connection-name <conn>` |
+| Bật CMK (Key Vault) | `az storage account update --name <st> -g <rg> --encryption-key-source Microsoft.Keyvault --encryption-key-vault <kv-uri> --encryption-key-name <key>` |
+| Bật static website | `az storage blob service-properties update --account-name <st> --static-website --index-document index.html --404-document 404.html` |
+| Kiểm tra tên account hợp lệ | `az storage account check-name --name <name>` |
+
+---
+
 ## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Tiếng Việt | Giải thích |
@@ -942,3 +964,4 @@ Kết quả mong đợi: upload qua SAS thành công, container vẫn private, l
 
 - **v1.0.0 (24/05/2026)** — Bài 02 cluster Azure basic. Storage Account types + replication + Blob types + access tier (Hot/Cool/Cold/Archive) + Lifecycle + 3 auth methods (Shared Key/SAS/Entra ID) + User Delegation SAS + RBAC data plane + ABAC preview + firewall + Private Endpoint + CMK Key Vault + static website + Front Door CDN + hands-on image upload pipeline + 9 pitfalls. Mirror AWS S3+IAM lesson.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative (lời dẫn 2-3 câu trước mỗi bảng/code/list, câu phân tích sau, câu bắc cầu giữa section); thay khối Pros/Cons điện tín bằng văn xuôi. Đổi cột "SLA durability" → "Durability (năm)" cho đúng nghĩa (durability theo năm, không phải SLA availability). Đổi `--expiry` SAS từ timestamp cứng (đã quá hạn) sang giá trị động `$(date ...)`. Chuẩn hoá metadata field "Yêu cầu trước", Glossary 3 cột (Thuật ngữ/Tiếng Việt/Giải thích), và nav (⬅️/➡️/↑ + link-text = tiêu đề H1 thực + 3 sub chuẩn).
+- **v2.0.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.

@@ -6,7 +6,7 @@
 > **Cập nhật:** 21/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Terminal là gì](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md)\
+> **Yêu cầu trước:** [Terminal là gì](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md)\
 > **Áp dụng cho:** Linux • macOS (BSD Unix, lệnh giống Linux) • WSL trên Windows • Git Bash trên Windows
 
 > 🎯 *Học 3 lệnh nền tảng của Linux/Unix — `pwd`, `ls`, `cd`. Đây là **lệnh POSIX**, dùng được trên Linux, Mac, WSL, Git Bash. Windows native (CMD/PowerShell) có lệnh khác — xem [windows-shell-commands](../../../windows/) (chưa có).*

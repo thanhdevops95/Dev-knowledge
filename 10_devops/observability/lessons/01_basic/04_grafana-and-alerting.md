@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Traces OTel](03_traces-opentelemetry.md)
+> **Yêu cầu trước:** [Traces OTel](03_traces-opentelemetry.md)
 
 > 🎯 *Master **Grafana**: dashboards (panels, variables, templating), **data sources** (Prometheus + Loki + Tempo), **Grafana Alerting** (rules + Alertmanager routing), **on-call workflows** (PagerDuty, OpsGenie), **SLO-based alerts**, **incident response** patterns.*
 
@@ -679,7 +679,7 @@ Info     → Slack info channel
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

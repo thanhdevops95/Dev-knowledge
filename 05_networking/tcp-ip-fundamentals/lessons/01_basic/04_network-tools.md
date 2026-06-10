@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
+> **Yêu cầu trước:** [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
 
 > 🎯 *Học 7 CLI tool debug mạng thật sự dùng: **ping**, **traceroute/tracepath**, **netstat/ss**, **tcpdump**, **nmap**, **nc (netcat)**, **iperf3**. Mỗi tool có 1 layer/khía cạnh riêng. Sau bài này bạn debug được 95% lỗi mạng.*
 
@@ -591,7 +591,7 @@ Site không vào được?
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

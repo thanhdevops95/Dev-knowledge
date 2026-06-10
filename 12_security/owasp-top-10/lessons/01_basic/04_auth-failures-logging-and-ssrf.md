@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) ✅
+> **Yêu cầu trước:** Bài [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) ✅
 
 > 🎯 *Bài 04 (cuối basic), chuẩn **OWASP Top 10:2025** (bản hiện hành). **A07:2025 Authentication Failures** (password policy, MFA, session, OAuth2/OIDC) + **A09:2025 Security Logging and Alerting Failures** (audit log, SIEM, alerting) + **Server-Side Request Forgery (SSRF)** — ở bản 2025, SSRF không còn là category riêng mà **gộp vào A01:2025 Broken Access Control** (Capital One 2019 case, mitigation). Hands-on Acme Shop add MFA + audit log + SSRF protection. Đóng cluster OWASP basic.*
 

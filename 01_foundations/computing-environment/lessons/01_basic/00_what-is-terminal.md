@@ -6,7 +6,7 @@
 > **Cập nhật:** 24/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Không cần
+> **Yêu cầu trước:** Không cần
 
 > 🎯 *Bài INTRO — chỉ giới thiệu terminal/shell là gì + cách mở. **KHÔNG dạy lệnh chi tiết** (dành cho các bài 01, 02, 03 kế tiếp).*
 

@@ -1,12 +1,12 @@
 # 🎓 CSS Fundamentals — Selectors, Specificity, Box Model
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [HTML Essentials](01_html-essentials.md)
+> **Yêu cầu trước:** [HTML Essentials](01_html-essentials.md)
 
 > 🎯 *Master CSS thực sự: **3 cách include CSS**, **selectors** đầy đủ, **specificity** (vì sao style không apply), **box model** (margin/border/padding/content), **`box-sizing: border-box`**, **units** (px/rem/em/%/vh/vw), **CSS variables**, **`!important`** đừng lạm dụng.*
 
@@ -250,6 +250,19 @@ Khi 2+ rule cùng apply 1 element, **specificity cao hơn thắng**. Tính theo 
 | **B** | ID selector (`#id`) |
 | **C** | Class, attribute, pseudo-class (`.cls`, `[attr]`, `:hover`) |
 | **D** | Type, pseudo-element (`p`, `::before`) |
+
+Khi nhiều rule cùng nhắm 1 element, trình duyệt chọn rule có specificity cao hơn. Sơ đồ dưới xếp hạng từ mạnh nhất xuống yếu nhất:
+
+```mermaid
+flowchart TD
+    A["!important (mạnh nhất)"] --> B["Inline style (1000)"]
+    B --> C["ID #id (100)"]
+    C --> D[".class / [attr] / :hover (10)"]
+    D --> E["element / ::before (1)"]
+    E --> F["* universal (0, yếu nhất)"]
+```
+
+→ Selector càng lên cao trong sơ đồ càng thắng, nên hạn chế ID + `!important` để CSS dễ override.
 
 Đọc số: `(A, B, C, D)` so sánh từ trái — A trước, B sau, ...
 
@@ -737,7 +750,7 @@ Same specificity → last declared wins
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -783,3 +796,4 @@ Same specificity → last declared wins
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 4/5. Cover: 3 cách include CSS + anatomy rule + selectors (basic + combinator + pseudo-class + pseudo-element + attribute) + specificity rules + cascade order + box model + units (px/em/rem/%) + colors + font + CSS variables.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục 3 cách include CSS (Inline, Internal, External, bảng quyết định) và mục Anatomy CSS rule. Thêm mục Changelog.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ CSS specificity ranking cho trực quan.

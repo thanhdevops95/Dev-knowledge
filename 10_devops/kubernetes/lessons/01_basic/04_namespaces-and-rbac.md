@@ -1,12 +1,12 @@
 # 🎓 Namespaces Và RBAC: Thiết Lập Biên Giới An Ninh Và Phân Quyền Hạn Chế Tối Đa
 
-> **Author:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Tác giả:** Mr.Rom\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 26/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
-> **Tags:** [MUST-KNOW, DEVOPS, SECURITY]\
-> **Prerequisites:** [ConfigMaps & Secrets](03_configmaps-and-secrets.md)
+> **Tags:** [MUST-KNOW]\
+> **Yêu cầu trước:** [ConfigMaps & Secrets](03_configmaps-and-secrets.md)
 
 > 🎯 **Mục tiêu cốt lõi:** Làm chủ **Namespaces** (mô hình multi-tenancy), **ResourceQuota** + **LimitRange** để quản lý tài nguyên, và hệ thống phân quyền **RBAC** (ClusterRole, Role, RoleBinding, ClusterRoleBinding, ServiceAccount). Bạn sẽ biết cách sử dụng `kubectl auth can-i` để gỡ lỗi phân quyền và thiết lập môi trường multi-team an toàn tuyệt đối trên Production.
 
@@ -691,7 +691,7 @@ spec:
 
 Để đúc kết toàn bộ kiến thức lý thuyết đã học từ đầu bài, chúng ta sẽ cùng nhau thực hiện một dự án thực tế: **Xây dựng biên giới bảo mật và phân quyền hoàn chỉnh cho hai đội ngũ `team-backend` và `team-frontend` dùng chung một K8s Cluster.**
 
-### Đề bài yêu cầu:
+### Đề bài yêu cầu
 1. Tạo 2 Namespace riêng biệt: `team-backend` và `team-frontend`.
 2. Áp đặt hạn mức tài nguyên (ResourceQuota) cho `team-backend`: Tối đa chỉ được dùng 2 CPU, 4GB RAM và chạy tối đa 5 Pod.
 3. Thiết lập mặc định (LimitRange) cho `team-frontend` nếu lập trình viên quên khai báo RAM/CPU.
@@ -943,12 +943,13 @@ view           -> Quyền chỉ đọc (Read-only) an toàn, phù hợp để gi
 
 ---
 
-> 🎯 **Lời khuyên của Mr.Rom:** Chúc mừng bạn đã cùng mình hoàn thành xuất sắc module **Kubernetes Basic (5/5 bài học)**! Bạn hiện đã nắm giữ những khối kiến thức nền móng vững chắc nhất để tự tin vận hành các dịch vụ trên môi trường K8s thực tế. Hãy tiếp tục cùng mình chinh phục các chuyên đề nâng cao tiếp theo như K8s Storage (PV/PVC/StatefulSet), hệ thống GitOps (ArgoCD) và giám sát hệ thống nhé!
+> 🎯 **Lời khuyên:** Chúc mừng bạn đã cùng mình hoàn thành xuất sắc module **Kubernetes Basic (5/5 bài học)**! Bạn hiện đã nắm giữ những khối kiến thức nền móng vững chắc nhất để tự tin vận hành các dịch vụ trên môi trường K8s thực tế. Hãy tiếp tục cùng mình chinh phục các chuyên đề nâng cao tiếp theo như K8s Storage (PV/PVC/StatefulSet), hệ thống GitOps (ArgoCD) và giám sát hệ thống nhé!
 
 ---
 
 ## 📜 Nhật Ký Thay Đổi (Changelog)
 
-- **v2.0.0 (26/05/2026)** — **[Mr.Rom]** Nâng cấp Premium chuẩn 5 sao: Việt hóa 100% chú thích trong tệp YAML; Thiết kế tiêu đề H2 dạng câu hỏi gợi mở tư duy sâu sắc; Tích hợp dự án thực tế Multi-Team hoàn chỉnh ở cuối bài; Chuẩn hóa tất cả các cảnh báo sang GitHub Alerts bảo mật.
+- **v2.0.0 (26/05/2026)** — Nâng cấp Premium chuẩn 5 sao: Việt hóa 100% chú thích trong tệp YAML; Thiết kế tiêu đề H2 dạng câu hỏi gợi mở tư duy sâu sắc; Tích hợp dự án thực tế Multi-Team hoàn chỉnh ở cuối bài; Chuẩn hóa tất cả các cảnh báo sang GitHub Alerts bảo mật.
 - **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4 §3.6: thêm lead-in trước §1.
 - **v1.0.0 (23/05/2026)** — Phiên bản sơ khởi đầu tiên thuộc Kubernetes Sprint #5.
+- **v2.0.1 (10/06/2026)** — Đổi field metadata block-quote sang tiếng Việt (Author → Tác giả, Prerequisites → Yêu cầu trước); gỡ tên tác giả khỏi thân bài và changelog.

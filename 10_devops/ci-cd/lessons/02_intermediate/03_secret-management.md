@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [02_supply-chain-security.md](02_supply-chain-security.md), [K8s basic ConfigMap+Secret](../../../kubernetes/lessons/01_basic/03_configmaps-and-secrets.md)
+> **Yêu cầu trước:** [02_supply-chain-security.md](02_supply-chain-security.md), [K8s basic ConfigMap+Secret](../../../kubernetes/lessons/01_basic/03_configmaps-and-secrets.md)
 
 > 🎯 *Secret trong K8s default base64 (không phải encryption). Production cần: external store (Vault/AWS SM), auto sync vào cluster, rotation, audit. Bài này dạy stack: **HashiCorp Vault + External Secrets Operator + Sealed Secrets + SOPS**. Apply 12-factor App principle #3.*
 

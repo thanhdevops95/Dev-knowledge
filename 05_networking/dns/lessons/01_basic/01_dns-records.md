@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [DNS là gì](00_what-is-dns.md)
+> **Yêu cầu trước:** [DNS là gì](00_what-is-dns.md)
 
 > 🎯 *Sau bài này bạn config được zone file cho domain mình mua: trỏ root domain về IP, dùng CNAME cho subdomain, thêm MX cho email, TXT cho SPF/DKIM/verification, NS cho subdomain phân quyền.*
 
@@ -466,7 +466,7 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -508,7 +508,7 @@ docs   CNAME  acmeshop.github.io.
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.
 

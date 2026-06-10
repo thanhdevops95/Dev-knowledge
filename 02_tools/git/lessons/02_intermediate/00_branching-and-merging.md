@@ -1,12 +1,12 @@
 # 🎓 Branching + Merging — thử tính năng mới an toàn trên nhánh riêng
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_init-and-first-commit.md](../01_basic/01_init-and-first-commit.md)
+> **Yêu cầu trước:** [01_init-and-first-commit.md](../01_basic/01_init-and-first-commit.md)
 
 > 🎯 *Nối tiếp bài trước: bạn đã có repo với feature login. Giờ sếp lại bảo "thêm Google login". Lần này bạn không liều sửa thẳng `main` — học cách tạo nhánh riêng, code thoải mái, merge khi xong.*
 
@@ -252,6 +252,21 @@ Deleted branch feature/say-hi (was b4c5d6e).
 → Branch không còn, nhưng **commit b4c5d6e vẫn ở `main`** (đã merge). Xóa branch chỉ xóa cái "tag", không xóa lịch sử.
 
 ### Fast-forward vs Three-way merge
+
+Sơ đồ dưới mô phỏng `main` tách ra nhánh `feature` (2 commit C, D) rồi merge ngược về. Hình dạng commit sau merge quyết định bạn gặp loại merge nào.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch feature
+    commit id: "C"
+    commit id: "D"
+    checkout main
+    merge feature
+```
+
+→ Quy tắc nhận biết: nếu `main` KHÔNG có commit mới sau khi tách → **fast-forward** (Git chỉ dời con trỏ `main` tới D, không tạo commit mới); nếu `main` CÓ commit mới → **three-way merge** (Git tạo 1 merge commit có 2 cha để gộp 2 nhánh).
 
 **Fast-forward**: branch ĐÍCH (`main`) không có commit mới sau khi tách branch SOURCE. Git chỉ "dịch con trỏ" tới commit cuối của SOURCE.
 
@@ -632,6 +647,8 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 ---
 
 ## 📌 Nhật ký thay đổi (Changelog)
+
+- **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ fast-forward vs three-way merge cho trực quan.
 
 - **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Terraform Basics](01_terraform-basics.md)
+> **Yêu cầu trước:** [Terraform Basics](01_terraform-basics.md)
 
 > 🎯 *Deep state: **state file** format + secrets, **remote backends** (S3+DynamoDB / GCS / Azure), **state locking**, **`terraform state` commands** (mv/rm/import/list), **drift detection**, **state recovery**, **workspaces** intro.*
 
@@ -668,7 +668,7 @@ terraform workspace list
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

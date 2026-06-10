@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_what-is-shell.md](./01_what-is-shell.md), [03_process-and-pid.md](./03_process-and-pid.md)
+> **Yêu cầu trước:** [01_what-is-shell.md](./01_what-is-shell.md), [03_process-and-pid.md](./03_process-and-pid.md)
 
 > 🎯 *Bài CONCEPT — hiểu **environment variable là gì**, **$PATH** đặc biệt thế nào, **scope** (process/session/system), **`.env` file** pattern, **secrets**. Sau bài này bạn hiểu vì sao `command not found` xảy ra, vì sao `.env` không được commit, và cách config app qua env var.*
 

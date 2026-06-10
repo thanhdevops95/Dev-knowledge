@@ -1,12 +1,12 @@
 # 🎓 Helm — Package manager cho K8s, deploy 50 service không copy-paste
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_intermediate-overview.md](00_intermediate-overview.md), K8s basic cluster
+> **Yêu cầu trước:** [00_intermediate-overview.md](00_intermediate-overview.md), K8s basic cluster
 
 > 🎯 *Bạn có 5 service FastAPI tương tự nhau, mỗi cái 8 file YAML — copy-paste 40 file, sửa tag image phải sửa 5 chỗ. Helm giải quyết: 1 chart template, 5 values.yaml. Bài này dạy chart anatomy, templating, hooks, release lifecycle, sub-chart, Helm vs Kustomize.*
 
@@ -153,7 +153,7 @@ home: https://github.com/acme/myapp
 sources:
   - https://github.com/acme/myapp
 maintainers:
-  - name: Mr.Rom
+  - name: DevOps Team
     email: dev@acmeshop.vn
 
 # Dependencies (sub-charts)
@@ -1462,3 +1462,4 @@ labels:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 của intermediate cluster. Chart anatomy + template (Sprig) + `_helpers.tpl` + values multi-env + release lifecycle (install/upgrade/rollback) + hooks + sub-chart dependency + ChartMuseum/OCI registry + Helm vs Kustomize + ArgoCD integration. Hands-on viết chart FastAPI từ đầu. 6 pitfall + 3 best practice + 5 self-check + cheatsheet đầy đủ.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Kiến trúc + Install + §2 Tạo chart + Chart.yaml + values.yaml.
+- **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.

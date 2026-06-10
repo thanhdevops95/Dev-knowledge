@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [SQL fundamentals](../../../sql-fundamentals/lessons/01_basic/00_what-is-sql.md)
+> **Yêu cầu trước:** [SQL fundamentals](../../../sql-fundamentals/lessons/01_basic/00_what-is-sql.md)
 
 > 🎯 *Bài INTRO. Hiểu **PostgreSQL là gì**, **vs MySQL/MariaDB**, **history** (35 năm), **MVCC architecture**, **psql** CLI, **install local** + **Docker**, kết nối từ FastAPI/Node. KHÔNG dạy `SELECT` chi tiết (xem [SQL fundamentals](../../../sql-fundamentals/)).*
 
@@ -539,7 +539,7 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -585,7 +585,7 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 ---
 
-## 📌 Changelog
+## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
 

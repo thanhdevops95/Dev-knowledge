@@ -1,9 +1,9 @@
 # 🎓 Cloud Networking — VPC, Subnets, Peering, VPN
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_regions-availability-zones-edge.md](01_regions-availability-zones-edge.md), [Networking basics](../../../../05_networking/)
@@ -147,6 +147,18 @@ VPC 10.0.0.0/16
 ```
 
 → 3 tier (public/private/db) × 3 AZ = 9 subnet. Cách đánh dải `10.0.0.x` cho public, `10.0.1x.x` cho private, `10.0.2x.x` cho db giúp nhìn IP là đoán ngay được tier.
+
+Bỏ qua chuyện trải nhiều AZ, sơ đồ dưới đây cho thấy đường đi của gói tin xuyên qua 3 tier — lưu lượng chỉ chạm tới tầng kế bên, không nhảy cóc:
+
+```mermaid
+flowchart TD
+    IGW["Internet Gateway"] --> Pub["Public subnet: Load Balancer"]
+    Pub --> App["Private subnet: App servers"]
+    App --> DB["Private subnet: Database"]
+    App -.->|qua NAT| NAT["NAT Gateway"] -.-> IGW
+```
+
+Điểm mấu chốt: chỉ Load Balancer ở public subnet quay mặt ra Internet, còn App muốn gọi API ngoài phải đi vòng qua NAT Gateway, và Database thì hoàn toàn không có đường ra Internet trực tiếp.
 
 ### Vì sao tách riêng subnet cho DB?
 
@@ -1438,3 +1450,4 @@ resource "aws_vpc_endpoint" "s3" {
 - **v1.0.0 (24/05/2026)** — Bài 02 cụm cloud-fundamentals. VPC + subnet types + IGW + NAT Gateway + route tables + SG vs NACL + VPC Peering + Transit Gateway + VPN + Direct Connect + VPC Endpoints. Hands-on Terraform thiết kế VPC production. Áp dụng bảo mật: DB ở isolated subnet, SG-to-SG references, phòng thủ nhiều lớp.
 - **v1.1.0 (25/05/2026)** — Thêm lời dẫn trước phần CIDR planning, Multi-AZ subnet pattern, Why separate DB subnet, How traffic flows (IGW), How NAT works.
 - **v2.0.0 (01/06/2026)** — Việt hoá toàn bộ prose từ văn phong "điện tín" EN sang narrative tiếng Việt theo nhịp WHY→WHAT→HOW (lời dẫn trước + câu phân tích sau mỗi bảng/code/diagram, câu bắc cầu giữa các section, Việt hoá toàn bộ self-check). Chuẩn hoá metadata (Yêu cầu trước), Glossary 3 cột, nav (⬅️/➡️/↑ + tiêu đề H1 thực), bỏ nhãn "(sắp viết)" cho bài 03 đã tồn tại. Giữ nguyên mọi code/lệnh/config, số liệu và ví dụ kỹ thuật.
+- **v2.0.1 (10/06/2026)** — Bổ sung sơ đồ bố cục VPC 3 tier cho trực quan.

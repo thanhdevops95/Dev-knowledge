@@ -6,7 +6,7 @@
 > **Cập nhật:** 19/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Không cần — bài này dành cho người chưa biết gì về IT
+> **Yêu cầu trước:** Không cần — bài này dành cho người chưa biết gì về IT
 
 > 🎯 *Trước khi bước chân vào IT, bạn cần "đứng cao" để thấy cả bức tranh — ngành này có những nghề gì, mỗi nghề làm gì, lương ra sao, học gì để làm được. Bài này dẫn bạn đi 1 vòng bản đồ — để khi pick career roadmap không bị bốc đại.*
 

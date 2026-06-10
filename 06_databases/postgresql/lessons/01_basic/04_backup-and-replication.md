@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [psql & Meta-commands](01_psql-and-meta-commands.md)
+> **Yêu cầu trước:** [psql & Meta-commands](01_psql-and-meta-commands.md)
 
 > 🎯 *Master Postgres production essentials: **`pg_dump`** + **`pg_restore`** (logical backup), **`pg_basebackup`** (physical), **streaming replication** (HA + read replica), **WAL + PITR** intro, **3-2-1 backup rule**, schedule cron + monitoring. Sau bài này tự tin chạy Postgres production.*
 
@@ -674,7 +674,7 @@ pgbackrest --stanza=main restore --type=time --target='2026-05-23 14:31:59'
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

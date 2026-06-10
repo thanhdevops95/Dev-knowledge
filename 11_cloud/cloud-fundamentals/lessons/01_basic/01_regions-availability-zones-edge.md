@@ -1,9 +1,9 @@
 # 🎓 Regions, Availability Zones, Edge — Phân bố địa lý của Cloud
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [00_what-is-cloud-computing.md](00_what-is-cloud-computing.md), [Networking basics](../../../../05_networking/)
@@ -95,6 +95,20 @@ Region (e.g., ap-southeast-1 Singapore)
 ```
 
 → Nói gọn: mỗi region = **nhiều datacenter** (các AZ) nằm trong bán kính ~100km, nối với nhau bằng cáp quang tốc độ cao.
+
+Sơ đồ dưới đây phân tầng quan hệ Region → AZ → Servers, kèm Edge nằm tách biệt và phục vụ user qua cache:
+
+```mermaid
+flowchart TD
+    Region["Region (vd ap-southeast-1)"] --> AZ1["AZ 1 (datacenter)"]
+    Region --> AZ2["AZ 2"]
+    Region --> AZ3["AZ 3"]
+    AZ1 --> S1[Servers]
+    AZ2 --> S2[Servers]
+    Edge["Edge / CDN PoP (gần user)"] -.->|cache tĩnh| User[End user]
+```
+
+Điểm cần phân biệt: AZ là datacenter nằm bên trong region, còn Edge là điểm nhỏ đặt sát người dùng nên không thuộc cây phân cấp region — nó chỉ cache nội dung tĩnh gần user.
 
 ### Không phải region nào cũng có đủ dịch vụ
 
@@ -1198,4 +1212,5 @@ resource "aws_subnet" "public" {
 
 - **v1.0.0 (24/05/2026)** — Bài thứ 2 cluster cloud-fundamentals. Region + AZ + Edge + CDN + latency physics + multi-region patterns (active-passive/active-active/geo-routed) + GDPR/data residency + reliability tiers + hands-on Vietnam startup region pick. Apply Schrems II context cho EU compliance.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in trước Region structure + Multi-AZ pattern + How CDN works + TCP/TLS handshake amplifies + Latency improvement tactics.
+- **v2.0.1 (10/06/2026)** — Bổ sung sơ đồ phân cấp Region → AZ → Edge cho trực quan.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ "điện tín EN" sang tiếng Việt narrative (WHY→WHAT→HOW, lời dẫn trước mỗi bảng/code/list + câu phân tích sau, câu bắc cầu giữa các section, giải thích thuật ngữ EN trong ngoặc lần đầu); giữ nguyên 100% code/số liệu/diagram/tên dịch vụ. Chuẩn hoá heading framework (Self-check/Cheatsheet/Cạm bẫy đã canonical); Việt hoá metadata "Yêu cầu trước"; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); chuẩn hoá nav (⬅️/➡️/↑ + 3 sub-heading chuẩn + link-text = tiêu đề H1 thực, gỡ nhãn "(sắp viết)" cho bài 02 đã tồn tại).

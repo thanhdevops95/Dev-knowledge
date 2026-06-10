@@ -1,12 +1,12 @@
 # 📚 RAG — Retrieval Augmented Generation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [02_function-calling-and-tools](02_function-calling-and-tools.md) ✅
+> **Yêu cầu trước:** Bài [02_function-calling-and-tools](02_function-calling-and-tools.md) ✅
 
 > 🎯 *Bài 03. LLM **không có data riêng của bạn** (Acme Shop docs, internal wiki, code) → bịa khi hỏi. **RAG** = inject relevant chunks vào prompt để LLM trả lời ground-truth + cite. Bài này dạy: embedding model, vector DB, chunking strategy, retrieval, reranking, RAG vs fine-tune trade-off. Hands-on build Q&A bot cho Acme Shop docs.*
 
@@ -54,6 +54,22 @@ User question → Embed → Search vector DB → Top K chunks
                                                 ↓
                                               LLM → Answer + citation
 ```
+
+Sơ đồ dưới minh hoạ 2 pha của RAG — index offline chạy 1 lần, query online chạy mỗi request và cùng đọc từ Vector DB.
+
+```mermaid
+flowchart LR
+    subgraph Offline["Index (offline, 1 lần)"]
+        D[Documents] --> C[Chunk] --> E1[Embed] --> V[(Vector DB)]
+    end
+    subgraph Online["Query (mỗi request)"]
+        Q[Câu hỏi user] --> E2[Embed] --> S[Search top-K]
+        V --> S
+        S --> P[Prompt + chunks] --> LLM --> Ans[Answer + citation]
+    end
+```
+
+Vector DB là cầu nối giữa 2 pha: index ghi vào, query đọc ra — nên cập nhật doc chỉ cần re-index, không đụng tới LLM.
 
 ### Tại sao RAG > "stuff full doc vào prompt"
 
@@ -703,7 +719,7 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 ### 🧭 Định hướng lộ trình học
 - ⬅️ **Bài trước:** [Function Calling + Tool Use + Agent Loop](02_function-calling-and-tools.md)
-- ➡️ **Bài tiếp theo:** [LLM App — Cost, Evaluation, Production](04_llm-app-cost-eval-and-production.md) *(sắp viết)*
+- ➡️ **Bài tiếp theo:** [LLM App — Cost, Evaluation, Production](04_llm-app-cost-eval-and-production.md)
 - ↑ **Về cụm:** [LLM README](../../README.md)
 
 ### 🧩 Các chủ đề có thể bạn quan tâm
@@ -732,3 +748,4 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 LLM basic. RAG flow + embedding 2026 (text-embedding-3, voyage-3, BGE-M3, Cohere) + chunking 8 strategy + vector DB compare 9 (Pinecone/Qdrant/Weaviate/Milvus/pgvector/Chroma) + hybrid search RRF + reranker (Cohere/Voyage) + citation pattern + RAG vs Long context vs Fine-tune decision + RAGAS eval + hands-on Acme Shop Q&A bot + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Cập nhật API lỗi thời: qdrant-client `search()`→`query_points()`, `recreate_collection()`→`collection_exists`+`delete`+`create`; RAGAS `context_relevancy`→`context_precision`+`context_recall` (0.2+). Cập nhật reranker Cohere `rerank-v3.5`, embedding voyage-3.5 + thêm lưu ý kiểm tra model mới nhất.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ 2 pha RAG (index offline vs query online) cho trực quan.

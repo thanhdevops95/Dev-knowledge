@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Đã đọc [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (để biết Internet làm gì ở layer 7)
+> **Yêu cầu trước:** Đã đọc [HTTP là gì](../../../http-https/lessons/01_basic/00_what-is-http.md) (để biết Internet làm gì ở layer 7)
 
 > 🎯 *Bài INTRO. Hiểu **TCP/IP là gì**, **4 layer model**, **OSI 7 layer** so sánh, **encapsulation** (gói bên trong gói), tại sao 1 HTTP request thực sự đi qua nhiều layer mới đến server. KHÔNG dạy IP addressing chi tiết hay TCP handshake (sẽ học bài 01/02).*
 
@@ -357,7 +357,7 @@ sequenceDiagram
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

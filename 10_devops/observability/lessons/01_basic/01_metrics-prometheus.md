@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is Observability](00_what-is-observability.md)
+> **Yêu cầu trước:** [What is Observability](00_what-is-observability.md)
 
 > 🎯 *Master **Prometheus**: architecture (pull-based, time-series DB), **4 metric types** (Counter, Gauge, Histogram, Summary), **PromQL** queries, **exporters** + instrumentation, **service discovery**, **federation** + remote write (scale), **kube-prometheus-stack** install.*
 
@@ -746,7 +746,7 @@ blackbox-exporter     URL uptime
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|

@@ -1,12 +1,12 @@
 # 🎓 SSH Deep Dive — Keys, Config, Tunneling, Agent
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [Users & Permissions](00_users-and-permissions.md)
+> **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
 
 > 🎯 *SSH > basic. Học **key types** (RSA/ed25519), **`~/.ssh/config`** chuẩn, **SSH agent** (đỡ gõ passphrase), **tunneling** (local/remote/dynamic), **`scp`/`rsync`/`sshfs`** transfer file, **hardening** server (disable root, fail2ban), **debug** SSH lỗi.*
 
@@ -364,7 +364,7 @@ scp -r ./project/ vps:/home/user/             # Recursive directory
 scp -P 2222 file vps:/tmp                     # Custom port
 ```
 
-> ⚠️ **OpenSSH 9.0+ (2022)**: `scp` đang **deprecated** — chuyển sang `sftp` hoặc `rsync`. Nhưng vẫn dùng được trong UX vài năm tới.
+> ⚠️ **OpenSSH 9+ (2022)**: giao thức `scp` cũ (SCP/RCP) bị **deprecated** (từ OpenSSH 9.0, client mặc định chuyển sang dùng SFTP nền dưới). Với **script mới** nên ưu tiên `sftp` hoặc `rsync -e ssh` thay vì `scp`. `scp` vẫn chạy tốt cho **copy nhanh thủ công** và còn dùng được nhiều năm tới.
 
 ### `rsync` — Mạnh nhất, mọi devops yêu
 
@@ -637,7 +637,7 @@ scp vps:/path/file ./                   rsync --progress huge.tar vps:/tmp/
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -683,3 +683,4 @@ scp vps:/path/file ./                   rsync --progress huge.tar vps:/tmp/
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "bộ chìa khoá cao cấp" cho SSH keys, 2 lời dẫn trước bảng thuật toán + lệnh ssh-keygen. Chuẩn hóa username trong ví dụ.
+- **v1.2.1 (10/06/2026)** — Làm rõ ghi chú deprecation của `scp`: OpenSSH 9+ deprecate giao thức scp cũ, script mới nên ưu tiên `sftp` hoặc `rsync -e ssh`; `scp` vẫn dùng được cho copy nhanh thủ công.

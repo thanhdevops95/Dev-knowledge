@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [03_secret-management.md](03_secret-management.md), [CI/CD basic Deploy strategies](../01_basic/04_deploy-strategies.md)
+> **Yêu cầu trước:** [03_secret-management.md](03_secret-management.md), [CI/CD basic Deploy strategies](../01_basic/04_deploy-strategies.md)
 
 > 🎯 *Basic deploy = all-or-nothing risk (bài 04 basic). Production cần **progressive**: 5% → 25% → 50% → 100% với metric analysis + auto-rollback. **Argo Rollouts** + **Prometheus** analysis + **feature flags** runtime. Bài cuối CI/CD intermediate.*
 

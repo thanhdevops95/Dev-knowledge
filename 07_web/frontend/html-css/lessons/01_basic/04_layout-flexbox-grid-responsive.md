@@ -1,12 +1,12 @@
 # 🎓 Layout — Flexbox, Grid, Responsive Design
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 10/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [CSS Fundamentals](03_css-fundamentals.md)
+> **Yêu cầu trước:** [CSS Fundamentals](03_css-fundamentals.md)
 
 > 🎯 *Master 2 layout modern: **Flexbox** (1D — row hoặc column), **Grid** (2D — row + column). Plus **responsive design** (media queries, container queries, mobile-first). Sau bài này build được layout production: navbar, card grid, dashboard, holy grail.*
 
@@ -73,6 +73,20 @@ Bật Flexbox **chỉ cần 1 dòng**: `display: flex` trên element cha. Mọi 
 ```
 
 → Mọi direct child trở thành **flex items**, xếp **hàng ngang** mặc định.
+
+Với `flex-direction: row`, items xếp dọc theo 2 trục — trục chính (main axis) ngang và trục phụ (cross axis) dọc. Sơ đồ dưới minh hoạ container row và các item bên trong:
+
+```mermaid
+flowchart LR
+    subgraph Container["display: flex (row)"]
+        direction LR
+        I1[Item 1] --- I2[Item 2] --- I3[Item 3]
+    end
+```
+
+> Main axis = ngang (`justify-content` điều khiển), cross axis = dọc (`align-items` điều khiển).
+
+→ Nắm 2 trục này là chìa khoá để căn chỉnh item theo cả chiều ngang lẫn chiều dọc.
 
 ### Container properties
 
@@ -735,7 +749,7 @@ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
@@ -782,3 +796,4 @@ position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 5/5. Cover: Flexbox 1D (container + item properties + patterns) + Grid 2D (template areas + grid-template-columns/rows + responsive auto-fit) + media queries breakpoints + mobile-first + container queries + position properties.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Setup flex, Container properties, Item properties, Navbar pattern, Vertical center. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ flexbox main axis vs cross axis cho trực quan.

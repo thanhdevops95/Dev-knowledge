@@ -6,7 +6,7 @@
 > **Cập nhật:** 07/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** Bài [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md) ✅, biết SQL cơ bản + HTTP
+> **Yêu cầu trước:** Bài [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md) ✅, biết SQL cơ bản + HTTP
 
 > 🎯 *Bài 01. **A01 Broken Access Control** = #1 OWASP 2025 — vuln phổ biến nhất (bản 2025 còn gộp luôn **SSRF**, vốn là category riêng A10 ở bản 2021). **A05 Injection** = #5 ở bản 2025 (tụt từ #3 năm 2021) — vẫn là lỗi kinh điển. Cả 2 chiếm phần lớn sự cố thật. Bài này dạy: IDOR, RBAC/ABAC implementation, SQL Injection + prepared statement, XSS (Stored/Reflected/DOM) + CSP, CSRF + SameSite, NoSQL/OS/LDAP injection. Hands-on fix 5 vuln thật trong Acme Shop.*
 

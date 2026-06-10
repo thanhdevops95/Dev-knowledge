@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-http.md](./00_what-is-http.md)
+> **Yêu cầu trước:** [00_what-is-http.md](./00_what-is-http.md)
 
 > 🎯 *Tiếp bài intro HTTP: deep dive **5 methods** chính (GET/POST/PUT/PATCH/DELETE) + **idempotent** vs **safe** + khi nào dùng cái nào. Sau bài này bạn design REST API endpoint chuẩn convention + biết PUT vs PATCH khác nhau ra sao.*
 

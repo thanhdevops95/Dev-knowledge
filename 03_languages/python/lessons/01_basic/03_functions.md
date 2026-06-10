@@ -1,9 +1,9 @@
 # 🎓 Thiết Kế Hàm Và Nghệ Thuật Tái Sử Dụng Mã Nguồn Trong Python
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.0  
+> **Phiên bản:** v3.0.2  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 26/05/2026  
+> **Cập nhật:** 10/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
 > **Yêu cầu trước:** [Bài 02: Cấu trúc rẽ nhánh và Vòng lặp](./02_control-flow.md)
@@ -164,7 +164,7 @@ print(chia_keo(so_nguoi=2, so_keo=10))  # Kết quả vẫn là 5.0
 ```
 
 > [!TIP]
-> **Lời khuyên thực chiến từ Mr.Rom:**  
+> **Lời khuyên thực chiến:**  
 > Đối với các hàm có từ 3 tham số trở lên, bạn nên luôn luôn sử dụng **Keyword Arguments** (truyền theo tên biến) để giữ cho code luôn rõ ràng, mạch lạc, tránh việc người đọc code phải liên tục quay lại định nghĩa để xem biến nào đứng trước, biến nào đứng sau.
 
 ---
@@ -344,7 +344,6 @@ Hãy tạo file `tinh_luong_chuyen_nghiep.py` và chạy đoạn code đỉnh ca
 
 ```python
 # tinh_luong_chuyen_nghiep.py - Hệ thống quản lý lương sử dụng hàm chuyên nghiệp
-# Tác giả: Mr.Rom
 
 # Bước 1: Định nghĩa hàm xử lý lõi (Core Logic) đạt chuẩn Premium 5 sao
 def tinh_luong_thuc_nhan(ten: str, luong_gio: float, gio_lam: float) -> dict:
@@ -447,14 +446,14 @@ Một hàm dài hơn 100 dòng code xử lý từ xác thực thông tin, ghi fi
 
 **Câu hỏi 1:** Điều gì xảy ra nếu một hàm trong Python chạy hết các dòng lệnh mà hoàn toàn không có lệnh `return` nào?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 Khi một hàm không có lệnh `return` cụ thể (hoặc chỉ có từ khóa `return` trống rỗng không đi kèm giá trị), Python sẽ tự động trả về giá trị đặc biệt **`None`** (đại diện cho giá trị rỗng, kiểu dữ liệu `NoneType`).
 </details>
 
 **Câu hỏi 2:** Sự khác biệt giữa `*args` và `**kwargs` khi định nghĩa hàm là gì?
 <details>
-<summary>💡 Xem lời giải thích từ Mr.Rom</summary>
+<summary>💡 Xem lời giải thích</summary>
 
 *   `*args` dùng để gom tất cả các đối số truyền theo vị trí (*Positional*) chưa được chỉ định thành một **Tuple**.
 *   `**kwargs` dùng để gom tất cả các đối số truyền theo tên biến (*Keyword*) chưa được định nghĩa trước thành một **Dictionary**.
@@ -483,7 +482,7 @@ tinh_thue_nhanh = lambda gross: gross * 0.10
 
 ---
 
-## 📚 Thuật Ngữ Cần Nhớ (Glossary)
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 *   **Function (Hàm):** Khối mã nguồn có tên dùng để đóng gói logic tái sử dụng.
 *   **Parameter (Tham số):** Biến được định nghĩa trong khai báo của hàm để tiếp nhận dữ liệu đầu vào.
@@ -506,3 +505,11 @@ tinh_thue_nhanh = lambda gross: gross * 0.10
 *   [Defining Your Own Functions in Python](https://realpython.com/defining-your-own-python-function/) — Hướng dẫn chi tiết từ Real Python.
 *   [Python Functions - W3Schools](https://www.w3schools.com/python/python_functions.asp) — Thực hành tương tác hàm cơ bản.
 *   [PEP 257 Docstring Conventions](https://peps.python.org/pep-0257/) — Tiêu chuẩn viết docstring của Python Software Foundation.
+
+---
+
+## 📌 Nhật ký thay đổi (Changelog)
+
+- **v3.0.0 (26/05/2026)** — Bản viết lại hoàn chỉnh: định nghĩa hàm, tham số, giá trị trả về và tái sử dụng mã nguồn trong Python.
+- **v3.0.1 (10/06/2026)** — Bổ sung mục Nhật ký thay đổi (trước đây thiếu) để đủ khung 8 phần.
+- **v3.0.2 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài, callout và code mẫu (chỉ giữ ở metadata); dùng "mình"/placeholder trung tính.

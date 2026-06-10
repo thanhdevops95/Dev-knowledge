@@ -6,7 +6,7 @@
 > **Cập nhật:** 23/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [00_what-is-terminal.md](./00_what-is-terminal.md), [01_what-is-shell.md](./01_what-is-shell.md)
+> **Yêu cầu trước:** [00_what-is-terminal.md](./00_what-is-terminal.md), [01_what-is-shell.md](./01_what-is-shell.md)
 
 > 🎯 *Bài CONCEPT — hiểu **filesystem ngầm ra sao**: root, path, working directory, hidden file, symlink. **KHÔNG dạy lệnh** (lệnh `pwd`/`ls`/`cd` xem [`04_os/linux/lessons/01_basic/01_navigation.md`](../../../../04_os/linux/lessons/01_basic/01_navigation.md)). Bài này dạy bạn HIỂU `/etc`, `~`, `.`, `..` thực sự là gì.*
 

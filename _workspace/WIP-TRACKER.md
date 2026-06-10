@@ -1,9 +1,9 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.63.0\
+> **Phiên bản:** v0.64.0\
 > **Tạo lúc:** 20/05/2026\
-> **Cập nhật:** 01/06/2026
+> **Cập nhật:** 10/06/2026
 
 > 🎯 *Lịch sử các việc đang dở, chưa xong, hoặc đang chờ làm rõ — để khi user/Claude switch task vẫn nhớ quay lại.*
 
@@ -139,6 +139,22 @@
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 10/06/2026 (phiên "đánh bóng #2" — sót cơ học + audit nội dung + SƠ ĐỒ)
+
+> Mục tiêu: hoàn tất phần đợt văn phong vừa rồi CHƯA làm (audit nội dung + sơ đồ). Phạm vi user chốt: đánh bóng toàn diện, KHÔNG viết bài mới cho module trống.
+
+- ✅ **Mr.Rom lọt thân bài — sửa TOÀN KHO (audit cũ chỉ bắt 2 file Git, thực tế ~13 file):** 2 lesson + 3 exercise Git (quiz/lab), 4 Python basic (callout/code/summary), **5 K8s basic** (+ chuyển YAML frontmatter → block-quote chuẩn), foundations/computer-architecture, 2 LLM (prompt persona + code comment), helm intermediate (`- name`). Verify repo-wide: thân bài = 0 (chỉ còn ở `Tác giả`/changelog). Bullet `*`→`-` fence-aware cho file đụng.
+- ✅ **Sweep canonical còn sót từ đợt trước:** Glossary `📘 Glossary`/`📚 Thuật Ngữ Cần Nhớ`/`📘 …Chuyên Ngành` → `📚 Từ Điển Thuật Ngữ (Glossary)` **70 file**; `**Prerequisites:**` → `**Yêu cầu trước:**` **112 file**; field EN khác (Author/Version/Created/Difficulty) → VN; heading `## 📌 Changelog` cũ → canonical **15 file**.
+- ✅ **Sót cơ học khác:** Python 01/02/03 thêm Changelog (thiếu hẳn); 4 LLM gỡ nhãn "(sắp viết)" sai; MASTER-CATALOG Docker "6 bài"→"4 bài + setup + bài tập"; README 14_data-engineering + 15_specialized đổi marker skeleton→🚧 (đã có bài intro); 4 lab Git bỏ field "Thời gian ước tính" (theo template) + thêm Changelog; Azure 00/02/04 thêm Cheatsheet (đồng bộ cụm).
+- ✅ **Audit nội dung/factual (phần đợt trước CHƯA làm):** `what-is-shell` sh 1971→**1979** (Bourne shell; 1971 là Thompson); **bảng LIKE trong `01_select-and-filter` viết lại toàn bộ** (pattern + tên placeholder lệch nhau sau đợt bulk-rename Alice→Nguyen Van A — `'D____'` chú "Pham Van D" v.v.) + reorder changelog tăng dần; claim "Opus 4.7+ gỡ temperature/top_p/top_k → effort" **verify bằng skill claude-api = ĐÚNG** (giữ nguyên); time-marker "tính đến 2026" cho giá DigitalOcean/Spaces/Workers/R2 + TLS%; sửa count DigitalOcean ("12 services" vs liệt kê 22); platform note `grep -P` (GNU/macOS `ggrep`) + `scp` deprecated (→ sftp/rsync).
+- ✅ **SƠ ĐỒ — bổ sung 18 mermaid (user nhấn mạnh "trực quan"):**
+  - 13_ai-ml/llm (trước = 0 sơ đồ): function-calling sequence + agent loop ReAct + RAG 2-pha + tokenization pipeline.
+  - 07_web: CSS specificity + flexbox axis + JS event loop + React Virtual DOM diffing.
+  - SQL/Git/PG: SELECT logical execution-order + Git merge gitGraph + undo decision-tree + B-tree.
+  - K8s/CI-CD/Sec/Cloud: 4 Service types + rolling-update + deploy strategies (Blue-Green/Canary) + STRIDE map + Region/AZ/Edge + VPC 3-tier.
+  - Mỗi sơ đồ kèm lead-in + câu phân tích (§3.6). Verify fence cân bằng.
+- ⚠️ **Còn lại / follow-up:** (1) `10_devops/iac/lessons/02_intermediate/02_atlantis-gitops-for-iac.md` đếm fence lẻ (87) — pre-existing, KHÔNG đụng phiên này, nghi nested-fence demo, cần kiểm tay. (2) Changelog **thứ tự giảm dần** có thể còn ở vài file khác (chỉ mới sửa `01_select-and-filter`); chưa sweep toàn kho. (3) Coverage gap (09_architecture 0%, 16_career 0%, ngôn ngữ/DB còn thiếu) — defer theo quyết định user.
 
 ### 01/06/2026 (phiên review — blueprint + sweep cơ học + docker re-align)
 

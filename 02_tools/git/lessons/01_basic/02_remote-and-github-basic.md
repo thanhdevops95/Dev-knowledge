@@ -6,7 +6,7 @@
 > **Cập nhật:** 26/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [01_init-and-first-commit.md](./01_init-and-first-commit.md) ✅
+> **Yêu cầu trước:** [01_init-and-first-commit.md](./01_init-and-first-commit.md) ✅
 
 > 🎯 *Bài học thực chiến — hướng dẫn cách thoát khỏi vùng an toàn "local" để kết nối với đám mây GitHub. Bạn sẽ học cách thiết lập Remote, đẩy (push) dự án đầu tay lên Internet an toàn, giải quyết bài toán xác thực (Authentication) và phòng ngừa cạm bẫy rò rỉ dữ liệu bí mật.*
 

@@ -6,7 +6,7 @@
 > **Cập nhật:** 25/05/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
-> **Prerequisites:** [What is CI/CD](00_what-is-cicd.md)
+> **Yêu cầu trước:** [What is CI/CD](00_what-is-cicd.md)
 
 > 🎯 *Master GitHub Actions: **workflow YAML**, **events**, **jobs + steps**, **actions marketplace**, **matrix**, **secrets + OIDC**, **caching**, **reusable workflows**, **environments**, **debug**. Sau bài này CI/CD project bất kỳ trong GitHub.*
 
@@ -856,7 +856,7 @@ uses: ./.github/workflows/reusable.yml
 
 ---
 
-## 📘 Glossary
+## 📚 Từ Điển Thuật Ngữ (Glossary)
 
 | Thuật ngữ | Ý nghĩa |
 |---|---|
