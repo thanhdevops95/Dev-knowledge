@@ -1,9 +1,9 @@
 # 🎓 Atlantis — GitOps cho Terraform/Terragrunt
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Terragrunt — DRY Terraform cho multi-env multi-region](01_terragrunt-dry-multi-env.md), một GitHub repo chứa Terraform code.
@@ -208,7 +208,7 @@ Cách xác nhận nhanh nhất là mở thử một PR có sửa Terraform: nế
 
 Cái khiến reviewer dễ thở là Atlantis trình plan ngay trong comment dưới **định dạng diff kiểu Git** — `+` là thêm, `~` là thay đổi, `-` là xoá. Reviewer nhìn phát thấy ngay tác động, lại có sẵn nút bấm (CTA) là câu lệnh cụ thể để apply ngay tại chỗ:
 
-```
+````text
 ran `plan` for project `dev-us-east-1-vpc`:
 
 ```diff
@@ -219,13 +219,14 @@ Changes:
   + aws_subnet.public[1]
   ~ aws_vpc.main
       tags: + Environment = "dev"
+```
 
 * :arrow_forward: To apply this plan, comment:
     * `atlantis apply -p dev-us-east-1-vpc`
 * :put_litter_in_its_place: To delete this plan click [here](...)
 * :repeat: To plan this project again, comment:
     * `atlantis plan -p dev-us-east-1-vpc`
-```
+````
 
 Cái lợi nằm ở chỗ plan giờ hiển hiện ngay trong PR, có cấu trúc, ai cũng review được — thay vì nằm trong terminal của một người.
 
@@ -239,13 +240,13 @@ atlantis apply -p dev-us-east-1-vpc
 
 Atlantis chạy apply rồi comment lại kết quả, vẫn ngay trong PR:
 
-```
+````text
 ran `apply` for project `dev-us-east-1-vpc`:
 
 ```
 Apply complete! Resources: 3 added, 1 changed, 0 destroyed.
 ```
-```
+````
 
 ### Các lệnh hay dùng
 
@@ -1199,3 +1200,4 @@ workflows:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 02 intermediate. Atlantis architecture + Helm install + GitHub webhook + atlantis.yaml + workflow + apply_requirements + RBAC + state lock + Terragrunt integration + comparison với Spacelift/env0/Terraform Cloud + hands-on. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in trước Architecture + Pre-requisites + Helm install + Plan comment + Available commands.
 - **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: Việt hoá tình huống mở bài, thêm lời dẫn trước mỗi code/bảng/list và câu phân tích sau, làm mượt các đoạn "điện tín" EN ở §1–§9, dịch toàn bộ block Components/Why GitOps/RBAC/lock/so sánh và 5 self-check; chuẩn hoá heading framework canonical (Self-check / Cheatsheet / Cạm bẫy thường gặp & Best practice / Glossary / Liên kết & Tài nguyên + 3 sub); metadata "Yêu cầu trước" + link tiêu đề thực; Glossary 3 cột; nav marker ⬅️/➡️/↑ + link-text = tiêu đề H1 thực, gỡ nhãn "(sắp viết)" cho bài 03 đã tồn tại; "Pros/Cons" → "Ưu điểm/Nhược điểm". Giữ nguyên 100% code/config/số liệu/diagram/tên công cụ EN.
+- **v2.0.1 (11/06/2026)** — Sửa render: bọc 2 ví dụ comment GitHub (plan/apply) bằng fence 4 dấu backtick để khối code lồng nhau hiển thị đúng (trước đó dòng "Apply complete!" rớt ra ngoài code block + 1 code block rỗng).

@@ -832,6 +832,5 @@ Truthy: everything else (including [], {}, "0")
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Modern let/const, var legacy, So sánh, Block scope, Hoisting. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 2/5. Cover: var vs let vs const + scope (function vs block) + hoisting + TDZ + functions (declaration vs expression vs arrow) + parameters (default/rest/destructure) + types (primitive vs reference) + closure intro.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Modern let/const, var legacy, So sánh, Block scope, Hoisting. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.

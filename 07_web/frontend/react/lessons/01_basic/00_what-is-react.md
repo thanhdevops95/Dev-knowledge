@@ -653,8 +653,6 @@ Angular = enterprise + TS
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ Virtual DOM diffing cho trực quan.
-
-- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Library vs Framework, Vanilla JS verbose, React JSX, JSX quirks, JSX compile, Component props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 1/5. Cover: React là gì + library vs framework + JSX syntax + 6 quirks + compile process + component philosophy + props + composition + setup với Vite + first component.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Library vs Framework, Vanilla JS verbose, React JSX, JSX quirks, JSX compile, Component props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
+- **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ Virtual DOM diffing cho trực quan.

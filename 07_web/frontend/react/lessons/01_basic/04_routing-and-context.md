@@ -758,6 +758,5 @@ const count = useStore(s => s.count);
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 React Router Setup (Cài + main.jsx + App.jsx + Pages structure) + §2 Link/NavLink. Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 5/5. Cover: React Router setup + Routes/Route + dynamic params + Link/NavLink + useNavigate + useParams + nested routes + Context API (createContext + Provider + useContext) + Cart context example.
+- **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 React Router Setup (Cài + main.jsx + App.jsx + Pages structure) + §2 Link/NavLink. Thêm Changelog section.

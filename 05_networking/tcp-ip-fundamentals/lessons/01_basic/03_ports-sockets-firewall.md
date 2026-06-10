@@ -517,6 +517,5 @@ curl -v https://host            # L7 (HTTP)
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 ("3 vùng port"), §2 (TCP/UDP well-known), §3 ("Xem sockets ss/netstat" + "Bind 0.0.0.0 vs 127.0.0.1"). Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 4/5. Cover: port 16-bit + 3 vùng (well-known/registered/ephemeral) → 20+ TCP + 8 UDP well-known port → socket 5-tuple + listening vs connected → `ss`/`netstat` + bind 0.0.0.0 vs 127.0.0.1 → firewall layer (iptables, ufw, AWS SG, K8s NetPol) → Connection refused vs timeout debug.
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 ("3 vùng port"), §2 (TCP/UDP well-known), §3 ("Xem sockets ss/netstat" + "Bind 0.0.0.0 vs 127.0.0.1"). Thêm Changelog section.

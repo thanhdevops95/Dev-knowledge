@@ -649,10 +649,7 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ cây quyết định chọn lệnh undo cho trực quan.
-
-- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
-
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên — restore/amend/reset (3 mode)/revert/stash/reflog + decision tree + 6 pitfall/best-practice.
 - **v2.0.0 (19/05/2026)** — Viết lại bố cục:
   - Tiêu đề gắn vào tình huống thực
   - Mở bằng **tình huống 2h sáng** `git reset --hard HEAD~3` mất 3 commit feature payment, nhịp tim 120bpm — anh senior dạy `git reflog`
@@ -660,4 +657,5 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
   - §2.7 `git reflog` thêm callback "quay lại tình huống ở đầu bài"
   - Thống nhất giữ Git ở `02_tools/git/`
   - Sửa lại độ sâu đường dẫn tương đối
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên — restore/amend/reset (3 mode)/revert/stash/reflog + decision tree + 6 pitfall/best-practice.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
+- **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ cây quyết định chọn lệnh undo cho trực quan.

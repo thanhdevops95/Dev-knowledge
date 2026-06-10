@@ -648,14 +648,12 @@ Bạn quyết định giữ phần nào (hoặc cả 2, hoặc viết lại) →
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ fast-forward vs three-way merge cho trực quan.
-
-- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
-
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên — branching/merging + fast-forward vs three-way + conflict resolution + 5 pitfall + naming convention.
 - **v2.0.0 (19/05/2026)** — Viết lại bố cục:
   - Tiêu đề gắn vào tình huống thực
   - Mở bằng **tình huống tuần trước mất 1 ngày code** + cách cũ vs cách mới với Git branch
   - Đổi tiêu đề mục sang câu hỏi tự nhiên ("Vậy branch thực sự là gì?", "Hợp 2 nhánh thành 1", "Khi 2 nhánh đụng cùng dòng")
   - Thống nhất giữ Git ở `02_tools/git/`
   - Sửa lại độ sâu đường dẫn tương đối
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên — branching/merging + fast-forward vs three-way + conflict resolution + 5 pitfall + naming convention.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
+- **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ fast-forward vs three-way merge cho trực quan.

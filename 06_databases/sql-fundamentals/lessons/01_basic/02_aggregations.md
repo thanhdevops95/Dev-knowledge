@@ -525,6 +525,5 @@ FROM orders;
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 3/6. Cover: 6 aggregation function (COUNT/SUM/AVG/MIN/MAX/COUNT DISTINCT) + NULL handling + COUNT(*) vs COUNT(col) + GROUP BY single + multi-col + HAVING (filter sau aggregate) + WHERE vs HAVING distinction + execution order.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.

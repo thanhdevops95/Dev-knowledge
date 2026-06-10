@@ -672,6 +672,5 @@ parent.append(clone);
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Anatomy node, querySelector, Legacy methods, Query trong element con, Iterate NodeList. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 3/5. Cover: DOM tree concept + node anatomy + query selectors (modern vs legacy) + traverse (parent/children/siblings) + modify (textContent/innerHTML/classList/style) + create + insert + remove + clone elements.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Anatomy node, querySelector, Legacy methods, Query trong element con, Iterate NodeList. Thêm mục Changelog.

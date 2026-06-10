@@ -686,6 +686,5 @@ DROP TABLE t;                   -- xóa cả bảng
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Cú pháp INSERT + INSERT nhiều rows + INSERT từ SELECT + Default & AUTO-INCREMENT + RETURNING. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 5/6. Cover: INSERT (single/multi/from SELECT/RETURNING) + UPDATE (luôn WHERE!) + DELETE (TRUNCATE compare) + UPSERT (INSERT ON CONFLICT / MERGE) + transactions ACID + savepoints + soft delete pattern.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Cú pháp INSERT + INSERT nhiều rows + INSERT từ SELECT + Default & AUTO-INCREMENT + RETURNING. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.

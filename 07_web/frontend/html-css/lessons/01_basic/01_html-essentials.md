@@ -665,6 +665,5 @@ defer / async (script)
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục HTML5 structure, Vai trò meta, Anti-pattern div, Semantic HTML5, Bảng semantic tags. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 2/5. Cover: HTML5 structure đầy đủ (8 meta cho SEO + social + viewport) + semantic tags (header/nav/main/article/section/aside/footer) + common tags (heading/list/link/image/table) + form basics + best practices (alt text, lang attr).
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục HTML5 structure, Vai trò meta, Anti-pattern div, Semantic HTML5, Bảng semantic tags. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.

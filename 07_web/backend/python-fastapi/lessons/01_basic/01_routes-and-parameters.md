@@ -613,6 +613,5 @@ app.include_router(router)
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 2/5. Cover: path/query/body parameters + Path/Query validation + repeating query + status codes + response_model + HTTPException + custom response + headers + cookies.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.

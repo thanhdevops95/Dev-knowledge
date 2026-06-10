@@ -616,6 +616,5 @@ UserRead.model_validate(data)  # dict → object
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 3/5. Cover: Anti-pattern 1 model + Pattern tách `Base/Create/Update/Read` + `Field()` constraint + metadata + `@field_validator` + `@model_validator` cross-field + `response_model` strip pattern.
+- **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.

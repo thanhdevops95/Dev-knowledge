@@ -510,6 +510,5 @@ docs   CNAME  acmeshop.github.io.
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 2/5. Cover: zone file structure + 7 record types (A/AAAA/CNAME/MX/TXT/NS/SOA) + CNAME 3 rules + apex fix + MX với SPF/DKIM/DMARC anti-spam + TXT verification + NS delegation + SOA metadata + record nâng cao (SRV, PTR, CAA, DS, DNSKEY).
+- **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.

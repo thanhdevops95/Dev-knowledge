@@ -568,14 +568,12 @@ Bạn có thể đổi tên (`git remote rename origin upstream`) nhưng `origin
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.2.0 (24/05/2026)** — Thay tên riêng tự bịa bằng vai trò chung ("đồng nghiệp"). Tiêu đề đổi thành "Đồng nghiệp vào team". Tiêu đề mục và phần dẫn dắt đều dùng cách gọi chung. Nội dung kỹ thuật giữ nguyên 100%.
-
-- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
-
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên — push/clone/pull/PR workflow + authentication (PAT/SSH/CLI) + 6 pitfall/best-practice.
 - **v2.0.0 (19/05/2026)** — Viết lại bố cục:
   - Tiêu đề gắn vào tình huống thực
   - Mở bằng **tình huống sếp gửi đồng nghiệp mới vào team**, bạn phải share code — so sánh 4 cách (ZIP / USB / Drive / GitHub)
   - Đổi tiêu đề mục sang câu hỏi tự nhiên
   - Thống nhất giữ Git ở `02_tools/git/`
   - Sửa lại độ sâu đường dẫn tương đối
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên — push/clone/pull/PR workflow + authentication (PAT/SSH/CLI) + 6 pitfall/best-practice.
+- **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
+- **v2.2.0 (24/05/2026)** — Thay tên riêng tự bịa bằng vai trò chung ("đồng nghiệp"). Tiêu đề đổi thành "Đồng nghiệp vào team". Tiêu đề mục và phần dẫn dắt đều dùng cách gọi chung. Nội dung kỹ thuật giữ nguyên 100%.

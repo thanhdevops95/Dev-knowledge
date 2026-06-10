@@ -304,8 +304,7 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v2.2.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
-
+- **v1.0.0 (16/05/2026)** — Bản đầu tiên.
 - **v2.0.0 (19/05/2026)** — Viết lại bố cục:
   - Mở bằng **tình huống mất 1 ngày code cuối tuần** dẫn dắt thay vì định nghĩa khô
   - Đổi tiêu đề mục sang **câu hỏi tự nhiên** ("Vậy Git thực sự là gì?", "Khoan — Git khác GitHub thế nào?", "Bên dưới Git ngầm chạy ra sao?")
@@ -314,4 +313,4 @@ Linus Torvalds đặt tên này theo nghĩa lóng tiếng Anh: *"git"* = *"thằ
   - Thêm câu hỏi mới "Tại sao gọi là 'Git'?" trong FAQ
   - Chuẩn hóa vị trí Git nằm tại `02_tools/git/`
   - Link tool guide GUI (GitHub/GitLab/Desktop) trỏ sang `02_tools/git-clients/` thay vì inline
-- **v1.0.0 (16/05/2026)** — Bản đầu tiên.
+- **v2.2.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.

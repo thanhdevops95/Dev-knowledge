@@ -587,6 +587,5 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 1/5. Cover: Postgres là gì + history 40 năm + adoption + so sánh Postgres/MySQL/SQLite/MariaDB + MVCC concurrency + when to pick + install path 3 OS (macOS Homebrew, Linux apt, Docker) + first connection.
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.

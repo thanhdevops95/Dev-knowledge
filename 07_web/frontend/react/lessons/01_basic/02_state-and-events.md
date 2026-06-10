@@ -802,6 +802,5 @@ dispatch({ type: 'ACTION', payload });
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục useState cú pháp, Quy tắc Hooks, Multiple state, Initial lazy, onClick handler. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 3/5. Cover: useState hook (cú pháp + 2 rules + multiple + lazy init) + event handlers (onClick/onChange/onSubmit/onKeyDown) + controlled vs uncontrolled inputs + form pattern + synthetic events.
+- **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục useState cú pháp, Quy tắc Hooks, Multiple state, Initial lazy, onClick handler. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.

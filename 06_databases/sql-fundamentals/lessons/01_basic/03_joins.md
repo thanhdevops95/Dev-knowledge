@@ -669,6 +669,5 @@ WHERE u.status = 'active'
 
 ## 📌 Nhật ký thay đổi (Changelog)
 
-- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
-
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 4/6. Cover: 5 JOIN (INNER/LEFT/RIGHT/FULL/CROSS) + alias bảng + self-join + JOIN 3 bảng + 4 anti-pattern (Cartesian explosion, ambiguous column, NULL trong LEFT JOIN, missing ON).
+- **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
