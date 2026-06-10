@@ -1,9 +1,9 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.64.0\
+> **Phiên bản:** v0.65.0\
 > **Tạo lúc:** 20/05/2026\
-> **Cập nhật:** 10/06/2026
+> **Cập nhật:** 11/06/2026
 
 > 🎯 *Lịch sử các việc đang dở, chưa xong, hoặc đang chờ làm rõ — để khi user/Claude switch task vẫn nhớ quay lại.*
 
@@ -139,6 +139,22 @@
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 11/06/2026 (Việt hoá heading nội dung cụm agent-written + dọn nốt)
+
+> User chọn "Việt hoá heading nội dung" sau khi mechanical polish xong. Nguyên tắc: **dịch heading MÔ TẢ sang tiếng Việt, GIỮ thuật ngữ/brand/param tiếng Anh** (conservative — phân vân thì giữ EN). Theo §3.7 Vietnamese-first. Làm cụm LLM trước làm mẫu → user duyệt calibration → nhân ra 6 cụm còn lại (mỗi cụm 1 agent + 1 commit riêng).
+
+- ✅ **Việt hoá ~880 heading mô tả qua 7 cụm** (heading EN ~1,430 → 218 còn lại, đều là thuật ngữ/brand giữ chủ ý). Commit riêng từng cụm:
+  - `13_ai-ml/llm` (5 bài, ~150) — commit 21e9ab7 — mẫu calibration.
+  - `12_security/owasp-top-10` (77) — b090b8d.
+  - `12_security/authentication` (99) — 860d217.
+  - `10_devops/iac` (~100, 4 bài basic; intermediate đã VN sẵn) — c8ff648.
+  - `10_devops/kubernetes` (101, 4 bài intermediate; basic đã VN sẵn) — ac21190.
+  - `10_devops/observability` (~166, 7 bài) — 06d1171.
+  - `10_devops/ci-cd` (~240, 9 bài) — 419e063.
+  - GIỮ: brand (OpenAI/Anthropic/ArgoCD/Prometheus/Grafana/Keycloak/Terraform...), thuật ngữ (Zero-shot/Few-shot/JWT/OAuth/PKCE/SLSA/cosign/PromQL/SLO/error budget/Pod/Helm/CRD/state/drift...), param/identifier (Top-k/Max tokens/reclaimPolicy/values-*.yaml...). Verify: fence cân bằng toàn bộ, edit chỉ chạm heading (+ vài bold-label/code-comment lẻ, hợp §3.7).
+- ✅ **Cheatsheet heading canonical** — `## ⚡ Cheatsheet` / `📋 Bảng Tra Cứu Nhanh (Cheatsheet)` → `## ⚡ Tra cứu nhanh (Cheatsheet)` (27 file, commit b68273e). Đợt sweep trước key theo `📚 Glossary` nên bỏ sót biến thể Cheatsheet.
+- ℹ️ **Broken-link checker**: 12 hit đều là **false-positive** (code/regex trong fence + link ví dụ trong block ```markdown ở `_idea-overview.md`) — checker chưa fence-aware. 0 link gãy thật.
 
 ### 10/06/2026 (phiên "đánh bóng #2" — sót cơ học + audit nội dung + SƠ ĐỒ)
 
