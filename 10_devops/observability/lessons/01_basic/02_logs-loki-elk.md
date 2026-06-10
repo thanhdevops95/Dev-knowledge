@@ -1,9 +1,9 @@
 # 🎓 Logs — Loki, ELK, structured logging
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Metrics with Prometheus](01_metrics-prometheus.md)
@@ -25,7 +25,7 @@
 
 ## 1️⃣ Structured vs Unstructured
 
-### Unstructured (traditional)
+### Unstructured (truyền thống)
 
 Log truyền thống là **text free-form** — chỉ con người đọc được, máy phải dùng regex để parse. OK cho debug local nhỏ, nhưng **không scale** cho production multi-service:
 
@@ -99,7 +99,7 @@ async def get_user(user_id: int, request: Request):
 
 **Loki** = OSS log aggregation, **label-based** (like Prometheus). Cheap, simple.
 
-### Architecture
+### Kiến trúc
 
 Loki dùng **3-tier**: agent (Promtail/Fluent Bit) tail log từ container → đẩy vào Loki backend → Grafana query. Khác Elasticsearch: Loki **chỉ index label**, không full-text — nên rẻ hơn 10×:
 
@@ -109,7 +109,7 @@ App container → Promtail/Fluent Bit (agent) → Loki → Grafana (query)
                   ↑ add labels
 ```
 
-### Vs Elasticsearch
+### So với Elasticsearch
 
 Loki và Elasticsearch là 2 triết lý khác nhau — Loki tối ưu cost, Elasticsearch tối ưu query speed full-text. Pick theo nhu cầu: production logs thường rẻ là ưu tiên → Loki:
 
@@ -123,7 +123,7 @@ Loki và Elasticsearch là 2 triết lý khác nhau — Loki tối ưu cost, Ela
 
 → **Loki philosophy**: "labels for find logs, then grep content".
 
-### Install (K8s)
+### Cài đặt (K8s)
 
 ```bash
 helm install loki grafana/loki-stack \
@@ -133,7 +133,7 @@ helm install loki grafana/loki-stack \
 
 → Loki + Promtail (agent on every node). Logs from all pods → Loki.
 
-### Label strategy (CRITICAL)
+### Chiến lược label (QUAN TRỌNG)
 
 ```yaml
 # Promtail scrape pod logs, add labels:
@@ -146,7 +146,7 @@ labels:
 
 → **Rule**: labels **bounded set** (<1000 unique combos). High-card data in log line, not label.
 
-### LogQL — Loki query language
+### LogQL — Ngôn ngữ truy vấn Loki
 
 ```logql
 # All logs from FastAPI in production
@@ -174,11 +174,11 @@ topk(10, sum by (user_id) (count_over_time({app="fastapi"} | json [1h])))
 
 ---
 
-## 3️⃣ Promtail / Fluent Bit / Vector — Agents
+## 3️⃣ Promtail / Fluent Bit / Vector — Các agent
 
 Agents = ship logs from source → log backend.
 
-### Promtail (Loki's default)
+### Promtail (mặc định của Loki)
 
 ```yaml
 # promtail-config.yml
@@ -206,7 +206,7 @@ scrape_configs:
 
 → Tail container logs, parse JSON, add labels, ship Loki.
 
-### Fluent Bit — Lightweight (CNCF)
+### Fluent Bit — Nhẹ (CNCF)
 
 ```yaml
 # fluent-bit.conf
@@ -229,7 +229,7 @@ scrape_configs:
 
 → Modern, transformations rich. Rust-based.
 
-### Compare
+### So sánh
 
 | Agent | Language | Notes |
 |---|---|---|
@@ -244,7 +244,7 @@ scrape_configs:
 
 ---
 
-## 4️⃣ ELK Stack — Full-text search
+## 4️⃣ ELK Stack — Tìm kiếm full-text
 
 **ELK** = **E**lasticsearch + **L**ogstash + **K**ibana.
 
@@ -252,7 +252,7 @@ scrape_configs:
 App logs → Filebeat → Logstash (parse/enrich) → Elasticsearch (index) → Kibana (UI)
 ```
 
-### Pros vs Loki
+### Ưu điểm so với Loki
 
 | Aspect | ELK | Loki |
 |---|---|---|
@@ -262,7 +262,7 @@ App logs → Filebeat → Logstash (parse/enrich) → Elasticsearch (index) → 
 | K8s native | OK | Better |
 | Ecosystem | Mature, plugins | Newer |
 
-### Quick install — Single node
+### Cài đặt nhanh — Single node
 
 ```bash
 docker run -d -p 9200:9200 -p 9300:9300 \
@@ -277,7 +277,7 @@ docker run -d -p 5601:5601 \
 
 → Kibana at `localhost:5601`. Filebeat ship logs.
 
-### Kibana KQL — Query
+### Kibana KQL — Truy vấn
 
 ```
 level: "ERROR"
@@ -289,7 +289,7 @@ NOT path: "/health"
 
 → Lucene/KQL syntax. Easier than LogQL for full-text.
 
-### When ELK vs Loki?
+### Khi nào ELK vs Loki?
 
 | Need | Choose |
 |---|---|
@@ -304,16 +304,16 @@ NOT path: "/health"
 
 ---
 
-## 5️⃣ Cost control — Logs = $$$$
+## 5️⃣ Kiểm soát cost — Logs = $$$$
 
-### Volume realities
+### Thực tế về volume
 
 ```
 Web app 10K users    → 10-50 GB/day
 Microservices 50svc  → 500 GB-1 TB/day
 ```
 
-### Datadog pricing 2026
+### Giá Datadog 2026
 
 ```
 Logs ingestion: $1.27/GB
@@ -325,7 +325,7 @@ Logs retention: $0.10/GB/month (15 days)
 
 → Bills shock startups. Strategies:
 
-### Strategy 1 — Drop noise
+### Chiến lược 1 — Drop noise
 
 ```yaml
 # Fluent Bit filter
@@ -338,7 +338,7 @@ Logs retention: $0.10/GB/month (15 days)
 
 → Health checks, metric scrapes = 90% noise. Drop.
 
-### Strategy 2 — Sample debug logs
+### Chiến lược 2 — Sample debug logs
 
 ```yaml
 [FILTER]
@@ -349,7 +349,7 @@ Logs retention: $0.10/GB/month (15 days)
 
 → Keep all ERROR/WARN. Sample 10% DEBUG.
 
-### Strategy 3 — Log level by env
+### Chiến lược 3 — Log level theo env
 
 ```python
 # Production
@@ -359,7 +359,7 @@ LOG_LEVEL = "INFO"        # Skip DEBUG
 LOG_LEVEL = "DEBUG"
 ```
 
-### Strategy 4 — Retention tiers
+### Chiến lược 4 — Retention tiers
 
 ```
 Hot:   3 days  (queryable, fast, expensive)
@@ -367,7 +367,7 @@ Warm:  7 days   (queryable, slower, cheap)
 Cold:  30 days  (S3 archive, restore if needed)
 ```
 
-### Strategy 5 — Avoid log explosion
+### Chiến lược 5 — Tránh log explosion
 
 ```python
 # ❌ Log per request
@@ -384,7 +384,7 @@ log.info(f"Response: {response.json()}")  # MB per request
 log.info("response_sent", size_bytes=len(body), status=200)
 ```
 
-### Strategy 6 — OSS self-host
+### Chiến lược 6 — OSS self-host
 
 ```
 Loki self-host on $100/mo VPS = unlimited logs storage S3
@@ -395,11 +395,11 @@ Vs Datadog $3,000/mo
 
 ---
 
-## 6️⃣ Log correlation — Request ID
+## 6️⃣ Tương quan log — Request ID
 
 Pass `request_id` qua services để correlate logs.
 
-### Generate at edge
+### Sinh ở edge
 
 ```python
 # FastAPI middleware
@@ -424,7 +424,7 @@ async def add_request_id(request: Request, call_next):
 {"request_id": "abc-123", "msg": "response sent", "status": 200}
 ```
 
-### Propagate downstream
+### Truyền xuống downstream
 
 ```python
 # Call other service
@@ -441,13 +441,13 @@ async with httpx.AsyncClient() as client:
 
 → Returns ALL logs across ALL services for this request. Magic.
 
-### OpenTelemetry approach
+### Cách tiếp cận OpenTelemetry
 
 OTel propagate **trace_id + span_id** automatically. Log with these = correlate logs ↔ traces. Best 2026 approach (xem [bài 03](03_traces-opentelemetry.md)).
 
 ---
 
-## 7️⃣ Log levels — Use correctly
+## 7️⃣ Log levels — Dùng đúng cách
 
 | Level | When |
 |---|---|
@@ -458,7 +458,7 @@ OTel propagate **trace_id + span_id** automatically. Log with these = correlate 
 | **ERROR** | Operation fail (caught exception) |
 | **FATAL** | App crash imminent |
 
-### Best practices
+### Best practice
 
 ```python
 # ✅ Good
@@ -472,7 +472,7 @@ log.info("DEBUG: checking user 42")        # Wrong level
 log.info(f"user={user_dict}")              # Don't dump PII
 ```
 
-### Sensitive data — Mask
+### Dữ liệu nhạy cảm — Mask
 
 ```python
 # ❌ Log password
@@ -486,7 +486,7 @@ log.info("login_attempt", username=u, password="***")
 
 ---
 
-## 8️⃣ Production setup — Stack của bạn
+## 8️⃣ Cài đặt production — Stack của bạn
 
 ```
 Pods → stdout → kubelet log file
@@ -498,7 +498,7 @@ Pods → stdout → kubelet log file
                  Grafana → ops team
 ```
 
-### Helm install
+### Cài đặt bằng Helm
 
 ```bash
 helm install loki grafana/loki-stack \
@@ -513,7 +513,7 @@ helm install loki grafana/loki-stack \
 
 → Loki ship chunks to S3 (cheap long-term). Local SSD = 24h hot cache.
 
-### Promtail config — Filter noise
+### Promtail config — Lọc noise
 
 ```yaml
 scrape_configs:
@@ -551,7 +551,7 @@ Panel 4: Live tail (specific request)
 
 ---
 
-## 9️⃣ Alerting on logs
+## 9️⃣ Alerting trên logs
 
 ```yaml
 # loki-rules.yml
@@ -709,3 +709,4 @@ ELK     Full-text + mature
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 3/5. Cover: structured vs unstructured + structlog FastAPI + Loki architecture + label strategy + LogQL queries + Elasticsearch/Vector alternative + cost control (retention, sampling, dedup).
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Unstructured + Structured + FastAPI structlog + §2 Loki Architecture + Vs Elasticsearch.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

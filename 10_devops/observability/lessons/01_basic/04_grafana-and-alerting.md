@@ -1,9 +1,9 @@
 # 🎓 Grafana & Alerting — Unified dashboard + alert routing
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Traces OTel](03_traces-opentelemetry.md)
@@ -23,11 +23,11 @@
 
 ---
 
-## 1️⃣ Grafana — Unified visualization
+## 1️⃣ Grafana — Visualization hợp nhất
 
 **Grafana** = OSS dashboard tool, support 100+ data sources.
 
-### Install K8s
+### Cài đặt K8s
 
 Cài Grafana đơn giản qua Helm chart `grafana/grafana`. Tham số bắt buộc cho production: `adminPassword` (thay đổi sau login đầu) + `persistence.enabled=true` (dashboard không mất khi Pod restart). Truy cập UI qua port-forward (dev) hoặc Ingress (prod):
 
@@ -59,7 +59,7 @@ Add via UI: Configuration → Data Sources → Add.
 
 ## 2️⃣ Dashboards + Panels
 
-### Anatomy
+### Giải phẫu
 
 Dashboard Grafana có cấu trúc 3 lớp: **Variables** (dropdown trên top — filter cả dashboard), **Time range** (cửa sổ thời gian — last 6h, 24h, custom), và **Panels** (mỗi panel = 1 query + 1 visualization). Layout grid 24 cột — kéo thả panel resize tuỳ ý:
 
@@ -78,7 +78,7 @@ Dashboard
     └── Table
 ```
 
-### Panel example — Latency
+### Ví dụ panel — Latency
 
 Ví dụ kinh điển: panel vẽ P99 latency theo service. Query dùng `histogram_quantile` trên metric `http_request_duration_seconds_bucket`. Visualization "Time series" hiển thị line chart, unit "seconds". Thresholds 0.5s vàng / 1.0s đỏ giúp đọc nhanh khi service nào sắp vượt ngưỡng SLO:
 
@@ -113,7 +113,7 @@ Variable: $service
 
 → Dropdown ở top dashboard. User pick service → all panels filter `{service="$service"}`.
 
-### Useful variables
+### Các variable hữu ích
 
 5 variable nên có trong mọi dashboard production. `$env` cho switch giữa dev/staging/prod, `$namespace` filter theo K8s namespace, `$service` chọn service, `$instance` cho deep-dive 1 pod, `$interval` cho phép user đổi rate window (đọc 1m chi tiết hoặc 30m smooth):
 
@@ -125,7 +125,7 @@ $instance    specific pod
 $interval    rate window (1m / 5m / 30m)
 ```
 
-### Importing pre-built dashboards
+### Import dashboard có sẵn
 
 ```
 Grafana → + → Import → grafana.com ID
@@ -156,11 +156,11 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 ---
 
-## 3️⃣ Grafana Alerting — Unified
+## 3️⃣ Grafana Alerting — Hợp nhất
 
 Grafana **Unified Alerting** (since v9) — rules + routing + notifications all in Grafana.
 
-### Architecture
+### Kiến trúc
 
 ```
 Data sources (Prometheus, Loki, ...)
@@ -174,7 +174,7 @@ Notification policy routes
 Contact point (Slack/PagerDuty/email)
 ```
 
-### Alert rule example
+### Ví dụ alert rule
 
 ```yaml
 # Via Grafana UI or YAML
@@ -200,7 +200,7 @@ annotations:
 
 → Eval every 1 min. Fire if condition true for 10 min straight.
 
-### Alert lifecycle
+### Vòng đời alert
 
 ```
 Normal   ─── condition true ───►   Pending (waiting "for" duration)
@@ -236,7 +236,7 @@ root:
       receiver: payment-team-pagerduty
 ```
 
-### Match rules
+### Luật match
 
 | Type | Example |
 |---|---|
@@ -256,7 +256,7 @@ root:
 | **Microsoft Teams** | Team chat |
 | **Telegram** | Personal alerts |
 
-### Slack example
+### Ví dụ Slack
 
 ```yaml
 contact_point:
@@ -279,7 +279,7 @@ contact_point:
 
 ## 5️⃣ Grouping + Inhibition + Silence
 
-### Grouping — Reduce alert spam
+### Grouping — Giảm alert spam
 
 ```yaml
 group_by: [alertname, cluster]
@@ -290,7 +290,7 @@ repeat_interval: 4h                        # Resend if still firing after 4h
 
 → 10 pods CrashLoop same time → 1 grouped notification. Else 10 alerts spam.
 
-### Inhibition — Suppress related
+### Inhibition — Nén alert liên quan
 
 ```yaml
 inhibit_rules:
@@ -303,7 +303,7 @@ inhibit_rules:
 
 → Critical alert fires → suppress warnings on same cluster/service. Reduce noise.
 
-### Silence — Temporarily disable
+### Silence — Tắt tạm thời
 
 ```
 Grafana UI → Alerting → Silences → New
@@ -322,7 +322,7 @@ Traditional: "error rate > 5%" — too late or too sensitive.
 
 **SLO burn rate** = "are we burning error budget faster than expected?"
 
-### Example: 99.9% SLO over 30 days
+### Ví dụ: 99.9% SLO over 30 days
 
 ```
 SLO: 99.9% success
@@ -366,16 +366,16 @@ If burn rate = 14.4 → consume 100% budget in 30 days/14.4 = 2 days! 🚨
 
 ---
 
-## 7️⃣ Alert quality — Avoid fatigue
+## 7️⃣ Alert quality — Tránh fatigue
 
-### Symptoms of bad alerts
+### Triệu chứng alert tồi
 
 - 🚨 100+ alerts/day → ignored.
 - 🚨 Alerts at 3 AM not actionable → burnout.
 - 🚨 Alert fires before user even notices → tune sensitivity.
 - 🚨 Page on every transient blip → flaky.
 
-### Principles
+### Nguyên tắc
 
 1. **Alert on symptoms, not causes**.
    - ❌ "CPU > 80%" (cause).
@@ -394,7 +394,7 @@ If burn rate = 14.4 → consume 100% budget in 30 days/14.4 = 2 days! 🚨
 
 5. **Inhibit + group** reduce volume.
 
-### Audit alerts
+### Audit alert
 
 ```promql
 # Count alerts fired in last 30 days
@@ -410,7 +410,7 @@ topk(10, ...)
 
 ## 8️⃣ On-call rotation
 
-### Setup PagerDuty / OpsGenie
+### Cài đặt PagerDuty / OpsGenie
 
 ```
 Team: Backend
@@ -427,7 +427,7 @@ Escalation:
 
 → Grafana → PagerDuty integration → auto-page on-call schedule.
 
-### Acknowledgment
+### Acknowledge (xác nhận)
 
 ```
 Alert fires → page on-call
@@ -439,7 +439,7 @@ Resolve → mark in PD + Slack
 Post-mortem within 48h
 ```
 
-### Slack workflow
+### Luồng Slack
 
 ```
 Channel #incidents:
@@ -456,7 +456,7 @@ Channel #incidents:
 
 ## 9️⃣ Incident response + Runbooks
 
-### Runbook template
+### Template runbook
 
 ```markdown
 # Runbook: HighErrorRate on Payment Service
@@ -493,7 +493,7 @@ Channel #incidents:
 
 → Each alert linked to runbook. On-call doesn't think — execute.
 
-### Post-mortem template
+### Template post-mortem
 
 ```markdown
 # Post-mortem: Payment outage 2026-05-22
@@ -527,9 +527,9 @@ Channel #incidents:
 
 ---
 
-## 1️⃣0️⃣ Full setup của bạn
+## 1️⃣0️⃣ Cài đặt đầy đủ của bạn
 
-### Dashboards (4 mandatory)
+### Dashboards (4 cái bắt buộc)
 
 ```
 1. Service Overview (FastAPI RED + USE)
@@ -553,7 +553,7 @@ Channel #incidents:
    - Burn rate alerts
 ```
 
-### Alert rules (start with 8)
+### Alert rules (bắt đầu với 8 cái)
 
 ```
 Critical:
@@ -577,7 +577,7 @@ Warning  → Slack #ops (business hours)
 Info     → Slack #ops-info (silent)
 ```
 
-### Tooling
+### Công cụ
 
 ```
 Grafana (dashboards + alerts)
@@ -732,3 +732,4 @@ Info     → Slack info channel
 
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install K8s + Anatomy + Panel example Latency + Variables template + Useful variables.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Observability sprint #5.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

@@ -1,9 +1,9 @@
 # 🎓 Metrics with Prometheus — De-facto metrics tool
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is Observability](00_what-is-observability.md)
@@ -32,7 +32,7 @@
 - **PromQL** — powerful query language.
 - **Alertmanager** — alert routing/grouping.
 
-### Architecture
+### Kiến trúc
 
 Prometheus có 4 thành phần xoay quanh **TSDB local** (lưu time-series). **Retrieval** scrape `/metrics` endpoint từ app/exporter mỗi 15s; **PromQL engine** trả lời query qua HTTP API; **rule evaluator** chạy alert rule + đẩy alert vào **Alertmanager**; Alertmanager group/route ra Slack, Email, PagerDuty:
 
@@ -55,7 +55,7 @@ Prometheus có 4 thành phần xoay quanh **TSDB local** (lưu time-series). **R
 └─────────────────────────┘
 ```
 
-### Pull vs Push (debate)
+### Pull vs Push (tranh luận)
 
 **Prometheus pull**:
 - ✅ Server controls scrape interval.
@@ -74,7 +74,7 @@ Prometheus có 4 thành phần xoay quanh **TSDB local** (lưu time-series). **R
 
 ---
 
-## 2️⃣ Data model — Metrics anatomy
+## 2️⃣ Mô hình dữ liệu — Giải phẫu metric
 
 Mỗi metric Prometheus có 3 phần: **tên** (`http_requests_total`), **labels** (key=value cho dimensions), và **value** (số tại 1 thời điểm). Bộ ba này tạo thành 1 *time-series* — chuỗi value theo thời gian. Anatomy đơn giản nhưng linh hoạt: chỉ cần thay đổi labels là tạo series mới:
 
@@ -129,7 +129,7 @@ http_requests_total{method, path, status}   # ~50 combinations
 
 ## 3️⃣ 4 Metric types
 
-### 1. Counter — Monotonic increasing
+### 1. Counter — Tăng đơn điệu
 
 ```
 http_requests_total  (1, 2, 3, ..., 12345, 12346)
@@ -148,7 +148,7 @@ rate(http_requests_total[5m])
 increase(http_requests_total[1h])
 ```
 
-### 2. Gauge — Up and down
+### 2. Gauge — Lên xuống
 
 ```
 memory_usage_bytes
@@ -171,7 +171,7 @@ avg_over_time(cpu_usage_percent[5m])
 max_over_time(queue_depth[1h])
 ```
 
-### 3. Histogram — Distribution of values
+### 3. Histogram — Phân phối giá trị
 
 ```
 http_request_duration_seconds_bucket{le="0.1"}   → 845
@@ -192,7 +192,7 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m])
 ```
 
-### 4. Summary — Pre-calculated quantiles
+### 4. Summary — Quantile tính sẵn
 
 ```
 http_request_duration_seconds{quantile="0.5"}   → 0.05
@@ -207,9 +207,9 @@ http_request_duration_seconds{quantile="0.99"}  → 1.10
 
 ---
 
-## 4️⃣ Install + Scrape config
+## 4️⃣ Cài đặt + Scrape config
 
-### Install — Docker
+### Cài đặt — Docker
 
 ```bash
 docker run -d --name prometheus \
@@ -262,13 +262,13 @@ memory_usage_bytes 512000000
 
 ## 5️⃣ Instrument FastAPI
 
-### Install
+### Cài đặt
 
 ```bash
 pip install prometheus-fastapi-instrumentator
 ```
 
-### App code
+### Code app
 
 ```python
 from fastapi import FastAPI
@@ -284,7 +284,7 @@ Instrumentator().instrument(app).expose(app)
 # ...
 ```
 
-### Custom metrics
+### Metric tùy chỉnh
 
 ```python
 from prometheus_client import Counter, Gauge, Histogram
@@ -314,7 +314,7 @@ async def create_order(order: OrderCreate):
     return result
 ```
 
-### Verify
+### Kiểm tra
 
 ```bash
 curl http://localhost:8000/metrics
@@ -327,7 +327,7 @@ curl http://localhost:8000/metrics
 
 ---
 
-## 6️⃣ PromQL — Query language
+## 6️⃣ PromQL — Ngôn ngữ truy vấn
 
 ### Selectors
 
@@ -364,7 +364,7 @@ min(disk_free_bytes)
 topk(5, http_requests_total)
 ```
 
-### Rate functions
+### Các hàm rate
 
 ```promql
 # Per-second rate (counter)
@@ -396,7 +396,7 @@ histogram_quantile(
 )
 ```
 
-### Math operators
+### Toán tử toán học
 
 ```promql
 # Error rate %
@@ -407,7 +407,7 @@ histogram_quantile(
 100 * (node_filesystem_free_bytes / node_filesystem_size_bytes)
 ```
 
-### Common queries
+### Các truy vấn thường gặp
 
 ```promql
 # RPS by endpoint
@@ -433,7 +433,7 @@ increase(kube_pod_container_status_restarts_total[1h]) > 0
 
 ---
 
-## 7️⃣ Exporters — Pre-built for everything
+## 7️⃣ Exporters — Có sẵn cho mọi thứ
 
 **Exporter** = service expose `/metrics` cho non-Prometheus apps.
 
@@ -451,7 +451,7 @@ increase(kube_pod_container_status_restarts_total[1h]) > 0
 
 → 200+ official + community. Install + scrape.
 
-### Install node-exporter
+### Cài node-exporter
 
 ```bash
 docker run -d --name node-exporter \
@@ -472,7 +472,7 @@ scrape_configs:
 
 → Hundreds of metrics: `node_cpu_seconds_total`, `node_memory_MemFree_bytes`, `node_filesystem_free_bytes`, ...
 
-### Blackbox-exporter — Uptime monitoring
+### Blackbox-exporter — Giám sát uptime
 
 ```yaml
 scrape_configs:
@@ -534,7 +534,7 @@ metadata:
 
 → Pods auto-scrape. New pod = auto-added. Pod gone = auto-removed.
 
-### Use kube-prometheus-stack instead
+### Dùng kube-prometheus-stack thay thế
 
 ```bash
 helm install monitoring prometheus-community/kube-prometheus-stack \
@@ -566,7 +566,7 @@ spec:
 
 ## 9️⃣ Federation + Remote write
 
-### Federation — Hierarchical Prometheus
+### Federation — Prometheus phân cấp
 
 ```
 Global Prometheus
@@ -578,7 +578,7 @@ Regional Prometheus 2 ────► local apps
 
 → Scale: 50K targets/Prometheus. Federate aggregates.
 
-### Remote write — Long-term storage
+### Remote write — Lưu trữ dài hạn
 
 Prometheus local retention 15 days default. **Long-term**:
 
@@ -591,7 +591,7 @@ remote_write:
 
 → Ship metrics to **Thanos**, **Mimir**, **Cortex**, **Grafana Cloud**, **VictoriaMetrics**.
 
-### Long-term storage tools
+### Tools lưu trữ dài hạn
 
 | Tool | Notes |
 |---|---|
@@ -798,3 +798,4 @@ blackbox-exporter     URL uptime
 
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Architecture + §2 Data model + Time-series + Labels + Cardinality control.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Observability sprint #2.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

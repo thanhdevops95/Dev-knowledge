@@ -1,9 +1,9 @@
 # 🎓 Observability là gì? — 3 pillars + monitoring landscape
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Kubernetes basics](../../../kubernetes/), [HTTP](../../../../05_networking/http-https/)
@@ -23,7 +23,7 @@
 
 ---
 
-## Tình huống — Bạn deploy production crash, không biết tại sao
+## Tình huống — Bạn deploy production crash, không biết vì sao
 
 Bạn deploy FastAPI lên K8s. Pod restart liên tục.
 
@@ -78,7 +78,7 @@ Senior:
 
 ## 2️⃣ 3 Pillars — Metrics, Logs, Traces
 
-### Pillar 1 — **Metrics** (số đo theo time)
+### Pillar 1 — **Metrics** (số đo theo thời gian)
 
 Metrics là **số liệu numeric** thay đổi theo thời gian — CPU, RPS, error rate, latency. Pre-aggregated, low storage, query nhanh. Đây là dashboards + alerts truyền thống dựa trên:
 
@@ -117,7 +117,7 @@ Logs là **detail events** từng phút từng giây — what happened, when. Tr
 
 **Tools**: **Loki**, ELK (Elasticsearch+Logstash+Kibana), Splunk, Datadog Logs, CloudWatch.
 
-### Pillar 3 — **Traces** (request flow)
+### Pillar 3 — **Traces** (luồng request)
 
 Traces theo dõi 1 request **xuyên qua nhiều service** — root cause cho latency. Particularly critical cho microservices nơi 1 request đi qua 5-20 service. Ví dụ tracing 1 request:
 
@@ -213,9 +213,9 @@ If budget burned → freeze deploys, focus stability.
 
 ---
 
-## 4️⃣ Landscape 2026 — Tools
+## 4️⃣ Bối cảnh 2026 — Tools
 
-### OSS stack (recommended)
+### OSS stack (khuyến nghị)
 
 | Tool | Pillar | Notes |
 |---|---|---|
@@ -229,7 +229,7 @@ If budget burned → freeze deploys, focus stability.
 
 → **Grafana stack** ("LGTM": Loki + Grafana + Tempo + Mimir) = OSS modern default.
 
-### Commercial SaaS
+### SaaS thương mại
 
 | Tool | Pricing | Notes |
 |---|---|---|
@@ -249,7 +249,7 @@ If budget burned → freeze deploys, focus stability.
 | GCP | Cloud Monitoring + Cloud Logging + Cloud Trace |
 | Azure | Azure Monitor + Application Insights |
 
-### Choose tools
+### Chọn tools
 
 | Scenario | Stack |
 |---|---|
@@ -280,7 +280,7 @@ SQLAlchemyInstrumentor().instrument(engine=engine)
 # Trace context auto-propagated. Spans created. Export to OTel Collector.
 ```
 
-### Components
+### Các thành phần
 
 ```
 App → OTel SDK → OTel Collector → Vendor (Datadog | Prometheus | Tempo | ...)
@@ -306,7 +306,7 @@ opentelemetry-instrument python app.py
 
 → Zero code change. Captures FastAPI/Flask, DB drivers, HTTP libs, Redis, etc.
 
-### OTel adoption 2026
+### Mức độ phổ biến OTel 2026
 
 - ✅ CNCF graduated (2024).
 - ✅ Replacing OpenTracing + OpenCensus.
@@ -335,7 +335,7 @@ opentelemetry-instrument python app.py
 - 10% sample rate common.
 - Tempo/Jaeger: ~$0.10 / GB.
 
-### Strategies cost control
+### Chiến lược kiểm soát cost
 
 | Strategy | Impact |
 |---|---|
@@ -353,7 +353,7 @@ opentelemetry-instrument python app.py
 
 ## 7️⃣ Patterns — USE / RED / Four Golden Signals
 
-### Brendan Gregg — USE method (resources)
+### Brendan Gregg — USE method (tài nguyên)
 
 For each resource (CPU, RAM, disk, network):
 
@@ -365,7 +365,7 @@ For each resource (CPU, RAM, disk, network):
 
 → E.g., **CPU**: util 80% / sat (load avg) 5 / errors (none typically) = degraded.
 
-### Tom Wilkie — RED method (services)
+### Tom Wilkie — RED method (service)
 
 For each service:
 
@@ -388,7 +388,7 @@ For each service:
 
 → Combination of RED + USE. **Industry standard**.
 
-### Use in dashboards
+### Dùng trong dashboard
 
 ```
 Dashboard layout:
@@ -404,7 +404,7 @@ Dashboard layout:
 
 ## 8️⃣ Cài observability stack
 
-### Quick start (Kind cluster)
+### Bắt đầu nhanh (Kind cluster)
 
 ```bash
 # Install kube-prometheus-stack (Prometheus + Grafana + Alertmanager)
@@ -426,7 +426,7 @@ kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80
 
 → Open `http://localhost:3000` → Grafana. Pre-built dashboards (K8s cluster, nodes, pods).
 
-### Verify metrics flowing
+### Kiểm tra metric đang chảy
 
 ```
 Grafana → Explore → Prometheus →
@@ -434,7 +434,7 @@ Grafana → Explore → Prometheus →
    → graph showing pod count over time
 ```
 
-### Verify logs
+### Kiểm tra logs
 
 ```
 Grafana → Explore → Loki →
@@ -448,19 +448,19 @@ Grafana → Explore → Loki →
 
 ## 9️⃣ Stack decision của bạn
 
-### Current — Solo dev, kind cluster
+### Hiện tại — Solo dev, kind cluster
 
 - Prometheus + Grafana (metrics + dashboards).
 - Loki (logs).
 - **Skip traces** — overkill for 1 service.
 
-### Future — 10 users, prod K8s
+### Tương lai — 10 users, prod K8s
 
 - Prometheus + Grafana + Loki + Tempo.
 - OTel instrument FastAPI.
 - 4 dashboards (FastAPI RED, Postgres, K8s, business).
 
-### Future — 100 users, distributed system
+### Tương lai — 100 users, distributed system
 
 - Datadog hoặc Honeycomb (SaaS, save ops).
 - OTel everywhere.
@@ -594,3 +594,4 @@ Error budget = SLO - actual
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 1/5. Cover: monitoring vs observability + 3 pillars (Metrics/Logs/Traces) + SLI/SLO/SLA + error budget + tool stack 2026 (Prometheus/Loki/OTel/Grafana).
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Monitoring vs Observability + §2 3 Pillars (Metrics + Logs + Traces) + Tổng kết.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

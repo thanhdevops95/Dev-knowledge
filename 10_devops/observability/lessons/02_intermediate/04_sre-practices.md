@@ -1,9 +1,9 @@
 # 🎓 SRE practices — SLO + Error budget + Postmortem + On-call
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md), basic obs cluster done
@@ -43,9 +43,9 @@ Sếp: *"Apply SRE practices. Read Google SRE book + workbook. Bài 04 dạy."*
 
 ---
 
-## 1️⃣ SLI / SLO / SLA — Foundation
+## 1️⃣ SLI / SLO / SLA — Nền tảng
 
-### Definitions
+### Định nghĩa
 
 **SLI (Service Level Indicator)**: quantitative measure of aspect of service.
 - "% of HTTP requests served < 500ms".
@@ -61,7 +61,7 @@ Sếp: *"Apply SRE practices. Read Google SRE book + workbook. Bài 04 dạy."*
 
 Hierarchy: SLA = SLO + customer contract. SLO ≥ SLA (internal target stricter than promise).
 
-### Choose SLI
+### Chọn SLI
 
 Categories:
 - **Availability**: % success requests.
@@ -73,7 +73,7 @@ Categories:
 
 User-facing SLIs > infrastructure SLIs. User cares about success/latency, not CPU%.
 
-### Choose SLO target
+### Chọn SLO target
 
 SLO target ("3 nines, 4 nines, 5 nines") quyết định cost + complexity. Mỗi "9" thêm tăng cost ~10x. Bảng dưới mapping downtime budget với SLO + recommendation cho từng business type:
 
@@ -88,7 +88,7 @@ SLO target ("3 nines, 4 nines, 5 nines") quyết định cost + complexity. Mỗ
 
 🪞 **Ẩn dụ**: *Mỗi "9" thêm khoảng 10x cost. 99% → 99.9% = simple HA. 99.9% → 99.99% = multi-region active-active. 99.99% → 99.999% = + redundancy infra + custom hardware + military-grade ops.*
 
-### Don't aim 100%
+### Đừng nhắm 100%
 
 **Why not 100%**:
 - Cost rises exponentially (10x per "9").
@@ -97,7 +97,7 @@ SLO target ("3 nines, 4 nines, 5 nines") quyết định cost + complexity. Mỗ
 
 → **Aim "good enough"**. Most B2B SaaS: 99.9%. E-commerce: 99.95%. Mission-critical: 99.99%.
 
-### SLI definition examples
+### Ví dụ định nghĩa SLI
 
 **FastAPI availability SLI**:
 ```promql
@@ -114,7 +114,7 @@ sum(rate(http_request_duration_seconds_bucket{le="0.5", service="fastapi"}[28d])
 sum(rate(http_request_duration_seconds_count{service="fastapi"}[28d]))
 ```
 
-### Define SLO as code
+### Định nghĩa SLO as code
 
 OpenSLO format:
 ```yaml
@@ -160,7 +160,7 @@ Tools generate alerts:
 
 ## 2️⃣ Error budget
 
-### Concept
+### Khái niệm
 
 **Error budget** = 100% - SLO = allowed "bad" share.
 
@@ -189,7 +189,7 @@ Example:
 - Actual error rate last 5min: 1.44%.
 - Burn rate = 1.44% / 0.1% = **14.4x**.
 
-### Budget consumption alert (Google SRE pattern)
+### Alert tiêu thụ budget (mẫu Google SRE)
 
 (Recall lesson 01)
 
@@ -226,14 +226,14 @@ Error budget policy:
 
 → **Enforced**, not advisory. ArgoCD/CI integration: deploy gated by budget API.
 
-### Why error budget is genius
+### Vì sao error budget thiên tài
 
 1. **Common language**: dev + SRE align on "how much can we afford to break".
 2. **Velocity-reliability trade-off explicit**: budget left = ship. Budget burned = stabilize.
 3. **No blame**: budget exists to be spent. Failures expected.
 4. **Forces tooling discipline**: if budget low, can't deploy without canary + rollback ready.
 
-### Compute budget in Prometheus
+### Tính budget trong Prometheus
 
 Để tính error budget cụ thể, dùng PromQL query lấy success rate trong window 28 ngày + so với SLO target. Hiển thị dashboard Grafana cho team:
 
@@ -258,7 +258,7 @@ Grafana dashboard panel:
 
 ## 3️⃣ Blameless postmortem
 
-### Why blameless?
+### Vì sao blameless?
 
 After incident, ask "Why?" 5 times → reach **system + process failure**, not individual.
 
@@ -273,7 +273,7 @@ After incident, ask "Why?" 5 times → reach **system + process failure**, not i
 
 → Improve **system**, not punish person.
 
-### Postmortem template
+### Template postmortem
 
 Template chuẩn cho blameless postmortem — 8 section (TL;DR, Impact, Timeline, Root cause, What went well/wrong, Action items, Lessons learned). Dùng cho mọi SEV-1/2 incident:
 
@@ -370,7 +370,7 @@ Detailed analysis. Use "5 whys" or fishbone.
 - Slack thread: https://acme.slack.com/...
 ```
 
-### Postmortem review meeting
+### Họp review postmortem
 
 - **Within 1 week** of incident.
 - All involved + impact area.
@@ -378,7 +378,7 @@ Detailed analysis. Use "5 whys" or fishbone.
 - Meeting: focus on action items, blockers.
 - **No blame**. Facilitator interrupt blame.
 
-### Tracking action items
+### Theo dõi action items
 
 Every action item → ticket (Jira/Linear) with:
 - Owner.
@@ -392,16 +392,16 @@ Weekly review: status of all open postmortem action items.
 
 ---
 
-## 4️⃣ On-call rotation patterns
+## 4️⃣ Các mẫu on-call rotation
 
-### Goals of on-call
+### Mục tiêu của on-call
 
 1. **Service reliability**: respond to alerts quickly.
 2. **Sustainability**: SRE not burn out.
 3. **Learning**: rotating expose more people to production.
 4. **Process improvement**: each on-call surface gaps.
 
-### Rotation models
+### Các mô hình rotation
 
 **Follow-the-sun** (global team):
 - US-West (9am-5pm PT) → US-East → EU → APAC → US-West.
@@ -418,7 +418,7 @@ Weekly review: status of all open postmortem action items.
 - Time off: 2-3 weeks before next.
 - Bay area / Vietnam often have this.
 
-### Schedule
+### Lịch trực (schedule)
 
 ```
 Week 1: Nguyen Van A (primary), Le Van B (secondary)
@@ -429,7 +429,7 @@ Week 4: Dan (primary), Nguyen Van A (secondary)
 
 → Rotate 4-week cycle. 4 people minimum. 6+ better for less pressure.
 
-### Hand-off
+### Bàn giao (hand-off)
 
 End of week, current on-call → next on-call:
 - Active incidents.
@@ -439,7 +439,7 @@ End of week, current on-call → next on-call:
 
 15-30 min meeting. Documented in handover doc.
 
-### Compensation
+### Đãi ngộ (compensation)
 
 - **Overtime pay**: 1-1.5x regular pay for on-call hours.
 - **Time off**: 1 day after page-heavy week.
@@ -448,7 +448,7 @@ End of week, current on-call → next on-call:
 
 → Burnout prevention. SREs don't quit if compensated.
 
-### Alert hygiene metrics
+### Metric vệ sinh alert
 
 Track per on-call:
 - # alerts (target: < 5/week).
@@ -462,7 +462,7 @@ Weekly review:
 - Repeat alerts → automate.
 - False positives → silence/delete.
 
-### Runbook automation
+### Tự động hoá runbook
 
 Every alert → runbook URL in annotation:
 ```
@@ -506,7 +506,7 @@ If can't resolve in 30 min:
 
 → Runbook = institutional knowledge. Reduce on-call cognitive load.
 
-### Incident command (severe incidents)
+### Incident command (sự cố nghiêm trọng)
 
 For SEV-1 (major outage):
 - **Incident Commander (IC)**: coordinator. Not technical investigator.
@@ -523,7 +523,7 @@ Tools:
 
 ## 5️⃣ Toil reduction
 
-### What's toil?
+### Toil là gì?
 
 Per Google SRE book:
 > **Toil** = manual, repetitive, automatable, tactical (no enduring value) ops work.
@@ -538,13 +538,13 @@ Examples:
 - Investigating novel incident (not repetitive).
 - Architecting new system (strategic).
 
-### 50% rule (Google)
+### Quy tắc 50% (Google)
 
 Aim: < 50% SRE time on toil. > 50% on engineering (automation, projects).
 
 If toil > 50% → hire more, or automate.
 
-### Toil reduction examples
+### Ví dụ giảm toil
 
 **Manual cert renewal** → cert-manager auto.
 **Manual DB credential rotation** → Vault dynamic credentials.
@@ -553,7 +553,7 @@ If toil > 50% → hire more, or automate.
 **Manual SQL migration** → automated tools (Flyway, Liquibase).
 **Manual pod restart on memory leak** → fix memory leak (root cause).
 
-### Toil log
+### Nhật ký toil
 
 Each on-call week: log toil tasks done. Quarterly:
 - Top toil → automate.
@@ -563,9 +563,9 @@ Each on-call week: log toil tasks done. Quarterly:
 
 ---
 
-## 6️⃣ Chaos engineering intro
+## 6️⃣ Giới thiệu chaos engineering
 
-### Concept
+### Khái niệm
 
 **Chaos engineering** = inject failures into production-like system → discover weaknesses before they cause real incident.
 
@@ -579,14 +579,14 @@ Quarterly exercise:
 - Observe: monitor SLOs.
 - Result: pass/fail → action items.
 
-### Tools
+### Công cụ
 
 - **Chaos Mesh** (CNCF): K8s-native chaos.
 - **Litmus**: K8s chaos.
 - **Gremlin**: commercial.
 - **AWS Fault Injection Simulator**: AWS native.
 
-### Common chaos scenarios
+### Các kịch bản chaos thường gặp
 
 1. **Pod kill**: random pod termination → test HPA, rolling update.
 2. **Network partition**: between services → test retry, circuit breaker.
@@ -595,7 +595,7 @@ Quarterly exercise:
 5. **Disk full**: test alerting + cleanup.
 6. **Latency injection**: 1s delay → test timeout config.
 
-### Adopting chaos engineering
+### Áp dụng chaos engineering
 
 **Maturity tiers**:
 1. **Pre-production only**: dev/staging chaos.
@@ -607,9 +607,9 @@ Quarterly exercise:
 
 ---
 
-## 7️⃣ Reliability culture
+## 7️⃣ Văn hoá reliability
 
-### Pillars
+### Các trụ cột
 
 1. **Embrace risk**: 100% reliability impossible. Aim "good enough", spend savings on velocity.
 2. **Postmortem culture**: every incident learning opportunity. Blameless.
@@ -617,7 +617,7 @@ Quarterly exercise:
 4. **Service ownership**: dev team responsible for production behavior, not "throw over wall to ops".
 5. **Investment in reliability**: budget time/people. Reliability is feature.
 
-### Reliability metrics dashboard
+### Dashboard metric reliability
 
 Engineering org-level dashboard:
 - SLO compliance per service.
@@ -639,7 +639,7 @@ Annual State of DevOps Report (Google):
 
 → Aim "Elite" or "High" via SRE practices.
 
-### Incident response playbook (high-level)
+### Playbook incident response (tổng quan)
 
 ```
 Detect → Acknowledge → Investigate → Mitigate → Resolve → Postmortem
@@ -658,9 +658,9 @@ Each step has SLA:
 
 ---
 
-## 8️⃣ Hands-on: Setup SLO + budget alert + dashboard
+## 8️⃣ Hands-on: Cài đặt SLO + budget alert + dashboard
 
-### Step 1: Define SLO with Sloth
+### Bước 1: Định nghĩa SLO với Sloth
 
 ```bash
 # Install Sloth
@@ -707,7 +707,7 @@ slos:
       ...
 ```
 
-### Step 2: Generate Prometheus rules
+### Bước 2: Sinh Prometheus rules
 
 ```bash
 sloth generate -i fastapi-slo.yaml -o fastapi-rules.yaml
@@ -715,7 +715,7 @@ sloth generate -i fastapi-slo.yaml -o fastapi-rules.yaml
 
 Output: Prometheus rules with multi-window burn rate alerts auto-generated.
 
-### Step 3: Apply
+### Bước 3: Apply
 
 ```bash
 kubectl create configmap fastapi-slo-rules \
@@ -723,7 +723,7 @@ kubectl create configmap fastapi-slo-rules \
   -n monitoring
 ```
 
-### Step 4: Grafana dashboard
+### Bước 4: Grafana dashboard
 
 Use Sloth's pre-built Grafana dashboard:
 - Budget remaining gauge.
@@ -732,7 +732,7 @@ Use Sloth's pre-built Grafana dashboard:
 
 Or import [SLO dashboard template](https://grafana.com/grafana/dashboards/14348).
 
-### Step 5: Verify alerts
+### Bước 5: Kiểm chứng alert
 
 ```bash
 kubectl get prometheusrule fastapi-slo -n monitoring
@@ -752,7 +752,7 @@ done
 
 → Alert fires within 2-5 min. Verify Slack/PagerDuty receive.
 
-### Step 6: Error budget policy enforcement
+### Bước 6: Thực thi error budget policy
 
 CI integration:
 ```yaml
@@ -1203,3 +1203,4 @@ overrides:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 cuối Obs intermediate + cuối DevOps intermediate sprint. SLI/SLO/SLA definition + error budget compute + multi-window burn rate alert + error budget policy enforcement + blameless postmortem template (5 whys) + on-call sustainable rotation patterns + toil reduction (50% rule) + chaos engineering intro + DORA metrics. Apply Google SRE Book principles. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Choose SLO target + Compute budget Prometheus + Postmortem template + Impact + Timeline.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
