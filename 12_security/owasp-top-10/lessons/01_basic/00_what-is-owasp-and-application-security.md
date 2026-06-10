@@ -1,9 +1,9 @@
 # 🛡️ OWASP Top 10 + Application Security cơ bản
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã viết được app web cơ bản (FastAPI hoặc Node), hiểu HTTP request/response
@@ -58,7 +58,7 @@ Bạn ngợp:
 
 Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái phổ biến nhất** chiếm > 80% sự cố thật. Top 10 là **prioritization framework** — fix 10 trước, sau đó mới quan tâm 11+.
 
-### Releases history
+### Lịch sử các bản phát hành
 
 | Year | Notable changes |
 |---|---|
@@ -96,7 +96,7 @@ Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái ph
 >
 > Ngoài ra **SSRF không còn là category riêng** — nó được **gộp vào A01 Broken Access Control** (SSRF bản chất là server bị ép truy cập tài nguyên ngoài quyền hạn).
 
-### Mapping 2021 ↔ 2025
+### Đối chiếu 2021 ↔ 2025
 
 | 2021 | 2025 | Ghi chú |
 |---|---|---|
@@ -112,7 +112,7 @@ Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái ph
 | A10 Server-Side Request Forgery (SSRF) | *(gộp vào A01)* | Không còn category riêng |
 | *(không có)* | **A10** Mishandling of Exceptional Conditions | Category MỚI |
 
-### Real-world examples
+### Ví dụ thực tế
 
 | Vuln (2025) | Famous incident |
 |---|---|
@@ -136,7 +136,7 @@ Cộng đồng dev không cần biết 500 vulnerability — biết **10 cái ph
 
 🪞 **Ẩn dụ**: *Threat modeling như **kế hoạch chống trộm nhà**: STRIDE là **6 loại trộm có thể vào** (cửa chính, cửa sổ, trèo tường, ...); DREAD là **chấm điểm độ nguy hiểm** từng kẻ trộm (vào dễ không, gây thiệt hại bao nhiêu).*
 
-### STRIDE — 6 categories Microsoft 1999
+### STRIDE — 6 nhóm mối đe doạ (Microsoft 1999)
 
 | Letter | Threat | Ví dụ |
 |---|---|---|
@@ -161,7 +161,7 @@ flowchart LR
 
 Nhìn theo cách này, STRIDE chính là mặt trái của 6 thuộc tính bảo mật cần bảo vệ — chống lại mối đe doạ nào tức là củng cố thuộc tính tương ứng.
 
-### DREAD scoring — 5 dimensions
+### Chấm điểm DREAD — 5 chiều
 
 | Letter | Question | Scale |
 |---|---|---|
@@ -173,7 +173,7 @@ Nhìn theo cách này, STRIDE chính là mặt trái của 6 thuộc tính bảo
 
 → Risk score = trung bình. Score > 7 → Critical, > 5 → High, > 3 → Medium.
 
-### Threat modeling workflow
+### Quy trình threat modeling
 
 ```
 1. Inventory: liệt kê asset (user data, API, DB, ...)
@@ -184,7 +184,7 @@ Nhìn theo cách này, STRIDE chính là mặt trái của 6 thuộc tính bảo
 6. Validate: review periodic + sau major change
 ```
 
-### Tool
+### Công cụ
 
 - **OWASP Threat Dragon** (free, web-based)
 - **Microsoft Threat Modeling Tool** (free Windows)
@@ -197,7 +197,7 @@ Nhìn theo cách này, STRIDE chính là mặt trái của 6 thuộc tính bảo
 
 🪞 **Ẩn dụ**: *Defense-in-Depth như **lớp phòng thủ thành cổ** — hào nước + tường thành + cửa sắt + lính gác + thư phòng vua đều khóa. Hacker vượt 1 lớp vẫn còn 4 lớp. Single-layer là **chỉ có 1 cánh cửa** — đột nhập 1 lần là vào.*
 
-### Anti-pattern: single-layer
+### Anti-pattern (cách làm sai): single-layer
 
 ```
 Internet → Firewall → App → DB
@@ -206,7 +206,7 @@ Internet → Firewall → App → DB
 
 Nếu firewall bypass → app naked → DB exposed.
 
-### Pattern: defense-in-depth (5+ lớp)
+### Cách làm đúng: defense-in-depth (5+ lớp)
 
 ```
 Internet
@@ -222,7 +222,7 @@ Internet
 
 → 8 lớp. Hacker phải bypass nhiều lớp.
 
-### Principles cốt lõi
+### Nguyên tắc cốt lõi
 
 | Principle | Mô tả |
 |---|---|
@@ -289,7 +289,7 @@ OWASP không chỉ có 1 Top 10. **Web Top 10** là phổ biến nhất, nhưng 
 
 🪞 **Ẩn dụ**: *Security mindset như **bác sĩ ER**: không hỏi "có bệnh không", mà hỏi "**bệnh gì**". Hacker assume bạn đã có vuln; bạn assume hacker sẽ tìm thấy. Câu hỏi đúng: "**bao lâu mới phát hiện**" + "**ngăn đến đâu được**".*
 
-### Mindset shift
+### Thay đổi tư duy
 
 | Mindset cũ | Mindset mới (2026) |
 |---|---|
@@ -312,7 +312,7 @@ Plan → Design → Develop → Build → Test → Deploy → Operate
 
 → Bug security tìm sớm rẻ 100x so với fix sau prod.
 
-### Cost of bug — Theo IBM 2024 report
+### Chi phí của bug — Theo report IBM 2024
 
 | Stage detect | Cost relative |
 |---|---|
@@ -387,7 +387,7 @@ graph LR
 
 Áp STRIDE + DREAD cho luồng checkout, tạo threat list + priority.
 
-### Bước 1 — Asset inventory
+### Bước 1 — Kiểm kê tài sản (asset inventory)
 
 ```
 - User account (email, hashed password, address)
@@ -397,7 +397,7 @@ graph LR
 - Admin panel (manage products, view all orders)
 ```
 
-### Bước 2 — Data flow diagram (DFD)
+### Bước 2 — Sơ đồ luồng dữ liệu (DFD)
 
 ```mermaid
 graph LR
@@ -409,7 +409,7 @@ graph LR
     Queue --> Worker[Worker: send email]
 ```
 
-### Bước 3 — STRIDE per flow
+### Bước 3 — STRIDE cho mỗi luồng
 
 **Flow User → API** (POST /checkout):
 
@@ -421,11 +421,11 @@ graph LR
 | **D**oS | Bot spam checkout | D5 R9 E8 A4 D8 = 6.8 | Rate limit per user, Turnstile, WAF |
 | **E**lev | Modify `is_admin` field | D10 R6 E5 A9 D5 = 7.0 | Server-side authorization check |
 
-### Bước 4 — Prioritize
+### Bước 4 — Ưu tiên
 
 Threats score > 7 (Critical): **Tamper cart price**, **Elevate is_admin**.
 
-### Bước 5 — Implement mitigations + verify
+### Bước 5 — Triển khai mitigation + kiểm chứng
 
 ```python
 # Anti-pattern: trust client
@@ -579,5 +579,6 @@ def checkout(cart: CartIn, user: User = Depends(current_user)):
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster OWASP basic. Foundation: OWASP project + Top 10 2021 release + STRIDE + DREAD + Defense-in-depth + Shift-left + OWASP families (Web/API/Mobile/LLM/Cloud) + threat modeling hands-on Acme Shop + 8 pitfalls. Pattern theo AWS lesson 00.
+- **v2.0.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.1 (10/06/2026)** — Bổ sung sơ đồ map STRIDE sang thuộc tính bảo mật cho trực quan.
 - **v2.0.0 (07/06/2026)** — Cập nhật lên **OWASP Top 10:2025** (bản hiện hành, final release). Đổi toàn bộ numbering + tên category 2021→2025: A02 Security Misconfiguration lên #2, A03 Software Supply Chain Failures (mới), Injection→A05, Insecure Design→A06, A04 Cryptographic Failures, A07 Authentication Failures, A09 đổi Monitoring→Alerting, A10 Mishandling of Exceptional Conditions (mới), SSRF gộp vào A01. Thêm bảng mapping 2021↔2025 + box "4 thay đổi then chốt". Cập nhật real-world examples, roadmap 4 bài, mermaid + bảng cross-reference, glossary (thêm SSRF), self-check, tài nguyên ngoài (link 2025). Sửa số liệu IBM: $4.45M (2023) → $4.88M (2024) cho khớp nhãn năm. Bỏ mọi câu coi 2021 là "current"/2025 là "preview".

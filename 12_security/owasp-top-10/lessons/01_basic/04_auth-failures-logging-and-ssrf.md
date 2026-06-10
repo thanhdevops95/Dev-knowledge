@@ -1,9 +1,9 @@
 # 🔑📜🌐 A07 Authentication Failures + A09 Logging & Alerting Failures + SSRF (gộp A01)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) ✅
@@ -54,7 +54,7 @@ Bài này map fix từng cái. Cuối bài đóng cluster basic.
 
 🪞 **Ẩn dụ**: *Authentication như **kiểm tra giấy tờ ở sân bay** — không chỉ check passport (password) mà cần boarding pass (token), check-in (session), security gate (MFA). Mỗi điểm yếu là 1 lỗ hổng.*
 
-### Password policy — NIST 2024+ guidelines
+### Password policy — Hướng dẫn NIST 2024+
 
 | Old practice | New (NIST SP 800-63B) |
 |---|---|
@@ -83,7 +83,7 @@ def validate_password(pw: str):
         raise ValueError(f"Password leaked in {count} breach. Choose another.")
 ```
 
-### MFA — 3 generations
+### MFA — 3 thế hệ
 
 | Generation | Type | Pros | Cons |
 |---|---|---|---|
@@ -93,7 +93,7 @@ def validate_password(pw: str):
 
 → **2026 best practice**: WebAuthn primary, TOTP fallback, SMS only for SMS-receiving-impossible.
 
-### TOTP implementation
+### Triển khai TOTP
 
 ```python
 import pyotp
@@ -116,7 +116,7 @@ def verify_totp(user: User, code: str) -> bool:
     return totp.verify(code, valid_window=1)  # ±30s tolerance
 ```
 
-### WebAuthn implementation (sketch)
+### Triển khai WebAuthn (phác thảo)
 
 ```python
 # Library: python-fido2 or webauthn
@@ -135,7 +135,7 @@ result = verify_registration_response(credential_data, expected_challenge=..., e
 user.webauthn_credentials.append(result.credential_id)
 ```
 
-### Session management
+### Quản lý session
 
 | Property | Recommendation 2026 |
 |---|---|
@@ -187,7 +187,7 @@ def login(...):
     # ... actual login
 ```
 
-### Credential stuffing protection
+### Phòng chống credential stuffing
 
 Credential stuffing = attacker dùng leaked credential từ breach khác → try login.
 
@@ -197,7 +197,7 @@ Credential stuffing = attacker dùng leaked credential từ breach khác → try
 - Behavioral analysis (impossible travel, new device).
 - Cloudflare Turnstile / hCaptcha challenge.
 
-### OAuth2 + OIDC flows
+### Các flow OAuth2 + OIDC
 
 | Flow | When to use | Recommend 2026 |
 |---|---|---|
@@ -254,7 +254,7 @@ user_id = claims["sub"]
 | **Resource access** | ✅ For audit | Order view, file download |
 | **System event** | ✅ | Service restart, deploy, scale |
 
-### Log structure (JSON)
+### Cấu trúc log (JSON)
 
 ```json
 {
@@ -289,7 +289,7 @@ user_id = claims["sub"]
 
 → Sanitize trước log; tool: `pii-detector`, manual review log schema.
 
-### Audit log specific
+### Audit log chuyên biệt
 
 Cho action critical (admin, financial, data export), log **immutable append-only**:
 
@@ -314,7 +314,7 @@ def audit(actor, action, resource, outcome, prev_hash=""):
     return entry["hash"]
 ```
 
-### Monitor + alert
+### Giám sát + cảnh báo
 
 | Signal | Alert? | Threshold |
 |---|---|---|
@@ -327,7 +327,7 @@ def audit(actor, action, resource, outcome, prev_hash=""):
 | Session count spike per user | ✅ | > 10 |
 | Failed SQL injection attempt | ⚠️ | Pattern detect |
 
-### Tool stack 2026
+### Bộ công cụ (tool stack) 2026
 
 | Layer | Tool option | Note |
 |---|---|---|
@@ -338,7 +338,7 @@ def audit(actor, action, resource, outcome, prev_hash=""):
 | **Open-source SIEM** | Wazuh, Security Onion | Free |
 | **Alerting** | PagerDuty, Opsgenie, Slack | On-call rotation |
 
-### Time to detect — IBM Cost of a Data Breach 2024
+### Thời gian phát hiện — IBM Cost of a Data Breach 2024
 
 - **Average time to identify**: 194 days
 - **Average time to contain**: 64 days
@@ -355,7 +355,7 @@ def audit(actor, action, resource, outcome, prev_hash=""):
 
 🪞 **Ẩn dụ**: *SSRF như **lừa người gác cổng tự đi gọi điện thay bạn** — bạn không vào được nội bộ (intranet), nhưng nhờ server gọi giúp → server có access nội bộ → leak.*
 
-### Vulnerable pattern
+### Pattern dễ bị tấn công
 
 ```python
 # Anti-pattern
@@ -372,7 +372,7 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
 
 → AWS EC2 metadata endpoint → leak IAM role credentials → attacker assume role → access S3/RDS.
 
-### Capital One 2019 case study
+### Case study Capital One 2019
 
 - WAF misconfigured (A02:2025 Security Misconfiguration) + SSRF (thuộc A01:2025 Broken Access Control) → attacker:
   1. SSRF qua WAF endpoint.
@@ -380,7 +380,7 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
   3. Use credential → access S3 → 106M records.
 - Penalty: $80M fine, $190M settlement.
 
-### SSRF target — Internal endpoint
+### Mục tiêu SSRF — Endpoint nội bộ
 
 | Target | Risk |
 |---|---|
@@ -391,7 +391,7 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
 | `file:///etc/passwd` | Local file (if scheme allowed) |
 | `gopher://` `dict://` | Other protocols → exploit |
 
-### Mitigation — 5 layer
+### Cách phòng chống — 5 lớp
 
 **Layer 1 — Disable IMDSv1** (cloud metadata):
 ```bash
@@ -442,7 +442,7 @@ import safeurl
 safeurl.fetch("http://example.com")  # blocks private IP by default
 ```
 
-### Safe SSRF pattern
+### Pattern SSRF an toàn
 
 ```python
 @app.post("/api/import-from-url")
@@ -595,7 +595,7 @@ def import_url(data: ImportIn, user: User = Depends(require_role("editor"))):
     return {"content": response.text[:10000]}  # limit size
 ```
 
-### Re-pentest result
+### Kết quả pen-test lại
 
 - 8 critical/high → 0.
 - Mozilla Observatory: A+.
@@ -740,4 +740,5 @@ Next options:
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) OWASP. A07 (NIST 2024 password, TOTP/WebAuthn MFA, session mgmt, OAuth2+PKCE+OIDC) + A09 (audit log, WORM, SIEM, alert, MTTD) + A10 SSRF (Capital One 2019, 5 mitigation layer) + hands-on final hardening Acme Shop 8 findings + 8 pitfalls. **Đóng OWASP Top 10 basic cluster 5/5.**
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, final release). A07 đổi tên "Identification and Authentication Failures" → "Authentication Failures"; A09 đổi "Monitoring" → "Alerting"; SSRF (A10:2021) **gộp vào A01:2025 Broken Access Control** — không còn category riêng. Cluster wrap-up + tham chiếu chéo cập nhật theo numbering 2025, nêu rõ 2 category mới (A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions). Sửa lỗi: số liệu IBM Cost of a Data Breach 2024 (identify 194 ngày, contain 64 ngày, lifecycle 258 ngày, breach <200 ngày rẻ hơn ~$1.39M) thay cho 204/73 ngày + "23% less"; bọc `ph.verify()` của argon2-cffi trong try/except bắt `VerifyMismatchError` (verify RAISE chứ không trả False). Map Capital One case sang A02:2025 + A01:2025. Link OWASP trỏ về bản 2025.

@@ -1,9 +1,9 @@
 # ⚙️📦 A02 Security Misconfiguration + A03 Software Supply Chain Failures + A08 Integrity
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [02_crypto-failures-and-secure-design](02_crypto-failures-and-secure-design.md) ✅
@@ -148,7 +148,7 @@ async def unhandled_exception(request, exc):
     return JSONResponse({"error": "Internal server error"}, status_code=500)  # no detail to client
 ```
 
-### Default credentials
+### Credential mặc định
 
 Vendor default creds đã leak hết:
 - MongoDB không password (pre-3.6 default).
@@ -169,7 +169,7 @@ Vendor default creds đã leak hết:
 | Versioning + MFA delete off | Enable for critical bucket |
 | Cross-region replication public | Verify replication bucket also private |
 
-### Endpoint exposure
+### Phơi bày endpoint
 
 | Service | Don't expose | Tool to check |
 |---|---|---|
@@ -187,7 +187,7 @@ location ~ /\.(git|env|aws|ssh) {
 }
 ```
 
-### Tools scan misconfig
+### Công cụ quét misconfig
 
 | Tool | Scope |
 |---|---|
@@ -217,7 +217,7 @@ App modern có **hàng trăm transitive dep**:
 
 Mỗi dep có thể CVE — tracking thủ công bất khả thi.
 
-### Famous incidents
+### Các sự cố nổi tiếng
 
 | CVE | Năm | Impact |
 |---|---|---|
@@ -226,7 +226,7 @@ Mỗi dep có thể CVE — tracking thủ công bất khả thi.
 | **xz-utils backdoor** (CVE-2024-3094) | 2024 | Maintainer chèn backdoor — SSH exploit |
 | **Polyfill.io supply chain** | 2024 | CDN bị mua + inject malicious script |
 
-### Dependency scanning tools
+### Công cụ quét dependency
 
 | Tool | Type | Free? | Best for |
 |---|---|---|---|
@@ -239,7 +239,7 @@ Mỗi dep có thể CVE — tracking thủ công bất khả thi.
 | **GitHub Advisory Database** | DB | ✅ | Reference |
 | **npm audit / pip-audit / cargo audit** | Native | ✅ | Quick local check |
 
-### Dependabot setup
+### Cấu hình Dependabot
 
 ```yaml
 # .github/dependabot.yml
@@ -282,7 +282,7 @@ updates:
     ignore-unfixed: true
 ```
 
-### Vulnerability triage workflow
+### Quy trình triage vulnerability
 
 ```
 1. Scan output: 50 CVE → đừng panic
@@ -299,7 +299,7 @@ updates:
 6. Re-scan periodic
 ```
 
-### Auto-upgrade strategy
+### Chiến lược auto-upgrade
 
 | Strategy | Pros | Cons |
 |---|---|---|
@@ -321,7 +321,7 @@ updates:
 }
 ```
 
-### Out-of-date check
+### Kiểm tra lỗi thời (out-of-date)
 
 Beyond CVE:
 - Library EOL (end-of-life) → no security patch even if no current CVE.
@@ -338,7 +338,7 @@ Tool: **EOL.date**, **endoflife.date** — check support status.
 
 🪞 **Ẩn dụ**: *Supply chain integrity như **chuỗi giao bưu kiện** — kiện đến tay bạn có nguyên seal nhà cung cấp không? Có ai tráo giữa đường không? Cosign + SLSA = **seal vô hình chứng minh nguồn gốc**.*
 
-### Vuln scenarios
+### Các kịch bản vuln
 
 | Scenario | Risk |
 |---|---|
@@ -362,7 +362,7 @@ Tool: **EOL.date**, **endoflife.date** — check support status.
 
 → 2026 realistic target: **SLSA L3** for production critical.
 
-### cosign (Sigstore) — Sign + verify image
+### cosign (Sigstore) — Ký + verify image
 
 ```bash
 # Generate keypair (or use keyless OIDC mode)
@@ -408,7 +408,7 @@ cosign attest --predicate sbom.json --type cyclonedx ghcr.io/acmeshop/api:v1.2.3
 cosign verify-attestation --type cyclonedx ghcr.io/acmeshop/api:v1.2.3
 ```
 
-### Pin dependencies (reproducibility)
+### Pin dependency (đảm bảo tái lập)
 
 ```python
 # Python: requirements.txt with hash (pip-tools)
@@ -430,7 +430,7 @@ uvicorn==0.27.0 \
 - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 ```
 
-### Deserialize untrusted data
+### Deserialize dữ liệu không tin cậy
 
 ```python
 # ❌ Anti-pattern
@@ -450,7 +450,7 @@ Object obj = ois.readObject();
 // ✅ JSON, Protobuf, or strict allowlist class
 ```
 
-### Auto-update channel security
+### Bảo mật kênh auto-update
 
 | Pattern | Best practice |
 |---|---|
@@ -477,7 +477,7 @@ curl -I https://acmeshop.vn
 
 Output: thiếu CSP, HSTS không preload, X-Frame-Options absent.
 
-### Bước 2 — Add security headers
+### Bước 2 — Thêm security headers
 
 ```python
 # FastAPI middleware (xem section 1)
@@ -485,7 +485,7 @@ Output: thiếu CSP, HSTS không preload, X-Frame-Options absent.
 
 Deploy → re-scan → B+ → A.
 
-### Bước 3 — CSP hardening
+### Bước 3 — Hardening CSP
 
 ```python
 import secrets
@@ -525,7 +525,7 @@ response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDom
 
 Submit https://hstspreload.org/ → 4-12 tuần để propagate vào browser.
 
-### Bước 5 — Dependency scan setup
+### Bước 5 — Cấu hình dependency scan
 
 ```yaml
 # .github/dependabot.yml (xem section 2)
@@ -548,7 +548,7 @@ jobs:
           ignore-unfixed: true
 ```
 
-### Bước 6 — cosign image sign
+### Bước 6 — Ký image bằng cosign
 
 ```yaml
 # .github/workflows/build.yml
@@ -589,7 +589,7 @@ spec:
                     subject: "https://github.com/acmeshop/api/.*"
 ```
 
-### Bước 7 — Verify
+### Bước 7 — Kiểm chứng
 
 Mozilla Observatory re-scan: **A+ (95/100)**.
 
@@ -728,4 +728,5 @@ SSL Labs: **A+**.
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 OWASP basic. A05 Misconfig (9 security headers, CORS, debug, default creds, S3 misconfig) + A06 Components (Dependabot, Trivy, Snyk, OSV-Scanner, triage workflow) + A08 Integrity (SLSA L1-L3, cosign, SBOM CycloneDX, pin dep, deserialize) + hands-on harden Acme Shop A → A+ + 8 pitfalls.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật chuẩn **OWASP Top 10:2025** (bản hiện hành). Đổi numbering + tên category: A05 Misconfig → **A02 Security Misconfiguration** (lên #2); A06 Vulnerable Components → **A03 Software Supply Chain Failures** (category MỚI, mở rộng); A08 → **A08 Software or Data Integrity Failures**. Cập nhật title, lời dẫn, 3 heading section, mục Tình huống, nav text (A04 Crypto/A06 Insecure Design ở bài trước; SSRF nay gộp A01 ở bài sau), link tài nguyên OWASP sang Top 10:2025. Sửa factual: SLSA L4 là **deferred ở v1.0** (không phải "merged with L3"). Sửa broken-content: tách dòng "Khuyến nghị 2026" ra khỏi bảng Auto-upgrade (bảng vỡ). Bổ sung Glossary "Software Supply Chain Failures".

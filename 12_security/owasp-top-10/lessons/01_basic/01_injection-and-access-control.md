@@ -1,9 +1,9 @@
 # 💉🚪 A01 Broken Access Control + A05 Injection
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [00_what-is-owasp-and-application-security](00_what-is-owasp-and-application-security.md) ✅, biết SQL cơ bản + HTTP
@@ -82,7 +82,7 @@ def get_order(order_id: int, user: User = Depends(current_user)):
 - Indirect reference: map session token → internal ID.
 - Centralize ownership check via decorator/middleware.
 
-### Loại 2 — Missing Function Level Access Control
+### Loại 2 — Thiếu kiểm soát truy cập ở cấp chức năng (Missing Function Level Access Control)
 
 **Vuln**: Endpoint admin không check role.
 
@@ -133,7 +133,7 @@ if not e.enforce(user.id, resource.id, "read"):
     raise HTTPException(403)
 ```
 
-### Tool: Open Policy Agent (OPA) + Rego
+### Công cụ: Open Policy Agent (OPA) + Rego
 
 ```rego
 # policy.rego
@@ -153,7 +153,7 @@ allow {
 
 → Centralize policy, không scatter `if user.role == ...` khắp code.
 
-### Loại 3 — Privilege Escalation via Mass Assignment
+### Loại 3 — Leo thang quyền qua Mass Assignment
 
 **Vuln**: API accept JSON body, assign vô controller field nhạy cảm.
 
@@ -305,7 +305,7 @@ from ldap3.utils.conv import escape_filter_chars
 filter = f"(&(uid={escape_filter_chars(user)})(password={escape_filter_chars(pw)}))"
 ```
 
-### Prevention checklist
+### Checklist phòng ngừa
 
 - ✅ **Parameterized query** mặc định.
 - ✅ **ORM** + tránh raw query.
@@ -328,7 +328,7 @@ filter = f"(&(uid={escape_filter_chars(user)})(password={escape_filter_chars(pw)
 | **Reflected** | URL / form | No | High |
 | **DOM-based** | Client-side JS | No (per page load) | High |
 
-### Stored XSS — Worst
+### Stored XSS — Nguy hiểm nhất
 
 **Vuln**: Comment với `<script>` lưu DB, render raw HTML.
 
@@ -386,7 +386,7 @@ document.getElementById("greeting").innerHTML = `Hello ${name}`;
 document.getElementById("greeting").textContent = `Hello ${name}`;
 ```
 
-### Content Security Policy (CSP) — Defense layer 2
+### Content Security Policy (CSP) — Lớp phòng thủ 2
 
 CSP = HTTP header instruct browser **chỉ chạy script từ source allowed**.
 
@@ -404,7 +404,7 @@ Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.acmes
 
 → Inline `<script>...</script>` bị block trừ khi có `'unsafe-inline'` (tránh) hoặc nonce.
 
-### Nonce pattern (modern CSP)
+### Nonce pattern (CSP hiện đại)
 
 ```python
 # Backend generate nonce mỗi response
@@ -440,7 +440,7 @@ return render("page.html", nonce=nonce)
    ```
 4. Browser auto-attach cookie acmeshop.vn → request gửi đi → server thực thi.
 
-### Mitigation — 3 lớp
+### Cách phòng chống — 3 lớp
 
 **Layer 1 — SameSite cookie**:
 ```python
@@ -704,4 +704,5 @@ response.set_cookie(
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 OWASP basic. A01 Broken Access Control (IDOR/RBAC/ABAC/Mass Assignment) + A03 Injection (SQLi/NoSQLi/OS/LDAP/XSS/CSRF) + CSP + Nonce + SameSite + hands-on fix 5 vuln Acme Shop + 8 pitfalls. Pattern theo lesson 00.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, thay bản 2021). Injection đổi numbering **A03 → A05** (tiêu đề bài, section header, các tham chiếu trong thân bài + self-check). Broken Access Control giữ **A01**, bổ sung ghi chú **SSRF gộp vào A01** (vốn là A10:2021). Cập nhật link tài nguyên OWASP sang URL 2025. Giữ nguyên toàn bộ nội dung kỹ thuật + code mẫu.
