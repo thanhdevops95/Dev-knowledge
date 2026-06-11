@@ -1,9 +1,9 @@
 # 🎓 Backup & Replication — Production essentials
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [psql & Meta-commands](01_psql-and-meta-commands.md)
@@ -337,6 +337,23 @@ Managed Postgres tự backup mỗi ngày + retain N ngày. Settings configurable
                                                 Read scaling
                                                 Failover
 ```
+
+Sơ đồ dưới minh hoạ trình tự 1 lệnh write đi từ app qua WAL rồi stream sang replica — chìa khoá hiểu vì sao replica lag thường chỉ vài ms:
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant P as Primary
+    participant W as WAL
+    participant R as Replica
+    App->>P: INSERT / UPDATE
+    P->>W: Ghi WAL trước (durability)
+    P-->>App: COMMIT OK
+    W->>R: Stream WAL segment
+    R->>R: Replay (read-only)
+```
+
+→ Primary chỉ cần ghi WAL xong là trả COMMIT cho app; replica replay async phía sau nên write không bị chậm vì replication.
 
 ### Setup primary
 
@@ -723,3 +740,4 @@ pgbackrest --stanza=main restore --type=time --target='2026-05-23 14:31:59'
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 5/5. Cover: logical (pg_dump 4 format + pg_dumpall) + pg_restore + physical (pg_basebackup) + PITR (WAL archive + recovery_target_time) + streaming replication setup + logical replication + monitor lag + backup strategy (3-2-1) + production checklist.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 "2 loại backup" + Logical pg_dump ưu/nhược + Physical pg_basebackup + §2 4 format pg_dump + Options. Chuẩn hoá tiêu đề mục. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ sequence streaming replication (Primary → WAL → Replica) cho trực quan.

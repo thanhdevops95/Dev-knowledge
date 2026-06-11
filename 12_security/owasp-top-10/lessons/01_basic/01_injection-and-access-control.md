@@ -1,7 +1,7 @@
 # 💉🚪 A01 Broken Access Control + A05 Injection
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
@@ -221,6 +221,19 @@ result = db.execute(
 ```
 
 DB driver tách query template + data → data không bao giờ thành SQL command.
+
+Sơ đồ dưới so sánh số phận của cùng một input độc khi đi qua 2 cách xử lý:
+
+```mermaid
+flowchart TD
+    A["Input: admin'--"] --> B{Cách build query?}
+    B -->|"Nối chuỗi (f-string)"| C["WHERE username='admin'--' AND ..."]
+    C --> D["DB hiểu -- là comment<br>→ bypass check password ❌"]
+    B -->|"Parameterized query"| E["Template + data tách riêng"]
+    E --> F["DB coi admin'-- là chuỗi thuần<br>→ không match user nào ✅"]
+```
+
+→ Cùng một input, khác biệt duy nhất là input có được DB **diễn giải thành lệnh SQL** hay chỉ là **dữ liệu thuần** — parameterized query đảm bảo vế sau.
 
 **Fix — ORM**:
 ```python
@@ -706,3 +719,4 @@ response.set_cookie(
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 OWASP basic. A01 Broken Access Control (IDOR/RBAC/ABAC/Mass Assignment) + A03 Injection (SQLi/NoSQLi/OS/LDAP/XSS/CSRF) + CSP + Nonce + SameSite + hands-on fix 5 vuln Acme Shop + 8 pitfalls. Pattern theo lesson 00.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, thay bản 2021). Injection đổi numbering **A03 → A05** (tiêu đề bài, section header, các tham chiếu trong thân bài + self-check). Broken Access Control giữ **A01**, bổ sung ghi chú **SSRF gộp vào A01** (vốn là A10:2021). Cập nhật link tài nguyên OWASP sang URL 2025. Giữ nguyên toàn bộ nội dung kỹ thuật + code mẫu.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow SQL Injection (nối chuỗi vs parameterized query) cho trực quan.

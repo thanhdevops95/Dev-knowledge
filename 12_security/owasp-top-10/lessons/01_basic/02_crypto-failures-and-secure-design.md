@@ -1,7 +1,7 @@
 # 🔐🏗️ A04 Cryptographic Failures + A06 Insecure Design
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 02/5)\
@@ -92,6 +92,19 @@ Sếp tiếp tục pen-test report:
 - ❌ **SHA-256/MD5 raw** (cực kỳ tệ — GPU crack billion/s)
 
 ### Password hashing thực hành
+
+Sơ đồ dưới so sánh con đường của 1 password từ lúc user nhập đến lúc nằm trong DB — cách sai vs cách đúng:
+
+```mermaid
+flowchart TD
+    P["Password user nhập"] --> B{Cách lưu?}
+    B -->|"Plaintext / MD5 / SHA-256 raw"| X["GPU thử hàng tỉ mật khẩu/giây<br>DB lộ = mất hết ❌"]
+    B -->|"Salt + Argon2id"| S["Sinh salt ngẫu nhiên 16 byte"]
+    S --> H["Hash chậm có chủ ý<br>(tốn RAM, chống GPU)"]
+    H --> D["Lưu DB: $argon2id$...$salt$hash ✅"]
+```
+
+→ Salt chặn rainbow table (cùng password → hash khác nhau mỗi user), còn tính "chậm + tốn RAM" của Argon2id chặn GPU brute-force — thiếu 1 trong 2 đều thành crypto failure.
 
 ```python
 # ❌ Anti-pattern: MD5/SHA hash trực tiếp
@@ -670,3 +683,4 @@ Apply Mozilla SSL Config Modern profile + HSTS preload submit.
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 OWASP basic. A02 Crypto Failures (symmetric/asymmetric, algorithm 2026, password hashing Argon2id, TLS proper, HSTS, JWT pitfalls) + A04 Insecure Design (threat-driven design, abuse cases, secure patterns) + hands-on migrate MD5→Argon2 Acme Shop + 8 pitfalls.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (final release). Đổi numbering: Cryptographic Failures A02→**A04**, Insecure Design A04→**A06**; bảng phân biệt vuln type dùng số hiệu 2025 (Injection A05, Misconfig A02). Thêm ghi chú thay đổi chuẩn (A02 Misconfig lên #2, A03 Software Supply Chain mới, A10 Mishandling mới, SSRF gộp A01) + link bài 00 cho mapping 2021↔2025. Sửa nav bài trước/sau theo numbering 2025. Cập nhật link tài nguyên OWASP sang URL 2025. Sửa attribution sai: PBKDF2 ≥ 600.000 iteration là khuyến nghị **OWASP** (không phải NIST) — bổ sung làm rõ NIST SP 800-63B chỉ yêu cầu tối thiểu 10.000.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow băm password (plaintext/MD5 vs salt + Argon2id) cho trực quan.

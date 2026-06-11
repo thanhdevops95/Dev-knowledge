@@ -1,9 +1,9 @@
 # 🎓 Database với SQLModel — CRUD thực tế
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
@@ -254,6 +254,21 @@ def delete_user(user_id: int, session: Session = Depends(get_session)):
 ```
 
 → 5 endpoint chuẩn REST, dùng DB thật, session độc lập mỗi request, transaction handle đúng (commit/rollback).
+
+Khái niệm trừu tượng nhất ở đây là **chuỗi biến đổi data** — từ HTTP request qua session/ORM xuống SQL rồi quay ngược lại thành JSON:
+
+```mermaid
+flowchart LR
+    C["Client request"] --> E["Endpoint"]
+    D["Depends(get_session)"] -.->|"inject Session"| E
+    E -->|"select() / get()"| S["SQLModel (ORM)"]
+    S -->|"SQL"| PG[("Postgres / SQLite")]
+    PG -->|"rows"| S
+    S -->|"ORM object"| E
+    E -->|"response_model → JSON"| C
+```
+
+→ Endpoint không bao giờ chạm SQL trực tiếp — SQLModel dịch 2 chiều (Python ↔ SQL), còn session do DI cấp riêng cho từng request rồi tự đóng.
 
 ---
 
@@ -628,3 +643,4 @@ alembic downgrade -1
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 4/5. Cover: SQLModel (Pydantic + SQLAlchemy gộp) + engine setup + Session dependency + lifespan startup + 4-model pattern (Base/Table/Create/Read) + CRUD endpoints + Alembic migration intro.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Cài SQLModel, §2 database.py + main.py, §3 Pattern khuyên dùng, §4 users.py API. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ luồng request → session → SQLModel → SQL → JSON cho trực quan.

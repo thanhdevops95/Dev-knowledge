@@ -1,7 +1,7 @@
 # 💬 Prompt Engineering + Context Strategies
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
@@ -61,6 +61,26 @@ Sai. Bạn muốn bot:
 - Specific request
 - Optional: examples (few-shot)
 ```
+
+Sơ đồ dưới cho thấy 2 khối này ghép lại thành input hoàn chỉnh cho LLM — và output tốt là kết quả của cả 2:
+
+```mermaid
+flowchart TD
+    subgraph SP["SYSTEM PROMPT"]
+        R["Role + Task"]
+        C["Constraints (do/don't)"]
+        F["Output format + tone"]
+    end
+    subgraph UM["USER MESSAGE"]
+        D["Context (data thật)"]
+        Q["Câu hỏi cụ thể"]
+    end
+    SP --> L["LLM"]
+    UM --> L
+    L --> O["Output đúng format,<br>đúng ngôn ngữ, không bịa"]
+```
+
+→ Mỗi thành phần thiếu tương ứng 1 kiểu lỗi: thiếu role → trả lời generic, thiếu context → model bịa, thiếu format → output khó parse.
 
 ### Anti-pattern (cách làm sai)
 
@@ -795,3 +815,4 @@ for r in results:
 - **v1.1.0 (07/06/2026)** — Sửa lỗi kỹ thuật: Anthropic tool use lấy `.input` qua block `type=="tool_use"` (không giả định `content[0]`); OpenAI structured output dùng `client.beta.chat.completions.parse` (đúng namespace SDK); ngưỡng context management chuyển sang tương đối theo context window model (1M cho Claude 4.6+) thay vì hardcode 50k/100k; cập nhật tên model "Claude Opus 4.x".
 - **v1.1.1 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài/code mẫu.
 - **v1.1.2 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.
+- **v1.1.3 (11/06/2026)** — Bổ sung sơ đồ cấu trúc prompt (system + user → LLM → output) cho trực quan.

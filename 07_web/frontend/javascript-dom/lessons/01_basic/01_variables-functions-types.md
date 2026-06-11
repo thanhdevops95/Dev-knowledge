@@ -1,9 +1,9 @@
 # 🎓 Variables, Functions, Types — JS core syntax
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is JavaScript](00_what-is-javascript.md)
@@ -108,6 +108,18 @@ function f() {
   console.log(x);   // ReferenceError — x không tồn tại
 }
 ```
+
+Sơ đồ dưới tóm tắt **scope chain** — khi JS gặp 1 biến, nó tìm từ block hiện tại ra ngoài dần đến global. Chú ý chỗ mỗi keyword "sống":
+
+```mermaid
+flowchart LR
+    L["let / const"] --> B
+    V["var"] --> F
+    B["Block scope { }"] -- "không thấy, tìm tiếp" --> F["Function scope"]
+    F -- "không thấy, tìm tiếp" --> G["Global scope"]
+```
+
+→ `let`/`const` sống trong block nhỏ nhất, còn `var` "nhảy cóc" lên thẳng function scope — đó chính là lý do `discount` ở tình huống đầu bài leak ra ngoài `if`.
 
 ### Hoisting — Tại sao `var` confuse
 
@@ -834,3 +846,4 @@ Truthy: everything else (including [], {}, "0")
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 2/5. Cover: var vs let vs const + scope (function vs block) + hoisting + TDZ + functions (declaration vs expression vs arrow) + parameters (default/rest/destructure) + types (primitive vs reference) + closure intro.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Modern let/const, var legacy, So sánh, Block scope, Hoisting. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ scope chain (block → function → global) cho trực quan.

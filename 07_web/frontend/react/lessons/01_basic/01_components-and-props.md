@@ -1,9 +1,9 @@
 # 🎓 Components & Props — Building block của React
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is React](00_what-is-react.md)
@@ -656,6 +656,18 @@ export default App;
 
 → 3 component, separation clean, mỗi component <30 dòng. Add product mới = thêm 1 object. Re-design card = sửa 1 file. **DRY achieved**.
 
+App vừa viết chính là 1 **cây component** — data đi từ gốc xuống lá qua props, mỗi nhánh là 1 lần pass:
+
+```mermaid
+flowchart TD
+    APP["App (giữ data)"] -- "products, onAddToCart" --> PL[ProductList]
+    PL -- "product, onAddToCart" --> C1["ProductCard #1"]
+    PL -- "product, onAddToCart" --> C2["ProductCard #2"]
+    PL -- "product, onAddToCart" --> C3["ProductCard #3"]
+```
+
+→ Props chỉ chảy **một chiều từ trên xuống** — `ProductCard` không tự sửa data, chỉ "báo lên" qua callback `onAddToCart`; đây là mental model nền cho state (bài 02) và lifting state up.
+
 → Bài kế tiếp dạy `useState` + event để cart thực sự lưu items.
 
 ---
@@ -776,3 +788,4 @@ function Layout({ children }) {
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 2/5. Cover: function component + PascalCase rule + file structure + props (pass + destructure + default value + spread) + children prop + composition pattern + container/presentational.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Cú pháp function component, Quy tắc đặt tên, File structure, Pass props, Destructure props. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ cây component + props chảy xuống cho trực quan.

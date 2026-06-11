@@ -1,9 +1,9 @@
 # 🎓 Pydantic Models — Validation + Serialization của FastAPI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Routes & Parameters](01_routes-and-parameters.md)
@@ -118,6 +118,19 @@ def get_user(id: int) -> UserRead:
 → `response_model=UserRead` = FastAPI **strip** mọi field không có trong UserRead, kể cả `password` bạn lỡ return.
 
 > 💡 **Quy tắc 2026**: mọi endpoint nên có `response_model`. Đó là **firewall** chống leak data.
+
+Toàn bộ vòng đời validate — từ JSON request vào đến JSON response ra — gói gọn trong sơ đồ sau:
+
+```mermaid
+flowchart LR
+    J["JSON request"] --> V{"Pydantic validate"}
+    V -->|"sai kiểu / thiếu field"| E["422 + detail lỗi"]
+    V -->|"hợp lệ"| H["Handler (UserCreate)"]
+    H --> R["response_model = UserRead"]
+    R -->|"strip password"| O["JSON response sạch"]
+```
+
+→ Pydantic đứng gác **2 cửa**: cửa vào reject data sai (422 trước khi handler chạy), cửa ra lọc field nhạy cảm — handler ở giữa chỉ lo business logic.
 
 ---
 
@@ -618,3 +631,4 @@ UserRead.model_validate(data)  # dict → object
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 3/5. Cover: Anti-pattern 1 model + Pattern tách `Base/Create/Update/Read` + `Field()` constraint + metadata + `@field_validator` + `@model_validator` cross-field + `response_model` strip pattern.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng đời validate request → 422/handler → response_model cho trực quan.

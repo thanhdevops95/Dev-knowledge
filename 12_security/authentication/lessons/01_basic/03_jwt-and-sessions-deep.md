@@ -1,7 +1,7 @@
 # 🎫 JWT + Sessions Deep
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
@@ -321,6 +321,24 @@ Attacker steal refresh-v1, tries /refresh
   Server: invalidate entire family (refresh-v1, v2, v3...)
   Server: force user re-login
 ```
+
+Sơ đồ dưới tóm tắt cơ chế rotation + phát hiện reuse khi refresh token bị đánh cắp:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant A as Attacker
+    C->>S: POST /refresh (refresh-v1)
+    S->>S: Invalidate v1, cấp v2 (cùng family)
+    S-->>C: access mới + refresh-v2
+    A->>S: POST /refresh (refresh-v1 đã đánh cắp)
+    S->>S: v1 đã dùng rồi → phát hiện reuse
+    S->>S: Revoke cả family (v1, v2, ...)
+    S-->>A: 401 — toàn bộ token vô hiệu
+```
+
+→ Điểm mấu chốt: mỗi refresh token chỉ được dùng đúng 1 lần — lần dùng thứ 2 (dù từ ai) là tín hiệu compromise, server thu hồi cả family ngay lập tức.
 
 ### Schema
 
@@ -780,3 +798,4 @@ def rotate_keys():
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 Authentication basic. JWT/JWS/JWE clarify + 5 signing algorithms (HS/RS/PS/ES/EdDSA) + key rotation + JWKS endpoint + refresh token rotation + family compromise detection + 4 revocation strategies + session lifecycle + cookie attributes + Acme Shop production-grade implementation + 8 pitfalls.
 - **v1.1.0 (07/06/2026)** — Fix code Hands-on: `verify_token` dùng `jwks_client.get_signing_key_from_jwt` (gỡ `PUBLIC_KEYS`/`claims_kid_from` không tồn tại → NameError); `logout` verify chữ ký + clamp TTL thay vì decode `verify_signature=False` rồi tin claims; cập nhật ví dụ algorithm-confusion theo PyJWT >= 2.0 (`algorithms=` bắt buộc, nguy hiểm khi trộn HMAC+RSA).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ sequence refresh token rotation + phát hiện reuse cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 Forms & Accessibility — Input đúng cách + a11y basic
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTML Essentials](01_html-essentials.md)
@@ -218,6 +218,17 @@ Click "Email" label → cursor tự vào input
 ```
 
 → Tăng click target (mobile UX). User mù → screen reader đọc "Email, edit, email type".
+
+Liên kết `for ↔ id` là **vô hình trên màn hình** nhưng là xương sống a11y của form — sơ đồ dưới minh hoạ ai hưởng lợi từ liên kết này:
+
+```mermaid
+flowchart LR
+    L["label for='email'"] -->|"for khớp id"| I["input id='email'"]
+    L -.->|"click label"| F["focus vào input"]
+    I -.->|"screen reader"| SR["đọc: 'Email, edit text'"]
+```
+
+→ Một attribute `for` duy nhất phục vụ cả 2 nhóm user: người sáng mắt được click target to hơn, người dùng screen reader biết chính xác field đang nhập là gì.
 
 ---
 
@@ -705,3 +716,4 @@ role="alert"            khi cần dynamic announce
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 3/5. Cover: form anatomy + GET vs POST + 15+ input types + mobile keyboard auto + label association + validation HTML5 + accessibility (ARIA, WCAG, screen reader, keyboard nav) + form best practices.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Form cơ bản, Anatomy form, GET vs POST, Submit flow, 15+ input types. Chuẩn hoá giá trị ví dụ thành `username=nguyenvana`. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ liên kết label ↔ input (for/id + screen reader) cho trực quan.

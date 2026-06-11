@@ -1,7 +1,7 @@
 # 🔑📜🌐 A07 Authentication Failures + A09 Logging & Alerting Failures + SSRF (gộp A01)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
@@ -371,6 +371,19 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
 ```
 
 → AWS EC2 metadata endpoint → leak IAM role credentials → attacker assume role → access S3/RDS.
+
+Sơ đồ dưới tóm tắt cơ chế SSRF — attacker không tự vào được mạng nội bộ, nhưng "mượn" server fetch hộ:
+
+```mermaid
+flowchart LR
+    A[Attacker] -->|"Gửi URL nội bộ<br>169.254.169.254"| API["API import-from-url"]
+    API --> V{Validate URL?}
+    V -->|"Không validate ❌"| M["Server fetch metadata nội bộ<br>(server có quyền truy cập)"]
+    M --> L["IAM credentials về tay attacker"]
+    V -->|"Allowlist + chặn private IP ✅"| R["Từ chối request (400)"]
+```
+
+→ Bản chất SSRF là server bị ép dùng **quyền truy cập nội bộ của chính nó** thay cho attacker — vì vậy lớp chặn quan trọng nhất là validate đích đến (allowlist + block private IP) trước khi fetch.
 
 ### Case study Capital One 2019
 
@@ -742,3 +755,4 @@ Next options:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) OWASP. A07 (NIST 2024 password, TOTP/WebAuthn MFA, session mgmt, OAuth2+PKCE+OIDC) + A09 (audit log, WORM, SIEM, alert, MTTD) + A10 SSRF (Capital One 2019, 5 mitigation layer) + hands-on final hardening Acme Shop 8 findings + 8 pitfalls. **Đóng OWASP Top 10 basic cluster 5/5.**
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, final release). A07 đổi tên "Identification and Authentication Failures" → "Authentication Failures"; A09 đổi "Monitoring" → "Alerting"; SSRF (A10:2021) **gộp vào A01:2025 Broken Access Control** — không còn category riêng. Cluster wrap-up + tham chiếu chéo cập nhật theo numbering 2025, nêu rõ 2 category mới (A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions). Sửa lỗi: số liệu IBM Cost of a Data Breach 2024 (identify 194 ngày, contain 64 ngày, lifecycle 258 ngày, breach <200 ngày rẻ hơn ~$1.39M) thay cho 204/73 ngày + "23% less"; bọc `ph.verify()` của argon2-cffi trong try/except bắt `VerifyMismatchError` (verify RAISE chứ không trả False). Map Capital One case sang A02:2025 + A01:2025. Link OWASP trỏ về bản 2025.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow SSRF (server fetch hộ URL nội bộ + chặn bằng allowlist) cho trực quan.

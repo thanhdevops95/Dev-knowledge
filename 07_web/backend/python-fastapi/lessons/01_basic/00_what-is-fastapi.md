@@ -1,9 +1,9 @@
 # 🎓 FastAPI là gì? — Web framework Python tốc độ + type-safe
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Python cơ bản (variables, functions, decorators) + [HTTP là gì](../../../../../05_networking/http-https/lessons/01_basic/00_what-is-http.md) + [REST API concepts](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
@@ -55,6 +55,19 @@ Bạn ngơ:
   - **Starlette** — ASGI framework (async HTTP).
   - **Pydantic** — validation + serialization từ type hints.
 - 2026: **~75k GitHub stars**, dùng bởi Microsoft, Netflix, Uber, Stripe.
+
+Trước khi đi vào chi tiết, nhìn tổng thể **đường đi của 1 request** qua FastAPI stack — uvicorn nhận HTTP, FastAPI route đến handler, trả JSON về client:
+
+```mermaid
+flowchart LR
+    C["Client"] -->|"HTTP request"| U["uvicorn (ASGI)"]
+    U --> F["FastAPI app"]
+    F -->|"route + validate"| H["Handler function"]
+    H -->|"JSON response"| C
+    F -.->|"tự sinh"| D["/docs — Swagger UI"]
+```
+
+→ uvicorn lo tầng HTTP/ASGI, FastAPI lo routing + validation; riêng trang `/docs` được **sinh tự động từ chính code routes** — không phải viết docs tay.
 
 ### Các superpower
 
@@ -550,3 +563,4 @@ http://localhost:8000/openapi.json
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 1/5. Cover: FastAPI là gì + 6 superpower (type hints, Pydantic, OpenAPI, async, DI, performance) + so sánh FastAPI vs Flask vs Django + Pydantic validation + setup uvicorn + Swagger UI tự động.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Superpower, §2 So sánh framework + Chọn cái nào, §3 Python type hints + Pydantic. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ request flow client → uvicorn → FastAPI → JSON cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 Aggregations — COUNT, SUM, AVG & GROUP BY
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md)
@@ -125,6 +125,23 @@ Danang |          1
 ```
 
 → DB chia rows thành **nhóm** theo `city`, mỗi nhóm tính `COUNT(*)`.
+
+Sơ đồ dưới minh hoạ cơ chế GROUP BY: 7 rows được gom thành nhóm theo `city`, rồi aggregation áp lên **từng nhóm** để ra đúng 1 dòng/nhóm:
+
+```mermaid
+flowchart TD
+    A["7 rows trong users"] --> B{"GROUP BY city"}
+    B --> C["Nhóm Hanoi<br>(3 rows)"]
+    B --> D["Nhóm Saigon<br>(2 rows)"]
+    B --> E["Nhóm Danang<br>(1 row)"]
+    B --> F["Nhóm NULL<br>(1 row)"]
+    C -- "COUNT(*)" --> G["Hanoi → 3"]
+    D -- "COUNT(*)" --> H["Saigon → 2"]
+    E -- "COUNT(*)" --> I["Danang → 1"]
+    F -- "COUNT(*)" --> J["NULL → 1"]
+```
+
+→ Mỗi nhóm thu gọn thành **đúng 1 dòng** kết quả — vì vậy cột nào không nằm trong GROUP BY thì bắt buộc phải bọc aggregation (quy tắc vàng bên dưới).
 
 ### Group by nhiều cột
 
@@ -527,3 +544,4 @@ FROM orders;
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 3/6. Cover: 6 aggregation function (COUNT/SUM/AVG/MIN/MAX/COUNT DISTINCT) + NULL handling + COUNT(*) vs COUNT(col) + GROUP BY single + multi-col + HAVING (filter sau aggregate) + WHERE vs HAVING distinction + execution order.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow GROUP BY (rows → gom nhóm → COUNT mỗi nhóm) cho trực quan.

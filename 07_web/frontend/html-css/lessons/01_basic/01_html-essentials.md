@@ -1,9 +1,9 @@
 # 🎓 HTML Essentials — Semantic tags, structure, common elements
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTML & CSS là gì](00_what-is-html-and-css.md)
@@ -161,6 +161,23 @@ HTML5 (2014) thêm **8 tag semantic** thay thế `<div>` lung tung. Cùng 1 tran
   <p>&copy; 2026 Acme Shop</p>
 </footer>
 ```
+
+HTML bản chất là **cấu trúc cây (DOM)** — tag lồng nhau theo quan hệ cha-con. Trang semantic trên khi browser parse sẽ thành cây như sau:
+
+```mermaid
+flowchart TD
+    HTML["html"] --> HEAD["head"]
+    HTML --> BODY["body"]
+    HEAD --> META["meta, title, link"]
+    BODY --> H["header"]
+    BODY --> N["nav"]
+    BODY --> M["main"]
+    BODY --> F["footer"]
+    M --> A["article"]
+    M --> AS["aside"]
+```
+
+→ CSS, JavaScript lẫn screen reader đều thao tác trên cây DOM này — nesting đúng từ đầu thì mọi tầng phía sau (style, behavior, a11y) đều đúng theo.
 
 ### Bảng semantic tags
 
@@ -667,3 +684,4 @@ defer / async (script)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 2/5. Cover: HTML5 structure đầy đủ (8 meta cho SEO + social + viewport) + semantic tags (header/nav/main/article/section/aside/footer) + common tags (heading/list/link/image/table) + form basics + best practices (alt text, lang attr).
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục HTML5 structure, Vai trò meta, Anti-pattern div, Semantic HTML5, Bảng semantic tags. Chuẩn hoá tên thương hiệu ví dụ thành `Acme Shop`. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ cây DOM semantic (html → head/body → header/nav/main/footer) cho trực quan.

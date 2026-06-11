@@ -1,9 +1,9 @@
 # 🎓 Schema Design — CREATE TABLE, PK/FK, Indexes & Normalization
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [JOINs](03_joins.md), [INSERT/UPDATE/DELETE](04_insert-update-delete.md)
@@ -593,6 +593,33 @@ CREATE TABLE order_items (
 
 → Schema này: 3NF, đầy đủ constraint, indexes hợp lý, FK chuẩn, soft delete-ready.
 
+Sơ đồ ERD dưới minh hoạ toàn bộ quan hệ giữa 4 bảng vừa thiết kế — 2 quan hệ 1-N và 1 quan hệ M-N qua junction table `order_items`:
+
+```mermaid
+erDiagram
+    users ||--o{ orders : "1 user co N order"
+    orders ||--|{ order_items : "1 order co N item"
+    products ||--o{ order_items : "1 product trong N item"
+    users {
+        int id PK
+        text email UK
+    }
+    orders {
+        int id PK
+        int user_id FK
+    }
+    order_items {
+        int order_id FK
+        int product_id FK
+    }
+    products {
+        int id PK
+        text sku UK
+    }
+```
+
+→ Để ý M-N giữa `orders` và `products` thực chất là **2 quan hệ 1-N** gặp nhau tại junction table `order_items` (composite PK = 2 FK).
+
 ---
 
 ## ⚠️ 5 anti-pattern beginner
@@ -796,3 +823,4 @@ EXPLAIN ANALYZE SELECT * FROM t WHERE col = 'x';
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 6/6. Cover: data types (numeric, text, boolean, date/time, JSON, ARRAY) + PK + FK + constraints (NOT NULL, UNIQUE, CHECK, DEFAULT) + 3 normalization form (1NF/2NF/3NF) + denormalization khi nào + indexes vai trò + ERD design + naming convention.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Data types — Số numeric + Chuỗi text + Boolean + Date/Time + JSON/JSONB sections. Chuẩn hoá tên trong ví dụ normalization. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ ERD quan hệ 4 bảng (users/orders/products/order_items) cho trực quan.

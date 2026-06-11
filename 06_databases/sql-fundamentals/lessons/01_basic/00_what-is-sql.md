@@ -1,9 +1,9 @@
 # 🎓 SQL là gì? — Ngôn ngữ chung của database
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Không có — đây là bài intro mọi developer cần đọc
@@ -63,6 +63,18 @@ Bạn ngơ:
 > - **Excel** = sổ tay cá nhân, lưu thông tin trong 1 cuốn.
 > - **Database** = **thư viện công cộng** với hàng triệu cuốn, nhiều người mượn cùng lúc, có thủ thư đảm bảo không mất sách.
 > - **SQL** = **ngôn ngữ chung** bạn nói với thủ thư: "tìm cho tôi sách của Donald Knuth in trước 1990".
+
+Sơ đồ dưới minh hoạ hành trình 1 câu query: app gửi SQL → engine parse + tìm trong bảng → trả kết quả về dạng rows:
+
+```mermaid
+flowchart LR
+    A["App / CLI / GUI"] -- "SELECT * FROM users ..." --> B["SQL Engine<br>(parse + plan + execute)"]
+    B -- "Đọc / ghi" --> C[("Tables<br>trên disk")]
+    C --> B
+    B -- "Kết quả (rows)" --> A
+```
+
+→ Bạn chỉ mô tả **muốn gì** (declarative), còn engine tự quyết định **cách lấy** — đó là sức mạnh cốt lõi của SQL.
 
 ### Sự khác biệt vs Excel
 
@@ -478,3 +490,4 @@ DELETE FROM t WHERE id = 1;                   -- DML
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 1/6. Cover: SQL là gì + RDBMS vs Excel + relational concept (PK/FK) + SQL vs NoSQL (7 loại) + 5 nhóm câu lệnh (DDL/DML/DQL/DCL/TCL) + flow đầy đủ tạo bảng → insert → query → setup SQLite.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Excel vs SQL + §2 Anatomy table + Relational diagram + §3 "Khi nào chọn gì" + §4 Ví dụ flow đầy đủ. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow 1 câu query (app → engine → table → kết quả) cho trực quan.

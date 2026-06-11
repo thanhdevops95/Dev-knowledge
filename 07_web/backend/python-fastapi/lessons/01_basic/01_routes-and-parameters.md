@@ -1,9 +1,9 @@
 # 🎓 Routes & Parameters — Path, Query, Body trong FastAPI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [FastAPI là gì](00_what-is-fastapi.md)
@@ -231,6 +231,18 @@ curl -X PUT "http://localhost:8000/products/42?notify=false" \
 - Param **trong URL path** → path
 - Param **Pydantic model** → body
 - Param **scalar** (int/str/bool/...) → query
+
+Quy tắc phân loại trên là **khái niệm trừu tượng nhất bài** — sơ đồ dưới minh hoạ FastAPI "bóc" 1 request thành 3 loại param như thế nào:
+
+```mermaid
+flowchart TD
+    REQ["PUT /products/42?notify=false + JSON body"]
+    REQ -->|"nằm trong URL path"| P["id = 42 → path param"]
+    REQ -->|"sau dấu ?"| Q["notify = false → query param"]
+    REQ -->|"JSON trong body"| B["ProductCreate → body param"]
+```
+
+→ Bạn không cần khai báo "đây là path/query/body" — FastAPI suy ra từ **vị trí trong URL + type hint**, đó là lý do signature function tự nó là documentation.
 
 ---
 
@@ -615,3 +627,4 @@ app.include_router(router)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 2/5. Cover: path/query/body parameters + Path/Query validation + repeating query + status codes + response_model + HTTPException + custom response + headers + cookies.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ phân loại path/query/body param cho trực quan.

@@ -1,7 +1,7 @@
 # ⚙️📦 A02 Security Misconfiguration + A03 Software Supply Chain Failures + A08 Integrity
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
@@ -337,6 +337,22 @@ Tool: **EOL.date**, **endoflife.date** — check support status.
 > 📌 *Giữ nguyên vị trí #8 trong OWASP Top 10:2025 (đổi tên nhẹ "and" → "or"). Liên quan chặt với A03 Software Supply Chain Failures: A03 lo "component nào đang dùng có an toàn không", còn A08 lo "artifact build ra/dữ liệu nhận về có bị tráo, có verify integrity không".*
 
 🪞 **Ẩn dụ**: *Supply chain integrity như **chuỗi giao bưu kiện** — kiện đến tay bạn có nguyên seal nhà cung cấp không? Có ai tráo giữa đường không? Cosign + SLSA = **seal vô hình chứng minh nguồn gốc**.*
+
+Sơ đồ dưới ghép A03 + A08 thành 1 chuỗi cung ứng an toàn — từ dev đến lúc image chạy trên cluster:
+
+```mermaid
+flowchart LR
+    D[Developer] --> DEP["Dependencies<br>(scan CVE: Trivy/Dependabot)"]
+    DEP --> B["CI build<br>(pin version + hash)"]
+    B --> S["Sinh SBOM (Syft)"]
+    S --> SG["Sign image + attest SBOM<br>(cosign)"]
+    SG --> R[(Registry)]
+    R --> V{"Verify chữ ký khi deploy<br>(Kyverno policy)"}
+    V -->|"Chữ ký hợp lệ"| OK["Chạy trên K8s ✅"]
+    V -->|"Không sign / sai"| X["Từ chối deploy ❌"]
+```
+
+→ Mỗi mắt xích đều phải verify được mắt xích trước — chỉ cần 1 khâu không sign/verify (ví dụ registry nhận image không chữ ký) là attacker chen được artifact giả vào chuỗi.
 
 ### Các kịch bản vuln
 
@@ -730,3 +746,4 @@ SSL Labs: **A+**.
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 OWASP basic. A05 Misconfig (9 security headers, CORS, debug, default creds, S3 misconfig) + A06 Components (Dependabot, Trivy, Snyk, OSV-Scanner, triage workflow) + A08 Integrity (SLSA L1-L3, cosign, SBOM CycloneDX, pin dep, deserialize) + hands-on harden Acme Shop A → A+ + 8 pitfalls.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật chuẩn **OWASP Top 10:2025** (bản hiện hành). Đổi numbering + tên category: A05 Misconfig → **A02 Security Misconfiguration** (lên #2); A06 Vulnerable Components → **A03 Software Supply Chain Failures** (category MỚI, mở rộng); A08 → **A08 Software or Data Integrity Failures**. Cập nhật title, lời dẫn, 3 heading section, mục Tình huống, nav text (A04 Crypto/A06 Insecure Design ở bài trước; SSRF nay gộp A01 ở bài sau), link tài nguyên OWASP sang Top 10:2025. Sửa factual: SLSA L4 là **deferred ở v1.0** (không phải "merged with L3"). Sửa broken-content: tách dòng "Khuyến nghị 2026" ra khỏi bảng Auto-upgrade (bảng vỡ). Bổ sung Glossary "Software Supply Chain Failures".
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow chuỗi cung ứng an toàn (scan → SBOM → cosign → verify deploy) cho trực quan.

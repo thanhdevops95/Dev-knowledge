@@ -1,9 +1,9 @@
 # 🎓 Auth & Middleware — JWT, OAuth2, CORS, Logging
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Database với SQLModel](03_database-with-sqlmodel.md), [HTTP Headers](../../../../../05_networking/http-https/lessons/01_basic/03_http-headers.md)
@@ -136,6 +136,22 @@ JWT là chuỗi text **3 phần ngăn cách dấu `.`** — mỗi phần base64-
 5. Mỗi request: Authorization: Bearer eyJ...
 6. Server verify signature + expiry → biết user là ai
 ```
+
+6 bước trên dễ hình dung hơn qua sequence diagram — **login 1 lần lấy token**, mọi request sau chỉ gửi kèm Bearer để server verify:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server (FastAPI)
+    C->>S: POST /token (email + password)
+    S->>S: verify_password (bcrypt)
+    S-->>C: access_token (JWT, exp 30 phút)
+    C->>S: GET /users/me + Authorization Bearer
+    S->>S: verify signature + exp (SECRET_KEY)
+    S-->>C: 200 JSON (user) — hoặc 401 nếu token sai
+```
+
+→ Server **không lưu session nào** — mọi thông tin nằm trong token đã sign, nên verify chỉ cần SECRET_KEY và scale ngang dễ dàng (stateless).
 
 ### JWT vs Cookie session
 
@@ -622,3 +638,4 @@ async def log_requests(req, call_next):
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 5/5. Cover: hash password bcrypt + JWT (3 phần + workflow + vs cookie session) + OAuth2PasswordBearer + dependency `get_current_user` + CORS middleware + custom middleware (logging, rate limit) + production checklist (HTTPS, refresh token, secret rotation).
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Cài passlib + `app/core/security.py` + Dùng hash/verify + Tại sao không SHA256, §2 JWT 3 phần. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ sequence login JWT → Bearer → verify cho trực quan.

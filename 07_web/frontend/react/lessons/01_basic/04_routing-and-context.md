@@ -1,9 +1,9 @@
 # 🎓 Routing & Context — Multi-page SPA + Global state
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [useEffect & Fetch](03_useeffect-and-fetch.md)
@@ -592,6 +592,21 @@ function Layout() {
 
 → Full SPA với routing + context + layout. Production-grade architecture.
 
+Nhìn tổng thể, app là 1 cây: **Provider bao ngoài** (mọi page đọc được user/cart), **URL map xuống component** qua Routes, child route render vào `<Outlet>` của Layout:
+
+```mermaid
+flowchart TD
+    UP["UserProvider + CartProvider"] --> RT["Routes"]
+    RT -- "/" --> LAY["Layout (Outlet)"]
+    RT -- "/login" --> LOGIN["Login"]
+    LAY -- "index" --> HOME["Home"]
+    LAY -- "products/:id" --> PD["ProductDetail"]
+    LAY -- "cart" --> CART["Cart"]
+    LAY -- "admin" --> PR["ProtectedRoute"] --> ADMIN["AdminPage"]
+```
+
+→ Context phủ **từ Provider xuống toàn bộ subtree** nên Home/Cart/Admin đều đọc được cart count không cần prop drilling, còn `/login` nằm ngoài Layout nên không có header/footer.
+
 ---
 
 ## 💡 Cạm bẫy thường gặp & Best practice
@@ -760,3 +775,4 @@ const count = useStore(s => s.count);
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 5/5. Cover: React Router setup + Routes/Route + dynamic params + Link/NavLink + useNavigate + useParams + nested routes + Context API (createContext + Provider + useContext) + Cart context example.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 React Router Setup (Cài + main.jsx + App.jsx + Pages structure) + §2 Link/NavLink. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ cấu trúc route + Context Provider bao cây cho trực quan.

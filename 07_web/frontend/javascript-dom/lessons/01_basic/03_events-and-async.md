@@ -1,9 +1,9 @@
 # 🎓 Events & Async — Click, Promise, async/await
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DOM Manipulation](02_dom-manipulation.md)
@@ -514,6 +514,21 @@ PENDING  → REJECTED   (reject)
 
 → Settled (xong) = fulfilled hoặc rejected. Không quay lại pending.
 
+Sơ đồ dưới ghép trọn vòng đời Promise với handler tương ứng — state nào kích hoạt `.then`, state nào kích hoạt `.catch`:
+
+```mermaid
+flowchart LR
+    N["new Promise()"] --> P[PENDING]
+    P -- "resolve(value)" --> F[FULFILLED]
+    P -- "reject(error)" --> R[REJECTED]
+    F --> T[".then(value)"]
+    R --> C[".catch(error)"]
+    T --> FIN[".finally()"]
+    C --> FIN
+```
+
+→ Mỗi Promise chỉ đi **1 trong 2 nhánh** đúng 1 lần — settle rồi là cố định, và `.finally` luôn chạy bất kể nhánh nào, nên hợp để cleanup (tắt spinner, clear timeout).
+
 ### `Promise.all` — Wait tất cả
 
 ```javascript
@@ -816,3 +831,4 @@ const throttled = throttle(fn, 100);    // max 1/100ms
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 4/5. Cover: addEventListener + 20+ event types (click/input/submit/keyboard/mouse/touch) + event bubbling + delegation + preventDefault + stopPropagation + Promise + async/await + setTimeout/setInterval + microtask vs task queue.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục addEventListener cơ bản, so sánh onclick cũ, Remove listener, Options, AbortController. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ Promise lifecycle (pending → fulfilled/rejected → then/catch/finally) cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 INSERT / UPDATE / DELETE & Transactions
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md)
@@ -399,6 +399,18 @@ COMMIT;
 
 ## 6️⃣ Transaction — BEGIN / COMMIT / ROLLBACK
 
+Sơ đồ dưới minh hoạ vòng đời 1 transaction — mọi thay đổi giữa `BEGIN` và `COMMIT` chỉ tồn tại "tạm" cho đến khi bạn quyết định giữ hay huỷ:
+
+```mermaid
+flowchart LR
+    A["BEGIN"] --> B["INSERT / UPDATE / DELETE<br>(thay đổi tạm, chưa ai thấy)"]
+    B --> C{"Tất cả OK?"}
+    C -- "Có" --> D["COMMIT<br>(lưu vĩnh viễn)"]
+    C -- "Lỗi / đổi ý" --> E["ROLLBACK<br>(huỷ toàn bộ)"]
+```
+
+→ Chính nhánh ROLLBACK là "lưới an toàn" giúp bạn thoát thảm hoạ UPDATE/DELETE quên WHERE — miễn là chưa COMMIT.
+
 ```sql
 BEGIN;                                  -- bắt đầu transaction
   INSERT INTO orders (user_id, amount) VALUES (1, 250000);
@@ -688,3 +700,4 @@ DROP TABLE t;                   -- xóa cả bảng
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 5/6. Cover: INSERT (single/multi/from SELECT/RETURNING) + UPDATE (luôn WHERE!) + DELETE (TRUNCATE compare) + UPSERT (INSERT ON CONFLICT / MERGE) + transactions ACID + savepoints + soft delete pattern.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Cú pháp INSERT + INSERT nhiều rows + INSERT từ SELECT + Default & AUTO-INCREMENT + RETURNING. Chuẩn hoá tên + email trong ví dụ. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow vòng đời transaction (BEGIN → COMMIT/ROLLBACK) cho trực quan.

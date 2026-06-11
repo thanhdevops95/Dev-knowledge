@@ -1,7 +1,7 @@
 # 💰📊 LLM App — Cost, Evaluation, Production
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
@@ -37,6 +37,26 @@ Sếp:
 > *"Optimize: cost giảm 50%, P95 < 2s, hallucination < 2%, zero leak. 2 tuần. Bạn làm."*
 
 Bài này map từng vấn đề + fix.
+
+Trước khi đi từng phần, đây là toàn cảnh đường đi của 1 request production — mỗi trạm tương ứng 1 section trong bài:
+
+```mermaid
+flowchart LR
+    U[User] --> IG["Input guardrail<br>(length, PII, injection)"]
+    IG --> C{Cache hit?}
+    C -->|"Có"| FAST["Trả answer cache<br>(0ms, $0)"]
+    C -->|"Không"| RT{"Model routing"}
+    RT -->|"Simple (70%)"| H["Haiku (rẻ)"]
+    RT -->|"Medium (25%)"| S["Sonnet"]
+    RT -->|"Complex (5%)"| O["Opus (đắt)"]
+    H --> OG["Output guardrail<br>(leak, hallucination)"]
+    S --> OG
+    O --> OG
+    OG --> LG["Log + eval<br>(Langfuse, cost, latency)"]
+    LG --> A["Trả lời user"]
+```
+
+→ Cost, latency, chất lượng và an toàn được xử lý ở các trạm khác nhau — bỏ trạm nào là dính lại đúng vấn đề tương ứng trong cost report ở trên.
 
 ---
 
@@ -799,3 +819,4 @@ Next options:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) LLM. Cost optimization (prompt caching, model routing, batch API, structured output, context compression) + latency (streaming, smaller model, parallel, edge cache) + eval harness (offline + online, LLM-as-judge, RAGAS) + 6-layer guardrail (input/output/refusal/escalation) + observability (Langfuse/Helicone/Phoenix) + prompt injection 6-layer defense + A/B test + 30-item production checklist + 8 pitfalls. **Đóng LLM basic cluster 5/5.**
 - **v1.1.0 (07/06/2026)** — Sửa lỗi kiểm chứng theo pricing/API Anthropic 2026: bổ sung chi phí cache write (1.25× / 2×) bên cạnh read 0.1× (trước chỉ nói "10%"), bỏ "beta" cho TTL 1h (đã GA); tính lại blended routing cost theo giá đúng (Haiku $1/$5, Sonnet $3/$15, Opus $5/$25) → ~$1.70 input / $8.50 output (≈ −43%, không phải −50%); sửa comment giá Haiku $0.80→$1/M; cập nhật import deprecated (Langfuse v3 `from langfuse import observe`, Phoenix → `openinference.instrumentation.openai`); đánh dấu bảng latency là ước lượng; thêm lưu ý model ID mới nhất là `claude-opus-4-8`. Lý do: bảo đảm số liệu/code chạy đúng năm 2026.
 - **v1.1.1 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ flow request production (guardrail → cache → routing → log/eval) cho trực quan.

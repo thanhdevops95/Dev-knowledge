@@ -1,9 +1,9 @@
 # 🎓 JSONB, Arrays & Full-text — Postgres killer features
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Indexes & Performance](02_indexes-and-performance.md)
@@ -47,6 +47,19 @@ Senior:
 > *"Đây là use case của **JSONB**. Lưu config động trong 1 column `preferences JSONB`. Schema flexible mà vẫn query + index được. Khác MongoDB ở chỗ vẫn ACID + JOIN với SQL normal."*
 
 → Bài này dạy JSONB + arrays + full-text.
+
+Sơ đồ dưới minh hoạ decision flow chọn giữa **cột thường**, **JSONB**, và **bảng riêng** — câu hỏi đầu tiên trước khi đụng tới syntax:
+
+```mermaid
+flowchart TD
+    A["Cần lưu data mới"] --> B{"Schema cố định,<br>field biết trước?"}
+    B -- "Có" --> C["Cột thường<br>(TEXT, INT, ...)"]
+    B -- "Không" --> D{"Cần JOIN / constraint<br>như entity riêng?"}
+    D -- "Có" --> E["Bảng riêng + FK"]
+    D -- "Không" --> F["JSONB + GIN index"]
+```
+
+→ Quy tắc: structured ổn định → cột thường; entity có quan hệ → bảng riêng; config/metadata động → JSONB.
 
 ---
 
@@ -706,3 +719,4 @@ SELECT * FROM t ORDER BY emb <=> '[...]' LIMIT 10;
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 4/5. Cover: JSON vs JSONB + 7 operator (`->`, `->>`, `#>`, `#>>`, `?`, `@>`, `<@`) + GIN index cho JSONB + Arrays (1D, multi-D) + ANY/ALL + Full-text search (tsvector, tsquery, ranking) + GIN cho FTS.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 JSON vs JSONB + Create+insert + `'{}'::jsonb` cast + §2 `->` vs `->>` + path `#>` + `#>>`. Chuẩn hoá tên trong INSERT example + tiêu đề §7. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ decision flow cột thường vs JSONB vs bảng riêng cho trực quan.

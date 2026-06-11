@@ -1,9 +1,9 @@
 # 🎓 DOM Manipulation — JS điều khiển HTML
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Variables & Functions](01_variables-functions-types.md), [HTML Essentials](../../../html-css/lessons/01_basic/01_html-essentials.md)
@@ -96,6 +96,18 @@ h1.style.color = 'red';   // Inline style
 > - HTML file = **certificate** dòng họ.
 > - DOM = **gia phả thực sự** đang sống, JS đi thăm/sửa từng người.
 > - Đổi DOM → browser tự re-render (paint pixel mới).
+
+Toàn bộ bài này xoay quanh 1 vòng lặp duy nhất — chọn element, sửa nó, browser tự vẽ lại. Sơ đồ tổng quan trước khi đi vào từng bước:
+
+```mermaid
+flowchart LR
+    A["HTML"] -- "browser parse" --> B["DOM tree"]
+    B -- "querySelector" --> C["Element object"]
+    C -- "textContent / classList / style" --> D["DOM thay đổi"]
+    D -- "tự động" --> E["Browser re-render UI"]
+```
+
+→ JS không bao giờ sửa file HTML — chỉ sửa **DOM tree trong memory**, và browser lo phần vẽ lại pixel; mọi API trong bài (§2 query, §3-6 modify) đều nằm trên dòng chảy này.
 
 ---
 
@@ -674,3 +686,4 @@ parent.append(clone);
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 3/5. Cover: DOM tree concept + node anatomy + query selectors (modern vs legacy) + traverse (parent/children/siblings) + modify (textContent/innerHTML/classList/style) + create + insert + remove + clone elements.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục Anatomy node, querySelector, Legacy methods, Query trong element con, Iterate NodeList. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow query → modify → browser re-render cho trực quan.

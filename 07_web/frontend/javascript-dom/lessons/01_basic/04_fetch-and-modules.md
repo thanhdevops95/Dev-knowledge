@@ -1,9 +1,9 @@
 # 🎓 Fetch API & ES Modules — Gọi backend + Code modular
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Events & Async](03_events-and-async.md), [REST API](../../../../../05_networking/http-https/lessons/01_basic/05_rest-api-concepts.md)
@@ -115,6 +115,26 @@ console.log(data);    // { detail: "Not found" } — bạn tưởng OK
 ```
 
 → `fetch` chỉ reject khi **network fail** (CORS, offline, DNS). Status 404/500 vẫn resolve.
+
+Sequence diagram dưới vẽ trọn 3 kịch bản của 1 lần `fetch` — chú ý 404/500 vẫn đi nhánh "resolve", chỉ network fail mới reject:
+
+```mermaid
+sequenceDiagram
+    participant JS
+    participant Server
+    JS->>Server: fetch(url)
+    alt HTTP 200
+        Server-->>JS: Response (ok = true)
+        JS->>JS: res.json() rồi render DOM
+    else HTTP 404 / 500
+        Server-->>JS: Response (ok = false) — vẫn resolve!
+        JS->>JS: tự check res.ok rồi throw Error
+    else Network fail (offline, CORS, DNS)
+        Server--xJS: Promise reject (TypeError)
+    end
+```
+
+→ Browser coi "server có trả lời" là thành công bất kể status code — vì vậy bước `if (!res.ok) throw` phía dưới là việc **bạn phải tự làm**, fetch không làm hộ.
 
 ### ✅ Check `res.ok` explicit
 
@@ -833,3 +853,4 @@ try {
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 5/5. Cover: fetch API (GET/POST/PUT/DELETE) + async/await + Response object + error handling (gotcha 4xx/5xx) + JSON body + FormData + AbortController cancel + ES modules (import/export) + tree-shaking.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục fetch GET, async/await, Response object, fetch không reject 4xx, Check res.ok. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ sequence fetch (200 / 4xx-5xx / network fail) cho trực quan.

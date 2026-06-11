@@ -1,9 +1,9 @@
 # 🎓 useEffect & Fetch — Side effects + Real data
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [State & Events](02_state-and-events.md), [Fetch API](../../../javascript-dom/lessons/01_basic/04_fetch-and-modules.md)
@@ -104,6 +104,20 @@ Bảng quick reference cho 4 use case phổ biến — pick đúng dependency ar
 | Run after every render (rare) | (no array) |
 
 → **99% case** dùng `[]` hoặc `[deps]`. **Avoid no-array** (gây re-render loop).
+
+Sơ đồ dưới ghép trọn vòng đời 1 effect fetch — từ mount đến unmount, gồm cả chỗ cleanup chen vào:
+
+```mermaid
+flowchart LR
+    M[Mount] --> E["Effect chạy: fetch"]
+    E --> S["setState(data)"]
+    S --> R[Re-render UI]
+    R --> D{"Deps đổi?"}
+    D -- "Có" --> CL["Cleanup cũ"] --> E
+    D -- "Unmount" --> CU["Cleanup cuối"]
+```
+
+→ Cleanup không chỉ chạy lúc unmount — nó chạy **trước mỗi lần effect re-run** khi deps đổi, nên 1 cleanup viết đúng (abort fetch, clearInterval) tự xử lý cả 2 tình huống (§4).
 
 ---
 
@@ -687,3 +701,4 @@ function useThing(arg) {
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 4/5. Cover: useEffect hook (3 patterns dependency array) + side effects + fetch data pattern (loading/error/success) + cleanup function + race condition + abort controller + custom hooks intro.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in 2-3 câu trước §1 useEffect cú pháp + 3 patterns + Khi nào dùng + §3 Pattern đầy đủ + 3 states. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng đời useEffect (mount → effect → cleanup) cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 State & Events — useState, event handlers, controlled forms
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Components & Props](01_components-and-props.md)
@@ -77,6 +77,18 @@ function Counter() {
 
 → `useState(initial)` returns `[currentValue, setterFunction]`.
 → Click button → `setCount` → React **re-render component** với value mới.
+
+Đây là **vòng lặp state** — mental model cốt lõi của React, mọi tương tác đều xoay 1 vòng này:
+
+```mermaid
+flowchart LR
+    A["User click"] --> B["Handler gọi setCount(mới)"]
+    B --> C["React re-render component"]
+    C --> D["UI hiển thị count mới"]
+    D -- "click tiếp" --> A
+```
+
+→ UI không bao giờ được sửa trực tiếp — muốn UI đổi thì **đổi state qua setter**, React lo phần render lại; biến thường (`let cart = []` ở tình huống đầu bài) nằm ngoài vòng lặp này nên UI đứng im.
 
 ### Quy tắc Hooks
 
@@ -804,3 +816,4 @@ dispatch({ type: 'ACTION', payload });
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `react/` lesson 3/5. Cover: useState hook (cú pháp + 2 rules + multiple + lazy init) + event handlers (onClick/onChange/onSubmit/onKeyDown) + controlled vs uncontrolled inputs + form pattern + synthetic events.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục useState cú pháp, Quy tắc Hooks, Multiple state, Initial lazy, onClick handler. Chuẩn hoá giá trị ví dụ trong code thành placeholder. Thêm mục Changelog.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng lặp state (click → setState → re-render) cho trực quan.
