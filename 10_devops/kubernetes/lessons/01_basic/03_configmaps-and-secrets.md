@@ -1,9 +1,9 @@
 # 🎓 ConfigMaps Và Secrets: Tách Biệt Cấu Hình Và Bảo Mật Tuyệt Đối Môi Trường
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Cấu hình định tuyến dịch vụ với Services và Ingress](./02_services-and-networking.md)
@@ -161,7 +161,19 @@ stringData:
 
 ## 3️⃣ 3 Phương Pháp Inject Cấu Hình Vào Pod: Env Var, EnvFrom Và Volume Mount
 
-Kubernetes cung cấp cho bạn 3 cách vô cùng linh hoạt để bơm (inject) dữ liệu từ ConfigMap và Secret vào bên trong Container của Pod:
+Kubernetes cung cấp cho bạn 3 cách vô cùng linh hoạt để bơm (inject) dữ liệu từ ConfigMap và Secret vào bên trong Container của Pod. Sơ đồ dưới tóm gọn cả hai "con đường" mà dữ liệu cấu hình đi vào container — qua biến môi trường hoặc qua tệp tin:
+
+```mermaid
+flowchart LR
+    CM["ConfigMap<br/>(config mở)"] --> ENV["Biến môi trường<br/>(env / envFrom)"]
+    SE["Secret<br/>(dữ liệu nhạy cảm)"] --> ENV
+    CM --> VOL["Volume mount<br/>(tệp trong /etc/config)"]
+    SE --> VOL
+    ENV --> POD["Container trong Pod"]
+    VOL --> POD
+```
+
+→ Cùng một nguồn ConfigMap/Secret nhưng hai con đường có hành vi khác nhau: biến môi trường chỉ nạp một lần lúc container khởi chạy, còn tệp tin qua volume mount được tự động cập nhật (chi tiết ở mục 4).
 
 ### Phương pháp 1: Inject từng biến môi trường đơn lẻ (Khuyên dùng cho tính tường minh)
 
@@ -559,3 +571,4 @@ volumes:
 - **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4+ §3.6: bổ sung lời dẫn trước phần phân biệt ConfigMap và Secret.
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên về ConfigMap và Secret.
 - **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow inject ConfigMap/Secret (env var vs volume mount → container) cho trực quan.

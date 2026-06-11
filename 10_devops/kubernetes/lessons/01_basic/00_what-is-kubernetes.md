@@ -1,9 +1,9 @@
 # 🎓 Tổng Quan Về Kubernetes: Giải Pháp Điều Phối Container Trách Nhiệm Cao
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]
 
@@ -296,6 +296,20 @@ kubectl apply -f nginx-deployment.yaml
 - Toàn bộ thiết kế hệ thống được lưu lại dưới dạng code (Infrastructure as Code - IaC), giúp bạn dễ dàng commit lên Git để quản lý phiên bản, kiểm duyệt code (Code Review) và tự động hóa CI/CD (GitOps).
 - Có tính chất **Idempotent (độc lập tác vụ):** Dù bạn có gõ lệnh apply 10 lần thì hệ thống vẫn giữ nguyên 3 Pod khỏe mạnh, không hề gây ra tình trạng tạo trùng lặp.
 
+Đằng sau một lệnh `kubectl apply` đơn giản là cả một vòng lặp cân bằng (Reconciliation Loop) chạy liên tục — chuỗi phối hợp giữa các thành phần Control Plane và Worker Node diễn ra như sau:
+
+```mermaid
+flowchart LR
+    Y["YAML manifest<br/>(replicas: 3)"] -- "kubectl apply" --> API["API Server"]
+    API --> E["etcd<br/>(desired state)"]
+    CM["Controller Manager"] -- "so sánh<br/>desired vs actual" --> E
+    CM -- "thiếu Pod → tạo bù" --> SCH["Scheduler<br/>(chọn Node)"]
+    SCH --> KL["kubelet trên Node"]
+    KL --> P["Pod chạy thật"]
+```
+
+→ Chính vòng lặp này tạo nên tính Idempotent và khả năng tự phục hồi: bạn chỉ khai báo trạng thái mong muốn, K8s tự so sánh và điều chỉnh thực tế 24/7.
+
 ---
 
 ## 7️⃣ Managed Kubernetes Trên Production: Cân Nhắc Chi Phí Vận Hành Và Hiệu Năng Thực Tế
@@ -544,3 +558,4 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các phần sơ đồ kiến trúc.
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản giới thiệu K8s.
 - **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ vòng lặp reconciliation (kubectl apply → etcd → Controller → Scheduler → kubelet → Pod) cho trực quan.

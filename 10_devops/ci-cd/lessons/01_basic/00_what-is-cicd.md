@@ -1,7 +1,7 @@
 # 🎓 CI/CD là gì? — Automate build, test, deploy
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -98,6 +98,21 @@ Developer push code
         ▼
    [CD: Deploy prod]    ← Manual (Delivery) hoặc Auto (Deployment)
 ```
+
+Sơ đồ dưới minh hoạ pipeline CI/CD đầy đủ — từ push code qua CI (build → test → scan) tạo artifact, rồi CD đưa lên staging và production. Điểm rẽ nhánh ở gate cuối chính là ranh giới Delivery vs Deployment:
+
+```mermaid
+flowchart LR
+    A[Developer push code] --> B[CI: Build]
+    B --> C[CI: Test + Scan]
+    C --> D[Artifact / Image]
+    D --> E[CD: Deploy staging]
+    E --> F{Gate prod}
+    F -->|"Manual approve (Delivery)"| G[Production]
+    F -->|"Auto (Deployment)"| G
+```
+
+→ Hai practice dùng chung toàn bộ pipeline phía trước, chỉ khác đúng một node gate — vì vậy chuyển từ Delivery sang Deployment chủ yếu là bài toán về niềm tin vào test + rollback, không phải bài toán kỹ thuật pipeline.
 
 ---
 
@@ -608,3 +623,4 @@ Failure:     0-15%
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 1/5. Cover: CI vs CD vs CD (Delivery vs Deployment) + history + 8 tool 2026 compare + decision matrix + anatomy pipeline (trigger/jobs/steps/secrets) + first GitHub Actions workflow.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Visualization + Evolution + Tools compare + Pick 2026 + §3 Anatomy pipeline.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ pipeline CI/CD tổng (gate Delivery vs Deployment) cho trực quan.

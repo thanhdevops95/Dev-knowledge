@@ -1,7 +1,7 @@
 # 🎓 IaC Best Practices & Alternatives
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -614,6 +614,20 @@ kubectl apply -f vpc.yaml
 
 → **2026 trend**: Platform Engineering teams adopt Crossplane for "infrastructure as APIs".
 
+Đặt cả 4 lựa chọn lên một cây quyết định, việc chọn tool IaC 2026 gói gọn trong ba câu hỏi tuần tự:
+
+```mermaid
+flowchart TD
+    Q1{"Nền tảng K8s-native,<br/>cần reconcile liên tục?"} -- "Có" --> CP["Crossplane"]
+    Q1 -- "Không" --> Q2{"Chỉ dùng AWS?"}
+    Q2 -- "Có" --> CDK["AWS CDK"]
+    Q2 -- "Không" --> Q3{"Team mạnh TS/Python,<br/>cần loop/OOP phức tạp?"}
+    Q3 -- "Có" --> PU["Pulumi"]
+    Q3 -- "Không" --> TF["Terraform / OpenTofu<br/>(default 2026)"]
+```
+
+→ Khi không có yếu tố đặc thù nào, nhánh mặc định luôn rơi về Terraform/OpenTofu — ecosystem lớn nhất, tài liệu nhiều nhất và dễ tuyển người nhất.
+
 ---
 
 ## 1️⃣0️⃣ Anti-pattern (cách làm sai) cần tránh
@@ -851,3 +865,4 @@ Crossplane   K8s-native IaC
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 5/5. Cover: security scan (tfsec/checkov/snyk) + cost (Infracost) + policy (OPA/Sentinel) + alternatives (Pulumi/CDK/Crossplane decision matrix) + tagging strategy + naming convention.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước tfsec, Checkov, CI integration và Common findings.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ cây quyết định chọn tool IaC (Terraform/OpenTofu vs Pulumi vs CDK vs Crossplane) cho trực quan.

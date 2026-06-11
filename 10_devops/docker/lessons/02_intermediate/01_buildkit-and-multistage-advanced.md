@@ -1,9 +1,9 @@
 # 🎓 BuildKit & Multi-stage Advanced — Build 1 phút thay 5 phút
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Docker Intermediate — Tổng quan](00_intermediate-overview.md), đã cài Docker 23 trở lên.
@@ -290,6 +290,18 @@ docker buildx build --ssh default -t myapp .
 ## 4️⃣ Multi-stage build nâng cao
 
 Cache và secret lo phần *tốc độ* và *an toàn* lúc build. Phần còn lại là *kích thước* image cuối — và đây là lúc multi-stage build vào cuộc. Ý tưởng rất đời thường: tách "căn bếp" (nơi cần dao, lò, nguyên liệu thô để nấu) khỏi "đĩa món ăn" mang ra bàn (chỉ còn thành phẩm). Stage builder chứa compiler và dev tool nặng nề; stage runtime chỉ giữ đúng thứ cần để chạy. Mỗi pattern dưới đây là một công thức tách bếp cho một ngôn ngữ.
+
+Sơ đồ dưới minh hoạ flow chung của mọi pattern multi-stage — stage builder cài deps và compile, `COPY --from` chỉ bê artifact sang stage runtime mỏng, còn toàn bộ đồ nghề build bị bỏ lại:
+
+```mermaid
+flowchart LR
+    S["Source + requirements"] --> B["Stage builder: gcc + dev tools + pip install"]
+    B -->|"COPY --from=builder (chỉ artifact)"| R["Stage runtime: base slim"]
+    B -.->|"gcc, cache, dev deps bỏ lại"| X["Không vào image cuối"]
+    R --> I["Image cuối ~150 MB (vs 1.2 GB)"]
+```
+
+→ Image cuối chỉ chứa stage cuối cùng, nên stage builder nặng bao nhiêu cũng không ảnh hưởng kích thước ship đi — đó là lý do multi-stage giảm size mà không phải hy sinh tool lúc build.
 
 ### Pattern 1: Tách build và runtime (Python)
 
@@ -1032,3 +1044,4 @@ FROM python:3.12-slim AS final
 - **v1.1.0 (25/05/2026)** — thêm lead-in trước Verify BuildKit + Cache mount giải pháp + Demo timing + Cache cho Node/Go/Rust + Cache mount options.
 - **v1.1.1 (01/06/2026)** — Sửa lỗi QA: comment "25+ là BuildKit default" → "23+" (BuildKit default từ Docker Engine 23.0); sửa giải thích Q2 multi-platform (image store cổ điển/legacy graph driver mới là cái không hỗ trợ manifest list, không phải containerd image store); cập nhật note containerd image store đã GA + default (Docker Desktop 4.34+/Engine v29+); sửa pitfall syntax directive (error thật là "Unknown flag: mount" trên classic builder, Docker 23+ chạy được mount cơ bản kể cả thiếu directive); sửa chú thích `--ssh default` ($SSH_AUTH_SOCK thay vì ~/.ssh/agent).
 - **v1.2.0 (01/06/2026)** — Polish văn phong + soát QA theo checklist: Việt hoá metadata "Yêu cầu trước" và mục tiêu, làm mượt các đoạn "điện tín" (chuỗi thuật ngữ EN) ở §1–§8, thêm lời dẫn trước code/bảng và câu bắc cầu giữa các section, Việt hoá các sub-heading EN thuần (Demo timing, Cache mount options, Setup buildx, Verify manifest, Cross-platform tip, Step 1–3) và header bảng (Aspect/Option), giải thích thuật ngữ EN trong ngoặc lần đầu (cache mount, secret mount, monorepo, QEMU, manifest list, build context), bổ sung ngôn ngữ `text` cho fence output build; giữ nguyên 100% code/số liệu/flag và heading cấu trúc.
+- **v1.2.1 (11/06/2026)** — Bổ sung sơ đồ flow multi-stage build (builder → COPY --from → runtime) cho trực quan.

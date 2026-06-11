@@ -1,7 +1,7 @@
 # 🎓 Metrics with Prometheus — De-facto metrics tool
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -54,6 +54,18 @@ Prometheus có 4 thành phần xoay quanh **TSDB local** (lưu time-series). **R
 │                           Slack/Email/PagerDuty
 └─────────────────────────┘
 ```
+
+Điểm trừu tượng nhất của kiến trúc này là mô hình **pull**: Prometheus chủ động đi "hỏi" — scrape target lấy metric, và chính Grafana cũng query ngược vào Prometheus. Sơ đồ rút gọn luồng dữ liệu:
+
+```mermaid
+flowchart LR
+    P["Prometheus Server<br/>(TSDB)"] -->|"scrape /metrics mỗi 15s"| T["App / Exporter"]
+    G["Grafana"] -->|"PromQL query"| P
+    P -->|"alert rule firing"| AM["Alertmanager"]
+    AM --> S["Slack / PagerDuty"]
+```
+
+→ Mọi mũi tên lấy dữ liệu đều xuất phát từ phía *tiêu thụ* (pull) — chỉ riêng alert là Prometheus chủ động đẩy sang Alertmanager để route đi notification.
 
 ### Pull vs Push (tranh luận)
 
@@ -799,3 +811,4 @@ blackbox-exporter     URL uptime
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Architecture + §2 Data model + Time-series + Labels + Cardinality control.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Observability sprint #2.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ kiến trúc pull (scrape → TSDB → PromQL → Alertmanager) cho trực quan.

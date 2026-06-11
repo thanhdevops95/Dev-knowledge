@@ -1,9 +1,9 @@
 # 🎓 Modules & Multi-env — DRY + Reusability
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [State & Backend — Production essentials](02_state-and-backend.md)
@@ -201,7 +201,17 @@ terraform init       # Initialize modules
 terraform apply
 ```
 
-Đến đây bạn đã đạt được **DRY** thật sự: cùng module `vpc/` này, chỉ cần đổi biến đầu vào là dựng được hạ tầng cho dev, staging và prod mà không copy một dòng tài nguyên nào.
+Đến đây bạn đã đạt được **DRY** thật sự: cùng module `vpc/` này, chỉ cần đổi biến đầu vào là dựng được hạ tầng cho dev, staging và prod mà không copy một dòng tài nguyên nào. Sơ đồ dưới trực quan hoá đúng ý đó — một bản code, ba bộ biến, ba hạ tầng:
+
+```mermaid
+flowchart TD
+    M["modules/vpc<br/>(1 bản code duy nhất)"]
+    M -- "vars dev" --> D["VPC dev"]
+    M -- "vars staging" --> S["VPC staging"]
+    M -- "vars prod" --> P["VPC production"]
+```
+
+→ Sửa module một chỗ, cả ba môi trường nhận thay đổi ở lần `apply` kế tiếp — đó chính là giá trị thật của DRY so với copy-paste ba thư mục.
 
 ---
 
@@ -911,3 +921,4 @@ go test ./...                            # Terratest
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 4/5. Cover: module anatomy + write VPC module from scratch + workspaces + multi-env (dev/staging/prod) + Terraform Registry + module versioning + count/for_each loops.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước Why module, Anatomy và variables.tf interface.
 - **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative đúng gold-standard: thêm lời dẫn 2-3 câu trước mỗi code/bảng/list, câu phân tích sau, câu bắc cầu giữa các section, ẩn dụ "module = hàm"; Việt hoá đoạn điện tín EN và label Pros/Cons → Ưu/Nhược điểm. Áp fix QA: heading canonical (Self-check/Cheatsheet/Cạm bẫy & Best practice), Yêu cầu trước, Glossary 3 cột, nav 3 sub với marker ⬅️/➡️/↑ và link-text = tiêu đề H1 thực, sửa link cụm liên quan (K8s/CI-CD) đúng đường dẫn, gỡ nhãn (sắp viết). Giữ nguyên 100% code/lệnh/config/số liệu và cấu trúc 9 phần.
+- **v2.0.1 (11/06/2026)** — Bổ sung sơ đồ module tái dùng (1 module VPC → 3 môi trường) cho trực quan.

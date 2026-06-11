@@ -1,9 +1,9 @@
 # 🎓 Namespaces Và RBAC: Thiết Lập Biên Giới An Ninh Và Phân Quyền Hạn Chế Tối Đa
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [ConfigMaps & Secrets](03_configmaps-and-secrets.md)
@@ -407,6 +407,17 @@ Các hành động trong RBAC được mô tả bằng các động từ (Verbs)
 | **`patch`** | PATCH | Cập nhật một phần thông tin của tài nguyên. |
 | **`delete`** | DELETE | Xóa một tài nguyên cụ thể. |
 | **`deletecollection`** | DELETE (danh sách) | Xóa hàng loạt tài nguyên cùng lúc. |
+
+Ráp 4 mảnh ghép lại, chuỗi phân quyền hoàn chỉnh trong một Namespace trông như sau — đọc từ trái sang phải để trả lời câu hỏi "ai được làm gì, ở đâu":
+
+```mermaid
+flowchart LR
+    U["Subject<br/>(User alice / ServiceAccount ci-bot)"] --> RB["RoleBinding<br/>(trong namespace team-a)"]
+    RB --> RO["Role pod-manager<br/>(verbs + resources)"]
+    RO --> RES["Quyền trên pods, deployments<br/>chỉ trong team-a"]
+```
+
+→ RoleBinding là mắt xích quyết định phạm vi: cùng một Role (hay ClusterRole) nhưng quyền chỉ có hiệu lực trong đúng Namespace mà RoleBinding khai báo.
 
 ---
 
@@ -953,3 +964,4 @@ view           -> Quyền chỉ đọc (Read-only) an toàn, phù hợp để gi
 - **v1.1.0 (25/05/2026)** — Áp dụng Blueprint v0.5.4 §3.6: thêm lead-in trước §1.
 - **v1.0.0 (23/05/2026)** — Phiên bản sơ khởi đầu tiên thuộc Kubernetes Sprint #5.
 - **v2.0.1 (10/06/2026)** — Đổi field metadata block-quote sang tiếng Việt (Author → Tác giả, Prerequisites → Yêu cầu trước); gỡ tên tác giả khỏi thân bài và changelog.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ chuỗi RBAC (Subject → RoleBinding → Role → quyền trong namespace) cho trực quan.

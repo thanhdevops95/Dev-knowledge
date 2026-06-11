@@ -1,7 +1,7 @@
 # 🎓 Terraform Basics — Providers, Resources, Variables
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -109,6 +109,19 @@ terraform destroy
 ```
 
 → **First infra provisioned in 5 commands**.
+
+Năm lệnh trên thực chất là một pipeline tuần tự — output của bước trước là input của bước sau, và state file được cập nhật ở cuối cùng:
+
+```mermaid
+flowchart LR
+    A["init<br/>(tải provider)"] --> B["fmt + validate"]
+    B --> C["plan<br/>(so sánh state vs code)"]
+    C --> D["apply"]
+    D --> E["Hạ tầng thật"]
+    D --> F["State file cập nhật"]
+```
+
+→ `plan` chỉ đọc và so sánh, `apply` mới thực thi thay đổi — vì vậy luôn review output của plan trước khi apply.
 
 ---
 
@@ -1054,3 +1067,4 @@ cidrsubnet, formatdate, timestamp
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 2/5. Cover: install Terraform/OpenTofu + folder structure + HCL blocks + resources + providers + variables + outputs + data sources + 5-command workflow + first AWS VPC.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 Install, §2 Folder structure, main.tf, Workflow và §3 Blocks.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ pipeline init → plan → apply → state cho trực quan.

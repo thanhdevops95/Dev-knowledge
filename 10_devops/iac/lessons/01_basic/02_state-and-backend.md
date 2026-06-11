@@ -1,7 +1,7 @@
 # 🎓 State & Backend — Production essentials
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -158,6 +158,18 @@ terraform init
 ```
 
 → State now in S3, locked via DynamoDB. Local file deleted (optional).
+
+Sơ đồ dưới tóm tắt vai trò từng mảnh trong remote backend: state là "cầu nối" giữa code và hạ tầng thật, S3 lưu state (encrypt + versioning), còn DynamoDB giữ lock chống apply đồng thời:
+
+```mermaid
+flowchart LR
+    C["Code .tf<br/>(desired)"] --> P["terraform plan / apply"]
+    P <--> S["State file trên S3<br/>(encrypt + versioning)"]
+    P --> I["Hạ tầng thật<br/>(actual)"]
+    P -. "acquire / release lock" .-> D["DynamoDB<br/>(state lock)"]
+```
+
+→ Cả team đọc/ghi chung một state trên S3, còn DynamoDB đảm bảo tại mỗi thời điểm chỉ một `apply` được chạy — hết cảnh state hỏng vì 2 người apply cùng lúc.
 
 ### Các backend khác
 
@@ -710,3 +722,4 @@ terraform workspace list
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 3/5. Cover: state file structure + secrets in state + local vs remote + S3 + DynamoDB backend setup + state operations (import/mv/rm) + state encryption.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 State file inside, Local state dangerous và §2 Setup bootstrap.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ remote backend (code ↔ state S3 ↔ hạ tầng + DynamoDB lock) cho trực quan.

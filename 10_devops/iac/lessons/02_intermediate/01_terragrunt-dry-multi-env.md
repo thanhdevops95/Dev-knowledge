@@ -1,9 +1,9 @@
 # 🎓 Terragrunt — DRY Terraform cho multi-env multi-region
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [IaC Intermediate — Tổng quan](00_intermediate-overview.md), đã nắm Terraform *modules* và *workspaces*.
@@ -345,6 +345,18 @@ Terragrunt sẽ lần lượt:
 6. Chạy `terraform init` + `terraform plan`.
 
 Kết quả là một lần apply sạch sẽ, với state file nằm đúng chỗ riêng của nó: `s3://acme-tfstate-..../live/dev/us-east-1/vpc/terraform.tfstate`. Mỗi env-region một key, không đụng nhau — chính nhờ `path_relative_to_include()` ở phần trước.
+
+Sơ đồ dưới gom toàn bộ chuỗi kế thừa đó lại — một file con ~10 dòng đứng giữa, kéo cấu hình từ ba nguồn và trỏ về đúng một bản module:
+
+```mermaid
+flowchart TD
+    C["live/dev/us-east-1/vpc/terragrunt.hcl<br/>(~10 dòng)"]
+    C -- "include" --> R["root terragrunt.hcl<br/>(backend + provider chung)"]
+    C -- "đọc locals" --> A["account.hcl + region.hcl<br/>(env, account_id, region, cidr)"]
+    C -- "source" --> M["modules/vpc<br/>(code 1 bản duy nhất)"]
+```
+
+→ Nhờ kiến trúc này, thêm một env hay region mới chỉ là thêm một file config mỏng — không copy thêm bất kỳ dòng code Terraform nào.
 
 ---
 
@@ -1117,3 +1129,4 @@ read_terragrunt_config("file.hcl")
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. Terragrunt vs workspaces + cấu trúc `live/` + `modules/` + root + account + region + child terragrunt.hcl + generate backend/provider + dependency block + run-all + module versioning + multi-account assume role + migration workflow. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in trước Install + Standard layout + Workflow + Key features.
 - **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thay các đoạn "điện tín" tiếng Anh (concept, vs workspaces, key features, result, benefits, toàn bộ 5 self-check) bằng câu văn mạch WHY→WHAT→HOW có lời dẫn trước và phân tích sau mỗi code/bảng; Việt hoá metadata "Yêu cầu trước" và mục tiêu; chuyển khối So-sánh workspaces từ bullet sang bảng; Việt hoá heading nav (⬅️/➡️/↑ + link-text = tiêu đề H1 thực) và 3 sub-heading chuẩn; xoá nhãn "(sắp viết)" cho bài Atlantis đã tồn tại; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); Việt hoá comment trong code/output. Giữ nguyên 100% code/lệnh/config/số liệu/flag và cấu trúc 8 phần.
+- **v2.0.1 (11/06/2026)** — Bổ sung sơ đồ chuỗi kế thừa Terragrunt (file con → root + account/region + module) cho trực quan.

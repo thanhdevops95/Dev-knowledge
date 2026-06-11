@@ -1,7 +1,7 @@
 # 🎓 Observability là gì? — 3 pillars + monitoring landscape
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -148,6 +148,17 @@ Traces    — "WHERE in flow" (cross-service)
 ```
 
 → All 3 needed. Each tool good for **one question type**.
+
+Trừu tượng nhất là cách 3 pillars **hợp lực** trong 1 phiên debug thật — mỗi pillar trả lời 1 câu rồi chuyền tiếp cho pillar kế. Sơ đồ dưới mô phỏng luồng điều tra điển hình:
+
+```mermaid
+flowchart LR
+    A["Alert: error rate tăng<br/>(Metrics — WHAT)"] --> B["Tìm log lỗi quanh<br/>thời điểm đó (Logs — DETAIL)"]
+    B --> C["Trace request lỗi<br/>xuyên service (Traces — WHERE)"]
+    C --> D["Root cause"]
+```
+
+→ Metrics phát hiện *có chuyện*, logs cho *chi tiết event*, traces chỉ ra *đoạn nào trong flow* — thiếu 1 mắt xích là chuỗi điều tra đứt giữa chừng.
 
 ---
 
@@ -595,3 +606,4 @@ Error budget = SLO - actual
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 1/5. Cover: monitoring vs observability + 3 pillars (Metrics/Logs/Traces) + SLI/SLO/SLA + error budget + tool stack 2026 (Prometheus/Loki/OTel/Grafana).
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Monitoring vs Observability + §2 3 Pillars (Metrics + Logs + Traces) + Tổng kết.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ luồng debug 3 pillars (alert → log → trace → root cause) cho trực quan.

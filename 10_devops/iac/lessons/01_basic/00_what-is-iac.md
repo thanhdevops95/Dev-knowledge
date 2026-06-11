@@ -1,7 +1,7 @@
 # 🎓 IaC là gì? — Infrastructure as Code overview
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -208,6 +208,19 @@ terraform.tfstate
    - Execute plan
    - Update state file
 ```
+
+Vòng lặp IaC khép kín dưới đây cho thấy vì sao IaC thắng click-ops: mọi thay đổi đều đi qua `plan` (diff giữa code và state), còn thay đổi sửa tay trên hạ tầng (drift) sẽ bị lần `plan` kế tiếp phát hiện:
+
+```mermaid
+flowchart LR
+    A["Code .tf<br/>(desired)"] --> B["terraform plan<br/>(diff state vs code)"]
+    B --> C["terraform apply"]
+    C --> D["Hạ tầng thật"]
+    C --> E["State cập nhật"]
+    D -- "sửa tay = drift" --> B
+```
+
+→ Code luôn là source of truth: `apply` đồng bộ cả hạ tầng lẫn state, còn drift quay ngược về `plan` để bị phát hiện — điều click-ops không bao giờ làm được.
 
 ### State backend (nơi lưu state)
 
@@ -610,3 +623,4 @@ Terragrunt   Multi-env DRY
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster iac basic lesson 1/5. Cover: IaC concept + 8 benefits + Without/With IaC + Declarative vs Imperative + tool landscape (Terraform/OpenTofu/Pulumi/CDK/Ansible/Crossplane).
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước §2 Why IaC, ví dụ Without/With IaC và phần Declarative vs Imperative.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng lặp IaC (plan → apply → drift) cho trực quan.

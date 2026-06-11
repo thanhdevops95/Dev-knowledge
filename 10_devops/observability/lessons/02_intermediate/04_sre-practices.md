@@ -1,7 +1,7 @@
 # 🎓 SRE practices — SLO + Error budget + Postmortem + On-call
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
@@ -225,6 +225,22 @@ Error budget policy:
 ```
 
 → **Enforced**, not advisory. ArgoCD/CI integration: deploy gated by budget API.
+
+Phần trừu tượng nhất của error budget là **vòng đời** của nó: budget sinh ra từ SLO, bị incident đốt dần, và khi cạn thì tự động đổi chế độ làm việc của cả team. Sơ đồ tóm gọn chu trình:
+
+```mermaid
+flowchart LR
+    S["SLO 99.9%<br/>(window 28 ngày)"] --> B["Error budget 0.1%<br/>(~43 phút lỗi)"]
+    B --> I["Incident / deploy lỗi<br/>đốt dần budget"]
+    I --> C{"Budget còn lại?"}
+    C -->|"> 50%"| D["Deploy tự do"]
+    C -->|"< 5%"| F["FREEZE feature deploy<br/>chỉ làm reliability"]
+    F --> R["Budget hồi phục<br/>(rolling window trượt qua)"]
+    R --> D
+    D --> I
+```
+
+→ Chu trình khép kín này biến trade-off velocity vs reliability thành cơ chế tự điều tiết: còn budget thì ship, cạn budget thì hệ thống tự "phanh" thay vì chờ ai đó ra lệnh.
 
 ### Vì sao error budget thiên tài
 
@@ -1204,3 +1220,4 @@ overrides:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 04 cuối Obs intermediate + cuối DevOps intermediate sprint. SLI/SLO/SLA definition + error budget compute + multi-window burn rate alert + error budget policy enforcement + blameless postmortem template (5 whys) + on-call sustainable rotation patterns + toil reduction (50% rule) + chaos engineering intro + DORA metrics. Apply Google SRE Book principles. 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Choose SLO target + Compute budget Prometheus + Postmortem template + Impact + Timeline.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng đời error budget (SLO → đốt budget → freeze → hồi phục) cho trực quan.

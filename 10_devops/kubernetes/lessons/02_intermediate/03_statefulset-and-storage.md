@@ -1,7 +1,7 @@
 # 🎓 StatefulSet & Storage — Postgres trong K8s, không mất data
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
@@ -165,6 +165,26 @@ K8s tách storage thành 4 lớp abstraction để cho phép app yêu cầu stor
 - **PersistentVolumeClaim (PVC)**: namespace resource — request storage.
 - **StorageClass**: template "loại disk" — defines provisioner + parameters.
 - **CSI driver** (Container Storage Interface): plugin storage backend (EBS CSI, GCP PD CSI, Longhorn CSI).
+
+Bốn lớp này ghép với StatefulSet thành một chuỗi cấp phát hoàn chỉnh — mỗi pod một PVC riêng, mỗi PVC bind một PV riêng do StorageClass tự sinh qua CSI driver:
+
+```mermaid
+flowchart LR
+    subgraph SS["StatefulSet postgres"]
+        P0["postgres-0"]
+        P1["postgres-1"]
+        P2["postgres-2"]
+    end
+    P0 --> C0["PVC data-postgres-0"]
+    P1 --> C1["PVC data-postgres-1"]
+    P2 --> C2["PVC data-postgres-2"]
+    C0 --> V0["PV / EBS vol-a"]
+    C1 --> V1["PV / EBS vol-b"]
+    C2 --> V2["PV / EBS vol-c"]
+    SC["StorageClass gp3<br/>(CSI driver tự provision)"] -.-> V0 & V1 & V2
+```
+
+→ Vì PVC gắn theo tên pod (`data-postgres-0`), pod chết và được tạo lại vẫn nhận đúng đĩa cũ — đây chính là lý do data sống sót qua restart.
 
 ### Static vs Dynamic provisioning (cấp phát tĩnh vs động)
 
@@ -1155,3 +1175,4 @@ parameters: { numberOfReplicas: "3" }
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 của intermediate. StatefulSet vs Deployment + PV/PVC/StorageClass + dynamic provisioning (EBS/PD/Longhorn) + headless Service + Postgres 3-replica hands-on + VolumeSnapshot backup + resize PVC + Operator pattern preview (CloudNativePG). 6 pitfall + 2 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Deployment design + StatefulSet design + Bảng so sánh + Headless Service + Concepts (PV/PVC/StorageClass).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ chuỗi storage (pod → PVC riêng → PV → StorageClass) cho trực quan.

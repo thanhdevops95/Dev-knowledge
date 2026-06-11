@@ -1,7 +1,7 @@
 # 🎓 Traces & OpenTelemetry — Distributed tracing
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -142,6 +142,23 @@ traceparent: 00-abc1234567890abcdef1234567890abcd-1234567890abcdef-01
 ```
 
 Service B receive request → extract → continue same trace.
+
+Đây là phần trừu tượng nhất của tracing: trace không phải "1 chỗ ghi", mà là **chuỗi span do nhiều service tự tạo nhưng chung 1 trace_id** nhờ header được truyền theo từng hop. Sequence dưới minh hoạ 1 lần propagation:
+
+```mermaid
+sequenceDiagram
+    participant A as Service A
+    participant B as Service B
+    participant DB as Postgres
+    A->>A: Tạo root span (trace_id=abc)
+    A->>B: GET /api — header traceparent (abc)
+    B->>B: Extract header, tạo span con (cùng abc)
+    B->>DB: Query — span cháu (cùng abc)
+    DB-->>B: Kết quả
+    B-->>A: Response
+```
+
+→ Chỉ cần 1 hop quên truyền `traceparent` là cây trace bị "đứt" thành 2 trace rời — vì vậy hãy để OTel auto-instrumentation lo việc inject/extract thay cho code tay.
 
 ### Propagation thủ công (Python)
 
@@ -724,3 +741,4 @@ Datadog APM  $$$
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Trace Tree of Spans + Span anatomy + Components + Why OTel + W3C TraceContext header.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Observability sprint #4.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ sequence context propagation (traceparent xuyên service) cho trực quan.

@@ -1,7 +1,7 @@
 # 🎓 GitLab CI — Pipeline cho GitLab + self-host
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -130,6 +130,25 @@ build:
   script: docker build -t myapp .
 # ↑ Wait both lint jobs pass
 ```
+
+Sơ đồ dưới minh hoạ quy tắc cốt lõi đó: 2 job lint nằm cùng stage nên chạy song song, còn các stage nối nhau tuần tự — stage sau chỉ bắt đầu khi mọi job stage trước pass:
+
+```mermaid
+flowchart LR
+    subgraph S1 ["Stage: lint (song song)"]
+        A["lint:black"]
+        B["lint:ruff"]
+    end
+    subgraph S2 ["Stage: build"]
+        C[build]
+    end
+    subgraph S3 ["Stage: deploy"]
+        D[deploy]
+    end
+    S1 --> S2 --> S3
+```
+
+→ Stage là "hàng rào đồng bộ" mặc định của GitLab CI — muốn phá rào cho job chạy sớm hơn thì dùng `needs` (DAG) ngay bên dưới.
 
 ### `needs` — DAG (skip stages)
 
@@ -768,3 +787,4 @@ docker exec -it gitlab-runner gitlab-runner register
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 3/5. Cover: anatomy .gitlab-ci.yml + stages parallel/sequential + needs DAG + jobs syntax + cache/artifacts + rules + environments + GitLab vs GitHub Actions compare.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Stages + needs DAG + §3 Full job syntax.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ stages tuần tự / jobs song song cho trực quan.

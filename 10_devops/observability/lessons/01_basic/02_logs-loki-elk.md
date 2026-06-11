@@ -1,7 +1,7 @@
 # 🎓 Logs — Loki, ELK, structured logging
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -108,6 +108,19 @@ App container → Promtail/Fluent Bit (agent) → Loki → Grafana (query)
                   ↑ tail logs                  ↑ store
                   ↑ add labels
 ```
+
+Ý tưởng trừu tượng đáng nắm nhất là **log tập trung**: hàng chục pod rải trên nhiều node, nhưng tất cả đổ về 1 backend để query tại 1 chỗ. Sơ đồ luồng đầy đủ:
+
+```mermaid
+flowchart LR
+    P1["Pod fastapi<br/>(stdout JSON)"] --> AG["Promtail / Fluent Bit<br/>(agent mỗi node)"]
+    P2["Pod worker"] --> AG
+    P3["Pod nginx"] --> AG
+    AG -->|"push + gắn labels"| L["Loki<br/>(index label, chunk ra S3)"]
+    L -->|"LogQL"| G["Grafana — query 1 chỗ"]
+```
+
+→ Pod chết hay node bay thì log vẫn còn ở Loki — debug không còn phụ thuộc `kubectl logs` trên container đang sống.
 
 ### So với Elasticsearch
 
@@ -710,3 +723,4 @@ ELK     Full-text + mature
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster observability basic lesson 3/5. Cover: structured vs unstructured + structlog FastAPI + Loki architecture + label strategy + LogQL queries + Elasticsearch/Vector alternative + cost control (retention, sampling, dedup).
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Unstructured + Structured + FastAPI structlog + §2 Loki Architecture + Vs Elasticsearch.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ flow log tập trung (pod → agent → Loki → Grafana) cho trực quan.

@@ -1,7 +1,7 @@
 # 🎓 Pipeline Patterns — Common patterns + best practices
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -179,6 +179,18 @@ jobs:
     if: needs.changes.outputs.frontend == 'true'
     steps: [test frontend]
 ```
+
+Sơ đồ dưới minh hoạ pattern selective build này: 1 job `changes` chạy trước phân loại diff, các job test phía sau chỉ chạy khi output tương ứng bật — phần không liên quan bị skip hoàn toàn:
+
+```mermaid
+flowchart TD
+    P[Push / PR] --> C["Job changes (paths-filter)"]
+    C -->|"backend == true"| B[test-backend]
+    C -->|"frontend == true"| F[test-frontend]
+    C -->|"không match"| S[Skip — tiết kiệm CI minutes]
+```
+
+→ Toàn bộ trí thông minh của pipeline dồn vào 1 job gác cổng rẻ tiền (vài giây), đổi lại các job đắt tiền phía sau chỉ chạy đúng khi cần.
 
 ### Công cụ monorepo
 
@@ -841,3 +853,4 @@ Pants       Polyglot — Twitter
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 4/5. Cover: branch protection + CODEOWNERS + monorepo path filter (3 cấp) + matrix build + reusable workflow + caching (deps + Docker layer) + secrets + OIDC + custom action.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước CODEOWNERS + Auto-label + Monorepo Simple path + Pattern paths + Path-filter action.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ monorepo path-filter (selective build) cho trực quan.

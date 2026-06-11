@@ -1,7 +1,7 @@
 # 🎓 Grafana & Alerting — Unified dashboard + alert routing
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -213,6 +213,20 @@ Normal   ─── condition true ───►   Pending (waiting "for" duration
 ```
 
 → `for` prevents flaky alerts (spike < 10min = ignored).
+
+Khái niệm trừu tượng nhất ở đây là **vòng đời alert end-to-end** — từ lúc rule eval tới lúc tin nhắn nằm trong Slack/PagerDuty rồi tự resolve. Sơ đồ ghép trọn chuỗi trạng thái + routing:
+
+```mermaid
+flowchart LR
+    N["Normal<br/>(rule eval mỗi 1m)"] -->|"condition true"| P["Pending<br/>(đợi đủ 'for')"]
+    P -->|"hết 'for'"| F["Firing"]
+    P -->|"condition false"| N
+    F --> R["Notification policy<br/>(group + dedup + route)"]
+    R --> CP["Slack / PagerDuty"]
+    F -->|"condition false"| RS["Resolved<br/>(gửi resolved notification)"]
+```
+
+→ Trạng thái *Pending* chính là bộ lọc chống flaky: spike ngắn hơn `for` sẽ quay về Normal mà không bao giờ chạm tới on-call.
 
 ---
 
@@ -733,3 +747,4 @@ Info     → Slack info channel
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Install K8s + Anatomy + Panel example Latency + Variables template + Useful variables.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Observability sprint #5.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng đời alert (pending → firing → routing → resolved) cho trực quan.

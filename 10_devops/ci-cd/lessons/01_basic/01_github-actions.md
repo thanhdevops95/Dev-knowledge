@@ -1,7 +1,7 @@
 # 🎓 GitHub Actions — Default CI/CD 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -79,6 +79,23 @@ Workflow
             └─ uses: action     OR
             └─ run: command
 ```
+
+Sơ đồ dưới minh hoạ cấu trúc đó vận hành thực tế: event trigger workflow, các job tách ra chạy song song trên runner riêng, còn steps bên trong mỗi job chạy tuần tự:
+
+```mermaid
+flowchart LR
+    E["Event (push / PR)"] --> W
+    subgraph W ["Workflow ci.yml"]
+        subgraph J1 ["Job: test — runner riêng"]
+            S1[Step: checkout] --> S2[Step: setup-node] --> S3[Step: npm test]
+        end
+        subgraph J2 ["Job: lint — runner riêng"]
+            S4[Step: checkout] --> S5[Step: ruff check]
+        end
+    end
+```
+
+→ Vì mỗi job chạy trên runner độc lập nên không chia sẻ filesystem — muốn truyền file giữa jobs phải dùng artifact, còn muốn ép thứ tự phải khai báo `needs`.
 
 ---
 
@@ -903,3 +920,4 @@ uses: ./.github/workflows/reusable.yml
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster ci-cd basic lesson 2/5. Cover: workflow YAML structure + events (push/PR/schedule/dispatch) + jobs/steps + matrix + actions/setup-* + secrets + OIDC + reusable workflow + composite actions + caching.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Anatomy + Hierarchy + §2 Common events + Path filter + Manual inputs.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ cấu trúc workflow (event → jobs song song → steps) cho trực quan.
