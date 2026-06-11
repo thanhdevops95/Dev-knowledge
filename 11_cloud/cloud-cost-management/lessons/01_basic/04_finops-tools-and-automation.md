@@ -1,9 +1,9 @@
 # 🎓 FinOps Tools & Automation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [03_optimization-tactics-compute-storage-network.md](03_optimization-tactics-compute-storage-network.md)
@@ -176,7 +176,7 @@ az advisor recommendation list \
 
 Nếu reseller / CSP partner → có thêm tool aggregate billing.
 
-### Native tier comparison
+### So sánh tier native
 
 | Feature | AWS | GCP | Azure |
 |---|---|---|---|
@@ -192,7 +192,7 @@ Nếu reseller / CSP partner → có thêm tool aggregate billing.
 
 ---
 
-## 2️⃣ 3rd-party tools — Khi native không đủ
+## 2️⃣ Công cụ 3rd-party — Khi native không đủ
 
 ### Khi nào cần?
 
@@ -205,7 +205,7 @@ Nếu reseller / CSP partner → có thêm tool aggregate billing.
 | Modern UI fair pricing, multi-cloud | Vantage |
 | Compliance + cost combined | CloudCheckr |
 
-### Cloudability (Apptio) — Enterprise multi-cloud
+### Cloudability (Apptio) — multi-cloud cho enterprise
 
 **Strength**:
 - Multi-cloud unified (AWS + GCP + Azure + Oracle + IBM).
@@ -228,7 +228,7 @@ Nếu reseller / CSP partner → có thêm tool aggregate billing.
 
 **Khi dùng**: Enterprise có on-prem + cloud, compliance focus.
 
-### Vantage — Modern + fair
+### Vantage — hiện đại + giá hợp lý
 
 **Strength**:
 - UI hiện đại nhất.
@@ -261,7 +261,7 @@ Nếu reseller / CSP partner → có thêm tool aggregate billing.
 
 **Khi dùng**: K8s cluster > 50 nodes, willing to share saving.
 
-### Infracost — Cost trong PR
+### Infracost — Chi phí trong PR
 
 🪞 **Ẩn dụ**: *Infracost giống **cảnh báo giá khi đặt món online** — bạn đặt rồi mới biết giao hàng $20 thì rút lại. Infracost cho biết Terraform `apply` này tốn bao nhiêu trước khi merge.*
 
@@ -273,7 +273,7 @@ Nếu reseller / CSP partner → có thêm tool aggregate billing.
 
 **Pricing**: Free CLI + open source. Cloud paid plan có policy + team management.
 
-### Decision matrix
+### Ma trận quyết định
 
 ```mermaid
 graph TD
@@ -292,7 +292,7 @@ graph TD
 
 ---
 
-## 3️⃣ Infracost trong PR — Cost preview trước merge
+## 3️⃣ Infracost trong PR — Xem trước chi phí trước khi merge
 
 ### Cài đặt
 
@@ -382,7 +382,7 @@ jobs:
             --behavior=update
 ```
 
-### Output comment trên PR
+### Comment kết quả trên PR
 
 ```
 💰 Infracost report
@@ -402,7 +402,7 @@ Detail:
 ⚠️ Cost increase > 30% — request review from FinOps team
 ```
 
-### Policy với Infracost Cloud (paid)
+### Policy với Infracost Cloud (trả phí)
 
 ```yaml
 # infracost-policy.yaml
@@ -425,13 +425,13 @@ policies:
 
 ---
 
-## 4️⃣ Automated remediation
+## 4️⃣ Tự động khắc phục (automated remediation)
 
 ### Pattern: Lambda + CloudWatch event + Slack
 
 🪞 **Ẩn dụ**: *Automated remediation như **Roomba lau nhà** — không cần ai nhấn, định kỳ tự dọn rác (orphan resource).*
 
-### Use case 1 — Kill orphan EBS volume
+### Use case 1 — Xoá EBS volume orphan
 
 ```python
 # lambda/cleanup_orphan_ebs.py
@@ -504,7 +504,7 @@ aws events put-targets \
 
 → Daily check, Slack notify, dry-run trước 1 tuần → bật execution sau.
 
-### Use case 2 — Stop idle EC2
+### Use case 2 — Dừng EC2 nhàn rỗi (idle)
 
 ```python
 # lambda/auto_stop_idle_ec2.py
@@ -545,7 +545,7 @@ def lambda_handler(event, context):
                 # Notify Slack...
 ```
 
-### Use case 3 — GCP Cloud Function delete idle VM
+### Use case 3 — GCP Cloud Function xoá VM nhàn rỗi (idle)
 
 ```python
 # main.py — GCP Cloud Function
@@ -573,7 +573,7 @@ def cleanup_idle_vms(request):
     return 'OK'
 ```
 
-### Safe pattern — Dry-run first
+### Pattern an toàn — dry-run trước
 
 | Stage | Behavior |
 |---|---|
@@ -585,9 +585,9 @@ def cleanup_idle_vms(request):
 
 ---
 
-## 5️⃣ Cost Anomaly Detection — ML alert
+## 5️⃣ Cost Anomaly Detection — alert bằng ML
 
-### AWS Cost Anomaly Detection (free)
+### AWS Cost Anomaly Detection (miễn phí)
 
 ```bash
 # Create anomaly detector for EC2 service
@@ -642,7 +642,7 @@ Built-in trong Cost Management. Email alert config được.
 
 ---
 
-## 6️⃣ Hands-on — Full pipeline Acme Shop
+## 6️⃣ Hands-on — Pipeline đầy đủ cho Acme Shop
 
 ### Stack đầy đủ
 
@@ -671,7 +671,7 @@ graph TD
     style N fill:#fff3cd
 ```
 
-### Step-by-step setup
+### Cài đặt từng bước
 
 #### Step 1 — Infracost PR pipeline (1 hour)
 
@@ -711,7 +711,7 @@ graph TD
 2. Monthly: export recommendations → review with team.
 3. Apply on staging → 1 week test → apply prod.
 
-### Result expected
+### Kết quả mong đợi
 
 - **0 manual** orphan cleanup — Lambda tự xử lý.
 - **Engineer self-service** cost preview — không cần hỏi FinOps cho mỗi PR.
@@ -956,3 +956,4 @@ Kubecost/OpenCost in-cluster:
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 cluster cloud-cost-management. Native tool (AWS Cost Explorer + Budgets + Compute Optimizer + GCP Active Assist + Azure Advisor) + 3rd-party (Cloudability/CloudHealth/Vantage/Kubecost/CAST AI/Infracost) + Infracost full GitHub Actions integration với policy + Lambda orphan cleanup + auto-stop idle EC2 + GCP Cloud Function delete idle VM + Cost Anomaly Detection ML + Acme Shop full pipeline 6-step setup + 7 pitfalls + 5 self-check.
+- **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

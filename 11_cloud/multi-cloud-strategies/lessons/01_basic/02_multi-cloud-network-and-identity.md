@@ -1,9 +1,9 @@
 # 🎓 Cross-cloud Network & Identity — Transit, VPN, Federation, Vault sync
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã đọc [Vendor Lock-in & Portability](01_vendor-lock-in-and-portability.md) ✅, biết VPC/VNet cơ bản
@@ -39,7 +39,7 @@ Vấn đề kép:
 
 🪞 **Ẩn dụ**: *Như **đường nối 2 thành phố** — đi đường công cộng (Internet) free nhưng kẹt + nguy hiểm; xa lộ riêng (VPN) qua công cộng nhưng có hộ tống; tàu hỏa riêng (Megaport) đường riêng tốc độ cao; sân bay tư nhân (Equinix Fabric) tốt nhất + đắt nhất.*
 
-### Option 1: Internet (mặc định, miễn phí nhưng kém)
+### Phương án 1: Internet (mặc định, miễn phí nhưng kém)
 
 Đây là cách dễ nhất: GCP VM gọi thẳng `https://my-aws-app.com` qua Internet công cộng. Setup tốn $0 nhưng phí *egress* (data đi ra ngoài cloud) vẫn $0.09/GB. Đổi lại sự tiện lợi, bạn phải chấp nhận hàng loạt điểm yếu:
 
@@ -52,7 +52,7 @@ Vấn đề kép:
 
 **Khi dùng**: prototype, traffic nhỏ, data không nhạy cảm, public-facing API.
 
-### Option 2: Site-to-site VPN (IPSec over Internet)
+### Phương án 2: VPN site-to-site (IPSec qua Internet)
 
 Bước nâng cấp đầu tiên: dựng một *tunnel* IPSec mã hoá giữa 2 VPC, vẫn chạy trên hạ tầng Internet nhưng traffic được bọc kín. Chi phí khoảng $36-72/tháng cho tunnel cộng phí egress $0.09/GB (vì underlying vẫn là Internet). Đây là phương án cân bằng giữa tiện và an toàn:
 
@@ -66,7 +66,7 @@ Bước nâng cấp đầu tiên: dựng một *tunnel* IPSec mã hoá giữa 2 
 
 **Khi dùng**: môi trường dev/test multi-cloud, traffic 1-10 GB/ngày, hiệu năng không phải yếu tố sống còn.
 
-### Option 3: Dedicated interconnect qua Megaport / Equinix / PacketFabric
+### Phương án 3: Dedicated interconnect qua Megaport / Equinix / PacketFabric
 
 🪞 *Như **tàu hỏa cao tốc giữa 2 city** — đường riêng, nhanh, predictable.*
 
@@ -88,7 +88,7 @@ Bước nâng cấp đầu tiên: dựng một *tunnel* IPSec mã hoá giữa 2 
 
 **Khi dùng**: production multi-cloud, traffic >1 TB/tháng, hiệu năng là yêu cầu sống còn.
 
-### Option 4: Direct cloud-to-cloud interconnect
+### Phương án 4: Interconnect trực tiếp cloud-to-cloud
 
 | Option | Provider |
 |---|---|
@@ -99,7 +99,7 @@ Bước nâng cấp đầu tiên: dựng một *tunnel* IPSec mã hoá giữa 2 
 
 → Best practice 2026: dùng **Megaport** hoặc **Equinix Fabric** làm hub trung tâm, port vào tất cả cloud từ đó.
 
-### Comparison matrix
+### Ma trận so sánh
 
 | Tiêu chí | Internet | VPN | Megaport / Equinix |
 |---|---|---|---|
@@ -151,7 +151,7 @@ graph TB
 - Tích hợp với ExpressRoute + Site-to-Site VPN.
 - **Pricing**: $0.25/h per hub + bandwidth.
 
-### Pattern: Acme Shop hub
+### Pattern: hub của Acme Shop
 
 ```
         ┌────────────────────────────────────┐
@@ -175,7 +175,7 @@ graph TB
 
 Đây là setup đơn giản nhất (Option 2 ở trên) — đủ cho 1-10 GB/ngày.
 
-### Architecture
+### Kiến trúc
 
 ```
 AWS VPC (10.0.0.0/16)           GCP VPC (10.1.0.0/16)
@@ -318,7 +318,7 @@ terraform plan
 terraform apply
 ```
 
-### Verify
+### Kiểm tra kết quả
 
 Từ GCE VM (GCP):
 
@@ -342,7 +342,7 @@ Giờ giải quyết phần (2) — GCP service đọc RDS AWS không dùng pass
 
 🪞 **Ẩn dụ**: *Như **passport quốc tế** — không cần xin visa tạm trú riêng cho mỗi nước. Identity Provider trung ương (Entra ID / Okta) cấp passport; AWS/GCP đều trust passport đó.*
 
-### Architecture 2026 — Identity hub model
+### Kiến trúc 2026 — mô hình identity hub
 
 ```mermaid
 graph TB
@@ -364,7 +364,7 @@ graph TB
 - **Cloud SSO endpoints** trust IdP qua SAML 2.0 hoặc OIDC.
 - Engineer login 1 lần → access cả 3 cloud.
 
-### Setup cho human users
+### Cài đặt cho người dùng (human users)
 
 | Cloud | SSO entry point | Protocol |
 |---|---|---|
@@ -384,7 +384,7 @@ graph TB
 - Khi service GCP gọi AWS API → present JWT → AWS verify với Google → cấp **temporary STS token**.
 - Không có static AWS key tồn tại.
 
-### Setup OIDC trust AWS ← GCP
+### Cài đặt OIDC trust AWS ← GCP
 
 ```hcl
 # 1. Create OIDC identity provider in AWS trusting Google
@@ -488,7 +488,7 @@ Sau identity, vấn đề: secret (API key 3rd party, DB password legacy, certif
 
 🪞 **Ẩn dụ**: *Như **két sắt trung tâm** thay vì mỗi nhà có két riêng — Vault là két, mỗi cloud có "tay" lấy ra khi cần.*
 
-### Option 1: Per-cloud secret service (không khuyến nghị multi-cloud)
+### Phương án 1: Secret service riêng từng cloud (không khuyến nghị multi-cloud)
 
 - AWS Secrets Manager
 - GCP Secret Manager
@@ -496,7 +496,7 @@ Sau identity, vấn đề: secret (API key 3rd party, DB password legacy, certif
 
 **Problem**: secret duplicate 3 nơi → sync nightmare.
 
-### Option 2: HashiCorp Vault central + External Secrets Operator
+### Phương án 2: HashiCorp Vault tập trung + External Secrets Operator
 
 ```mermaid
 graph LR
@@ -515,7 +515,7 @@ graph LR
 - **External Secrets Operator** (ESO): CNCF, K8s operator sync secret từ Vault → K8s Secret native.
 - Auth giữa K8s và Vault: Kubernetes Auth Method (service account JWT) hoặc Workload Identity.
 
-### Setup ESO trên GKE
+### Cài đặt ESO trên GKE
 
 ```yaml
 # 1. Install ESO
@@ -567,7 +567,7 @@ spec:
         property: password
 ```
 
-### Vault setup auth cho mỗi cloud
+### Cài đặt auth Vault cho mỗi cloud
 
 ```bash
 # Enable K8s auth methods cho 3 cloud
@@ -598,7 +598,7 @@ EOF
 
 → Pod trong GKE namespace `ml-training` với SA `ml-training-sa` auto được Vault cấp secret. ESO sync sang K8s Secret. App đọc K8s Secret như bình thường.
 
-### Multi-cloud secret rotation
+### Xoay vòng (rotation) secret multi-cloud
 
 - Vault có **dynamic secrets**: cấp DB credential expire 1h, auto rotate.
 - ESO sync refresh interval 1h → app luôn có credential mới.
@@ -610,13 +610,13 @@ EOF
 
 🪞 **Ẩn dụ**: *Như **danh bạ điện thoại chung** — mọi service ở mọi cloud đăng ký tên, ai cần gọi tìm trong danh bạ thay vì nhớ IP.*
 
-### Option 1: Public DNS (Route 53, Cloud DNS, Cloudflare)
+### Phương án 1: Public DNS (Route 53, Cloud DNS, Cloudflare)
 
 - Domain `api.acmeshop.io` → public DNS resolve.
 - Cross-cloud OK nếu service expose public.
 - Latency: 1 lookup ~50-200ms (cached then 0ms).
 
-### Option 2: Private DNS shared zone
+### Phương án 2: Private DNS shared zone
 
 - Cloudflare Zero Trust hoặc Route 53 Resolver hoặc Cloud DNS Private Zone.
 - Cross-cloud lookup qua VPN/Direct Connect.
@@ -636,7 +636,7 @@ acmeshop.io                   ← public (root)
 - GCP Cloud DNS forwarding zone `internal.acmeshop.io` → AWS Route 53 Resolver IP.
 - Cross-cloud DNS query qua VPN.
 
-### Service mesh (advanced)
+### Service mesh (nâng cao)
 
 - Istio multi-primary hoặc Cilium ClusterMesh tự build service discovery cross-cluster.
 - Bài 03 sẽ deep dive.
@@ -788,7 +788,7 @@ acmeshop.io                   ← public (root)
 
 ## ⚡ Tra cứu nhanh (Cheatsheet)
 
-### Connectivity tiers
+### Các tier connectivity
 
 | Need | Pick |
 |---|---|
@@ -797,7 +797,7 @@ acmeshop.io                   ← public (root)
 | Prod / >1 TB/m / low latency | Megaport / Equinix Fabric |
 | Critical compliance / 100 Gbps | Direct cloud-to-cloud interconnect |
 
-### Hub services per cloud
+### Hub service theo từng cloud
 
 | Cloud | Hub service |
 |---|---|
@@ -896,3 +896,4 @@ acmeshop.io                   ← public (root)
 
 - **v1.0.0 (24/05/2026)** — Bài 02 cluster Multi-cloud basic. 4 kiểu cross-cloud connectivity (Internet, VPN, Megaport, dedicated) + hub-and-spoke pattern (TGW/NCC/vWAN) + hands-on Terraform VPN AWS↔GCP + Workload Identity Federation (OIDC trust, no static key) + HashiCorp Vault + External Secrets Operator + DNS multi-cloud + 5 pitfall (CIDR overlap, asymmetric routing, NAT explosion, static key, federated logout). Acme Shop ML pipeline GCP↔RDS AWS làm trục.
 - **v1.1.0 (01/06/2026)** — Việt hoá phần so sánh 4 kiểu connectivity (Option 1-3) cho mượt văn phong; đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa typo "TGV" → "điểm hoà vốn Megaport vs VPN"; sửa link gãy 09_Security/iam → 12_security/cloud-security + bổ sung link secrets-management; chuẩn hoá nav (⬅️/➡️/↑ + link-text = tiêu đề thực + 3 sub-heading chuẩn); đổi header Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích".
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

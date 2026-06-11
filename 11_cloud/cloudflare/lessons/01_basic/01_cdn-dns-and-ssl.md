@@ -1,9 +1,9 @@
 # 🌐 Cloudflare CDN + DNS + SSL — Foundation của edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md), hiểu DNS A/CNAME/MX, SSL handshake cơ bản
@@ -156,11 +156,11 @@ dig mail.acmeshop.vn +short
 
 ---
 
-## 3️⃣ SSL/TLS modes — 4 lựa chọn, chọn sai = insecure
+## 3️⃣ SSL/TLS modes — 4 lựa chọn, chọn sai = mất an toàn
 
 🪞 **Ẩn dụ**: *SSL mode quyết định **"đoạn nào trong hành trình request được mã hoá"**. Tưởng tượng request là 1 lá thư đi qua 2 đoạn đường: User → Cloudflare và Cloudflare → Origin. Mỗi mode bảo vệ 1 đoạn khác nhau.*
 
-### Diagram 4 modes
+### Sơ đồ 4 mode
 
 ```
 User                  Cloudflare                Origin
@@ -296,11 +296,11 @@ Then:
 
 ---
 
-## 5️⃣ Cache behavior — vì sao cache miss
+## 5️⃣ Hành vi cache — vì sao cache miss
 
 🪞 **Ẩn dụ**: *Cache Cloudflare là **kho hàng tại trạm kiểm soát**. Hàng vào 1 lần, trạm giữ lại; lần sau khách hỏi cùng món → đưa từ kho luôn, không cần ra hậu trường (origin). Cache miss = "không có trong kho, phải đi lấy".*
 
-### Default cache behavior
+### Hành vi cache mặc định
 
 Cloudflare **mặc định cache** một số extension static:
 
@@ -402,7 +402,7 @@ Dashboard → Analytics & Logs → Cache Analytics.
 
 ---
 
-## 7️⃣ Custom Hostnames + SaaS for Multi-tenant
+## 7️⃣ Custom Hostnames + SaaS cho multi-tenant
 
 Nếu Acme Shop bán SaaS — khách hàng dùng subdomain riêng (`shop1.acmeshop.com`, `shop2.acmeshop.com`) hoặc custom domain (`mystore.com`):
 
@@ -426,7 +426,7 @@ curl -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/custom_hostnam
 
 ---
 
-## 🛠️ Hands-on — Setup CDN + SSL cho Acme Shop
+## 🛠️ Hands-on — Cài đặt CDN + SSL cho Acme Shop
 
 ### Mục tiêu
 
@@ -437,13 +437,13 @@ Bạn:
 4. Tạo Cache Rule cache HTML 5 phút.
 5. Verify cache hit qua curl.
 
-### Bước 1 — Add zone
+### Bước 1 — Thêm zone
 
 Dashboard → Add a Site → `acmeshop.vn` → Free plan.
 
 (Nếu chưa có domain → mua $1-10/năm trên Namecheap/Porkbun, hoặc dùng domain bạn có sẵn).
 
-### Bước 2 — Setup records
+### Bước 2 — Tạo records
 
 ```
 Type   Name   Content              Proxy        TTL
@@ -468,7 +468,7 @@ otto.ns.cloudflare.com
 
 Wait ~10 phút → Cloudflare email "active".
 
-### Bước 4 — SSL config
+### Bước 4 — Cấu hình SSL
 
 `SSL/TLS → Overview`:
 - Encryption mode: **Full (Strict)** (đảm bảo origin có cert hợp lệ; nếu chưa, dùng Origin CA bước 4b).
@@ -479,7 +479,7 @@ Wait ~10 phút → Cloudflare email "active".
 - Minimum TLS Version: **TLS 1.2**
 - HSTS: tạm OFF (bật khi production stable)
 
-### Bước 4b — (Optional) Origin CA cert
+### Bước 4b — (Tuỳ chọn) Origin CA cert
 
 Nếu origin chưa SSL:
 
@@ -522,7 +522,7 @@ curl -v https://acmeshop.vn/ 2>&1 | grep "SSL certificate"
 # SSL certificate verify ok.
 ```
 
-### Bước 7 — Cleanup test traffic
+### Bước 7 — Dọn dẹp test traffic
 
 Cache Analytics sẽ thấy traffic. Bạn có thể purge:
 
@@ -735,3 +735,4 @@ Cloudflare quyết định không cache response này. Thường do origin gửi
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 cluster Cloudflare basic. DNS authoritative + 1.1.1.1 + proxied vs DNS-only + 4 SSL modes + Universal SSL + Origin CA + Page Rules → Rules engine migration + Cache Rules 2024 syntax + cf-cache-status + cache analytics + hands-on Acme Shop setup full + 8 pitfalls. Pattern theo AWS/GCP lesson 01.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata/nav theo gold standard: đổi field "Prerequisites" → "Yêu cầu trước"; nav dùng marker ⬅️/➡️/↑ với link text là tiêu đề H1 thực của bài đích; 3 sub-heading thành 🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

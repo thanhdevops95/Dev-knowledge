@@ -1,9 +1,9 @@
 # 🎓 Tagging, Allocation & Showback Reports
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_pricing-models-deep.md](01_pricing-models-deep.md)
@@ -53,7 +53,7 @@ Cách giải quyết: **Tagging strategy + enforcement + allocation report**.
 | `cost-center` | Cost center kế toán | `cc-1001`, `cc-2030` |
 | `owner` | Người chịu trách nhiệm cuối | `thien.le`, `team-backend` (email/Slack handle) |
 
-### Tag optional (recommend)
+### Tag tuỳ chọn (khuyến nghị)
 
 | Tag key | Mục đích | Ví dụ |
 |---|---|---|
@@ -64,7 +64,7 @@ Cách giải quyết: **Tagging strategy + enforcement + allocation report**.
 | `expires-at` | Resource tạm — ngày xóa | `2026-06-15` |
 | `created-by` | Tool/người tạo | `terraform`, `console-manual`, `auto-pipeline` |
 
-### Naming convention
+### Quy ước đặt tên (naming convention)
 
 **Quy tắc**:
 - **Lowercase** key + value (tránh `Env` vs `env` confusion).
@@ -244,7 +244,7 @@ if errors:
 
 Tag rồi, giờ phải **map cost → team**. Đây là việc của Phase Inform.
 
-### Activate cost allocation tag
+### Kích hoạt cost allocation tag
 
 #### AWS
 
@@ -295,7 +295,7 @@ az costmanagement query \
   --dataset-aggregation totalCost.function=Sum,totalCost.name=Cost
 ```
 
-### Shared resource — pro-rata allocation
+### Shared resource — phân bổ pro-rata
 
 Vấn đề kinh điển: **shared resource** (NAT Gateway, ALB, VPC, network egress, monitoring, log aggregation) không thể tag cho 1 team duy nhất.
 
@@ -335,7 +335,7 @@ Cuối tháng, FinOps practitioner chia pool này cho team theo metric:
 
 ---
 
-## 4️⃣ Untagged resource — Cost waste
+## 4️⃣ Untagged resource — lãng phí chi phí
 
 Cho dù enforce mạnh đến đâu, vẫn sẽ có resource untag:
 - Resource tạo bằng console (escape SCP).
@@ -435,7 +435,7 @@ Mục tiêu: mỗi tháng gửi mỗi team báo cáo *"team bạn tốn $X — p
 - **Confluence/Notion** page lưu trữ.
 - **Dashboard** public link (Looker / Grafana / native).
 
-### Cadence
+### Tần suất (cadence)
 
 | Audience | Cadence | Format |
 |---|---|---|
@@ -446,9 +446,9 @@ Mục tiêu: mỗi tháng gửi mỗi team báo cáo *"team bạn tốn $X — p
 
 ---
 
-## 6️⃣ Dashboard tools — Native vs 3rd-party
+## 6️⃣ Công cụ dashboard — Native vs 3rd-party
 
-### Native tools (rẻ, đủ dùng cho startup-mid)
+### Công cụ native (rẻ, đủ dùng cho startup-mid)
 
 | Tool | Cloud | Tính năng | Limit |
 |---|---|---|---|
@@ -460,7 +460,7 @@ Mục tiêu: mỗi tháng gửi mỗi team báo cáo *"team bạn tốn $X — p
 | **Azure Cost Management** | Azure | Multi-subscription, alert, budget | UI mixed |
 | **Azure Advisor** | Azure | Cost + security + perf recommend | Subset all checks |
 
-### 3rd-party tools (đắt, mạnh, cho enterprise + multi-cloud)
+### Công cụ 3rd-party (đắt, mạnh, cho enterprise + multi-cloud)
 
 | Tool | Strength | Pricing | Khi dùng |
 |---|---|---|---|
@@ -473,7 +473,7 @@ Mục tiêu: mỗi tháng gửi mỗi team báo cáo *"team bạn tốn $X — p
 | **Infracost** | Cost in PR | Free / team plan | DevEx focus — preview cost trước merge |
 | **CAST AI** | K8s autoscale + Spot automation | % savings | K8s cluster cost optimization |
 
-### Decision matrix
+### Ma trận quyết định
 
 ```mermaid
 graph TD
@@ -490,7 +490,7 @@ graph TD
     style F fill:#fff3cd
 ```
 
-### Native + 3rd-party tier setup typical
+### Cấu hình tier điển hình — Native + 3rd-party
 
 - **Tier 1 — Native** (always): Cost Explorer + Budgets + Billing export.
 - **Tier 2 — Infracost trong PR**: ngăn cost leak trước khi deploy. Free tier đủ small team.
@@ -505,21 +505,21 @@ graph TD
 
 Quay lại tình huống đầu bài. Plan 90 ngày:
 
-### Tuần 1-2 — Foundation
+### Tuần 1-2 — Nền móng
 
 1. Định nghĩa tagging policy 5 tag bắt buộc + 3 optional. Doc Confluence.
 2. SCP/Org Policy deny resource thiếu tag (block console).
 3. Terraform `default_tags` + Pulumi tags helper.
 4. Activate cost allocation tag trong Cost Explorer.
 
-### Tuần 3-4 — Audit + cleanup
+### Tuần 3-4 — Audit + dọn dẹp
 
 1. Script audit untagged (EC2, EBS, RDS, S3, EIP, NAT, ELB).
 2. Slack `#cost-untagged` notify weekly.
 3. Quarantine + delete cycle (72h notify, 14d quarantine).
 4. **Estimated saving**: $5k-$10k từ orphan + idle resource.
 
-### Tháng 2 — Reporting
+### Tháng 2 — Báo cáo
 
 1. Build showback report monthly (Google Sheet hoặc Looker).
 2. Email + Slack monthly to team lead.
@@ -720,3 +720,4 @@ CI/CD validation (Python script / OPA Gatekeeper) check:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 cluster cloud-cost-management. Tagging strategy 5 trục chuẩn (env/team/service/cost-center/owner) + enforcement 3 tier (Org policy + IaC default + CI/CD validation) + AWS SCP + GCP Org Policy + Azure Policy ví dụ + cost allocation activate + shared resource pro-rata 3 cách + untagged audit & quarantine + showback report 1-page format + native vs 3rd-party tool decision + Acme Shop 90-day plan + 5 pitfalls + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Áp QA fixes: xóa tag rác `<parameter…>` lọt giữa Self-check Q3; chuẩn hóa nav (marker ⬅️/➡️/↑, 3 sub 🧭🧩🌐, link-text = tiêu đề H1 thật); metadata "Prerequisites" → "Yêu cầu trước"; glossary header → `Thuật ngữ | Tiếng Việt | Giải thích`; fence showback report bare → `text`; gỡ định danh cá nhân (`thien.le` → placeholder trung tính `an.nguyen`).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

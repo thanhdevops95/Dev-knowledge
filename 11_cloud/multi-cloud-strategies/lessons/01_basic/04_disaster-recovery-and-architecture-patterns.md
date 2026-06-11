@@ -1,9 +1,9 @@
 # 🆘 Multi-cloud — Disaster Recovery + Architecture Patterns
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [Kubernetes Multi-cloud — Anthos, Azure Arc, Cluster API, Service Mesh](03_kubernetes-multi-cloud-and-anthos-arc.md) ✅
@@ -41,7 +41,7 @@ Bài này dạy framework decision + pattern + case study.
 
 ---
 
-## 1️⃣ RTO + RPO — Định nghĩa core
+## 1️⃣ RTO + RPO — Định nghĩa cốt lõi
 
 🪞 **Ẩn dụ**: *RTO/RPO như **2 chỉ số bác sĩ cấp cứu**: RTO = "bao lâu để hồi sức tỉnh lại" (downtime chấp nhận được), RPO = "bao nhiêu phút trí nhớ bệnh nhân được phép mất" (data loss chấp nhận được). Số càng nhỏ → giường bệnh càng đắt.*
 
@@ -703,3 +703,4 @@ Còn lại, single-cloud multi-region là mặc định vì rẻ hơn, đồng b
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Multi-cloud. RTO/RPO + 4 DR pattern + multi-cloud DR vs multi-region + 3 architecture pattern (native/portable/agnostic) + case study AWS→GCP migration 6 tháng + DR runbook template + FinOps multi-cloud + hands-on Terraform multi-provider + 8 pitfalls. Hoàn thành Multi-cloud-strategies basic cluster.
 - **v1.1.0 (01/06/2026)** — Việt hoá narrative các bảng/section còn ở dạng điện tín (RTO/RPO, 4 DR pattern, multi-cloud vs multi-region, 3 architecture pattern, case study, runbook, FinOps); thêm lời dẫn trước và câu phân tích sau mỗi bảng/diagram; thêm ngôn ngữ `text` cho các fence ASCII diagram. Chuẩn hoá khung framework: đổi field `Prerequisites` → `Yêu cầu trước` (link text = tiêu đề thực), Glossary sang 3 cột `EN | VN | Giải thích`, Pitfall sang định dạng `❌ Cạm bẫy N` (Triệu chứng/Nguyên nhân/Cách tránh) + 3 `✅ Best practice`, Self-check sang 5 câu Q&A có `<details>` đáp án, nav sang marker `⬅️/↑` + 3 sub-heading chuẩn. Sửa domain `acmeshop.vn` → `acmeshop.io` (3 chỗ) cho nhất quán toàn cụm.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

@@ -1,9 +1,9 @@
 # 🎓 Optimization Tactics — Compute / Storage / Network / Database
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Tagging, Allocation & Showback Reports](02_tagging-allocation-and-showback.md)
@@ -37,7 +37,7 @@ Sếp tech: *"Bài 01 dạy mua RI/SP — đã commit. Còn $4.5k phải optimiz
 
 ---
 
-## 1️⃣ Compute optimization
+## 1️⃣ Tối ưu compute
 
 ### Right-sizing với Compute Optimizer / Recommender
 
@@ -98,7 +98,7 @@ az advisor recommendation list \
 
 → **Combined**: ~$1,500/tháng save. **Cảnh báo**: validate trên staging trước, không downsize prod mù.
 
-### Auto Scaling Group tune
+### Tinh chỉnh Auto Scaling Group
 
 #### Target tracking đúng metric
 
@@ -169,7 +169,7 @@ resource "aws_autoscaling_group" "web" {
 
 → 4 instance type pool + capacity-optimized strategy → AWS pick pool ít interrupt nhất. Save 50-60% vs all-on-demand.
 
-### Schedule shutdown dev/test
+### Lên lịch tắt máy dev/test
 
 🪞 **Ẩn dụ**: *Dev env chạy 24/7 = **bật điều hòa cả tuần dù chỉ ở nhà tối**. Schedule shutdown = lập trình điều hòa bật tắt theo giờ làm.*
 
@@ -204,7 +204,7 @@ Stop-AzVM -ResourceGroupName "dev-rg" -Name "dev-vm-1" -Force
 
 → Schedule via Automation Account hoặc Logic App.
 
-### Compute total saving
+### Tổng tiết kiệm compute
 
 | Tactic | Effort | Saving potential |
 |---|---|---|
@@ -216,7 +216,7 @@ Stop-AzVM -ResourceGroupName "dev-rg" -Name "dev-vm-1" -Force
 
 ---
 
-## 2️⃣ Storage optimization
+## 2️⃣ Tối ưu storage
 
 ### Lifecycle policy — Hot → Warm → Cold → Archive
 
@@ -299,7 +299,7 @@ gcloud storage buckets update gs://prod-uploads \
 | **Cold** | $0.0036 | 90 days |
 | **Archive** | $0.00099 | 180 days |
 
-### Cleanup orphan + unattached
+### Dọn dẹp resource orphan + unattached
 
 #### EBS snapshot stale
 
@@ -338,7 +338,7 @@ aws ec2 describe-volumes \
 gcloud compute disks list --filter='-users:*'
 ```
 
-### Storage total saving Acme Shop
+### Tổng tiết kiệm storage của Acme Shop
 
 | Item | Action | Saving/month |
 |---|---|---|
@@ -351,7 +351,7 @@ gcloud compute disks list --filter='-users:*'
 
 ---
 
-## 3️⃣ Network optimization
+## 3️⃣ Tối ưu network
 
 ### Egress giảm thông qua CDN
 
@@ -414,7 +414,7 @@ aws ec2 create-vpc-endpoint \
 
 → Acme Shop có 5 ALB **chỉ vài request/giây** → $0.0225 × 24 × 30 × 5 = **$81/tháng**. Consolidate xuống 2 ALB → save $48.
 
-### Acme Shop network saving
+### Tiết kiệm network của Acme Shop
 
 | Item | Action | Saving/month |
 |---|---|---|
@@ -426,9 +426,9 @@ aws ec2 create-vpc-endpoint \
 
 ---
 
-## 4️⃣ Database optimization
+## 4️⃣ Tối ưu database
 
-### RI cho RDS steady, Serverless cho variable
+### RI cho RDS tải ổn định, Serverless cho tải biến động
 
 🪞 **Ẩn dụ**: *Steady DB workload (prod transactional 24/7) như **lái xe văn phòng hàng ngày** — mua xe (RI) rẻ hơn thuê. Variable DB workload (analytics chỉ chạy giờ làm) như **đi taxi cuối tuần** — không mua xe, gọi grab khi cần (Aurora Serverless v2).*
 
@@ -464,7 +464,7 @@ Use case:
 
 → Quy tắc: < 5,000 WCU/tháng → On-demand. > 50,000 WCU/tháng → Provisioned + RI.
 
-### Drop unused index — IOPS killer
+### Drop index không dùng — thủ phạm ngốn IOPS
 
 PostgreSQL/MySQL có index không dùng:
 - Slow write (mỗi insert update all index).
@@ -486,7 +486,7 @@ ORDER BY pg_relation_size(indexrelid) DESC;
 
 → Acme Shop checkout DB có 28 unused index, total 12 GB → drop save IOPS + 12 GB storage + snapshot 5x daily.
 
-### Database total saving
+### Tổng tiết kiệm database
 
 | Item | Action | Saving/month |
 |---|---|---|
@@ -499,7 +499,7 @@ ORDER BY pg_relation_size(indexrelid) DESC;
 
 ---
 
-## 5️⃣ Acme Shop total saving
+## 5️⃣ Tổng tiết kiệm của Acme Shop
 
 Tổng hợp 4 nhóm:
 
@@ -745,3 +745,4 @@ Cách giảm:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 cluster cloud-cost-management. 4 nhóm tactic Compute (right-size + ASG mix Spot + schedule shutdown) + Storage (lifecycle 4-tier + orphan cleanup) + Network (CDN + VPC Endpoint + LB consolidate) + Database (RI + Aurora Serverless v2 + drop unused index) + Acme Shop worked example save $7.3k/month vượt target 25% + 7 pitfalls + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá khung: metadata "Yêu cầu trước", header Glossary 3 cột tiếng Việt, mục Liên kết & Tài nguyên theo marker chuẩn (⬅️/➡️/↑) với link-text là tiêu đề bài đích và 3 sub 🧭/🧩/🌐.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

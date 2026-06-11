@@ -1,9 +1,9 @@
 # ☁️ Cloudflare — Tổng quan, account hierarchy, wrangler CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu CDN/DNS cơ bản, đã từng dùng `curl`
@@ -88,11 +88,11 @@ Khác AWS/GCP, Cloudflare **không phân loại theo region**. Mọi service dep
 
 ---
 
-## 2️⃣ Ba trụ cột Cloudflare — services tier 1
+## 2️⃣ Ba trụ cột Cloudflare — các service tier 1
 
 Cloudflare 2026 chia thành **3 mảng sản phẩm chính**:
 
-### Trụ 1 — Network (foundation, miễn phí rộng)
+### Trụ 1 — Network (nền tảng, miễn phí rộng)
 
 | Service | Mô tả | Free Tier |
 |---|---|---|
@@ -105,7 +105,7 @@ Cloudflare 2026 chia thành **3 mảng sản phẩm chính**:
 
 → Bài 01 đi sâu DNS + CDN + SSL.
 
-### Trụ 2 — Security
+### Trụ 2 — Bảo mật (Security)
 
 | Service | Mô tả | Free Tier |
 |---|---|---|
@@ -147,7 +147,7 @@ Cloudflare 2026 chia thành **3 mảng sản phẩm chính**:
 
 ---
 
-## 3️⃣ Hierarchy — Account → Zone → Resource
+## 3️⃣ Phân cấp (hierarchy) — Account → Zone → Resource
 
 Cloudflare hierarchy **đơn giản hơn AWS/GCP** rất nhiều:
 
@@ -188,7 +188,7 @@ User → HTTP request tới POP → Cloudflare cache/WAF/Worker xử lý
 
 → Nameservers Cloudflare = "cửa khẩu hải quan" của domain. Bạn không có Zone = không có CDN/WAF, chỉ dùng Workers/R2 stand-alone.
 
-### Multiple zones cùng account
+### Nhiều zone trong cùng account
 
 | Tình huống | Setup |
 |---|---|
@@ -198,7 +198,7 @@ User → HTTP request tới POP → Cloudflare cache/WAF/Worker xử lý
 
 ---
 
-## 4️⃣ Tạo Cloudflare account + secure baseline
+## 4️⃣ Tạo Cloudflare account + baseline bảo mật
 
 ### Bước 1 — Tạo account
 
@@ -213,7 +213,7 @@ User → HTTP request tới POP → Cloudflare cache/WAF/Worker xử lý
 2. Dùng **Authenticator app** (1Password, Authy, Google Authenticator) — không SMS.
 3. **Lưu 10 backup codes** offline (password manager).
 
-### Bước 3 — Add domain (Zone) đầu tiên
+### Bước 3 — Thêm domain (Zone) đầu tiên
 
 1. Dashboard → Add a Site → nhập `yourdomain.com`.
 2. Chọn **Free plan** ($0/tháng).
@@ -236,7 +236,7 @@ User → HTTP request tới POP → Cloudflare cache/WAF/Worker xử lý
 6. TTL: set 6 tháng - 1 năm.
 7. Copy token → lưu password manager. **Token chỉ hiện 1 lần.**
 
-### Bước 5 — Setup billing alert (Pro+)
+### Bước 5 — Cài đặt billing alert (Pro+)
 
 Free plan không có spending — không cần alert. Nếu nâng Pro/Business: Billing → Subscription → Notifications.
 
@@ -252,7 +252,7 @@ Có thể filter theo user, action, date. Export CSV.
 
 ---
 
-## 5️⃣ wrangler CLI — Cài đặt + auth + first command
+## 5️⃣ wrangler CLI — Cài đặt + auth + lệnh đầu tiên
 
 🪞 **Ẩn dụ**: *`wrangler` là "chiếc xe tải" của Cloudflare — chở code Worker, asset Pages, dữ liệu R2/KV/D1 từ máy bạn lên edge global. Một CLI duy nhất cho cả Developer Platform.*
 
@@ -272,7 +272,7 @@ wrangler --version
 
 > Yêu cầu Node.js 18+ (2026 khuyến nghị Node 20 LTS).
 
-### Auth — Interactive (dev local)
+### Auth — Tương tác (dev local)
 
 ```bash
 # Mở browser → login Cloudflare → cấp quyền
@@ -309,7 +309,7 @@ CLOUDFLARE_ACCOUNT_ID=xxx
 
 → Trong GitHub Actions: dùng `secrets.CLOUDFLARE_API_TOKEN`.
 
-### Common commands
+### Các lệnh thường dùng
 
 ```bash
 # List Workers trong account
@@ -362,7 +362,7 @@ So sánh side-by-side với AWS/GCP:
 
 ---
 
-## 7️⃣ Account-level vs Zone-level permission
+## 7️⃣ Quyền (permission) cấp Account vs cấp Zone
 
 Khi tạo API token hoặc invite member:
 
@@ -393,13 +393,13 @@ Zone: acmeshop.vn
 
 ---
 
-## 🛠️ Hands-on — Deploy first Worker "Hello edge" trong 5 phút
+## 🛠️ Hands-on — Deploy Worker đầu tiên "Hello edge" trong 5 phút
 
 ### Mục tiêu
 
 Bạn deploy 1 Worker đơn giản trả về JSON, accessible từ URL `https://acmeshop-hello.<your-subdomain>.workers.dev`. Worker chạy ở 320+ POPs ngay khi deploy.
 
-### Bước 1 — Init project
+### Bước 1 — Khởi tạo project
 
 ```bash
 mkdir acmeshop-hello && cd acmeshop-hello
@@ -465,7 +465,7 @@ wrangler deploy
 # Current Deployment ID: a1b2c3d4-...
 ```
 
-### Bước 5 — Test global latency
+### Bước 5 — Test latency toàn cầu
 
 ```bash
 # Từ máy bạn
@@ -492,7 +492,7 @@ wrangler tail acmeshop-hello
 
 Mở URL nhiều lần → thấy log streaming.
 
-### Bước 7 — Cleanup (optional)
+### Bước 7 — Dọn dẹp (tuỳ chọn)
 
 ```bash
 # Xóa Worker
@@ -723,3 +723,4 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Cloudflare basic. Overview Cloudflare edge-first paradigm + 3 trụ cột (Network/Security/Developer Platform) + Account→Zone hierarchy + wrangler CLI setup + Free Tier 2026 vs AWS/GCP + hands-on first Worker live tại 320+ POPs + 8 pitfalls. Pattern theo AWS/GCP lesson 00.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: gắn ngôn ngữ cho các code fence bare (cây thư mục/flow/scope token/path dùng `text`, file `.env` dùng `bash`); chuẩn hoá phần "Liên kết & Tài nguyên" theo gold standard (marker ⬅️/➡️/↑, link-text = tiêu đề thực, 3 sub-heading canonical: Định hướng lộ trình học / Các chủ đề có thể bạn quan tâm / Tài nguyên tham khảo khác).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

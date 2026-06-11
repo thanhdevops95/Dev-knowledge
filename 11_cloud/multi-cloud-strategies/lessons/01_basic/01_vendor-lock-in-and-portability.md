@@ -1,9 +1,9 @@
 # 🎓 Vendor Lock-in & Portability — 4 chiều khoá, abstraction layer, exit cost
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 01/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã đọc [Multi-cloud Overview — Định nghĩa, lý do, khi nên/không nên 2026](00_what-is-multi-cloud-overview.md) ✅
@@ -137,7 +137,7 @@ Standard ────────────────────── Prop
 
 Acme Shop ngồi tier hết 100+ service đang dùng. Đây là bảng:
 
-### Tier 1: LOW lock-in (portable)
+### Tier 1: Lock-in THẤP (portable)
 
 🟢 *Service có spec/API chuẩn — move được vài tuần.*
 
@@ -156,7 +156,7 @@ Acme Shop ngồi tier hết 100+ service đang dùng. Đây là bảng:
 
 → **80% workload Acme Shop** ở tier này → exit cost không cao về API.
 
-### Tier 2: MEDIUM lock-in
+### Tier 2: Lock-in TRUNG BÌNH
 
 🟡 *Move được nhưng cần rewrite phần config + integration.*
 
@@ -170,7 +170,7 @@ Acme Shop ngồi tier hết 100+ service đang dùng. Đây là bảng:
 | **IAM Role** | Concept giống GCP Service Account nhưng model khác | Map manually |
 | **Aurora** | Postgres-compatible nhưng có Aurora-specific feature (Global DB, Serverless v2) | 2-3 tuần |
 
-### Tier 3: HIGH lock-in (rời = rewrite)
+### Tier 3: Lock-in CAO (rời = rewrite)
 
 🔴 *Service vendor-specific, không có equivalent 1:1 — rời = re-architect.*
 
@@ -189,7 +189,7 @@ Acme Shop ngồi tier hết 100+ service đang dùng. Đây là bảng:
 
 → **15% workload Acme Shop** ở tier này → cost rời lớn.
 
-### Tier 4: ULTRA lock-in (rời = rebuild)
+### Tier 4: Lock-in CỰC CAO (rời = rebuild)
 
 🔴🔴 *Service không có equivalent — phải design lại business logic.*
 
@@ -218,7 +218,7 @@ Strategy    │   Portable  │  Abstract API  │  Limit usage │   Avoid     
 
 🪞 **Ẩn dụ**: *Abstraction layer như **adapter điện** — cắm vào ổ Mỹ hay châu Á đều dùng được. Trade-off: thêm adapter = thêm 1 component để fix khi hỏng.*
 
-### Level 1: Tool-level abstraction (Terraform)
+### Level 1: Abstraction mức tool (Terraform)
 
 **Cách**: Dùng Terraform với multiple provider. Cùng tool, code khác nhau per cloud.
 
@@ -246,7 +246,7 @@ resource "google_storage_bucket" "data" {
 
 **Khi nào dùng**: **Mặc định cho mọi team** — tool abstraction luôn đáng làm.
 
-### Level 2: API-level abstraction (Crossplane)
+### Level 2: Abstraction mức API (Crossplane)
 
 **Cách**: Define abstraction "Database" — Crossplane translate sang RDS hoặc Cloud SQL tùy config.
 
@@ -318,7 +318,7 @@ spec:
 
 **Khi nào dùng**: Enterprise 200+ engineer, đã thật sự multi-cloud, có Platform team.
 
-### Level 3: SDK-level abstraction (Pulumi / SDK riêng)
+### Level 3: Abstraction mức SDK (Pulumi / SDK riêng)
 
 **Cách**: Code TypeScript/Python dùng SDK đa cloud (Pulumi) hoặc tự build wrapper.
 
@@ -352,7 +352,7 @@ export const bucketName = bucket.name;
 
 **⚠️ Anti-pattern**: Build "MyCompany Cloud SDK" từ đầu để abstract hết — chôn 1 năm engineering vào rồi không bao giờ dùng cloud thứ 2.
 
-### Decision matrix
+### Ma trận quyết định
 
 | Tình huống Acme Shop | Abstraction nên |
 |---|---|
@@ -409,7 +409,7 @@ export const bucketName = bucket.name;
 - EDP commitment 3 năm có thể negotiate 50% egress discount.
 - Spot egress credit từ AWS partner program.
 
-### Data gravity analysis
+### Phân tích data gravity
 
 Acme Shop chốt: data nằm đâu lâu nhất → cloud đó là "home".
 - **50TB user uploads** trên S3 đã 3 năm → migrate cost > value, stay AWS.
@@ -423,7 +423,7 @@ Acme Shop chốt: data nằm đâu lâu nhất → cloud đó là "home".
 
 Acme Shop dùng framework này pitch sếp:
 
-### Step 1: Inventory service đang dùng
+### Bước 1: Kiểm kê service đang dùng
 
 ```
 Service          | Tier | Volume       | Critical?
@@ -441,7 +441,7 @@ SES              | 3    | 100K/d email | N
 Bedrock          | 4    | -            | N
 ```
 
-### Step 2: Estimate per-tier cost
+### Bước 2: Ước tính chi phí theo tier
 
 | Tier | Cost formula | Acme Shop |
 |---|---|---|
@@ -453,7 +453,7 @@ Bedrock          | 4    | -            | N
 | Training | New cloud certs + courses | $30K |
 | **Total** | | **~$464K + 6 months** |
 
-### Step 3: Identify quick wins to reduce exit cost
+### Bước 3: Tìm quick win để giảm exit cost
 
 | Action | Saving |
 |---|---|
@@ -465,7 +465,7 @@ Bedrock          | 4    | -            | N
 
 → Spending $50K trong 12 tháng để giảm exit cost xuống $244K (giảm 47%) — ROI rõ ràng.
 
-### Step 4: Decision
+### Bước 4: Ra quyết định
 
 | Scenario | Acme Shop làm |
 |---|---|
@@ -482,7 +482,7 @@ Bedrock          | 4    | -            | N
 
 Mục tiêu: viết 1 module Terraform tạo object storage, dùng được trên AWS hoặc GCP.
 
-### Setup
+### Cài đặt
 
 ```bash
 mkdir terraform-portable-bucket && cd terraform-portable-bucket
@@ -626,7 +626,7 @@ output "gcp_bucket_url" {
 }
 ```
 
-### Run
+### Chạy thử
 
 ```bash
 terraform init
@@ -649,11 +649,11 @@ gcp_bucket_url = "gs://acmeshop-uploads-gcp"
 
 ---
 
-## 7️⃣ Strategy giảm lock-in từ ngày 0
+## 7️⃣ Chiến lược giảm lock-in từ ngày 0
 
 🪞 **Ẩn dụ**: *Như **đi thuê nhà mà giữ option mua** — không bám rễ quá sâu nếu chưa chắc ở lâu.*
 
-### Principle 1: Prefer open standard
+### Nguyên tắc 1: Ưu tiên chuẩn mở (open standard)
 
 | Choice | Vì sao |
 |---|---|
@@ -663,13 +663,13 @@ gcp_bucket_url = "gs://acmeshop-uploads-gcp"
 | Open Telemetry > CloudWatch SDK | Vendor-neutral telemetry |
 | Redis (open protocol) > vendor-managed only | Self-host fallback |
 
-### Principle 2: Keep stateful at edges
+### Nguyên tắc 2: Giữ phần stateful ở rìa hệ thống
 
 - Stateless compute (Lambda, container) dễ move.
 - Stateful (DB, object storage) khó move.
 - → Centralize state ở 1-2 service, keep rest stateless.
 
-### Principle 3: Use S3 SDK with endpoint flag
+### Nguyên tắc 3: Dùng S3 SDK với endpoint flag
 
 ```python
 # Code này chạy được cả S3, R2, GCS interop, MinIO
@@ -687,13 +687,13 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 → Switching object storage = change 1 environment variable.
 
-### Principle 4: Avoid "magic glue" services
+### Nguyên tắc 4: Tránh service kiểu "keo dán ma thuật" (magic glue)
 
 - Step Functions: high lock (ASL specific) → prefer Airflow / Temporal (portable).
 - AWS Glue ETL: high lock → prefer dbt + Airflow.
 - EventBridge: medium → consider Kafka self-host nếu cross-cloud.
 
-### Principle 5: Don't abstract until you have 2 clouds
+### Nguyên tắc 5: Đừng abstract khi chưa có 2 cloud
 
 🪞 *Đừng xây cây cầu trước khi có 2 bờ sông.*
 
@@ -865,7 +865,7 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 | Cloudflare R2 → anywhere | **$0** |
 | Direct Connect / Interconnect | $0.02 |
 
-### Quick principles
+### Nguyên tắc nhanh
 
 ```
 1. Default to open standard (Postgres, K8s, S3 API, OpenTelemetry)
@@ -937,3 +937,4 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 
 - **v1.0.0 (24/05/2026)** — Bài 01 cluster Multi-cloud basic. 4 dimension lock-in (data/API/skill/contract) + tier service (low/medium/high/ultra) + 3 level abstraction (Terraform/Crossplane/Pulumi) + egress fee reality 2026 + framework tính exit cost + hands-on Terraform module portable S3/GCS + 5 principles giảm lock-in từ ngày 0. Acme Shop $464K exit cost analysis làm trục chính.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text dùng tiêu đề thật); chuẩn hoá header Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, link-text khớp tiêu đề H1 thực, 3 sub 🧭/🧩/🌐). Giữ nguyên nội dung kỹ thuật, số liệu, code.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

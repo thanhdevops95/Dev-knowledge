@@ -1,9 +1,9 @@
 # ⚡ Cloudflare Workers + Pages — Edge compute & static + dynamic
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) và [01_cdn-dns-and-ssl](01_cdn-dns-and-ssl.md), biết JS/TS cơ bản, đã từng dùng Node.js Express
@@ -150,7 +150,7 @@ vars = { ENVIRONMENT = "staging" }
 | `durable_objects` | Durable Object | `env.COUNTER.get(id)` |
 | `ai` | Workers AI | `env.AI.run("@cf/llama-3", {...})` |
 
-### Limits Workers Free vs Paid
+### Giới hạn (limits) Workers Free vs Paid
 
 | Limit | Free | Paid ($5/tháng) |
 |---|---|---|
@@ -230,7 +230,7 @@ export default {
 };
 ```
 
-### Eventual consistency — gotcha
+### Eventual consistency — điểm dễ vấp (gotcha)
 
 ```typescript
 // Worker A (POP Singapore) tại t=0:
@@ -328,14 +328,14 @@ tag = "v1"
 new_classes = ["Counter"]
 ```
 
-### Pricing
+### Giá
 
 DO là **Workers Paid only** ($5/tháng). Pricing:
 - Request: $0.15/M.
 - Duration: $12.50/M GB-s.
 - Storage: $0.20/GB-month.
 
-### Note: SQLite-backed DO (2024+)
+### Lưu ý: SQLite-backed DO (2024+)
 
 Cloudflare giới thiệu **SQLite-backed Durable Objects** — mỗi DO có SQLite riêng (vs key-value storage truyền thống). Cho phép query SQL trong DO. Beta 2025, ổn định 2026.
 
@@ -345,7 +345,7 @@ Cloudflare giới thiệu **SQLite-backed Durable Objects** — mỗi DO có SQL
 
 🪞 **Ẩn dụ**: *Pages là **"Vercel/Netlify của Cloudflare"** — bạn push code lên GitHub, Cloudflare auto-build static site, deploy lên CDN edge. Khác Vercel/Netlify: nằm trên hạ tầng Cloudflare → Workers/KV/R2 tích hợp sẵn, free tier siêu rộng.*
 
-### Pages workflow
+### Workflow của Pages
 
 ```
 1. Connect GitHub repo
@@ -382,14 +382,14 @@ npx wrangler pages deploy ./dist --project-name=acmeshop-web
 | **Gatsby** | ✅ | SSG |
 | **Vue/React/Angular** (Vite) | ✅ | SPA |
 
-### Static-only deploy
+### Deploy static thuần (static-only)
 
 Nếu site chỉ static (Hugo, Jekyll, plain HTML):
 - Build → output static files trong `dist/` hoặc `public/`.
 - Pages serve qua CDN với cache-control thông minh.
 - Custom domain + SSL + unlimited bandwidth.
 
-### Pages Functions — dynamic logic
+### Pages Functions — logic động
 
 Trong Pages project, thêm folder `functions/`:
 
@@ -506,7 +506,7 @@ Bạn deploy 1 REST API cho Acme Shop:
 
 API chạy ở 320+ POPs, latency < 30ms global.
 
-### Bước 1 — Init project với Hono
+### Bước 1 — Khởi tạo project với Hono
 
 ```bash
 mkdir acmeshop-api && cd acmeshop-api
@@ -697,7 +697,7 @@ wrangler tail acmeshop-api
 # Hit endpoint vài lần → thấy log realtime
 ```
 
-### Bước 8 — Custom domain (optional)
+### Bước 8 — Custom domain (tuỳ chọn)
 
 ```bash
 # Trong Cloudflare Dashboard:
@@ -917,3 +917,4 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 cluster Cloudflare basic. Workers V8 isolate vs Lambda + KV eventual consistent + Durable Objects strong consistent + Pages static + Pages Functions + Service Bindings + Cron triggers + hands-on Hono.js REST API Acme Shop với KV cache + 8 pitfalls. Pattern theo AWS/GCP lesson 04 (compute).
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.

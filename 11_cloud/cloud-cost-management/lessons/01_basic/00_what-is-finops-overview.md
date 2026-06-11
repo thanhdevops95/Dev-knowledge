@@ -1,9 +1,9 @@
 # 🎓 FinOps — Văn hóa quản lý chi phí Cloud
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Cloud fundamentals overview](../../../cloud-fundamentals/lessons/01_basic/00_what-is-cloud-computing.md)
@@ -101,7 +101,7 @@ Ví dụ Acme Shop:
 
 ---
 
-## 3 phases vận hành — Inform / Optimize / Operate
+## 3 giai đoạn (phase) vận hành — Inform / Optimize / Operate
 
 FinOps Foundation chia journey thành 3 phases lặp lại liên tục (như Plan-Do-Check-Act của DevOps):
 
@@ -115,7 +115,7 @@ graph LR
     style C fill:#d4edda
 ```
 
-### Phase 1 — Inform (Visibility + Allocation)
+### Giai đoạn 1 — Inform (Visibility + Allocation)
 
 **Mục tiêu**: *"Tiền đang chảy đi đâu?"*
 
@@ -129,7 +129,7 @@ Việc làm:
 
 🪞 **Ẩn dụ**: *Phase Inform giống **bật đèn trong nhà** — bạn cần thấy rõ trước khi quyết định dọn cái gì.*
 
-### Phase 2 — Optimize (Tactical actions)
+### Giai đoạn 2 — Optimize (hành động chiến thuật)
 
 **Mục tiêu**: *"Cắt cái gì, cắt thế nào?"*
 
@@ -142,7 +142,7 @@ Việc làm:
 
 → Đầu ra: hóa đơn giảm 20-40%, không hy sinh production.
 
-### Phase 3 — Operate (Continuous improvement)
+### Giai đoạn 3 — Operate (cải tiến liên tục)
 
 **Mục tiêu**: *"Làm sao không lặp lại bài học cũ?"*
 
@@ -155,7 +155,7 @@ Việc làm:
 
 → Đầu ra: cost được monitor + tự sửa, FinOps embed vào DNA team.
 
-### Maturity model
+### Mô hình trưởng thành (maturity model)
 
 FinOps Foundation chia mỗi capability thành 3 maturity level:
 
@@ -169,7 +169,7 @@ FinOps Foundation chia mỗi capability thành 3 maturity level:
 
 ---
 
-## Team structure — 3 vai trò không thể thiếu
+## Cấu trúc team — 3 vai trò không thể thiếu
 
 FinOps **không** phải việc của 1 người. Nó là **collaboration** giữa 3 nhóm:
 
@@ -207,7 +207,7 @@ Job title gặp: *FinOps Engineer*, *Cloud Cost Analyst*, *Cloud Economist*.
 - Implement automation (auto-shutdown, lifecycle).
 - Đề xuất re-architect khi cost không hợp lý.
 
-### Vai trò 3 — Finance (budget guardian)
+### Vai trò 3 — Finance (người gác ngân sách)
 
 - Set budget per team.
 - Forecast chi tiêu quý/năm.
@@ -273,7 +273,7 @@ Mỗi tháng accounting **thực sự trừ** $12,400 vào budget team Backend. 
 
 ---
 
-## Cost-aware culture — gốc của mọi thứ
+## Văn hoá cost-aware — gốc của mọi thứ
 
 Công cụ + framework chỉ là 20%. 80% là **văn hóa**. Bạn có thể có Cost Explorer, Infracost, tag perfect — nhưng nếu engineer nghĩ *"cloud rẻ, scale lên đi"*, bill vẫn tăng.
 
@@ -288,7 +288,7 @@ Công cụ + framework chỉ là 20%. 80% là **văn hóa**. Bạn có thể có
 | Phát hiện EBS volume orphan, mở ticket → DevOps xóa | ✅ |
 | *"Cost không phải việc của tôi"* | ❌❌❌ |
 
-### Cách build culture
+### Cách xây dựng văn hoá
 
 1. **Cost dashboard public** — ai cũng xem được số team mình.
 2. **Cost-of-day Slack** — daily report kênh #engineering.
@@ -465,3 +465,4 @@ Khắc phục:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster cloud-cost-management. Định nghĩa FinOps + FinOps Foundation 6 principles + 3 phases Inform/Optimize/Operate + maturity Crawl/Walk/Run + team structure 4 vai trò + anti-pattern "tắt finance khi chốt arch" + showback vs chargeback model + cost-aware culture + 5 pitfalls + 5 self-check. Tình huống Acme Shop $50k/tháng tăng 30% YoY làm xương sống cluster.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: đổi field metadata `Prerequisites` → `Yêu cầu trước`; chuẩn hoá 3 sub-heading mục Liên kết về canonical (🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác) kèm marker ➡️/↑ và link-text dùng tiêu đề H1 thực của bài đích; đổi header Glossary sang 3 cột `Thuật ngữ | Tiếng Việt | Giải thích`.
+- **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
