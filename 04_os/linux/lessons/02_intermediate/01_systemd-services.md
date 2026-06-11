@@ -1,9 +1,9 @@
 # 🎓 systemd Services — Biến app thành service production
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
@@ -111,6 +111,21 @@ Trước 2010, Linux dùng SysV init. Vì sao đa số distro chuyển sang syst
 ---
 
 ## 2️⃣ `systemctl` — Tool điều khiển systemd
+
+Sơ đồ dưới minh hoạ **vòng đời 1 service** qua các lệnh `systemctl` — chỗ beginner hay rối nhất là phân biệt `enable` (đăng ký auto-start lúc boot) với `start` (chạy ngay), và đường đi khi service crash:
+
+```mermaid
+flowchart LR
+    D["disabled"] -->|"systemctl enable"| E["enabled (tự chạy khi boot)"]
+    E -->|"boot / systemctl start"| R["active (running)"]
+    R -->|"systemctl stop"| I["inactive"]
+    I -->|"systemctl start"| R
+    R -->|"crash"| F["failed"]
+    F -->|"Restart=on-failure"| R
+    F -->|"journalctl -u app"| J["Đọc log tìm nguyên nhân"]
+```
+
+→ `enable`/`disable` chỉ đổi trạng thái "boot có tự chạy không", còn `start`/`stop` đổi trạng thái chạy ngay bây giờ — 2 trục độc lập; khi rơi vào `failed`, lối ra luôn là `journalctl`.
 
 ### Lệnh cơ bản
 
@@ -662,3 +677,4 @@ WantedBy=timers.target
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "quản gia cao cấp" cho systemd, 2 lời dẫn trước bảng concepts + so sánh SysV/systemd. Sửa lỗi diễn đạt nhỏ.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng đời service (enable/start/stop/failed) cho trực quan.

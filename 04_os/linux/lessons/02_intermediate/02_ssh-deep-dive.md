@@ -1,9 +1,9 @@
 # 🎓 SSH Deep Dive — Keys, Config, Tunneling, Agent
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.1\
+> **Phiên bản:** v1.2.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
@@ -140,6 +140,23 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... user@laptop      # ← thêm key 2
 ```
 
 → Mỗi dòng = 1 key được phép login.
+
+Sơ đồ dưới minh hoạ **handshake key-based** — điểm khó hiểu nhất: login thành công mà **private key không bao giờ rời laptop**, server chỉ cần public key để verify chữ ký:
+
+```mermaid
+sequenceDiagram
+    participant C as Laptop (giữ private key)
+    participant S as Server (giữ authorized_keys)
+    C->>S: Xin login bằng public key X
+    S->>S: Tìm X trong authorized_keys
+    S->>C: Gửi challenge (chuỗi ngẫu nhiên)
+    C->>C: Ký challenge bằng PRIVATE key
+    C->>S: Gửi chữ ký
+    S->>S: Verify chữ ký bằng PUBLIC key
+    S->>C: Login OK — không password nào được gửi
+```
+
+→ Vì chỉ chữ ký (không phải key) đi qua mạng, attacker nghe lén cũng không lấy được gì để login lại — đây là lý do key-based an toàn hơn hẳn password.
 
 ### Manual copy (nếu không có `ssh-copy-id`)
 
@@ -684,3 +701,4 @@ scp vps:/path/file ./                   rsync --progress huge.tar vps:/tmp/
 
 - **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "bộ chìa khoá cao cấp" cho SSH keys, 2 lời dẫn trước bảng thuật toán + lệnh ssh-keygen. Chuẩn hóa username trong ví dụ.
 - **v1.2.1 (10/06/2026)** — Làm rõ ghi chú deprecation của `scp`: OpenSSH 9+ deprecate giao thức scp cũ, script mới nên ưu tiên `sftp` hoặc `rsync -e ssh`; `scp` vẫn dùng được cho copy nhanh thủ công.
+- **v1.2.2 (11/06/2026)** — Bổ sung sơ đồ handshake SSH key-based cho trực quan.

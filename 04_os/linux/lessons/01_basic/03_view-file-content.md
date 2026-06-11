@@ -1,9 +1,9 @@
 # 🎓 Linux View File Content — `cat`, `less`, `head`, `tail`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 21/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_navigation.md](./01_navigation.md), [02_file-operations.md](./02_file-operations.md)\
@@ -47,6 +47,21 @@ Cùng đọc file, sao cần 4 lệnh? Vì **mỗi tình huống có cách đọ
 | Theo dõi log đang ghi liên tục | `tail -f` | Update realtime |
 
 → Beginner dùng nhiều **`cat`**, junior trở lên dùng nhiều **`tail -f`** + **`less`** khi debug.
+
+Sơ đồ dưới minh hoạ **cây quyết định chọn lệnh** theo nhu cầu đọc — đi từ câu hỏi "file thế nào, cần xem gì" tới đúng công cụ:
+
+```mermaid
+flowchart TD
+    Q["Cần đọc file"] --> S{"File ngắn dưới 50 dòng?"}
+    S -->|"Có"| C["cat"]
+    S -->|"Không"| T{"Cần phần nào?"}
+    T -->|"Vài dòng đầu"| H["head"]
+    T -->|"Vài dòng cuối"| TL["tail"]
+    T -->|"Log đang ghi tiếp"| F["tail -f / tail -F"]
+    T -->|"Cuộn + search cả file"| L["less"]
+```
+
+→ Trả lời 2 câu hỏi (file dài không? cần phần nào?) là chọn đúng lệnh — không bao giờ phải `cat` cả file 50,000 dòng nữa.
 
 ---
 
@@ -423,3 +438,4 @@ Production log thường bị rotate hàng ngày (logrotate). Khi xem production
 - **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/`.
 - **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống debug production log 50,000 dòng — 3 câu hỏi (lỗi mới nhất / bắt đầu khi nào / realtime). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
 - **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (cat cơ bản, -n đánh số dòng, nối file).
+- **v2.1.1 (11/06/2026)** — Bổ sung sơ đồ cây quyết định chọn lệnh đọc file cho trực quan.

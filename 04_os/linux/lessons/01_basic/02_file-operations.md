@@ -1,9 +1,9 @@
 # 🎓 Linux File Operations — `mkdir`, `touch`, `cp`, `mv`, `rm`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 21/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_navigation.md](./01_navigation.md)\
@@ -55,6 +55,19 @@ Sau khi navigate (`cd`, `ls`, `pwd`), bạn cần **TƯƠNG TÁC** với file/fo
 ## 2️⃣ Mô hình tinh thần — 5 công cụ trong xưởng
 
 **🪞 Ẩn dụ**: *5 lệnh này như **5 công cụ trong xưởng**: `mkdir` = đào hố (tạo folder), `touch` = đặt thùng rỗng (file rỗng), `cp` = nhân bản, `mv` = chuyển/dán nhãn lại, `rm` = đốt (không có thùng rác recovery).*
+
+Sơ đồ dưới minh hoạ **vòng đời 1 file/folder** qua 5 lệnh — sinh ra, nhân bản, đổi tên, và kết thúc:
+
+```mermaid
+flowchart LR
+    A["Chưa tồn tại"] -->|"mkdir / touch"| B["File / folder"]
+    B -->|"cp"| C["Bản sao mới"]
+    B -->|"mv"| D["Tên / vị trí mới"]
+    B -->|"rm"| E["Mất VĨNH VIỄN"]
+    E -.->|"không có Undo"| A
+```
+
+→ Để ý: `cp` và `mv` đều giữ dữ liệu (chỉ thêm bản sao hoặc đổi chỗ), riêng `rm` là mũi tên một chiều — đó là lý do bài này dành cả 1 phần cảnh báo về nó.
 
 **Quy tắc chung**:
 - Lệnh có thể nhận **1 hoặc nhiều** file/folder cùng lúc
@@ -518,3 +531,4 @@ Phân tích:
 - **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/`. Đổi tiêu đề "File Operations" → "Linux File Operations".
 - **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống tạo cấu trúc project đầu tiên với 5 lệnh cụ thể (mkdir/touch/cp/mv/rm). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
 - **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (mkdir 1 folder, nhiều folder, -p lồng nhau).
+- **v2.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng đời file qua 5 lệnh cho trực quan.

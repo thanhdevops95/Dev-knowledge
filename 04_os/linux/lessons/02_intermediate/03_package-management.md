@@ -1,9 +1,9 @@
 # 🎓 Package Management — apt, dnf, snap, dependency, security updates
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
@@ -86,6 +86,20 @@ Mỗi package manager có 7 vai trò chính. Hiểu để biết khi gõ `apt in
 | **Resolve dependencies** | Tính toán: cần lib A, A cần B, B cần C... → cài hết |
 | **Verify** | Check checksum + GPG signature |
 | **Repository** | Source download (URL list) |
+
+Sơ đồ dưới minh hoạ **chuỗi việc đằng sau** khi bạn gõ 2 lệnh `apt update` rồi `apt install nginx` — chỗ beginner hay rối nhất là `update` không cài gì cả, chỉ refresh danh sách:
+
+```mermaid
+flowchart TD
+    A["apt update"] --> B["Tải index mới từ repo (KHÔNG cài gì)"]
+    B --> C["apt install nginx"]
+    C --> D["Resolve dependencies (nginx cần lib gì?)"]
+    D --> E["Download .deb + verify GPG"]
+    E --> F["dpkg cài + ghi database"]
+    F --> G["nginx sẵn sàng"]
+```
+
+→ Mọi bước từ resolve dependency trở xuống đều dựa trên index ở bước đầu — bỏ qua `apt update` nghĩa là cài theo danh sách cũ, dễ miss bản vá bảo mật.
 
 ---
 
@@ -622,3 +636,4 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "app store + thợ sửa nhà combo", 3 lời dẫn trước bảng vai trò + update vs upgrade + install/remove.
+- **v1.2.1 (11/06/2026)** — Bổ sung sơ đồ flow apt update → install cho trực quan.

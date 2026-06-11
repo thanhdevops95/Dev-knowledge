@@ -1,9 +1,9 @@
 # 🎓 IP Addressing — IPv4, IPv6, Subnet, CIDR, NAT
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [TCP/IP là gì](00_what-is-tcp-ip.md)
@@ -131,6 +131,19 @@ Số host = 2^(32 - CIDR) - 2
 - `-2` = trừ địa chỉ network (host bit 0...0) + broadcast (host bit 1...1).
 
 Ví dụ `/24`: `2^(32-24) - 2 = 256 - 2 = 254` host.
+
+Khái niệm trừu tượng nhất ở đây là cách `/24` **cắt 32 bit thành 2 phần**: network bits (cố định) và host bits (biến thiên). Sơ đồ minh hoạ với mạng quen thuộc `192.168.1.0/24`:
+
+```mermaid
+flowchart TD
+    IP["192.168.1.0/24 — 32 bit"] --> N["24 bit network: 192.168.1 (cố định)"]
+    IP --> H["8 bit host: .0 → .255 (256 giá trị)"]
+    H --> NA["192.168.1.0 — network address (reserved)"]
+    H --> HO["192.168.1.1 → .254 — 254 host dùng được"]
+    H --> BC["192.168.1.255 — broadcast (reserved)"]
+```
+
+→ Số sau dấu `/` càng lớn thì phần network càng dài, phần host càng ngắn — mạng càng nhỏ; đó cũng là lý do công thức luôn trừ 2 địa chỉ reserved ở 2 đầu dải host.
 
 ### Đọc CIDR
 
@@ -540,3 +553,4 @@ ping 8.8.8.8               # Test connectivity
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 2/5. Cover: IPv4 32-bit + 4 octet → range + private/public → subnet mask cổ điển + CIDR notation → subnetting (chia /16 thành 4 /18) → NAT (Network Address Translation) + private vs public IP → IPv6 128-bit + format compress + dual-stack. 5 pitfall + 4 self-check.
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/sơ đồ ở §1 (Range, "Loại IPv4 đặc biệt") và §2 (subnet mask diagram, công thức số host, "Đọc CIDR"). Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ network bits vs host bits trong /24 (§2) cho trực quan.

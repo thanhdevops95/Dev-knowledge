@@ -1,9 +1,9 @@
 # 🎓 psql & Meta-commands — Master CLI client
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is PostgreSQL](00_what-is-postgresql.md)
@@ -114,6 +114,19 @@ localhost:5432:myapp:myapp:secret
 ## 2️⃣ Meta-commands — Phải thuộc
 
 Meta = lệnh psql bắt đầu `\` (không phải SQL).
+
+Điểm dễ nhầm nhất với beginner: meta-command do **psql client tự xử lý**, còn SQL được **gửi nguyên văn tới server**. Sơ đồ dưới cho thấy psql route 2 loại lệnh khác nhau thế nào:
+
+```mermaid
+flowchart TD
+    A["Bạn gõ lệnh trong psql"] --> B{"Bắt đầu bằng dấu \ ?"}
+    B -- "Có → meta-command" --> C["psql tự xử lý ở client"]
+    C --> D["Dịch thành query lên system catalog<br>vd: \dt → đọc pg_catalog"]
+    B -- "Không → SQL" --> E["Gửi nguyên văn tới Postgres server"]
+    E --> F["Server thực thi, trả kết quả"]
+```
+
+→ Vì meta-command là tính năng của psql (không phải của server), nên `SHOW TABLES;` kiểu MySQL thất bại nhưng `\dt` chạy được — và app code không bao giờ dùng được `\dt`.
 
 ### Database + Schema
 
@@ -696,3 +709,4 @@ psql -d db -f file.sql -v ON_ERROR_STOP=1
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 2/5. Cover: psql connection 5 cách + .pgpass + .psqlrc config + 20+ meta-commands (\l \dt \d \du \dp \dx \df \timing \watch) + system catalog (pg_stat_activity, pg_stat_user_tables, pg_locks) + EXPLAIN intro + COPY import/export.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Kết nối 5 cách + Password `.pgpass` + `~/.psqlrc` config + §2 Database/Schema meta-commands + Roles/Permissions meta. Chuẩn hoá ví dụ `\set` + diễn đạt mượt hơn. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ phân luồng meta-command (psql client xử lý) vs SQL (gửi server) cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 Users & Permissions — chmod, chown, sudo, SUID, capabilities
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 23/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Linux Navigation](../01_basic/01_navigation.md), [File Operations](../01_basic/02_file-operations.md)
@@ -137,6 +137,23 @@ Cộng 3 giá trị này tuỳ tổ hợp quyền → ra 8 mã có thể. Bảng
 | `rwx` | 111 | 7 |
 
 → 3 nhóm (owner/group/other) × 3 bit = **9 bit** = **3 số octal**.
+
+Sơ đồ dưới minh hoạ cách **tách `755` thành 3 nhóm** rồi cộng ngược `r=4, w=2, x=1` để ra chuỗi `rwxr-xr-x`:
+
+```mermaid
+flowchart TD
+    P["chmod 755"] --> O["Owner: 7"]
+    P --> G["Group: 5"]
+    P --> T["Other: 5"]
+    O --> O2["4+2+1 = rwx"]
+    G --> G2["4+0+1 = r-x"]
+    T --> T2["4+0+1 = r-x"]
+    O2 --> R["rwxr-xr-x"]
+    G2 --> R
+    T2 --> R
+```
+
+→ Mỗi chữ số là tổng quyền của đúng 1 nhóm — đọc xuôi (octal → rwx) hay ngược (rwx → octal) đều chỉ là phép cộng 4/2/1.
 
 ### Permission phổ biến
 
@@ -555,3 +572,4 @@ setcap -r /path/binary
 ## 📌 Nhật ký thay đổi (Changelog)
 
 - **v1.1.0 (24/05/2026)** — Thêm 2 ẩn dụ (biên lai mua hàng cho `ls -l`, mật mã 3 số cho octal), 3 lời dẫn trước bảng (permission, octal table, permission phổ biến), chuẩn hóa username trong ví dụ.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ cách tính octal 755 từ rwx 3 nhóm cho trực quan.

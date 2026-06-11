@@ -1,9 +1,9 @@
 # 🎓 Linux Navigation — `pwd`, `ls`, `cd`
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.0\
+> **Phiên bản:** v2.1.1\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 21/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Terminal là gì](../../../../01_foundations/computing-environment/lessons/01_basic/00_what-is-terminal.md)\
@@ -75,6 +75,22 @@ Trước khi học lệnh, hiểu cấu trúc filesystem.
 |---|---|---|---|
 | **Absolute** (tuyệt đối) | Bắt đầu bằng `/` | `/Users/user/Desktop` | Hoạt động ở mọi nơi — không phụ thuộc đang đứng đâu |
 | **Relative** (tương đối) | Không bắt đầu bằng `/` | `./Desktop` hoặc `../etc` | Phụ thuộc folder hiện tại |
+
+Sơ đồ dưới minh hoạ 2 cách đi tới **cùng 1 đích** (`Desktop/`) khi bạn đang đứng ở `my-app/`: absolute path xuất phát từ root `/`, còn relative path xuất phát từ chỗ đang đứng:
+
+```mermaid
+flowchart TD
+    R["/ (root)"] --> U["Users/"]
+    R --> E["etc/"]
+    U --> H["user/ = ~"]
+    H --> D["Desktop/"]
+    H --> P["projects/"]
+    P --> M["my-app/ (bạn đang đứng)"]
+    M -. "relative: ../../Desktop" .-> D
+    R -. "absolute: /Users/user/Desktop" .-> D
+```
+
+→ Absolute path luôn đúng dù đứng ở đâu; relative path ngắn hơn nhưng đổi chỗ đứng là đổi kết quả — đây là nguồn gốc của đa số lỗi `cd` sai folder.
 
 **Ký hiệu đặc biệt**:
 
@@ -435,3 +451,4 @@ Bước 4: `cd -` → quay lại folder trước = `/Users/user/Documents`.
 - **v1.1.0 (16/05/2026)** — Đặt vào `04_os/linux/lessons/01_basic/` (lệnh OS). Đổi tiêu đề "Navigation" → "Linux Navigation". Thêm ghi chú cross-OS (Mac/WSL/Git Bash dùng được, Windows native khác).
 - **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống mở terminal lần đầu với 3 câu hỏi cụ thể (đang ở đâu, có gì, đi đâu). Đặt lại tiêu đề các phần cho tự nhiên hơn. Nội dung kỹ thuật không đổi.
 - **v2.1.0 (24/05/2026)** — Thêm 3 lời dẫn trước ví dụ (ls cơ bản, ls -la, ls -lhS).
+- **v2.1.1 (11/06/2026)** — Bổ sung sơ đồ absolute vs relative path cho trực quan.

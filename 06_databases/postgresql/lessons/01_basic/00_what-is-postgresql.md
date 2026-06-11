@@ -1,9 +1,9 @@
 # 🎓 PostgreSQL là gì? — RDBMS #1 cho backend 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SQL fundamentals](../../../sql-fundamentals/lessons/01_basic/00_what-is-sql.md)
@@ -154,6 +154,25 @@ A: vẫn thấy old version (consistency)
 ```
 
 → **Readers don't block writers, writers don't block readers**.
+
+Sơ đồ dưới minh hoạ 2 transaction chạy song song dưới MVCC — A đọc snapshot cũ trong khi B tạo version mới, không ai phải chờ ai:
+
+```mermaid
+sequenceDiagram
+    participant A as Transaction A (đọc)
+    participant PG as Postgres (MVCC)
+    participant B as Transaction B (ghi)
+    A->>PG: BEGIN + SELECT row id=1
+    PG-->>A: Trả snapshot v1 (không lock)
+    B->>PG: UPDATE row id=1
+    PG-->>B: Tạo version mới v2 (không chờ A)
+    B->>PG: COMMIT
+    A->>PG: SELECT lại row id=1
+    PG-->>A: Vẫn thấy v1 (snapshot nhất quán)
+    Note over PG: v1 thành dead row → autovacuum dọn sau
+```
+
+→ Mỗi transaction "đóng băng" view của mình tại thời điểm start — đây là lý do Postgres đạt high concurrency, đổi lại dead rows tích lũy cần VACUUM.
 
 ### Trade-off
 
@@ -589,3 +608,4 @@ import { PrismaClient } from '@prisma/client';   // ORM
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 1/5. Cover: Postgres là gì + history 40 năm + adoption + so sánh Postgres/MySQL/SQLite/MariaDB + MVCC concurrency + when to pick + install path 3 OS (macOS Homebrew, Linux apt, Docker) + first connection.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ MVCC (2 transaction song song) cho trực quan.

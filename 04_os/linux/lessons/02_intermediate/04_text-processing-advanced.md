@@ -1,9 +1,9 @@
 # 🎓 Text Processing — grep, sed, awk + pipe combos
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Linux View File Content](../01_basic/03_view-file-content.md), [IO Redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md)
@@ -518,6 +518,20 @@ journalctl -u myapp --since "5 min ago" \
 
 → Pipeline 5 tool. Đây là daily devops/SRE.
 
+Sơ đồ dưới minh hoạ cách **dữ liệu chảy qua pipeline** — mỗi tool nhận dòng text từ tool trước, thu hẹp/biến đổi rồi đẩy tiếp, không tool nào phải load cả 10GB log vào RAM:
+
+```mermaid
+flowchart LR
+    A["journalctl (nguồn log)"] -->|"mọi dòng"| B["grep ERROR"]
+    B -->|"chỉ dòng lỗi"| C["awk + cut (cắt cột cần)"]
+    C --> D["sort"]
+    D -->|"dòng giống nằm cạnh nhau"| E["uniq -c (đếm trùng)"]
+    E --> F["sort -rn + head"]
+    F --> G["Top lỗi thường gặp"]
+```
+
+→ Đọc pipeline từ trái sang phải như dây chuyền lọc: filter sớm (`grep`) để giảm khối lượng cho các bước sau, và `sort` phải đứng trước `uniq` vì `uniq` chỉ gộp dòng liền kề.
+
 ---
 
 ## 💡 Cạm bẫy thường gặp & Best practice
@@ -654,3 +668,4 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 
 - **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "kính lúp" cho `grep`, 2 lời dẫn trước ví dụ (cơ bản + regex), chuẩn hóa tiêu đề các case thực tế.
 - **v1.1.1 (10/06/2026)** — Thêm ghi chú tương thích nền tảng cho `grep -P` (PCRE): chỉ có ở GNU grep (Linux); trên macOS/BSD grep dùng `ggrep` (`brew install grep`) hoặc `perl -ne`.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ pipeline văn bản qua pipe cho trực quan.

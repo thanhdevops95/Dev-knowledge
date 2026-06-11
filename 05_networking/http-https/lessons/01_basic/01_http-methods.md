@@ -1,9 +1,9 @@
 # 🎓 HTTP Methods — GET / POST / PUT / PATCH / DELETE
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [00_what-is-http.md](./00_what-is-http.md)
@@ -72,6 +72,19 @@ HTTP định nghĩa nhiều method nhưng **5 cái dưới đây chiếm 99% cas
 - **Proxy/CDN** cache GET (safe + idempotent) — request lại lấy từ cache, không hit backend
 - **Browser retry** automatic GET/PUT khi network fail — vì idempotent
 - **Browser KHÔNG retry POST** — vì POST không idempotent (có thể tạo dup record)
+
+Idempotent/safe là phần trừu tượng nhất của bài — sơ đồ dưới map 5 method vào hành động CRUD kèm tính chất "retry an toàn hay không":
+
+```mermaid
+flowchart LR
+    C["Client"] -->|GET| R["Read — đọc resource (safe, idempotent)"]
+    C -->|POST| CR["Create — tạo mới (KHÔNG idempotent)"]
+    C -->|PUT| RP["Replace — thay toàn bộ (idempotent)"]
+    C -->|PATCH| UP["Update — sửa 1 phần (tuỳ implement)"]
+    C -->|DELETE| DE["Delete — xoá (idempotent)"]
+```
+
+→ Nhìn vào nhánh là biết ngay method nào retry/cache được (GET/PUT/DELETE) và method nào cần idempotency key khi retry (POST/PATCH).
 
 ---
 
@@ -679,3 +692,4 @@ curl -X DELETE URL                       # DELETE
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 2/6. Cover: tình huống bạn design API anti-pattern `POST /getUsers` → §1 bảng 5 methods + idempotent/safe → §2 GET (URL + cache + safe) → §3 POST (Idempotency-Key Stripe pattern) → §4 PUT replace toàn bộ → §5 PATCH partial + so sánh PUT vs PATCH → §6 DELETE + soft vs hard → §7 HEAD/OPTIONS/CONNECT/TRACE → §8 REST endpoint design + 4 anti-pattern. 5 pitfall + 4 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước bảng 5 methods (§1) và các mục §2 (Convention URL / Đặc trưng / Ví dụ / Response). Chuẩn hoá ví dụ placeholder `"name": "Nguyen Van A"`.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ map method → CRUD + idempotent (§1) cho trực quan.

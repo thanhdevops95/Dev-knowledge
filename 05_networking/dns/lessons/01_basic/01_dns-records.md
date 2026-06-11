@@ -1,9 +1,9 @@
 # 🎓 DNS Records — A, CNAME, MX, TXT, NS và bạn bè
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DNS là gì](00_what-is-dns.md)
@@ -105,6 +105,21 @@ DNS có ~30 loại record, nhưng **7 cái dưới đây chiếm 95%** mọi zon
 | **SOA** | Start Of Authority | Metadata zone | Bắt buộc, 1 zone 1 SOA |
 
 Các loại nâng cao (sẽ gặp sau): `SRV`, `PTR`, `CAA`, `DS`, `DNSKEY`, `TLSA`.
+
+Điểm trừu tượng nhất với beginner là: **mỗi loại record trỏ đến 1 "đích" khác nhau** — IP, domain khác, mail server, hay chuỗi text. Sơ đồ dưới map nhanh "record nào trỏ đi đâu" cho zone `acmeshop.vn`:
+
+```mermaid
+flowchart LR
+    D["acmeshop.vn"] -->|A| IP4["203.0.113.10 (IPv4)"]
+    D -->|AAAA| IP6["2001:db8::10 (IPv6)"]
+    B["blog.acmeshop.vn"] -->|CNAME| MED["acmeshop.medium.com"]
+    MED -->|"resolver hỏi tiếp A"| IPM["IP của Medium"]
+    D -->|MX| MAIL["smtp.google.com (mail server)"]
+    D -->|TXT| TXT["SPF / DKIM / verification"]
+    D -->|NS| NS["ns1.cloudflare.com (authoritative)"]
+```
+
+→ Chỉ A/AAAA trỏ thẳng về IP; CNAME trỏ về **tên khác** (resolver phải hỏi tiếp), còn MX/TXT/NS phục vụ email, metadata và phân quyền — không liên quan đến web traffic.
 
 ---
 
@@ -512,3 +527,4 @@ docs   CNAME  acmeshop.github.io.
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 2/5. Cover: zone file structure + 7 record types (A/AAAA/CNAME/MX/TXT/NS/SOA) + CNAME 3 rules + apex fix + MX với SPF/DKIM/DMARC anti-spam + TXT verification + NS delegation + SOA metadata + record nâng cao (SRV, PTR, CAA, DS, DNSKEY).
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ map "record nào trỏ đi đâu" (§2) cho trực quan.

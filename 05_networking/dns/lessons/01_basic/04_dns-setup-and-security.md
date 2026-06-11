@@ -1,9 +1,9 @@
 # 🎓 DNS Setup & Security — Đăng ký domain, propagation, DNSSEC, DoH/DoT
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md), [DNS Tools](03_dns-tools.md)
@@ -199,6 +199,20 @@ DNSSEC thêm **4 record mới** để build chain of trust. Mỗi record có vai
 ```
 
 → Bất kỳ điểm nào chuỗi đứt = resolver coi **bogus**, không trả về client.
+
+Chain of trust là khái niệm trừu tượng nhất của DNSSEC — mỗi cấp dùng **DS record** xác nhận key của cấp dưới, resolver verify ngược từ root xuống. Sơ đồ hoá lại toàn bộ chuỗi:
+
+```mermaid
+flowchart TD
+    R["Root — trust anchor (key cài sẵn trong resolver)"] -->|"DS xác nhận KSK của TLD"| T[".vn TLD (DNSKEY)"]
+    T -->|"DS xác nhận KSK của zone"| Z["acmeshop.vn (DNSKEY)"]
+    Z -->|"ZSK ký RRSIG"| A["A record 203.0.113.10"]
+    A --> V{"Resolver verify từ root xuống"}
+    V -->|"Chuỗi nguyên vẹn"| OK["Trả về client (flag ad)"]
+    V -->|"Đứt 1 mắt xích"| BAD["Bogus — không trả về"]
+```
+
+→ Đây là lý do quên copy DS record sang registrar làm site die: chuỗi bị đứt ngay giữa TLD và zone, mọi resolver có validate đều coi response là bogus.
 
 ### Thống kê adoption 2026
 
@@ -497,3 +511,4 @@ aws route53 list-resource-record-sets --hosted-zone-id Z123 > backup.json
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 5/5. Cover: đăng ký domain (TLD + registrar + pitfall) + đổi nameserver migration + DNSSEC chain of trust + DoH/DoT modern privacy + 5 attack/defense (cache poisoning, DNS hijack, NXDOMAIN attack, tunneling, zone transfer).
 - **v1.1.0** — Thêm **DNSSEC 4 records** (DNSKEY/RRSIG/DS/NSEC) + **chain of trust flow** + adoption stats.
 - **v1.2.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (TLD table, Registrar table, pitfall mua domain), §2 (migration timeline), §3 (DNSSEC "4 loại record"). Thêm Changelog section.
+- **v1.2.1 (11/06/2026)** — Bổ sung sơ đồ chain of trust DNSSEC (root → TLD → zone, DS/DNSKEY) ở §3 cho trực quan.

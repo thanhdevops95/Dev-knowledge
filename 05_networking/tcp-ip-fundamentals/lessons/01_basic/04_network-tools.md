@@ -1,9 +1,9 @@
 # 🎓 Network Tools — `ping`, `traceroute`, `ss`, `tcpdump`, `nmap` & friends
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Ports, Sockets, Firewall](03_ports-sockets-firewall.md)
@@ -446,6 +446,21 @@ iperf3 -c <server-ip> -R           # Reverse (server gửi)
 
 ## 9️⃣ 5 case debug thực tế
 
+Điều trừu tượng nhất khi mới on-call là **chọn tool nào trước** — câu trả lời: đi từ tầng thấp lên tầng cao, mỗi câu hỏi loại trừ 1 layer. Sơ đồ decision flow tổng quát:
+
+```mermaid
+flowchart TD
+    S["Có vấn đề mạng"] --> Q1{"Resolve được domain? (dig)"}
+    Q1 -->|"Không"| DNS["Lỗi DNS — dig @1.1.1.1, +trace"]
+    Q1 -->|"Có"| Q2{"ping IP OK? (L3)"}
+    Q2 -->|"Không"| L3["traceroute / mtr — tìm hop fail"]
+    Q2 -->|"Có"| Q3{"Port mở? (nc -zv)"}
+    Q3 -->|"Không"| L4["ss -tlnp + firewall — app listen chưa?"]
+    Q3 -->|"Có"| L7["curl -v / tcpdump — debug L7 app"]
+```
+
+→ 5 case bên dưới đều là biến thể của flow này: xác định layer fail trước, rồi mới đào sâu bằng tool chuyên cho layer đó.
+
 ### Case 1 — "Site không vào được"
 
 ```bash
@@ -635,3 +650,4 @@ Site không vào được?
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `tcp-ip-fundamentals/` lesson 5/5. Cover: 6 network tools daily debug (ping L3 reachability, traceroute hop visualization, mtr live monitoring, ss/netstat socket inspection, tcpdump packet capture, nmap port scan, dig DNS query) + flowchart decision "tool nào dùng khi nào".
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 (ping "Đọc output", "Options", "ping không test app") và §2 (traceroute "Khi nào hop `* * *`", `mtr` intro). Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ decision flow chọn tool theo layer (§9) cho trực quan.

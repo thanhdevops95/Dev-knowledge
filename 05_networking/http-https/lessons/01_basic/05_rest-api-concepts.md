@@ -1,9 +1,9 @@
 # 🎓 REST API — Triết lý & cách thiết kế API đúng chuẩn
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTTP methods](01_http-methods.md), [HTTP status codes](02_http-status-codes.md), [HTTP headers](03_http-headers.md)
@@ -135,6 +135,19 @@ Quy tắc đầu tiên — và là cái dễ nhận biết "API có RESTful hay 
 | `GET /listAllUsers` | `GET /users` |
 
 **Mindset:** URL trả lời câu hỏi *"resource nào?"*, method trả lời câu hỏi *"làm gì với nó?"*.
+
+Đây là khái niệm trừu tượng nhất của REST — 1 request luôn tách thành 2 nửa độc lập: **method (động từ)** + **URL (danh từ)**. Sơ đồ mổ xẻ request `GET /users/42`:
+
+```mermaid
+flowchart TD
+    REQ["Request: GET /users/42"] --> M["Method: GET → đọc (động từ)"]
+    REQ --> U["URL: /users/42 → resource user 42 (danh từ)"]
+    M --> S["Server: thực hiện đọc trên user 42"]
+    U --> S
+    S --> RES["Response: 200 OK + JSON user 42"]
+```
+
+→ Cùng URL `/users/42`, chỉ cần đổi method (GET/PATCH/DELETE) là đổi hành động — đó là lý do REST không bao giờ cần verb trong URL như `/getUserById`.
 
 ### Quy tắc 2 — Resource là **danh từ số nhiều**
 
@@ -465,3 +478,4 @@ GET /users/42?version=2
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 5/6. Cover: REST 6 constraints + Richardson Maturity Model + Resource design (5 quy tắc) + Status code + Versioning (URL/header) + Pagination + Filtering/Sorting + HATEOAS overview + REST vs GraphQL vs gRPC comparison.
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (REST vs RPC, phân biệt RESTful/REST) và §3 (Quy tắc 1 URL danh từ, Quy tắc 2 plural, Quy tắc 3 method↔CRUD). Thêm Changelog section. Nội dung kỹ thuật giữ nguyên.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ mổ xẻ request "method = động từ, URL = danh từ" (§3) cho trực quan.

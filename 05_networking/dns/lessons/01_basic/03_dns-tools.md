@@ -1,9 +1,9 @@
 # 🎓 DNS Tools — `dig`, `nslookup`, `host`, `whois` & cách debug
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DNS Records](01_dns-records.md), [DNS Resolution](02_dns-resolution.md)
@@ -309,6 +309,23 @@ Name Server: NS2.GOOGLE.COM
 
 ## 6️⃣ 5 case debug DNS phổ biến
 
+Tư duy chung của mọi case bên dưới: **so sánh authoritative (source of truth) với các resolver** — khác nhau là cache stale, giống nhau mà vẫn sai là config sai. Sơ đồ flow debug chuẩn:
+
+```mermaid
+flowchart TD
+    A["dig @auth-ns domain"] --> B{"Record đúng ý?"}
+    B -->|"Sai"| C["Sửa config ở DNS provider"]
+    B -->|"Đúng"| D["dig @1.1.1.1 / @8.8.8.8"]
+    D --> E{"Giống auth?"}
+    E -->|"Khác"| F["Cache stale ở resolver — đợi TTL"]
+    E -->|"Giống"| G["dig domain (resolver mặc định)"]
+    G --> H{"Giống luôn?"}
+    H -->|"Khác"| I["Cache ISP / OS — flush hoặc đổi resolver"]
+    H -->|"Giống"| J["DNS OK — lỗi ở layer khác (TCP / TLS / app)"]
+```
+
+→ Luôn bắt đầu từ authoritative rồi lan dần ra resolver public và resolver mặc định — vị trí đầu tiên cho kết quả lệch chính là nơi lỗi nằm.
+
 ### Case 1 — "Site mới deploy, vào không được"
 
 ```bash
@@ -572,3 +589,4 @@ whois 8.8.8.8                         # WHOIS IP (ai sở hữu IP)
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 4/5. Cover: 4 tool (`dig` deep + `nslookup` basic + `host` quick + `whois` registrar info) + decision tree khi dùng tool nào + 5 use case debug DNS + DoH/DoT modern (DNS over HTTPS/TLS).
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §1 dig (syntax, ví dụ tiêu chuẩn, đọc output 5 section, tham số +, query loại record). Thêm Changelog section.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow debug DNS (auth → resolver → cache) ở §6 cho trực quan.
