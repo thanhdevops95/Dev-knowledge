@@ -1,9 +1,9 @@
 # 🎓 Thiết Kế Hàm Và Nghệ Thuật Tái Sử Dụng Mã Nguồn Trong Python
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.2  
+> **Phiên bản:** v3.0.3  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 10/06/2026  
+> **Cập nhật:** 11/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
 > **Yêu cầu trước:** [Bài 02: Cấu trúc rẽ nhánh và Vòng lặp](./02_control-flow.md)
@@ -107,6 +107,17 @@ def tinh_tong_tien(don_gia, so_luong):
 | **`"""..."""`** | **Docstring:** Chuỗi văn bản mô tả chức năng của hàm, giúp IDE hiển thị gợi ý thông minh khi rê chuột vào. |
 | **Body (Thân hàm)** | Khối logic thụt lề thực hiện các phép tính toán chính. |
 | **`return`** | Từ khóa trả về giá trị đầu ra (kết quả) cho người gọi hàm sử dụng. |
+
+Sơ đồ dưới minh hoạ dòng chảy dữ liệu của hàm `tinh_tong_tien` ở trên: đối số đi vào, thân hàm xử lý, rồi `return` trả kết quả ra ngoài — giống hệt chiếc máy xay sinh tố:
+
+```mermaid
+flowchart LR
+    In["Đối số (arguments): 150000, 3"] --> F["def tinh_tong_tien(don_gia, so_luong)"]
+    F --> Body["Thân hàm: tong_tien = don_gia * so_luong"]
+    Body --> Out["return tong_tien → 450000"]
+```
+
+Như vậy, hàm chỉ là một "đường ống" một chiều: bạn đổ nguyên liệu (đối số) vào đầu này và hứng thành phẩm (giá trị return) ở đầu kia, hoàn toàn không cần biết bên trong xử lý ra sao.
 
 ### Cách gọi thực thi hàm (Function Call)
 Khi bạn chỉ khai báo `def`, hàm vẫn nằm yên lặng trong bộ nhớ chưa chạy. Để đánh thức nó, bạn phải gọi tên hàm kèm theo dấu ngoặc đơn và truyền các giá trị thực tế vào:
@@ -513,3 +524,4 @@ tinh_thue_nhanh = lambda gross: gross * 0.10
 - **v3.0.0 (26/05/2026)** — Bản viết lại hoàn chỉnh: định nghĩa hàm, tham số, giá trị trả về và tái sử dụng mã nguồn trong Python.
 - **v3.0.1 (10/06/2026)** — Bổ sung mục Nhật ký thay đổi (trước đây thiếu) để đủ khung 8 phần.
 - **v3.0.2 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài, callout và code mẫu (chỉ giữ ở metadata); dùng "mình"/placeholder trung tính.
+- **v3.0.3 (11/06/2026)** — Bổ sung sơ đồ giải phẫu dòng chảy hàm (input → body → return) cho trực quan.

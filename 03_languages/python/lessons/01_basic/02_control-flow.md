@@ -1,9 +1,9 @@
 # 🎓 Làm Chủ Cấu Trúc Rẽ Nhánh Và Vòng Lặp Trong Python
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.2  
+> **Phiên bản:** v3.0.3  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 10/06/2026  
+> **Cập nhật:** 11/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
 > **Yêu cầu trước:** [Bài 01: Làm chủ Biến và Kiểu dữ liệu](./01_variables-and-types.md)
@@ -112,6 +112,22 @@ Màn hình console sẽ báo lỗi:
 ---
 
 ## 3️⃣ Lệnh Rẽ Nhánh if / elif / else: Dạy Máy Tính Cách Đưa Ra Lựa Chọn
+
+Sơ đồ dưới minh hoạ cách chương trình "rẽ nhánh" qua `if/elif/else` rồi "lặp việc" qua vòng `for` — đúng hai trụ cột Control Flow mà bạn sẽ học trong bài này:
+
+```mermaid
+flowchart TD
+    Start([Bắt đầu]) --> Cond{Điều kiện?}
+    Cond -->|True| A[Chạy khối if]
+    Cond -->|False| B{elif?}
+    B -->|True| C[Chạy khối elif]
+    B -->|False| D[Chạy khối else]
+    A & C & D --> Loop{Còn phần tử trong vòng for?}
+    Loop -->|Có| Body[Chạy thân vòng lặp] --> Loop
+    Loop -->|Hết| End([Kết thúc])
+```
+
+Điểm mấu chốt: với rẽ nhánh, mỗi lần chạy chỉ đi qua đúng MỘT trong các khối if/elif/else, còn vòng lặp thì quay vòng lại liên tục cho đến khi hết phần tử.
 
 ### 🛠️ 3.1 Cú pháp `if` đơn giản
 Chỉ thực hiện hành động nếu điều kiện thỏa mãn:
@@ -560,3 +576,4 @@ if not danh_sach_cho:
 - **v3.0.0 (26/05/2026)** — Bản viết lại hoàn chỉnh: cấu trúc rẽ nhánh `if/elif/else` và vòng lặp `for`/`while` trong Python.
 - **v3.0.1 (10/06/2026)** — Bổ sung mục Nhật ký thay đổi (trước đây thiếu) để đủ khung 8 phần.
 - **v3.0.2 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài, callout và code mẫu (chỉ giữ ở metadata); dùng "mình"/placeholder trung tính.
+- **v3.0.3 (11/06/2026)** — Bổ sung sơ đồ luồng điều khiển rẽ nhánh và vòng lặp cho trực quan.

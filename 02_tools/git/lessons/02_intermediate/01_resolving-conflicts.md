@@ -1,9 +1,9 @@
 # 🎓 Giải quyết xung đột gộp code — Resolving Conflicts
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Phân nhánh & Gộp nhánh](./00_branching-and-merging.md) ✅
@@ -89,7 +89,18 @@ Hãy cùng giải mã 3 thành phần mật thư này:
 
 ## 3️⃣ Quy trình 4 bước giải quyết xung đột thủ công
 
-Khi gặp conflict, hãy hít một hơi thật sâu, giữ cái đầu lạnh và thực hiện đúng 4 bước chuẩn mực sau:
+Khi gặp conflict, hãy hít một hơi thật sâu, giữ cái đầu lạnh và thực hiện đúng 4 bước chuẩn mực sau. Sơ đồ dưới minh hoạ toàn cảnh quy trình 4 bước này, kèm theo "lối thoát hiểm" an toàn khi bạn cảm thấy ngợp:
+
+```mermaid
+flowchart TD
+    A["Merge báo CONFLICT"] --> B["Bước 1: git status — tìm file kẹt"]
+    B --> C["Bước 2: Thảo luận — giữ code của ai?"]
+    C --> D["Bước 3: Sửa file, xoá marker <<< === >>>"]
+    D --> E["Bước 4: git add + git commit"]
+    A -.->|"Ngợp quá? Rút lui an toàn"| F["git merge --abort"]
+```
+
+Nhìn vào sơ đồ, bạn thấy con đường chính luôn đi thẳng qua 4 bước tuần tự, còn nhánh đứt nét `git merge --abort` là phép rút lui khẩn cấp đưa bạn về trạng thái an toàn trước khi merge bất cứ lúc nào.
 
 ### 🚶 Bước 3.1: Định vị tệp tin bị xung đột
 Gõ lệnh thần chú để tìm xem những tệp nào đang bị kẹt chưa merge được:
@@ -245,3 +256,4 @@ Khi bạn đang ở giữa quá trình merge bị conflict và chạy lệnh `gi
 
 - **v2.0.0 (26/05/2026)** — Bài học trung cấp về Merge Conflict: giải mã ký tự xung đột, 4 bước resolve thủ công, công cụ VS Code, lệnh rút lui an toàn `git merge --abort`.
 - **v2.0.1 (10/06/2026)** — Chuẩn hoá xưng hô: gỡ tên tác giả khỏi thân bài (dùng "mình"); đổi field metadata `Prerequisites` → `Yêu cầu trước`, link text theo tiêu đề bài.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ quy trình 4 bước giải quyết xung đột cho trực quan.
