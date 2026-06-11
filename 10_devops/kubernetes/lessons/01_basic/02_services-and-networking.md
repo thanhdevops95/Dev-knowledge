@@ -161,7 +161,7 @@ flowchart TD
 ### 1. ClusterIP (Mặc định - Chỉ hoạt động nội bộ)
 Đây là loại hình phổ biến nhất. Service chỉ nhận một địa chỉ IP nội bộ bên trong cluster. Thế giới bên ngoài Internet hoàn toàn không thể kết nối tới IP này.
 
-*   **Phù hợp nhất:** Cho các ứng dụng Backend, Database, Redis Cache — các dịch vụ cần bảo mật an toàn sâu bên trong mạng nội bộ.
+-   **Phù hợp nhất:** Cho các ứng dụng Backend, Database, Redis Cache — các dịch vụ cần bảo mật an toàn sâu bên trong mạng nội bộ.
 
 ---
 
@@ -177,15 +177,15 @@ spec:
     nodePort: 30080                   # Khai báo cổng vật lý sẽ mở trên server
 ```
 
-*   **Phù hợp nhất:** Cho quá trình thử nghiệm nhanh ở môi trường lab. **Không dùng trên Production** vì rủi ro bảo mật cao, cổng port bị giới hạn và không hỗ trợ mã hóa SSL/TLS trực tiếp.
+-   **Phù hợp nhất:** Cho quá trình thử nghiệm nhanh ở môi trường lab. **Không dùng trên Production** vì rủi ro bảo mật cao, cổng port bị giới hạn và không hỗ trợ mã hóa SSL/TLS trực tiếp.
 
 ---
 
 ### 3. LoadBalancer (Tích hợp bộ cân bằng tải đám mây)
 Khi bạn khai báo loại hình này trên các nhà cung cấp đám mây (như AWS, GCP), nhà cung cấp sẽ tự động khởi tạo cho bạn một thiết bị Load Balancer vật lý bên ngoài đám mây và cấp một IP Public thật.
 
-*   **Phù hợp nhất:** Cho các cổng dịch vụ cần tiếp nhận trực tiếp lượng truy cập từ Internet.
-*   **Điểm trừ:** Mỗi một Service LoadBalancer sẽ tiêu tốn của bạn từ $15 - $50 mỗi tháng cho nhà cung cấp đám mây. Nếu hệ thống có 20 microservices, chi phí thuê Load Balancer riêng rẽ sẽ cực kỳ đắt đỏ!
+-   **Phù hợp nhất:** Cho các cổng dịch vụ cần tiếp nhận trực tiếp lượng truy cập từ Internet.
+-   **Điểm trừ:** Mỗi một Service LoadBalancer sẽ tiêu tốn của bạn từ $15 - $50 mỗi tháng cho nhà cung cấp đám mây. Nếu hệ thống có 20 microservices, chi phí thuê Load Balancer riêng rẽ sẽ cực kỳ đắt đỏ!
 
 ---
 
@@ -198,7 +198,7 @@ spec:
   externalName: my-database.rds.amazonaws.com
 ```
 
-*   **Phù hợp nhất:** Giúp mã nguồn ứng dụng của bạn gọi tên ngắn gọn là `db` nội bộ, nếu sau này bạn di chuyển database vào trong K8s, bạn chỉ cần sửa file YAML Service mà không phải sửa code app.
+-   **Phù hợp nhất:** Giúp mã nguồn ứng dụng của bạn gọi tên ngắn gọn là `db` nội bộ, nếu sau này bạn di chuyển database vào trong K8s, bạn chỉ cần sửa file YAML Service mà không phải sửa code app.
 
 ---
 

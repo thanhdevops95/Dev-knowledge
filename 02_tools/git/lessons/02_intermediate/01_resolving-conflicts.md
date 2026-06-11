@@ -58,8 +58,8 @@ Nhiều beginner nghĩ rằng Merge Conflict là một **lỗi nghiêm trọng**
 Git cực kỳ thông minh trong việc tự động gộp code (Auto-merging). Nếu bạn sửa file `header.html` ở dòng số 5, đồng nghiệp Nam sửa file `footer.html` ở dòng số 50, Git sẽ tự động gộp chúng lại êm đẹp trong 1 nốt nhạc mà không cần hỏi bạn câu nào.
 
 Tuy nhiên, khi **cả hai người cùng sửa đổi trên một dòng (hoặc các dòng sát nhau) của cùng một tệp tin**, Git sẽ bế tắc. Git không thể biết được ý định của ai là đúng đắn hơn. 
-*   Nếu Git tự ý chọn cổng `8080` của bạn → Code của Nam sẽ bị mất và gãy kết nối.
-*   Nếu Git tự ý chọn cổng `9000` của Nam → Code của bạn sẽ bị đè đè và lỗi.
+-   Nếu Git tự ý chọn cổng `8080` của bạn → Code của Nam sẽ bị mất và gãy kết nối.
+-   Nếu Git tự ý chọn cổng `9000` của Nam → Code của bạn sẽ bị đè đè và lỗi.
 
 Vì tôn trọng tuyệt đối công sức của cả hai lập trình viên, Git quyết định **dừng quá trình merge lại**, giữ nguyên hiện trường và nói: *"Tôi đã đánh dấu các chỗ đụng nhau. Hai bạn hãy ngồi lại thảo luận xem nên giữ dòng code của ai, rồi báo lại cho tôi biết nhé!"*.
 
@@ -106,15 +106,15 @@ Unmerged paths:
   (use "git add <file>..." to mark resolution)
         both modified:   config.py
 ```
-*   **Giải thích output:** Mục màu đỏ `both modified: config.py` chỉ danh chính xác file `config.py` là nạn nhân của cuộc xung đột này.
+-   **Giải thích output:** Mục màu đỏ `both modified: config.py` chỉ danh chính xác file `config.py` là nạn nhân của cuộc xung đột này.
 
 ---
 
 ### 🤝 Bước 3.2: Thảo luận và Đưa ra quyết định
 Hãy quay sang Nam (hoặc nhắn tin qua Slack/Discord) để thống nhất giải pháp. Có 3 kịch bản giải quyết:
-*   **Kịch bản A (Chấp nhận Local):** Giữ lại cổng `8080` của bạn, loại bỏ cổng `9000` của Nam.
-*   **Kịch bản B (Chấp nhận Incoming):** Nhường Nam, giữ lại cổng `9000` của Nam, loại bỏ cổng `8080` của bạn.
-*   **Kịch bản C (Kết hợp cả hai):** Nhận diện dự án cần chạy song song cả hai cấu hình, viết lại thành cấu hình linh hoạt chứa cả hai cổng.
+-   **Kịch bản A (Chấp nhận Local):** Giữ lại cổng `8080` của bạn, loại bỏ cổng `9000` của Nam.
+-   **Kịch bản B (Chấp nhận Incoming):** Nhường Nam, giữ lại cổng `9000` của Nam, loại bỏ cổng `8080` của bạn.
+-   **Kịch bản C (Kết hợp cả hai):** Nhận diện dự án cần chạy song song cả hai cấu hình, viết lại thành cấu hình linh hoạt chứa cả hai cổng.
 
 ---
 
@@ -146,7 +146,7 @@ On branch main
 All conflicts fixed but you are still merging.
   (use "git commit" to conclude merge)
 ```
-*   **Giải thích output:** Dòng chữ màu xanh `All conflicts fixed but you are still merging` khẳng định bạn đã gỡ rối thành công! Giờ chỉ cần chạy lệnh commit để Git ghi nhận sự hòa giải.
+-   **Giải thích output:** Dòng chữ màu xanh `All conflicts fixed but you are still merging` khẳng định bạn đã gỡ rối thành công! Giờ chỉ cần chạy lệnh commit để Git ghi nhận sự hòa giải.
 
 Tạo commit gộp (Merge Commit):
 ```bash
@@ -173,9 +173,9 @@ port = 8080
 ...
 ```
 
-*   **Accept Current Change:** Tự động xóa mọi thứ khác, chỉ giữ lại code của bạn ở nhánh hiện tại (HEAD).
-*   **Accept Incoming Change:** Tự động giữ lại code của nhánh đang được merge vào.
-*   **Accept Both Changes:** Giữ lại cả hai dòng code của hai người.
+-   **Accept Current Change:** Tự động xóa mọi thứ khác, chỉ giữ lại code của bạn ở nhánh hiện tại (HEAD).
+-   **Accept Incoming Change:** Tự động giữ lại code của nhánh đang được merge vào.
+-   **Accept Both Changes:** Giữ lại cả hai dòng code của hai người.
 
 > 💡 **Khuyên dùng:** Chỉ cần click đúng 1 click chuột vào lựa chọn mong muốn → VS Code tự động dọn sạch mọi ký tự rác giúp bạn trong 0.5 giây!
 
@@ -193,7 +193,7 @@ git merge --abort
 
 Output thực tế:
 *(Terminal lập tức trở về trạng thái sạch sẽ bình thường trước khi merge)*
-*   **Giải thích:** Lệnh `--abort` giống như một nút **"Hủy thao tác gộp code"**. Nó sẽ xóa toàn bộ hiện trường xung đột, đưa dự án của bạn quay trở lại trạng thái an toàn tuyệt đối trước thời điểm bạn gõ lệnh merge. Bạn có thể thư giãn đầu óc, uống một ngụm trà và bàn bạc kỹ lại với team trước khi thực hiện merge lần thứ hai.
+-   **Giải thích:** Lệnh `--abort` giống như một nút **"Hủy thao tác gộp code"**. Nó sẽ xóa toàn bộ hiện trường xung đột, đưa dự án của bạn quay trở lại trạng thái an toàn tuyệt đối trước thời điểm bạn gõ lệnh merge. Bạn có thể thư giãn đầu óc, uống một ngụm trà và bàn bạc kỹ lại với team trước khi thực hiện merge lần thứ hai.
 
 ---
 

@@ -24,11 +24,11 @@
 ## Tình huống — Bãi rác lịch sử commit
 
 Bạn đang làm việc chăm chỉ trong 3 ngày trên nhánh `feature/login`. Trong quá trình viết code, bạn tạo ra hàng loạt commit vụn vặt để lưu vết:
-*   `a1b2c3d` `"feat: add login button"`
-*   `e4f5g6h` `"fix: fix typo in login css"`
-*   `i7j8k9l` `"test: test api key - not working"`
-*   `m0n1o2p` `"fix: fix typo again"`
-*   `q3r4s5t` `"feat: complete login authentication flow"`
+-   `a1b2c3d` `"feat: add login button"`
+-   `e4f5g6h` `"fix: fix typo in login css"`
+-   `i7j8k9l` `"test: test api key - not working"`
+-   `m0n1o2p` `"fix: fix typo again"`
+-   `q3r4s5t` `"feat: complete login authentication flow"`
 
 Khi bạn mở `git log` ra, bạn thấy lịch sử trông cực kỳ bừa bộn và xấu xí. Nếu bạn tạo Pull Request merge thẳng đống này vào `main`, đồng nghiệp Senior của bạn chắc chắn sẽ nhíu mày vì lịch sử bị ô nhiễm bởi các commit nháp vô nghĩa.
 
@@ -60,8 +60,8 @@ graph TD
 
 #### 🪞 Ẩn dụ thực tế:
 Hãy tưởng tượng dự án của bạn là một cái cây. Nhánh `main` là thân cây chính, nhánh `feature` của bạn là một cành cây phụ được tách ra từ thân chính ở vị trí tầng 1 (Commit gốc).
-*   **Merge (Gộp):** Bạn kéo một sợi dây thép nối đầu cành phụ vào ngọn cây chính. Cành phụ vẫn nằm ở tầng 1, nhưng có một cầu nối sinh ra nối lên ngọn (Tạo Merge Commit). Sơ đồ cây sẽ bắt đầu đan chéo phức tạp.
-*   **Rebase (Tái định vị gốc):** Bạn cưa đứt cành phụ của mình tại vị trí tầng 1, mang nó lên tận ngọn cây chính (vị trí commit mới nhất của `main`) và cấy cành phụ vào đó. Toàn bộ cành phụ của bạn giờ đây mọc ra trực tiếp từ ngọn cây, tạo nên một thân cây thẳng tắp hoàn mỹ.
+-   **Merge (Gộp):** Bạn kéo một sợi dây thép nối đầu cành phụ vào ngọn cây chính. Cành phụ vẫn nằm ở tầng 1, nhưng có một cầu nối sinh ra nối lên ngọn (Tạo Merge Commit). Sơ đồ cây sẽ bắt đầu đan chéo phức tạp.
+-   **Rebase (Tái định vị gốc):** Bạn cưa đứt cành phụ của mình tại vị trí tầng 1, mang nó lên tận ngọn cây chính (vị trí commit mới nhất của `main`) và cấy cành phụ vào đó. Toàn bộ cành phụ của bạn giờ đây mọc ra trực tiếp từ ngọn cây, tạo nên một thân cây thẳng tắp hoàn mỹ.
 
 ### So sánh Rebase vs Merge
 
@@ -175,7 +175,7 @@ Output thực tế hiển thị:
 [feature/my-branch a4b5c6d] feat: fix security vulnerability in database redirection
  1 file changed, 3 insertions(+), 1 deletion(-)
 ```
-*   **Giải thích output:** Commit `x9y8z7w` đã được sao chép hoàn hảo và dán vào đầu nhánh của bạn với mã định danh cục bộ mới là `a4b5c6d`.
+-   **Giải thích output:** Commit `x9y8z7w` đã được sao chép hoàn hảo và dán vào đầu nhánh của bạn với mã định danh cục bộ mới là `a4b5c6d`.
 
 ---
 

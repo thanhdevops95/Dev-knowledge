@@ -58,8 +58,8 @@ graph LR
 ```
 
 🪞 **Ẩn dụ sư phạm dễ hiểu nhất:**
-*   **Git Local** giống như **Camera điện thoại** của bạn. Mỗi lần bạn bấm nút chụp (commit), ảnh sẽ được lưu vào bộ nhớ máy. Máy hỏng hoặc mất điện thoại → mất sạch ảnh.
-*   **GitHub** giống như dịch vụ **Google Photos (iCloud)**. Bạn chủ động chọn những bức ảnh đẹp nhất để tải lên đám mây (push). Khi đổi điện thoại mới, bạn chỉ cần đăng nhập và tải lại toàn bộ album về (clone/pull).
+-   **Git Local** giống như **Camera điện thoại** của bạn. Mỗi lần bạn bấm nút chụp (commit), ảnh sẽ được lưu vào bộ nhớ máy. Máy hỏng hoặc mất điện thoại → mất sạch ảnh.
+-   **GitHub** giống như dịch vụ **Google Photos (iCloud)**. Bạn chủ động chọn những bức ảnh đẹp nhất để tải lên đám mây (push). Khi đổi điện thoại mới, bạn chỉ cần đăng nhập và tải lại toàn bộ album về (clone/pull).
 
 ### Bảng so sánh Local vs Remote
 
@@ -101,10 +101,10 @@ Bạn có thể đặt tên này là `github`, `cloud`, `backup` tùy ý, nhưng
 1.  Đăng nhập vào [github.com](https://github.com).
 2.  Nhìn lên góc trên cùng bên phải, click vào dấu **`+`** → Chọn **`New repository`**.
 3.  Cấu hình các thông số sau:
-    *   **Repository name:** Nhập tên dự án (ví dụ: `my-first-portfolio`).
-    *   **Description:** Viết mô tả ngắn (ví dụ: *"Trang Portfolio giới thiệu bản thân đầu tay"*).
-    *   **Visibility:** Chọn **Public** (để ai cũng xem được code và làm portfolio tuyển dụng) hoặc **Private** (chỉ mình bạn hoặc người được mời xem được).
-    *   ⚠️ **Cực kỳ quan trọng:** **KHÔNG** tích chọn bất kỳ mục nào trong phần *"Initialize this repository with"* (Add a README, Add .gitignore, Choose a license). Vì chúng ta đã có sẵn code ở local, nếu tích chọn sẽ gây lệch lịch sử commit giữa local và remote, dẫn đến lỗi xung đột khi push.
+    -   **Repository name:** Nhập tên dự án (ví dụ: `my-first-portfolio`).
+    -   **Description:** Viết mô tả ngắn (ví dụ: *"Trang Portfolio giới thiệu bản thân đầu tay"*).
+    -   **Visibility:** Chọn **Public** (để ai cũng xem được code và làm portfolio tuyển dụng) hoặc **Private** (chỉ mình bạn hoặc người được mời xem được).
+    -   ⚠️ **Cực kỳ quan trọng:** **KHÔNG** tích chọn bất kỳ mục nào trong phần *"Initialize this repository with"* (Add a README, Add .gitignore, Choose a license). Vì chúng ta đã có sẵn code ở local, nếu tích chọn sẽ gây lệch lịch sử commit giữa local và remote, dẫn đến lỗi xung đột khi push.
 4.  Click nút xanh **`Create repository`**.
 
 Ngay lập tức, GitHub sẽ chuyển bạn đến một trang chứa các hướng dẫn cấu hình. Hãy giữ nguyên trang web đó và mở Terminal lên.
@@ -138,7 +138,7 @@ Lúc này, Terminal sẽ hiển thị các câu hỏi tương tác như sau:
 ! First copy your one-time code: A1B2-C3D4
 Press Enter to open github.com in your browser... 
 ```
-*   **Giải thích output:** Lệnh `gh auth login` sẽ mở ra một luồng đăng nhập trực quan. Bạn chọn tài khoản `GitHub.com`, giao thức `HTTPS`, đồng ý dùng thông tin đăng nhập và chọn đăng nhập qua Browser. Terminal sẽ cấp cho bạn một mã một lần (One-time code, ví dụ `A1B2-C3D4`). Bạn nhấn Enter, trình duyệt sẽ tự động mở trang xác thực của GitHub, bạn paste mã đó vào và nhấn Approve là đăng nhập thành công 100%!
+-   **Giải thích output:** Lệnh `gh auth login` sẽ mở ra một luồng đăng nhập trực quan. Bạn chọn tài khoản `GitHub.com`, giao thức `HTTPS`, đồng ý dùng thông tin đăng nhập và chọn đăng nhập qua Browser. Terminal sẽ cấp cho bạn một mã một lần (One-time code, ví dụ `A1B2-C3D4`). Bạn nhấn Enter, trình duyệt sẽ tự động mở trang xác thực của GitHub, bạn paste mã đó vào và nhấn Approve là đăng nhập thành công 100%!
 
 ---
 
@@ -159,7 +159,7 @@ Phương thức này sử dụng một cặp khóa mật mã (khóa công khai v
     ```
     Agent pid 54321
     ```
-    *   **Giải thích output:** Trạng thái này báo hiệu SSH Agent đã được kích hoạt thành công trên máy của bạn với mã định danh tiến trình (Process ID) là `54321`.
+    -   **Giải thích output:** Trạng thái này báo hiệu SSH Agent đã được kích hoạt thành công trên máy của bạn với mã định danh tiến trình (Process ID) là `54321`.
 
 3.  **Thêm khóa bí mật vào SSH Agent:**
     ```bash
@@ -177,10 +177,10 @@ Phương thức này sử dụng một cặp khóa mật mã (khóa công khai v
     *Hãy bôi đen và copy toàn bộ chuỗi mã này.*
 
 5.  **Đưa khóa công khai lên GitHub:**
-    *   Vào GitHub → Click ảnh đại diện ở góc phải → **`Settings`** → **`SSH and GPG keys`** → Click **`New SSH key`**.
-    *   Đặt tiêu đề (Title) đại diện cho máy của bạn (ví dụ: *Macbook Pro M3*).
-    *   Dán (Paste) toàn bộ chuỗi khóa đã copy vào ô **`Key`**.
-    *   Click **`Add SSH key`** để hoàn tất.
+    -   Vào GitHub → Click ảnh đại diện ở góc phải → **`Settings`** → **`SSH and GPG keys`** → Click **`New SSH key`**.
+    -   Đặt tiêu đề (Title) đại diện cho máy của bạn (ví dụ: *Macbook Pro M3*).
+    -   Dán (Paste) toàn bộ chuỗi khóa đã copy vào ô **`Key`**.
+    -   Click **`Add SSH key`** để hoàn tất.
 
 ---
 
@@ -207,7 +207,7 @@ Output thực tế hiển thị các đường dẫn liên kết:
 origin  https://github.com/your-username/my-first-portfolio.git (fetch)
 origin  https://github.com/your-username/my-first-portfolio.git (push)
 ```
-*   **Giải thích output:** Chữ `origin` màu trắng hiển thị song song với hai dòng liên kết `fetch` (tải code về) và `push` (đẩy code đi) xác nhận rằng Local Git đã trỏ đúng tọa độ đến đám mây GitHub.
+-   **Giải thích output:** Chữ `origin` màu trắng hiển thị song song với hai dòng liên kết `fetch` (tải code về) và `push` (đẩy code đi) xác nhận rằng Local Git đã trỏ đúng tọa độ đến đám mây GitHub.
 
 #### Lệnh 2: Đảm bảo tên nhánh chính là `main`
 ```bash
@@ -219,7 +219,7 @@ git branch -M main
 ```bash
 git push -u origin main
 ```
-*   **Giải thích tham số `-u`:** Viết tắt của `--set-upstream`. Tham số này giúp "thiết lập mối quan hệ bền vững" giữa nhánh `main` ở máy local của bạn và nhánh `main` trên GitHub. **Từ lần sau trở đi, mỗi khi code xong, bạn chỉ cần gõ duy nhất lệnh ngắn gọn: `git push` là xong!**
+-   **Giải thích tham số `-u`:** Viết tắt của `--set-upstream`. Tham số này giúp "thiết lập mối quan hệ bền vững" giữa nhánh `main` ở máy local của bạn và nhánh `main` trên GitHub. **Từ lần sau trở đi, mỗi khi code xong, bạn chỉ cần gõ duy nhất lệnh ngắn gọn: `git push` là xong!**
 
 Output thực tế khi push thành công:
 ```
@@ -233,7 +233,7 @@ To https://github.com/your-username/my-first-portfolio.git
  * [new branch]      main -> main
 branch 'main' set up to track 'origin/main'.
 ```
-*   **Giải thích output:** Trạng thái `Writing objects: 100%` báo hiệu toàn bộ gói dữ liệu chứa code và lịch sử commit của bạn đã được nén và truyền tải thành công qua mạng Internet. Dòng cuối `branch 'main' set up to track 'origin/main'` khẳng định mối quan hệ theo dõi 2 chiều đã được thiết lập hoàn hảo.
+-   **Giải thích output:** Trạng thái `Writing objects: 100%` báo hiệu toàn bộ gói dữ liệu chứa code và lịch sử commit của bạn đã được nén và truyền tải thành công qua mạng Internet. Dòng cuối `branch 'main' set up to track 'origin/main'` khẳng định mối quan hệ theo dõi 2 chiều đã được thiết lập hoàn hảo.
 
 F5 lại trang GitHub trên trình duyệt web của bạn → Code của bạn đã nằm kiêu hãnh trên đám mây! 🎉
 
