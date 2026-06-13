@@ -1,9 +1,9 @@
 # 🎓 Lambda + API Gateway — Nhập môn Serverless
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [RDS & DynamoDB](03_rds-and-dynamodb.md)
@@ -446,7 +446,7 @@ Ngược lại là **warm invocation** (gọi nóng) — khi container đã sẵ
 
 Tin tốt là có nhiều cách trị cold start, từ trả tiền giữ container nóng cho tới tối ưu code. Đi từ cách "chắc ăn" tới cách "mẹo":
 
-**1. Provisioned Concurrency**: giữ sẵn N container luôn nóng, đổi lại bạn trả tiền cho phần dung lượng giữ sẵn đó ($0.00001/GB-sec).
+**1. Provisioned Concurrency**: giữ sẵn N container luôn nóng, đổi lại bạn trả tiền cho phần dung lượng giữ sẵn đó ($0.000004/GB-sec).
 
 ```bash
 aws lambda put-provisioned-concurrency-config \
@@ -1878,3 +1878,4 @@ Outputs:
 
 - **v1.0.0 (24/05/2026)** — Bài 04 — cuối AWS basic cluster. Lambda fundamentals + runtimes + memory/CPU model + triggers (S3/DDB/EventBridge/SQS) + cold start + mitigations + API Gateway (HTTP vs REST) + pricing + limits + decision matrix Lambda vs EC2/Fargate + hands-on image resize Lambda. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ "điện tín tiếng Anh" sang tiếng Việt narrative (lời dẫn trước mỗi code/bảng/list, câu phân tích sau, câu bắc cầu giữa section, mạch WHY→WHAT→HOW); Việt hoá toàn bộ đáp án self-check; giữ nguyên 100% code/lệnh/số liệu/diagram. Sửa QA: residue "**bạn compute**" → "**Compute nặng**" (dòng chi phí Lambda); sửa factual RDS Data API "Aurora Serverless only" → hỗ trợ cả Aurora Serverless v2 và provisioned (đúng 2026). Chuẩn hoá: metadata "Prerequisites" → "Yêu cầu trước"; Glossary 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); nav theo gold-standard (⬅️/↑ + link-text = tiêu đề H1 thực).
+- **v2.0.1 (13/06/2026)** — Sửa mâu thuẫn giá: Provisioned Concurrency `$0.00001/GB-sec` → `$0.000004/GB-sec` (khớp Q2 + phép tính $26/tháng; ~$0.0000041667 thực tế AWS).

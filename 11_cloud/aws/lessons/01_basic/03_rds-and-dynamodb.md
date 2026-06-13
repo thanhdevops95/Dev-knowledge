@@ -1,9 +1,9 @@
 # 🎓 RDS + DynamoDB — Managed databases
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [02_s3-deep-and-iam.md](02_s3-deep-and-iam.md), [PostgreSQL basic](../../../../06_databases/postgresql/)
@@ -226,7 +226,7 @@ Aurora là database quan hệ do AWS viết lại tầng storage, tương thích
 - Giữ 6 bản sao dữ liệu trải trên 3 AZ (rất bền).
 - **Aurora Serverless v2**: tự scale, scale được về gần như bằng không.
 - Tối đa **15 read replica** (so với 5 của RDS).
-- *Failover* **dưới 1 giây** (so với 60–120 giây của RDS).
+- *Failover* **dưới 30 giây** (so với 60–120 giây của RDS).
 - **Aurora Global Database**: liên region với độ trễ dưới 1 giây.
 - **Backtrack**: "tua ngược" DB về quá khứ mà không cần restore.
 
@@ -964,7 +964,7 @@ Năm câu dưới chạm đúng những chỗ dễ nhầm nhất khi chọn và 
 
 - 1 writer cộng tối đa 15 reader trải trên nhiều AZ.
 - Tầng storage được nhân 6 bản trên 3 AZ (ở mức volume, không phải mức instance).
-- Failover **dưới 1 giây** (chỉ cần promote instance).
+- Failover **dưới 30 giây** (chỉ cần promote instance).
 - Mọi reader đều phục vụ đọc được.
 - Storage scale độc lập với compute.
 
@@ -1581,3 +1581,4 @@ with table.batch_writer() as batch:
 - **v1.0.0 (24/05/2026)** — Bài 03 AWS basic cluster. RDS deep (instances, Multi-AZ, read replicas, snapshots, PITR, Performance Insights) + Aurora vs RDS + DynamoDB deep (PK/SK, indexes, on-demand/provisioned, Streams, DAX, TTL, single-table design) + decision matrix RDS vs DynamoDB vs Aurora + hands-on e-commerce DB stack. 8 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín tiếng Anh" sang narrative tiếng Việt (lời dẫn trước bảng/code/list, câu phân tích sau, câu bắc cầu giữa section, dịch trọn 5 self-check answer); giữ nguyên 100% code/số liệu/lệnh/cấu trúc 8 phần. Sửa lỗi factual: bỏ từ "bucket" sai ngữ cảnh ở phần encryption RDS (RDS không có bucket — mã hoá at-rest chỉ bật lúc tạo instance, sau phải snapshot + restore). Sửa lỗi code: bỏ comment `//` trong block JSON (item Users) để JSON parse được. Chuẩn hoá QA: metadata "Prerequisites" → "Yêu cầu trước"; Glossary 3 cột; nav dùng marker ⬅️/➡️/↑ + link-text theo H1 thực + bỏ nhãn "(sắp viết)"; 3 sub-heading nav chuẩn.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (13/06/2026)** — Sửa mâu thuẫn nội bộ: Aurora failover "dưới 1 giây" (×2) → "dưới 30 giây" cho khớp bảng (< 30s) + Q3 (dưới 30s); giữ Global DB replication lag dưới 1 giây (đúng).

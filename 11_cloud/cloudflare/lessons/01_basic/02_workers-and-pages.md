@@ -1,9 +1,9 @@
 # ⚡ Cloudflare Workers + Pages — Edge compute & static + dynamic
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026
+> **Cập nhật:** 13/06/2026
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Xong [00_what-is-cloudflare-overview](00_what-is-cloudflare-overview.md) và [01_cdn-dns-and-ssl](01_cdn-dns-and-ssl.md), biết JS/TS cơ bản, đã từng dùng Node.js Express
@@ -196,7 +196,7 @@ vars = { ENVIRONMENT = "staging" }
 
 ```bash
 # Tạo namespace
-wrangler kv:namespace create PRODUCTS_KV
+wrangler kv namespace create PRODUCTS_KV
 # Output: id = "abc123..."
 
 # Add vào wrangler.toml
@@ -205,10 +205,10 @@ binding = "PRODUCTS_KV"
 id = "abc123..."
 
 # CLI put/get
-wrangler kv:key put --binding=PRODUCTS_KV "p:1" '{"id":1,"name":"Phone"}'
-wrangler kv:key get --binding=PRODUCTS_KV "p:1"
-wrangler kv:key list --binding=PRODUCTS_KV
-wrangler kv:key delete --binding=PRODUCTS_KV "p:1"
+wrangler kv key put --binding=PRODUCTS_KV "p:1" '{"id":1,"name":"Phone"}'
+wrangler kv key get --binding=PRODUCTS_KV "p:1"
+wrangler kv key list --binding=PRODUCTS_KV
+wrangler kv key delete --binding=PRODUCTS_KV "p:1"
 ```
 
 ### Trong Worker code
@@ -543,7 +543,7 @@ acmeshop-api/
 ### Bước 2 — Tạo KV namespace
 
 ```bash
-wrangler kv:namespace create PRODUCTS_KV
+wrangler kv namespace create PRODUCTS_KV
 # id = "abc123def456..."
 ```
 
@@ -869,8 +869,8 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 | Dev local | `wrangler dev` |
 | Deploy | `wrangler deploy` |
 | Tail logs | `wrangler tail <name>` |
-| Tạo KV namespace | `wrangler kv:namespace create <NAME>` |
-| KV put | `wrangler kv:key put --binding=<NAME> "k" "v"` |
+| Tạo KV namespace | `wrangler kv namespace create <NAME>` |
+| KV put | `wrangler kv key put --binding=<NAME> "k" "v"` |
 | Set secret | `wrangler secret put MY_SECRET` |
 | Service binding | `[[services]]` trong wrangler.toml |
 | Cron trigger | `[triggers] crons = ["0 2 * * *"]` |
@@ -933,3 +933,4 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 cluster Cloudflare basic. Workers V8 isolate vs Lambda + KV eventual consistent + Durable Objects strong consistent + Pages static + Pages Functions + Service Bindings + Cron triggers + hands-on Hono.js REST API Acme Shop với KV cache + 8 pitfalls. Pattern theo AWS/GCP lesson 04 (compute).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ so sánh Workers V8 isolate vs Lambda container (cold start) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Cập nhật cú pháp wrangler: `kv:namespace`/`kv:key` (colon, deprecated từ wrangler v3.60) → dạng space `kv namespace`/`kv key`.

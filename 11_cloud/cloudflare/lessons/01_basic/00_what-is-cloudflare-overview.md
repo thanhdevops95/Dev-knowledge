@@ -1,9 +1,9 @@
 # ☁️ Cloudflare — Tổng quan, account hierarchy, wrangler CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026
+> **Cập nhật:** 13/06/2026
 > **Level:** Basic (bài 00/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Đã xong [Cloud Fundamentals](../../../cloud-fundamentals/) ✅, hiểu CDN/DNS cơ bản, đã từng dùng `curl`
@@ -344,8 +344,8 @@ wrangler r2 bucket list
 wrangler r2 object put my-bucket/file.txt --file=./file.txt
 
 # KV commands
-wrangler kv:namespace create MY_KV
-wrangler kv:key put --binding=MY_KV "key1" "value1"
+wrangler kv namespace create MY_KV
+wrangler kv key put --binding=MY_KV "key1" "value1"
 
 # D1 commands
 wrangler d1 create my-db
@@ -673,7 +673,7 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 | List Workers | `wrangler deployments list` |
 | Delete Worker | `wrangler delete <name>` |
 | List R2 buckets | `wrangler r2 bucket list` |
-| Create KV namespace | `wrangler kv:namespace create <NAME>` |
+| Create KV namespace | `wrangler kv namespace create <NAME>` |
 | List zones (REST API) | `curl -H "Authorization: Bearer $TOKEN" https://api.cloudflare.com/client/v4/zones` |
 | Check DNS NS | `dig NS yourdomain.com +short` |
 
@@ -737,3 +737,4 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: gắn ngôn ngữ cho các code fence bare (cây thư mục/flow/scope token/path dùng `text`, file `.env` dùng `bash`); chuẩn hoá phần "Liên kết & Tài nguyên" theo gold standard (marker ⬅️/➡️/↑, link-text = tiêu đề thực, 3 sub-heading canonical: Định hướng lộ trình học / Các chủ đề có thể bạn quan tâm / Tài nguyên tham khảo khác).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ reverse proxy edge-first (user → POP → origin) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Cập nhật cú pháp wrangler: `kv:namespace`/`kv:key` (colon, deprecated từ wrangler v3.60) → dạng space `kv namespace`/`kv key`.

@@ -1,9 +1,9 @@
 # 🎓 Cloud Storage + Databases — Chọn đúng nơi cất dữ liệu
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Cloud Networking — VPC, Subnets, Peering, VPN](02_cloud-networking.md), [PostgreSQL cơ bản](../../../../06_databases/postgresql/)
@@ -956,7 +956,7 @@ Bật mã hóa ở mọi tầng — đây là mức nền tảng về bảo mậ
 **Aurora thắng khi:**
 
 1. **Cần nhiều read replica (3+):**
-   - RDS: tối đa 5 read replica, replication có thể trễ.
+   - RDS (PostgreSQL/MySQL/MariaDB): tối đa 15 read replica (Postgres được nâng từ 5 lên 15), replication bất đồng bộ nên có thể trễ vài giây.
    - Aurora: tối đa 15 read replica, replicate dưới một giây.
 
 2. **Write throughput cao:**
@@ -1312,3 +1312,4 @@ response = table.get_item(Key={'user_id': '123'})
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước Decision matrix + Storage classes cost tiers + Encryption + S3 features beyond storage + S3 vs alternatives.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ văn phong điện tín EN sang tiếng Việt narrative (lời dẫn trước/sau mỗi bảng-code-list, ẩn dụ, mạch WHY→WHAT→HOW); giữ nguyên code/số liệu/tên dịch vụ. Chuẩn hoá heading framework + nav (marker ⬅️/➡️/↑, link-text = tiêu đề bài đích, xoá nhãn "sắp viết"); đổi field metadata "Prerequisites" → "Yêu cầu trước"; Glossary chuyển sang 3 cột; Việt hoá các đề mục phụ và đáp án Self-check.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (13/06/2026)** — Sửa version fact: RDS PostgreSQL/MySQL/MariaDB hỗ trợ tối đa **15** read replica (Postgres nâng từ 5→15), không phải 5 — khác biệt thật với Aurora là replica lag (sub-second), không phải số lượng.

@@ -1,9 +1,9 @@
 # 🎓 Cloud Security & Shared Responsibility Model
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [03_storage-and-databases.md](03_storage-and-databases.md), khái niệm IAM cơ bản
@@ -303,7 +303,7 @@ Có một tình huống khó: bạn muốn cho dev tự tạo role, nhưng khôn
     "Action": "*",
     "Resource": "*",
     "Condition": {
-      "StringNotEquals": {
+      "StringEquals": {
         "aws:RequestedRegion": ["us-east-1", "us-west-2"]
       }
     }
@@ -1506,3 +1506,4 @@ aws secretsmanager get-secret-value --secret-id prod/db
 - **v1.1.0 (25/05/2026)** — Thêm lời dẫn trước các bảng/diagram chính (Why this matters, Policy example, Encryption everywhere, Common frameworks, Compliance as differentiator).
 - **v2.0.0 (01/06/2026)** — Việt hoá toàn bộ prose sang văn phong narrative (giữ nguyên code/JSON/lệnh AWS, tên dịch vụ): tình huống mở bài, 9 phần nội dung và toàn bộ đáp án self-check Q1-Q5. Chuẩn hoá metadata (Yêu cầu trước), Glossary 3 cột (Thuật ngữ/Tiếng Việt/Giải thích), nav (⬅️/↑ + tiêu đề thực) và 3 sub-heading liên kết. Bỏ mọi ước tính thời gian theo mốc tháng trong self-check SOC 2 (chuyển sang mô tả theo trình tự).
 - **v2.0.1 (11/06/2026)** — Bổ sung sơ đồ ranh giới Shared Responsibility dịch chuyển theo IaaS/PaaS/SaaS cho trực quan.
+- **v2.0.2 (13/06/2026)** — Sửa lỗi factual (logic): ví dụ permission boundary dùng `StringNotEquals` → ngược ý ("cho phép MỌI region TRỪ 2 region"); đổi sang `StringEquals` để khớp prose "chỉ thao tác trong us-east-1/us-west-2".
