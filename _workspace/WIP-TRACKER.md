@@ -1,7 +1,7 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.67.0\
+> **Phiên bản:** v0.68.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 13/06/2026
 
@@ -139,6 +139,18 @@
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 14/06/2026 (HOÀN THIỆN NHÁNH DEVOPS — viết mới content cho cluster còn trống)
+
+> User chốt: "làm hoàn thiện hết nhánh devops chỉnh chu nhất... không phạm sai lầm nào" → viết basic+intermediate cho 4 cluster trống/dở. Quy trình mỗi cluster-level: design spec → **workflow author-per-bài** (đọc blueprint + bài mẫu) → verifier compile/factual → **auto-fix** → tôi verify cơ học (fence/compile/nav) + spot-check factual → README cụm → commit.
+
+- ✅ **25 bài mới / 5 commit / 7-9 cluster DevOps hoàn chỉnh:**
+  - configuration-management **basic 5** (`415fd0b`) + **intermediate 5** (`1ec7b36`) — Ansible: concepts/idempotency, basics, playbooks-roles, vault, alternatives; dynamic inventory, advanced strategies, Molecule, AWX/AAP.
+  - container-registry **basic 5** (`1a92a9d`) + **intermediate 5** (`7f00aa9`) — registry/tags/digests, private (Harbor/ECR/GHCR), signing+scanning (Trivy/cosign), CI/CD; Harbor deep-dive, HA/replication/DR, policy admission (Kyverno verifyImages), optimization/cost.
+  - service-mesh **basic 5** (`18e3ea5`) — concept/sidecar, kiến trúc, traffic management, mTLS/authz, Istio/Linkerd/Cilium.
+- 🛠️ Công cụ tái dùng: workflow `devops-cluster-writer.js` (write→verify→auto-fix, nhận spec qua args — LƯU Ý args truyền vào dạng JSON **string**, script tự `JSON.parse`).
+- 🐞 Lỗi đã bắt+sửa qua verify/auto-fix: nginx `worker_processes` đặt nhầm trong `server{}` site config; PLAY RECAP ok/changed; Molecule verifier output; image single-arch hiển thị nhầm `image.index`; ECR config path `registry:2`; semver tag bỏ tiền tố `v`. (1 false-positive ECR tagPatternList đã verify lại = đúng, không sửa bừa.)
+- ⏳ **CÒN LẠI (BLOCKED — spend limit):** service-mesh **intermediate 5** + gitops **basic +4** + gitops **intermediate 5** = 14 bài. + **audit phản biện sâu** cho 6 bài chưa kịp verify do spend limit (service-mesh 00/01/03 + container-registry-intermediate 01/02/03 — đã verify cơ học + spot-check factual, sạch). Resume: chạy lại `devops-cluster-writer.js` với args cho từng cluster khi budget reset.
 
 ### 13/06/2026 (hoàn tất "đánh bóng toàn diện" — sơ đồ phủ rộng + audit factual SÂU)
 
@@ -410,6 +422,11 @@
 
 ## 🚨 Blocked / Cần user quyết định
 
+### ⛔ Hoàn thiện nhánh DevOps — chặn bởi spend limit (14/06/2026)
+- Đã viết+commit 25 bài (config-management ×2, container-registry ×2, service-mesh basic). **Còn 14 bài**: service-mesh intermediate (5) + gitops basic +4 + gitops intermediate (5).
+- 🛑 Block: org **monthly spend limit** — workflow/agent call thất bại. Main-loop vẫn chạy.
+- 🎯 Cần: nâng spend limit (claude.ai/admin-settings/usage) hoặc chờ chu kỳ reset → tôi chạy nốt `devops-cluster-writer.js` cho 3 cluster-level còn lại + audit phản biện 6 bài chưa verify.
+
 ### Tool category priority sau ide/
 - ⚠️ Đã đề xuất 4 candidate (`git-clients/`, `terminal-emulators/`, `k8s-local/`, `docker-tools/`) — chưa pick
 - 🎯 Decision needed: làm cái nào trước theo nhu cầu thực tế
@@ -421,6 +438,8 @@
 ---
 
 ## 📌 Changelog
+
+- **v0.68.0 (14/06/2026)** — Bắt đầu **hoàn thiện nhánh DevOps** (viết content mới cho cluster trống). 25 bài mới / 5 commit: configuration-management basic+intermediate, container-registry basic+intermediate, service-mesh basic. Công cụ workflow tái dùng `devops-cluster-writer.js` (write→verify→auto-fix). CÒN LẠI (blocked spend limit): service-mesh intermediate + gitops basic+intermediate = 14 bài + audit sâu 6 bài. Chi tiết: Done 14/06.
 
 - **v0.67.0 (13/06/2026)** — Mở rộng Wave 4.2 sang cụm AGENT-WRITTEN: compile code toàn kho (320 py + 877 bash agent-written = **0 lỗi cú pháp**); workflow audit + adversarial-verify (11 auditor + verifier) trên 10_devops/11_cloud/12_security/13_ai-ml → **24 lỗi THẬT verify & sửa / 23 bài / 4 commit** (Kyverno/probe-kubelet/CNPG-raft/terraform-`~>`/OTel-incubating/IAM-boundary-logic/RDS-15-replica/wrangler-`kv`/OWASP-mapping/reranker...). Skip 3 finding free-tier Cloudflare (vượt cutoff). Chi tiết: mục Done 13/06.
 - **v0.66.0 (13/06/2026)** — Hoàn tất "đánh bóng toàn diện": Wave 3 sơ đồ phủ rộng (coverage **80→185/206** lessons có mermaid) + Wave 4.1 bullet sweep + **Wave 4.2 audit factual SÂU = 30 lỗi THẬT verify & sửa / 22 bài / 3 commit** (`ef2bba5`/`e336c13`/`368a7e9`: FastAPI `regex→pattern`, awk field-split, reflog mồ côi 30 ngày, AVG-int myth, cross-join 42, `uuidv7` PG18, `#>>`→`true`...). Tự compile 150 py + 551 bash block = **0 lỗi cú pháp**. Phase "Review sâu per-cluster" hoàn tất. KHÔNG viết bài mới (coverage gap vẫn defer). Chi tiết: mục Done 13/06. *(Lưu ý: v0.63–0.65 — heading-VN + mechanical polish — chỉ ghi ở mục Done 10–11/06, không tạo entry changelog riêng.)*
