@@ -1,7 +1,7 @@
 # 🔧 Configuration Management — Ansible & quản lý cấu hình hệ thống
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 13/06/2026
 
@@ -38,13 +38,13 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 | # | Bài học | Loại | Trạng thái | Nội dung chính |
 |---|---|---|---|---|
-| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | 🚧 | Thách thức khi quản lý CM ở quy mô hàng trăm node: dynamic infra, hiệu năng, testing, secrets at scale. |
-| **01** | [`Dynamic Inventory & Cloud`](./lessons/02_intermediate/01_dynamic-inventory-and-cloud.md) | 🌳 Lesson | 🚧 | Inventory plugin cho AWS/GCP, gom node theo tag, thay thế inventory tĩnh trong môi trường co giãn. |
-| **02** | [`Advanced Playbooks & Strategies`](./lessons/02_intermediate/02_advanced-playbooks-and-strategies.md) | 🌳 Lesson | 🚧 | Tối ưu hiệu năng (forks, pipelining, strategy), error handling (block/rescue/always), rolling update (`serial`), delegation. |
-| **03** | [`Testing với Molecule`](./lessons/02_intermediate/03_testing-with-molecule.md) | 🌳 Lesson | 🚧 | `ansible-lint` + `yamllint`, test role với **Molecule** (Docker), kiểm tra idempotence, tích hợp CI. |
-| **04** | [`AWX/AAP & vận hành quy mô lớn`](./lessons/02_intermediate/04_awx-aap-and-at-scale.md) | 🌳 Lesson | 🚧 | **AWX/Ansible Automation Platform** (UI, RBAC, schedule), external secret manager, `ansible-pull`, kết hợp CM + IaC + immutable. |
+| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | ✅ | Thách thức khi quản lý CM ở quy mô hàng trăm node: dynamic infra, hiệu năng, testing, secrets at scale. |
+| **01** | [`Dynamic Inventory & Cloud`](./lessons/02_intermediate/01_dynamic-inventory-and-cloud.md) | 🌳 Lesson | ✅ | Inventory plugin cho AWS/GCP, gom node theo tag, thay thế inventory tĩnh trong môi trường co giãn. |
+| **02** | [`Advanced Playbooks & Strategies`](./lessons/02_intermediate/02_advanced-playbooks-and-strategies.md) | 🌳 Lesson | ✅ | Tối ưu hiệu năng (forks, pipelining, strategy), error handling (block/rescue/always), rolling update (`serial`), delegation. |
+| **03** | [`Testing với Molecule`](./lessons/02_intermediate/03_testing-with-molecule.md) | 🌳 Lesson | ✅ | `ansible-lint` + `yamllint`, test role với **Molecule** (Docker), kiểm tra idempotence, tích hợp CI. |
+| **04** | [`AWX/AAP & vận hành quy mô lớn`](./lessons/02_intermediate/04_awx-aap-and-at-scale.md) | 🌳 Lesson | ✅ | **AWX/Ansible Automation Platform** (UI, RBAC, schedule), external secret manager, `ansible-pull`, kết hợp CM + IaC + immutable. |
 
-> 🚧 = đang biên soạn trong đợt hoàn thiện nhánh DevOps (13/06/2026).
+> ✅ Cụm hoàn chỉnh Basic 5/5 + Intermediate 5/5 (đợt hoàn thiện nhánh DevOps, 06/2026).
 
 ---
 
@@ -65,3 +65,4 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 - **v0.1.0 (20/05/2026)** — Khởi tạo README khung (skeleton).
 - **v1.0.0 (13/06/2026)** — Hoàn thiện cụm **Basic 5/5** (CM concepts + Ansible basics/playbooks-roles/vault/alternatives). Bổ sung lộ trình Intermediate (đang biên soạn).
+- **v1.1.0 (14/06/2026)** — Hoàn thiện cụm **Intermediate 5/5** (overview + dynamic inventory + advanced playbooks/strategies + testing với Molecule + AWX/AAP & scale). Cụm configuration-management hoàn chỉnh.
