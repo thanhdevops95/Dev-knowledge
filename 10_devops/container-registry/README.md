@@ -1,7 +1,7 @@
 # 📦 Container Registry — Lưu trữ, phân phối & bảo mật container image
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 14/06/2026
 
@@ -37,13 +37,13 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 | # | Bài học | Loại | Trạng thái | Nội dung chính |
 |---|---|---|---|---|
-| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | 🚧 | Registry ở quy mô multi-team/production: HA, geo-replication, policy enforcement, supply-chain hardening, cost. |
-| **01** | [`Harbor Deep Dive`](./lessons/02_intermediate/01_harbor-deep-dive.md) | 🌳 Lesson | 🚧 | Kiến trúc Harbor, project + RBAC + robot account, proxy cache (pull-through), retention/immutability/quota, webhook. |
-| **02** | [`HA, Replication & DR`](./lessons/02_intermediate/02_high-availability-replication-and-dr.md) | 🌳 Lesson | 🚧 | Storage backend (S3/GCS), multi-replica, geo-replication, registry sau LB/CDN, backup + disaster recovery. |
-| **03** | [`Policy & Admission Enforcement`](./lessons/02_intermediate/03_policy-and-admission-enforcement.md) | 🌳 Lesson | 🚧 | Cosign verify gate, Kyverno/OPA Gatekeeper admission (chỉ deploy image signed + scan-pass), SLSA, allowlist. |
-| **04** | [`Optimization & Cost at Scale`](./lessons/02_intermediate/04_optimization-and-cost-at-scale.md) | 🌳 Lesson | 🚧 | Garbage collection sâu, chiến lược retention, layer dedup, tối ưu chi phí storage/egress, observability/audit. |
+| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | ✅ | Registry ở quy mô multi-team/production: HA, geo-replication, policy enforcement, supply-chain hardening, cost. |
+| **01** | [`Harbor Deep Dive`](./lessons/02_intermediate/01_harbor-deep-dive.md) | 🌳 Lesson | ✅ | Kiến trúc Harbor, project + RBAC + robot account, proxy cache (pull-through), retention/immutability/quota, webhook. |
+| **02** | [`HA, Replication & DR`](./lessons/02_intermediate/02_high-availability-replication-and-dr.md) | 🌳 Lesson | ✅ | Storage backend (S3/GCS), multi-replica, geo-replication, registry sau LB/CDN, backup + disaster recovery. |
+| **03** | [`Policy & Admission Enforcement`](./lessons/02_intermediate/03_policy-and-admission-enforcement.md) | 🌳 Lesson | ✅ | Cosign verify gate, Kyverno/OPA Gatekeeper admission (chỉ deploy image signed + scan-pass), SLSA, allowlist. |
+| **04** | [`Optimization & Cost at Scale`](./lessons/02_intermediate/04_optimization-and-cost-at-scale.md) | 🌳 Lesson | ✅ | Garbage collection sâu, chiến lược retention, layer dedup, tối ưu chi phí storage/egress, observability/audit. |
 
-> 🚧 = đang biên soạn trong đợt hoàn thiện nhánh DevOps (06/2026).
+> ✅ Cụm hoàn chỉnh Basic 5/5 + Intermediate 5/5 (đợt hoàn thiện nhánh DevOps, 06/2026).
 
 ---
 
@@ -64,3 +64,4 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 - **v0.1.0 (20/05/2026)** — Khởi tạo README khung (skeleton).
 - **v1.0.0 (14/06/2026)** — Hoàn thiện cụm **Basic 5/5** (registry concepts + tags/digests + private registries + signing/scanning + CI/CD). Bổ sung lộ trình Intermediate (đang biên soạn).
+- **v1.1.0 (14/06/2026)** — Hoàn thiện cụm **Intermediate 5/5** (overview + Harbor deep-dive + HA/replication/DR + policy & admission enforcement + optimization & cost). Cụm container-registry hoàn chỉnh.
