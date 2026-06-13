@@ -1,9 +1,9 @@
 # 🎓 DNS Records — A, CNAME, MX, TXT, NS và bạn bè
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DNS là gì](00_what-is-dns.md)
@@ -32,7 +32,7 @@ Type     Name      Content              TTL    Proxy
 A        @         203.0.113.10         Auto   Proxied
 A        www       203.0.113.10         Auto   Proxied
 CNAME    blog      acmeshop.medium.com  Auto   Off
-MX       @         mail.gmail.com       3600   Off
+MX       @         smtp.google.com      3600   Off
 TXT      @         "v=spf1 include:_spf.google.com ~all"
 TXT      _dmarc    "v=DMARC1; p=reject; rua=mailto:..."
 ```
@@ -528,3 +528,4 @@ docs   CNAME  acmeshop.github.io.
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `dns/` lesson 2/5. Cover: zone file structure + 7 record types (A/AAAA/CNAME/MX/TXT/NS/SOA) + CNAME 3 rules + apex fix + MX với SPF/DKIM/DMARC anti-spam + TXT verification + NS delegation + SOA metadata + record nâng cao (SRV, PTR, CAA, DS, DNSKEY).
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng/ví dụ ở §2 (7 record types), §3 (A multi-record round-robin), §4 (CNAME 3 rules + lỗi CNAME apex), §5 (MX provider table). Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ map "record nào trỏ đi đâu" (§2) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa placeholder MX không hợp lệ `mail.gmail.com` → `smtp.google.com` (khớp phần còn lại của bài).

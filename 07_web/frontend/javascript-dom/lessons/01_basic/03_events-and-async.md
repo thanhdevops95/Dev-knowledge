@@ -1,9 +1,9 @@
 # 🎓 Events & Async — Click, Promise, async/await
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [DOM Manipulation](02_dom-manipulation.md)
@@ -120,7 +120,7 @@ btn.removeEventListener('click', () => console.log('x'));    // FAIL — differe
 btn.addEventListener('click', handler, {
   once: true,         // Auto remove sau lần đầu fire
   capture: false,     // Default — bubbling phase
-  passive: true,      // Promise won't preventDefault (perf scroll/touch)
+  passive: true,      // hứa KHÔNG gọi preventDefault() (tối ưu scroll/touch)
   signal: abortController.signal    // Cancel via AbortController
 });
 ```
@@ -616,7 +616,7 @@ const [user, posts, comments] = await Promise.all([
   fetch('/users/1/posts').then(r => r.json()),
   fetch('/users/1/comments').then(r => r.json())
 ]);
-// Total: max(3 × RTT)
+// Total: ~1 × RTT (chạy song song, chỉ chờ request chậm nhất)
 ```
 
 → Always `Promise.all` khi parallel.
@@ -832,3 +832,4 @@ const throttled = throttle(fn, 100);    // max 1/100ms
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 4/5. Cover: addEventListener + 20+ event types (click/input/submit/keyboard/mouse/touch) + event bubbling + delegation + preventDefault + stopPropagation + Promise + async/await + setTimeout/setInterval + microtask vs task queue.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước các mục addEventListener cơ bản, so sánh onclick cũ, Remove listener, Options, AbortController. Thêm mục Changelog.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ Promise lifecycle (pending → fulfilled/rejected → then/catch/finally) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa comment sai: `passive: true` = listener hứa KHÔNG gọi `preventDefault()` (không liên quan Promise); tổng thời gian `Promise.all` ≈ 1 RTT (chờ request chậm nhất), không phải `max(3 × RTT)`.

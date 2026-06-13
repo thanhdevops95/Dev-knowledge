@@ -1,9 +1,9 @@
 # 🎓 Pydantic Models — Validation + Serialization của FastAPI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Routes & Parameters](01_routes-and-parameters.md)
@@ -15,7 +15,7 @@
 - [ ] Phân biệt **input** model (Create/Update) vs **output** model (Read)
 - [ ] Tách **`response_model`** khỏi `return type` → loại bỏ field nhạy cảm (password)
 - [ ] **Nested model** (User chứa Address) + list nested
-- [ ] **Field()** với constraint (`min_length`, `regex`, `ge`/`le`)
+- [ ] **Field()** với constraint (`min_length`, `pattern`, `ge`/`le`)
 - [ ] **Validator** custom (cross-field, format check)
 - [ ] **Alias** field (Python `created_at` ↔ JSON `createdAt`)
 - [ ] **Optional + default + `None`** đúng cách
@@ -136,7 +136,7 @@ flowchart LR
 
 ## 2️⃣ `Field()` — Validate + metadata
 
-`Field()` cho phép thêm **constraint validation** (min_length, ge, regex) + **metadata** (description, examples) vào field. Validation fail → response 422 với detail rõ ràng, không cần viết tay check:
+`Field()` cho phép thêm **constraint validation** (min_length, ge, pattern) + **metadata** (description, examples) vào field. Validation fail → response 422 với detail rõ ràng, không cần viết tay check:
 
 ```python
 from pydantic import BaseModel, Field
@@ -144,7 +144,7 @@ from pydantic import BaseModel, Field
 class ProductCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100, description="Tên sản phẩm")
     price: int = Field(..., ge=0, le=1_000_000_000, description="Giá VND")
-    sku: str = Field(..., regex=r"^[A-Z0-9-]+$", examples=["IPH-15-256"])
+    sku: str = Field(..., pattern=r"^[A-Z0-9-]+$", examples=["IPH-15-256"])
     discount: float = Field(default=0.0, ge=0.0, le=1.0)
     description: str | None = Field(default=None, max_length=2000)
 ```
@@ -153,7 +153,7 @@ class ProductCreate(BaseModel):
 |---|---|
 | `min_length` / `max_length` | str, list |
 | `ge` / `le` / `gt` / `lt` | int, float |
-| `regex` / `pattern` | str |
+| `pattern` | str (Pydantic v2; v1 cũ là `regex`) |
 | `examples=[...]` | metadata cho Swagger UI |
 | `description="..."` | metadata cho Swagger UI |
 | `default=...` / `...` (required) | default value |
@@ -422,7 +422,7 @@ user = UserRead.model_validate_json('{"id":1,"name":"Nguyen Van A","email":"nguy
 ```python
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, EmailStr, Field
-from datetime import datetime
+from datetime import datetime, timezone
 
 app = FastAPI()
 
@@ -460,7 +460,7 @@ def create_user(user: UserCreate):
         "email": user.email,
         "name": user.name,
         "password_hash": hash_password(user.password),    # ← KHÔNG lưu cleartext
-        "created_at": datetime.utcnow()
+        "created_at": datetime.now(timezone.utc)
     }
     users_db.append(new)
     next_id += 1
@@ -557,7 +557,7 @@ class UserRead(UserBase):
 ```python
 Field(..., min_length=2, max_length=100)
 Field(..., ge=0, le=100)
-Field(..., regex=r"^\d+$")
+Field(..., pattern=r"^\d+$")
 Field(default=None, alias="userId")
 ```
 
@@ -632,3 +632,4 @@ UserRead.model_validate(data)  # dict → object
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 3/5. Cover: Anti-pattern 1 model + Pattern tách `Base/Create/Update/Read` + `Field()` constraint + metadata + `@field_validator` + `@model_validator` cross-field + `response_model` strip pattern.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Anti-pattern 1 model + Pattern tách 3 model + Endpoint dùng đúng, §2 Field() validate, §3 Validate 1 field. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ vòng đời validate request → 422/handler → response_model cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `regex=` → `pattern=` trong `Field()` (Pydantic v2 bỏ `regex`); `datetime.utcnow()` → `datetime.now(timezone.utc)` (deprecated từ Python 3.12).

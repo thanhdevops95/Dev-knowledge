@@ -1,9 +1,9 @@
 # 🎓 Terminal là gì? — Cánh cửa back door của máy tính
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.2.0\
+> **Phiên bản:** v2.2.1\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 24/05/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Không cần
@@ -92,7 +92,7 @@ user@laptop ~/Desktop $
 | Phần | Ý nghĩa |
 |---|---|
 | `user` | User name (tên đăng nhập) |
-| `macbook` | Hostname (tên máy) |
+| `laptop` | Hostname (tên máy) |
 | `~/Desktop` | Folder hiện tại (`~` = home folder của user) |
 | `$` | **Prompt** — báo "shell sẵn sàng nhận lệnh" |
 
@@ -196,3 +196,4 @@ Sau khi vững lệnh Linux, học **shell-as-tool features** ở chính folder 
 - **v2.0.0 (21/05/2026)** — Mở bài bằng tình huống follow tutorial Python; đổi headers sang câu hỏi tự nhiên ("Vì sao coder phải học terminal?", "Vậy Terminal thực sự là gì?", "Cách mở terminal trên 3 OS"). Nội dung kỹ thuật giữ nguyên.
 - **v2.1.0 (21/05/2026)** — Chuyển bài về `01_foundations/computing-environment/` (terminal/shell là concept nền tảng). Cập nhật link sang `02_tools/terminal-emulators/` cho phần tool guide.
 - **v2.2.0 (24/05/2026)** — Thêm 2 ẩn dụ mở rộng (gọi món ăn vs miêu tả; tài xế taxi cho prompt), bổ sung lead-in 2-3 câu trước 2 bảng so sánh GUI/Terminal + bảng OS, Việt hoá thêm trong bảng.
+- **v2.2.1 (13/06/2026)** — Sửa lỗi nhất quán: hostname trong bảng `macbook` → `laptop` cho khớp ví dụ prompt `user@laptop`.

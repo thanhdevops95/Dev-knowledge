@@ -1,9 +1,9 @@
 # 🎓 Database với SQLModel — CRUD thực tế
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Pydantic Models](02_pydantic-models.md) + [SQL Schema Design](../../../../../06_databases/sql-fundamentals/lessons/01_basic/05_schema-design-basics.md)
@@ -136,7 +136,7 @@ Tách **4 model class** từ chung `UserBase` — Base (fields shared), Table (c
 
 ```python
 from sqlmodel import SQLModel, Field
-from datetime import datetime
+from datetime import datetime, timezone
 
 # --- Base — fields chung ---
 class UserBase(SQLModel):
@@ -148,7 +148,7 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     password_hash: str                        # ← chỉ ở DB
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 # --- API Request (Create) ---
 class UserCreate(UserBase):
@@ -526,7 +526,7 @@ myapp/
 
 2. `Depends(get_session)` = **dependency injection**. Mỗi request, FastAPI gọi `get_session()` → tạo session mới → inject vào endpoint. Sau endpoint xong, context manager tự close session. Không leak, không share.
 
-3. `session.refresh(obj)` **fetch lại** values từ DB. Cần khi `id` được DB auto-generate (`primary_key`) hoặc `default_factory=datetime.utcnow` server-side. Trước refresh, `obj.id` là None.
+3. `session.refresh(obj)` **fetch lại** values từ DB. Cần khi `id` được DB auto-generate (`primary_key`) hoặc `default_factory=lambda: datetime.now(timezone.utc)` server-side. Trước refresh, `obj.id` là None.
 
 4. Cả 2 phía: `User.orders: list["Order"] = Relationship(back_populates="user")` + `Order.user: User | None = Relationship(back_populates="orders")` + `Order.user_id: int | None = Field(foreign_key="user.id")`. `back_populates` link 2 phía để SQLModel biết là 1-N (không phải 2 relationship độc lập).
 
@@ -644,3 +644,4 @@ alembic downgrade -1
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 4/5. Cover: SQLModel (Pydantic + SQLAlchemy gộp) + engine setup + Session dependency + lifespan startup + 4-model pattern (Base/Table/Create/Read) + CRUD endpoints + Alembic migration intro.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Cài SQLModel, §2 database.py + main.py, §3 Pattern khuyên dùng, §4 users.py API. Chuẩn hóa placeholder tên trong code mẫu. Thêm mục Changelog.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ luồng request → session → SQLModel → SQL → JSON cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `default_factory=datetime.utcnow` → `lambda: datetime.now(timezone.utc)` (`utcnow` deprecated từ Python 3.12).

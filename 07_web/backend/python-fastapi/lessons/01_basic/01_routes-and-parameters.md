@@ -1,9 +1,9 @@
 # 🎓 Routes & Parameters — Path, Query, Body trong FastAPI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [FastAPI là gì](00_what-is-fastapi.md)
@@ -16,7 +16,7 @@
 - [ ] Khai báo **query param** (optional + default)
 - [ ] Khai báo **body param** với Pydantic
 - [ ] Đọc **header** và **cookie**
-- [ ] Validate với `Path()`, `Query()`, `Body()` (regex, min/max)
+- [ ] Validate với `Path()`, `Query()`, `Body()` (pattern, min/max)
 - [ ] Set **status code** đúng (201 Created, 204 No Content)
 - [ ] Raise **HTTPException** đúng cách (400, 404, ...)
 - [ ] Chia file routes với **APIRouter** + `include_router()`
@@ -80,7 +80,7 @@ curl http://localhost:8000/products/abc      # 422 — id không phải int
 
 ### Path validate nâng cao với `Path()`
 
-Để thêm constraint cụ thể (range, regex, required) cho path param, dùng `Path()` từ FastAPI. Sai constraint → 422 với detail rõ ràng. Đây là cách validate sạch nhất, không cần `if/else` thủ công:
+Để thêm constraint cụ thể (range, pattern, required) cho path param, dùng `Path()` từ FastAPI. Sai constraint → 422 với detail rõ ràng. Đây là cách validate sạch nhất, không cần `if/else` thủ công:
 
 ```python
 from fastapi import Path
@@ -99,7 +99,7 @@ def get_product(
 | `ge=1` | Greater or equal |
 | `le=10000` | Less or equal |
 | `gt`, `lt` | Greater/less than (strict) |
-| `regex=r"^\d+$"` | Pattern match |
+| `pattern=r"^\d+$"` | Pattern match (Pydantic v2; v1 cũ là `regex`) |
 
 ### Order quan trọng — path /me trước /{id}
 
@@ -191,7 +191,7 @@ class ProductCreate(BaseModel):
 @app.post("/products")
 def create_product(product: ProductCreate):
     # product là instance của ProductCreate, đã validate
-    return {"created": product.dict()}
+    return {"created": product.model_dump()}
 ```
 
 Test:
@@ -461,7 +461,7 @@ def get_product(id: int):
 @app.post("/products", status_code=status.HTTP_201_CREATED)
 def create_product(p: ProductCreate):
     global next_id
-    new = Product(id=next_id, **p.dict())
+    new = Product(id=next_id, **p.model_dump())
     products_db.append(new)
     next_id += 1
     return new
@@ -471,7 +471,7 @@ def create_product(p: ProductCreate):
 def update_product(id: int, p: ProductCreate):
     for i, existing in enumerate(products_db):
         if existing.id == id:
-            products_db[i] = Product(id=id, **p.dict())
+            products_db[i] = Product(id=id, **p.model_dump())
             return products_db[i]
     raise HTTPException(404, "Product not found")
 
@@ -552,7 +552,7 @@ def f(
 ### Validate
 
 ```python
-Path(..., ge=1, le=100, regex=r"^\d+$")
+Path(..., ge=1, le=100, pattern=r"^\d+$")
 Query(None, min_length=3, max_length=50)
 ```
 
@@ -628,3 +628,4 @@ app.include_router(router)
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `python-fastapi/` lesson 2/5. Cover: path/query/body parameters + Path/Query validation + repeating query + status codes + response_model + HTTPException + custom response + headers + cookies.
 - **v1.1.0 (25/05/2026)** — Bổ sung câu dẫn nhập cho §1 Path param + Path validate + Order routing, §2 Query validate + Repeating query. Thêm mục Changelog.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ phân loại path/query/body param cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `regex=` → `pattern=` trong `Path()`/`Field()` (Pydantic v2 / FastAPI ≥0.115 đã bỏ `regex`, dùng `regex` sẽ lỗi `TypeError`); `.dict()` → `.model_dump()` (chuẩn Pydantic v2).

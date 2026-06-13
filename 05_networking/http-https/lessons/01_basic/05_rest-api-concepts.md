@@ -1,9 +1,9 @@
 # 🎓 REST API — Triết lý & cách thiết kế API đúng chuẩn
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTTP methods](01_http-methods.md), [HTTP status codes](02_http-status-codes.md), [HTTP headers](03_http-headers.md)
@@ -386,7 +386,7 @@ GET /users/42?version=2
 
 1. URL `POST /deleteUser?id=42` có RESTful không? Sửa lại.
 2. Khác biệt giữa `PUT /users/42` và `PATCH /users/42`?
-3. 4 cách versioning API là gì? Cách nào phổ biến nhất?
+3. 3 cách versioning API là gì? Cách nào phổ biến nhất?
 4. Khi nào chọn GraphQL thay vì REST?
 5. HATEOAS là gì, vì sao 99% API không dùng?
 
@@ -479,3 +479,4 @@ GET /users/42?version=2
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `http-https/` lesson 5/6. Cover: REST 6 constraints + Richardson Maturity Model + Resource design (5 quy tắc) + Status code + Versioning (URL/header) + Pagination + Filtering/Sorting + HATEOAS overview + REST vs GraphQL vs gRPC comparison.
 - **v1.1.0 (25/05/2026)** — Bổ sung lead-in trước các bảng ở §1 (REST vs RPC, phân biệt RESTful/REST) và §3 (Quy tắc 1 URL danh từ, Quy tắc 2 plural, Quy tắc 3 method↔CRUD). Thêm Changelog section. Nội dung kỹ thuật giữ nguyên.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ mổ xẻ request "method = động từ, URL = danh từ" (§3) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi nhất quán: self-check Q3 "4 cách versioning" → "3 cách" (khớp mục tiêu bài + §6 dạy đúng 3 cách).

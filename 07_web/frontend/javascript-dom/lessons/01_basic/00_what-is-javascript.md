@@ -1,9 +1,9 @@
 # 🎓 JavaScript là gì? — Ngôn ngữ chính của browser
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTML & CSS là gì](../../../html-css/lessons/01_basic/00_what-is-html-and-css.md)
@@ -283,7 +283,7 @@ x = [1, 2, 3];       // OK — array
 
 [] + []        // → ""     (array → string)
 [] + {}        // → "[object Object]"
-{} + []        // → 0      (tùy context, dễ confuse)
+{} + []        // → "[object Object]" (là biểu thức); → 0 nếu {} bị hiểu là block rỗng ở đầu dòng
 
 null == undefined        // → true
 null === undefined        // → false
@@ -600,3 +600,4 @@ debugger;   // ← stops if DevTools open
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `javascript-dom/` lesson 1/5. Cover: JS là gì + history 30 năm + ECMAScript spec vs JS implementation + 3 cách include + script placement + ES6+ modern features overview + run JS (browser console + Node.js).
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục Lịch sử (Việt hoá tiêu đề thành "Lịch sử — Các mốc quan trọng") và các mục Inline event, Internal script, External file, Đặt script ở đâu. Thêm mục Changelog.
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ JS event loop cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `{} + []` (là biểu thức) cho `"[object Object]"`, không phải `0` — `0` chỉ xảy ra khi `{}` bị hiểu là block rỗng ở đầu dòng.

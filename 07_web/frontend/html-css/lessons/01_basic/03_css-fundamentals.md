@@ -1,9 +1,9 @@
 # 🎓 CSS Fundamentals — Selectors, Specificity, Box Model
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [HTML Essentials](01_html-essentials.md)
@@ -293,9 +293,9 @@ button { background: gray; }               /* (0,0,0,1) — thua .btn */
 ### Cascade order (khi specificity bằng nhau)
 
 ```
-1. Author !important
+1. Browser default !important
 2. User !important
-3. Browser default !important
+3. Author !important
 4. Inline style
 5. Author CSS
 6. User CSS
@@ -684,7 +684,7 @@ small {
 
 1. (a) Inline `style=""` — tránh. (b) Internal `<style>` — single page. (c) External `.css` — **production default**. Cache browser tốt, reuse, separation of concerns.
 
-2. `(0, 1, 2, 2)`: 1 ID (`#header`), 2 class/pseudo-class (`.nav`, `.active`, `:hover` = 3 thực ra), 2 type (`li`, `a`). Let me recount:
+2. Specificity = `(0, 1, 3, 2)` — đếm theo nhóm (B=ID, C=class/pseudo-class, D=type):
    - `#header` → B=1
    - `.nav` → C=1, `.active` → C=1, `:hover` → C=1 → C=3
    - `li`, `a` → D=2
@@ -797,3 +797,4 @@ Same specificity → last declared wins
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `html-css/` lesson 4/5. Cover: 3 cách include CSS + anatomy rule + selectors (basic + combinator + pseudo-class + pseudo-element + attribute) + specificity rules + cascade order + box model + units (px/em/rem/%) + colors + font + CSS variables.
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước mục 3 cách include CSS (Inline, Internal, External, bảng quyết định) và mục Anatomy CSS rule. Thêm mục Changelog.
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ CSS specificity ranking cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: thứ tự cascade của `!important` bị đảo — đúng là UA > User > Author (khớp §8); dọn artifact "Let me recount" trong đáp án self-check Q2.
