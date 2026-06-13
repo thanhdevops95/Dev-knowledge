@@ -1,9 +1,9 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.65.0\
+> **Phiên bản:** v0.66.0\
 > **Tạo lúc:** 20/05/2026\
-> **Cập nhật:** 11/06/2026
+> **Cập nhật:** 13/06/2026
 
 > 🎯 *Lịch sử các việc đang dở, chưa xong, hoặc đang chờ làm rõ — để khi user/Claude switch task vẫn nhớ quay lại.*
 
@@ -43,7 +43,7 @@
     - **iac + observability**: rewrite "điện tín EN"→tiếng Việt (8 file).
     - **README** html-css + javascript-dom (cụm đã xong nhưng còn skeleton) → v1.0.0.
     - **12_security + 13_ai-ml audit+fix** (46 findings): **owasp-top-10 restructure sang OWASP Top 10:2025** (verified web, final release — A02 lên #2, A03 Supply Chain mới, A10 Mishandling mới, SSRF gộp A01) + fix code/factual (JWT PUBLIC_KEYS→jwks_client, argon2 verify try/except, IBM $4.88M, PBKDF2 OWASP-not-NIST, SLSA L4, qdrant query_points, json imports) + dọn artifact "là gì? là gì" ở stub.
-  - 🎯 Next step: **content-audit cụm VIẾT TAY** (foundations/languages/os/networking/06_db/rest-10_devops/mobile/arch/14_data/15/16) — đã review nội dung trước + conventions synced + telegraphic=0, nhưng chưa audit code/factual phiên này. Tuỳ user: audit kỹ hay chấp nhận prior-review.
+  - ✅ **content-audit cụm VIẾT TAY DONE (13/06)** — audit code/factual SÂU 7 cụm viết tay (foundations/languages/os/networking/06_db/07_web): tự compile 150 block Python + 551 block Bash = **0 lỗi cú pháp** trong code chạy được; **30 lỗi factual THẬT** đã verify (chạy awk/sqlite/git thực tế) & sửa (chi tiết mục Done 13/06). Phase "Review sâu per-cluster" coi như **hoàn tất**.
   - 📁 Scripts tái dùng: `_workspace/_rewrite-generic.js`, `_fix-secai.js`, `/tmp/nav_canonical.py`, `/tmp/strip_time.py`, `/tmp/strip_roadmap_time.py`
   - ⚠️ Quyết định chốt: heading **canonical nghiêm ngặt 1:1**; **bỏ HẾT ước tính thời gian kể cả roadmap stage-duration**; rewrite dùng **schema-free workflow + grep verify cơ học** (schema phức tạp → agent kiệt budget, lỗi StructuredOutput). Verify-agent KHÔNG đáng tin bắt artifact → luôn grep cơ học sau batch.
 
@@ -139,6 +139,21 @@
 ---
 
 ## ✅ Done gần đây (3-7 ngày)
+
+### 13/06/2026 (hoàn tất "đánh bóng toàn diện" — sơ đồ phủ rộng + audit factual SÂU)
+
+> Tiếp nối đợt polish, user chọn "đánh bóng toàn diện". Hoàn tất 4 wave trên nội dung HIỆN CÓ (KHÔNG viết bài mới). Mỗi đơn vị 1 commit → resilient với spend-limit/socket-drop.
+
+- ✅ **Việt hoá heading 11_cloud (Wave 1, phần 2)** — cloudflare + multi-cloud-strategies + cost-management + các sub-cluster còn lại → **9/9 sub-cluster 11_cloud xong**. Giữ brand/term/param EN. (commit `364a465` + trước đó)
+- ✅ **Sơ đồ phủ rộng (Wave 3)** — bổ sung mermaid cho mọi bài substantive còn thiếu: coverage **80 → 185/206** lessons có ≥1 sơ đồ (21 stub <150 dòng bỏ qua có chủ ý). Mỗi sơ đồ kèm lead-in + câu phân tích (§3.6). (commits `50db63b`/`440b428`/`ec2c9f7` + 11_cloud)
+- ✅ **Bullet sweep (Wave 4.1)** — `*` → `-` fence-aware toàn bộ file lessons còn sót (không đụng output mẫu trong fence).
+- ✅ **Audit factual SÂU (Wave 4.2) — 30 lỗi THẬT đã verify & sửa / 22 bài / 3 commit:**
+  - **Tự compile lại 150 block Python + 551 block Bash** ở 7 cụm viết tay → **0 lỗi cú pháp** trong code chạy được (34 "lỗi" máy báo đều false-positive: cheatsheet/REPL `>>>`/placeholder `<PID>`/bảng 2 cột/output mẫu/demo cố tình sai `❌`).
+  - **07_web + networking + foundations** (`ef2bba5`, 14 fix): FastAPI `regex=`→`pattern=` (FastAPI ≥0.115 bỏ `regex` → `TypeError`); `.dict()`→`.model_dump()`; `utcnow()`→`now(timezone.utc)`; JS `{}+[]`/`passive`/`Promise.all`; CSS cascade `!important` đảo đúng (UA>User>Author); TTL hop math; "4 cách"→"3 cách"; MX placeholder.
+  - **python + linux + git** (`e336c13`, 7 fix): awk field-split (data tên 3 token → 1 token); `touch reboot-required` NGƯỢC (không chặn reboot); reflog commit mồ côi 30 ngày (không phải 90); 3 vs 2 phương thức auth; 7 vs 8 kiểu dữ liệu Python; nhãn `{}` là dict.
+  - **databases** (`368a7e9`, 9 fix): `#>>` trả `true` (text) không phải `t`; AVG(int) KHÔNG cắt (pitfall thật là `SUM/COUNT`); cross-join 42 không phải 49; FULL 10/LEFT 9; `uuidv7()` PG18 (không phải 17); `gen_random_uuid` pg13; `\dy` = event triggers; Postgres ~40 năm.
+  - **Phương pháp:** 4 agent read-only chạy code (py_compile/bash -n/SQLite/git config) trả findings → **tôi verify TỪNG cái** (chạy awk/sqlite/git thực tế) trước khi sửa, chỉ fix lỗi THẬT. 2 agent rớt socket phiên đầu → re-dispatch OK. Mỗi bài bump version + changelog; fence cân bằng.
+- ⏳ **Vẫn defer (quyết định user):** coverage gap — 09_architecture/16_career 0%, Go/Rust/Java + Mongo/Redis/MySQL... còn trống. Roadmap dài hạn, cần user chốt scope trước khi mở.
 
 ### 11/06/2026 (Việt hoá heading nội dung cụm agent-written + dọn nốt)
 
@@ -400,6 +415,7 @@
 
 ## 📌 Changelog
 
+- **v0.66.0 (13/06/2026)** — Hoàn tất "đánh bóng toàn diện": Wave 3 sơ đồ phủ rộng (coverage **80→185/206** lessons có mermaid) + Wave 4.1 bullet sweep + **Wave 4.2 audit factual SÂU = 30 lỗi THẬT verify & sửa / 22 bài / 3 commit** (`ef2bba5`/`e336c13`/`368a7e9`: FastAPI `regex→pattern`, awk field-split, reflog mồ côi 30 ngày, AVG-int myth, cross-join 42, `uuidv7` PG18, `#>>`→`true`...). Tự compile 150 py + 551 bash block = **0 lỗi cú pháp**. Phase "Review sâu per-cluster" hoàn tất. KHÔNG viết bài mới (coverage gap vẫn defer). Chi tiết: mục Done 13/06. *(Lưu ý: v0.63–0.65 — heading-VN + mechanical polish — chỉ ghi ở mục Done 10–11/06, không tạo entry changelog riêng.)*
 - **v0.62.0 (25/05/2026)** — Phase 4 11_cloud/cloud-fundamentals COMPLETE 5/5 ✅ (5 file 1 turn, files 97-101). Mốc **100 lessons** Phase 4 đạt ở file 100. Total 101/156 (64.7%). Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file 11_cloud + 15 file 12_security/13_ai-ml.
 - **v0.61.0 (25/05/2026)** — 🎉🎉🎉 **10_devops COMPLETE 49/49 ✅** (9 file 1 turn). observability 10/10 đóng (files 93-96). Toàn bộ DevOps tier-1 + tier-2 apply Blueprint v0.5.4+. Phase 4 total 93/156 (59.6%). Tiếp 11_cloud 45 → 12_security 10 → 13_ai-ml 5.
 - **v0.60.0 (25/05/2026)** — Phase 4 progress: 10_devops/kubernetes 10/10 ✅ COMPLETE (6 files in 1 turn). observability 7/10 (file 93 metrics-prometheus done). Total 90/156 (57.7%). Còn 3 file observability + 11_cloud 45 + 12_security 10 + 13_ai-ml 5.
