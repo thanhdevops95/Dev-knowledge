@@ -1,7 +1,7 @@
 # 🎓 Vendor Lock-in & Portability — 4 chiều khoá, abstraction layer, exit cost
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 01/5)\
@@ -208,6 +208,15 @@ Acme Shop ngồi tier hết 100+ service đang dùng. Đây là bảng:
 Exit cost   │   1 tuần    │    1 tháng     │   3 tháng    │  6 tháng    │
 Volume      │   Big       │    Medium      │   Small      │  Tiny       │
 Strategy    │   Portable  │  Abstract API  │  Limit usage │   Avoid     │
+```
+
+Xếp 4 tier thành 1 thang lock-in: càng leo lên, exit cost càng đắt và chiến lược càng phải dè dặt.
+
+```mermaid
+flowchart TD
+    T1["Tier 1 LOW — portable\nS3, EC2, RDS, K8s\nExit: ~1 tuần"] --> T2["Tier 2 MEDIUM\nLambda, SQS, API Gateway\nExit: ~1 tháng"]
+    T2 --> T3["Tier 3 HIGH — rewrite\nDynamoDB, Cognito, Step Functions\nExit: ~3 tháng"]
+    T3 --> T4["Tier 4 ULTRA — rebuild\nBedrock, Outposts\nExit: ~6 tháng / re-design"]
 ```
 
 → Acme Shop tối ưu: minimize tier 3-4 usage, embrace tier 1-2 freely.
@@ -938,3 +947,4 @@ s3.put_object(Bucket='acmeshop-data', Key='file.txt', Body=b'hello')
 - **v1.0.0 (24/05/2026)** — Bài 01 cluster Multi-cloud basic. 4 dimension lock-in (data/API/skill/contract) + tier service (low/medium/high/ultra) + 3 level abstraction (Terraform/Crossplane/Pulumi) + egress fee reality 2026 + framework tính exit cost + hands-on Terraform module portable S3/GCS + 5 principles giảm lock-in từ ngày 0. Acme Shop $464K exit cost analysis làm trục chính.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text dùng tiêu đề thật); chuẩn hoá header Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, link-text khớp tiêu đề H1 thực, 3 sub 🧭/🧩/🌐). Giữ nguyên nội dung kỹ thuật, số liệu, code.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ thang 4 tier lock-in (exit cost tăng dần) cho trực quan.

@@ -1,9 +1,9 @@
 # ⚡ Azure Functions + App Service + Container Apps
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [Azure SQL + Cosmos DB](03_azure-sql-and-cosmosdb.md) ✅, Docker cơ bản, HTTP/REST cơ bản
@@ -60,6 +60,19 @@ Bảng dưới đặt cả bốn cạnh nhau theo những tiêu chí mà bạn t
 | Hợp nhất cho | Event-driven, tác vụ ngắn | Web app/API tiêu chuẩn | Microservice container, scale-to-zero | Toàn quyền K8s |
 | Tương đương AWS | Lambda | Elastic Beanstalk | Fargate / App Runner | EKS |
 | Tương đương GCP | Cloud Functions | App Engine | Cloud Run | GKE |
+
+Sơ đồ dưới đặt bốn dịch vụ lên cùng một trục: đi từ trái (đơn giản nhất, sự kiện, co về không) sang phải (toàn quyền, luôn chạy, vận hành nặng), bạn đổi dần sự đơn giản lấy sự kiểm soát.
+
+```mermaid
+flowchart LR
+    FN["Functions — event-driven, scale-to-zero"] --> CA["Container Apps — container, scale-to-zero"]
+    CA --> AS["App Service — web app PaaS, always-on"]
+    AS --> AKS["AKS — toàn quyền Kubernetes"]
+    FN -. "đơn giản hơn / cold start" .-> CA
+    AKS -. "kiểm soát hơn / vận hành nặng" .-> AS
+```
+
+Hai đầu trục chính là hai thái cực hay phải cân: Functions tối ưu chi phí lúc rảnh (co về không) nhưng có cold start, còn App Service/AKS luôn warm nhưng trả tiền cả khi không có request.
 
 Đọc bảng theo chiều dọc sẽ thấy ngay quy tắc chọn: càng đi từ trái sang phải, bạn càng đổi sự đơn giản lấy sự kiểm soát. Gom lại thành mấy luật ngón tay cái cho 2026:
 
@@ -1094,3 +1107,4 @@ Gom các lệnh hay dùng nhất cho bốn cửa serverless/PaaS của bài — 
 - **v1.0.0 (24/05/2026)** — Bài 04 (cuối basic) Azure. Functions (Consumption/Premium/Dedicated) + 10+ trigger + Durable Functions chain/fan-out + App Service Plan + Web App + deployment slot + custom domain + Easy Auth + Container Apps Knative + Dapr + revision traffic split + APIM Consumption + policy JWT/rate-limit + decision tree 4 compute options + hands-on image pipeline Blob→Function→Container Apps→APIM + 10 pitfalls. Hoàn thành Azure basic cluster 5/5.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thêm lời dẫn trước mỗi bảng/code/list và câu bắc cầu giữa các section, giữ nguyên ẩn dụ. Sửa lỗi QA: `func init` đúng cú pháp (`--worker-runtime python --model V2`, bỏ `--python` thừa); viết đủ lệnh lấy APIM subscription key (bỏ `...` cắt giữa lệnh, lấy `--sid` từ `az apim subscription list`); làm rõ Consumption timeout (mặc định 5 phút, tối đa 10 phút) ở bảng decision và pitfall. Chuẩn hoá heading framework, metadata field "Yêu cầu trước", Glossary 3 cột, nav marker `⬅️/↑/🔜` + 3 sub-heading chuẩn. Giữ nguyên 100% code/số liệu/cấu trúc 8 phần.
 - **v2.0.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ trục đơn giản↔kiểm soát của 4 lựa chọn compute (Functions/Container Apps/App Service/AKS) cho trực quan.

@@ -1,9 +1,9 @@
 # 🎓 Cloud Security & Shared Responsibility Model
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [03_storage-and-databases.md](03_storage-and-databases.md), khái niệm IAM cơ bản
@@ -96,6 +96,27 @@ Nhìn sơ đồ thì thấy: càng lên cao trong stack, phần việc nghiêng 
 - **SaaS — ví dụ Workspaces, Chime** (phần mềm dùng ngay):
   - Vendor lo: tất cả phần PaaS, **cộng thêm** chính ứng dụng.
   - Bạn lo: dữ liệu bạn upload, danh tính người dùng (IAM users), cấu hình SSO.
+
+Sơ đồ dưới minh hoạ đường ranh giới đó dịch chuyển ra sao qua ba mô hình: từ IaaS (bạn gánh nhiều) tới SaaS (vendor gánh gần hết), nhưng có một thứ luôn nằm ở phía bạn — Data + IAM.
+
+```mermaid
+flowchart TD
+    subgraph IAAS["IaaS — EC2"]
+        IA["Data + IAM + App + OS — bạn"]
+        IB["Hypervisor + Hardware — vendor"]
+    end
+    subgraph PAAS["PaaS — RDS, Beanstalk"]
+        PA["Data + IAM + App — bạn"]
+        PB["OS + Runtime + hạ tầng — vendor"]
+    end
+    subgraph SAAS["SaaS — Workspaces"]
+        SA["Data + IAM/SSO — bạn"]
+        SB["App + toàn bộ stack — vendor"]
+    end
+    IAAS --> PAAS --> SAAS
+```
+
+Điểm bất biến cần khắc cốt: dù dùng mô hình nào, **Data và IAM luôn là việc của bạn** — đây cũng chính là chỗ 90% vụ rò rỉ xảy ra.
 
 ### Vì sao điều này quan trọng
 
@@ -1484,3 +1505,4 @@ aws secretsmanager get-secret-value --secret-id prod/db
 - **v1.0.0 (24/05/2026)** — Bài 04 — cuối cụm cloud-fundamentals basic. Shared Responsibility Model + IAM deep (users/roles/policies/MFA/SSO/IRSA) + encryption (KMS, BYOK, at-rest, in-transit) + network security (WAF, DDoS, defense in depth) + secrets management + compliance frameworks (SOC2/ISO27001/HIPAA/PCI/GDPR) + top 6 cloud breaches + tools 2026 + hands-on secure baseline. 7 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Thêm lời dẫn trước các bảng/diagram chính (Why this matters, Policy example, Encryption everywhere, Common frameworks, Compliance as differentiator).
 - **v2.0.0 (01/06/2026)** — Việt hoá toàn bộ prose sang văn phong narrative (giữ nguyên code/JSON/lệnh AWS, tên dịch vụ): tình huống mở bài, 9 phần nội dung và toàn bộ đáp án self-check Q1-Q5. Chuẩn hoá metadata (Yêu cầu trước), Glossary 3 cột (Thuật ngữ/Tiếng Việt/Giải thích), nav (⬅️/↑ + tiêu đề thực) và 3 sub-heading liên kết. Bỏ mọi ước tính thời gian theo mốc tháng trong self-check SOC 2 (chuyển sang mô tả theo trình tự).
+- **v2.0.1 (11/06/2026)** — Bổ sung sơ đồ ranh giới Shared Responsibility dịch chuyển theo IaaS/PaaS/SaaS cho trực quan.

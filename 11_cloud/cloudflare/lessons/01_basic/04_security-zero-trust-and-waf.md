@@ -1,7 +1,7 @@
 # 🛡️ Cloudflare Security — WAF, Zero Trust, DDoS, Bot, Turnstile
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 04/5)\
@@ -62,6 +62,25 @@ Cloudflare edge cache + Workers
    ↓
 Origin (FastAPI, S3, ...)
 ```
+
+Sơ đồ dưới mô tả cùng ý đó dưới dạng luồng: mỗi request phải vượt lần lượt các lớp phòng thủ chồng nhau ở edge, lớp nào không qua thì bị chặn ngay, chưa kịp chạm tới origin.
+
+```mermaid
+flowchart TD
+    NET["Internet / Attacker"] --> DDOS["DDoS L3/L4 — Anycast absorb"]
+    DDOS --> RL["Rate Limiting"]
+    RL --> WAF["WAF — OWASP + custom rules"]
+    WAF --> BOT["Bot Management"]
+    BOT --> ZT["Zero Trust Access (admin / internal)"]
+    ZT --> EDGE["Cloudflare edge cache + Workers"]
+    EDGE --> ORIGIN["Origin (FastAPI, R2, ...)"]
+    DDOS -.->|fail| BLOCK["Chặn / Challenge"]
+    WAF -.->|fail| BLOCK
+    BOT -.->|fail| BLOCK
+    ZT -.->|fail| BLOCK
+```
+
+Ý nghĩa của cách xếp lớp này: attacker phải qua hết mọi tầng mới tới được origin, nên chỉ cần một lớp bắt được là toàn bộ request bị loại ngay tại edge.
 
 ### Stack theo plan
 
@@ -866,3 +885,4 @@ Mobile carrier dùng CGNAT — hàng nghìn user share 1 IP công cộng. Rate l
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 cluster Cloudflare basic — bài cuối. WAF custom + managed rulesets + expression syntax + Rate Limiting per IP/cookie + Bot Management + Bot Score + DDoS Layer 3/4/7 unmetered free explanation (anycast) + Zero Trust suite (Access + Gateway + Tunnel/cloudflared) + mTLS + Turnstile vs reCAPTCHA + hands-on FastAPI Acme Shop full security stack + 8 pitfalls. Đóng cluster Cloudflare basic 5 bài.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; gắn ngôn ngữ `text` cho các code fence diagram/expression/config còn để trống; chuyển Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (⬅️ Bài trước/➡️ Bài tiếp theo/↑ Về cụm + link-text = tiêu đề H1 thực + 3 sub-heading canonical).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ các lớp phòng thủ chồng nhau (DDoS → Rate limit → WAF → Bot → Zero Trust → origin) cho trực quan.

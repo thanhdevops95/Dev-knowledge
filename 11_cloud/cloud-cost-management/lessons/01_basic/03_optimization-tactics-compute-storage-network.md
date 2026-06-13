@@ -1,7 +1,7 @@
 # 🎓 Optimization Tactics — Compute / Storage / Network / Database
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic\
@@ -34,6 +34,18 @@ Sau 30 ngày tagging + showback:
 Sếp tech: *"Bài 01 dạy mua RI/SP — đã commit. Còn $4.5k phải optimize technical. Từ đâu cắt?"*
 
 → Bài này dạy 4 nhóm tactic, mỗi nhóm có potential save mấy $k. Combine vài tactic là đủ.
+
+Tối ưu cost không phải việc làm 1 lần mà là vòng lặp liên tục — đo, tìm lãng phí, hành động, rồi đo lại để xác nhận:
+
+```mermaid
+flowchart LR
+    M["Đo (measure): tagging, showback, Optimizer"] --> F["Tìm waste: over-provision, orphan, egress"]
+    F --> A["Hành động: right-size, RI/SP, cleanup, lifecycle"]
+    A --> V["Đo lại: so bill trước/sau"]
+    V --> M
+```
+
+→ Mỗi tactic phía dưới là 1 bước "hành động" trong vòng lặp này; điểm mấu chốt là luôn quay lại "đo lại" để chắc chắn cắt đúng chỗ, không phá perf.
 
 ---
 
@@ -746,3 +758,4 @@ Cách giảm:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 cluster cloud-cost-management. 4 nhóm tactic Compute (right-size + ASG mix Spot + schedule shutdown) + Storage (lifecycle 4-tier + orphan cleanup) + Network (CDN + VPC Endpoint + LB consolidate) + Database (RI + Aurora Serverless v2 + drop unused index) + Acme Shop worked example save $7.3k/month vượt target 25% + 7 pitfalls + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá khung: metadata "Yêu cầu trước", header Glossary 3 cột tiếng Việt, mục Liên kết & Tài nguyên theo marker chuẩn (⬅️/➡️/↑) với link-text là tiêu đề bài đích và 3 sub 🧭/🧩/🌐.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng lặp tối ưu cost (đo → tìm waste → hành động → đo lại) cho trực quan.

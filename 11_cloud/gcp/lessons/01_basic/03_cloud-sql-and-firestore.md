@@ -1,7 +1,7 @@
 # 🗄️ GCP Cloud SQL + Firestore
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
@@ -350,7 +350,20 @@ firebase emulators:start --only firestore
 
 ### Ma trận quyết định (Decision matrix)
 
-Bảng dưới đây ánh xạ từng loại workload sang database GCP phù hợp nhất, kèm lý do ngắn gọn. Hãy đọc nó như một bảng tra: xác định workload của bạn ở cột trái rồi đối chiếu sang đề xuất.
+Sơ đồ dưới rút gọn lựa chọn thường gặp nhất thành một cây quyết định: bắt đầu từ bản chất dữ liệu rồi lần theo nhánh tới database phù hợp.
+
+```mermaid
+flowchart TD
+    start["Workload của bạn?"] --> rel{"Quan hệ + ACID + JOIN?"}
+    rel -->|"Có"| sql["Cloud SQL Postgres"]
+    rel -->|"Không"| rt{"Cần real-time + schema linh hoạt?"}
+    rt -->|"Có"| fs["Firestore Native"]
+    rt -->|"Không"| scale{"Quy mô petabyte / throughput cực cao?"}
+    scale -->|"Có"| bt["Bigtable"]
+    scale -->|"Không"| cache["Memorystore / BigQuery (tuỳ mục đích)"]
+```
+
+Cây này phủ phần lớn quyết định hằng ngày; các nhánh hiếm hơn (Spanner toàn cầu, OLAP) nằm trong bảng đầy đủ ngay bên dưới. Bảng này ánh xạ từng loại workload sang database GCP phù hợp nhất, kèm lý do ngắn gọn. Hãy đọc nó như một bảng tra: xác định workload của bạn ở cột trái rồi đối chiếu sang đề xuất.
 
 | Workload | Đề xuất | Vì sao |
 |---|---|---|
@@ -646,3 +659,4 @@ firebase emulators:start --only firestore
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 03 GCP basic. Cloud SQL Postgres HA + read replica + PITR + Auth Proxy + IAM DB auth + Firestore Native data model + Security Rules + real-time listener + composite index + decision matrix 7 DB GCP + hands-on Acme Shop stack + 8 pitfalls.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard (lời dẫn 2-3 câu trước mỗi bảng/code/list, câu phân tích sau, câu bắc cầu giữa các section, ẩn dụ giữ nguyên). Chuẩn hoá: field metadata "Yêu cầu trước"; Glossary 3 cột; nav (⬅️/➡️/↑ + tiêu đề H1 thực, bỏ nhãn "sắp viết"); bổ sung mục Cheatsheet. Sửa kỹ thuật: POSTGRES_15 → POSTGRES_16; `.where()` positional → `FieldFilter`; bỏ mật khẩu literal trên CLI (dùng `openssl rand`); thay placeholder "Mr.Rom" → "Nguyen Van A"; ghi chú kiểm tra release mới nhất cho cloud-sql-proxy.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ cây quyết định chọn database (Cloud SQL vs Firestore vs Bigtable) cho trực quan.

@@ -1,9 +1,9 @@
 # 🗃️ Managed Databases — Postgres / MySQL / Redis / MongoDB / Kafka
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Spaces — Object Storage + CDN built-in](02_spaces-object-storage-and-cdn.md), hiểu SQL cơ bản, đã dùng Postgres/Redis
@@ -140,6 +140,18 @@ Giá managed DB chia làm hai nhóm: **Basic** (1 node, không HA — hợp dev/
 ---
 
 ## 4️⃣ Standby vs Read Replica — Khác nhau
+
+Hai node phụ này dễ lẫn vì cùng "sao chép" từ primary, nhưng phục vụ hai mục tiêu ngược nhau. Sơ đồ dưới đặt chúng cạnh nhau: standby chỉ chờ thế chỗ khi primary chết, còn read replica nhận thẳng query đọc từ app.
+
+```mermaid
+flowchart LR
+    app["App"] -->|"read + write"| primary["Primary"]
+    primary -.->|"sync, auto-failover"| standby["Standby (HA, không query)"]
+    primary -->|"async"| replica["Read replica (read-only)"]
+    app -->|"chỉ read"| replica
+```
+
+Đọc sơ đồ: standby là đường nét đứt vì nó âm thầm chờ (chỉ kích hoạt khi failover), còn read replica là đường liền vì app chủ động gửi SELECT tới nó để giảm tải primary.
 
 ### Standby (HA)
 
@@ -710,3 +722,4 @@ Combined: zero attack surface từ internet.
 - **v1.0.0 (24/05/2026)** — Bản đầu. Managed DB rationale + 5 engine (Postgres/MySQL/Redis/MongoDB/Kafka) + tier matrix + standby vs read replica + PgBouncer pool mode + backup PITR + Trusted Sources + VPC private + user RBAC + hands-on Postgres production + 10 pitfalls.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước) + Glossary header 3 cột + nav theo gold-standard (⬅️/➡️/↑ Về cụm, link-text = tiêu đề thực, 3 sub Định hướng/Chủ đề/Tài nguyên). Thêm lời dẫn trước các bảng (5 engine, tier matrix) và viết mượt đoạn connection pooling. Giữ nguyên toàn bộ nội dung kỹ thuật + số liệu (đã verify max_connections=22 cho Basic 1GB là đúng: 25/GB trừ 3 reserved).
 - **v1.1.1 (10/06/2026)** — Gắn mốc thời gian *tính đến 2026* cho bảng giá managed DB ở §3 (giá biến động theo thời gian) + nhắc đối chiếu trang pricing chính thức. Không đổi con số.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ Standby vs Read replica (primary + standby failover + replica read-only) cho trực quan.

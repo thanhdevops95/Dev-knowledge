@@ -1,9 +1,9 @@
 # 🗄️ Spaces — Object Storage kèm CDN miễn phí
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 02/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Droplet và Volume](01_droplets-and-volumes.md), hiểu HTTP/REST cơ bản; nếu từng dùng *S3* hoặc *GCS* thì càng dễ theo.
@@ -346,6 +346,18 @@ Lợi ích rất rõ: backend không còn phải làm trạm trung chuyển cho 
 ## 6️⃣ CDN miễn phí — phát nội dung từ rìa mạng
 
 File public như avatar thì không cần chữ ký, nhưng cần **nhanh** — và nhanh với người dùng toàn cầu nghĩa là phải phát từ điểm gần họ chứ không bắt họ kéo dữ liệu vòng nửa vòng trái đất về region gốc. Đó là việc của *CDN* (Content Delivery Network — mạng phân phối nội dung): cache file ở hàng loạt điểm rìa (*edge*) trên khắp thế giới. Điểm cộng lớn của Spaces là CDN này có sẵn và miễn phí, bật chỉ một thao tác.
+
+Sơ đồ dưới cho thấy đường đi của một file: chỉ lần đầu edge mới phải kéo về từ Spaces gốc, các lần sau phục vụ thẳng từ điểm gần user:
+
+```mermaid
+flowchart LR
+    user["User (toàn cầu)"] --> edge["CDN edge (gần nhất)"]
+    edge -->|"cache hit"| user
+    edge -->|"cache miss (lần đầu)"| origin["Spaces origin (region gốc)"]
+    origin --> edge
+```
+
+Điểm cốt lõi: phần lớn request dừng ở edge nên vừa nhanh vừa không tốn băng thông origin — chỉ cú "cache miss" đầu tiên mới chạm tới Spaces gốc.
 
 Bật CDN qua UI hoặc một lệnh `doctl`. Tham số `TTL` (Time to Live) quyết định bao lâu edge giữ bản cache trước khi hỏi lại file gốc:
 
@@ -832,3 +844,4 @@ Cho phép mọi origin upload/read → attacker site có thể CSRF (lừa user 
 - **v1.0.0 (24/05/2026)** — Bản đầu. Object storage concept + Spaces S3-compatible + comparison S3/R2 + Access Key + s3cmd/boto3 + presigned URL + CDN built-in + Lifecycle + CORS + hands-on static site + private invoice + 10 pitfalls.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang văn phong narrative tiếng Việt theo gold-standard (lời dẫn trước mỗi bảng/code, câu phân tích sau, ẩn dụ, câu bắc cầu giữa các phần); chuẩn hoá heading framework, field "Yêu cầu trước", Glossary 3 cột, nav (⬅️/➡️/↑ + link-text = tiêu đề thực); pitfall chuyển sang dạng ❌ Cạm bẫy / ✅ Best practice; sửa lỗi số đếm region (bỏ "4 region" mâu thuẫn với danh sách) và diễn đạt mềm số PoP CDN cho khớp tài liệu hiện hành; bổ sung thuật ngữ Egress vào Glossary. Giữ nguyên toàn bộ code/lệnh/config và số liệu kỹ thuật.
 - **v2.0.1 (10/06/2026)** — Gắn mốc *tính đến 2026* cho bảng giá Spaces (§2) và bảng so giá Spaces/S3/R2 (§3) vì đơn giá biến động theo thời gian. Không đổi con số.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ luồng phát file qua CDN (user → edge → Spaces origin, cache hit/miss) cho trực quan.

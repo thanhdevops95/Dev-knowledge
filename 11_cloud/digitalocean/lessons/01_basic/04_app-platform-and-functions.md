@@ -1,9 +1,9 @@
 # 🚀 App Platform + Functions + DOKS — PaaS + Serverless + K8s
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Managed Databases](03_managed-databases.md), hiểu Docker, K8s cơ bản, Git
@@ -51,6 +51,17 @@ Bài này dạy chọn đúng "deploy stack" cho từng workload.
 
 ```text
 Git push → DO clone → detect stack → Docker build (Buildpack/Dockerfile) → deploy to managed runtime → HTTPS public URL
+```
+
+Sơ đồ dưới triển khai chính chặng đường đó thành các khâu DO tự lo sau mỗi `git push`, kết thúc ở một URL HTTPS đã bật autoscale:
+
+```mermaid
+flowchart LR
+    push["git push (main)"] --> clone["DO clone + detect stack"]
+    clone --> build["Build (Buildpack / Dockerfile)"]
+    build --> deploy["Deploy lên managed runtime"]
+    deploy --> live["HTTPS public URL"]
+    live --> scale["Autoscale 1-25 instance + Let's Encrypt"]
 ```
 
 So với quy trình tự dựng trên Droplet (SSH vào máy, kéo code, cài runtime, dựng nginx, xin cert), pipeline này gói gọn tất cả vào một thao tác Git quen thuộc.
@@ -896,3 +907,4 @@ Không migrate khi:
 
 - **v1.0.0 (24/05/2026)** — Bản đầu. App Platform PaaS + App Spec YAML + Functions serverless + DOKS K8s + Load Balancer + Container Registry + Decision matrix Droplet/App-Platform/Functions/DOKS + hands-on FastAPI App Platform auto-deploy + 10 pitfalls.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi số liệu (App Platform "3 region" → 7 region khớp danh sách; Functions Max duration bỏ chú thích tự mâu thuẫn; viết lại câu so sánh EKS control plane cho rõ nghĩa). Đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá header Glossary 3 cột; chuẩn hoá nav (⬅️/↑ + link-text theo tiêu đề H1 thực, 3 sub-heading chuẩn). Bổ sung ngôn ngữ `text` cho 3 fence thiếu; thêm lời dẫn trước các bảng và code block (đặc điểm App Platform, component, pricing, App Spec, Functions, DOKS, Load Balancer, Registry, decision matrix, hands-on) cho mạch đọc liền lạc.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ pipeline App Platform (git push → build → deploy → HTTPS + autoscale) cho trực quan.

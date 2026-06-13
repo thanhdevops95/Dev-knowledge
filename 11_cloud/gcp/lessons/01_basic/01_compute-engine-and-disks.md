@@ -1,7 +1,7 @@
 # 🖥️ GCP Compute Engine + Persistent Disks
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
@@ -269,6 +269,21 @@ Yêu cầu "2-10 instance tự co giãn" của sếp chính là việc của **M
 - **Auto-healing** — tự tạo lại VM nếu health check báo unhealthy.
 - **Rolling update** — deploy version mới không downtime.
 - **Multi-zone** — rải máy qua nhiều zone để chịu lỗi tốt hơn.
+
+Sơ đồ dưới mô tả luồng một request đi qua Load Balancer xuống MIG, và cách autoscaler đọc CPU để tăng/giảm số VM:
+
+```mermaid
+flowchart LR
+    client["Client"] --> lb["Load Balancer (HTTPS)"]
+    lb --> mig["MIG (2-10 VM)"]
+    mig --> vm1["VM (zone a)"]
+    mig --> vm2["VM (zone b)"]
+    mig --> vm3["VM (zone c)"]
+    autoscaler["Autoscaler"] -->|"CPU > 60% → thêm VM"| mig
+    autoscaler -->|"CPU thấp → bớt VM"| mig
+```
+
+Điểm cốt lõi: client không bao giờ chạm thẳng vào VM — mọi traffic đi qua LB, còn autoscaler âm thầm điều chỉnh số máy theo tải để vừa đủ phục vụ mà không lãng phí.
 
 Bốn bước dưới đây dựng trọn pipeline từ khuôn máy đến Load Balancer.
 
@@ -797,3 +812,4 @@ gcloud compute instances create batch-worker \
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 GCP basic. Machine type 10 family + PD 6 type + custom image + startup script + MIG + autoscale + Live Migration + CUD/SUD/Spot pricing + IAP SSH + hands-on FastAPI MIG + 8 pitfalls. Pattern theo AWS lesson 01 EC2.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard (lời dẫn trước mỗi bảng/code/list, mạch WHY→WHAT→HOW, câu phân tích sau); chuẩn hoá metadata sang "Yêu cầu trước" + Alert Box mục tiêu; Glossary chuyển sang 3 cột; thêm mục Cheatsheet; nav chuẩn ⬅️/➡️/↑ với link-text = tiêu đề thật + xoá nhãn "(sắp viết)" cho bài 02 đã tồn tại; sửa code-error: `--custom-vm-type` → `--machine-type=n2-custom-6-12288`, regional MIG dùng `--region` nhất quán, thêm systemd unit file cho FastAPI trước `systemctl enable`; inline lại lệnh template/MIG/LB ở hands-on thay cho "(Xem section 4)"; làm rõ IOPS/throughput đĩa là "tối đa, tunable".
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ MIG autoscale (LB → MIG → VM + autoscaler) cho trực quan.

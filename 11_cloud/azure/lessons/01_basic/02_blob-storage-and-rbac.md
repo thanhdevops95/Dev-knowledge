@@ -1,7 +1,7 @@
 # 📦 Azure Blob Storage + RBAC
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.2\
+> **Phiên bản:** v2.0.3\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 02/5)\
@@ -346,6 +346,21 @@ Phần trên nói "RBAC" nhiều lần, giờ là lúc làm rõ nó hoạt độ
 | `Storage Blob Data Reader` | Read only |
 | `Storage Account Contributor` | Quản lý account (control plane), **không** access data |
 | `Reader` | Quản lý metadata only |
+
+Sơ đồ dưới tóm tắt chuỗi RBAC data plane: một identity (user/service principal) được gán một role tại một scope cụ thể, và chính scope đó quyết định identity chạm tới được những blob nào.
+
+```mermaid
+flowchart LR
+    ID["Identity (user / SP / Managed Identity)"] --> RA["Role assignment"]
+    RA --> ROLE["Role: Storage Blob Data Reader/Contributor/Owner"]
+    RA --> SCOPE{"Scope?"}
+    SCOPE -->|Container| C["Chỉ product-images"]
+    SCOPE -->|Storage Account| A["Mọi container trong account"]
+    C --> PERM["Quyền đọc/ghi blob"]
+    A --> PERM
+```
+
+Điểm cần nhớ: thiếu mắt xích role data plane thì dù identity có quyền control plane to tới đâu vẫn nhận 403, và scope càng hẹp (container) thì càng đúng least-privilege.
 
 Đây là cái bẫy lớn nhất: có `Owner` hay `Contributor` ở cấp subscription **không** tự động cho bạn đọc blob — bạn vẫn nhận lỗi 403 cho tới khi được gán riêng một role data plane. Lệnh dưới gán quyền read cho một user, scope tới đúng container `product-images`:
 
@@ -966,3 +981,4 @@ Gom các lệnh `az storage ...` và `az role assignment ...` hay dùng nhất t
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative (lời dẫn 2-3 câu trước mỗi bảng/code/list, câu phân tích sau, câu bắc cầu giữa section); thay khối Pros/Cons điện tín bằng văn xuôi. Đổi cột "SLA durability" → "Durability (năm)" cho đúng nghĩa (durability theo năm, không phải SLA availability). Đổi `--expiry` SAS từ timestamp cứng (đã quá hạn) sang giá trị động `$(date ...)`. Chuẩn hoá metadata field "Yêu cầu trước", Glossary 3 cột (Thuật ngữ/Tiếng Việt/Giải thích), và nav (⬅️/➡️/↑ + link-text = tiêu đề H1 thực + 3 sub chuẩn).
 - **v2.0.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.
 - **v2.0.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.3 (11/06/2026)** — Bổ sung sơ đồ chuỗi RBAC data plane (identity → role assignment → scope → quyền trên Blob) cho trực quan.

@@ -1,7 +1,7 @@
 # 🆘 Multi-cloud — Disaster Recovery + Architecture Patterns
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 04/5)\
@@ -155,6 +155,17 @@ Production region A ←──────────→ Production region B
 | Pilot Light | 10-60p | vài giây | 15-25% | Trung bình |
 | Warm Standby | 1-15p | < 1p | 30-50% | Trung bình - Cao |
 | Active-Active | < 1p | 0 - vài giây | 100-150% | Rất cao |
+
+Sắp 4 pattern trên một trục đánh đổi để thấy quy luật: đi từ trái sang phải, RTO/RPO co lại nhưng chi phí phình ra.
+
+```mermaid
+flowchart LR
+    BR["Backup-Restore\nRTO: giờ-ngày | 5-10% prod"] --> PL["Pilot Light\nRTO: 10-60p | 15-25% prod"]
+    PL --> WS["Warm Standby\nRTO: 1-15p | 30-50% prod"]
+    WS --> AA["Active-Active\nRTO: < 1p | 100-150% prod"]
+```
+
+→ Chọn pattern là chọn điểm dừng trên trục này: kéo RTO/RPO xuống thấp tới đâu thì ví tiền phải mở rộng tới đó.
 
 ---
 
@@ -704,3 +715,4 @@ Còn lại, single-cloud multi-region là mặc định vì rẻ hơn, đồng b
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Multi-cloud. RTO/RPO + 4 DR pattern + multi-cloud DR vs multi-region + 3 architecture pattern (native/portable/agnostic) + case study AWS→GCP migration 6 tháng + DR runbook template + FinOps multi-cloud + hands-on Terraform multi-provider + 8 pitfalls. Hoàn thành Multi-cloud-strategies basic cluster.
 - **v1.1.0 (01/06/2026)** — Việt hoá narrative các bảng/section còn ở dạng điện tín (RTO/RPO, 4 DR pattern, multi-cloud vs multi-region, 3 architecture pattern, case study, runbook, FinOps); thêm lời dẫn trước và câu phân tích sau mỗi bảng/diagram; thêm ngôn ngữ `text` cho các fence ASCII diagram. Chuẩn hoá khung framework: đổi field `Prerequisites` → `Yêu cầu trước` (link text = tiêu đề thực), Glossary sang 3 cột `EN | VN | Giải thích`, Pitfall sang định dạng `❌ Cạm bẫy N` (Triệu chứng/Nguyên nhân/Cách tránh) + 3 `✅ Best practice`, Self-check sang 5 câu Q&A có `<details>` đáp án, nav sang marker `⬅️/↑` + 3 sub-heading chuẩn. Sửa domain `acmeshop.vn` → `acmeshop.io` (3 chỗ) cho nhất quán toàn cụm.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ trục đánh đổi 4 DR pattern (RTO/RPO giảm, chi phí tăng) cho trực quan.

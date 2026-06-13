@@ -1,7 +1,7 @@
 # 🎓 Cloud computing là gì? — IaaS / PaaS / SaaS + landscape 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -176,6 +176,31 @@ IaaS              │   Virtualization │    │
 ```
 
 → Đọc sơ đồ theo chiều dọc: leo lên tầng nào thì phần "bạn quản lý" co lại bấy nhiêu, và mức phụ thuộc vendor (*lock-in*) tăng theo.
+
+Sơ đồ dưới gom lại cùng một ý theo 4 cột On-prem / IaaS / PaaS / SaaS, để thấy rõ ranh giới "ai quản gì" dịch dần về phía vendor khi bạn leo lên tầng cao hơn:
+
+```mermaid
+flowchart TD
+    subgraph ONP["On-prem"]
+        O1["App + Data — bạn"]
+        O2["Runtime + OS + Hardware — bạn"]
+    end
+    subgraph IAAS["IaaS"]
+        I1["App + Data + OS — bạn"]
+        I2["Virtualization + Hardware — vendor"]
+    end
+    subgraph PAAS["PaaS"]
+        P1["App + Data — bạn"]
+        P2["Runtime + OS + Hardware — vendor"]
+    end
+    subgraph SAAS["SaaS"]
+        S1["Data/config — bạn"]
+        S2["App + toàn bộ stack — vendor"]
+    end
+    ONP --> IAAS --> PAAS --> SAAS
+```
+
+Đọc từ trái sang phải: phần ô "bạn" thu nhỏ dần, đổi lại bạn càng đỡ phải lo vận hành nhưng càng phụ thuộc vendor.
 
 🪞 **Ẩn dụ**: *Các service model giống đúng các mức độ "ăn ngoài":*
 
@@ -664,3 +689,4 @@ Bốn bài kế tiếp trong cụm tiếp tục đào sâu từng mảng nền t
 - **v1.1.0 (25/05/2026)** — Thêm lời dẫn trước phần Bonus models, Stack diagram, Timeline, Market share 2026 và Decision matrix.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative (gỡ "điện tín" EN: You manage/Vendor manages, Pros/Cons/Best for, Half-truth); thêm lời dẫn trước và câu phân tích sau mỗi bảng/list/diagram, câu bắc cầu giữa các section. Bổ sung 3 section chuẩn cụm: Cạm bẫy & Best practice, Tự kiểm tra (Self-check) dạng <details>, Tra cứu nhanh (Cheatsheet). Chuẩn hoá metadata (Yêu cầu trước), Glossary 3 cột, nav (⬅️/➡️/↑ + tiêu đề thực) và bỏ nhãn "(sắp viết)". Sửa "5GB S3" của GCP thành "5GB Cloud Storage (GCS)". Giữ nguyên 100% số liệu/code/tên dịch vụ.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ ranh giới "ai quản gì" theo On-prem/IaaS/PaaS/SaaS cho trực quan.

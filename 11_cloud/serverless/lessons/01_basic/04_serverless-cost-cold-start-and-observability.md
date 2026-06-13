@@ -1,9 +1,9 @@
 # 💰 Serverless — Cost, Cold Start, Observability
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [Serverless patterns & anti-patterns](03_serverless-patterns-and-anti-patterns.md) ✅
@@ -137,6 +137,23 @@ Response
 ```
 
 → Cold start = INIT phase + EXEC phase. Warm = chỉ EXEC.
+
+Đặt 1 request trên trục thời gian để thấy cold start "đắp" thêm cả pha INIT lên trước pha EXEC — còn warm chỉ còn lại EXEC:
+
+```mermaid
+flowchart LR
+    subgraph COLD["Request cold (lần đầu)"]
+        direction LR
+        I1["Container start"] --> I2["Runtime init"] --> I3["Init code: import + DB connect"] --> X1["EXEC: handler logic"]
+    end
+    subgraph WARM["Request warm (reuse)"]
+        direction LR
+        X2["EXEC: handler logic"]
+    end
+    COLD --> WARM
+```
+
+Toàn bộ pha INIT (tô đậm trong cold) là phần Lambda vẫn tính tiền nhưng không sinh giá trị — đó là lý do giảm bundle size, chọn runtime nhẹ hay provisioned concurrency đều nhắm cắt đúng pha này.
 
 ### Thời gian cold start theo ngôn ngữ
 
@@ -549,3 +566,4 @@ Mobile app pull large JSON 500 KB × 1M req = 500 GB egress × $0.09 = $45.
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 04 (cuối basic) Serverless. Pricing 4 vendor + break-even + hidden cost (NAT/egress/log) + cold start anatomy + 4 mitigation strategy + 3 pillars observability (log/metric/trace) + sampling + debug workflow + hands-on audit Acme Shop bill + 8 pitfalls. Hoàn thành Serverless basic cluster.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước, Level bỏ hậu tố "(bài 04/5)"); sửa số liệu Cloudflare Workers CPU "50ms" → "30s/request (Standard)" cho khớp bài 00/01; sửa giá Cloud Functions Gen2 vCPU-s thiếu số 0 ($0.0000024 → $0.000024); đổi 8 cạm bẫy sang dạng "❌ Cạm bẫy / ✅ Best practice"; Glossary chuyển 3 cột (Thuật ngữ | Tiếng Việt | Giải thích); nav đồng bộ marker ⬅️/↑ + link-text = tiêu đề thực + 3 sub-heading chuẩn.
+- **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ cấu thành cold start trên timeline 1 request (INIT vs EXEC, cold vs warm) cho trực quan.

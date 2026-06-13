@@ -1,7 +1,7 @@
 # 🎓 FaaS đào sâu — Cold start, isolate vs container, runtime & duration
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -81,6 +81,25 @@ Bài này dạy bạn trả lời cả 2 — hiểu **bên dưới ngầm chạy
                           → tái sử dụng cho
                           invocation kế tiếp
 ```
+
+Tóm tắt vòng đời 1 lần gọi function dưới dạng sơ đồ — cùng 1 event nhưng rẽ 2 nhánh tuỳ container đã warm hay chưa:
+
+```mermaid
+flowchart TD
+    E["Event trigger"] --> R{"Có container warm?"}
+    R -->|"Có (warm)"| W["Run handler ~10ms"]
+    R -->|"Không (cold)"| C1["Provision microVM"]
+    C1 --> C2["Download code"]
+    C2 --> C3["Init runtime"]
+    C3 --> C4["Init code ngoài handler"]
+    C4 --> W
+    W --> RESP["Trả response"]
+    RESP --> IDLE["Idle 5-15 phút"]
+    IDLE --> FREEZE["Freeze / tắt container"]
+    FREEZE -.->|"Event kế tiếp"| E
+```
+
+Sơ đồ cho thấy phần đắt đỏ của cold start (4 bước init) chỉ chạy 1 lần; mọi invocation sau đó đi nhánh warm cho tới khi container bị freeze sau giai đoạn idle.
 
 ### Vì sao có 2 path?
 
@@ -984,3 +1003,4 @@ gcloud run services logs read SVC --region us-central1
 - **v1.0.0 (24/05/2026)** — FaaS deep cho Basic cluster. Execution model + 3 engine sandbox (container/microVM/V8 isolate) + runtime comparison + memory↔CPU coupling + concurrency Lambda vs Cloud Run + max duration + hands-on đo cold start. 6 pitfall + 3 best practice + 5 self-check. Cross-link AWS/GCP serverless lessons.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước" (link-text = tiêu đề thực); header Glossary sang `| Thuật ngữ | Tiếng Việt | Giải thích |`; chuẩn hoá nav (marker `⬅️/➡️/↑`, 3 sub `🧭/🧩/🌐`, link-text khớp H1 bài đích). Giữ nguyên toàn bộ nội dung kỹ thuật, số liệu, code.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng đời 1 lần gọi function (cold vs warm path) cho trực quan.

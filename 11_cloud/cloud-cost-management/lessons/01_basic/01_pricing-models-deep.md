@@ -1,7 +1,7 @@
 # 🎓 Pricing Models — On-demand / Reserved / Spot / Savings Plans
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic\
@@ -418,7 +418,20 @@ Acme Shop: 10 VPC × 3 AZ = 30 NAT Gateway = **$990/tháng** chỉ để private
 
 ## 8️⃣ Đáp lại tình huống Acme Shop
 
-Quay lại câu hỏi đầu bài. Khuyến nghị:
+Trước khi chốt, gói lại logic chọn pricing model thành 1 cây quyết định theo độ ổn định của workload:
+
+```mermaid
+flowchart TD
+    Q1{"Workload chịu được interrupt?"}
+    Q1 -->|"Có (stateless/batch)"| SPOT["Spot / Preemptible (−60-90%)"]
+    Q1 -->|"Không"| Q2{"Chạy ổn định 24/7 dài hạn?"}
+    Q2 -->|"Không (burst/dev/test)"| OD["On-demand (0% discount)"]
+    Q2 -->|"Có"| Q3{"Chắc chắn > 24 tháng?"}
+    Q3 -->|"Chưa chắc"| SP["Compute Savings Plan 1-year (flex)"]
+    Q3 -->|"Chắc"| RI["Reserved 3-year (−50-72%)"]
+```
+
+→ Cây này map thẳng workload của Acme Shop: web steady → Savings Plan, batch đêm → Spot, dev/test → On-demand. Khuyến nghị:
 
 | Workload | % capacity | Pricing model | Lý do |
 |---|---|---|---|
@@ -634,3 +647,4 @@ Workaround: chuyển sang **Linux** nếu app cho phép, miễn license Windows 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 cluster cloud-cost-management. 5 pricing model deep dive (On-demand + RI/CUD/RVI + Savings Plans + Spot + Hybrid Benefit) + commitment math + break-even tính cụ thể + 4 hidden cost (egress, NAT Gateway, IPv4 charge 2024+, log runaway) + Acme Shop $50k → $24.75k worked example + 5 pitfalls + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Chuẩn hóa nav (marker ⬅️/➡️/↑ + link text = tiêu đề H1 thật, 3 sub 🧭/🧩/🌐), metadata "Yêu cầu trước", Glossary header "Thuật ngữ | Tiếng Việt | Giải thích". Sửa factual: GCP Spot VM max duration "Không giới hạn" (cap 24h chỉ áp Preemptible legacy). Thống nhất định nghĩa break-even (~22 tháng) giữa §6 và Self-check Q3.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ cây quyết định chọn pricing model theo độ ổn định workload cho trực quan.

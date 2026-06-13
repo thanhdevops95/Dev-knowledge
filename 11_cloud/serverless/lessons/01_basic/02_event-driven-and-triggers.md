@@ -1,7 +1,7 @@
 # 🎓 Event-driven & Triggers — HTTP, Queue, Storage, Stream, Schedule
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic\
@@ -820,13 +820,17 @@ Events:
 
 ### ✅ Best practice: Pattern S3 → EventBridge → multiple Lambda
 
-```
-S3 → EventBridge → Lambda A (resize)
-                → Lambda B (analyze EXIF)
-                → Lambda C (virus scan)
+Mô hình fan-out: 1 event đi qua event bus rồi kích hoạt nhiều consumer chạy song song, mỗi consumer làm 1 việc độc lập.
+
+```mermaid
+flowchart LR
+    P["Producer: S3 upload"] --> BUS["EventBridge (event bus)"]
+    BUS --> A["Lambda A: resize"]
+    BUS --> B["Lambda B: analyze EXIF"]
+    BUS --> C["Lambda C: virus scan"]
 ```
 
-→ EventBridge cho phép multiple targets từ 1 event. S3 notification không.
+→ EventBridge cho phép multiple targets từ 1 event nên 3 function chạy đồng thời, độc lập; S3 notification thuần không làm được fan-out này.
 
 ### ✅ Best practice: Powertools / Middy / Serverless plugins
 
@@ -1323,3 +1327,4 @@ ddb.update_item(..., ConditionExpression='status = :pending')
 - **v1.0.0 (24/05/2026)** — Event-driven & triggers cho Basic cluster. 6 nhóm trigger (HTTP/Queue/Storage/DB stream/Schedule/Webhook) + push vs pull invocation + exactly-once myth + idempotency patterns + DLQ + event filtering. Acme Shop scenario charge trùng + fix step-by-step. 6 pitfall + 2 best practice + 5 self-check.
 - **v1.1.0 (01/06/2026)** — Sửa QA: vá lỗi code Cách 2 (ddb.update_item truyền ExpressionAttributeValues hai lần → mất ':s', và 'status' là reserved word) bằng cách gộp dict + alias #st qua ExpressionAttributeNames; đổi field "Prerequisites" → "Yêu cầu trước"; chuẩn hoá header Glossary sang "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá nav (marker ⬅️/➡️/↑, link-text = tiêu đề H1 thực, 3 sub Định hướng/Chủ đề liên quan/Tài nguyên).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ fan-out event (1 event → event bus → nhiều consumer song song) cho trực quan.
