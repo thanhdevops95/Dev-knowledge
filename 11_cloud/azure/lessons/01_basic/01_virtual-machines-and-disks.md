@@ -1,7 +1,7 @@
 # 🖥️ Azure VM + Managed Disks — Compute foundation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 01/5)\
@@ -128,6 +128,19 @@ Nếu bạn đã quen AWS hoặc GCP, bảng quy đổi sau giúp chuyển kiế
 ## 2️⃣ Managed Disks — Block storage
 
 Chọn được VM rồi, câu hỏi tiếp theo là gắn ổ đĩa nào. Azure **Managed Disk** là *block storage* (ổ đĩa khối, giống ổ cứng gắn vào máy) do Azure tự quản lý vòng đời — bạn không phải lo Storage Account hay replication. Điều quyết định ở đây là chọn đúng *loại* disk, vì nó chi phối cả hiệu năng lẫn hoá đơn.
+
+Trước khi đi vào từng loại disk, cần thấy rõ một điều trừu tượng: "VM" trên Azure thực chất là **nhiều resource rời nhau ghép lại** — compute, disk, NIC đều có vòng đời riêng:
+
+```mermaid
+flowchart TB
+    VM["VM<br/>(vCPU + RAM)"] --- NIC["NIC<br/>(kết nối VNet)"]
+    VM --- OSD["OS disk<br/>(Managed Disk)"]
+    VM --- DD["Data disk 0..n<br/>(Managed Disk)"]
+    OSD -. "vòng đời độc lập" .-> SN[("Snapshot / Backup")]
+    DD -. "detach → gắn sang VM khác" .-> SN
+```
+
+→ Xoá VM không tự xoá data disk hay NIC — chính sự tách rời này cho phép snapshot, detach rồi gắn disk sang VM khác mà dữ liệu còn nguyên.
 
 ### Các loại disk năm 2026
 
@@ -873,3 +886,4 @@ az group delete --name rg-prod-web --yes --no-wait
 - **v1.0.0 (24/05/2026)** — Bài 01 cụm Azure basic. VM size families (B/D/E/F/L/N) + Managed Disks (Standard/Premium/Ultra) + AZ/Availability Set/VMSS + Spot/RI/Hybrid Benefit pricing + cloud-init + JIT/Bastion + Snapshot/Backup + hands-on VMSS FastAPI auto-scale + 9 pitfalls. Mirror bài AWS EC2+EBS.
 - **v2.0.0 (01/06/2026)** — Viết lại toàn bộ prose từ kiểu "điện tín" sang tiếng Việt narrative (lời dẫn trước mỗi bảng/code/list, câu phân tích sau bảng, câu bắc cầu giữa các section); giữ nguyên toàn bộ nội dung kỹ thuật, số liệu và code. Chuẩn hoá heading framework (Self-check/Cheatsheet/Cạm bẫy) + thêm mục Cheatsheet mới; đổi metadata "Prerequisites" → "Yêu cầu trước"; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích) + bổ sung IOPS; nav theo marker ⬅️/➡️/↑ với link-text là tiêu đề thật của bài đích + 3 sub chuẩn; fence output gắn ngôn ngữ `text`/`yaml`.
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ cấu tạo VM (compute + OS/data disk + NIC, vòng đời tách rời) cho trực quan.

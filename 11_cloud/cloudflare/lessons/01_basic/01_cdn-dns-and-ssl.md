@@ -1,7 +1,7 @@
 # 🌐 Cloudflare CDN + DNS + SSL — Foundation của edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 01/5)\
@@ -299,6 +299,25 @@ Then:
 ## 5️⃣ Hành vi cache — vì sao cache miss
 
 🪞 **Ẩn dụ**: *Cache Cloudflare là **kho hàng tại trạm kiểm soát**. Hàng vào 1 lần, trạm giữ lại; lần sau khách hỏi cùng món → đưa từ kho luôn, không cần ra hậu trường (origin). Cache miss = "không có trong kho, phải đi lấy".*
+
+Hành trình đầy đủ của 1 request qua Cloudflare — từ DNS resolve đến cache HIT/MISS — gói gọn trong sơ đồ sau:
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant E as Edge POP
+    participant O as Origin
+    U->>E: DNS resolve + GET /logo.png
+    alt Cache HIT
+        E-->>U: "200 (trả ngay từ cache)"
+    else Cache MISS
+        E->>O: Forward request
+        O-->>E: "200 + Cache-Control"
+        E-->>U: "200 (lưu vào cache cho lần sau)"
+    end
+```
+
+→ HIT trả ngay tại POP gần user (5-30ms); MISS phải về origin nhưng response được cache lại — request sau cùng URL thành HIT.
 
 ### Hành vi cache mặc định
 
@@ -736,3 +755,4 @@ Cloudflare quyết định không cache response này. Thường do origin gửi
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 01 cluster Cloudflare basic. DNS authoritative + 1.1.1.1 + proxied vs DNS-only + 4 SSL modes + Universal SSL + Origin CA + Page Rules → Rules engine migration + Cache Rules 2024 syntax + cf-cache-status + cache analytics + hands-on Acme Shop setup full + 8 pitfalls. Pattern theo AWS/GCP lesson 01.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata/nav theo gold standard: đổi field "Prerequisites" → "Yêu cầu trước"; nav dùng marker ⬅️/➡️/↑ với link text là tiêu đề H1 thực của bài đích; 3 sub-heading thành 🧭 Định hướng lộ trình học / 🧩 Các chủ đề có thể bạn quan tâm / 🌐 Tài nguyên tham khảo khác; Glossary chuyển sang 3 cột (Thuật ngữ | Tiếng Việt | Giải thích).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ flow request qua Cloudflare (DNS → edge → cache HIT/MISS → origin) cho trực quan.

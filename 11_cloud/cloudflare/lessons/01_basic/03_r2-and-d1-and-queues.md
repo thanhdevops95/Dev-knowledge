@@ -1,7 +1,7 @@
 # 💾 Cloudflare R2 + D1 + Queues — Storage & data layer ở edge
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 03/5)\
@@ -563,6 +563,21 @@ End-to-end pipeline:
 5. Consumer Worker resize ảnh thành thumb/medium/large.
 6. `GET /api/products/:id` trả product info + URL ảnh các size.
 
+Ba mảnh storage ghép thành 1 app hoàn chỉnh — Worker đứng giữa điều phối, Queue tách phần xử lý nặng ra nền:
+
+```mermaid
+flowchart LR
+    C["Client<br/>upload ảnh"] --> W["Worker<br/>(producer)"]
+    W --> R2["R2<br/>(file ảnh)"]
+    W --> D1["D1<br/>(metadata SQL)"]
+    W --> Q["Queue<br/>(resize job)"]
+    Q --> CW["Worker<br/>(consumer, async)"]
+    CW --> R2
+    CW --> D1
+```
+
+→ Producer trả response ngay sau khi ghi R2 + D1 + đẩy Queue; consumer resize chạy nền — user không phải chờ phần việc nặng.
+
 ### Bước 1 — Chuẩn bị project
 
 ```bash
@@ -1034,3 +1049,4 @@ Dùng **Sessions API** (`db.withSession('first-primary')`). Session sticky 1 rep
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá QA: đổi field metadata "Prerequisites" → "Yêu cầu trước"; sửa typo "Triệu chextual" → "Triệu chứng" ở pitfall D1 SELECT 6MB; Glossary chuyển sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; đồng bộ nav (⬅️/➡️/↑) với link-text là tiêu đề thật của bài đích và 3 sub-heading chuẩn (🧭 Định hướng / 🧩 Chủ đề liên quan / 🌐 Tài nguyên).
 - **v1.1.1 (10/06/2026)** — Làm rõ tuyên bố "R2 không control region (Q1 2026)" ở bảng "Khi R2 KHÔNG thắng": gắn mốc *tính đến Q1 2026* và ghi chú khả năng control region (Jurisdictional Restrictions/Location Hints) là dự kiến/đã ra tuỳ thời điểm, nên kiểm tra docs hiện hành.
 - **v1.1.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.3 (11/06/2026)** — Bổ sung sơ đồ pipeline Worker + R2 + D1 + Queues (producer/consumer) cho trực quan.

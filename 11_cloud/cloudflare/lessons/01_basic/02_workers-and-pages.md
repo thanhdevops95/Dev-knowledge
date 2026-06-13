@@ -1,7 +1,7 @@
 # ⚡ Cloudflare Workers + Pages — Edge compute & static + dynamic
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 02/5)\
@@ -56,6 +56,20 @@ Bài này gỡ rối: Workers làm được gì + không làm được gì, kế
 | **Triggers** | API Gateway, S3, SQS, EventBridge, ... | HTTP, Cron, Queues, Email |
 | **Region** | Single region | 320+ POPs global |
 | **Pricing** | Per ms-GB + invocation | Per request (no GB-s) |
+
+Khác biệt kiến trúc cốt lõi nằm ở đường đi của request — Lambda phải khởi container trong 1 region, Workers tạo isolate ngay tại POP gần user:
+
+```mermaid
+flowchart LR
+    subgraph LAM["AWS Lambda (region-first)"]
+        R1["Request"] --> C1["Khởi container<br/>100-500ms cold start"] --> X1["Chạy code"]
+    end
+    subgraph CFW["Cloudflare Workers (edge-first)"]
+        R2["Request"] --> P2["POP gần user"] --> I2["V8 isolate<br/>~0ms cold start"] --> X2["Chạy code"]
+    end
+```
+
+→ Không có "server trung tâm" để khởi động: V8 runtime đã load sẵn ở mọi POP, isolate mới chỉ là ngăn memory tạo trong 1-5ms.
 
 ### Hello Worker
 
@@ -918,3 +932,4 @@ Giữ Worker alive đến khi promise resolve, kể cả khi response đã trả
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 02 cluster Cloudflare basic. Workers V8 isolate vs Lambda + KV eventual consistent + Durable Objects strong consistent + Pages static + Pages Functions + Service Bindings + Cron triggers + hands-on Hono.js REST API Acme Shop với KV cache + 8 pitfalls. Pattern theo AWS/GCP lesson 04 (compute).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ so sánh Workers V8 isolate vs Lambda container (cold start) cho trực quan.

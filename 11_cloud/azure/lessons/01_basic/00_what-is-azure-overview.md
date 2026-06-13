@@ -1,7 +1,7 @@
 # ☁️ Azure — Tổng quan + account setup + az CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026\
 > **Level:** Basic (bài 00/5)\
@@ -194,6 +194,18 @@ Tenant (Entra ID directory — 1 tổ chức)
 | **Subscription** | Đơn vị **billing** + quota + isolation; mỗi resource thuộc 1 subscription | AWS Account / GCP Project |
 | **Resource Group** | Container logical để group resource cùng vòng đời | (không có exact analog — gần nhất AWS Tag/CloudFormation Stack) |
 | **Resource** | VM, Disk, Storage Account, ... | (same) |
+
+Bảng trên dễ quên vai trò từng tầng; sơ đồ dưới cô đọng lại "tầng nào lo việc gì" trong hierarchy này:
+
+```mermaid
+flowchart TB
+    T["Tenant (Entra ID)<br/>danh tính của tổ chức"] --> MG["Management Group<br/>policy + RBAC kế thừa"]
+    MG --> S["Subscription<br/>billing + quota + isolation"]
+    S --> RG["Resource Group<br/>gom theo vòng đời"]
+    RG --> R["Resource<br/>VM · Disk · Storage Account"]
+```
+
+→ Quy tắc nhớ nhanh: policy/RBAC gán ở tầng nào sẽ **kế thừa xuống** mọi tầng dưới, còn tiền (billing) thì chốt ở đúng một tầng — Subscription.
 
 ### Vì sao "Resource Group" là khái niệm độc đáo của Azure
 
@@ -987,3 +999,4 @@ Bảng quy đổi nhanh tên service tier 1 sang AWS/GCP (dùng để chuyển k
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: bỏ Claude khỏi mô tả Azure OpenAI (Azure OpenAI chỉ phục vụ model OpenAI; Claude qua Bedrock/Vertex AI); đổi field metadata "Prerequisites" → "Yêu cầu trước"; chuẩn hoá bảng Glossary sang 3 cột "Thuật ngữ | Tiếng Việt | Giải thích"; chuẩn hoá khối Liên kết & Tài nguyên (marker ⬅️/➡️/↑, 3 sub-heading canonical, link-text = tiêu đề thực của bài đích).
 - **v1.1.1 (10/06/2026)** — Bổ sung mục Tra cứu nhanh (Cheatsheet) cho đồng bộ với cụm Azure.
 - **v1.1.2 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.3 (11/06/2026)** — Bổ sung sơ đồ hierarchy Tenant → Management Group → Subscription → Resource Group cho trực quan.

@@ -1,7 +1,7 @@
 # ☁️ Cloudflare — Tổng quan, account hierarchy, wrangler CLI
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
 > **Cập nhật:** 11/06/2026
 > **Level:** Basic (bài 00/5)\
@@ -49,6 +49,18 @@ Bạn login Cloudflare dashboard lần đầu → bị lạ:
 **Cloudflare** = công ty hạ tầng internet thành lập 2009, ban đầu là DDoS protection + CDN. Hiện sở hữu **mạng edge lớn nhất thế giới**: **320+ POPs** (Points of Presence) ở **120+ quốc gia**, trong vòng 50ms latency của 95% dân số online toàn cầu.
 
 Khác AWS/GCP, Cloudflare **không phân loại theo region**. Mọi service deploy 1 lần → tự đẩy ra toàn bộ POP. Request từ user vào POP gần nhất xử lý ngay tại đó — chỉ chạm origin (AWS S3, server bạn, ...) khi thực sự cần.
+
+Sơ đồ dưới tóm gọn mô hình reverse proxy edge-first — trái tim của mọi service Cloudflare:
+
+```mermaid
+flowchart LR
+    U["User"] --> POP["POP gần nhất<br/>cache + WAF + SSL"]
+    POP -- "cache HIT: trả ngay" --> U
+    POP -- "chỉ khi cần" --> O["Origin<br/>(AWS S3 / VPS)"]
+    O --> POP
+```
+
+→ Phần lớn request kết thúc ngay tại edge; origin chỉ gánh phần nhỏ traffic — vừa giảm latency vừa giảm egress.
 
 ### So sánh paradigm
 
@@ -724,3 +736,4 @@ Cloudflare là 1 trong những thành viên sáng lập **Bandwidth Alliance** +
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Bài 00 cluster Cloudflare basic. Overview Cloudflare edge-first paradigm + 3 trụ cột (Network/Security/Developer Platform) + Account→Zone hierarchy + wrangler CLI setup + Free Tier 2026 vs AWS/GCP + hands-on first Worker live tại 320+ POPs + 8 pitfalls. Pattern theo AWS/GCP lesson 00.
 - **v1.1.0 (01/06/2026)** — Sửa lỗi QA: gắn ngôn ngữ cho các code fence bare (cây thư mục/flow/scope token/path dùng `text`, file `.env` dùng `bash`); chuẩn hoá phần "Liên kết & Tài nguyên" theo gold standard (marker ⬅️/➡️/↑, link-text = tiêu đề thực, 3 sub-heading canonical: Định hướng lộ trình học / Các chủ đề có thể bạn quan tâm / Tài nguyên tham khảo khác).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ reverse proxy edge-first (user → POP → origin) cho trực quan.
