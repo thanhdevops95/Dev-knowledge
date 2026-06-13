@@ -1,9 +1,9 @@
 # 🎓 Optimization Tactics — Compute / Storage / Network / Database
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026
+> **Cập nhật:** 13/06/2026
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Tagging, Allocation & Showback Reports](02_tagging-allocation-and-showback.md)
@@ -115,7 +115,7 @@ az advisor recommendation list \
 #### Target tracking đúng metric
 
 Engineer hay set:
-```python
+```yaml
 TargetTrackingConfig:
   PredefinedMetric: ASGAverageCPUUtilization
   TargetValue: 50.0  # ⚠️ default copy-paste
@@ -759,3 +759,4 @@ Cách giảm:
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá khung: metadata "Yêu cầu trước", header Glossary 3 cột tiếng Việt, mục Liên kết & Tài nguyên theo marker chuẩn (⬅️/➡️/↑) với link-text là tiêu đề bài đích và 3 sub 🧭/🧩/🌐.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng lặp tối ưu cost (đo → tìm waste → hành động → đo lại) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa nhãn fence: block cấu hình YAML (TargetTrackingConfig) gắn ```python → ```yaml.

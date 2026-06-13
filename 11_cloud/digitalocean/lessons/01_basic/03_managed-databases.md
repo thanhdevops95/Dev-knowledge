@@ -1,9 +1,9 @@
 # 🗃️ Managed Databases — Postgres / MySQL / Redis / MongoDB / Kafka
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Spaces — Object Storage + CDN built-in](02_spaces-object-storage-and-cdn.md), hiểu SQL cơ bản, đã dùng Postgres/Redis
@@ -432,7 +432,7 @@ doctl databases pool create $CLUSTER_ID \
 
 ### Bước 5 — Config app connection
 
-```python
+```bash
 # Trên Droplet, /opt/acmeshop/.env
 DATABASE_URL=postgresql://app_user:PASSWORD@private-postgres-1234.b.db.ondigitalocean.com:25061/app-pool?sslmode=require
 ```
@@ -723,3 +723,4 @@ Combined: zero attack surface từ internet.
 - **v1.1.0 (01/06/2026)** — Chuẩn hoá metadata (Yêu cầu trước) + Glossary header 3 cột + nav theo gold-standard (⬅️/➡️/↑ Về cụm, link-text = tiêu đề thực, 3 sub Định hướng/Chủ đề/Tài nguyên). Thêm lời dẫn trước các bảng (5 engine, tier matrix) và viết mượt đoạn connection pooling. Giữ nguyên toàn bộ nội dung kỹ thuật + số liệu (đã verify max_connections=22 cho Basic 1GB là đúng: 25/GB trừ 3 reserved).
 - **v1.1.1 (10/06/2026)** — Gắn mốc thời gian *tính đến 2026* cho bảng giá managed DB ở §3 (giá biến động theo thời gian) + nhắc đối chiếu trang pricing chính thức. Không đổi con số.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ Standby vs Read replica (primary + standby failover + replica read-only) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa nhãn fence: block `.env` gắn ```python → ```bash.

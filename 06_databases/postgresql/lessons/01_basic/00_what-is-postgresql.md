@@ -1,7 +1,7 @@
 # 🎓 PostgreSQL là gì? — RDBMS #1 cho backend 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 23/05/2026\
 > **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
@@ -342,7 +342,7 @@ Sau install, có user **`postgres`** = superuser. Best practice:
 
 ### FastAPI (SQLModel/SQLAlchemy)
 
-```python
+```bash
 # .env
 DATABASE_URL=postgresql+psycopg2://myapp:secret@localhost:5432/myapp
 ```
@@ -610,3 +610,4 @@ import { PrismaClient } from '@prisma/client';   // ORM
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ MVCC (2 transaction song song) cho trực quan.
 - **v1.1.2 (13/06/2026)** — Sửa nhất quán tuổi đời Postgres: "~35 năm" → "~40 năm" (từ 1986) cho khớp mốc "40 năm" ở phần timeline.
+- **v1.1.3 (13/06/2026)** — Sửa nhãn fence: block `.env` (DATABASE_URL) gắn ```python → ```bash cho đúng syntax highlight.
