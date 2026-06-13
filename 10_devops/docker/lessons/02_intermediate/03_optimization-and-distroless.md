@@ -1,9 +1,9 @@
 # 🎓 Optimization & Distroless — Từ 1.2 GB xuống 85 MB
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.1\
+> **Phiên bản:** v1.2.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Image Security & Supply Chain — Scan, Sign, Verify](02_image-security-supply-chain.md)
@@ -38,7 +38,7 @@ CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
 Build xong, `myapp:v1` cân nặng **1.2 GB**. Một mình con số đó nghe chưa có gì đáng sợ — cho đến khi cả team ngồi lại nhân nó với quy mô vận hành thật:
 - **Pull time**: 100 deploy/ngày × 1.2 GB × 10 cluster = 1.2 TB traffic/ngày. AWS data transfer ~$0.09/GB egress → **$108/ngày = $3,240/tháng** chỉ pull image.
 - **Cold start**: pod khởi tạo phải pull image → user gặp 503 trong 30-60s.
-- **Attack surface**: Trivy scan = 247 packages, 1 CRITICAL + 4 HIGH CVE. Khả năng exploit cao.
+- **Attack surface**: Trivy scan = 247 CVE tổng (chủ yếu LOW/MEDIUM từ system packages), trong đó 1 CRITICAL + 4 HIGH. Khả năng exploit cao.
 
 Sếp: *"Image này 1.2 GB là không production-ready. FastAPI runtime tinh khôi chỉ cần ~50 MB. Tại sao bạn ship 1.2 GB? Đi học distroless + multi-stage + layer optimization đi."*
 
@@ -339,7 +339,7 @@ RUN --mount=type=cache,target=/root/.gradle \
 # Create custom JRE với jlink (chỉ modules cần)
 RUN jlink \
     --add-modules java.base,java.logging,java.naming,java.net.http \
-    --strip-debug --no-man-pages --no-header-files --compress=2 \
+    --strip-debug --no-man-pages --no-header-files --compress=zip-6 \
     --output /custom-jre
 
 # ===== Stage 2: distroless =====
@@ -629,16 +629,17 @@ dive myapp:v3 --ci --lowestEfficiency=0.95
 ### Step 5: Compare CVE
 
 ```bash
-trivy image myapp:naive --severity HIGH,CRITICAL | wc -l
-# 247 total vulnerabilities
+# Đếm tổng CVE mọi severity (jq trên JSON output — KHÔNG dùng `wc -l` vì nó đếm dòng, không phải lỗ hổng)
+trivy image myapp:naive --format json | jq '[.Results[].Vulnerabilities[]] | length'
+# 247 (tổng mọi severity)
 
-trivy image myapp:v3 --severity HIGH,CRITICAL | wc -l
-# 8 total vulnerabilities (97% fewer)
+trivy image myapp:v3 --format json | jq '[.Results[].Vulnerabilities[]] | length'
+# 8 (97% fewer)
 ```
 
 ### Final comparison table
 
-| Version | Size | CVE (HIGH/CRITICAL) | Pull time | Cold start |
+| Version | Size | CVE (tổng) | Pull time | Cold start |
 |---|---|---|---|---|
 | `myapp:naive` (python:3.12 full) | 1.21 GB | 247 | 45s | 60s |
 | `myapp:v2` (slim + multi-stage) | 165 MB | 23 | 8s | 15s |
@@ -997,3 +998,4 @@ ENTRYPOINT ["/app"]
 - **v1.1.1 (01/06/2026)** — Sửa lỗi QA: tuyên bố dung lượng 30 MB → 85 MB cho khớp kết quả hands-on thật (title + lead-in + §6 + changelog); đồng bộ số layer trong dive (base 350 MB ở cả TUI output lẫn Key insights, tổng khớp 1.2 GB) + sửa lại "3 wins" cho đúng nguồn tiết kiệm; distroless Dockerfile dùng `USER nonroot:nonroot` (khớp pitfall UID 65532, trước đó nhầm `1000:1000`); sửa typo "HOÀNG NHIÊN" → "HIỂN NHIÊN"; gỡ tag rác `<parameter ...>` lọt vào Q5.
 - **v1.2.0 (01/06/2026)** — Polish văn phong + soát QA theo checklist: Việt hoá các đoạn "điện tín" và mở bài tình huống (lời dẫn 2-3 câu trước mỗi code/bảng/section §3-§6), giải thích thuật ngữ EN trong ngoặc lần đầu (base image, attack surface, cold start, layer, cascade...), thêm câu bắc cầu giữa các phần và ẩn dụ "ba lô" cho layer order; sửa heading "5 base image" (bảng có 7 dòng) → bỏ con số cứng; cập nhật flag deprecated `npm ci --production` → `npm ci --omit=dev`; thêm ngôn ngữ `text` cho 2 block output thiếu fence-language. Giữ nguyên toàn bộ code/số liệu/bảng/cấu trúc heading.
 - **v1.2.1 (11/06/2026)** — Bổ sung sơ đồ so sánh layer stack image đầy đủ vs distroless cho trực quan.
+- **v1.2.2 (13/06/2026)** — Sửa lỗi nhất quán: 247 dùng nhất quán là **CVE tổng** (không lẫn lộn "packages" vs "HIGH/CRITICAL"); sửa lệnh đếm CVE dùng `jq` thay `wc -l` (đếm dòng, sai); đổi header bảng "CVE (HIGH/CRITICAL)" → "CVE (tổng)". jlink `--compress=2` → `--compress=zip-6` (JDK 21 deprecate số).

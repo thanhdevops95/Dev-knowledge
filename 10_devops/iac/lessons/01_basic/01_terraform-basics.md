@@ -1,9 +1,9 @@
 # 🎓 Terraform Basics — Providers, Resources, Variables
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is IaC](00_what-is-iac.md)
@@ -261,7 +261,8 @@ terraform {
 | `>= 5.0` | 5.0 or later |
 | `>= 5.0, < 6.0` | 5.x.x range |
 | `~> 5.0` | >= 5.0, < 6.0 (same major) |
-| `~> 5.7` | >= 5.7, < 5.8 (same minor) |
+| `~> 5.7` | >= 5.7, < 6.0 (cho phép 5.7, 5.8, 5.9...) |
+| `~> 5.7.0` | >= 5.7.0, < 5.8.0 (chỉ patch trong minor 5.7) |
 
 → Production: pin `~> 5.0` to allow patches but block major bumps.
 
@@ -1068,3 +1069,4 @@ cidrsubnet, formatdate, timestamp
 - **v1.1.0 (25/05/2026)** — Bổ sung lời dẫn trước §1 Install, §2 Folder structure, main.tf, Workflow và §3 Blocks.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ pipeline init → plan → apply → state cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi factual: `~> 5.7` = `>= 5.7, < 6.0` (cho phép 5.8, 5.9...), KHÔNG phải `< 5.8`; thêm dòng `~> 5.7.0` cho ràng buộc patch trong minor.

@@ -1,9 +1,9 @@
 # 🎓 Tổng Quan Về Kubernetes: Giải Pháp Điều Phối Container Trách Nhiệm Cao
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.2\
+> **Phiên bản:** v2.0.3\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]
 
@@ -472,7 +472,7 @@ kind delete cluster --name fastapi-lab
 ## ⚠️ 5 Cạm Bẫy Chết Người Dễ Gây Tổn Thất Khi Mới Học Kubernetes
 
 1. **Vội vã đưa Kubernetes vào dự án quá sớm:** Đối với các dự án siêu nhỏ chỉ có 1-2 dịch vụ, việc vận hành K8s sẽ tiêu tốn của bạn nhiều thời gian cấu hình hơn là tập trung code tính năng chính.
-2. **Cố gắng tự cài đặt Control Plane (Master Node) trên Production:** Việc quản trị bảo mật và sao lưu `etcd` cực kỳ phức tạp. Hãy luôn luôn sử dụng các dịch vụ Managed K8s (EKS, GKE, GKS) để giao nhiệm vụ bảo vệ "bộ não" cho các hãng đám mây lo.
+2. **Cố gắng tự cài đặt Control Plane (Master Node) trên Production:** Việc quản trị bảo mật và sao lưu `etcd` cực kỳ phức tạp. Hãy luôn luôn sử dụng các dịch vụ Managed K8s (EKS, GKE, AKS) để giao nhiệm vụ bảo vệ "bộ não" cho các hãng đám mây lo.
 3. **Quên kiểm tra Context đang hoạt động:** Lỗi cực kỳ tai hại khi bạn gõ nhầm lệnh xóa Pod hoặc deploy nhầm tệp cấu hình thử nghiệm từ máy local lên thẳng cụm máy chủ Production thật do quên kiểm tra context hiện tại. Hãy luôn dùng công cụ hỗ trợ hiển thị context an toàn như `kubectx` hoặc `k9s`.
 4. **Chạy Database (Stateful Workload) trong K8s khi chưa đủ kinh nghiệm:** Dữ liệu có thể bị xóa mất hoàn toàn nếu bạn cấu hình sai Persistent Volume. Lời khuyên cho bạn là hãy để Database chạy ở các dịch vụ Cloud DB quản lý sẵn độc lập bên ngoài.
 5. **Sử dụng lệnh Imperative trực tiếp trên môi trường Production:** Việc gõ các lệnh `kubectl edit` hay `kubectl scale` trực tiếp trên server sẽ làm cấu hình thực tế bị lệch hoàn toàn (Drift) so với file code lưu trữ trên Git, gây khó khăn cho việc phục hồi hệ thống khi có sự cố.
@@ -559,3 +559,4 @@ kubectl delete -f manifest.yaml        # Tiêu hủy tài nguyên khai báo tron
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản giới thiệu K8s.
 - **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.
 - **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ vòng lặp reconciliation (kubectl apply → etcd → Controller → Scheduler → kubelet → Pod) cho trực quan.
+- **v2.0.3 (13/06/2026)** — Sửa lỗi: managed K8s "GKS" (không tồn tại) → "AKS" (Azure).

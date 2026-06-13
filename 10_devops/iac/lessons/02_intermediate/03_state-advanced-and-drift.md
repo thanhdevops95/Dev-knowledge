@@ -1,9 +1,9 @@
 # 🎓 State management nâng cao + Drift detection — Cứu hạ tầng khỏi 200 resource bị xoá nhầm
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.0\
+> **Phiên bản:** v2.0.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 07/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Atlantis — GitOps cho Terraform/Terragrunt](02_atlantis-gitops-for-iac.md), nắm cơ bản về Terraform state.
@@ -388,7 +388,7 @@ terraform plan -refresh-only
 
 ### driftctl — quét drift tự động
 
-Đây là lúc cần một công cụ chuyên dụng chạy tự động thay con người. [driftctl (Snyk)](https://github.com/snyk/driftctl) là công cụ mã nguồn mở chuyên so sánh IaC với trạng thái thật trên cloud:
+Đây là lúc cần một công cụ chuyên dụng chạy tự động thay con người. [driftctl (Snyk)](https://github.com/snyk/driftctl) là công cụ mã nguồn mở chuyên so sánh IaC với trạng thái thật trên cloud (⚠️ **lưu ý 2026**: driftctl đã được Snyk đưa vào **maintenance mode**/archive — vẫn chạy được, tốt để học khái niệm, nhưng project mới nên cân nhắc `terraform plan -detailed-exitcode` native hoặc Spacelift/env0):
 
 ```bash
 # Install
@@ -1242,3 +1242,4 @@ resource "aws_db_instance" "prod" {
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 03 intermediate. State commands deep (mv/rm/pull/push/replace-provider) + import (classic + modern block) + moved block + driftctl automation + daily cron drift detection + S3 versioning backup/recovery + state surgery + module deprecation workflow. 6 pitfall + 4 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước State files JSON + State backend + Read commands + Modify commands warnings.
 - **v2.0.0 (07/06/2026)** — Viết lại toàn bộ prose sang tiếng Việt narrative theo gold-standard: thay tình huống bịa nhân vật bằng văn kể trung tính, Việt hoá các đoạn "điện tín" EN ở §1–§8 + thêm lời dẫn trước mỗi code/bảng/list và câu bắc cầu giữa section, Việt hoá Pros/Cons → Ưu điểm/Nhược điểm trong self-check. Áp fix QA: `Prerequisites:` → `Yêu cầu trước:`, Glossary 3 cột, nav chuẩn (⬅️/➡️/↑ + link text = tiêu đề H1 thực, bỏ nhãn "sắp viết" cho bài 04 đã tồn tại), bổ sung ngôn ngữ `text` cho fence output. Giữ nguyên 100% code/lệnh/config/số liệu và cấu trúc 8 phần + diagram.
+- **v2.0.1 (13/06/2026)** — Thêm cảnh báo: driftctl đã được Snyk đưa vào maintenance mode/archive — vẫn dùng học khái niệm nhưng project mới cân nhắc native drift detection / Spacelift / env0.

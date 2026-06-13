@@ -1,9 +1,9 @@
 # 🎓 SRE practices — SLO + Error budget + Postmortem + On-call
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [03_opentelemetry-instrumentation.md](03_opentelemetry-instrumentation.md), basic obs cluster done
@@ -717,7 +717,8 @@ slos:
     description: "% of requests served < 500ms"
     sli:
       events:
-        error_query: sum(rate(http_request_duration_seconds_bucket{service="fastapi",le="0.5"}[{{.window}}]))
+        # error_query phải đếm request XẤU (chậm) = tổng − số request nhanh (bucket le=0.5)
+        error_query: sum(rate(http_request_duration_seconds_count{service="fastapi"}[{{.window}}])) - sum(rate(http_request_duration_seconds_bucket{service="fastapi",le="0.5"}[{{.window}}]))
         total_query: sum(rate(http_request_duration_seconds_count{service="fastapi"}[{{.window}}]))
     alerting:
       ...
@@ -1221,3 +1222,4 @@ overrides:
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Choose SLO target + Compute budget Prometheus + Postmortem template + Impact + Timeline.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ vòng đời error budget (SLO → đốt budget → freeze → hồi phục) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi factual: Sloth latency SLI `error_query` phải đếm request CHẬM (tổng − bucket le=0.5), không phải đếm bucket le=0.5 (là request NHANH) — trước đó SLO bị đảo.

@@ -1,9 +1,9 @@
 # 🎓 Pods Và Deployments: Hạt Nhân Và Cỗ Máy Tự Động Hóa Trạng Thái Trong Kubernetes
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.2\
+> **Phiên bản:** v2.0.3\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Tổng quan về Kubernetes và Cài đặt Local](./00_what-is-kubernetes.md)
@@ -326,7 +326,7 @@ Một tiến trình Container có thể vẫn đang ở trạng thái `Running` 
 Kubernetes giải quyết triệt để vấn đề này bằng cách gửi các yêu cầu kiểm tra sức khỏe (**Probes**) định kỳ vào sâu bên trong ứng dụng của bạn.
 
 ```text
-API Server
+kubelet (trên Node)
    │
    ├─► Liveness Probe? ──► (Thử truy cập /healthz) ──► Fail 3 lần? ──► RESTART POD!
    │
@@ -628,3 +628,4 @@ kubectl rollout undo deployment/fastapi-app --to-revision=2 # Rollback về revi
 - **v1.0.0 (23/05/2026)** — Khởi tạo bản thảo sơ khai đầu tiên về Pod và Deployment.
 - **v2.0.1 (10/06/2026)** — Chuyển metadata YAML frontmatter → block-quote chuẩn (field tiếng Việt); gỡ tên tác giả khỏi thân bài; bỏ dấu ":" cuối heading.
 - **v2.0.2 (10/06/2026)** — Bổ sung sơ đồ rolling update cho trực quan.
+- **v2.0.3 (13/06/2026)** — Sửa lỗi factual: sơ đồ probe ghi "API Server" thực thi probe → đúng là **kubelet** (trên Node) chạy probe + quyết định restart/cắt traffic.

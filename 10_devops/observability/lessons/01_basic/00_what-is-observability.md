@@ -1,9 +1,9 @@
 # 🎓 Observability là gì? — 3 pillars + monitoring landscape
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Kubernetes basics](../../../kubernetes/), [HTTP](../../../../05_networking/http-https/)
@@ -319,7 +319,7 @@ opentelemetry-instrument python app.py
 
 ### Mức độ phổ biến OTel 2026
 
-- ✅ CNCF graduated (2024).
+- ✅ CNCF Incubating (một trong những project CNCF hoạt động sôi nổi nhất).
 - ✅ Replacing OpenTracing + OpenCensus.
 - ✅ Most vendors support (Datadog, NewRelic, Honeycomb, Tempo).
 - ✅ **Default 2026** cho new instrumentation.
@@ -509,7 +509,7 @@ Grafana → Explore → Loki →
 
 3. **SLI** = what we measure (availability, P99 latency). **SLO** = internal target (99.9% uptime). **SLA** = contractual promise + penalty (99.5% else refund). SLO > SLA (buffer). Error budget = SLO - actual = freedom to deploy.
 
-4. **Vendor-neutral instrumentation**. Without: switch Datadog → NewRelic = rewrite all instrumentation. With OTel: code emit OTel format → collector route to any vendor. Avoid lock-in. CNCF graduated 2024. Most vendors support. Default 2026.
+4. **Vendor-neutral instrumentation**. Without: switch Datadog → NewRelic = rewrite all instrumentation. With OTel: code emit OTel format → collector route to any vendor. Avoid lock-in. CNCF Incubating (một trong những project CNCF hoạt động sôi nổi nhất). Most vendors support. Default 2026.
 
 5. (a) **Latency** — response time. (b) **Traffic** — RPS. (c) **Errors** — error rate. (d) **Saturation** — "full" indicator (CPU/RAM/queue). Google SRE pattern. Combine RED (services) + USE (resources). Dashboard 4 signals = 5s glance health.
 </details>
@@ -607,3 +607,4 @@ Error budget = SLO - actual
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §1 Monitoring vs Observability + §2 3 Pillars (Metrics + Logs + Traces) + Tổng kết.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ luồng debug 3 pillars (alert → log → trace → root cause) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi factual: OpenTelemetry là **CNCF Incubating**, KHÔNG phải "graduated 2024" (2 chỗ).

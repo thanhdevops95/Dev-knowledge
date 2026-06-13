@@ -1,9 +1,9 @@
 # 🎓 IaC Intermediate — Từ "terraform apply local" đến "GitOps infra"
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.1.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [IaC basic](../01_basic/), [CI/CD intermediate GitOps](../../../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md)
@@ -283,7 +283,7 @@ graph TB
 | **Module registry** | **Terraform Registry** + **Bitnami** | Private (Spacelift, Atlantis) | Public + private |
 | **Multi-cloud abstraction** | **Crossplane Compositions** | Pulumi multi-cloud | Crossplane for K8s shops |
 
-→ **Recommend 2026**: OpenTofu + Terragrunt + Atlantis + Infracost + Checkov + driftctl. Crossplane nếu cluster-driven infra.
+→ **Recommend 2026**: OpenTofu + Terragrunt + Atlantis + Infracost + Checkov. Drift detection: ưu tiên `terraform plan -detailed-exitcode` (native) hoặc Spacelift/env0; driftctl (Snyk) đã vào **maintenance mode** — dùng nếu đã có sẵn. Crossplane nếu cluster-driven infra.
 
 ---
 
@@ -420,3 +420,4 @@ Sau intermediate có **7 chủ đề advanced** thuộc enterprise scale — mul
 
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 00 INTRO cuối DevOps intermediate sprint. Map 4 mảng (Terragrunt/Atlantis/State+Drift/Alternatives) + tool stack 2026 + IaC at scale scenario + roadmap 4 bài kế tiếp + cross-link complete DevOps stack. Apply insight `__Ref__/` (GitOps "Git as enforcement gate" cho IaC).
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §5 DevOps stack diagram + §7 Lộ trình 4 bài + advanced topics roadmap.
+- **v1.1.1 (13/06/2026)** — Cập nhật khuyến nghị 2026: driftctl (Snyk) đã vào maintenance mode → ưu tiên `terraform plan -detailed-exitcode` native / Spacelift / env0.

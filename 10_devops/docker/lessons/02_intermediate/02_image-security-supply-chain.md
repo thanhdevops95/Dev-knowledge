@@ -1,9 +1,9 @@
 # 🎓 Image Security & Supply Chain — Scan, Sign, Verify
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.0\
+> **Phiên bản:** v1.2.1\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 01/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [BuildKit & Multi-stage Advanced](01_buildkit-and-multistage-advanced.md)
@@ -436,7 +436,7 @@ kind: ClusterPolicy
 metadata:
   name: verify-image-signatures
 spec:
-  validationFailureAction: enforce  # reject nếu fail
+  validationFailureAction: Enforce  # reject nếu fail (Kyverno ≥1.11 yêu cầu viết hoa; 1.12+ chuyển sang per-rule validate.failureAction)
   webhookTimeoutSeconds: 30
   rules:
     - name: verify-acme-images
@@ -917,3 +917,4 @@ kubectl describe clusterpolicy verify-image-signatures
 - **v1.1.0 (25/05/2026)** — thêm lead-in trước Hierarchy tier base image + Pin digest + Trivy install + Severity policy + Fail build CI.
 - **v1.1.1 (01/06/2026)** — Sửa lỗi QA: thay flow `cosign attach sbom` / `sign --attachment sbom` / `download sbom` (đã deprecated từ cosign v2, verify trên cosign v3.0.6) bằng SBOM attestation chuẩn `cosign attest --type spdxjson --predicate` + `download attestation` ở mục Attach SBOM, full pipeline và cheatsheet.
 - **v1.2.0 (01/06/2026)** — Polish văn phong + soát QA theo checklist: thêm lời dẫn/câu bắc cầu giữa 7 section, giải thích thuật ngữ EN trong ngoặc lần đầu (SBOM/CVE/OIDC/attestation/provenance/digest/SLSA...), Việt hoá đoạn "điện tín" ở tình huống mở đầu và các list; đổi header `Prerequisites` → `Yêu cầu trước` cho khớp gold standard; sửa link "Trước/Tiếp" dùng tiêu đề thực thay vì tên file; tách JSON output provenance khỏi block bash (gán fence `json`).
+- **v1.2.1 (13/06/2026)** — Sửa lỗi factual: Kyverno `validationFailureAction: enforce` → `Enforce` (viết thường bị bỏ từ Kyverno v1.11; 1.12+ chuyển per-rule `validate.failureAction`).

@@ -1,9 +1,9 @@
 # 🎓 GitOps với ArgoCD — Git = Single Source of Truth
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [00_intermediate-overview.md](00_intermediate-overview.md), [K8s Helm](../../../kubernetes/lessons/02_intermediate/01_helm-package-manager.md)
@@ -844,8 +844,10 @@ spec:
   template:
     metadata:
       name: 'fastapi-{{env}}'
-      annotations:
-        argocd.argoproj.io/sync-wave: "{{env}}-wave"
+      # Lưu ý: sync-wave KHÔNG sắp thứ tự giữa các Application do ApplicationSet sinh ra
+      # (nó chỉ order resource TRONG 1 lần sync của 1 app, và value phải là SỐ NGUYÊN dạng chuỗi,
+      #  vd "0"/"5" — "{{env}}-wave" sẽ thành "dev-wave" → ArgoCD parse số nguyên thất bại).
+      # Muốn deploy dev → staging → prod có thứ tự: dùng app-of-apps + sync-wave số nguyên, hoặc tách ApplicationSet.
     spec:
       project: default
       source:
@@ -1338,3 +1340,4 @@ spec:
 - **v1.0.0 (24/05/2026)** — Bản đầu tiên. Lesson 01 intermediate. GitOps 4 principles + ArgoCD architecture + Application + Helm/Kustomize + App-of-Apps + ApplicationSet (4 generators) + multi-cluster + sync waves/hooks + AppProject + RBAC + ArgoCD vs Flux. Apply insight `__Ref__/`: GitOps anti-pattern war story (kubectl apply + ArgoCD drift). 7 pitfall + 3 best practice + 5 self-check + cheatsheet.
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước §2 Architecture + Install + Access UI + §3 Application CRD basic.
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: bỏ `sync-wave: "{{env}}-wave"` (value không phải số nguyên → ArgoCD parse lỗi; và sync-wave không sắp thứ tự giữa các Application do ApplicationSet sinh) + ghi chú cách làm đúng.

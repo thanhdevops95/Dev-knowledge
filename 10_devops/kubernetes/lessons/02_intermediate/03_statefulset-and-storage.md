@@ -1,9 +1,9 @@
 # 🎓 StatefulSet & Storage — Postgres trong K8s, không mất data
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [02_ingress-cert-manager-tls.md](02_ingress-cert-manager-tls.md), [K8s basic ConfigMap+Secret](../01_basic/03_configmaps-and-secrets.md)
@@ -1048,7 +1048,7 @@ K8s cloud StorageClass default 2026 = `WaitForFirstConsumer` (best practice bake
 
 Real example:
 - StatefulSet Postgres = 100 dòng YAML, manual failover, no automatic backup.
-- CloudNativePG cluster CRD = 30 dòng YAML, auto failover via raft consensus, scheduled S3 backup, monitoring integration, point-in-time recovery, online major upgrade.
+- CloudNativePG cluster CRD = 30 dòng YAML, auto failover do operator điều phối qua Kubernetes API server (source of truth) + PostgreSQL streaming replication (KHÔNG dùng external DCS/Patroni/raft), scheduled S3 backup, monitoring integration, point-in-time recovery, online major upgrade.
 
 → Production: prefer Operator-managed stateful workload. StatefulSet là implementation detail behind Operator.
 
@@ -1176,3 +1176,4 @@ parameters: { numberOfReplicas: "3" }
 - **v1.1.0 (25/05/2026)** — Apply Blueprint v0.5.4+ §3.6: thêm lead-in trước Deployment design + StatefulSet design + Bảng so sánh + Headless Service + Concepts (PV/PVC/StorageClass).
 - **v1.1.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ chuỗi storage (pod → PVC riêng → PV → StorageClass) cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi factual: CloudNativePG KHÔNG dùng raft consensus — failover qua Kubernetes API server (source of truth) + PostgreSQL streaming replication (không Patroni/DCS).
