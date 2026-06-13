@@ -1,9 +1,9 @@
 # 🎓 psql & Meta-commands — Master CLI client
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [What is PostgreSQL](00_what-is-postgresql.md)
@@ -168,7 +168,7 @@ Meta-commands cho database/schema/table — đây là tập lệnh **gõ nhiều
 \df               functions
 \dx               installed extensions
 \ds               sequences
-\dy               triggers
+\dy               event triggers (trigger thường: xem trong \d <table>)
 ```
 
 ### Output format
@@ -710,3 +710,4 @@ psql -d db -f file.sql -v ON_ERROR_STOP=1
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 2/5. Cover: psql connection 5 cách + .pgpass + .psqlrc config + 20+ meta-commands (\l \dt \d \du \dp \dx \df \timing \watch) + system catalog (pg_stat_activity, pg_stat_user_tables, pg_locks) + EXPLAIN intro + COPY import/export.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Kết nối 5 cách + Password `.pgpass` + `~/.psqlrc` config + §2 Database/Schema meta-commands + Roles/Permissions meta. Chuẩn hoá ví dụ `\set` + diễn đạt mượt hơn. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ phân luồng meta-command (psql client xử lý) vs SQL (gửi server) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `\dy` liệt kê **event triggers** (trigger thường xem trong `\d <table>`), không phải "triggers" chung.

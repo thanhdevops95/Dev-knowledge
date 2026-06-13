@@ -1,9 +1,9 @@
 # 🎓 JOINs — Ghép bảng để query data đầy đủ
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.0\
+> **Phiên bản:** v1.2.0\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 25/05/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md), [Aggregations](02_aggregations.md)
@@ -34,7 +34,7 @@ Bạn thử:
 SELECT name, SUM(amount) FROM users, orders GROUP BY name;
 ```
 
-→ Kết quả ra **49 rows** thay vì 7 (số user). Tổng tiền sai bét.
+→ Kết quả ra **42 rows** thay vì 7 (số user). Tổng tiền sai bét.
 
 Bạn thử nữa:
 
@@ -46,7 +46,7 @@ SELECT name, SUM(amount) FROM users INNER JOIN orders;
 
 Bạn ngơ:
 - **JOIN** là gì? Sao có nhiều loại?
-- Tại sao `FROM users, orders` ra **49 rows** (7 × 7)?
+- Tại sao `FROM users, orders` ra **42 rows** (7 × 6)?
 - **`ON`** dùng ra sao?
 - **LEFT JOIN** với **INNER JOIN** khác nhau thế nào?
 
@@ -112,8 +112,8 @@ flowchart LR
         L[users<br/>7 rows] -.->|JOIN ON u.id = o.user_id| O[orders<br/>6 rows]
     end
     INNER[INNER<br/>5 rows<br/>only match]
-    LEFT[LEFT<br/>7 + duplicates<br/>users + matches]
-    FULL[FULL<br/>8 rows<br/>everything]
+    LEFT[LEFT<br/>9 rows<br/>users + matches]
+    FULL[FULL<br/>10 rows<br/>everything]
     CROSS[CROSS<br/>42 rows<br/>7 × 6]
 ```
 
@@ -671,3 +671,4 @@ WHERE u.status = 'active'
 
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 4/6. Cover: 5 JOIN (INNER/LEFT/RIGHT/FULL/CROSS) + alias bảng + self-join + JOIN 3 bảng + 4 anti-pattern (Cartesian explosion, ambiguous column, NULL trong LEFT JOIN, missing ON).
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Setup 2 bảng + §2 5 loại JOIN overview + Venn diagram + §3 INNER JOIN + INNER tắt JOIN. Thêm Changelog section.
+- **v1.2.0 (13/06/2026)** — Sửa lỗi số liệu: cross-join là 7×6 = **42 rows** (không phải 49=7×7) ở §Tình huống; sơ đồ overview sửa FULL `8`→`10`, LEFT `7+duplicates`→`9 rows` cho khớp body (đã verify bằng SQLite).

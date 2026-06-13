@@ -1,9 +1,9 @@
 # 🎓 JSONB, Arrays & Full-text — Postgres killer features
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Indexes & Performance](02_indexes-and-performance.md)
@@ -136,7 +136,7 @@ Khi cần navigate **nhiều cấp** một lúc, dùng path operator (`#>` JSONB
 
 ```sql
 SELECT preferences #> '{notifications,email}' FROM users;    -- true (jsonb)
-SELECT preferences #>> '{notifications,email}' FROM users;    -- t (text)
+SELECT preferences #>> '{notifications,email}' FROM users;    -- true (text)
 SELECT preferences #>> '{tags,0}' FROM users;                  -- dev (first array)
 ```
 
@@ -720,3 +720,4 @@ SELECT * FROM t ORDER BY emb <=> '[...]' LIMIT 10;
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 4/5. Cover: JSON vs JSONB + 7 operator (`->`, `->>`, `#>`, `#>>`, `?`, `@>`, `<@`) + GIN index cho JSONB + Arrays (1D, multi-D) + ANY/ALL + Full-text search (tsvector, tsquery, ranking) + GIN cho FTS.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 JSON vs JSONB + Create+insert + `'{}'::jsonb` cast + §2 `->` vs `->>` + path `#>` + `#>>`. Chuẩn hoá tên trong INSERT example + tiêu đề §7. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ decision flow cột thường vs JSONB vs bảng riêng cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual: `#>>` trả về **text** nên JSON `true` ra chuỗi `true` (không phải `t` — `t` là cách psql hiển thị kiểu boolean).

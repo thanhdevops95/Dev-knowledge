@@ -1,9 +1,9 @@
 # 🎓 Aggregations — COUNT, SUM, AVG & GROUP BY
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SELECT & Filter](01_select-and-filter.md)
@@ -416,7 +416,7 @@ LIMIT 3;
 1. **Select cột không trong GROUP BY và không aggregate** → SQL chuẩn cấm. MySQL từ 5.7 cũng cấm. Phải thêm vào GROUP BY hoặc aggregate.
 2. **Dùng `WHERE COUNT(*) > 5`** → Sai. `WHERE` chạy trước GROUP, không biết COUNT. Dùng `HAVING`.
 3. **`SUM(col)` khi col có NULL** → NULL bị bỏ qua tự động. Kết quả đúng nhưng đừng giả định `SUM = 0` khi all NULL — sẽ là **NULL**, không phải 0. Dùng `COALESCE(SUM(col), 0)`.
-4. **`AVG` của integer chia ra integer** → Postgres `AVG(age::int)` = `30` thay vì `30.5`. Phải cast: `AVG(age::numeric)`. SQLite/MySQL tự cast.
+4. **Chia số nguyên cho số nguyên ra số nguyên** → trong Postgres `SUM(age)/COUNT(*)` = integer/integer = **integer** (cắt phần thập phân), vd `61/2 = 30` thay vì `30.5`. Phải cast: `SUM(age)::numeric / COUNT(*)`. Lưu ý: `AVG(age)` thì **KHÔNG** bị — Postgres trả `numeric` (30.5) dù cột là integer.
 5. **`COUNT(col)` mà tưởng đếm row** → `COUNT(col)` bỏ qua NULL. Nếu cột có NULL → ra số nhỏ hơn `COUNT(*)`. Cẩn thận khi report.
 
 ---
@@ -545,3 +545,4 @@ FROM orders;
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 3/6. Cover: 6 aggregation function (COUNT/SUM/AVG/MIN/MAX/COUNT DISTINCT) + NULL handling + COUNT(*) vs COUNT(col) + GROUP BY single + multi-col + HAVING (filter sau aggregate) + WHERE vs HAVING distinction + execution order.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Ví dụ aggregation toàn bộ bảng + COUNT(*) vs COUNT(col) + §2 GROUP BY + Group by nhiều cột + Quy tắc vàng non-aggregated. Chuẩn hoá tên trong output table. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ flow GROUP BY (rows → gom nhóm → COUNT mỗi nhóm) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi factual cạm bẫy #4: Postgres `AVG(integer)` trả `numeric` (30.5), KHÔNG cắt — pitfall thật là phép chia số nguyên `SUM/COUNT` mới cần cast.

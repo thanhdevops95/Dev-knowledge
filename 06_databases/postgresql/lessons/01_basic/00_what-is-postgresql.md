@@ -1,14 +1,14 @@
 # 🎓 PostgreSQL là gì? — RDBMS #1 cho backend 2026
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [SQL fundamentals](../../../sql-fundamentals/lessons/01_basic/00_what-is-sql.md)
 
-> 🎯 *Bài INTRO. Hiểu **PostgreSQL là gì**, **vs MySQL/MariaDB**, **history** (35 năm), **MVCC architecture**, **psql** CLI, **install local** + **Docker**, kết nối từ FastAPI/Node. KHÔNG dạy `SELECT` chi tiết (xem [SQL fundamentals](../../../sql-fundamentals/)).*
+> 🎯 *Bài INTRO. Hiểu **PostgreSQL là gì**, **vs MySQL/MariaDB**, **history** (~40 năm), **MVCC architecture**, **psql** CLI, **install local** + **Docker**, kết nối từ FastAPI/Node. KHÔNG dạy `SELECT` chi tiết (xem [SQL fundamentals](../../../sql-fundamentals/)).*
 
 ## 🎯 Sau bài này bạn sẽ
 
@@ -46,7 +46,7 @@ Bạn ngơ:
 
 ## 1️⃣ Vậy PostgreSQL là gì?
 
-**PostgreSQL** (= "Postgres") = RDBMS open-source, được phát triển ~35 năm. Reputation: **mature, feature-rich, standards-compliant**.
+**PostgreSQL** (= "Postgres") = RDBMS open-source, được phát triển ~40 năm (từ 1986). Reputation: **mature, feature-rich, standards-compliant**.
 
 ### Lịch sử — Các mốc quan trọng
 
@@ -67,7 +67,7 @@ Postgres không phải sản phẩm "hot mới ra" — nó đã trải qua **40 
 
 ### Mức độ phổ biến
 
-Sau 35 năm phát triển, Postgres đã trở thành **lựa chọn mặc định** cho backend mới + được mọi cloud provider lớn support. 3 số liệu cho thấy độ trưởng thành:
+Sau ~40 năm phát triển, Postgres đã trở thành **lựa chọn mặc định** cho backend mới + được mọi cloud provider lớn support. 3 số liệu cho thấy độ trưởng thành:
 
 - **#1** "most loved" DB trong Stack Overflow Survey 2024 (lần thứ 7).
 - Dùng bởi: **Apple, Instagram, Reddit, Spotify, Twitch, Robinhood, Stripe (legacy), Notion**.
@@ -609,3 +609,4 @@ import { PrismaClient } from '@prisma/client';   // ORM
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `postgresql/` lesson 1/5. Cover: Postgres là gì + history 40 năm + adoption + so sánh Postgres/MySQL/SQLite/MariaDB + MVCC concurrency + when to pick + install path 3 OS (macOS Homebrew, Linux apt, Docker) + first connection.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Lịch sử + Mức độ phổ biến + §2 So sánh Postgres vs others + Khi nào chọn Postgres + Khi không cần Postgres. Việt hoá tiêu đề mục. Sửa thuật ngữ MVCC pros. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ MVCC (2 transaction song song) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa nhất quán tuổi đời Postgres: "~35 năm" → "~40 năm" (từ 1986) cho khớp mốc "40 năm" ở phần timeline.

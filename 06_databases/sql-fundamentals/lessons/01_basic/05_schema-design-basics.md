@@ -1,9 +1,9 @@
 # 🎓 Schema Design — CREATE TABLE, PK/FK, Indexes & Normalization
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.1\
+> **Phiên bản:** v1.1.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [JOINs](03_joins.md), [INSERT/UPDATE/DELETE](04_insert-update-delete.md)
@@ -178,12 +178,12 @@ CREATE TABLE users (
 ```sql
 -- UUID (Postgres)
 CREATE TABLE users (
-  id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),  -- pg14+
+  id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),  -- pg13+ (core, không cần pgcrypto)
   ...
 );
 ```
 
-→ UUID nặng hơn (16 bytes vs 4 INT), random insert kém hơn (B-tree index fragmenting). Dùng khi thật sự cần. Postgres 17+ có `UUID v7` (time-ordered) khắc phục fragment.
+→ UUID nặng hơn (16 bytes vs 4 INT), random insert kém hơn (B-tree index fragmenting). Dùng khi thật sự cần. Postgres 18+ có hàm `uuidv7()` (time-ordered) khắc phục fragment (trước PG18 phải tự sinh ở app hoặc dùng extension).
 
 ### Composite PK — nhiều cột
 
@@ -824,3 +824,4 @@ EXPLAIN ANALYZE SELECT * FROM t WHERE col = 'x';
 - **v1.0.0 (23/05/2026)** — Bản đầu tiên. Cluster `sql-fundamentals/` lesson 6/6. Cover: data types (numeric, text, boolean, date/time, JSON, ARRAY) + PK + FK + constraints (NOT NULL, UNIQUE, CHECK, DEFAULT) + 3 normalization form (1NF/2NF/3NF) + denormalization khi nào + indexes vai trò + ERD design + naming convention.
 - **v1.1.0 (25/05/2026)** — Thêm lead-in 2-3 câu trước §1 Data types — Số numeric + Chuỗi text + Boolean + Date/Time + JSON/JSONB sections. Chuẩn hoá tên trong ví dụ normalization. Thêm Changelog section.
 - **v1.1.1 (11/06/2026)** — Bổ sung sơ đồ ERD quan hệ 4 bảng (users/orders/products/order_items) cho trực quan.
+- **v1.1.2 (13/06/2026)** — Sửa lỗi version: hàm `uuidv7()` có từ Postgres **18** (không phải 17); `gen_random_uuid()` là core từ **pg13** (không phải pg14).
