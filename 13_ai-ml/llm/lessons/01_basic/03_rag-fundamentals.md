@@ -1,9 +1,9 @@
 # 📚 RAG — Retrieval Augmented Generation
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic (bài 03/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [02_function-calling-and-tools](02_function-calling-and-tools.md) ✅
@@ -375,7 +375,7 @@ import cohere
 co = cohere.Client()
 
 results = co.rerank(
-    model="rerank-multilingual-v3.0",
+    model="rerank-v3.5",
     query="What is return policy?",
     documents=[chunk.text for chunk in candidates],
     top_n=5,
@@ -750,3 +750,4 @@ print(f"Accuracy: {correct / len(test_set):.1%}")
 - **v1.1.0 (07/06/2026)** — Cập nhật API lỗi thời: qdrant-client `search()`→`query_points()`, `recreate_collection()`→`collection_exists`+`delete`+`create`; RAGAS `context_relevancy`→`context_precision`+`context_recall` (0.2+). Cập nhật reranker Cohere `rerank-v3.5`, embedding voyage-3.5 + thêm lưu ý kiểm tra model mới nhất.
 - **v1.1.1 (10/06/2026)** — Bổ sung sơ đồ 2 pha RAG (index offline vs query online) cho trực quan.
 - **v1.1.2 (11/06/2026)** — Việt hoá các heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param tiếng Anh) theo nguyên tắc Vietnamese-first.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi nhất quán: code reranker dùng `rerank-multilingual-v3.0` (cũ) → `rerank-v3.5` cho khớp prose dòng 368, hands-on dòng 573 và changelog.

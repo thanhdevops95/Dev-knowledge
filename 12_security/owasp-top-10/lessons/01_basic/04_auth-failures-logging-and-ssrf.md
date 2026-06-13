@@ -1,9 +1,9 @@
 # 🔑📜🌐 A07 Authentication Failures + A09 Logging & Alerting Failures + SSRF (gộp A01)
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.2\
+> **Phiên bản:** v2.0.3\
 > **Tạo lúc:** 24/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic (bài 04/5)\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** Bài [03_misconfig-vulnerable-components-supply-chain](03_misconfig-vulnerable-components-supply-chain.md) ✅
@@ -624,8 +624,8 @@ Bạn đã đi qua (numbering theo **OWASP Top 10:2025**):
 |---|---|---|
 | 00 | OWASP intro + STRIDE + DREAD + defense-in-depth | Security mindset shift-left |
 | 01 | A01:2025 Broken Access Control (gồm SSRF) + A05:2025 Injection | Parameterize query, RBAC/ABAC, CSP, SameSite |
-| 02 | A04:2025 Cryptographic Failures + A02:2025 Security Misconfiguration | Argon2id, TLS 1.3, JWT pitfalls, abuse case |
-| 03 | A03:2025 Software Supply Chain Failures (mới) + A06:2025 Insecure Design + A08:2025 Software or Data Integrity Failures | Security headers, dependency scan, cosign + SLSA |
+| 02 | A04:2025 Cryptographic Failures + A06:2025 Insecure Design | Argon2id, TLS 1.3, JWT pitfalls, abuse case |
+| 03 | A02:2025 Security Misconfiguration + A03:2025 Software Supply Chain Failures (mới) + A08:2025 Software or Data Integrity Failures | Security headers, dependency scan, cosign + SLSA |
 | 04 | A07:2025 Authentication Failures + A09:2025 Logging & Alerting Failures + SSRF (A01) | MFA WebAuthn/TOTP, audit log + SIEM, SSRF mitigation |
 
 > ℹ️ **2 category mới ở bản 2025** mà cluster có chạm tới: **A03:2025 Software Supply Chain Failures** (mở rộng từ "Vulnerable & Outdated Components" 2021 — bài 03) và **A10:2025 Mishandling of Exceptional Conditions** (xử lý lỗi/điều kiện ngoại lệ sai cách — sẽ đào sâu ở cluster intermediate). Ngoài ra **SSRF không còn là category riêng**, đã gộp vào A01:2025.
@@ -720,7 +720,7 @@ Next options:
 ## 🔗 Liên kết & Tài nguyên
 
 ### 🧭 Định hướng lộ trình học
-- ⬅️ **Bài trước:** [A03:2025 Software Supply Chain Failures + A06:2025 Insecure Design + A08:2025 Software or Data Integrity Failures](03_misconfig-vulnerable-components-supply-chain.md)
+- ⬅️ **Bài trước:** [A02:2025 Security Misconfiguration + A03:2025 Software Supply Chain Failures + A08:2025 Software or Data Integrity Failures](03_misconfig-vulnerable-components-supply-chain.md)
 - ↑ **Về cụm:** [OWASP README](../../README.md)
 - ↑ **Về cụm:** [12_security README](../../../README.md)
 
@@ -756,3 +756,4 @@ Next options:
 - **v2.0.1 (11/06/2026)** — Việt hoá heading nội dung mô tả sang tiếng Việt (giữ thuật ngữ/brand/param) theo Vietnamese-first.
 - **v2.0.0 (07/06/2026)** — Cập nhật sang **OWASP Top 10:2025** (bản hiện hành, final release). A07 đổi tên "Identification and Authentication Failures" → "Authentication Failures"; A09 đổi "Monitoring" → "Alerting"; SSRF (A10:2021) **gộp vào A01:2025 Broken Access Control** — không còn category riêng. Cluster wrap-up + tham chiếu chéo cập nhật theo numbering 2025, nêu rõ 2 category mới (A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions). Sửa lỗi: số liệu IBM Cost of a Data Breach 2024 (identify 194 ngày, contain 64 ngày, lifecycle 258 ngày, breach <200 ngày rẻ hơn ~$1.39M) thay cho 204/73 ngày + "23% less"; bọc `ph.verify()` của argon2-cffi trong try/except bắt `VerifyMismatchError` (verify RAISE chứ không trả False). Map Capital One case sang A02:2025 + A01:2025. Link OWASP trỏ về bản 2025.
 - **v2.0.2 (11/06/2026)** — Bổ sung sơ đồ flow SSRF (server fetch hộ URL nội bộ + chặn bằng allowlist) cho trực quan.
+- **v2.0.3 (13/06/2026)** — Sửa lỗi nhất quán: bảng wrap-up + nav gán sai category — Bài 02 = A04 Crypto + **A06 Insecure Design** (không phải A02); Bài 03 = **A02 Misconfiguration** + A03 Supply Chain + A08 Integrity (khớp tiêu đề thật của 2 bài).
