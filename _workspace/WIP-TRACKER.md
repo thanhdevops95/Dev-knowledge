@@ -1,7 +1,7 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.66.0\
+> **Phiên bản:** v0.67.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 13/06/2026
 
@@ -153,6 +153,13 @@
   - **python + linux + git** (`e336c13`, 7 fix): awk field-split (data tên 3 token → 1 token); `touch reboot-required` NGƯỢC (không chặn reboot); reflog commit mồ côi 30 ngày (không phải 90); 3 vs 2 phương thức auth; 7 vs 8 kiểu dữ liệu Python; nhãn `{}` là dict.
   - **databases** (`368a7e9`, 9 fix): `#>>` trả `true` (text) không phải `t`; AVG(int) KHÔNG cắt (pitfall thật là `SUM/COUNT`); cross-join 42 không phải 49; FULL 10/LEFT 9; `uuidv7()` PG18 (không phải 17); `gen_random_uuid` pg13; `\dy` = event triggers; Postgres ~40 năm.
   - **Phương pháp:** 4 agent read-only chạy code (py_compile/bash -n/SQLite/git config) trả findings → **tôi verify TỪNG cái** (chạy awk/sqlite/git thực tế) trước khi sửa, chỉ fix lỗi THẬT. 2 agent rớt socket phiên đầu → re-dispatch OK. Mỗi bài bump version + changelog; fence cân bằng.
+- ✅ **Compile code TOÀN KHO + audit cụm AGENT-WRITTEN (mở rộng Wave 4.2):**
+  - Quét compile nốt 129 bài agent-written (320 block Python + 877 block Bash) → **0 lỗi cú pháp** trong code chạy được. Cộng 7 cụm viết tay = **toàn bộ code mẫu trong kho đã verify compile**.
+  - Chạy **workflow audit + adversarial-verify** (11 auditor/sub-cluster + verifier refute từng finding) trên 10_devops/11_cloud/12_security/13_ai-ml (~109 bài) → 26 finding confirmed (reject 2). Tôi verify lại từng cái → **sửa 24 lỗi THẬT / 23 bài / 4 commit** (`1735e6e` devops, `bcc43f1` cloud, `c712b92` security+ai-ml):
+    - **devops (14):** Kyverno `enforce`→`Enforce`; sơ đồ probe "API Server"→**kubelet**; CNPG KHÔNG raft; "GKS"→AKS; ArgoCD sync-wave `{{env}}-wave` không hợp lệ; terraform `~> 5.7` = `< 6.0`; OTel **incubating** (≠ graduated); burn-rate 14.4x = ~2%; Sloth SLI đảo; traceparent 32-hex; jlink `zip-6`; 247=CVE tổng; driftctl maintenance-mode.
+    - **cloud (8):** permission boundary `StringNotEquals`→`StringEquals` (HIGH, logic ngược); RDS 15 replica; Aurora failover <30s; Lambda PC giá $0.000004; GCP Spot không-24h; wrangler `kv:` → `kv` space-form (2 bài).
+    - **security+ai-ml (2):** OWASP wrap-up gán sai category Bài 02/03; RAG reranker `rerank-v3.5`.
+  - **KHÔNG sửa (cẩn trọng):** 3 finding free-tier Cloudflare Queues/Durable Objects (claim "02/2026") vượt knowledge cutoff, không xác minh được.
 - ⏳ **Vẫn defer (quyết định user):** coverage gap — 09_architecture/16_career 0%, Go/Rust/Java + Mongo/Redis/MySQL... còn trống. Roadmap dài hạn, cần user chốt scope trước khi mở.
 
 ### 11/06/2026 (Việt hoá heading nội dung cụm agent-written + dọn nốt)
@@ -415,6 +422,7 @@
 
 ## 📌 Changelog
 
+- **v0.67.0 (13/06/2026)** — Mở rộng Wave 4.2 sang cụm AGENT-WRITTEN: compile code toàn kho (320 py + 877 bash agent-written = **0 lỗi cú pháp**); workflow audit + adversarial-verify (11 auditor + verifier) trên 10_devops/11_cloud/12_security/13_ai-ml → **24 lỗi THẬT verify & sửa / 23 bài / 4 commit** (Kyverno/probe-kubelet/CNPG-raft/terraform-`~>`/OTel-incubating/IAM-boundary-logic/RDS-15-replica/wrangler-`kv`/OWASP-mapping/reranker...). Skip 3 finding free-tier Cloudflare (vượt cutoff). Chi tiết: mục Done 13/06.
 - **v0.66.0 (13/06/2026)** — Hoàn tất "đánh bóng toàn diện": Wave 3 sơ đồ phủ rộng (coverage **80→185/206** lessons có mermaid) + Wave 4.1 bullet sweep + **Wave 4.2 audit factual SÂU = 30 lỗi THẬT verify & sửa / 22 bài / 3 commit** (`ef2bba5`/`e336c13`/`368a7e9`: FastAPI `regex→pattern`, awk field-split, reflog mồ côi 30 ngày, AVG-int myth, cross-join 42, `uuidv7` PG18, `#>>`→`true`...). Tự compile 150 py + 551 bash block = **0 lỗi cú pháp**. Phase "Review sâu per-cluster" hoàn tất. KHÔNG viết bài mới (coverage gap vẫn defer). Chi tiết: mục Done 13/06. *(Lưu ý: v0.63–0.65 — heading-VN + mechanical polish — chỉ ghi ở mục Done 10–11/06, không tạo entry changelog riêng.)*
 - **v0.62.0 (25/05/2026)** — Phase 4 11_cloud/cloud-fundamentals COMPLETE 5/5 ✅ (5 file 1 turn, files 97-101). Mốc **100 lessons** Phase 4 đạt ở file 100. Total 101/156 (64.7%). Còn aws/azure/gcp/cloudflare/digitalocean/serverless/multi-cloud/cost-management = 40 file 11_cloud + 15 file 12_security/13_ai-ml.
 - **v0.61.0 (25/05/2026)** — 🎉🎉🎉 **10_devops COMPLETE 49/49 ✅** (9 file 1 turn). observability 10/10 đóng (files 93-96). Toàn bộ DevOps tier-1 + tier-2 apply Blueprint v0.5.4+. Phase 4 total 93/156 (59.6%). Tiếp 11_cloud 45 → 12_security 10 → 13_ai-ml 5.
