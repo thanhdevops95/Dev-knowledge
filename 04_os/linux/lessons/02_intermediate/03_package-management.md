@@ -1,9 +1,9 @@
 # 🎓 Package Management — apt, dnf, snap, dependency, security updates
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.2.1\
+> **Phiên bản:** v1.2.2\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Users & Permissions](00_users-and-permissions.md)
@@ -408,8 +408,10 @@ cat /var/log/unattended-upgrades/unattended-upgrades.log
 ### Disable auto-reboot cho critical service
 
 ```bash
-# Touch file này → block auto-reboot dù kernel update
-sudo touch /var/run/reboot-required.pkgs
+# Tắt auto-reboot = set "false" trong config (KHÔNG touch /var/run/reboot-required —
+# file đó do HỆ THỐNG tạo để BÁO "cần reboot", không phải cờ để chặn reboot)
+sudo sed -i 's/Automatic-Reboot "true"/Automatic-Reboot "false"/' \
+  /etc/apt/apt.conf.d/50unattended-upgrades
 
 # Hoặc thêm cron job check + page on-call thay vì auto reboot
 ```
@@ -637,3 +639,4 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 - **v1.2.0 (24/05/2026)** — Thêm ẩn dụ "app store + thợ sửa nhà combo", 3 lời dẫn trước bảng vai trò + update vs upgrade + install/remove.
 - **v1.2.1 (11/06/2026)** — Bổ sung sơ đồ flow apt update → install cho trực quan.
+- **v1.2.2 (13/06/2026)** — Sửa lỗi factual: KHÔNG `touch /var/run/reboot-required` để "chặn" reboot (file đó do hệ thống tạo để BÁO cần reboot) — cách đúng là set `Automatic-Reboot "false"`.

@@ -1,9 +1,9 @@
 # 🎓 Cứu hộ thảm họa mã nguồn với Git Reflog
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.0.1\
+> **Phiên bản:** v2.0.2\
 > **Tạo lúc:** 26/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Advanced\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Quy tắc undo và sửa sai](./00_undo-and-recovery.md) ✅
@@ -83,9 +83,9 @@ Khi bạn xóa một nhánh, Git thực chất chỉ xóa đi **tấm nhãn (tag
 Các commit này rơi vào trạng thái gọi là **Dangling Commits (Commit mồ côi / lơ lửng)**. Chúng vẫn nằm im lặng, an toàn bên trong database ẩn của thư mục `.git/`.
 
 Git sở hữu một bộ dọn rác tự động chạy ngầm gọi là **Garbage Collector (`git gc`)**. 
--   Các commit mồ côi này sẽ được Git bảo vệ nghiêm ngặt trong vòng **90 ngày** mặc định.
--   Trong suốt 90 ngày đó, chỉ cần bạn tìm lại được mã SHA-1 của chúng (thông qua Reflog), bạn có thể lôi chúng sống dậy chỉ trong 1 giây.
--   Sau 90 ngày, nếu hoàn toàn không có hoạt động nào chạm tới, Git mới chính thức dọn dẹp vật lý để giải phóng bộ nhớ.
+-   Các commit mồ côi (unreachable) này được Git bảo vệ khoảng **30 ngày** mặc định (`gc.reflogExpireUnreachable`); commit vẫn còn reachable từ một nhánh thì giữ tới 90 ngày (`gc.reflogExpire`).
+-   Trong khoảng thời gian đó, chỉ cần bạn tìm lại được mã SHA-1 của chúng (thông qua Reflog), bạn có thể lôi chúng sống dậy chỉ trong 1 giây.
+-   Sau khoảng thời gian này, nếu hoàn toàn không có hoạt động nào chạm tới, Git mới chính thức dọn dẹp vật lý để giải phóng bộ nhớ.
 
 ---
 
@@ -161,7 +161,7 @@ Output thực tế:
 ## 💡 Lời khuyên vàng về Reflog
 
 -   ⚠️ **Reflog chỉ tồn tại ở máy local của bạn.** GitHub hoàn toàn không lưu trữ reflog của bạn. Do đó, nếu bạn làm mất code và làm hỏng cả máy tính vật lý trước khi dùng reflog, dữ liệu sẽ mất thật sự.
--   **Reflog có tính hữu hạn:** Hãy cứu hộ càng sớm càng tốt. Đừng để quá 90 ngày.
+-   **Reflog có tính hữu hạn:** Hãy cứu hộ càng sớm càng tốt. Commit mồ côi chỉ được giữ ~30 ngày — đừng để lâu.
 -   **Giữ cái đầu lạnh:** Khi gặp tai nạn mã nguồn, hành vi tệ nhất là gõ loạn xạ các lệnh reset, xóa file trên ổ cứng. Hãy dừng tay gõ phím, gọi `git reflog` và bình tĩnh phân tích dòng thời gian.
 
 ---
@@ -194,7 +194,7 @@ Output thực tế:
 |---|---|---|
 | **Reflog** | Nhật ký tham chiếu ghi lại mọi hành động di chuyển của HEAD cục bộ. | Chiếc hộp đen của máy bay. |
 | **Dangling Commit** | Commit mồ côi không có bất kỳ con trỏ nhánh nào quản lý. | Mảnh hành lý thất lạc trong kho sân bay. |
-| **Garbage Collector** | Bộ dọn rác ngầm dọn dẹp các commit mồ côi sau 90 ngày. | Nhân viên vệ sinh định kỳ dọn kho đồ thất lạc. |
+| **Garbage Collector** | Bộ dọn rác ngầm dọn dẹp các commit mồ côi sau ~30 ngày (commit còn reachable: 90 ngày). | Nhân viên vệ sinh định kỳ dọn kho đồ thất lạc. |
 | **`HEAD@{N}`** | Ký hiệu biểu thị vị trí của HEAD cách đây N bước thao tác. | Tọa độ lịch sử du hành thời gian. |
 
 ---
@@ -215,3 +215,4 @@ Output thực tế:
 
 - **v2.0.0 (26/05/2026)** — Bài học nâng cao về Reflog: cơ chế Garbage Collection ngầm, commit mồ côi (dangling), và 2 kịch bản hồi sinh dữ liệu (commit bị reset, nhánh bị xoá).
 - **v2.0.1 (10/06/2026)** — Chuẩn hoá xưng hô: gỡ tên tác giả khỏi thân bài và heading; đổi field metadata `Prerequisites` → `Yêu cầu trước`, link text theo tiêu đề bài.
+- **v2.0.2 (13/06/2026)** — Sửa lỗi factual: commit mồ côi (unreachable) mặc định chỉ giữ ~30 ngày (`gc.reflogExpireUnreachable`), không phải 90 — 90 ngày là cho commit còn reachable (`gc.reflogExpire`).

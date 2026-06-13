@@ -1,16 +1,16 @@
-# 🎓 Làm Chủ Biến Và 7 Kiểu Dữ Liệu Cốt Lõi Trong Python
+# 🎓 Làm Chủ Biến Và 8 Kiểu Dữ Liệu Cốt Lõi Trong Python
 
 > **Tác giả:** Mr.Rom  
-> **Phiên bản:** v3.0.3  
+> **Phiên bản:** v3.0.4  
 > **Tạo lúc:** 16/05/2026  
-> **Cập nhật:** 11/06/2026  
+> **Cập nhật:** 13/06/2026  
 > **Level:** Basic  
 > **Tags:** [MUST-KNOW]  
 > **Yêu cầu trước:** [Bài 00: Nhập môn Python](./00_what-is-python.md), đã cấu hình Python REPL chạy được.
 
 > [!NOTE]
 > **Mục tiêu bài học:**  
-> Dữ liệu là huyết mạch của mọi chương trình máy tính. Bài học này sẽ giúp bạn hiểu sâu sắc về khái niệm **biến** (Variable) để lưu trữ thông tin, làm chủ **7 kiểu dữ liệu cốt lõi** trong Python (4 kiểu sơ cấp, 4 kiểu tập hợp) và nắm vững cách vận hành của bộ nhớ thông qua cơ chế *Mutable vs Immutable*. Đây là nền móng vững chãi để bạn viết mọi ứng dụng thực tế.
+> Dữ liệu là huyết mạch của mọi chương trình máy tính. Bài học này sẽ giúp bạn hiểu sâu sắc về khái niệm **biến** (Variable) để lưu trữ thông tin, làm chủ **8 kiểu dữ liệu cốt lõi** trong Python (4 kiểu sơ cấp, 4 kiểu tập hợp) và nắm vững cách vận hành của bộ nhớ thông qua cơ chế *Mutable vs Immutable*. Đây là nền móng vững chãi để bạn viết mọi ứng dụng thực tế.
 
 ---
 
@@ -275,7 +275,7 @@ False
 Trong Python, tất cả các giá trị khi đưa vào câu lệnh điều kiện `if` đều có thể tự động chuyển đổi sang Boolean. Những giá trị sau đây được coi là **Falsy** (đại diện cho sự trống rỗng, tương đương `False`):
 -   Số không: `0`, `0.0`
 -   Chuỗi rỗng: `""`
--   Danh sách/Tập hợp rỗng: `[]`, `{}`, `set()`
+-   Collection rỗng: `[]` (list), `{}` (dict), `set()` (set)
 -   Giá trị đặc biệt báo hiệu không có gì: `None`
 
 Tất cả các giá trị khác ngoài danh sách Falsy trên đều được tính là **Truthy** (tương đương `True`).
@@ -611,3 +611,4 @@ f"Tên tôi là: {ho_ten.upper()} - Lương: {15000000:,} VND"
 - **v3.0.1 (10/06/2026)** — Bổ sung mục Nhật ký thay đổi (trước đây thiếu) để đủ khung 8 phần.
 - **v3.0.2 (10/06/2026)** — Gỡ tên tác giả khỏi thân bài, callout và code mẫu (chỉ giữ ở metadata); dùng "mình"/placeholder trung tính.
 - **v3.0.3 (11/06/2026)** — Bổ sung sơ đồ cây phân loại kiểu dữ liệu cho trực quan.
+- **v3.0.4 (13/06/2026)** — Sửa lỗi đếm: 4 sơ cấp + 4 tập hợp = **8 kiểu** (không phải 7) ở tiêu đề + intro; sửa nhãn `{}` là dict rỗng (không phải list/set) ở mục Truthy/Falsy.

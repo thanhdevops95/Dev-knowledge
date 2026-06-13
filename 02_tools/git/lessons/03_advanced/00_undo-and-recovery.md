@@ -1,9 +1,9 @@
 # 🎓 Undo + Recovery — cứu code khi lỡ tay lúc 2h sáng
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v2.1.1\
+> **Phiên bản:** v2.1.2\
 > **Tạo lúc:** 16/05/2026\
-> **Cập nhật:** 10/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Basic\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [01_init-and-first-commit.md](../01_basic/01_init-and-first-commit.md), [00_branching-and-merging.md](../02_intermediate/00_branching-and-merging.md)
@@ -56,7 +56,7 @@ Anh senior trả lời 30 giây sau:
 
 Bạn gõ. 30 giây sau, tất cả 3 commit phục hồi nguyên vẹn. Bài này dạy đúng câu thần chú đó — và 5 lệnh tương tự cho mọi tình huống "lỡ tay".
 
-> 💡 **Sự thật của Git**: data đã commit hầu như không bao giờ mất thật. Git giữ "reflog" — log mọi thao tác di chuyển HEAD — trong **90 ngày**. Trong khoảng đó, mọi commit đều cứu được.
+> 💡 **Sự thật của Git**: data đã commit hầu như không bao giờ mất thật. Git giữ "reflog" — log mọi thao tác di chuyển HEAD — mặc định **~90 ngày** (commit mồ côi/unreachable: ~30 ngày). Trong khoảng đó, mọi commit đều cứu được.
 
 | Tình huống "lỡ tay" | Lệnh giải cứu |
 |---|---|
@@ -408,7 +408,7 @@ git reset --hard xyz9876
 
 ✅ Commit C phục hồi!
 
-> 💡 **Reflog là cứu cánh**. Git giữ reflog 90 ngày mặc định. Trong khoảng đó, ít commit nào thực sự "mất".
+> 💡 **Reflog là cứu cánh**. Git giữ reflog ~90 ngày mặc định (commit mồ côi: ~30 ngày). Trong khoảng đó, ít commit nào thực sự "mất".
 
 ---
 
@@ -562,7 +562,7 @@ git reflog
 
 Tìm commit hash của commit đã "mất" → `git reset --hard <hash>` để quay lại.
 
-Git giữ reflog **90 ngày mặc định** → ít khi commit thực sự mất.
+Git giữ reflog **~90 ngày mặc định** (commit mồ côi: ~30 ngày) → ít khi commit thực sự mất.
 
 </details>
 
@@ -621,7 +621,7 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
 | Reset | Đặt lại | Di chuyển HEAD về commit cũ |
 | Revert | Đảo ngược | Tạo commit mới đảo ngược commit cũ |
 | Stash | Cất tạm | Lưu thay đổi vào "kho tạm" |
-| Reflog | Lịch sử ref | Lịch sử mọi thao tác di chuyển HEAD (90 ngày) |
+| Reflog | Lịch sử ref | Lịch sử mọi thao tác di chuyển HEAD (~90 ngày; mồ côi ~30 ngày) |
 | HEAD~N | (giữ nguyên) | Commit cách HEAD N bước về trước |
 | Dangling commit | Commit lơ lửng | Commit không có branch trỏ tới (vẫn truy cập qua reflog) |
 | Rewrite history | Viết lại lịch sử | Đổi/bỏ commit đã tồn tại → cần force push |
@@ -659,3 +659,4 @@ git branch backup-X             # tạo branch ở HEAD hiện tại
   - Sửa lại độ sâu đường dẫn tương đối
 - **v2.1.0 (24/05/2026)** — Chuẩn hóa cách xưng hô về người đọc (dùng "bạn" generic), bỏ tên riêng tự bịa. Nội dung kỹ thuật giữ nguyên.
 - **v2.1.1 (10/06/2026)** — Bổ sung sơ đồ cây quyết định chọn lệnh undo cho trực quan.
+- **v2.1.2 (13/06/2026)** — Làm rõ: reflog giữ ~90 ngày cho commit reachable nhưng commit mồ côi chỉ ~30 ngày (tránh hiểu nhầm luôn có 90 ngày để cứu commit đã mất).

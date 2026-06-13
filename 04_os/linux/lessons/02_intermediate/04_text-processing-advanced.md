@@ -1,9 +1,9 @@
 # 🎓 Text Processing — grep, sed, awk + pipe combos
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.1.2\
+> **Phiên bản:** v1.1.3\
 > **Tạo lúc:** 23/05/2026\
-> **Cập nhật:** 11/06/2026\
+> **Cập nhật:** 13/06/2026\
 > **Level:** Intermediate\
 > **Tags:** [MUST-KNOW]\
 > **Yêu cầu trước:** [Linux View File Content](../01_basic/03_view-file-content.md), [IO Redirection](../../../../01_foundations/computing-environment/lessons/01_basic/05_io-redirection.md)
@@ -211,14 +211,14 @@ awk 'pattern { action }' file
 
 ```bash
 $ cat data.txt
-Nguyen Van A 28 Hanoi
-Le Van B   25 Hanoi
-Tran Van C 35 Saigon
+Nguyen 28 Hanoi
+Le 25 Hanoi
+Tran 35 Saigon
 
 $ awk '{print $1}' data.txt              # Cột 1
-Nguyen Van A
-Le Van B
-Tran Van C
+Nguyen
+Le
+Tran
 
 $ awk '{print $2, $3}' data.txt           # Cột 2 + 3
 28 Hanoi
@@ -669,3 +669,4 @@ find . -name "*.JPG" -print0 | xargs -0 -I {} mv {} {}.jpg
 - **v1.1.0 (24/05/2026)** — Thêm ẩn dụ "kính lúp" cho `grep`, 2 lời dẫn trước ví dụ (cơ bản + regex), chuẩn hóa tiêu đề các case thực tế.
 - **v1.1.1 (10/06/2026)** — Thêm ghi chú tương thích nền tảng cho `grep -P` (PCRE): chỉ có ở GNU grep (Linux); trên macOS/BSD grep dùng `ggrep` (`brew install grep`) hoặc `perl -ne`.
 - **v1.1.2 (11/06/2026)** — Bổ sung sơ đồ pipeline văn bản qua pipe cho trực quan.
+- **v1.1.3 (13/06/2026)** — Sửa lỗi factual §3 `awk`: dữ liệu mẫu đổi tên về 1 token (`Nguyen 28 Hanoi`) cho khớp output — trước đó tên 3 token khiến `$1`/`$2,$3`/group-by tách sai field.
