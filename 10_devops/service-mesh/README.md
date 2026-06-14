@@ -1,7 +1,7 @@
 # 🕸️ Service Mesh — Giao tiếp & bảo mật microservice
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 14/06/2026
 
@@ -37,13 +37,13 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 | # | Bài học | Loại | Trạng thái | Nội dung chính |
 |---|---|---|---|---|
-| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | 🚧 | Vận hành mesh production: resilience nâng cao, multi-cluster, observability sâu, ambient + nâng cấp control plane. |
-| **01** | [`Advanced Traffic & Resilience`](./lessons/02_intermediate/01_advanced-traffic-and-resilience.md) | 🌳 Lesson | 🚧 | Locality-aware LB, retry budget, rate limiting, egress/ServiceEntry, fault injection sâu, traffic shifting an toàn. |
-| **02** | [`Multi-Cluster Mesh`](./lessons/02_intermediate/02_multi-cluster-mesh.md) | 🌳 Lesson | 🚧 | Multi-primary vs primary-remote, cross-cluster service discovery, east-west gateway, trust domain. |
-| **03** | [`Observability — Kiali & Tracing`](./lessons/02_intermediate/03_observability-kiali-and-tracing.md) | 🌳 Lesson | 🚧 | Kiali topology, metrics Prometheus, distributed tracing (Jaeger/Tempo), access log, golden signals của mesh. |
-| **04** | [`Ambient Mesh & Production Ops`](./lessons/02_intermediate/04_ambient-mesh-and-production-ops.md) | 🌳 Lesson | 🚧 | Istio ambient (ztunnel + waypoint), nâng cấp/canary control plane, tuning hiệu năng sidecar, khi nào sidecarless. |
+| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | ✅ | Vận hành mesh production: resilience nâng cao, multi-cluster, observability sâu, ambient + nâng cấp control plane. |
+| **01** | [`Advanced Traffic & Resilience`](./lessons/02_intermediate/01_advanced-traffic-and-resilience.md) | 🌳 Lesson | ✅ | Locality-aware LB, retry budget, rate limiting, egress/ServiceEntry, fault injection sâu, traffic shifting an toàn. |
+| **02** | [`Multi-Cluster Mesh`](./lessons/02_intermediate/02_multi-cluster-mesh.md) | 🌳 Lesson | ✅ | Multi-primary vs primary-remote, cross-cluster service discovery, east-west gateway, trust domain. |
+| **03** | [`Observability — Kiali & Tracing`](./lessons/02_intermediate/03_observability-kiali-and-tracing.md) | 🌳 Lesson | ✅ | Kiali topology, metrics Prometheus, distributed tracing (Jaeger/Tempo), access log, golden signals của mesh. |
+| **04** | [`Ambient Mesh & Production Ops`](./lessons/02_intermediate/04_ambient-mesh-and-production-ops.md) | 🌳 Lesson | ✅ | Istio ambient (ztunnel + waypoint), nâng cấp/canary control plane, tuning hiệu năng sidecar, khi nào sidecarless. |
 
-> 🚧 = đang biên soạn trong đợt hoàn thiện nhánh DevOps (06/2026).
+> ✅ Cụm hoàn chỉnh Basic 5/5 + Intermediate 5/5 (đợt hoàn thiện nhánh DevOps, 06/2026).
 
 ---
 
@@ -65,3 +65,4 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 - **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).
 - **v0.2.0 (26/05/2026)** — Cải tiến mô tả dự kiến lộ trình.
 - **v1.0.0 (14/06/2026)** — Hoàn thiện cụm **Basic 5/5** (concept + kiến trúc/sidecar + traffic management + mTLS/authz + so sánh giải pháp). Bổ sung lộ trình Intermediate (đang biên soạn).
+- **v1.1.0 (14/06/2026)** — Hoàn thiện cụm **Intermediate 5/5** (overview + advanced traffic/resilience + multi-cluster + observability Kiali/tracing + ambient mesh/production ops). Cụm service-mesh hoàn chỉnh.
