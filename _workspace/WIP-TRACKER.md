@@ -1,7 +1,7 @@
 # 🚧 Work-In-Progress Tracker
 
 > **Tác giả:** Mr.Rom (+ Claude maintain)\
-> **Phiên bản:** v0.68.0\
+> **Phiên bản:** v0.69.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 13/06/2026
 
@@ -150,7 +150,7 @@
   - service-mesh **basic 5** (`18e3ea5`) — concept/sidecar, kiến trúc, traffic management, mTLS/authz, Istio/Linkerd/Cilium.
 - 🛠️ Công cụ tái dùng: workflow `devops-cluster-writer.js` (write→verify→auto-fix, nhận spec qua args — LƯU Ý args truyền vào dạng JSON **string**, script tự `JSON.parse`).
 - 🐞 Lỗi đã bắt+sửa qua verify/auto-fix: nginx `worker_processes` đặt nhầm trong `server{}` site config; PLAY RECAP ok/changed; Molecule verifier output; image single-arch hiển thị nhầm `image.index`; ECR config path `registry:2`; semver tag bỏ tiền tố `v`. (1 false-positive ECR tagPatternList đã verify lại = đúng, không sửa bừa.)
-- ⏳ **CÒN LẠI (BLOCKED — spend limit):** service-mesh **intermediate 5** + gitops **basic +4** + gitops **intermediate 5** = 14 bài. + **audit phản biện sâu** cho 6 bài chưa kịp verify do spend limit (service-mesh 00/01/03 + container-registry-intermediate 01/02/03 — đã verify cơ học + spot-check factual, sạch). Resume: chạy lại `devops-cluster-writer.js` với args cho từng cluster khi budget reset.
+- ✅ **HOÀN TẤT (14/06 đợt 2):** sau khi budget có lại, viết nốt 14 bài còn lại bằng chiến lược **low-concurrency** (1 workflow nhỏ/lần, chỉ ghi bài thiếu qua flag `skip` — qua throttle tốt hơn hẳn 2 workflow song song). service-mesh intermediate 5 (`da01783`) + gitops basic 5 (`d6b9cd7`) + gitops intermediate 5 (`...`). **→ Cả 4 cluster mới (configuration-management, container-registry, service-mesh, gitops) hoàn chỉnh basic+intermediate; nhánh 10_devops phủ kín 9/9 cluster.** Tổng đợt buildout: **~40 bài mới**. QA cơ học toàn nhánh: 89 file lessons, 0 fence lẻ, python/bash/yaml của 4 cluster mới compile sạch, 0 link gãy. MASTER-CATALOG cập nhật 4 cluster. Sửa nav do timing concurrent-write (sm-int 00/03). Auto-fix bắt nhiều lỗi thật (FQCN, RECAP, manifest media type, ECR tagPattern/config-path, `argo rollouts promote --skip-step` không tồn tại, OpenGitOps...). LƯU Ý còn lại: vài bài bị stall trước khi verify đã được verify cơ học + spot-check (không qua audit phản biện đầy đủ) — có thể chạy 1 lượt audit `audit-agent-written-clusters` bù khi rảnh.
 
 ### 13/06/2026 (hoàn tất "đánh bóng toàn diện" — sơ đồ phủ rộng + audit factual SÂU)
 
@@ -422,10 +422,9 @@
 
 ## 🚨 Blocked / Cần user quyết định
 
-### ⛔ Hoàn thiện nhánh DevOps — chặn bởi spend limit (14/06/2026)
-- Đã viết+commit 25 bài (config-management ×2, container-registry ×2, service-mesh basic). **Còn 14 bài**: service-mesh intermediate (5) + gitops basic +4 + gitops intermediate (5).
-- 🛑 Block: org **monthly spend limit** — workflow/agent call thất bại. Main-loop vẫn chạy.
-- 🎯 Cần: nâng spend limit (claude.ai/admin-settings/usage) hoặc chờ chu kỳ reset → tôi chạy nốt `devops-cluster-writer.js` cho 3 cluster-level còn lại + audit phản biện 6 bài chưa verify.
+### ✅ (ĐÃ XONG) Hoàn thiện nhánh DevOps — 9/9 cluster (14/06/2026)
+- Đã hoàn tất toàn bộ: ~40 bài mới, 4 cluster (config-management/container-registry/service-mesh/gitops) đủ basic+intermediate. Spend-limit throttle giữa chừng đã vượt qua bằng chiến lược low-concurrency. Chi tiết: Done 14/06.
+- ℹ️ Còn (tùy chọn): 1 lượt audit phản biện bù cho ~vài bài bị stall trước verify (đã verify cơ học + spot-check, sạch).
 
 ### Tool category priority sau ide/
 - ⚠️ Đã đề xuất 4 candidate (`git-clients/`, `terminal-emulators/`, `k8s-local/`, `docker-tools/`) — chưa pick
@@ -439,6 +438,7 @@
 
 ## 📌 Changelog
 
+- **v0.69.0 (14/06/2026)** — 🎉 **HOÀN TẤT hoàn thiện nhánh DevOps: 9/9 cluster đủ basic+intermediate** (~40 bài mới / 9 commit). 4 cluster mới: configuration-management, container-registry, service-mesh, gitops. Vượt spend-limit throttle bằng chiến lược low-concurrency (1 workflow nhỏ/lần + flag `skip`). QA cơ học toàn nhánh sạch (0 fence lẻ, code compile, 0 link gãy). MASTER-CATALOG + README 4 cụm cập nhật. Chi tiết: Done 14/06.
 - **v0.68.0 (14/06/2026)** — Bắt đầu **hoàn thiện nhánh DevOps** (viết content mới cho cluster trống). 25 bài mới / 5 commit: configuration-management basic+intermediate, container-registry basic+intermediate, service-mesh basic. Công cụ workflow tái dùng `devops-cluster-writer.js` (write→verify→auto-fix). CÒN LẠI (blocked spend limit): service-mesh intermediate + gitops basic+intermediate = 14 bài + audit sâu 6 bài. Chi tiết: Done 14/06.
 
 - **v0.67.0 (13/06/2026)** — Mở rộng Wave 4.2 sang cụm AGENT-WRITTEN: compile code toàn kho (320 py + 877 bash agent-written = **0 lỗi cú pháp**); workflow audit + adversarial-verify (11 auditor + verifier) trên 10_devops/11_cloud/12_security/13_ai-ml → **24 lỗi THẬT verify & sửa / 23 bài / 4 commit** (Kyverno/probe-kubelet/CNPG-raft/terraform-`~>`/OTel-incubating/IAM-boundary-logic/RDS-15-replica/wrangler-`kv`/OWASP-mapping/reranker...). Skip 3 finding free-tier Cloudflare (vượt cutoff). Chi tiết: mục Done 13/06.
