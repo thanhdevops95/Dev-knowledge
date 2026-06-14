@@ -424,7 +424,8 @@
 
 ### ✅ (ĐÃ XONG) Hoàn thiện nhánh DevOps — 9/9 cluster (14/06/2026)
 - Đã hoàn tất toàn bộ: ~40 bài mới, 4 cluster (config-management/container-registry/service-mesh/gitops) đủ basic+intermediate. Spend-limit throttle giữa chừng đã vượt qua bằng chiến lược low-concurrency. Chi tiết: Done 14/06.
-- ℹ️ Còn (tùy chọn): 1 lượt audit phản biện bù cho ~vài bài bị stall trước verify (đã verify cơ học + spot-check, sạch).
+- ✅ Audit factual high-risk (main-loop, do agent audit bị spend-limit chặn) cho 6 bài stall-trước-verify (sm-basic 00/01/03 + cr-int 01/02/03): apiVersion (Istio `security.istio.io/v1`, Kyverno `kyverno.io/v1`, Sigstore `policy.sigstore.dev/v1beta1`, Gatekeeper `templates.gatekeeper.sh/v1`), Harbor 2.13.0/7-thành-phần, cosign/verifyImages/PeerAuthentication/AuthorizationPolicy STRICT — **tất cả ĐÚNG, 0 lỗi**.
+- ℹ️ (Tùy chọn, blocked spend limit) audit phản biện agent đầy đủ cho cả 40 bài — chạy `audit-new-devops-clusters` khi budget reset.
 
 ### Tool category priority sau ide/
 - ⚠️ Đã đề xuất 4 candidate (`git-clients/`, `terminal-emulators/`, `k8s-local/`, `docker-tools/`) — chưa pick
