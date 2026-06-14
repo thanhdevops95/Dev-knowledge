@@ -1,7 +1,7 @@
 # ⚓ GitOps — Declarative Continuous Delivery
 
 > **Tác giả:** Mr.Rom\
-> **Phiên bản:** v1.0.0\
+> **Phiên bản:** v1.1.0\
 > **Tạo lúc:** 20/05/2026\
 > **Cập nhật:** 14/06/2026
 
@@ -37,13 +37,13 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 
 | # | Bài học | Loại | Trạng thái | Nội dung chính |
 |---|---|---|---|---|
-| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | 🚧 | GitOps quy mô lớn: nhiều app/team/cluster, progressive delivery, security/observability/DR. |
-| **01** | [`App-of-Apps & ApplicationSet`](./lessons/02_intermediate/01_app-of-apps-and-applicationset.md) | 🌳 Lesson | 🚧 | Quản nhiều app/cluster: ArgoCD app-of-apps + ApplicationSet generators, Flux multi-tenancy, scaling. |
-| **02** | [`Progressive Delivery với Argo Rollouts`](./lessons/02_intermediate/02_progressive-delivery-with-argo-rollouts.md) | 🌳 Lesson | 🚧 | Canary/blue-green GitOps-native: Argo Rollouts / Flagger, analysis metric-based, tích hợp mesh/ingress. |
-| **03** | [`Multi-Cluster & Multi-Tenancy`](./lessons/02_intermediate/03_multi-cluster-and-multi-tenancy.md) | 🌳 Lesson | 🚧 | Quản nhiều cluster (ApplicationSet cluster generator), AppProject + RBAC, hub-spoke, namespace isolation. |
-| **04** | [`Security, Observability & DR`](./lessons/02_intermediate/04_security-observability-and-dr.md) | 🌳 Lesson | 🚧 | RBAC + AppProject restriction + signed commit, metrics/notification/alert sync, disaster recovery cho ArgoCD/Flux. |
+| **00** | [`Intermediate Overview`](./lessons/02_intermediate/00_intermediate-overview.md) | 🌱 Intro | ✅ | GitOps quy mô lớn: nhiều app/team/cluster, progressive delivery, security/observability/DR. |
+| **01** | [`App-of-Apps & ApplicationSet`](./lessons/02_intermediate/01_app-of-apps-and-applicationset.md) | 🌳 Lesson | ✅ | Quản nhiều app/cluster: ArgoCD app-of-apps + ApplicationSet generators, Flux multi-tenancy, scaling. |
+| **02** | [`Progressive Delivery với Argo Rollouts`](./lessons/02_intermediate/02_progressive-delivery-with-argo-rollouts.md) | 🌳 Lesson | ✅ | Canary/blue-green GitOps-native: Argo Rollouts / Flagger, analysis metric-based, tích hợp mesh/ingress. |
+| **03** | [`Multi-Cluster & Multi-Tenancy`](./lessons/02_intermediate/03_multi-cluster-and-multi-tenancy.md) | 🌳 Lesson | ✅ | Quản nhiều cluster (ApplicationSet cluster generator), AppProject + RBAC, hub-spoke, namespace isolation. |
+| **04** | [`Security, Observability & DR`](./lessons/02_intermediate/04_security-observability-and-dr.md) | 🌳 Lesson | ✅ | RBAC + AppProject restriction + signed commit, metrics/notification/alert sync, disaster recovery cho ArgoCD/Flux. |
 
-> 🚧 = đang biên soạn trong đợt hoàn thiện nhánh DevOps (06/2026).
+> ✅ Cụm hoàn chỉnh Basic 5/5 + Intermediate 5/5 (đợt hoàn thiện nhánh DevOps, 06/2026).
 
 > 💡 **Lưu ý:** Hands-on chuyên sâu **ArgoCD** (cài đặt, Application, sync) đã có ở **CI/CD Intermediate** — [`../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md`](../ci-cd/lessons/02_intermediate/01_gitops-with-argocd.md). Cụm này bổ sung góc nhìn phương pháp luận + Flux + repo patterns + secrets + reconciliation + vận hành production.
 
@@ -68,3 +68,4 @@ Sau khi đi qua chủ đề này, bạn sẽ:
 - **v0.1.0 (20/05/2026)** — Khởi tạo file README khung (skeleton).
 - **v0.2.0 (26/05/2026)** — Cập nhật trạng thái có 1 bài lesson Basic placeholder.
 - **v1.0.0 (14/06/2026)** — Hoàn thiện cụm **Basic 5/5** (4 nguyên tắc + ArgoCD/Flux + repo structure + secrets + reconciliation). Bổ sung lộ trình Intermediate (đang biên soạn).
+- **v1.1.0 (14/06/2026)** — Hoàn thiện cụm **Intermediate 5/5** (overview + app-of-apps/ApplicationSet + progressive delivery (Argo Rollouts) + multi-cluster/multi-tenancy + security/observability/DR). Cụm gitops hoàn chỉnh.
